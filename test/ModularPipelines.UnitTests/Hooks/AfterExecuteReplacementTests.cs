@@ -1,11 +1,17 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
+using ModularPipelines.Reporting;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Hooks;
 
@@ -74,6 +80,83 @@ public class AfterExecuteReplacementTests
         await Assert.That(result).IsTypeOf<ModuleResult<string>.Failure>();
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(result.ExceptionOrDefault!.Message).IsEqualTo("replacement failure");
+    }
+
+    [Test]
+    public async Task FailureReplacement_PreservesExecutionTimingAndExceptionStack()
+    {
+        await using var host = await TestPipelineBuilder.Create().AddModule<DelayedFailureReplacementModule>().BuildAsync();
+        var module = host.Services.GetServices<IModule>().OfType<DelayedFailureReplacementModule>().Single();
+
+        await Assert.ThrowsAsync<ModuleFailedException>(() => host.RunAsync());
+        var result = await module;
+        var original = module.Original!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.StartTime).IsEqualTo(original.StartTime);
+            await Assert.That(result.EndTime).IsEqualTo(original.EndTime);
+            await Assert.That(result.Duration).IsEqualTo(original.Duration);
+            await Assert.That(result.ExceptionOrDefault!.StackTrace!).Contains(nameof(ThrowReplacementFailure));
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RecoveryFinalizationFailure_InvokesFailureHookAndAppliesFailurePolicy(bool ignoreFailures)
+    {
+        RecoveryFinalizationModule module = ignoreFailures
+            ? new IgnoredRecoveryFinalizationModule()
+            : new RecoveryFinalizationModule();
+        var executionContext = new ModuleExecutionContext<string>(module, module.GetType());
+        var services = new Mock<IServicesContext>();
+        services.SetupGet(x => x.Options).Returns(new PipelineOptions());
+        var moduleContext = new Mock<IModuleContext>();
+        moduleContext.SetupGet(x => x.Logger).Returns(Mock.Of<IInternalModuleLogger>());
+        moduleContext.SetupGet(x => x.Services).Returns(services.Object);
+        using var engineCancellation = new ModularPipelines.Engine.EngineCancellationToken(new PrimaryExceptionContainer());
+        var conditions = new Mock<IModuleConditionHandler>();
+        conditions.Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>())).ReturnsAsync((false, null));
+        var pipeline = new ModuleExecutionPipeline(
+            Mock.Of<IModuleResultRepository>(),
+            engineCancellation,
+            new DirectHookInvoker(NullLogger<DirectHookInvoker>.Instance),
+            conditions.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        var finalizationFailure = new InvalidOperationException("artifact upload failed");
+        var finalizedStatuses = new List<ModuleStatus>();
+        var execution = pipeline.ExecuteAsync(module, executionContext, moduleContext.Object, CancellationToken.None,
+            finalizeExecutionAsync: (result, _) =>
+            {
+                finalizedStatuses.Add(result.Status);
+                return result is ModuleResult<string>.Success
+                    ? Task.FromException(finalizationFailure)
+                    : Task.CompletedTask;
+            });
+
+        if (ignoreFailures)
+        {
+            await execution;
+        }
+        else
+        {
+            await Assert.ThrowsAsync<ModuleFailedException>(() => execution);
+        }
+
+        var result = await module;
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.Failures.Count).IsEqualTo(2);
+            await Assert.That(module.Failures[0].Message).IsEqualTo("original failure");
+            await Assert.That(module.Failures[1]).IsSameReferenceAs(finalizationFailure);
+            await Assert.That(result.ExceptionOrDefault).IsSameReferenceAs(finalizationFailure);
+            await Assert.That(result.Status).IsEqualTo(ignoreFailures ? ModuleStatus.FailureIgnored : ModuleStatus.Failed);
+            await Assert.That(module.AfterHookCount).IsEqualTo(1);
+            await Assert.That(finalizedStatuses).IsEquivalentTo(ignoreFailures
+                ? new[] { ModuleStatus.Succeeded, ModuleStatus.FailureIgnored }
+                : new[] { ModuleStatus.Succeeded });
+        }
     }
 
     [Test]
@@ -148,6 +231,58 @@ public class AfterExecuteReplacementTests
         protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
             IModuleContext context, ModuleResult<string> result, CancellationToken cancellationToken)
             => Task.FromResult<ModuleResult<string>?>(result.ToFailure(new InvalidOperationException("replacement failure")));
+    }
+
+    private class DelayedFailureReplacementModule : Module<string>
+    {
+        public ModuleResult<string>? Original { get; private set; }
+
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult("original");
+
+        protected override async Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context, ModuleResult<string> result, CancellationToken cancellationToken)
+        {
+            Original = result;
+            await Task.Delay(30, cancellationToken);
+            try
+            {
+                ThrowReplacementFailure();
+                return null;
+            }
+            catch (InvalidOperationException exception)
+            {
+                return result.ToFailure(exception);
+            }
+        }
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+    private static void ThrowReplacementFailure() => throw new InvalidOperationException("replacement failure");
+
+    private class RecoveryFinalizationModule : RecoveringModule
+    {
+        public List<Exception> Failures { get; } = [];
+
+        public int AfterHookCount { get; private set; }
+
+        protected override Task OnFailedAsync(IModuleContext context, Exception exception, CancellationToken cancellationToken)
+        {
+            Failures.Add(exception);
+            return Task.CompletedTask;
+        }
+
+        protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context, ModuleResult<string> result, CancellationToken cancellationToken)
+        {
+            AfterHookCount++;
+            return base.OnAfterExecuteAsync(context, result, cancellationToken);
+        }
+    }
+
+    private class IgnoredRecoveryFinalizationModule : RecoveryFinalizationModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithIgnoreFailures();
     }
 
     private class SkippedReplacementModule : FreshReplacementModule
