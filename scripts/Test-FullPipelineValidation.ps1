@@ -29,6 +29,7 @@ $corePaths = @(
     'src/Directory.Build.props',
     'test/Directory.Build.props',
     'global.json',
+    'PackProjects.txt',
     'NuGet.config',
     '.github/workflows/dotnet.yml',
     '.github/actions/run-pipeline/artifact.mjs',
