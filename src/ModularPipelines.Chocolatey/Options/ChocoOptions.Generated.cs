@@ -84,6 +84,12 @@ public abstract record ChocoOptions : CommandLineToolOptions
     public virtual string? LogFile { get; set; }
 
     /// <summary>
+    /// Do Not Show Progress - Do not show download progress percentages.
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public virtual bool? NoProgress { get; set; }
+
+    /// <summary>
     /// No Color - Do not show colorization in logging output. This overrides the feature 'logWithoutColor', set to 'False'.
     /// </summary>
     [CliFlag("--nocolor")]
@@ -94,12 +100,6 @@ public abstract record ChocoOptions : CommandLineToolOptions
     /// </summary>
     [CliFlag("--noop")]
     public virtual bool? Noop { get; set; }
-
-    /// <summary>
-    /// Do Not Show Progress - Do not show download progress percentages.
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public virtual bool? NoProgress { get; set; }
 
     /// <summary>
     /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
