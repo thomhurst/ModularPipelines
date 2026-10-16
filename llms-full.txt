@@ -12490,7 +12490,8 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | Capability interfaces under `Context.Domains` and its subnamespaces                                | `ModularPipelines.Context` (some renamed; see below)              |
 | `Context.Domains.IEnvironmentDomainContext` (`context.Environment`)                                | `ModularPipelines.Context.IEnvironmentContext`                    |
 | `Context.Domains.Security.IHasherContext` (`context.Security.Hasher`)                              | `ModularPipelines.Context.IHashContext` (`context.Security.Hash`) |
-| `Enums.ExecutionType`                                                                              | `ModularPipelines.Enums.ExecutionHint`                            |
+| `Enums.ExecutionType`                                                                              | `ModularPipelines.ExecutionHint`                                  |
+| `Attributes.ExecutionHintAttribute`                                                                | `ModularPipelines.ExecutionHintAttribute`                         |
 | `Attributes.Events` handler interfaces and `Context.IModuleHookContext`                            | `ModularPipelines.Events`                                         |
 | `Attributes.SecretValueAttribute`, `Options.SecretMaskingOptions`, secret services in `Engine`     | `ModularPipelines.Secrets`                                        |
 | `Engine.IModuleResultRepository`, `Engine.IModuleEstimatedTimeProvider`                            | `ModularPipelines.Reporting`                                      |
