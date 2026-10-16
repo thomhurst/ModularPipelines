@@ -1,0 +1,8 @@
+Usage:
+  flux create helmrelease [name] [flags]
+
+Flags:
+      --chart-ref string     the name of the HelmChart resource to use as source for the HelmRelease, in the format '<kind>/<name>.<namespace>', where kind must be one of: (OCIRepository,HelmChart)
+      --source string        source that contains the chart in the format '<kind>/<name>.<namespace>', where kind must be one of: (HelmRepository, GitRepository, Bucket)
+      --values-from strings  a Kubernetes object reference that contains the values.yaml data key in the format '<kind>/<name>', where kind must be one of: (Secret,ConfigMap)
+      --crds Skip|Create|CreateReplace  upgrade CRDs policy

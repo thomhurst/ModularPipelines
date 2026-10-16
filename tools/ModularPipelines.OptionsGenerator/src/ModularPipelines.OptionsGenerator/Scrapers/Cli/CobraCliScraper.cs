@@ -693,6 +693,12 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
         string typeHint,
         string description)
     {
+        // Choices for one component do not constrain the complete composite value.
+        if (DescriptionEnumValueParser.DescribesCompositeValue(description))
+        {
+            return null;
+        }
+
         var descriptionMatch = DescriptionEnumValueParser.TryParse(description);
         if (descriptionMatch is not null)
         {

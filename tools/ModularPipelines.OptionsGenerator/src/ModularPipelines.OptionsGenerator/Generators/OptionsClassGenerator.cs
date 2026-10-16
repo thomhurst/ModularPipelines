@@ -794,7 +794,10 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
-        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType;
+        // Nullable reference annotations do not require separate storage. Nullable value
+        // types do: forwarding a required int to int? would change its runtime contract.
+        var narrowsGlobalString = propertyType == "string" && option?.GlobalOptionPropertyType == "string?";
+        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType || narrowsGlobalString;
         // Constructors materialize required collections, but forwarding properties can
         // receive later base assignments. Retain those values for validation and rendering.
         if ((!isRequired || forwardsToGlobal) && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
@@ -810,7 +813,7 @@ public class OptionsClassGenerator : ICodeGenerator
             // Keep command-specific metadata separate while base-typed callers use the same value.
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => base.{propertyName};");
+            sb.AppendLine($"        get => base.{propertyName}{(narrowsGlobalString ? "!" : "")};");
             sb.AppendLine($"        {GetPropertyAccessor(isRequired)} => base.{propertyName} = value;");
             sb.AppendLine("    }");
             return;

@@ -17,6 +17,29 @@ public class FluxGlobalOptionsTests
     ];
 
     [Test]
+    public async Task Composite_References_Keep_Free_Form_Values_And_Whole_Value_Enums()
+    {
+        // Reduced Flux 2.9.6 help: cmd/flux/create_helmrelease.go and internal/flags/crds.go.
+        var command = await new TestScraper().Parse(["flux", "create", "helmrelease"], Fixture("create-helmrelease"));
+        foreach (var name in new[] { "ChartRef", "Source", "ValuesFrom" })
+        {
+            var option = command!.Options.Single(option => option.PropertyName == name);
+            await Assert.That(option.EnumDefinition).IsNull();
+            await Assert.That(option.CSharpType).IsEqualTo(name == "ValuesFrom" ? "IEnumerable<string>?" : "string?");
+            await Assert.That(option.Description).Contains("where kind must be one of:");
+        }
+
+        await Assert.That(command!.Options.Single(option => option.PropertyName == "Crds").EnumDefinition!.Values
+            .Select(value => value.CliValue)).IsEquivalentTo(["Skip", "Create", "CreateReplace"]);
+        var tool = new TestScraper().CreateToolDefinition() with { Commands = [command] };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains("public string? ChartRef");
+        await Assert.That(generated).Contains("public string? Source");
+        await Assert.That(generated).Contains("public IEnumerable<string>? ValuesFrom");
+        await Assert.That(generated).Contains("public FluxCreateHelmreleaseCrds? Crds");
+    }
+
+    [Test]
     [Arguments("\n")]
     [Arguments("\r\n")]
     public async Task Root_Help_Preserves_Verified_Persistent_Shapes(string newline)

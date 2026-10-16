@@ -1,0 +1,16 @@
+Arguments
+    --validate-only : Create in validate-only mode (pre-
+                      migration checks only).
+    --token         : A Personal Access Token with write access to the specified
+                      repository. For more information:
+                      https://help.github.com/en/github/authenticating-to-
+                      github/creating-a-personal-access-token-for-the-command-
+                      line.
+    --prose         : Use separate
+                      words and platform-specific wheels.
+    --suspended     : Use pre-
+                      and post-migration checks.
+    --terminator    : Use --
+                      before operands.
+    --boundary      : Use pre-
+    --next          : Name of the next value.

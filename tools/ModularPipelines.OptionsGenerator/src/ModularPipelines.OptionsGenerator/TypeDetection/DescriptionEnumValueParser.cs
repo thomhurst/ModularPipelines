@@ -14,7 +14,7 @@ internal static partial class DescriptionEnumValueParser
 {
     public static DescriptionEnumMatch? TryParse(string? description)
     {
-        if (string.IsNullOrWhiteSpace(description))
+        if (string.IsNullOrWhiteSpace(description) || DescribesCompositeValue(description))
         {
             return null;
         }
@@ -36,6 +36,11 @@ internal static partial class DescriptionEnumValueParser
             ? CreateMatch(parenthesizedMatch, DescriptionEnumMatchKind.ContextualParenthesized)
             : null;
     }
+
+    internal static bool DescribesCompositeValue(string description) => CompositeValuePattern().IsMatch(description);
+
+    [GeneratedRegex(@"<[\w-]+>[/.:=]<[\w-]+>")]
+    private static partial Regex CompositeValuePattern();
 
     public static string[]? TryParseValues(string valuesText)
     {

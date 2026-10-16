@@ -5,6 +5,14 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class DescriptionEnumValueParserTests
 {
     [Test]
+    [Arguments("Reference in the format '<kind>/<name>', where kind must be one of: (Secret,ConfigMap)")]
+    [Arguments("Reference in the format '<kind>/<name>.<namespace>', where kind must be one of: (OCIRepository,HelmChart)")]
+    public async Task TryParse_Rejects_Choices_For_Composite_Value_Components(string description)
+    {
+        await Assert.That(DescriptionEnumValueParser.TryParse(description)).IsNull();
+    }
+
+    [Test]
     public async Task TryParse_Rejects_Explanatory_Parenthesized_Lists()
     {
         var result = DescriptionEnumValueParser.TryParse("Size (bytes, kilobytes, or megabytes)");
