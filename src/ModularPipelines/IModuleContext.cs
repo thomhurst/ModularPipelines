@@ -59,6 +59,7 @@ public interface IModuleContext : IPipelineContext
     /// </summary>
     /// <remarks>
     /// The initial execution is attempt 1. Each retry increments this value before the module runs.
+    /// Concurrent custom-shield invocations each retain their own attempt number across awaits.
     /// Between attempts and after completion, this is the most recent attempt.
     /// Contexts that do not track execution attempts return zero.
     /// </remarks>

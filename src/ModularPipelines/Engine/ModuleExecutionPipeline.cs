@@ -566,6 +566,12 @@ internal class ModuleExecutionPipeline(
         // and shield-owned backoff delays are not mistaken for unresponsive module execution.
         async Task<T> ExecuteModuleAttempt(CancellationToken ct)
         {
+            if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
+            {
+                return ThrowPreservingStack<T>(abandonedAttemptTimeout);
+            }
+
+            executionContext.RecordAttempt();
             try
             {
                 return await ExecuteModuleAttemptAsync(
@@ -612,7 +618,7 @@ internal class ModuleExecutionPipeline(
         {
             ModuleActivityTracing.RecordModuleRetries(
                 executionContext.ModuleType,
-                Math.Max(0, executionContext.Attempt - 1));
+                Math.Max(0, executionContext.AttemptCount - 1));
         }
 
         if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
@@ -651,13 +657,6 @@ internal class ModuleExecutionPipeline(
         PolicyExecutionState policyExecutionState,
         CancellationToken cancellationToken)
     {
-        if (policyExecutionState.AbandonedAttemptTimeout is { } abandonedAttemptTimeout)
-        {
-            return ThrowPreservingStack<T>(abandonedAttemptTimeout);
-        }
-
-        executionContext.RecordAttempt();
-
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
             timeout == Timeout.InfiniteTimeSpan ? null : timeout,

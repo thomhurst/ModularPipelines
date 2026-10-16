@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
@@ -144,6 +145,56 @@ public class RetryTests : TestBase
             await Task.Yield();
             return "success";
         }
+    }
+
+    private sealed class HedgedModule : Module<bool>
+    {
+        private readonly TaskCompletionSource _bothStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _bothObserved = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _started;
+        private int _observed;
+
+        internal ConcurrentBag<(int Before, int After)> Attempts { get; } = [];
+        internal IModuleContext? Context { get; private set; }
+
+#pragma warning disable KEV006 // This test intentionally races idempotent module executions.
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithShield(Shield.When<Exception>().Hedge(1, TimeSpan.Zero));
+#pragma warning restore KEV006
+
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            Context = context;
+            var before = context.Attempt;
+            if (Interlocked.Increment(ref _started) == 2)
+            {
+                _bothStarted.TrySetResult();
+            }
+
+            await _bothStarted.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            Attempts.Add((before, context.Attempt));
+            if (Interlocked.Increment(ref _observed) == 2)
+            {
+                _bothObserved.TrySetResult();
+            }
+
+            await _bothObserved.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            return true;
+        }
+    }
+
+    [Test]
+    public async Task Concurrent_Shield_Attempts_Keep_Their_Own_Number()
+    {
+        await using var host = await TestPipelineBuilder.Create()
+            .AddModule<HedgedModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+
+        var module = host.Services.GetServices<IModule>().OfType<HedgedModule>().Single();
+        await Assert.That(module.Attempts).IsEquivalentTo([(1, 1), (2, 2)]);
+        await Assert.That(module.Context!.Attempt).IsEqualTo(2);
     }
 
     private class FailedModuleWithTimeout : Module<bool>

@@ -27,11 +27,16 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 internal class ModuleExecutionContext(IModule module, Type moduleType) : IModuleExecutionContext
 {
-    private int _attempt;
+    private readonly AsyncLocal<int?> _currentAttempt = new();
+    private int _attemptCount;
 
-    internal int Attempt => Volatile.Read(ref _attempt);
+    internal int Attempt => _currentAttempt.Value ?? AttemptCount;
 
-    internal void RecordAttempt() => Interlocked.Increment(ref _attempt);
+    internal int AttemptCount => Volatile.Read(ref _attemptCount);
+
+    // Set this in the invocation's execution context so concurrent shield attempts
+    // keep their own number across awaits without changing the aggregate count.
+    internal void RecordAttempt() => _currentAttempt.Value = Interlocked.Increment(ref _attemptCount);
 
     private readonly TaskCompletionSource<IModuleResult> _resultSource =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
