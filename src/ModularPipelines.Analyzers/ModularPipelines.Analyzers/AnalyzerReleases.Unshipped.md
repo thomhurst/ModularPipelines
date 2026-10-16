@@ -23,6 +23,9 @@ MP0020 | Usage | Warning | Repeated WithSkipWhen calls on one module configurati
 MP0021 | Usage | Warning | Optional dependency accessed with GetModule instead of GetModuleIfRegistered
 MP0022 | Usage | Info | Required dependency accessed with GetModuleIfRegistered instead of GetModule
 MP0023 | Usage | Warning | Non-generic outcome tests do not match generic engine results; use Status, ExceptionOrDefault, or SkipDecisionOrDefault
+MP0024 | Usage | Warning | Calls Process.Start or creates ProcessStartInfo inside a module; use context.Shell for command interception, secret masking, and cancellation
+MP0025 | Usage | Warning | Creates HttpClient inside a module; use context.Network.Http for pipeline resilience, logging, and HTTP interception
+MP0026 | Usage | Warning | Injects a module into a module constructor; declare DependsOn and use context.GetModule or context.GetModuleIfRegistered
 MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
 MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
