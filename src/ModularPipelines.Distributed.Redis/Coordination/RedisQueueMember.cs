@@ -27,7 +27,7 @@ internal static class RedisQueueMember
     private const long MaximumCriticalPathMilliseconds = 999_999_999_999_999;
 
     public static QueueClass GetClass(ModuleAssignment assignment) =>
-        new(assignment.RequiredCapabilities, assignment.AlwaysRun);
+        new([.. assignment.RequiredCapabilities.Clauses.Select(RedisCapabilityNames.Normalize)], assignment.AlwaysRun);
 
     public static string GetClassId(string classJson) =>
         Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(classJson)))[..ClassIdLength];
@@ -53,5 +53,5 @@ internal static class RedisQueueMember
     }
 
     /// <summary>The scheduling class shared by assignments with the same requirements.</summary>
-    internal sealed record QueueClass(CapabilityRequirement RequiredCapabilities, bool AlwaysRun);
+    internal sealed record QueueClass(string[][] RequiredCapabilities, bool AlwaysRun);
 }

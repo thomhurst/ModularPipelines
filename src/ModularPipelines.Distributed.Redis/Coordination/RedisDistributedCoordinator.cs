@@ -250,6 +250,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var registrationJson = JsonSerializer.SerializeToNode(registration)!;
+        registrationJson["NormalizedCapabilities"] = JsonSerializer.SerializeToNode(RedisCapabilityNames.Normalize(registration.Capabilities));
         var registeredAt = JsonSerializer.Serialize(registration.RegisteredAt).Trim('"');
         var initialStatus = JsonSerializer.Serialize(new WorkerStatus
         {
@@ -262,7 +264,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 [
                     _keyExpirationMilliseconds,
                     registration.WorkerId.Value,
-                    JsonSerializer.Serialize(registration),
+                    registrationJson.ToJsonString(),
                     registeredAt,
                     _workerTimeoutMilliseconds,
                     initialStatus,
@@ -635,7 +637,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         CancellationToken cancellationToken)
     {
         var leaseId = Guid.NewGuid().ToString("N");
-        var capabilities = JsonSerializer.Serialize(workerCapabilities.ToArray());
+        var capabilities = JsonSerializer.Serialize(RedisCapabilityNames.Normalize(workerCapabilities));
         var assignment = await _redis.Scripts.ExecuteStringAsync(
                 ClaimScript,
                 _scriptKeys,

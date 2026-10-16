@@ -99,12 +99,13 @@ internal static class RedisCoordinationScripts
         local caps = cjson.decode(ARGV[1])
         local worker_timeout = tonumber(ARGV[4])
 
+        -- Both sides carry .NET OrdinalIgnoreCase comparison keys; Lua cannot case-fold Unicode.
         local function supports(required, available)
             for _, clause in ipairs(required) do
                 local found = false
                 for _, req in ipairs(clause) do
                     for _, cap in ipairs(available) do
-                        if string.lower(req) == string.lower(cap) then
+                        if req == cap then
                             found = true
                             break
                         end
@@ -125,7 +126,7 @@ internal static class RedisCoordinationScripts
         for _, id in ipairs(redis.call('HKEYS', KEYS[7])) do
             local registration = redis.call('HGET', KEYS[6], id)
             if registration then
-                table.insert(live_workers, cjson.decode(registration)['Capabilities'] or {})
+                table.insert(live_workers, cjson.decode(registration)['NormalizedCapabilities'] or {})
             end
         end
 

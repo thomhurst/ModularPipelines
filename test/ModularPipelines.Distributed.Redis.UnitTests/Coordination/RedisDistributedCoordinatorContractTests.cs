@@ -146,6 +146,97 @@ public class RedisDistributedCoordinatorContractTests
         RunContractAsync((coordinator, _) => DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator));
 
     [Test]
+    [Arguments("GPU-Ä", "gpu-ä")]
+    [Arguments("gpu-ä", "GPU-Ä")]
+    [Arguments("Σ", "ς")]
+    [Arguments("𐐀", "𐐨")]
+    [Arguments("ſ-Ä", "ſ-ä")]
+    public Task Claim_Matches_Unicode_Capabilities(string required, string available) =>
+        RunAsync(async (coordinator, _, _) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Unicode") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AnyOf(new Capability("other"), new Capability(required))
+                    .And(CapabilityRequirement.AllOf(Capability.Docker)),
+            };
+            HashSet<Capability> capabilities = [new(available), Capability.Docker];
+            await Assert.That(assignment.RequiredCapabilities.IsSatisfiedBy(capabilities)).IsTrue();
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var lease = await coordinator.DequeueModuleAsync(new WorkerId("unicode"), capabilities, timeout.Token);
+
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(assignment.ModuleId);
+            await Assert.That(lease.Assignment.RequiredCapabilities.Clauses.SelectMany(clause => clause).Select(capability => capability.Name))
+                .Contains(required);
+        });
+
+    [Test]
+    [Arguments("ſ", "S")]
+    [Arguments("ı", "I")]
+    [Arguments("é", "e\u0301")]
+    public Task Claim_Does_Not_Match_Distinct_Unicode_Capabilities(string required, string available) =>
+        RunAsync(async (coordinator, _, _) =>
+        {
+            var unsupported = DistributedCoordinatorContract.CreateAssignment("Unsupported") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AllOf(new Capability(required)),
+                Priority = ModulePriority.High,
+            };
+            var fallback = DistributedCoordinatorContract.CreateAssignment("Fallback");
+            HashSet<Capability> capabilities = [new(available)];
+            await Assert.That(unsupported.RequiredCapabilities.IsSatisfiedBy(capabilities)).IsFalse();
+            await coordinator.EnqueueModuleAsync(unsupported, CancellationToken.None);
+            await coordinator.EnqueueModuleAsync(fallback, CancellationToken.None);
+
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var lease = await coordinator.DequeueModuleAsync(new WorkerId("unicode"), capabilities, timeout.Token);
+
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(fallback.ModuleId);
+        });
+
+    [Test]
+    public Task Claim_Uses_Unicode_Capabilities_For_Fleet_Scarcity() =>
+        RunAsync(async (coordinator, _, _, _) =>
+        {
+            var common = DistributedCoordinatorContract.CreateAssignment("Common") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("GPU-Ä")),
+                CriticalPathWeight = TimeSpan.FromMinutes(10),
+            };
+            var scarce = DistributedCoordinatorContract.CreateAssignment("Scarce") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("rare")),
+                CriticalPathWeight = TimeSpan.FromMinutes(1),
+            };
+            await coordinator.EnqueueModuleAsync(common, CancellationToken.None);
+            await coordinator.EnqueueModuleAsync(scarce, CancellationToken.None);
+            var worker = new WorkerRegistration
+            {
+                WorkerId = new WorkerId("unicode"),
+                Capabilities = [new("gpu-ä"), new("rare")],
+                RegisteredAt = DateTimeOffset.UtcNow,
+            };
+            await coordinator.RegisterWorkerAsync(worker, CancellationToken.None);
+            await coordinator.RegisterWorkerAsync(worker with
+            {
+                WorkerId = new WorkerId("common"),
+                Capabilities = [new("gpu-ä")],
+            }, CancellationToken.None);
+
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var lease = await coordinator.DequeueModuleAsync(worker.WorkerId, new HashSet<Capability> { new("GPU-Ä"), new("rare") }, timeout.Token);
+
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(scarce.ModuleId);
+            var registrations = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+            await Assert.That(registrations.Single(registration => registration.WorkerId == worker.WorkerId).Capabilities[0].Name)
+                .IsEqualTo("gpu-ä");
+        }, 1, TimeSpan.FromSeconds(30));
+
+    [Test]
     public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires() =>
         RunContractAsync(
             (coordinator, _) => DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
