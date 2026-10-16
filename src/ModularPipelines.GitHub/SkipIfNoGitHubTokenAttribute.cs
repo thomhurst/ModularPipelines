@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -16,8 +17,9 @@ public class SkipIfNoGitHubTokenAttribute : RunConditionAttribute
 
     public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
-        var token = pipelineContext.Environment.Variables.Get("GITHUB_TOKEN");
+        var configuredToken = pipelineContext.Services.GetService<IOptions<GitHubOptions>>()?.Value.AccessToken;
+        var token = GitHubAccessToken.Resolve(configuredToken, pipelineContext.Environment.Variables.Get("GITHUB_TOKEN"));
 
-        return Task.FromResult(string.IsNullOrEmpty(token));
+        return Task.FromResult(token is null);
     }
 }

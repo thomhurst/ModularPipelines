@@ -142,17 +142,30 @@ internal sealed class MasterServerHost : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        await WaitForCompletionAcknowledgementsAsync().ConfigureAwait(false);
-
-        if (_tunnel is not null)
+        var app = Interlocked.Exchange(ref _app, null);
+        if (app is null)
         {
-            await _tunnel.DisposeAsync().ConfigureAwait(false);
+            return;
         }
 
-        if (_app is not null)
+        try
         {
-            await _app.StopAsync().ConfigureAwait(false);
-            await _app.DisposeAsync().ConfigureAwait(false);
+            await WaitForCompletionAcknowledgementsAsync().ConfigureAwait(false);
+            if (Interlocked.Exchange(ref _tunnel, null) is { } tunnel)
+            {
+                await tunnel.DisposeAsync().ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            try
+            {
+                await app.StopAsync().ConfigureAwait(false);
+            }
+            finally
+            {
+                await app.DisposeAsync().ConfigureAwait(false);
+            }
         }
     }
 

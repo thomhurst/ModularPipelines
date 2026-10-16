@@ -56,8 +56,7 @@ internal class GitHub : IGitHub
     /// <returns>An instance of <see cref="IGitHubClient"/>.</returns>
     private GitHubClient InitializeClient()
     {
-        var token = _options.AccessToken
-                    ?? EnvironmentVariables.Token
+        var token = GitHubAccessToken.Resolve(_options.AccessToken, EnvironmentVariables.Token)
                     ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
 
         var connection = new Connection(
