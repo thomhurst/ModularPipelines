@@ -376,7 +376,12 @@ planning. Use context-aware callbacks for decisions that require runtime service
 
 Code that reads `module.Configuration` should note that `RetryPolicyFactory`, `OnBeforeExecute`, and
 `OnAfterExecute` are removed, and `ModuleConfiguration` can no longer be constructed directly.
-`SkipCondition` and `IgnoreFailuresCondition` now take a `CancellationToken` and return `ValueTask<...>`.
+`ModuleConfiguration.SkipCondition` and `.IgnoreFailuresCondition` are now internal; callers can no
+longer read or invoke these delegates through `module.Configuration`. Configure skip behavior with
+`ModuleConfigurationBuilder.WithSkipWhen(...)` or `.WithSkipIf(...)`, and failure handling with
+`.WithIgnoreFailuresWhen(...)` or `.WithIgnoreFailures()`, inside `Configure(ModuleConfigurationBuilder)`.
+The asynchronous `WithSkipWhen` and `WithIgnoreFailuresWhen` callbacks take a `CancellationToken`
+and return `ValueTask<...>`; synchronous overloads remain available.
 
 ### Retries
 
@@ -1126,6 +1131,16 @@ pass cancellation tokens to body-reading operations too.
 `ModularPipelines.FileSystem.File` and `Folder` are renamed to `FilePath` and `FolderPath`.
 Their usual read/write/copy operations remain available. Update aliases and signatures, including
 custom result DTOs. Do not rename `System.IO.File` or `System.IO.Directory` calls.
+
+Update these members when migrating file and folder paths:
+
+| Previous member | V4 replacement |
+| --- | --- |
+| `LastWriteTimeUtc` on file and folder paths | `FilePath.LastWriteTime` / `FolderPath.LastWriteTime` (`DateTimeOffset`, normalized to UTC) |
+| `FolderPath.Extension` (formerly `Folder.Extension`) | Removed; use `System.IO.Path.GetExtension(folder.Path)` if you need the directory name's suffix |
+
+`FilePath.Extension` remains available for files. `CreationTime` on both path types is also
+normalized to UTC; use `.ToLocalTime()` explicitly when local time is needed.
 
 `context.Environment.WorkingDirectory` is now a read-only `FolderPath`. Set the pipeline default
 with `PipelineBuilderSettings.WorkingDirectory`, or set `CommandExecutionOptions.WorkingDirectory`
