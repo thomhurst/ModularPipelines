@@ -21,9 +21,37 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeExplainOptions : GrypeOptions
 {
     /// <summary>
+    /// Ask grype to explain a set of findings
+    /// </summary>
+    /// <param name="Id">CVE IDs to explain</param>
+    public GrypeExplainOptions(
+        IEnumerable<string> Id
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Id);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Id));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Id));
+            }
+
+            Id = materialized;
+        }
+        this.Id = Id;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Id)
+    {
+        Id = this.Id;
+    }
+
+    /// <summary>
     /// CVE IDs to explain
     /// </summary>
     [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Id { get; set; }
+    public IEnumerable<string> Id { get; private init; }
 
 }
