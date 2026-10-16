@@ -7,6 +7,7 @@ using ModularPipelines.Events;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
+using ModularPipelines.UnitTests.FileSystem;
 
 namespace ModularPipelines.UnitTests.Api;
 
@@ -411,15 +412,15 @@ public class ArtifactContextApiTests
     [Test]
     public async Task Directory_Archive_Excludes_Destination_Through_Source_Link()
     {
-        var sourceDirectory = Directory.CreateTempSubdirectory("artifact-archive-source-");
-        var linkDirectory = Directory.CreateTempSubdirectory("artifact-archive-link-");
-        var sourceLink = Path.Combine(linkDirectory.FullName, "source");
-        var archivePath = Path.Combine(sourceDirectory.FullName, "artifact.zip");
-        Directory.CreateSymbolicLink(sourceLink, sourceDirectory.FullName);
-        await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "payload.txt"), "payload");
-
+        var tempDirectory = Directory.CreateTempSubdirectory("artifact-archive-");
         try
         {
+            var sourceDirectory = tempDirectory.CreateSubdirectory("source");
+            var sourceLink = Path.Combine(tempDirectory.FullName, "source-link");
+            var archivePath = Path.Combine(sourceDirectory.FullName, "artifact.zip");
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(sourceLink, sourceDirectory.FullName));
+            await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "payload.txt"), "payload");
+
             await ArtifactContextImpl.CreateDirectoryArchiveAsync(
                 sourceLink,
                 archivePath,
@@ -432,9 +433,7 @@ public class ArtifactContextApiTests
         }
         finally
         {
-            Directory.Delete(sourceLink);
-            linkDirectory.Delete();
-            sourceDirectory.Delete(recursive: true);
+            tempDirectory.Delete(recursive: true);
         }
     }
 
@@ -597,13 +596,14 @@ public class ArtifactContextApiTests
 
         archiveStream.Position = 0;
         using var archiveToExtract = new ZipArchive(archiveStream, ZipArchiveMode.Read);
-        var destinationDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
-        var outsideDirectory = Directory.CreateTempSubdirectory("artifact-outside-");
-        var linkedDirectory = Path.Combine(destinationDirectory.FullName, "link");
-        Directory.CreateSymbolicLink(linkedDirectory, outsideDirectory.FullName);
-
+        var tempDirectory = Directory.CreateTempSubdirectory("artifact-extraction-");
         try
         {
+            var destinationDirectory = tempDirectory.CreateSubdirectory("destination");
+            var outsideDirectory = tempDirectory.CreateSubdirectory("outside");
+            var linkedDirectory = Path.Combine(destinationDirectory.FullName, "link");
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(linkedDirectory, outsideDirectory.FullName));
+
             await Assert.ThrowsAsync<IOException>(() =>
                 ArtifactContextImpl.ExtractDirectoryArchiveAsync(
                     archiveToExtract,
@@ -614,9 +614,7 @@ public class ArtifactContextApiTests
         }
         finally
         {
-            Directory.Delete(linkedDirectory);
-            destinationDirectory.Delete();
-            outsideDirectory.Delete(recursive: true);
+            tempDirectory.Delete(recursive: true);
         }
     }
 
