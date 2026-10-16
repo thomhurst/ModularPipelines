@@ -332,8 +332,8 @@ internal partial class Docker : IDocker
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RmiAsync(
-        DockerRmiOptions options,
+    public virtual async Task<CommandResult> RmAsync(
+        DockerRmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -341,8 +341,8 @@ internal partial class Docker : IDocker
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RmAsync(
-        DockerRmOptions options,
+    public virtual async Task<CommandResult> RmiAsync(
+        DockerRmiOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

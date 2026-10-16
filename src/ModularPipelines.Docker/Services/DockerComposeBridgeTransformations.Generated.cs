@@ -14,7 +14,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Services;
 
 /// <summary>
-/// docker transformations commands.
+/// docker compose bridge transformations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerComposeBridgeTransformations

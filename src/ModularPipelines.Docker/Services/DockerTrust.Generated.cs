@@ -34,12 +34,12 @@ public class DockerTrust : IDockerTrust
     #region Sub-command Groups
 
     /// <summary>
-    /// docker key sub-commands.
+    /// docker trust key sub-commands.
     /// </summary>
     public DockerTrustKey Key => _key ??= new DockerTrustKey(_command);
 
     /// <summary>
-    /// docker signer sub-commands.
+    /// docker trust signer sub-commands.
     /// </summary>
     public DockerTrustSigner Signer => _signer ??= new DockerTrustSigner(_command);
 

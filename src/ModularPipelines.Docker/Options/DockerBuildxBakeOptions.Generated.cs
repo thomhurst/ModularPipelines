@@ -58,6 +58,12 @@ public record DockerBuildxBakeOptions : DockerOptions
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
+    /// Set target execution behavior (format: "N" or "mode[,parallel=N]") (default "fail-fast")
+    /// </summary>
+    [CliOption("--jobs", ShortForm = "-j", Format = OptionFormat.EqualsSeparated)]
+    public string? Jobs { get; set; }
+
+    /// <summary>
     /// List targets or variables
     /// </summary>
     [CliOption("--list", Format = OptionFormat.EqualsSeparated)]

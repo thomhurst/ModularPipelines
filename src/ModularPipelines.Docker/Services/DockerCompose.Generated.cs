@@ -33,7 +33,7 @@ public class DockerCompose : IDockerCompose
     #region Sub-command Groups
 
     /// <summary>
-    /// docker bridge sub-commands.
+    /// docker compose bridge sub-commands.
     /// </summary>
     public DockerComposeBridge Bridge => _bridge ??= new DockerComposeBridge(_command);
 
