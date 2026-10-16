@@ -179,7 +179,7 @@ internal class ModuleExecutionPipeline(
 
             return moduleResult;
         }
-        catch (Exception exception) when (!finalizer.WasInvoked)
+        catch (Exception exception) when (!finalizer.HasCompleted)
         {
             executionContext.RecordEndTime();
 
@@ -894,7 +894,7 @@ internal class ModuleExecutionPipeline(
         Func<ModuleResult<T>, CancellationToken, Task>? finalizeExecutionAsync,
         bool completeModule)
     {
-        public bool WasInvoked { get; private set; }
+        public bool HasCompleted { get; private set; }
 
         public async Task FinalizeAsync(ModuleResult<T> result)
         {
@@ -903,7 +903,6 @@ internal class ModuleExecutionPipeline(
                 return;
             }
 
-            WasInvoked = true;
             var previousProvisionalResult = module.SetProvisionalResult(result);
             try
             {
@@ -911,6 +910,8 @@ internal class ModuleExecutionPipeline(
                         result,
                         executionContext.ModuleCancellationTokenSource.Token)
                     .ConfigureAwait(false);
+                // A throwing finalizer must still pass through normal module failure handling.
+                HasCompleted = true;
             }
             finally
             {
