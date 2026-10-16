@@ -22,17 +22,17 @@ namespace ModularPipelines.Kubernetes.Services;
 public interface IKustomizeEdit
 {
     /// <summary>
-    /// kustomize add sub-commands.
+    /// kustomize edit add sub-commands.
     /// </summary>
     KustomizeEditAdd Add { get; }
 
     /// <summary>
-    /// kustomize remove sub-commands.
+    /// kustomize edit remove sub-commands.
     /// </summary>
     KustomizeEditRemove Remove { get; }
 
     /// <summary>
-    /// kustomize set sub-commands.
+    /// kustomize edit set sub-commands.
     /// </summary>
     KustomizeEditSet Set { get; }
 

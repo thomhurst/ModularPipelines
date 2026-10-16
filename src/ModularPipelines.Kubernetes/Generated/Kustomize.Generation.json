@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "kustomize",
-  "toolVersion": "v5.8.3",
+  "toolVersion": "5.8.3",
   "commandTreeSha256": "c7e80889b367f0cb5e8be7737b8f7d86c03da8f8f4d27729c0ca5f099402faf9",
-  "generatorSourceSha256": "8c6a7e638569fbb52e81488fc65a7062569b2a1e34b3450058ba9b8e90615464"
+  "generatorSourceSha256": "2cbce4a617b7e422b46687a6204b008cf3b40c63a4c859752221310e802c8124"
 }
