@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "syft",
-  "toolVersion": "syft 1.54.1",
+  "toolVersion": "1.54.1",
   "commandCount": 9,
   "commandTreeSha256": "d4f2412c51bd5d7423421cfe0733e39e63a63b0c4b3b45eab48cd65e9cda2600",
   "commands": [
