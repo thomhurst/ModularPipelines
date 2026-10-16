@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "trivy",
-  "toolVersion": "Version: 0.75.0",
+  "toolVersion": "0.75.0",
   "commandTreeSha256": "0bd0140c9a6c333fc5fdc85a5da490ba0459d299178abc50af7866d3ab9730ee",
-  "generatorSourceSha256": "6189ddf970045fda79f1c0965a241377b9cebb8a5aedb201fbe3ba64d8f461e7"
+  "generatorSourceSha256": "8f1cf446d226551e15ec01b80a66f879d6b629e3ab7b0bc6422ef319c05e156f"
 }

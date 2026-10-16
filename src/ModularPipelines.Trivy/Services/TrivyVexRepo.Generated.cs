@@ -14,7 +14,7 @@ using ModularPipelines.Trivy.Options;
 namespace ModularPipelines.Trivy.Services;
 
 /// <summary>
-/// trivy repo commands.
+/// trivy vex repo commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class TrivyVexRepo
