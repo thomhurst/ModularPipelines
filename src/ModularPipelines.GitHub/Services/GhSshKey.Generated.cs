@@ -14,7 +14,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Services;
 
 /// <summary>
-/// gh sshkey commands.
+/// gh ssh-key commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GhSshKey : IGhSshKey

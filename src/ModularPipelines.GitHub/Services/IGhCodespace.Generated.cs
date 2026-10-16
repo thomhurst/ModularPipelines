@@ -22,7 +22,7 @@ namespace ModularPipelines.GitHub.Services;
 public interface IGhCodespace
 {
     /// <summary>
-    /// gh ports sub-commands.
+    /// gh codespace ports sub-commands.
     /// </summary>
     GhCodespacePorts Ports { get; }
 
