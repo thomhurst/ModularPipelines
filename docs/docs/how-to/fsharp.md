@@ -7,7 +7,7 @@ sidebar_position: 10
 
 ModularPipelines modules can be authored and executed from an F# project. Inherit
 from `Module<'T>`, override `ExecuteAsync`, and open
-`ModularPipelines.Extensions` for pipeline-builder extension methods.
+`ModularPipelines` for pipeline-builder extension methods.
 
 F# pipelines currently require a JIT-compiled application. Trimming and Native AOT
 are not supported because the metadata generators run only for C# compilations. The
@@ -20,7 +20,6 @@ open ModularPipelines
 open ModularPipelines.Attributes
 open ModularPipelines.Configuration
 open ModularPipelines.Context
-open ModularPipelines.Extensions
 open ModularPipelines.Modules
 
 type BuildModule() =

@@ -136,7 +136,6 @@ Then configure and execute the pipeline from `Program.cs`:
 
 ```csharp
 using ModularPipelines;
-using ModularPipelines.Extensions;
 
 var builder = Pipeline.CreateBuilder(args);
 await builder.RunAsync();
@@ -166,6 +165,7 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.ArgoCd | Helpers for interacting with ArgoCD GitOps continuous delivery CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.ArgoCd.svg)](https://www.nuget.org/packages/ModularPipelines.ArgoCd/) |
 | ModularPipelines.Azure | Helpers for interacting with Azure. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.svg)](https://www.nuget.org/packages/ModularPipelines.Azure/) |
 | ModularPipelines.Azure.Pipelines | Helpers for interacting with Azure Pipeline agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Azure.Pipelines.svg)](https://www.nuget.org/packages/ModularPipelines.Azure.Pipelines/) |
+| ModularPipelines.Buildah | Helpers for interacting with Buildah OCI container image builder CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Buildah.svg)](https://www.nuget.org/packages/ModularPipelines.Buildah/) |
 | ModularPipelines.Chocolatey | Helpers for interacting with the Chocolatey CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Chocolatey.svg)](https://www.nuget.org/packages/ModularPipelines.Chocolatey/) |
 | ModularPipelines.Cmd | Helpers for interacting with the Windows cmd process. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Cmd.svg)](https://www.nuget.org/packages/ModularPipelines.Cmd/) |
 | ModularPipelines.Cosign | Helpers for interacting with Cosign CLI for container signing and verification. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Cosign.svg)](https://www.nuget.org/packages/ModularPipelines.Cosign/) |
@@ -173,6 +173,8 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.DotNet | Helpers for interacting with dotnet CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.DotNet.svg)](https://www.nuget.org/packages/ModularPipelines.DotNet/) |
 | ModularPipelines.Eksctl | Helpers for interacting with eksctl Amazon EKS cluster management CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Eksctl.svg)](https://www.nuget.org/packages/ModularPipelines.Eksctl/) |
 | ModularPipelines.Email | Helpers for sending emails. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Email.svg)](https://www.nuget.org/packages/ModularPipelines.Email/) |
+| ModularPipelines.Flux | Helpers for interacting with Flux GitOps toolkit for Kubernetes CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Flux.svg)](https://www.nuget.org/packages/ModularPipelines.Flux/) |
+| ModularPipelines.Flyway | Helpers for interacting with Flyway database migration tool CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Flyway.svg)](https://www.nuget.org/packages/ModularPipelines.Flyway/) |
 | ModularPipelines.Ftp | Helpers for downloading and uploading via FTP. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Ftp.svg)](https://www.nuget.org/packages/ModularPipelines.Ftp/) |
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 | ModularPipelines.Node | Helpers for interacting with node / npm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) |
@@ -180,26 +182,44 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.OpenTelemetry | OpenTelemetry tracing, metrics, and OTLP export for Modular Pipelines. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.OpenTelemetry.svg)](https://www.nuget.org/packages/ModularPipelines.OpenTelemetry/) |
 | ModularPipelines.Git | Helpers for interacting with git. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
 | ModularPipelines.GitHub | Helpers for interacting with GitHub Actions build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.GitHub.svg)](https://www.nuget.org/packages/ModularPipelines.GitHub/) |
+| ModularPipelines.Go | Helpers for interacting with Go CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Go.svg)](https://www.nuget.org/packages/ModularPipelines.Go/) |
 | ModularPipelines.Google | Helpers for interacting with the Google gcloud CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Google.svg)](https://www.nuget.org/packages/ModularPipelines.Google/) |
+| ModularPipelines.Grype | Helpers for interacting with Grype CLI for vulnerability scanning. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Grype.svg)](https://www.nuget.org/packages/ModularPipelines.Grype/) |
 | ModularPipelines.Hadolint | Helpers for interacting with Hadolint Dockerfile linter CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Hadolint.svg)](https://www.nuget.org/packages/ModularPipelines.Hadolint/) |
 | ModularPipelines.Helm | Helpers for interacting with Helm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Helm.svg)](https://www.nuget.org/packages/ModularPipelines.Helm/) |
+| ModularPipelines.Homebrew | Helpers for interacting with the Homebrew CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Homebrew.svg)](https://www.nuget.org/packages/ModularPipelines.Homebrew/) |
 | ModularPipelines.Java | Helpers for interacting with Java build tools (Maven, Gradle). | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Java.svg)](https://www.nuget.org/packages/ModularPipelines.Java/) |
 | ModularPipelines.Jq | Helpers for interacting with jq JSON processor CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Jq.svg)](https://www.nuget.org/packages/ModularPipelines.Jq/) |
+| ModularPipelines.Kind | Helpers for interacting with Kind (Kubernetes IN Docker) CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kind.svg)](https://www.nuget.org/packages/ModularPipelines.Kind/) |
 | ModularPipelines.Kubernetes | Helpers for interacting with kubectl CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Kubernetes.svg)](https://www.nuget.org/packages/ModularPipelines.Kubernetes/) |
 | ModularPipelines.Liquibase | Helpers for interacting with Liquibase database change management CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Liquibase.svg)](https://www.nuget.org/packages/ModularPipelines.Liquibase/) |
+| ModularPipelines.Minikube | Helpers for interacting with Minikube CLI for local Kubernetes clusters. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Minikube.svg)](https://www.nuget.org/packages/ModularPipelines.Minikube/) |
 | ModularPipelines.NerdbankGitVersioning | Helpers for interacting with the Nerdbank.GitVersioning nbgv CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.NerdbankGitVersioning.svg)](https://www.nuget.org/packages/ModularPipelines.NerdbankGitVersioning/) |
 | ModularPipelines.MicrosoftTeams | Helpers for sending Microsoft Teams cards. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.MicrosoftTeams.svg)](https://www.nuget.org/packages/ModularPipelines.MicrosoftTeams/) |
+| ModularPipelines.Newman | Helpers for interacting with Newman Postman collection runner CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Newman.svg)](https://www.nuget.org/packages/ModularPipelines.Newman/) |
+| ModularPipelines.Packer | Helpers for interacting with HashiCorp Packer machine image builder CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Packer.svg)](https://www.nuget.org/packages/ModularPipelines.Packer/) |
+| ModularPipelines.Podman | Helpers for interacting with Podman daemonless container engine CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Podman.svg)](https://www.nuget.org/packages/ModularPipelines.Podman/) |
+| ModularPipelines.Pulumi | Helpers for interacting with Pulumi Infrastructure as Code CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Pulumi.svg)](https://www.nuget.org/packages/ModularPipelines.Pulumi/) |
+| ModularPipelines.Python | Helpers for interacting with Python tooling (pip, etc.). | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Python.svg)](https://www.nuget.org/packages/ModularPipelines.Python/) |
+| ModularPipelines.Rust | Helpers for interacting with Cargo (Rust package manager) CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Rust.svg)](https://www.nuget.org/packages/ModularPipelines.Rust/) |
 | ModularPipelines.Shellcheck | Helpers for interacting with ShellCheck shell script static analysis CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Shellcheck.svg)](https://www.nuget.org/packages/ModularPipelines.Shellcheck/) |
+| ModularPipelines.Skopeo | Helpers for interacting with Skopeo container image operations CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Skopeo.svg)](https://www.nuget.org/packages/ModularPipelines.Skopeo/) |
 | ModularPipelines.Slack | Helpers for sending Slack cards. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Slack.svg)](https://www.nuget.org/packages/ModularPipelines.Slack/) |
 | ModularPipelines.Snyk | Helpers for interacting with Snyk security CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Snyk.svg)](https://www.nuget.org/packages/ModularPipelines.Snyk/) |
 | ModularPipelines.SonarScanner | Helpers for interacting with SonarScanner CLI for SonarQube and SonarCloud. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.SonarScanner.svg)](https://www.nuget.org/packages/ModularPipelines.SonarScanner/) |
+| ModularPipelines.Syft | Helpers for interacting with Syft CLI for SBOM (Software Bill of Materials) generation. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Syft.svg)](https://www.nuget.org/packages/ModularPipelines.Syft/) |
 | ModularPipelines.TeamCity | Helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
 | ModularPipelines.Templates | Templates for creating realistic ModularPipelines build, test, and publish pipelines. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Templates.svg)](https://www.nuget.org/packages/ModularPipelines.Templates/) |
 | ModularPipelines.Testing | Supported test harness for isolated ModularPipelines module tests. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Testing.svg)](https://www.nuget.org/packages/ModularPipelines.Testing/) |
 | ModularPipelines.Terraform | Helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 | ModularPipelines.Trivy | Helpers for interacting with Trivy security scanner CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Trivy.svg)](https://www.nuget.org/packages/ModularPipelines.Trivy/) |
+| ModularPipelines.Vault | Helpers for interacting with HashiCorp Vault secrets management CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Vault.svg)](https://www.nuget.org/packages/ModularPipelines.Vault/) |
 | ModularPipelines.WinGet | Helpers for interacting with the Windows Package Manager. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.WinGet.svg)](https://www.nuget.org/packages/ModularPipelines.WinGet/) |
+| ModularPipelines.Yq | Helpers for interacting with yq YAML/JSON/XML processor CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yq.svg)](https://www.nuget.org/packages/ModularPipelines.Yq/) |
+| ModularPipelines.Distributed.Artifacts.S3 | S3-compatible distributed artifact store for ModularPipelines. Supports AWS S3, Cloudflare R2, Backblaze B2, and MinIO. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Distributed.Artifacts.S3.svg)](https://www.nuget.org/packages/ModularPipelines.Distributed.Artifacts.S3/) |
+| ModularPipelines.Distributed.Discovery.Redis | Redis-based master endpoint discovery for distributed coordinators. Enables cross-network pipeline distribution by advertising the master endpoint via Redis. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Distributed.Discovery.Redis.svg)](https://www.nuget.org/packages/ModularPipelines.Distributed.Discovery.Redis/) |
 | ModularPipelines.Distributed.Redis | Redis-based distributed coordinator for ModularPipelines. Enables multi-process and multi-machine pipeline execution using Redis for coordination. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Distributed.Redis.svg)](https://www.nuget.org/packages/ModularPipelines.Distributed.Redis/) |
+| ModularPipelines.Distributed.SignalR | SignalR-based distributed coordinator for ModularPipelines. Enables multi-process pipeline execution using SignalR for direct master-worker communication. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Distributed.SignalR.svg)](https://www.nuget.org/packages/ModularPipelines.Distributed.SignalR/) |
 
 ## How Does This Compare to Cake / Nuke?
 
