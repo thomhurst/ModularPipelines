@@ -293,5 +293,4 @@ public class InMemoryDistributedCoordinatorTests
         return ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
             coordinator, () => { clock.Advance(TimeSpan.FromSeconds(11)); return Task.CompletedTask; }, sameWorker);
     }
-
 }

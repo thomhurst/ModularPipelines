@@ -374,22 +374,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         {
             try
             {
-                // Same registration, same session: the master treats it as a reconnect.
-                await RegisterAgainAsync(registration).WaitAsync(recoveryToken).ConfigureAwait(false);
-                var leases = _leases.Values.ToArray();
-                if (leases.Length > 0)
-                {
-                    await ReconcileOnConnectionAsync(new WorkerStatus
-                    {
-                        WorkerId = registration.WorkerId,
-                        RunId = registration.RunId,
-                        InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
-                    }, leases, recoveryToken).ConfigureAwait(false);
-                }
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
-                }
+                await RestoreRegistrationAsync(registration, recoveryToken).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -432,6 +417,12 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
 
             registered = registered && (_reconnectDeadline?.TryComplete() ?? true);
+            if (!registered)
+            {
+                // Closed callbacks can run after StopAsync returns. Publish terminal state first.
+                Volatile.Write(ref _connectionClosed, true);
+            }
+
             SignalConnectionChanged();
             _ready.TrySetResult(registered);
         }
@@ -439,6 +430,26 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         if (!registered)
         {
             await _connection.StopAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task RestoreRegistrationAsync(WorkerRegistration registration, CancellationToken recoveryToken)
+    {
+        // Same registration, same session: the master treats it as a reconnect.
+        await RegisterAgainAsync(registration).WaitAsync(recoveryToken).ConfigureAwait(false);
+        var leases = _leases.Values.ToArray();
+        if (leases.Length > 0)
+        {
+            await ReconcileOnConnectionAsync(new WorkerStatus
+            {
+                WorkerId = registration.WorkerId,
+                RunId = registration.RunId,
+                InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
+            }, leases, recoveryToken).ConfigureAwait(false);
+        }
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
         }
     }
 
