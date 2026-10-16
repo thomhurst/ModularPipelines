@@ -252,6 +252,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
+    /// <exception cref="IOException">The source tree contains a directory symbolic link or junction.</exception>
     public FolderPath CopyTo(string targetPath)
     {
         return CopyTo(targetPath, preserveTimestamps: false);
@@ -267,6 +268,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
+    /// <exception cref="IOException">The source tree contains a directory symbolic link or junction.</exception>
     public FolderPath CopyTo(string targetPath, bool preserveTimestamps)
     {
         var originalTargetPath = targetPath;
@@ -313,6 +315,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
+    /// <exception cref="IOException">The source tree contains a directory symbolic link or junction.</exception>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves the established timestamp overload.
     public Task<FolderPath> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
     {
@@ -330,6 +333,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     /// <exception cref="ArgumentException">The destination is the source folder or one of its descendants.</exception>
+    /// <exception cref="IOException">The source tree contains a directory symbolic link or junction.</exception>
     public async Task<FolderPath> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -476,7 +480,10 @@ public class FolderPath : IEquatable<FolderPath>
 
         var matcher = new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(globPattern);
-        return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
+        var files = ReferenceEquals(_provider, SystemFileSystemProvider.Instance)
+            ? SafeWalk.EnumerateGlobFiles(this)
+            : _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories);
+        return files
             .Where(path => matcher.Match(_provider.GetRelativePath(Path, path)).HasMatches)
             .Select(path => new FilePath(path, _provider))
             .Distinct();
@@ -645,18 +652,35 @@ public class FolderPath : IEquatable<FolderPath>
 
     private (string[] Directories, string[] Files) SnapshotCopyEntries(CancellationToken cancellationToken = default)
     {
-        // Mount aliases need not be symbolic links. Finish both enumerations before any writes
-        // so recursive traversal cannot discover directories or files produced by this copy.
-        cancellationToken.ThrowIfCancellationRequested();
-        return (
-            Snapshot(_provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories)),
-            Snapshot(_provider.EnumerateFiles(this, "*", SearchOption.AllDirectories)));
-
-        string[] Snapshot(IEnumerable<string> entries) => [.. entries.Select(entry =>
+        // Finish the snapshot before any writes so traversal cannot consume this copy's output
+        // through a mount alias. Enumerate one level at a time to reject links before descent.
+        var directories = new List<string>();
+        var files = new List<string>();
+        var pending = new Stack<string>();
+        pending.Push(Path);
+        while (pending.TryPop(out var current))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return entry;
-        })];
+            foreach (var directory in _provider.EnumerateDirectories(current, "*", SearchOption.TopDirectoryOnly))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if ((_provider.GetAttributes(directory) & FileAttributes.ReparsePoint) != 0)
+                {
+                    throw new IOException($"Cannot copy a source tree containing a directory link: '{directory}'.");
+                }
+
+                directories.Add(directory);
+                pending.Push(directory);
+            }
+
+            foreach (var file in _provider.EnumerateFiles(current, "*", SearchOption.TopDirectoryOnly))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                files.Add(file);
+            }
+        }
+
+        return ([.. directories], [.. files]);
     }
 
     internal string ValidateCopyTarget(string targetPath)

@@ -97,9 +97,9 @@ public class FolderPathCancellationTests
         provider.Setup(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
         provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
             .Returns((string from, string to) => Path.GetRelativePath(from, to));
-        provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.AllDirectories))
+        provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.TopDirectoryOnly))
             .Returns(() => directories ? CancelThenEnumerate() : []);
-        provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.AllDirectories))
+        provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.TopDirectoryOnly))
             .Returns(() => directories ? [] : CancelThenEnumerate());
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => source.CopyToAsync("/destination", cancellation.Token));
@@ -131,8 +131,8 @@ public class FolderPathCancellationTests
         provider.Setup(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
         provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
             .Returns((string from, string to) => Path.GetRelativePath(from, to));
-        provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.AllDirectories)).Returns([file]);
+        provider.Setup(p => p.EnumerateDirectories(source.Path, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source.Path, "*", SearchOption.TopDirectoryOnly)).Returns([file]);
         provider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] paths) => Path.Combine(paths));
         provider.Setup(p => p.OpenRead(file)).Returns(sourceStream.Object);
         provider.Setup(p => p.Create(It.IsAny<string>())).Returns(destinationStream.Object);
