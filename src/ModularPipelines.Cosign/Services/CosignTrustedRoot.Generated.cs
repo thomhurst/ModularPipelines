@@ -14,7 +14,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Services;
 
 /// <summary>
-/// cosign trustedroot commands.
+/// cosign trusted-root commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class CosignTrustedRoot : ICosignTrustedRoot
