@@ -242,7 +242,7 @@ internal class ExecutionOrchestrator(
         {
             await _pipelineSetupExecutor.OnPipelineEndAsync(summary, cancellationToken).ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException) when (executionFailed && cancellationToken.IsCancellationRequested)
         {
             _logger.LogDebug("Pipeline end handlers were canceled");
         }
