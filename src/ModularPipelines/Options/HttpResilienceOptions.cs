@@ -20,6 +20,8 @@ namespace ModularPipelines.Options;
 /// <see cref="StringContent"/> and <see cref="FormUrlEncodedContent"/>) with a known length of at most
 /// 1 MiB (1,048,576 bytes). Streamed content, other content types, and bodies with unknown or larger
 /// lengths are sent once without buffering by the resilience handler, even when retries are explicitly enabled.</para>
+/// <para>Replay buffering also enforces this limit against the serialized body. If the body exceeds its
+/// declared length and the limit, the original request is sent once without retries.</para>
 /// <example>
 /// Opt in only when the server guarantees that repeating the operation is safe, for example with an idempotency key:
 /// <code>

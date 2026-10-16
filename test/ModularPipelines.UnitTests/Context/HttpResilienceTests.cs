@@ -161,6 +161,41 @@ public class HttpResilienceTests
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task UnderstatedContentLengthDoesNotBypassRetryLimit(bool prebuffered, bool optIn)
+    {
+        var payload = new byte[(1024 * 1024) + 1];
+        using var content = new ByteArrayContent(payload);
+        if (prebuffered)
+        {
+            await content.LoadIntoBufferAsync();
+        }
+
+        content.Headers.ContentLength = 1;
+        var inner = new RetryHandler(readContent: true);
+        using var invoker = CreateInvoker(inner);
+        using var request = new HttpRequestMessage(optIn ? HttpMethod.Post : HttpMethod.Put, "https://example.test/upload")
+        {
+            Content = content,
+        };
+        if (optIn)
+        {
+            request.Options.Set(HttpResilienceOptions.RetryEnabled, true);
+        }
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        await Assert.That(inner.CallCount).IsEqualTo(1);
+        await Assert.That(inner.Requests[0]).IsSameReferenceAs(request);
+        await Assert.That(inner.Requests[0].Content).IsSameReferenceAs(content);
+        await Assert.That(inner.Payloads[0].SequenceEqual(payload)).IsTrue();
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.BadGateway);
+    }
+
+    [Test]
     public async Task OptInDoesNotOverrideDisabledRetries()
     {
         var inner = new RetryHandler();

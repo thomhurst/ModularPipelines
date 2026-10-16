@@ -1,3 +1,4 @@
+using System.Net;
 using Kevlar;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -29,11 +30,22 @@ internal class ResilienceHttpHandler(
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        // Only small, already buffered bodies reach this point. Never consume upload streams for retries.
+        // Only byte-backed bodies with small declared lengths reach this point. Never consume upload streams for retries.
         byte[]? contentBytes = null;
         if (request.Content != null)
         {
-            contentBytes = await request.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
+            // A separate buffer enforces the cap even when the original content is already buffered.
+            using var retryContent = new RetryBufferContent(request.Content);
+            try
+            {
+                await retryContent.LoadIntoBufferAsync(MaximumRetryContentLength, cancellationToken).ConfigureAwait(false);
+            }
+            catch (HttpRequestException exception) when (exception.HttpRequestError == HttpRequestError.ConfigurationLimitExceeded)
+            {
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+
+            contentBytes = await retryContent.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
         }
 
         var retryShield = BuildRetryShield(options);
@@ -59,6 +71,21 @@ internal class ResilienceHttpHandler(
         return request.Content == null ||
                (request.Content is ByteArrayContent &&
                 request.Content.Headers.ContentLength is >= 0 and <= MaximumRetryContentLength);
+    }
+
+    private sealed class RetryBufferContent(HttpContent content) : HttpContent
+    {
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context)
+            => content.CopyToAsync(stream, context);
+
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context, CancellationToken cancellationToken)
+            => content.CopyToAsync(stream, context, cancellationToken);
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = content.Headers.ContentLength.GetValueOrDefault();
+            return true;
+        }
     }
 
     private Shield<HttpResponseMessage> BuildRetryShield(HttpResilienceOptions options)
