@@ -357,15 +357,6 @@ public partial interface IPodman
     public Task<CommandResult> RestartAsync(PodmanRestartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Remove one or more images from local storage
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> RmiAsync(PodmanRmiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Remove one or more containers
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -373,6 +364,15 @@ public partial interface IPodman
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> RmAsync(PodmanRmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Remove one or more images from local storage
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RmiAsync(PodmanRmiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run a command in a new container

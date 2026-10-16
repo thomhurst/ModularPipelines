@@ -22,7 +22,7 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanMachine
 {
     /// <summary>
-    /// podman os sub-commands.
+    /// podman machine os sub-commands.
     /// </summary>
     PodmanMachineOs Os { get; }
 

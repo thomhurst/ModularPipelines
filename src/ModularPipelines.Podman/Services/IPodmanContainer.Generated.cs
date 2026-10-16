@@ -256,15 +256,6 @@ public interface IPodmanContainer
     public Task<CommandResult> RmAsync(PodmanContainerRmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Execute the command described by an image label
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> RunlabelAsync(PodmanContainerRunlabelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Run a command in a new container
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -272,6 +263,15 @@ public interface IPodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> RunAsync(PodmanContainerRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Execute the command described by an image label
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RunlabelAsync(PodmanContainerRunlabelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start one or more containers

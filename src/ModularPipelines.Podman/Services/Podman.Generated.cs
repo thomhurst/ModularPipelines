@@ -370,8 +370,8 @@ internal partial class Podman : IPodman
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RmiAsync(
-        PodmanRmiOptions options,
+    public virtual async Task<CommandResult> RmAsync(
+        PodmanRmOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -379,8 +379,8 @@ internal partial class Podman : IPodman
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RmAsync(
-        PodmanRmOptions options,
+    public virtual async Task<CommandResult> RmiAsync(
+        PodmanRmiOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

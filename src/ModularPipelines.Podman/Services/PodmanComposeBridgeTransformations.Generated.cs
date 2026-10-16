@@ -14,7 +14,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Services;
 
 /// <summary>
-/// podman transformations commands.
+/// podman compose bridge transformations commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanComposeBridgeTransformations

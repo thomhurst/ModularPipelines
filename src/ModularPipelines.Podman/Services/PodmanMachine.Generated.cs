@@ -33,7 +33,7 @@ public class PodmanMachine : IPodmanMachine
     #region Sub-command Groups
 
     /// <summary>
-    /// podman os sub-commands.
+    /// podman machine os sub-commands.
     /// </summary>
     public PodmanMachineOs Os => _os ??= new PodmanMachineOs(_command);
 

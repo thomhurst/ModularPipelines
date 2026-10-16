@@ -33,7 +33,7 @@ public class PodmanSystem : IPodmanSystem
     #region Sub-command Groups
 
     /// <summary>
-    /// podman connection sub-commands.
+    /// podman system connection sub-commands.
     /// </summary>
     public PodmanSystemConnection Connection => _connection ??= new PodmanSystemConnection(_command);
 

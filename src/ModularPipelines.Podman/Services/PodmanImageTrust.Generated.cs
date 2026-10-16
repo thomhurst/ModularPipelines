@@ -14,7 +14,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Services;
 
 /// <summary>
-/// podman trust commands.
+/// podman image trust commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanImageTrust

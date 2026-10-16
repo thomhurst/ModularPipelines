@@ -14,7 +14,7 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Services;
 
 /// <summary>
-/// podman connection commands.
+/// podman system connection commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PodmanSystemConnection

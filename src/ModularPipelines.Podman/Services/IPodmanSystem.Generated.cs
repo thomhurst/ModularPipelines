@@ -22,7 +22,7 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanSystem
 {
     /// <summary>
-    /// podman connection sub-commands.
+    /// podman system connection sub-commands.
     /// </summary>
     PodmanSystemConnection Connection { get; }
 
