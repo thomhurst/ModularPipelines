@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
@@ -9,45 +8,26 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Executors;
 
-internal class PipelineExecutor : IPipelineExecutor
+internal class PipelineExecutor(
+    IExecutionBackend executionBackend,
+    IExecutionBackendContext executionBackendContext,
+    IExecutionBackendContextFactory executionBackendContextFactory,
+    EngineCancellationToken engineCancellationToken,
+    IExceptionRethrowService exceptionRethrowService,
+    ISecondaryExceptionContainer secondaryExceptionContainer,
+    IPipelineSummaryFactory pipelineSummaryFactory,
+    IOptions<PipelineOptions> options,
+    IMetricsCollector? metricsCollector = null) : IPipelineExecutor
 {
-    private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
-    private readonly IExecutionBackend _executionBackend;
-    private readonly IExecutionBackendContext _executionBackendContext;
-    private readonly IExecutionBackendContextFactory _executionBackendContextFactory;
-    private readonly EngineCancellationToken _engineCancellationToken;
-    private readonly ILogger<PipelineExecutor> _logger;
-    private readonly IExceptionRethrowService _exceptionRethrowService;
-    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-    private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
-    private readonly IOptions<PipelineOptions> _options;
-    private readonly IMetricsCollector? _metricsCollector;
-
-    public PipelineExecutor(
-        IPipelineSetupExecutor pipelineSetupExecutor,
-        IExecutionBackend executionBackend,
-        IExecutionBackendContext executionBackendContext,
-        IExecutionBackendContextFactory executionBackendContextFactory,
-        EngineCancellationToken engineCancellationToken,
-        ILogger<PipelineExecutor> logger,
-        IExceptionRethrowService exceptionRethrowService,
-        ISecondaryExceptionContainer secondaryExceptionContainer,
-        IPipelineSummaryFactory pipelineSummaryFactory,
-        IOptions<PipelineOptions> options,
-        IMetricsCollector? metricsCollector = null)
-    {
-        _pipelineSetupExecutor = pipelineSetupExecutor;
-        _executionBackend = executionBackend;
-        _executionBackendContext = executionBackendContext;
-        _executionBackendContextFactory = executionBackendContextFactory;
-        _engineCancellationToken = engineCancellationToken;
-        _logger = logger;
-        _exceptionRethrowService = exceptionRethrowService;
-        _secondaryExceptionContainer = secondaryExceptionContainer;
-        _pipelineSummaryFactory = pipelineSummaryFactory;
-        _options = options;
-        _metricsCollector = metricsCollector;
-    }
+    private readonly IExecutionBackend _executionBackend = executionBackend;
+    private readonly IExecutionBackendContext _executionBackendContext = executionBackendContext;
+    private readonly IExecutionBackendContextFactory _executionBackendContextFactory = executionBackendContextFactory;
+    private readonly EngineCancellationToken _engineCancellationToken = engineCancellationToken;
+    private readonly IExceptionRethrowService _exceptionRethrowService = exceptionRethrowService;
+    private readonly ISecondaryExceptionContainer _secondaryExceptionContainer = secondaryExceptionContainer;
+    private readonly IPipelineSummaryFactory _pipelineSummaryFactory = pipelineSummaryFactory;
+    private readonly IOptions<PipelineOptions> _options = options;
+    private readonly IMetricsCollector? _metricsCollector = metricsCollector;
 
     public async Task<PipelineSummary> ExecuteAsync(List<IModule> runnableModules,
         OrganizedModules organizedModules)
@@ -55,55 +35,42 @@ internal class PipelineExecutor : IPipelineExecutor
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
-        PipelineSummary pipelineSummary;
-        List<IModule> executedModules = [];
-        IReadOnlyList<IModuleResult> backendResults = [];
-        var executionFailed = true;
+        var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
+            runnable => runnable.Module.GetType(),
+            runnable => runnable.EstimatedDuration);
+        // Only custom backends need shared dispatch state; the built-in backend owns its scheduler directly.
+        var context = _executionBackend is ModuleExecutor
+            ? null
+            : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations, _engineCancellationToken);
+        List<IModule> executedModules;
+        IReadOnlyList<IModuleResult> backendResults;
         try
         {
-            var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
-                runnable => runnable.Module.GetType(),
-                runnable => runnable.EstimatedDuration);
-            // Only custom backends need shared dispatch state; the built-in backend owns its scheduler directly.
-            var context = _executionBackend is ModuleExecutor
-                ? null
-                : _executionBackendContextFactory.Create(_executionBackendContext, runnableModules, estimatedDurations, _engineCancellationToken);
-            try
-            {
-                var results = await _executionBackend.ExecuteAsync(
-                        new ExecutionBackendRequest
-                        {
-                            Modules = runnableModules,
-                            EstimatedDurations = ToModuleIdDurations(estimatedDurations),
-                            Context = context ?? _executionBackendContext,
-                        },
-                        _engineCancellationToken.Token)
-                    .ConfigureAwait(false);
-                executedModules = ApplyBackendResults(runnableModules, results);
-                backendResults = results;
-            }
-            finally
-            {
-                if (context is IAsyncDisposable contextLifetime)
-                {
-                    await contextLifetime.DisposeAsync().ConfigureAwait(false);
-                }
-            }
-
-            executionFailed = false;
+            backendResults = await _executionBackend.ExecuteAsync(
+                    new ExecutionBackendRequest
+                    {
+                        Modules = runnableModules,
+                        EstimatedDurations = ToModuleIdDurations(estimatedDurations),
+                        Context = context ?? _executionBackendContext,
+                    },
+                    _engineCancellationToken.Token)
+                .ConfigureAwait(false);
+            executedModules = ApplyBackendResults(runnableModules, backendResults);
         }
         finally
         {
-            var end = DateTimeOffset.UtcNow;
-
-            // A backend that runs only a claimed subset (a distributed worker) summarizes the
-            // outcomes it reported for the modules it executed; the coordinator reports the whole plan.
-            pipelineSummary = _executionBackend.OwnsEntirePlan
-                ? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end)
-                : _pipelineSummaryFactory.Create(executedModules, backendResults, stopWatch.Elapsed, start, end);
-
-            await InvokePipelineEndHandlersAsync(pipelineSummary, executionFailed).ConfigureAwait(false);
+            if (context is IAsyncDisposable contextLifetime)
+            {
+                await contextLifetime.DisposeAsync().ConfigureAwait(false);
+            }
         }
+
+        var end = DateTimeOffset.UtcNow;
+        // A backend that runs only a claimed subset (a distributed worker) summarizes the
+        // outcomes it reported for the modules it executed; the coordinator reports the whole plan.
+        var pipelineSummary = _executionBackend.OwnsEntirePlan
+            ? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end)
+            : _pipelineSummaryFactory.Create(executedModules, backendResults, stopWatch.Elapsed, start, end);
 
         // Wait-for-all may return a failed summary when configured not to throw.
         // Fail-fast retains its existing behavior and always surfaces the original.
@@ -117,31 +84,8 @@ internal class PipelineExecutor : IPipelineExecutor
         return pipelineSummary;
     }
 
-    /// <summary>
-    /// Runs pipeline end handlers. A handler failure never replaces an exception already thrown by
-    /// execution: in that case it is logged and recorded as a secondary pipeline error. When execution
-    /// completed, a handler failure fails the pipeline as before.
-    /// </summary>
-    private async Task InvokePipelineEndHandlersAsync(PipelineSummary pipelineSummary, bool executionFailed)
-    {
-        var cancellationToken = _engineCancellationToken.NonFailureCancellationToken;
-        try
-        {
-            await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary, cancellationToken).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            _logger.LogDebug("Pipeline end handlers were canceled");
-        }
-        catch (Exception exception) when (executionFailed)
-        {
-            // The handler invoker has already logged the individual handler failures.
-            _secondaryExceptionContainer.RegisterException(exception);
-        }
-    }
-
     private static Dictionary<Distributed.ModuleId, TimeSpan> ToModuleIdDurations(
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
+        Dictionary<Type, TimeSpan> estimatedDurations)
     {
         var durations = new Dictionary<Distributed.ModuleId, TimeSpan>(estimatedDurations.Count);
         foreach (var (moduleType, duration) in estimatedDurations)
@@ -167,26 +111,7 @@ internal class PipelineExecutor : IPipelineExecutor
                 RecordClaimedModuleMetrics(matchingModule, result);
             }
 
-            if (_executionBackendContext.TryApplyResult(matchingModule, result))
-            {
-                continue;
-            }
-
-            var resultTask = matchingModule.AsInternal().ResultTask;
-            if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
-            {
-                // A partial backend may report a different outcome than the module's completed
-                // local result, for example a success it could not publish. The completed result
-                // stays as it is, and the summary follows the reported outcome.
-                continue;
-            }
-
-            if (!resultTask.IsCompletedSuccessfully
-                || !ReferenceEquals(resultTask.Result, result))
-            {
-                throw new InvalidOperationException(
-                    $"Execution backend returned a conflicting result for module '{matchingModule.GetType().FullName}'.");
-            }
+            ApplyBackendResult(matchingModule, result);
         }
 
         if (!_executionBackend.OwnsEntirePlan)
@@ -206,6 +131,30 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return executedModules;
+    }
+
+    private void ApplyBackendResult(IModule module, IModuleResult result)
+    {
+        if (_executionBackendContext.TryApplyResult(module, result))
+        {
+            return;
+        }
+
+        var resultTask = module.AsInternal().ResultTask;
+        if (!_executionBackend.OwnsEntirePlan && resultTask.IsCompletedSuccessfully)
+        {
+            // A partial backend may report a different outcome than the module's completed
+            // local result, for example a success it could not publish. The completed result
+            // stays as it is, and the summary follows the reported outcome.
+            return;
+        }
+
+        if (!resultTask.IsCompletedSuccessfully
+            || !ReferenceEquals(resultTask.Result, result))
+        {
+            throw new InvalidOperationException(
+                $"Execution backend returned a conflicting result for module '{module.GetType().FullName}'.");
+        }
     }
 
     /// <summary>

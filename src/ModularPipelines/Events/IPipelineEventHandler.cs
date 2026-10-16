@@ -17,7 +17,7 @@ public interface IPipelineEventHandler : IEventHandler
     Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.CompletedTask;
 
     /// <summary>
-    /// Called after all modules finish.
+    /// Called after all modules finish, or when startup fails after start handlers are invoked.
     /// </summary>
     /// <param name="context">The pipeline hook context.</param>
     /// <param name="pipelineSummary">The summary of all registered module results.</param>

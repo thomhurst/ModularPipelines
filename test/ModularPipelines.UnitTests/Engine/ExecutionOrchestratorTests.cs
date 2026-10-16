@@ -16,6 +16,73 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task EndHandlerCancellation_PreservesFirstFailure(bool executionFails)
+    {
+        var organizedModules = new OrganizedModules([], []);
+        var summary = new PipelineSummary([], [], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow);
+        var initializer = new Mock<IPipelineInitializer>();
+        initializer.Setup(x => x.Initialize(It.IsAny<CancellationToken>())).ReturnsAsync(organizedModules);
+        var registrar = new Mock<IIgnoredModuleResultRegistrar>();
+        registrar.Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules)).ReturnsAsync(organizedModules);
+        var executionException = new InvalidOperationException("execution failed");
+        var executor = new Mock<IPipelineExecutor>();
+        var execution = executor.Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules));
+        if (executionFails)
+        {
+            execution.ThrowsAsync(executionException);
+        }
+        else
+        {
+            execution.ReturnsAsync(summary);
+        }
+
+        var summaryFactory = new Mock<IPipelineSummaryFactory>();
+        summaryFactory.Setup(x => x.Create(It.IsAny<IReadOnlyList<IModule>>(), It.IsAny<TimeSpan>(),
+                It.IsAny<DateTimeOffset>(), It.IsAny<DateTimeOffset>()))
+            .Returns(summary);
+        var output = new Mock<IPipelineOutputCoordinator>();
+        output.Setup(x => x.InitializeAsync()).ReturnsAsync(Mock.Of<IPipelineOutputScope>());
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var cancellationException = new OperationCanceledException(engineCancellation.NonFailureCancellationToken);
+        var setup = new Mock<IPipelineSetupExecutor>();
+        setup.SetupGet(x => x.PipelineStartInvoked).Returns(true);
+        setup.Setup(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>(), It.IsAny<CancellationToken>()))
+            .Callback(() => engineCancellation.Cancel())
+            .ThrowsAsync(cancellationException);
+        var orchestrator = new ExecutionOrchestrator(
+            initializer.Object,
+            executor.Object,
+            output.Object,
+            registrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            summaryFactory.Object,
+            engineCancellation,
+            Mock.Of<IThreadPoolConfigurator>(),
+            Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            Mock.Of<ILogger<ExecutionOrchestrator>>(),
+            CreateRunReportService(),
+            setup.Object,
+            Mock.Of<ISecondaryExceptionContainer>());
+
+        if (executionFails)
+        {
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => orchestrator.ExecuteAsync());
+            await Assert.That(exception).IsSameReferenceAs(executionException);
+        }
+        else
+        {
+            var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => orchestrator.ExecuteAsync());
+            await Assert.That(exception).IsSameReferenceAs(cancellationException);
+        }
+
+        output.Verify(x => x.PrintResults(It.Is<PipelineSummary>(result => result.Status == ModuleStatus.Failed)), Times.Once);
+        setup.Verify(x => x.OnPipelineEndAsync(It.IsAny<PipelineSummary>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
     [Arguments(ModuleStatus.Failed, true)]
     [Arguments(ModuleStatus.Failed, false)]
     [Arguments(ModuleStatus.TimedOut, true)]
@@ -58,7 +125,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions { ThrowOnPipelineFailure = throwOnFailure }),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            CreateRunReportService());
+            CreateRunReportService(),
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
 
         if (throwOnFailure)
         {
@@ -133,7 +202,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            runReportService.Object);
+            runReportService.Object,
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
         await orchestrator.ExecuteAsync();
 
         using (Assert.Multiple())
@@ -189,7 +260,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            runReportService.Object);
+            runReportService.Object,
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
 
         await orchestrator.ExecuteAsync();
 
@@ -267,7 +340,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            runReportService.Object);
+            runReportService.Object,
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
         using var callerCancellationTokenSource = new CancellationTokenSource();
 
         await orchestrator.ExecuteAsync(callerCancellationTokenSource.Token);
@@ -352,7 +427,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             logger.Object,
-            CreateRunReportService());
+            CreateRunReportService(),
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
 
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(
             () => orchestrator.ExecuteAsync());
@@ -434,7 +511,9 @@ public class ExecutionOrchestratorTests
             Mock.Of<IExceptionRethrowService>(),
             OptionsFactory.Create(new PipelineOptions()),
             Mock.Of<ILogger<ExecutionOrchestrator>>(),
-            runReportService.Object);
+            runReportService.Object,
+            Mock.Of<IPipelineSetupExecutor>(),
+            Mock.Of<ISecondaryExceptionContainer>());
 
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(
             () => orchestrator.ExecuteAsync());
