@@ -157,7 +157,26 @@ internal sealed class Command(
         var arguments = commandLine.Arguments.ToList();
         if (executionOptions.Sudo)
         {
-            arguments.Insert(0, tool);
+            var sudoArguments = new List<string> { "-n" };
+            var preservedVariables = executionOptions.EnvironmentVariables?
+                .Where(pair => pair.Value is not null)
+                .Select(pair => pair.Key)
+                .ToArray() ?? [];
+            if (preservedVariables.Any(name => name.Contains(',')))
+            {
+                throw new ArgumentException(
+                    "Environment variable names cannot contain commas when Sudo is enabled.",
+                    nameof(executionOptions));
+            }
+
+            if (preservedVariables.Length > 0)
+            {
+                sudoArguments.Add($"--preserve-env={string.Join(',', preservedVariables)}");
+            }
+
+            sudoArguments.Add("--");
+            sudoArguments.Add(tool);
+            arguments.InsertRange(0, sudoArguments);
             tool = "sudo";
         }
 

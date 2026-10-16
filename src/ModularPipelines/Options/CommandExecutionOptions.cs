@@ -50,8 +50,17 @@ public record CommandExecutionOptions
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether to prefix commands with Sudo.
+    /// Gets a value indicating whether to run commands through sudo in non-interactive mode.
     /// </summary>
+    /// <remarks>
+    /// Uses <c>sudo -n</c>, which fails instead of prompting when authentication is required.
+    /// Requests preservation of the non-null variables explicitly supplied in <see cref="EnvironmentVariables"/>
+    /// with <c>--preserve-env=&lt;keys&gt;</c>. Null values remove variables from sudo's input environment.
+    /// Variable names containing commas are not supported. Values are not included in the command arguments.
+    /// Sudo's security policy still controls environment preservation and may override variables such as PATH.
+    /// Requires a sudo implementation that supports these options and an existing authentication timestamp
+    /// or a policy that permits execution without a password.
+    /// </remarks>
     public bool Sudo { get; init; }
 
     /// <summary>
