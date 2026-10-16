@@ -36,3 +36,21 @@ The verified executable accepted `--stderrthreshold=WARNING`,
 `version --short`, returning `v1.39.0`. The version help capture also covers the
 command-local components, output, and short settings. Version API generation is
 enabled by the generator fix for #5604.
+
+## Operands omitted from Usage
+
+The upstream [image command handlers](https://github.com/kubernetes/minikube/blob/v1.39.0/cmd/minikube/cmd/image.go)
+consume image lists for `image pull` and `image push`, despite their operand-free
+Usage lines. The [cache command handlers](https://github.com/kubernetes/minikube/blob/v1.39.0/cmd/minikube/cmd/cache.go)
+likewise consume lists for `cache add` and `cache delete`. None of those handlers
+enforces a minimum argument count, so the scraper supplies optional, repeatable
+`Images` operands. `image tag` explicitly requires exactly two arguments:
+`Source`, followed by `Target`. These source-backed corrections are scoped to
+commands whose parsed Usage has no operands; future documented operands take
+precedence. `cache reload` and `node list` ignore arguments and stay operand-free.
+
+The `update-context` description spans two physical lines in the captured help.
+Shared Cobra parsing preserves the first paragraph and stops before Usage or
+another help section. The `cache reload` description is already complete despite
+having no final period. Release identities intentionally omit the optional `v`
+prefix after #6339; both spellings must resolve to the same version.

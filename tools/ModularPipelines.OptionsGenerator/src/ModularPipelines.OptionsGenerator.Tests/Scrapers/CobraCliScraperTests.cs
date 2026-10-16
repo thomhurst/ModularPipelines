@@ -306,6 +306,28 @@ public class CobraCliScraperTests
         await Assert.That(command!.Description).IsEqualTo("Disk usage");
     }
 
+    [Test]
+    [Arguments("Usage:\n  fake run [flags]")]
+    [Arguments("Available Commands:\n  child    Child command")]
+    [Arguments("Flags:\n  --trace    Trace execution")]
+    [Arguments("Aliases:\n  run, execute")]
+    [Arguments("Examples:\n  $ fake run")]
+    public async Task Wrapped_Description_Stops_Before_Sections(string section)
+    {
+        var help = "Run this command with\n  wrapped documentation.\n" + section
+            + "\n\nUsage:\n  fake run [flags]";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        await Assert.That(command!.Description).IsEqualTo("Run this command with wrapped documentation.");
+    }
+
+    [Test]
+    public async Task Description_Stops_After_First_Paragraph()
+    {
+        var help = "First paragraph\n  continues here.\n\nSecond paragraph.\n\nUsage:\n  fake run [flags]";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        await Assert.That(command!.Description).IsEqualTo("First paragraph continues here.");
+    }
+
     private sealed class TestCobraCliScraper : CobraCliScraper
     {
         public TestCobraCliScraper()

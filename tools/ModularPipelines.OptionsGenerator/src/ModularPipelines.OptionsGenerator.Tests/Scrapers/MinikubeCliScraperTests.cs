@@ -40,9 +40,14 @@ public class MinikubeCliScraperTests
     }
 
     [Test]
-    public async Task Reads_Version_From_Minikube_Version_Command()
+    [Arguments("v1.38.1")]
+    [Arguments("1.38.1")]
+    public async Task Reads_Version_From_Minikube_Version_Command(string output)
     {
-        var executor = new RecordingExecutor();
+        var executor = new RecordingExecutor
+        {
+            Result = new CliCommandResult { StandardOutput = output, StandardError = string.Empty, ExitCode = 0 },
+        };
         var scraper = new MinikubeCliScraper(
             executor,
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),

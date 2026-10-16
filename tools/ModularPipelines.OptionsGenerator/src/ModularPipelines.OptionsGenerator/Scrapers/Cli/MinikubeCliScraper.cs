@@ -69,6 +69,51 @@ public partial class MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextC
 
     protected override string VersionArguments => "version --short";
 
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts, IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (positionalArguments.Count > 0)
+        {
+            return positionalArguments;
+        }
+
+        // Minikube 1.39.0 omits these operands from Use/Usage. The handlers in
+        // cmd/minikube/cmd/image.go and cache.go consume image lists; only tag
+        // enforces an argument count (exactly two). Do not infer arity from examples.
+        return commandParts switch
+        {
+            ["image", "pull" or "push"] or ["cache", "add" or "delete"] =>
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Images",
+                    CSharpType = "IEnumerable<string>?",
+                    Description = "Image names.",
+                    IsVariadic = true,
+                },
+            ],
+            ["image", "tag"] =>
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Source",
+                    CSharpType = "string",
+                    Description = "Source image name.",
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Target",
+                    CSharpType = "string",
+                    Description = "Target image name.",
+                    PositionIndex = 1,
+                    IsRequired = true,
+                },
+            ],
+            _ => positionalArguments,
+        };
+    }
+
     /// <summary>
     /// Minikube help can initialize multiple provider clients. Bound concurrent
     /// processes to keep discovery stable on shared CI runners.
