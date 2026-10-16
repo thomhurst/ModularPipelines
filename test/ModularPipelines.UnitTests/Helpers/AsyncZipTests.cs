@@ -279,6 +279,7 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.FileExists(archivePath)).Returns(true);
         provider.Setup(fileSystem => fileSystem.OpenRead(archivePath)).Returns(input);
         provider.Setup(fileSystem => fileSystem.CreateDirectory(It.IsAny<string>()));
+        provider.Setup(fileSystem => fileSystem.GetAttributes(It.IsAny<string>())).Throws<FileNotFoundException>();
         provider.Setup(fileSystem => fileSystem.Open(
                 Path.Combine(Root, "destination", "input.txt"), It.IsAny<FileMode>(), FileAccess.Write))
             .Returns(output);

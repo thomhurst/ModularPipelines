@@ -260,6 +260,9 @@ public class ZipTests : TestBase
                 .Setup(provider => provider.CreateDirectory(It.IsAny<string>()))
                 .Callback((string path) => Directory.CreateDirectory(path));
             fileSystemProvider
+                .Setup(provider => provider.GetAttributes(It.IsAny<string>()))
+                .Returns((string path) => System.IO.File.GetAttributes(path));
+            fileSystemProvider
                 .Setup(provider => provider.OpenRead(zipPath))
                 .Returns(() => System.IO.File.OpenRead(zipPath));
             fileSystemProvider

@@ -139,16 +139,16 @@ internal partial class Zip(
         }
     }
 
-    private static string GetValidatedDestinationPath(
+    private string GetValidatedDestinationPath(
         ZipArchiveEntry entry,
         string destinationDirectory)
     {
         var destinationPath = Path.GetFullPath(
             Path.Combine(destinationDirectory, entry.FullName));
-        if (destinationPath.Equals(destinationDirectory, StringComparison.Ordinal))
+        if (Path.TrimEndingDirectorySeparator(destinationPath).Equals(
+                Path.TrimEndingDirectorySeparator(destinationDirectory), StringComparison.Ordinal))
         {
-            // Return the trusted root rather than the entry-derived path so the
-            // StartsWith check below remains the only guard on entry paths.
+            // Return the trusted root rather than the entry-derived spelling.
             return destinationDirectory;
         }
 
@@ -161,6 +161,33 @@ internal partial class Zip(
         {
             throw new InvalidOperationException(
                 $"Zip entry '{entry.FullName}' would extract outside the target directory.");
+        }
+
+        // Walk from the trusted root so no metadata query follows an unchecked ancestor.
+        // Inspect attributes directly: existence checks can hide dangling links.
+        var current = Path.TrimEndingDirectorySeparator(destinationDirectory);
+        var relativePath = Path.GetRelativePath(destinationDirectory, destinationPath);
+        foreach (var segment in relativePath.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries))
+        {
+            current = Path.Combine(current, segment);
+            try
+            {
+                var attributes = _fileSystemProvider.GetAttributes(current);
+                // FileSystemInfo.Attributes returns -1 for missing entries, with every bit set.
+                if ((int) attributes != -1 && (attributes & FileAttributes.ReparsePoint) != 0)
+                {
+                    throw new InvalidOperationException(
+                        $"Zip entry '{entry.FullName}' would extract through a symbolic link or reparse point at '{current}'.");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                // Missing components will be created after all existing components are validated.
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // A parent component does not exist yet.
+            }
         }
 
         return destinationPath;

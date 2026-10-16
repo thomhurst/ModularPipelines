@@ -9,15 +9,17 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class ZipDestinationTests
 {
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task ExtractsToDirectoryWithTrailingSeparator(bool useAlternateSeparator)
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task ExtractsToDirectoryWithTrailingSeparator(bool useAlternateSeparator, bool asynchronous)
     {
         var separator = useAlternateSeparator ? Path.AltDirectorySeparatorChar : Path.DirectorySeparatorChar;
         var destination = Path.Combine(Path.GetTempPath(), "zip-destination") + separator;
         var (zip, provider, output, archivePath) = CreateZip("artifact.txt", destination);
 
-        zip.ExtractToDirectory(archivePath, destination, overwriteFiles: false);
+        await Extract(zip, archivePath, destination, asynchronous);
 
         await Assert.That(Encoding.UTF8.GetString(output.ToArray())).IsEqualTo("archive contents");
         provider.Verify(fileSystem => fileSystem.Open(
@@ -27,18 +29,56 @@ public class ZipDestinationTests
     }
 
     [Test]
-    public async Task ExtractsToFileSystemRootThroughProvider()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ExtractsToFileSystemRootThroughProvider(bool asynchronous)
     {
         var destination = Path.GetPathRoot(Path.GetFullPath(Path.GetTempPath()))!;
         var (zip, provider, output, archivePath) = CreateZip("artifact.txt", destination);
 
-        zip.ExtractToDirectory(archivePath, destination, overwriteFiles: false);
+        await Extract(zip, archivePath, destination, asynchronous);
 
         await Assert.That(Encoding.UTF8.GetString(output.ToArray())).IsEqualTo("archive contents");
         provider.Verify(fileSystem => fileSystem.Open(
             Path.Combine(destination, "artifact.txt"),
             FileMode.CreateNew,
             FileAccess.Write), Times.Once);
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task AllowsEntryForTrustedRoot(bool asynchronous, bool trailingSeparator)
+    {
+        var destination = Path.Combine(Path.GetTempPath(), "zip-destination");
+        if (trailingSeparator)
+        {
+            destination += Path.DirectorySeparatorChar;
+        }
+
+        var (zip, provider, _, archivePath) = CreateZip("./", destination);
+
+        await Extract(zip, archivePath, destination, asynchronous);
+
+        provider.Verify(fileSystem => fileSystem.GetAttributes(It.IsAny<string>()), Times.Never);
+        provider.Verify(fileSystem => fileSystem.Open(
+            It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AllowsMissingAttributesSentinel(bool asynchronous)
+    {
+        var destination = Path.Combine(Path.GetTempPath(), "zip-destination");
+        var (zip, provider, output, archivePath) = CreateZip("artifact.txt", destination);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(It.IsAny<string>())).Returns((FileAttributes) (-1));
+
+        await Extract(zip, archivePath, destination, asynchronous);
+
+        await Assert.That(Encoding.UTF8.GetString(output.ToArray())).IsEqualTo("archive contents");
     }
 
     [Test]
@@ -86,6 +126,75 @@ public class ZipDestinationTests
             It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
     }
 
+    [Test]
+    [Arguments(false, "ordinary/link/missing/payload.txt")]
+    [Arguments(true, "ordinary/link/missing/payload.txt")]
+    [Arguments(false, "ordinary/link/missing/")]
+    [Arguments(true, "ordinary/link/missing/")]
+    [Arguments(false, "ordinary/link/")]
+    [Arguments(true, "ordinary/link/")]
+    [Arguments(false, "ordinary/link")]
+    [Arguments(true, "ordinary/link")]
+    public async Task RejectsProviderLinksBeforeCreatingEntryDirectories(bool asynchronous, string entryName)
+    {
+        var destination = Path.Combine(Path.GetTempPath(), "virtual-zip-destination");
+        var parent = Path.Combine(destination, "ordinary");
+        var link = Path.Combine(parent, "link");
+        var (zip, provider, _, archivePath) = CreateZip(entryName, destination);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(parent)).Returns(FileAttributes.Directory);
+        // Existence probes return false, as they can for dangling links. Attributes are authoritative.
+        provider.Setup(fileSystem => fileSystem.GetAttributes(link)).Returns(FileAttributes.ReparsePoint);
+
+        if (asynchronous)
+        {
+            await Assert.That(() => (Task) zip.ExtractToDirectoryAsync(archivePath, destination, overwriteFiles: true))
+                .Throws<InvalidOperationException>();
+        }
+        else
+        {
+            await Assert.That(() => zip.ExtractToDirectory(archivePath, destination, overwriteFiles: true))
+                .Throws<InvalidOperationException>();
+        }
+
+        provider.Verify(fileSystem => fileSystem.GetAttributes(link), Times.Once);
+        provider.Verify(fileSystem => fileSystem.GetAttributes(parent), Times.Once);
+        provider.Verify(fileSystem => fileSystem.CreateDirectory(It.Is<string>(path => path != destination)), Times.Never);
+        provider.Verify(fileSystem => fileSystem.Open(
+            It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+        provider.Verify(fileSystem => fileSystem.GetAttributes(
+            It.Is<string>(path => path.StartsWith(link + Path.DirectorySeparatorChar, StringComparison.Ordinal))), Times.Never);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task MetadataAccessFailurePreventsEntryWrites(bool asynchronous)
+    {
+        var destination = Path.Combine(Path.GetTempPath(), "virtual-zip-destination");
+        var (zip, provider, _, archivePath) = CreateZip("artifact.txt", destination);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(Path.Combine(destination, "artifact.txt")))
+            .Throws<UnauthorizedAccessException>();
+
+        await Assert.That(() => Extract(zip, archivePath, destination, asynchronous)).Throws<UnauthorizedAccessException>();
+
+        provider.Verify(fileSystem => fileSystem.Open(
+            It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+        // Only the trusted extraction root may be created before entry validation.
+        provider.Verify(fileSystem => fileSystem.CreateDirectory(destination), Times.Once);
+    }
+
+    private static async Task Extract(Zip zip, string archivePath, string destination, bool asynchronous)
+    {
+        if (asynchronous)
+        {
+            await zip.ExtractToDirectoryAsync(archivePath, destination, overwriteFiles: false);
+        }
+        else
+        {
+            zip.ExtractToDirectory(archivePath, destination, overwriteFiles: false);
+        }
+    }
+
     private static (Zip Zip, Mock<IFileSystemProvider> Provider, MemoryStream Output, string ArchivePath) CreateZip(
         string entryName,
         string destination)
@@ -106,6 +215,7 @@ public class ZipDestinationTests
         provider.Setup(fileSystem => fileSystem.OpenRead(archivePath))
             .Returns(() => new MemoryStream(archiveData));
         provider.Setup(fileSystem => fileSystem.CreateDirectory(It.IsAny<string>()));
+        provider.Setup(fileSystem => fileSystem.GetAttributes(It.IsAny<string>())).Throws<FileNotFoundException>();
         provider.Setup(fileSystem => fileSystem.Open(
                 Path.GetFullPath(Path.Combine(destination, "artifact.txt")),
                 FileMode.CreateNew,
