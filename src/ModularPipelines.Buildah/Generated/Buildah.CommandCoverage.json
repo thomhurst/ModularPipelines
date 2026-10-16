@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "buildah",
-  "toolVersion": "buildah version 1.33.7 (image-spec 1.1.0-rc.5, runtime-spec 1.1.0)",
+  "toolVersion": "1.33.7",
   "commandCount": 38,
   "commandTreeSha256": "6e05611b293df560d3677b63b74487fe09cd87c09e0aeb7c85a94a72202e5e19",
   "commands": [
