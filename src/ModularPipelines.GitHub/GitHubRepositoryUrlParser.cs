@@ -18,22 +18,7 @@ internal static class GitHubRepositoryUrlParser
             return false;
         }
 
-        var normalizedUrl = remoteUrl.Trim();
-        var sshPrefix = $"git@{server.Host}:";
-        string repositoryPath;
-
-        if (normalizedUrl.StartsWith(sshPrefix, StringComparison.OrdinalIgnoreCase))
-        {
-            repositoryPath = normalizedUrl[sshPrefix.Length..];
-        }
-        else if (Uri.TryCreate(normalizedUrl, UriKind.Absolute, out var uri)
-                 && uri.Host.Equals(server.Host, StringComparison.OrdinalIgnoreCase)
-                 && ((uri.Scheme == server.Scheme && uri.Port == server.Port)
-                     || uri.Scheme == "ssh"))
-        {
-            repositoryPath = uri.AbsolutePath;
-        }
-        else
+        if (!TryGetRepositoryPath(remoteUrl.Trim(), server, out var repositoryPath))
         {
             return false;
         }
@@ -61,6 +46,28 @@ internal static class GitHubRepositoryUrlParser
 
         owner = string.Empty;
         repositoryName = string.Empty;
+        return false;
+    }
+
+    private static bool TryGetRepositoryPath(string remoteUrl, Uri server, out string repositoryPath)
+    {
+        var sshPrefix = $"git@{server.Host}:";
+        if (remoteUrl.StartsWith(sshPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            repositoryPath = remoteUrl[sshPrefix.Length..];
+            return true;
+        }
+
+        if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
+            && uri.Host.Equals(server.Host, StringComparison.OrdinalIgnoreCase)
+            && ((uri.Scheme == server.Scheme && uri.Port == server.Port)
+                || uri.Scheme == "ssh"))
+        {
+            repositoryPath = uri.AbsolutePath;
+            return true;
+        }
+
+        repositoryPath = string.Empty;
         return false;
     }
 }
