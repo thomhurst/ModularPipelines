@@ -109,6 +109,8 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 
 ## Blob Storage Access via User Identity[​](#blob-storage-access-via-user-identity "Direct link to Blob Storage Access via User Identity")
 
+Use the [Storage Blob Data Owner built-in role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/storage#storage-blob-data-owner) from the storage account's subscription.
+
 ```
 [DependsOn<ProvisionBlobStorageAccountModule>]
 
@@ -130,11 +132,17 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
 
 
+        var blobStorageOwnerRoleDefinitionId = new Azure.Core.ResourceIdentifier(
+
+            $"/subscriptions/{storageAccount.Value.Id.SubscriptionId}/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b");
+
+
+
         var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignmentAsync(
 
             storageAccount.Value.Id,
 
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value),
+            new RoleAssignmentCreateOrUpdateContent(blobStorageOwnerRoleDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value),
 
             cancellationToken
 
@@ -237,6 +245,8 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
         return functionProvisionResponse.Value;
 
     }
+
+}
 ```
 
 So we can clearly see what depends on what.
