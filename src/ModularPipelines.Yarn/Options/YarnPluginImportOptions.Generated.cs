@@ -21,9 +21,32 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnPluginImportOptions : YarnOptions
 {
     /// <summary>
+    /// This command downloads the specified plugin from its remote location and updates
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public YarnPluginImportOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
     /// Whether to care if this plugin is modified
     /// </summary>
     [CliFlag("--checksum")]
     public bool? Checksum { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }

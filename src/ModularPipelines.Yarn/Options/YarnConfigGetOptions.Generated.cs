@@ -21,6 +21,23 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnConfigGetOptions : YarnOptions
 {
     /// <summary>
+    /// This command will print a configuration setting.
+    /// </summary>
+    /// <param name="Name">The &lt;name&gt; operand.</param>
+    public YarnConfigGetOptions(
+        string Name
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Name);
+        this.Name = Name;
+    }
+
+    public void Deconstruct(out string Name)
+    {
+        Name = this.Name;
+    }
+
+    /// <summary>
     /// Print the explanation for why a setting has its value
     /// </summary>
     [CliFlag("--why")]
@@ -37,5 +54,11 @@ public record YarnConfigGetOptions : YarnOptions
     /// </summary>
     [CliFlag("--no-redacted")]
     public bool? NoRedacted { get; set; }
+
+    /// <summary>
+    /// The &lt;name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Name { get; private init; }
 
 }
