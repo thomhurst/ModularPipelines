@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws vpclattice commands.
+/// aws vpc-lattice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsVpcLattice : IAwsVpcLattice
@@ -797,21 +797,6 @@ public class AwsVpcLattice : IAwsVpcLattice
     }
 
     /// <summary>
-    /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network. See also: AWS API Documentation list-service-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServiceNetworksAsync(
-        AwsVpcLatticeListServiceNetworksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVpcLatticeListServiceNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide ei- ther the ID of the service network identifier or the ID of the VPC. See also: AWS API Documentation list-service-network-vpc-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -839,6 +824,21 @@ public class AwsVpcLattice : IAwsVpcLattice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network. See also: AWS API Documentation list-service-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServiceNetworksAsync(
+        AwsVpcLatticeListServiceNetworksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsVpcLatticeListServiceNetworksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

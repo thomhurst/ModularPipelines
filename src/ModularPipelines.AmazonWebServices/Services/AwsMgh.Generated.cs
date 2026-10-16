@@ -242,21 +242,6 @@ public class AwsMgh : IAwsMgh
     }
 
     /// <summary>
-    /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits: o Can show a summary list of the most recent migration tasks. o Can show a summary list of migration tasks associated with a given discovered resource. o Lists migration tasks in a paginated interface. See also: AWS API Documentation list-migration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMigrationTasksAsync(
-        AwsMghListMigrationTasksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMghListMigrationTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream . See also: AWS API Documentation list-migration-task-updates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -269,6 +254,21 @@ public class AwsMgh : IAwsMgh
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits: o Can show a summary list of the most recent migration tasks. o Can show a summary list of migration tasks associated with a given discovered resource. o Lists migration tasks in a paginated interface. See also: AWS API Documentation list-migration-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMigrationTasksAsync(
+        AwsMghListMigrationTasksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMghListMigrationTasksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

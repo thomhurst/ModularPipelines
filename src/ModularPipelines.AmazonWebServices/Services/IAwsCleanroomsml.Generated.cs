@@ -28,8 +28,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelTrainedModelInferenceJobAsync(AwsCleanroomsmlCancelTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelTrainedModelInferenceJobAsync(AwsCleanroomsmlCancelTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a request to cancel the trained model job. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelTrainedModelAsync(AwsCleanroomsmlCancelTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelTrainedModelAsync(AwsCleanroomsmlCancelTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines the information necessary to create an audience model. An audi- ence model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAudienceModelAsync(AwsCleanroomsmlCreateAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAudienceModelAsync(AwsCleanroomsmlCreateAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines the information necessary to create a configured audience model. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfiguredAudienceModelAsync(AwsCleanroomsmlCreateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfiguredAudienceModelAsync(AwsCleanroomsmlCreateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlCreateConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlCreateConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configured model algorithm using a container image stored in an ECR repository. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfiguredModelAlgorithmAsync(AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfiguredModelAlgorithmAsync(AwsCleanroomsmlCreateConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMlInputChannelAsync(AwsCleanroomsmlCreateMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMlInputChannelAsync(AwsCleanroomsmlCreateMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrainedModelAsync(AwsCleanroomsmlCreateTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrainedModelAsync(AwsCleanroomsmlCreateTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrainingDataSetAsync(AwsCleanroomsmlCreateTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrainingDataSetAsync(AwsCleanroomsmlCreateTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified audience generation job, and removes all data as- sociated with the job. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAudienceGenerationJobAsync(AwsCleanroomsmlDeleteAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAudienceGenerationJobAsync(AwsCleanroomsmlDeleteAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that de- pend on the audience model. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAudienceModelAsync(AwsCleanroomsmlDeleteAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAudienceModelAsync(AwsCleanroomsmlDeleteAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfiguredAudienceModelAsync(AwsCleanroomsmlDeleteConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfiguredAudienceModelAsync(AwsCleanroomsmlDeleteConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified configured audience model policy. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a configured model algorithm association. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlDeleteConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlDeleteConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a configured model algorithm. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfiguredModelAlgorithmAsync(AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfiguredModelAlgorithmAsync(AwsCleanroomsmlDeleteConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a ML modeling configuration. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlConfigurationAsync(AwsCleanroomsmlDeleteMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlConfigurationAsync(AwsCleanroomsmlDeleteMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the information necessary to delete an ML input channel. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlInputChannelDataAsync(AwsCleanroomsmlDeleteMlInputChannelDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlInputChannelDataAsync(AwsCleanroomsmlDeleteMlInputChannelDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the model artifacts stored by the service. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrainedModelOutputAsync(AwsCleanroomsmlDeleteTrainedModelOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrainedModelOutputAsync(AwsCleanroomsmlDeleteTrainedModelOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrainingDataSetAsync(AwsCleanroomsmlDeleteTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrainingDataSetAsync(AwsCleanroomsmlDeleteTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an audience generation job. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAudienceGenerationJobAsync(AwsCleanroomsmlGetAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAudienceGenerationJobAsync(AwsCleanroomsmlGetAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an audience model See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAudienceModelAsync(AwsCleanroomsmlGetAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAudienceModelAsync(AwsCleanroomsmlGetAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the configured model algorithm association in a collaboration. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCollaborationConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCollaborationConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlGetCollaborationConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific ML input channel in a collabora- tion. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCollaborationMlInputChannelAsync(AwsCleanroomsmlGetCollaborationMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCollaborationMlInputChannelAsync(AwsCleanroomsmlGetCollaborationMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a trained model in a collaboration. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCollaborationTrainedModelAsync(AwsCleanroomsmlGetCollaborationTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCollaborationTrainedModelAsync(AwsCleanroomsmlGetCollaborationTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specified configured audience model. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfiguredAudienceModelAsync(AwsCleanroomsmlGetConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfiguredAudienceModelAsync(AwsCleanroomsmlGetConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a configured audience model policy. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlGetConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlGetConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a configured model algorithm association. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlGetConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfiguredModelAlgorithmAssociationAsync(AwsCleanroomsmlGetConfiguredModelAlgorithmAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a configured model algorithm. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfiguredModelAlgorithmAsync(AwsCleanroomsmlGetConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfiguredModelAlgorithmAsync(AwsCleanroomsmlGetConfiguredModelAlgorithmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific ML configuration. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlConfigurationAsync(AwsCleanroomsmlGetMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlConfigurationAsync(AwsCleanroomsmlGetMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an ML input channel. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlInputChannelAsync(AwsCleanroomsmlGetMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlInputChannelAsync(AwsCleanroomsmlGetMlInputChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a trained model inference job. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrainedModelInferenceJobAsync(AwsCleanroomsmlGetTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrainedModelInferenceJobAsync(AwsCleanroomsmlGetTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a trained model. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrainedModelAsync(AwsCleanroomsmlGetTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrainedModelAsync(AwsCleanroomsmlGetTrainedModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a training dataset. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrainingDataSetAsync(AwsCleanroomsmlGetTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrainingDataSetAsync(AwsCleanroomsmlGetTrainingDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the audience export jobs. See also: AWS API Documentation list-audience-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: audienceExportJobs
@@ -358,8 +325,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAudienceExportJobsAsync(AwsCleanroomsmlListAudienceExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAudienceExportJobsAsync(AwsCleanroomsmlListAudienceExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of audience generation jobs. See also: AWS API Documentation list-audience-generation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: audienceGenerationJobs
@@ -368,8 +334,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAudienceGenerationJobsAsync(AwsCleanroomsmlListAudienceGenerationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAudienceGenerationJobsAsync(AwsCleanroomsmlListAudienceGenerationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of audience models. See also: AWS API Documentation list-audience-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: audienceModels
@@ -378,8 +343,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAudienceModelsAsync(AwsCleanroomsmlListAudienceModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAudienceModelsAsync(AwsCleanroomsmlListAudienceModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the configured model algorithm associations in a col- laboration. See also: AWS API Documentation list-collaboration-configured-model-algorithm-associations is a pagi- nated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
@@ -388,8 +352,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCollaborationConfiguredModelAlgorithmAssociationsAsync(AwsCleanroomsmlListCollaborationConfiguredModelAlgorithmAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCollaborationConfiguredModelAlgorithmAssociationsAsync(AwsCleanroomsmlListCollaborationConfiguredModelAlgorithmAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the ML input channels in a collaboration. See also: AWS API Documentation list-collaboration-ml-input-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationMLInput...
@@ -398,8 +361,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCollaborationMlInputChannelsAsync(AwsCleanroomsmlListCollaborationMlInputChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCollaborationMlInputChannelsAsync(AwsCleanroomsmlListCollaborationMlInputChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the export jobs for a trained model in a collabora- tion. See also: AWS API Documentation list-collaboration-trained-model-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
@@ -408,8 +370,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCollaborationTrainedModelExportJobsAsync(AwsCleanroomsmlListCollaborationTrainedModelExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCollaborationTrainedModelExportJobsAsync(AwsCleanroomsmlListCollaborationTrainedModelExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of trained model inference jobs in a specified collabo- ration. See also: AWS API Documentation list-collaboration-trained-model-inference-jobs is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query exp...
@@ -418,8 +379,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCollaborationTrainedModelInferenceJobsAsync(AwsCleanroomsmlListCollaborationTrainedModelInferenceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCollaborationTrainedModelInferenceJobsAsync(AwsCleanroomsmlListCollaborationTrainedModelInferenceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the trained models in a collaboration. See also: AWS API Documentation list-collaboration-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationTrainedModels
@@ -428,8 +388,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCollaborationTrainedModelsAsync(AwsCleanroomsmlListCollaborationTrainedModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCollaborationTrainedModelsAsync(AwsCleanroomsmlListCollaborationTrainedModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the configured audience models. See also: AWS API Documentation list-configured-audience-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredAudienceModels
@@ -438,8 +397,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfiguredAudienceModelsAsync(AwsCleanroomsmlListConfiguredAudienceModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfiguredAudienceModelsAsync(AwsCleanroomsmlListConfiguredAudienceModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of configured model algorithm associations. See also: AWS API Documentation list-configured-model-algorithm-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: configuredMod...
@@ -448,8 +406,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfiguredModelAlgorithmAssociationsAsync(AwsCleanroomsmlListConfiguredModelAlgorithmAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfiguredModelAlgorithmAssociationsAsync(AwsCleanroomsmlListConfiguredModelAlgorithmAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of configured model algorithms. See also: AWS API Documentation list-configured-model-algorithms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredModelAlgorithms
@@ -458,8 +415,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfiguredModelAlgorithmsAsync(AwsCleanroomsmlListConfiguredModelAlgorithmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfiguredModelAlgorithmsAsync(AwsCleanroomsmlListConfiguredModelAlgorithmsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of ML input channels. See also: AWS API Documentation list-ml-input-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: mlInputChannelsList
@@ -468,8 +424,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMlInputChannelsAsync(AwsCleanroomsmlListMlInputChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMlInputChannelsAsync(AwsCleanroomsmlListMlInputChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags for a provided resource. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCleanroomsmlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCleanroomsmlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of trained model inference jobs that match the request parameters. See also: AWS API Documentation list-trained-model-inference-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: t...
@@ -488,18 +442,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainedModelInferenceJobsAsync(AwsCleanroomsmlListTrainedModelInferenceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of trained models. See also: AWS API Documentation list-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: trainedModels
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainedModelsAsync(AwsCleanroomsmlListTrainedModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainedModelInferenceJobsAsync(AwsCleanroomsmlListTrainedModelInferenceJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, in- cluding information about their status and creation details. You can use this to track the evolution of your trained models and select spe- cific versions for inference or further training. See also: AWS API Documentation list-trained-model-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- ...
@@ -508,8 +451,16 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainedModelVersionsAsync(AwsCleanroomsmlListTrainedModelVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainedModelVersionsAsync(AwsCleanroomsmlListTrainedModelVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a list of trained models. See also: AWS API Documentation list-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: trainedModels
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListTrainedModelsAsync(AwsCleanroomsmlListTrainedModelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of training datasets. See also: AWS API Documentation list-training-datasets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: trainingDatasets
@@ -518,8 +469,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrainingDatasetsAsync(AwsCleanroomsmlListTrainingDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrainingDatasetsAsync(AwsCleanroomsmlListTrainingDatasetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create or update the resource policy for a configured audience model. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfiguredAudienceModelPolicyAsync(AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns information about an ML configuration. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMlConfigurationAsync(AwsCleanroomsmlPutMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMlConfigurationAsync(AwsCleanroomsmlPutMlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export an audience of a specified size after you have generated an au- dience. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAudienceExportJobAsync(AwsCleanroomsmlStartAudienceExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAudienceExportJobAsync(AwsCleanroomsmlStartAudienceExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Information necessary to start the audience generation job. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAudienceGenerationJobAsync(AwsCleanroomsmlStartAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAudienceGenerationJobAsync(AwsCleanroomsmlStartAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the information necessary to start a trained model export job. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTrainedModelExportJobAsync(AwsCleanroomsmlStartTrainedModelExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTrainedModelExportJobAsync(AwsCleanroomsmlStartTrainedModelExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines the information necessary to begin a trained model inference job. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTrainedModelInferenceJobAsync(AwsCleanroomsmlStartTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTrainedModelInferenceJobAsync(AwsCleanroomsmlStartTrainedModelInferenceJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds metadata tags to a specified resource. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCleanroomsmlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCleanroomsmlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes metadata tags from a specified resource. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCleanroomsmlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCleanroomsmlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs. See also: AWS API Documentation
@@ -608,7 +550,6 @@ public interface IAwsCleanroomsml
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfiguredAudienceModelAsync(AwsCleanroomsmlUpdateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfiguredAudienceModelAsync(AwsCleanroomsmlUpdateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

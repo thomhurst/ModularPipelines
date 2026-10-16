@@ -617,21 +617,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: o All customizations are removed including themes, branding, and vi- sual settings o This action cannot be undone through the API o Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteAccountCustomizationAsync(
-        AwsQuicksightDeleteAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Unapplies a custom permissions profile from an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -640,6 +625,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAccountCustomPermissionAsync(
         AwsQuicksightDeleteAccountCustomPermissionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: o All customizations are removed including themes, branding, and vi- sual settings o This action cannot be undone through the API o Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAccountCustomizationAsync(
+        AwsQuicksightDeleteAccountCustomizationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1262,21 +1262,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAccountCustomizationAsync(
-        AwsQuicksightDescribeAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the custom permissions profile that is applied to an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1285,6 +1270,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAccountCustomPermissionAsync(
         AwsQuicksightDescribeAccountCustomPermissionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight con- sole evaluates which customizations to apply by running this API opera- tion with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved. o Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the po...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAccountCustomizationAsync(
+        AwsQuicksightDescribeAccountCustomizationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2582,21 +2582,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists dashboards in an Amazon Web Services account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DashboardSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDashboardsAsync(
-        AwsQuicksightListDashboardsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions of the dashboards in the Amazon Quick Sight sub- scription. See also: AWS API Documentation list-dashboard-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DashboardVer...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2605,6 +2590,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDashboardVersionsAsync(
         AwsQuicksightListDashboardVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists dashboards in an Amazon Web Services account. See also: AWS API Documentation list-dashboards is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DashboardSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDashboardsAsync(
+        AwsQuicksightListDashboardsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2972,21 +2972,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTemplatesAsync(
-        AwsQuicksightListTemplatesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions of the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateVersion...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2995,6 +2980,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTemplateVersionsAsync(
         AwsQuicksightListTemplateVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all the templates in the current Amazon Quick Sight account. See also: AWS API Documentation list-templates is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TemplateSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTemplatesAsync(
+        AwsQuicksightListTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3017,21 +3017,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Lists all the themes in the current Amazon Web Services account. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ThemeSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThemesAsync(
-        AwsQuicksightListThemesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions of the themes in the current Amazon Web Services account. See also: AWS API Documentation list-theme-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ThemeVersionSummaryL...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3040,6 +3025,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListThemeVersionsAsync(
         AwsQuicksightListThemeVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all the themes in the current Amazon Web Services account. See also: AWS API Documentation list-themes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ThemeSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThemesAsync(
+        AwsQuicksightListThemesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3542,21 +3542,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateAccountCustomizationAsync(
-        AwsQuicksightUpdateAccountCustomizationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Applies a custom permissions profile to an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3565,6 +3550,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAccountCustomPermissionAsync(
         AwsQuicksightUpdateAccountCustomPermissionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates Amazon Quick Sight customizations. Currently, the only cus- tomization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Cus- tomizations that apply to a namespace override customizations that ap- ply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateAccountCustomizationAsync(
+        AwsQuicksightUpdateAccountCustomizationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3677,21 +3677,6 @@ public class AwsQuicksight : IAwsQuicksight
     }
 
     /// <summary>
-    /// Updates an Quick application with a token exchange grant. This opera- tion only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateApplicationWithTokenExchangeGrantAsync(
-        AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3700,6 +3685,21 @@ public class AwsQuicksight : IAwsQuicksight
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAppPermissionsAsync(
         AwsQuicksightUpdateAppPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates an Quick application with a token exchange grant. This opera- tion only supports Quick applications that are registered with IAM Identity Center. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateApplicationWithTokenExchangeGrantAsync(
+        AwsQuicksightUpdateApplicationWithTokenExchangeGrantOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

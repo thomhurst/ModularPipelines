@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakera2iruntime commands.
+/// aws sagemaker-a2i-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerA2IRuntime : IAwsSagemakerA2IRuntime

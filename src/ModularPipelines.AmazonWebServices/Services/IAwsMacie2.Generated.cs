@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMacie2
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws macie2 wait sub-commands.
     /// </summary>
-    AwsMacie2Wait Wait => throw new System.NotSupportedException();
+    AwsMacie2Wait Wait { get; }
 
     /// <summary>
     /// Accepts an Amazon Macie membership invitation that was received from a specific account. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptInvitationAsync(AwsMacie2AcceptInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptInvitationAsync(AwsMacie2AcceptInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about one or more custom data identifiers. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetCustomDataIdentifiersAsync(AwsMacie2BatchGetCustomDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetCustomDataIdentifiersAsync(AwsMacie2BatchGetCustomDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the status of automated sensitive data discovery for one or more accounts. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateAutomatedDiscoveryAccountsAsync(AwsMacie2BatchUpdateAutomatedDiscoveryAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateAutomatedDiscoveryAccountsAsync(AwsMacie2BatchUpdateAutomatedDiscoveryAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and defines the settings for an allow list. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAllowListAsync(AwsMacie2CreateAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAllowListAsync(AwsMacie2CreateAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and defines the settings for a classification job. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClassificationJobAsync(AwsMacie2CreateClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClassificationJobAsync(AwsMacie2CreateClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and defines the criteria and other settings for a custom data identifier. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomDataIdentifierAsync(AwsMacie2CreateCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomDataIdentifierAsync(AwsMacie2CreateCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and defines the criteria and other settings for a findings fil- ter. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFindingsFilterAsync(AwsMacie2CreateFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFindingsFilterAsync(AwsMacie2CreateFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an Amazon Macie membership invitation to one or more accounts. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInvitationsAsync(AwsMacie2CreateInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInvitationsAsync(AwsMacie2CreateInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an account with an Amazon Macie administrator account. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMemberAsync(AwsMacie2CreateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMemberAsync(AwsMacie2CreateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates sample findings. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSampleFindingsAsync(AwsMacie2CreateSampleFindingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSampleFindingsAsync(AwsMacie2CreateSampleFindingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Declines Amazon Macie membership invitations that were received from specific accounts. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeclineInvitationsAsync(AwsMacie2DeclineInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeclineInvitationsAsync(AwsMacie2DeclineInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an allow list. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAllowListAsync(AwsMacie2DeleteAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAllowListAsync(AwsMacie2DeleteAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Soft deletes a custom data identifier. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomDataIdentifierAsync(AwsMacie2DeleteCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomDataIdentifierAsync(AwsMacie2DeleteCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a findings filter. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFindingsFilterAsync(AwsMacie2DeleteFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFindingsFilterAsync(AwsMacie2DeleteFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes Amazon Macie membership invitations that were received from specific accounts. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInvitationsAsync(AwsMacie2DeleteInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInvitationsAsync(AwsMacie2DeleteInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the association between an Amazon Macie administrator account and an account. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMemberAsync(AwsMacie2DeleteMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMemberAsync(AwsMacie2DeleteMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account. See also: AWS API Documentation describe-buckets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
@@ -193,8 +177,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBucketsAsync(AwsMacie2DescribeBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBucketsAsync(AwsMacie2DescribeBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and settings for a classification job. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClassificationJobAsync(AwsMacie2DescribeClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClassificationJobAsync(AwsMacie2DescribeClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationConfigurationAsync(AwsMacie2DescribeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrganizationConfigurationAsync(AwsMacie2DescribeOrganizationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Amazon Macie and deletes all settings and resources for a Ma- cie account. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableMacieAsync(AwsMacie2DisableMacieOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableMacieAsync(AwsMacie2DisableMacieOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableOrganizationAdminAccountAsync(AwsMacie2DisableOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableOrganizationAdminAccountAsync(AwsMacie2DisableOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a member account from its Amazon Macie administrator ac- count. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFromAdministratorAccountAsync(AwsMacie2DisassociateFromAdministratorAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateFromAdministratorAccountAsync(AwsMacie2DisassociateFromAdministratorAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// (Deprecated) Disassociates a member account from its Amazon Macie ad- ministrator account. This operation has been replaced by the Disassoci- ateFromAdministratorAccountoperation. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFromMasterAccountAsync(AwsMacie2DisassociateFromMasterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateFromMasterAccountAsync(AwsMacie2DisassociateFromMasterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an Amazon Macie administrator account from a member ac- count. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateMemberAsync(AwsMacie2DisassociateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateMemberAsync(AwsMacie2DisassociateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Amazon Macie and specifies the configuration settings for a Ma- cie account. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableMacieAsync(AwsMacie2EnableMacieOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableMacieAsync(AwsMacie2EnableMacieOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Designates an account as the delegated Amazon Macie administrator ac- count for an organization in Organizations. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableOrganizationAdminAccountAsync(AwsMacie2EnableOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableOrganizationAdminAccountAsync(AwsMacie2EnableOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the Amazon Macie administrator account for an account. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAdministratorAccountAsync(AwsMacie2GetAdministratorAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAdministratorAccountAsync(AwsMacie2GetAdministratorAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the settings and status of an allow list. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAllowListAsync(AwsMacie2GetAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAllowListAsync(AwsMacie2GetAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutomatedDiscoveryConfigurationAsync(AwsMacie2GetAutomatedDiscoveryConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutomatedDiscoveryConfigurationAsync(AwsMacie2GetAutomatedDiscoveryConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) aggregated statistical data about all the S3 buck- ets that Amazon Macie monitors and analyzes for an account. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketStatisticsAsync(AwsMacie2GetBucketStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketStatisticsAsync(AwsMacie2GetBucketStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the configuration settings for storing data classification results. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClassificationExportConfigurationAsync(AwsMacie2GetClassificationExportConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClassificationExportConfigurationAsync(AwsMacie2GetClassificationExportConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the classification scope settings for an account. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClassificationScopeAsync(AwsMacie2GetClassificationScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClassificationScopeAsync(AwsMacie2GetClassificationScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the criteria and other settings for a custom data identifier. See also: AWS API Documentation
@@ -353,38 +321,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomDataIdentifierAsync(AwsMacie2GetCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves the criteria and other settings for a findings filter. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingsFilterAsync(AwsMacie2GetFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves the details of one or more findings. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingsAsync(AwsMacie2GetFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves the configuration settings for publishing findings to Secu- rity Hub. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingsPublicationConfigurationAsync(AwsMacie2GetFindingsPublicationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomDataIdentifierAsync(AwsMacie2GetCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
@@ -393,8 +330,34 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFindingStatisticsAsync(AwsMacie2GetFindingStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFindingStatisticsAsync(AwsMacie2GetFindingStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the criteria and other settings for a findings filter. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetFindingsFilterAsync(AwsMacie2GetFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the details of one or more findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetFindingsAsync(AwsMacie2GetFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the configuration settings for publishing findings to Secu- rity Hub. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GetFindingsPublicationConfigurationAsync(AwsMacie2GetFindingsPublicationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInvitationsCountAsync(AwsMacie2GetInvitationsCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInvitationsCountAsync(AwsMacie2GetInvitationsCountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and configuration settings for an Amazon Macie ac- count. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMacieSessionAsync(AwsMacie2GetMacieSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMacieSessionAsync(AwsMacie2GetMacieSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAd- ministratorAccountoperation. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMasterAccountAsync(AwsMacie2GetMasterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMasterAccountAsync(AwsMacie2GetMasterAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMemberAsync(AwsMacie2GetMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMemberAsync(AwsMacie2GetMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) sensitive data discovery statistics and the sensi- tivity score for an S3 bucket. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceProfileAsync(AwsMacie2GetResourceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceProfileAsync(AwsMacie2GetResourceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRevealConfigurationAsync(AwsMacie2GetRevealConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRevealConfigurationAsync(AwsMacie2GetRevealConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether occurrences of sensitive data can be retrieved for a finding. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSensitiveDataOccurrencesAvailabilityAsync(AwsMacie2GetSensitiveDataOccurrencesAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSensitiveDataOccurrencesAvailabilityAsync(AwsMacie2GetSensitiveDataOccurrencesAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves occurrences of sensitive data reported by a finding. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSensitiveDataOccurrencesAsync(AwsMacie2GetSensitiveDataOccurrencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSensitiveDataOccurrencesAsync(AwsMacie2GetSensitiveDataOccurrencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the settings for the sensitivity inspection template for an account. See also: AWS API Documentation
@@ -483,8 +438,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSensitivityInspectionTemplateAsync(AwsMacie2GetSensitivityInspectionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSensitivityInspectionTemplateAsync(AwsMacie2GetSensitivityInspectionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts. See also: AWS API Documentation get-usage-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: records
@@ -493,8 +447,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageStatisticsAsync(AwsMacie2GetUsageStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageStatisticsAsync(AwsMacie2GetUsageStatisticsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) aggregated usage data for an account. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageTotalsAsync(AwsMacie2GetUsageTotalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageTotalsAsync(AwsMacie2GetUsageTotalsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about all the allow lists for an ac- count. See also: AWS API Documentation list-allow-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: allowLists
@@ -513,8 +465,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAllowListsAsync(AwsMacie2ListAllowListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAllowListsAsync(AwsMacie2ListAllowListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of automated sensitive data discovery for one or more accounts. See also: AWS API Documentation list-automated-discovery-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
@@ -523,8 +474,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutomatedDiscoveryAccountsAsync(AwsMacie2ListAutomatedDiscoveryAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutomatedDiscoveryAccountsAsync(AwsMacie2ListAutomatedDiscoveryAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about one or more classification jobs. See also: AWS API Documentation list-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -533,8 +483,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClassificationJobsAsync(AwsMacie2ListClassificationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClassificationJobsAsync(AwsMacie2ListClassificationJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about the classification scope for an account. See also: AWS API Documentation list-classification-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: classificat...
@@ -543,8 +492,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListClassificationScopesAsync(AwsMacie2ListClassificationScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListClassificationScopesAsync(AwsMacie2ListClassificationScopesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about the custom data identifiers for an account. See also: AWS API Documentation list-custom-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: item...
@@ -553,8 +501,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomDataIdentifiersAsync(AwsMacie2ListCustomDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomDataIdentifiersAsync(AwsMacie2ListCustomDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about all the findings filters for an account. See also: AWS API Documentation list-findings-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingsFilterList...
@@ -563,8 +510,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFindingsFiltersAsync(AwsMacie2ListFindingsFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFindingsFiltersAsync(AwsMacie2ListFindingsFiltersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about one or more findings. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingIds
@@ -573,8 +519,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFindingsAsync(AwsMacie2ListFindingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFindingsAsync(AwsMacie2ListFindingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about Amazon Macie membership invitations that were received by an account. See also: AWS API Documentation list-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: invita...
@@ -583,8 +528,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInvitationsAsync(AwsMacie2ListInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInvitationsAsync(AwsMacie2ListInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all the managed data identifiers that Ama- zon Macie currently provides. See also: AWS API Documentation list-managed-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
@@ -593,8 +537,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedDataIdentifiersAsync(AwsMacie2ListManagedDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedDataIdentifiersAsync(AwsMacie2ListManagedDataIdentifiersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions:...
@@ -603,8 +546,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMembersAsync(AwsMacie2ListMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMembersAsync(AwsMacie2ListMembersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation list-organization-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
@@ -613,8 +555,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationAdminAccountsAsync(AwsMacie2ListOrganizationAdminAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationAdminAccountsAsync(AwsMacie2ListOrganizationAdminAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery. See also: AWS API Documentation list-resource-profile-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
@@ -623,8 +564,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceProfileArtifactsAsync(AwsMacie2ListResourceProfileArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceProfileArtifactsAsync(AwsMacie2ListResourceProfileArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket. See also: AWS API Documentation list-resource-profile-detections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
@@ -633,8 +573,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceProfileDetectionsAsync(AwsMacie2ListResourceProfileDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceProfileDetectionsAsync(AwsMacie2ListResourceProfileDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a subset of information about the sensitivity inspection tem- plate for an account. See also: AWS API Documentation list-sensitivity-inspection-templates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following qu...
@@ -643,8 +582,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSensitivityInspectionTemplatesAsync(AwsMacie2ListSensitivityInspectionTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSensitivityInspectionTemplatesAsync(AwsMacie2ListSensitivityInspectionTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMacie2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMacie2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates the configuration settings for storing data classifica- tion results. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutClassificationExportConfigurationAsync(AwsMacie2PutClassificationExportConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutClassificationExportConfigurationAsync(AwsMacie2PutClassificationExportConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration settings for publishing findings to Security Hub. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFindingsPublicationConfigurationAsync(AwsMacie2PutFindingsPublicationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFindingsPublicationConfigurationAsync(AwsMacie2PutFindingsPublicationConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account. See also: AWS API Documentation search-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
@@ -683,8 +618,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchResourcesAsync(AwsMacie2SearchResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchResourcesAsync(AwsMacie2SearchResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMacie2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsMacie2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests criteria for a custom data identifier. See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestCustomDataIdentifierAsync(AwsMacie2TestCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestCustomDataIdentifierAsync(AwsMacie2TestCustomDataIdentifierOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags (keys and values) from an Amazon Macie re- source. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMacie2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsMacie2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for an allow list. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAllowListAsync(AwsMacie2UpdateAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAllowListAsync(AwsMacie2UpdateAllowListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutomatedDiscoveryConfigurationAsync(AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutomatedDiscoveryConfigurationAsync(AwsMacie2UpdateAutomatedDiscoveryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the status of a classification job. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClassificationJobAsync(AwsMacie2UpdateClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClassificationJobAsync(AwsMacie2UpdateClassificationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the classification scope settings for an account. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateClassificationScopeAsync(AwsMacie2UpdateClassificationScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateClassificationScopeAsync(AwsMacie2UpdateClassificationScopeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the criteria and other settings for a findings filter. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFindingsFilterAsync(AwsMacie2UpdateFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFindingsFilterAsync(AwsMacie2UpdateFindingsFilterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Suspends or re-enables Amazon Macie, or updates the configuration set- tings for a Macie account. See also: AWS API Documentation
@@ -773,8 +699,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMacieSessionAsync(AwsMacie2UpdateMacieSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMacieSessionAsync(AwsMacie2UpdateMacieSessionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account. See also: AWS API Documentation
@@ -783,8 +708,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMemberSessionAsync(AwsMacie2UpdateMemberSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMemberSessionAsync(AwsMacie2UpdateMemberSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Amazon Macie configuration settings for an organization in Organizations. See also: AWS API Documentation
@@ -793,8 +717,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOrganizationConfigurationAsync(AwsMacie2UpdateOrganizationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOrganizationConfigurationAsync(AwsMacie2UpdateOrganizationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the sensitivity scoring settings for an S3 bucket. See also: AWS API Documentation
@@ -803,8 +726,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceProfileDetectionsAsync(AwsMacie2UpdateResourceProfileDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceProfileDetectionsAsync(AwsMacie2UpdateResourceProfileDetectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the sensitivity score for an S3 bucket. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceProfileAsync(AwsMacie2UpdateResourceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceProfileAsync(AwsMacie2UpdateResourceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRevealConfigurationAsync(AwsMacie2UpdateRevealConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRevealConfigurationAsync(AwsMacie2UpdateRevealConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the settings for the sensitivity inspection template for an ac- count. See also: AWS API Documentation
@@ -833,7 +753,6 @@ public interface IAwsMacie2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSensitivityInspectionTemplateAsync(AwsMacie2UpdateSensitivityInspectionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSensitivityInspectionTemplateAsync(AwsMacie2UpdateSensitivityInspectionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

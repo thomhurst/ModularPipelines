@@ -33,7 +33,7 @@ public class AwsMacie2 : IAwsMacie2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws macie2 wait sub-commands.
     /// </summary>
     public AwsMacie2Wait Wait => _wait ??= new AwsMacie2Wait(_command);
 
@@ -537,6 +537,21 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
+    /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingStatisticsAsync(
+        AwsMacie2GetFindingStatisticsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves the criteria and other settings for a findings filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -579,21 +594,6 @@ public class AwsMacie2 : IAwsMacie2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMacie2GetFindingsPublicationConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetFindingStatisticsAsync(
-        AwsMacie2GetFindingStatisticsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

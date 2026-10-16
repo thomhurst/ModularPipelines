@@ -737,21 +737,6 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of trained models. See also: AWS API Documentation list-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: trainedModels
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTrainedModelsAsync(
-        AwsCleanroomsmlListTrainedModelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, in- cluding information about their status and creation details. You can use this to track the evolution of your trained models and select spe- cific versions for inference or further training. See also: AWS API Documentation list-trained-model-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -760,6 +745,21 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTrainedModelVersionsAsync(
         AwsCleanroomsmlListTrainedModelVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of trained models. See also: AWS API Documentation list-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: trainedModels
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrainedModelsAsync(
+        AwsCleanroomsmlListTrainedModelsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

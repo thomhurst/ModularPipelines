@@ -33,7 +33,7 @@ public class AwsServicecatalog : IAwsServicecatalog
     #region Sub-command Groups
 
     /// <summary>
-    /// aws generate sub-commands.
+    /// aws servicecatalog generate sub-commands.
     /// </summary>
     public AwsServicecatalogGenerate Generate => _generate ??= new AwsServicecatalogGenerate(_command);
 
@@ -462,21 +462,6 @@ public class AwsServicecatalog : IAwsServicecatalog
     }
 
     /// <summary>
-    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribePortfolioSharesAsync(
-        AwsServicecatalogDescribePortfolioSharesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -485,6 +470,21 @@ public class AwsServicecatalog : IAwsServicecatalog
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribePortfolioShareStatusAsync(
         AwsServicecatalogDescribePortfolioShareStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribePortfolioSharesAsync(
+        AwsServicecatalogDescribePortfolioSharesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

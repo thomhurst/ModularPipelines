@@ -28,8 +28,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteAttributesAsync(AwsSdbBatchDeleteAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteAttributesAsync(AwsSdbBatchDeleteAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The BatchPutAttributes operation creates or replaces attributes within one or more items. By using this operation, the client can perform mul- tiple PutAttribute operation with a single call. This helps yield sav- ings in round trips and latencies, enabling Amazon SimpleDB to optimize requests and generally produce better throughput. The client may specify the item name with the Item.X.ItemName parame- ter. The client may specify new attributes using a combination of the Item.X.Attribute.Y.Name ...
@@ -38,8 +37,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutAttributesAsync(AwsSdbBatchPutAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutAttributesAsync(AwsSdbBatchPutAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The CreateDomain operation creates a new domain. The domain name should be unique among the domains associated with the Access Key ID provided in the request. The CreateDomain operation may take 10 or more seconds to complete. The client can create up to 100 domains per account. If the client requires additional domains, go to http://aws.amazon.com/contact-us/simpledb-limit-request/ . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsSdbCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsSdbCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one or more attributes associated with an item. If all attrib- utes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error re- sponse. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Se- lect operation (read) immediately after a DeleteAttributes or PutAt- tributes operation (write) m...
@@ -58,8 +55,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAttributesAsync(AwsSdbDeleteAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAttributesAsync(AwsSdbDeleteAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The DeleteDomain operation deletes a domain. Any items (and their at- tributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsSdbDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsSdbDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the domain, including when the domain was created, the number of items and attributes in the domain, and the size of the attribute names and values. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DomainMetadataAsync(AwsSdbDomainMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DomainMetadataAsync(AwsSdbDomainMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all of the attributes associated with the specified item. Op- tionally, the attributes returned can be limited to one or more attrib- utes by specifying an attribute name parameter. If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an er- ror as it cannot guarantee the item does not exist on other replicas. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAttributesAsync(AwsSdbGetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAttributesAsync(AwsSdbGetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains . A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDo- mains more domain names with each successive operation call. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in...
@@ -98,8 +91,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsSdbListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsSdbListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the At- tribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and At- tribute.0.Value , the second attribute by the parameters At- tribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value com- bination. For example, a single item can have...
@@ -108,8 +100,7 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAttributesAsync(AwsSdbPutAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAttributesAsync(AwsSdbPutAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SE- LECT statement. The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access...
@@ -118,7 +109,6 @@ public interface IAwsSdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SelectAsync(AwsSdbSelectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SelectAsync(AwsSdbSelectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

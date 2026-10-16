@@ -737,21 +737,6 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists AI Agents. See also: AWS API Documentation list-ai-agents uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of r...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiAgentsAsync(
-        AwsQconnectListAiAgentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List AI Agent versions. See also: AWS API Documentation list-ai-agent-versions uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agent-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -767,14 +752,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists the AI Guardrails available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-guardrails is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiGuardrailSummaries
+    /// Lists AI Agents. See also: AWS API Documentation list-ai-agents uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-ai-agents is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of r...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiGuardrailsAsync(
-        AwsQconnectListAiGuardrailsOptions options,
+    public virtual async Task<CommandResult> ListAiAgentsAsync(
+        AwsQconnectListAiAgentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -797,14 +782,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists the AI Prompts available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptSummaries
+    /// Lists the AI Guardrails available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-guardrails is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiGuardrailSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAiPromptsAsync(
-        AwsQconnectListAiPromptsOptions options,
+    public virtual async Task<CommandResult> ListAiGuardrailsAsync(
+        AwsQconnectListAiGuardrailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -820,6 +805,21 @@ public class AwsQconnect : IAwsQconnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAiPromptVersionsAsync(
         AwsQconnectListAiPromptVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the AI Prompts available on the Amazon Q in Connect assistant. See also: AWS API Documentation list-ai-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aiPromptSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAiPromptsAsync(
+        AwsQconnectListAiPromptsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -917,14 +917,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists messages on an Amazon Q in Connect session. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may be is- sued in order to retr...
+    /// Lists all the available versions for the specified Amazon Q in Connect message template. See also: AWS API Documentation list-message-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMessagesAsync(
-        AwsQconnectListMessagesOptions options,
+    public virtual async Task<CommandResult> ListMessageTemplateVersionsAsync(
+        AwsQconnectListMessageTemplateVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -947,14 +947,14 @@ public class AwsQconnect : IAwsQconnect
     }
 
     /// <summary>
-    /// Lists all the available versions for the specified Amazon Q in Connect message template. See also: AWS API Documentation list-message-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
+    /// Lists messages on an Amazon Q in Connect session. See also: AWS API Documentation list-messages uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types. list-messages is a paginated operation. Multiple API calls may be is- sued in order to retr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMessageTemplateVersionsAsync(
-        AwsQconnectListMessageTemplateVersionsOptions options,
+    public virtual async Task<CommandResult> ListMessagesAsync(
+        AwsQconnectListMessagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

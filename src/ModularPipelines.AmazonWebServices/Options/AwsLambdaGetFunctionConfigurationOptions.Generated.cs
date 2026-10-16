@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
+/// Returns the version-specific settings of a Lambda Event Function or version. The output includes only options that can vary between ver- sions of a function. To modify these settings, use UpdateFunctionCon- figuration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsLambdaGetFunctionConfigurationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use UpdateFunctionConfiguration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
+    /// Returns the version-specific settings of a Lambda Event Function or version. The output includes only options that can vary between ver- sions of a function. To modify these settings, use UpdateFunctionCon- figuration . To get all of a function's details, including function-level settings, use GetFunction . See also: AWS API Documentation
     /// </summary>
     /// <param name="FunctionName">The name or ARN of the Lambda function, version, or alias. Name formats o Function name my-function (name-only), my-function:v1 (with alias). o Function ARN arn:aws:lambda:us-west-2:123456789012:func- tion:my-function . o Partial ARN 123456789012:function:my-function . You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?</param>
     public AwsLambdaGetFunctionConfigurationOptions(

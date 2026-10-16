@@ -887,6 +887,21 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
+    /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation list-connector-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListConnectorDefinitionVersionsAsync(
+        AwsGreengrassListConnectorDefinitionVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves a list of connector definitions. See also: AWS API Documentation list-connector-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Definitions
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -902,14 +917,14 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services. See also: AWS API Documentation list-connector-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output...
+    /// Lists the versions of a core definition. See also: AWS API Documentation list-core-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListConnectorDefinitionVersionsAsync(
-        AwsGreengrassListConnectorDefinitionVersionsOptions options,
+    public virtual async Task<CommandResult> ListCoreDefinitionVersionsAsync(
+        AwsGreengrassListCoreDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -932,21 +947,6 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a core definition. See also: AWS API Documentation list-core-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCoreDefinitionVersionsAsync(
-        AwsGreengrassListCoreDefinitionVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a history of deployments for the group. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Deployments
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -955,6 +955,21 @@ public class AwsGreengrass : IAwsGreengrass
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeploymentsAsync(
         AwsGreengrassListDeploymentsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the versions of a device definition. See also: AWS API Documentation list-device-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeviceDefinitionVersionsAsync(
+        AwsGreengrassListDeviceDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -977,14 +992,14 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a device definition. See also: AWS API Documentation list-device-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// Lists the versions of a Lambda function definition. See also: AWS API Documentation list-function-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeviceDefinitionVersionsAsync(
-        AwsGreengrassListDeviceDefinitionVersionsOptions options,
+    public virtual async Task<CommandResult> ListFunctionDefinitionVersionsAsync(
+        AwsGreengrassListFunctionDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1007,21 +1022,6 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a Lambda function definition. See also: AWS API Documentation list-function-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFunctionDefinitionVersionsAsync(
-        AwsGreengrassListFunctionDefinitionVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves the current CAs for a group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1030,6 +1030,21 @@ public class AwsGreengrass : IAwsGreengrass
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGroupCertificateAuthoritiesAsync(
         AwsGreengrassListGroupCertificateAuthoritiesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the versions of a group. See also: AWS API Documentation list-group-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListGroupVersionsAsync(
+        AwsGreengrassListGroupVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1052,14 +1067,14 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a group. See also: AWS API Documentation list-group-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// Lists the versions of a logger definition. See also: AWS API Documentation list-logger-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGroupVersionsAsync(
-        AwsGreengrassListGroupVersionsOptions options,
+    public virtual async Task<CommandResult> ListLoggerDefinitionVersionsAsync(
+        AwsGreengrassListLoggerDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1082,14 +1097,14 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a logger definition. See also: AWS API Documentation list-logger-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// Lists the versions of a resource definition. See also: AWS API Documentation list-resource-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListLoggerDefinitionVersionsAsync(
-        AwsGreengrassListLoggerDefinitionVersionsOptions options,
+    public virtual async Task<CommandResult> ListResourceDefinitionVersionsAsync(
+        AwsGreengrassListResourceDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1112,14 +1127,14 @@ public class AwsGreengrass : IAwsGreengrass
     }
 
     /// <summary>
-    /// Lists the versions of a resource definition. See also: AWS API Documentation list-resource-definition-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Versions
+    /// Lists the versions of a subscription definition. See also: AWS API Documentation list-subscription-definition-versions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Versions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListResourceDefinitionVersionsAsync(
-        AwsGreengrassListResourceDefinitionVersionsOptions options,
+    public virtual async Task<CommandResult> ListSubscriptionDefinitionVersionsAsync(
+        AwsGreengrassListSubscriptionDefinitionVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1139,21 +1154,6 @@ public class AwsGreengrass : IAwsGreengrass
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsGreengrassListSubscriptionDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the versions of a subscription definition. See also: AWS API Documentation list-subscription-definition-versions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Versions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSubscriptionDefinitionVersionsAsync(
-        AwsGreengrassListSubscriptionDefinitionVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

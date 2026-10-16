@@ -33,7 +33,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws mediaconnect wait sub-commands.
     /// </summary>
     public AwsMediaconnectWait Wait => _wait ??= new AwsMediaconnectWait(_command);
 

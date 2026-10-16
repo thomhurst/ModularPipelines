@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws workspacesinstances commands.
+/// aws workspaces-instances commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsWorkspacesInstances : IAwsWorkspacesInstances

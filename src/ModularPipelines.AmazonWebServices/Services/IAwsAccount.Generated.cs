@@ -28,8 +28,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptPrimaryEmailUpdateAsync(AwsAccountAcceptPrimaryEmailUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptPrimaryEmailUpdateAsync(AwsAccountAcceptPrimaryEmailUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified alternate contact from an Amazon Web Services ac- count. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable trusted ...
@@ -38,8 +37,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAlternateContactAsync(AwsAccountDeleteAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAlternateContactAsync(AwsAccountDeleteAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables (opts-out) a particular Region for an account. NOTE: The act of disabling a Region will remove all IAM access to any re- sources that reside in that Region. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableRegionAsync(AwsAccountDisableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableRegionAsync(AwsAccountDisableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables (opts-in) a particular Region for an account. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableRegionAsync(AwsAccountEnableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableRegionAsync(AwsAccountEnableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountIn- formation IAM permission. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountInformationAsync(AwsAccountGetAccountInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountInformationAsync(AwsAccountGetAccountInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable t...
@@ -78,8 +73,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAlternateContactAsync(AwsAccountGetAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAlternateContactAsync(AwsAccountGetAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the primary contact information of an Amazon Web Services ac- count. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactInformationAsync(AwsAccountGetContactInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactInformationAsync(AwsAccountGetContactInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the GovCloud account linked to the speci- fied standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the ac- count:GetGovCloudAccountInformation IAM permission. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGovCloudAccountInformationAsync(AwsAccountGetGovCloudAccountInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGovCloudAccountInformationAsync(AwsAccountGetGovCloudAccountInformationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the primary email address for the specified account. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPrimaryEmailAsync(AwsAccountGetPrimaryEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPrimaryEmailAsync(AwsAccountGetPrimaryEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS ac- count . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPrimaryEmailUpdateStatusAsync(AwsAccountGetPrimaryEmailUpdateStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPrimaryEmailUpdateStatusAsync(AwsAccountGetPrimaryEmailUpdateStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the opt-in status of a particular Region. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRegionOptStatusAsync(AwsAccountGetRegionOptStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRegionOptStatusAsync(AwsAccountGetRegionOptStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-sta- tus-contains parameter. See also: AWS API Documentation list-regions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract...
@@ -138,8 +127,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRegionsAsync(AwsAccountListRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRegionsAsync(AwsAccountListRegionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the account name of the specified account. To use this API, IAM principals must have the account:PutAccountName IAM permission. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountNameAsync(AwsAccountPutAccountNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountNameAsync(AwsAccountPutAccountNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified alternate contact attached to an Amazon Web Ser- vices account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable ...
@@ -158,8 +145,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAlternateContactAsync(AwsAccountPutAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAlternateContactAsync(AwsAccountPutAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the primary contact information of an Amazon Web Services ac- count. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutContactInformationAsync(AwsAccountPutContactInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutContactInformationAsync(AwsAccountPutContactInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendPhoneNumberVerificationAsync(AwsAccountSendPhoneNumberVerificationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendPhoneNumberVerificationAsync(AwsAccountSendPhoneNumberVerificationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartPrimaryEmailUpdateAsync(AwsAccountStartPrimaryEmailUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartPrimaryEmailUpdateAsync(AwsAccountStartPrimaryEmailUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verifies the phone number in the primary contact information of an Ama- zon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
@@ -198,7 +181,6 @@ public interface IAwsAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> VerifyPhoneNumberAsync(AwsAccountVerifyPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> VerifyPhoneNumberAsync(AwsAccountVerifyPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ecrpublic commands.
+/// aws ecr-public commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsEcrPublic : IAwsEcrPublic
@@ -122,21 +122,6 @@ public class AwsEcrPublic : IAwsEcrPublic
     }
 
     /// <summary>
-    /// Returns metadata that's related to the images in a repository in a pub- lic registry. NOTE: Beginning with Docker version 1.9, the Docker client compresses im- age layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by DescribeImages . See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be is-...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeImagesAsync(
-        AwsEcrPublicDescribeImagesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the image tag details for a repository in a public registry. See also: AWS API Documentation describe-image-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: imageTagDetails
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -145,6 +130,21 @@ public class AwsEcrPublic : IAwsEcrPublic
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeImageTagsAsync(
         AwsEcrPublicDescribeImageTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns metadata that's related to the images in a repository in a pub- lic registry. NOTE: Beginning with Docker version 1.9, the Docker client compresses im- age layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by DescribeImages . See also: AWS API Documentation describe-images is a paginated operation. Multiple API calls may be is-...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeImagesAsync(
+        AwsEcrPublicDescribeImagesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

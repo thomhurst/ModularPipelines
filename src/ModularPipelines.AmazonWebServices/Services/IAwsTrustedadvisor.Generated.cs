@@ -28,8 +28,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateRecommendationResourceExclusionAsync(AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateRecommendationResourceExclusionAsync(AwsTrustedadvisorBatchUpdateRecommendationResourceExclusionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOrganizationRecommendationAsync(AwsTrustedadvisorGetOrganizationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOrganizationRecommendationAsync(AwsTrustedadvisorGetOrganizationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a specific Recommendation. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecommendationAsync(AwsTrustedadvisorGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecommendationAsync(AwsTrustedadvisorGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List a filterable set of Checks. This API provides global recommenda- tions, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
@@ -58,8 +55,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChecksAsync(AwsTrustedadvisorListChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChecksAsync(AwsTrustedadvisorListChecksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-organization-recommendation-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. Wh...
@@ -68,8 +64,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationRecommendationAccountsAsync(AwsTrustedadvisorListOrganizationRecommendationAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationRecommendationAccountsAsync(AwsTrustedadvisorListOrganizationRecommendationAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Re- gion. See also: AWS API Documentation list-organization-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and...
@@ -78,8 +73,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationRecommendationResourcesAsync(AwsTrustedadvisorListOrganizationRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationRecommendationResourcesAsync(AwsTrustedadvisorListOrganizationRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global pri- ority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-organization-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and ...
@@ -88,8 +82,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationRecommendationsAsync(AwsTrustedadvisorListOrganizationRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationRecommendationsAsync(AwsTrustedadvisorListOrganizationRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Resources of a Recommendation. This API provides global recommen- dations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-recommendation-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fro...
@@ -98,8 +91,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationResourcesAsync(AwsTrustedadvisorListRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationResourcesAsync(AwsTrustedadvisorListRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Trusted Advisor recommendations for a given AWS resource ARN. See also: AWS API Documentation list-recommendations-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recommendati...
@@ -108,8 +100,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsForResourceAsync(AwsTrustedadvisorListRecommendationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsForResourceAsync(AwsTrustedadvisorListRecommendationsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List a filterable set of Recommendations. This API provides global rec- ommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
@@ -118,8 +109,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsTrustedadvisorListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsTrustedadvisorListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global prior- ity recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOrganizationRecommendationLifecycleAsync(AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOrganizationRecommendationLifecycleAsync(AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the lifecyle of a Recommendation. This API only supports priori- tized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. See also: AWS API Documentation
@@ -138,7 +127,6 @@ public interface IAwsTrustedadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecommendationLifecycleAsync(AwsTrustedadvisorUpdateRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecommendationLifecycleAsync(AwsTrustedadvisorUpdateRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

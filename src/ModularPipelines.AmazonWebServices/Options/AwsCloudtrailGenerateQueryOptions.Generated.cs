@@ -28,7 +28,7 @@ public record AwsCloudtrailGenerateQueryOptions : AwsOptions, IValidatableObject
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statemen...
     /// </summary>
     /// <param name="EventDataStores">The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$ Syntax: "string" "string" ...</param>
-    /// <param name="Prompt">The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~\n]*$</param>
+    /// <param name="Prompt">The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~/n]*$</param>
     public AwsCloudtrailGenerateQueryOptions(
         IEnumerable<string> EventDataStores,
         string Prompt
@@ -77,7 +77,7 @@ public record AwsCloudtrailGenerateQueryOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? EventDataStores { get; private init; }
 
     /// <summary>
-    /// The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~\n]*$
+    /// The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see Example prompts in the CloudTrail user guide. Constraints: o min: 3 o max: 500 o pattern: ^[ -~/n]*$
     /// </summary>
     [CliOption("--prompt")]
     public string? Prompt { get; private init; }

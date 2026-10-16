@@ -707,21 +707,6 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the document classifiers that you have created. See also: AWS API Documentation list-document-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DocumentClassifierPropertiesLi...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDocumentClassifiersAsync(
-        AwsComprehendListDocumentClassifiersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListDocumentClassifiersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a list of summaries of the document classifiers that you have cre- ated See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -734,6 +719,21 @@ public class AwsComprehend : IAwsComprehend
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListDocumentClassifierSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of the document classifiers that you have created. See also: AWS API Documentation list-document-classifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DocumentClassifierPropertiesLi...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDocumentClassifiersAsync(
+        AwsComprehendListDocumentClassifiersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListDocumentClassifiersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -782,21 +782,6 @@ public class AwsComprehend : IAwsComprehend
     }
 
     /// <summary>
-    /// Gets a list of the properties of all entity recognizers that you cre- ated, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed. See also: AWS API Documentation list-entity-recognizers is a...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEntityRecognizersAsync(
-        AwsComprehendListEntityRecognizersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a list of summaries for the entity recognizers that you have cre- ated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -809,6 +794,21 @@ public class AwsComprehend : IAwsComprehend
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizerSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of the properties of all entity recognizers that you cre- ated, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed. See also: AWS API Documentation list-entity-recognizers is a...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEntityRecognizersAsync(
+        AwsComprehendListEntityRecognizersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComprehendListEntityRecognizersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

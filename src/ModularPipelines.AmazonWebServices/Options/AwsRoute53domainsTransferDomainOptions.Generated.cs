@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -92,7 +93,7 @@ public record AwsRoute53domainsTransferDomainOptions : AwsOptions, IValidatableO
     public string? TechContact { get; private init; }
 
     /// <summary>
-    /// Reserved for future use. Constraints: o pattern: |[A-Za-z]{2,3}
+    /// Reserved for future use. Constraints: o pattern: (|[A-Za-z]{2,3})
     /// </summary>
     [CliOption("--idn-lang-code")]
     public string? IdnLangCode { get; set; }
@@ -112,6 +113,7 @@ public record AwsRoute53domainsTransferDomainOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The authorization code for the domain. You get this value from the current registrar. Constraints: o max: 1024
     /// </summary>
+    [SecretValue]
     [CliOption("--auth-code")]
     public string? AuthCode { get; set; }
 
@@ -150,6 +152,12 @@ public record AwsRoute53domainsTransferDomainOptions : AwsOptions, IValidatableO
     /// </summary>
     [CliFlag("--privacy-protect-billing-contact", NegatedName = "--no-privacy-protect-billing-contact")]
     public bool? PrivacyProtectBillingContact { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum price that you agree to pay to transfer the domain name to Route 53. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the transfer price is more than MaxPrice , the request fails. MaxPrice -&gt; (double) [required] The maximum amount that you agree to accept. Constraints: o min: 0.0 o max: 2000000000.0 Currency -&gt; (string) [required] The currency for the MaxPrice . Constraints: o min: 3 o max: 3 Shorthand Syntax: MaxPrice=double,Currency=string JSON Syntax: { "MaxPrice": double, "Currency": "string" }
+    /// </summary>
+    [CliOption("--consent")]
+    public string? Consent { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

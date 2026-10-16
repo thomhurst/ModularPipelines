@@ -28,8 +28,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContainerAsync(AwsMediastoreCreateContainerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContainerAsync(AwsMediastoreCreateContainerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified container. Before you make a DeleteContainer re- quest, delete any objects in the container or in any folders in the container. You can delete only empty containers. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContainerAsync(AwsMediastoreDeleteContainerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContainerAsync(AwsMediastoreDeleteContainerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the access policy that is associated with the specified con- tainer. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContainerPolicyAsync(AwsMediastoreDeleteContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContainerPolicyAsync(AwsMediastoreDeleteContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the cross-origin resource sharing (CORS) configuration informa- tion that is set for the container. To use this operation, you must have permission to perform the MediaS- tore:DeleteCorsPolicy action. The container owner has this permission by default and can grant this permission to others. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCorsPolicyAsync(AwsMediastoreDeleteCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCorsPolicyAsync(AwsMediastoreDeleteCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an object lifecycle policy from a container. It takes up to 20 minutes for the change to take effect. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLifecyclePolicyAsync(AwsMediastoreDeleteLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLifecyclePolicyAsync(AwsMediastoreDeleteLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the metric policy that is associated with the specified con- tainer. If there is no metric policy associated with the container, Me- diaStore doesn't send metrics to CloudWatch. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMetricPolicyAsync(AwsMediastoreDeleteMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMetricPolicyAsync(AwsMediastoreDeleteMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the properties of the requested container. This request is commonly used to retrieve the endpoint of a container. An endpoint is a value assigned by the service when a new container is created. A con- tainer's endpoint does not change after it has been assigned. The De- scribeContainer request returns a single Container object based on Con- tainerName . To return all Container objects that are associated with a specified AWS account, use ListContainers . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContainerAsync(AwsMediastoreDescribeContainerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContainerAsync(AwsMediastoreDescribeContainerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the access policy for the specified container. For informa- tion about the data that is included in an access policy, see the AWS Identity and Access Management User Guide . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContainerPolicyAsync(AwsMediastoreGetContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContainerPolicyAsync(AwsMediastoreGetContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the cross-origin resource sharing (CORS) configuration informa- tion that is set for the container. To use this operation, you must have permission to perform the MediaS- tore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCorsPolicyAsync(AwsMediastoreGetCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCorsPolicyAsync(AwsMediastoreGetCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the object lifecycle policy that is assigned to a container. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLifecyclePolicyAsync(AwsMediastoreGetLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLifecyclePolicyAsync(AwsMediastoreGetLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the metric policy for the specified container. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetricPolicyAsync(AwsMediastoreGetMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetricPolicyAsync(AwsMediastoreGetMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the properties of all containers in AWS Elemental MediaStore. You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of con- tainers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers...
@@ -138,8 +127,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContainersAsync(AwsMediastoreListContainersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContainersAsync(AwsMediastoreListContainersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the tags assigned to the specified container. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsMediastoreListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsMediastoreListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an access policy for the specified container to restrict the users and clients that can access it. For information about the data that is included in an access policy, see the AWS Identity and Access Management User Guide . For this release of the REST API, you can create only one policy for a container. If you enter PutContainerPolicy twice, the second command modifies the existing policy. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutContainerPolicyAsync(AwsMediastorePutContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutContainerPolicyAsync(AwsMediastorePutContainerPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the cross-origin resource sharing (CORS) configuration on a con- tainer so that the container can service cross-origin requests. For ex- ample, you might want to enable a request whose origin is http://www.example.com to access your AWS Elemental MediaStore con- tainer at my.example.container.com by using the browser's XMLHttpRe- quest capability. To enable CORS on a container, you attach a CORS policy to the con- tainer. In the CORS policy, you configure rules that identify origins and the...
@@ -168,8 +154,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutCorsPolicyAsync(AwsMediastorePutCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutCorsPolicyAsync(AwsMediastorePutCorsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes an object lifecycle policy to a container. If the container al- ready has an object lifecycle policy, the service replaces the existing policy with the new policy. It takes up to 20 minutes for the change to take effect. For information about how to construct an object lifecycle policy, see Components of an Object Lifecycle Policy . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLifecyclePolicyAsync(AwsMediastorePutLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLifecyclePolicyAsync(AwsMediastorePutLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The metric policy that you want to add to the container. A metric pol- icy allows AWS Elemental MediaStore to send metrics to Amazon Cloud- Watch. It takes up to 20 minutes for the new policy to take effect. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMetricPolicyAsync(AwsMediastorePutMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMetricPolicyAsync(AwsMediastorePutMetricPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts access logging on the specified container. When you enable ac- cess logging on a container, MediaStore delivers access logs for ob- jects stored in that container to Amazon CloudWatch Logs. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAccessLoggingAsync(AwsMediastoreStartAccessLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAccessLoggingAsync(AwsMediastoreStartAccessLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops access logging on the specified container. When you stop access logging on a container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access logs are not saved and are not retriev- able. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAccessLoggingAsync(AwsMediastoreStopAccessLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAccessLoggingAsync(AwsMediastoreStopAccessLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value pairs that you can associate with AWS resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in Media- Store . See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsMediastoreTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsMediastoreTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified container. You can specify one or more tags to remove. See also: AWS API Documentation
@@ -228,7 +208,6 @@ public interface IAwsMediastore
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsMediastoreUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsMediastoreUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

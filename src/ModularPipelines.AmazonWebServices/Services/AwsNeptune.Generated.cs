@@ -33,7 +33,7 @@ public class AwsNeptune : IAwsNeptune
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws neptune wait sub-commands.
     /// </summary>
     public AwsNeptuneWait Wait => _wait ??= new AwsNeptuneWait(_command);
 
@@ -627,21 +627,6 @@ public class AwsNeptune : IAwsNeptune
     }
 
     /// <summary>
-    /// Returns events related to DB instances, DB security groups, DB snap- shots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsNeptuneDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the subscription descriptions for a customer account. The de- scription for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that sub- scription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing th...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -654,6 +639,21 @@ public class AwsNeptune : IAwsNeptune
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns events related to DB instances, DB security groups, DB snap- shots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsNeptuneDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsNeptuneDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

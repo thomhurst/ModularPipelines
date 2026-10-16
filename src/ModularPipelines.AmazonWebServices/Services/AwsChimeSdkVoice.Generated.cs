@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkvoice commands.
+/// aws chime-sdk-voice commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsChimeSdkVoice : IAwsChimeSdkVoice
@@ -857,21 +857,6 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
     }
 
     /// <summary>
-    /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListVoiceConnectorsAsync(
-        AwsChimeSdkVoiceListVoiceConnectorsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Con- nector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -884,6 +869,21 @@ public class AwsChimeSdkVoice : IAwsChimeSdkVoice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListVoiceConnectorsAsync(
+        AwsChimeSdkVoiceListVoiceConnectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkVoiceListVoiceConnectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

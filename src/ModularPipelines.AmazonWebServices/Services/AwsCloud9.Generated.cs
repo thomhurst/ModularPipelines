@@ -107,21 +107,6 @@ public class AwsCloud9 : IAwsCloud9
     }
 
     /// <summary>
-    /// Gets information about Cloud9 development environments. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEnvironmentsAsync(
-        AwsCloud9DescribeEnvironmentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets status information for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -130,6 +115,21 @@ public class AwsCloud9 : IAwsCloud9
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEnvironmentStatusAsync(
         AwsCloud9DescribeEnvironmentStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about Cloud9 development environments. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEnvironmentsAsync(
+        AwsCloud9DescribeEnvironmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

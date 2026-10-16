@@ -632,6 +632,21 @@ public class AwsPinpoint : IAwsPinpoint
     }
 
     /// <summary>
+    /// Retrieves information about an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetAppAsync(
+        AwsPinpointGetAppOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard metric that ap- plies to an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -655,21 +670,6 @@ public class AwsPinpoint : IAwsPinpoint
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetApplicationSettingsAsync(
         AwsPinpointGetApplicationSettingsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves information about an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetAppAsync(
-        AwsPinpointGetAppOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -752,21 +752,6 @@ public class AwsPinpoint : IAwsPinpoint
     }
 
     /// <summary>
-    /// Retrieves information about the status, configuration, and other set- tings for all the campaigns that are associated with an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetCampaignsAsync(
-        AwsPinpointGetCampaignsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about the status, configuration, and other set- tings for a specific version of a campaign. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -790,6 +775,21 @@ public class AwsPinpoint : IAwsPinpoint
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCampaignVersionsAsync(
         AwsPinpointGetCampaignVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about the status, configuration, and other set- tings for all the campaigns that are associated with an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetCampaignsAsync(
+        AwsPinpointGetCampaignsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1172,21 +1172,6 @@ public class AwsPinpoint : IAwsPinpoint
     }
 
     /// <summary>
-    /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetSegmentsAsync(
-        AwsPinpointGetSegmentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1210,6 +1195,21 @@ public class AwsPinpoint : IAwsPinpoint
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSegmentVersionsAsync(
         AwsPinpointGetSegmentVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSegmentsAsync(
+        AwsPinpointGetSegmentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1322,21 +1322,6 @@ public class AwsPinpoint : IAwsPinpoint
     }
 
     /// <summary>
-    /// Retrieves information about all the message templates that are associ- ated with your Amazon Pinpoint account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTemplatesAsync(
-        AwsPinpointListTemplatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointListTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about all the versions of a specific message tem- plate. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1349,6 +1334,21 @@ public class AwsPinpoint : IAwsPinpoint
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about all the message templates that are associ- ated with your Amazon Pinpoint account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTemplatesAsync(
+        AwsPinpointListTemplatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointListTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1367,21 +1367,6 @@ public class AwsPinpoint : IAwsPinpoint
     }
 
     /// <summary>
-    /// Creates a new event to record for endpoints, or creates or updates end- point data that existing events are associated with. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PutEventsAsync(
-        AwsPinpointPutEventsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1390,6 +1375,21 @@ public class AwsPinpoint : IAwsPinpoint
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutEventStreamAsync(
         AwsPinpointPutEventStreamOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a new event to record for endpoints, or creates or updates end- point data that existing events are associated with. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PutEventsAsync(
+        AwsPinpointPutEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

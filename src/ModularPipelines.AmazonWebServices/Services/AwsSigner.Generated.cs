@@ -33,7 +33,7 @@ public class AwsSigner : IAwsSigner
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws signer wait sub-commands.
     /// </summary>
     public AwsSignerWait Wait => _wait ??= new AwsSignerWait(_command);
 

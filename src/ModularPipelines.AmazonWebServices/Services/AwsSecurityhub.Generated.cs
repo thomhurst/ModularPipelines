@@ -227,6 +227,21 @@ public class AwsSecurityhub : IAwsSecurityhub
     }
 
     /// <summary>
+    /// Cancels a findings export job that is in progress. Security Hub transi- tions a running job to the CANCELLED state and returns the ExportJobId and its new Status . Canceling a job that is already in the CANCELLED state succeeds and returns the same result, so you can safely retry a cancel request. You can't cancel an export job that has already reached a terminal SUC- CEEDED or FAILED state; in that case, this operation returns a Con- flictException . If no export job matches the ExportJobId tha...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CancelExportJobV2Async(
+        AwsSecurityhubCancelExportJobV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -992,6 +1007,21 @@ public class AwsSecurityhub : IAwsSecurityhub
     }
 
     /// <summary>
+    /// Returns the details of a single findings export job, including its cur- rent Status , the Destination it writes to, the OutputConfiguration it was started with, and its StartedAt and EndedAt timestamps. Use this operation to poll an export job that you started with StartExportJobV2 until it reaches a terminal state (SUCCEEDED , FAILED , or CANCELLED ). If the job failed, the response includes a FailureCode and FailureMes- sage that describe the reason. Input values such as Scopes and Filters are...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetExportJobV2Async(
+        AwsSecurityhubGetExportJobV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// NOTE: The aggregation Region is now called the home Region . Returns the current configuration in the calling account for cross-Re- gion aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1022,21 +1052,6 @@ public class AwsSecurityhub : IAwsSecurityhub
     }
 
     /// <summary>
-    /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions. See also: AWS API Documentation get-findings uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetFindingsAsync(
-        AwsSecurityhubGetFindingsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns aggregated statistical data about findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations , which lets you ag- gregate findings from your entire organization or from specific organi- zational units. Only the delegated administrator account can use Scopes . GetFindingStatisticsV2 uses securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permis- sion to perform the securi...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1049,6 +1064,21 @@ public class AwsSecurityhub : IAwsSecurityhub
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions. See also: AWS API Documentation get-findings uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingsAsync(
+        AwsSecurityhubGetFindingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetFindingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1154,6 +1184,21 @@ public class AwsSecurityhub : IAwsSecurityhub
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves remediation targets for the account, or for all member ac- counts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or Meta- dataUid to scope the request to a single target or finding. See also: AWS API Documentation get-remediations-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRemediationsV2Async(
+        AwsSecurityhubGetRemediationsV2Options? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetRemediationsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1352,6 +1397,36 @@ public class AwsSecurityhub : IAwsSecurityhub
     }
 
     /// <summary>
+    /// Returns the findings export jobs in your account as a paginated list of ExportSummary objects. You can filter the results by job Status or DataType . To page through the results, use the MaxResults and NextToken parame- ters. If the response includes a NextToken value, pass it in a subse- quent request to retrieve the next page of results. Each ExportSummary reports the output Format of the job but not its full OutputConfiguration . To retrieve the filters and selected fields that a job was star...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListExportJobsV2Async(
+        AwsSecurityhubListExportJobsV2Options? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListExportJobsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are pagi- nated. See also: AWS API Documentation list-exposures-by-remediation-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ex...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListExposuresByRemediationV2Async(
+        AwsSecurityhubListExposuresByRemediationV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// If cross-Region aggregation is enabled, then ListFindingAggregators re- turns the Amazon Resource Name (ARN) of the finding aggregator. You can run this operation from any Amazon Web Services Region. See also: AWS API Documentation list-finding-aggregators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1510,6 +1585,21 @@ public class AwsSecurityhub : IAwsSecurityhub
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartConfigurationPolicyDisassociationAsync(
         AwsSecurityhubStartConfigurationPolicyDisassociationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Starts an ad hoc export job that writes Security Hub findings to an Amazon Simple Storage Service (Amazon S3) bucket that you own. Because the export runs asynchronously, this operation returns only the Ex- portJobId of the new job; it doesn't wait for the export to finish. Use GetExportJobV2 to poll the job, and ListExportJobsV2 to view the export jobs in your account. Security Hub allows only one export job in the RUNNING state per ac- count at a time. If an export job is already running, this...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StartExportJobV2Async(
+        AwsSecurityhubStartExportJobV2Options options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

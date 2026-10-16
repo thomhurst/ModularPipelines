@@ -12,6 +12,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -139,6 +140,12 @@ public record AwsAppstreamCreateStackOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--agent-access-config")]
     public string? AgentAccessConfig { get; set; }
+
+    /// <summary>
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next ses- sion. The default is REUSE_CREDENTIALS. Possible values: o FORCE_REAUTHENTICATION o REUSE_CREDENTIALS
+    /// </summary>
+    [CliOption("--storage-connector-authentication")]
+    public AwsAppstreamCreateStackStorageConnectorAuthentication? StorageConnectorAuthentication { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

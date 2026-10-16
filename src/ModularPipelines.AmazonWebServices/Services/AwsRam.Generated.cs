@@ -317,21 +317,6 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPermissionsAsync(
-        AwsRamListPermissionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRamListPermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the available versions of the specified RAM permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -344,6 +329,21 @@ public class AwsRam : IAwsRam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPermissionsAsync(
+        AwsRamListPermissionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRamListPermissionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -392,21 +392,6 @@ public class AwsRam : IAwsRam
     }
 
     /// <summary>
-    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API cal...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListResourcesAsync(
-        AwsRamListResourcesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the resource types that can be shared by RAM. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -419,6 +404,21 @@ public class AwsRam : IAwsRam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRamListResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the resources that you added to a resource share or the resources that are shared with you. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-resources is a paginated operation. Multiple API cal...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListResourcesAsync(
+        AwsRamListResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

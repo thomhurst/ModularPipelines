@@ -212,21 +212,6 @@ public class AwsSqs : IAwsSqs
     }
 
     /// <summary>
-    /// Returns a list of your queues in the current region. The response in- cludes a maximum of 1,000 results. If you specify a value for the op- tional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set Ma...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListQueuesAsync(
-        AwsSqsListQueuesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSqsListQueuesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide . NOTE: Cross-account permissions don't apply to this action. For more in- formation, see Grant cross-account permissions to a role and a user- name in the Amazon SQS Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -239,6 +224,21 @@ public class AwsSqs : IAwsSqs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of your queues in the current region. The response in- cludes a maximum of 1,000 results. If you specify a value for the op- tional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults , the response includes a maximum of 1,000 results. If you set Ma...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListQueuesAsync(
+        AwsSqsListQueuesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSqsListQueuesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

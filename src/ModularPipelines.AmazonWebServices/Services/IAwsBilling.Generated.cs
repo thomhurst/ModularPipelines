@@ -28,8 +28,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSourceViewsAsync(AwsBillingAssociateSourceViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSourceViewsAsync(AwsBillingAssociateSourceViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a billing view with the specified billing view attributes. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBillingViewAsync(AwsBillingCreateBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBillingViewAsync(AwsBillingCreateBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified billing view. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBillingViewAsync(AwsBillingDeleteBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBillingViewAsync(AwsBillingDeleteBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggre- gate billing views. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSourceViewsAsync(AwsBillingDisassociateSourceViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSourceViewsAsync(AwsBillingDisassociateSourceViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Re- served Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBillingPreferencesAsync(AwsBillingGetBillingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBillingPreferencesAsync(AwsBillingGetBillingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the metadata associated to the specified billing view ARN. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBillingViewAsync(AwsBillingGetBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBillingViewAsync(AwsBillingGetBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit. See also: AWS API Documentation get-credit-allocation-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate arg...
@@ -88,8 +82,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCreditAllocationHistoryAsync(AwsBillingGetCreditAllocationHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCreditAllocationHistoryAsync(AwsBillingGetCreditAllocationHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of Amazon Web Services account credits for the speci- fied account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS ...
@@ -98,8 +91,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCreditsAsync(AwsBillingGetCreditsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCreditsAsync(AwsBillingGetCreditsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a summary of Enterprise Support data aggregated across all ac- counts in the Enterprise Support profile. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnterpriseSupportChargeSummaryAsync(AwsBillingGetEnterpriseSupportChargeSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnterpriseSupportChargeSummaryAsync(AwsBillingGetEnterpriseSupportChargeSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Enterprise Support contract details. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEnterpriseSupportContractDetailsAsync(AwsBillingGetEnterpriseSupportContractDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEnterpriseSupportContractDetailsAsync(AwsBillingGetEnterpriseSupportContractDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource-based policy document attached to the resource in JSON format. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsBillingGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsBillingGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the segments of a billing view over a given time period. Each segment identifies the billing domain (PRO_FORMA or BILLABLE ) and the account relationships that apply during its time range. If you don't provide an arn , the response includes segments for the caller's PRIMARY billing view. If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested tim...
@@ -138,8 +127,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBillingViewSegmentsAsync(AwsBillingListBillingViewSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBillingViewSegmentsAsync(AwsBillingListBillingViewSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views represent- ing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
@@ -148,8 +136,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBillingViewsAsync(AwsBillingListBillingViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBillingViewsAsync(AwsBillingListBillingViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Business Support charges broken down at the linked account level for a given billing month. See also: AWS API Documentation list-business-support-account-charges is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follow...
@@ -158,8 +145,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBusinessSupportAccountChargesAsync(AwsBillingListBusinessSupportAccountChargesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBusinessSupportAccountChargesAsync(AwsBillingListBusinessSupportAccountChargesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the history of Business Support subscription contracts across accounts. See also: AWS API Documentation list-business-support-subscription-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query express...
@@ -168,8 +154,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBusinessSupportSubscriptionHistoryAsync(AwsBillingListBusinessSupportSubscriptionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBusinessSupportSubscriptionHistoryAsync(AwsBillingListBusinessSupportSubscriptionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns Support-eligible spend broken down at linked account level. See also: AWS API Documentation list-enterprise-support-linked-account-charges is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expressions: li...
@@ -178,8 +163,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEnterpriseSupportLinkedAccountChargesAsync(AwsBillingListEnterpriseSupportLinkedAccountChargesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEnterpriseSupportLinkedAccountChargesAsync(AwsBillingListEnterpriseSupportLinkedAccountChargesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the source views (managed Amazon Web Services billing views) as- sociated with the billing view. See also: AWS API Documentation list-source-views-for-billing-view is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
@@ -188,8 +172,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSourceViewsForBillingViewAsync(AwsBillingListSourceViewsForBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSourceViewsForBillingViewAsync(AwsBillingListSourceViewsForBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags associated with the billing view resource. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBillingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBillingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Redeems an Amazon Web Services promotional credit code on behalf of the calling account. On success, a new credit is added to the account's credit ledger with the amount, validity period, and applicable products defined by the promotion. The credit is then automatically applied to subsequent bills according to the standard credit application order. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RedeemCreditsAsync(AwsBillingRedeemCreditsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RedeemCreditsAsync(AwsBillingRedeemCreditsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An API operation for adding one or more tags (key-value pairs) to a re- source. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBillingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBillingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBillingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBillingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{credi- tId}/status key may be set by member accounts ...
@@ -238,8 +217,7 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBillingPreferencesAsync(AwsBillingUpdateBillingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBillingPreferencesAsync(AwsBillingUpdateBillingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// An API to update the attributes of the billing view. See also: AWS API Documentation
@@ -248,7 +226,6 @@ public interface IAwsBilling
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBillingViewAsync(AwsBillingUpdateBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBillingViewAsync(AwsBillingUpdateBillingViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -152,6 +152,21 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
+    /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the EventType object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. See als...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventTypesAsync(
+        AwsHealthDescribeEventTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns information about events across your organization in Organiza- tions. You can use the``filters`` parameter to specify the events that you want to return. Events are returned in a summary form and don't in- clude the affected accounts, detailed description, any additional meta- data that depends on the event type, or any affected resources. To re- trieve that information, use the following operations: o DescribeAffectedAccountsForOrganization o DescribeEventDetailsForOrganization o Descri...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -182,21 +197,6 @@ public class AwsHealth : IAwsHealth
     }
 
     /// <summary>
-    /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the EventType object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. See als...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventTypesAsync(
-        AwsHealthDescribeEventTypesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeEventTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -209,6 +209,21 @@ public class AwsHealth : IAwsHealth
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeHealthServiceStatusForOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns lifecycle information for Amazon Web Services services, includ- ing end-of-life dates, version recommendations, and lifecycle events. See also: AWS API Documentation describe-service-lifecycle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeServiceLifecycleAsync(
+        AwsHealthDescribeServiceLifecycleOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsHealthDescribeServiceLifecycleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

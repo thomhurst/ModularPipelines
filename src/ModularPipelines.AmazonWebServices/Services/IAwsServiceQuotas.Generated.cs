@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws servicequotas commands.
+/// aws service-quotas commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateServiceQuotaTemplateAsync(AwsServiceQuotasAssociateServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateServiceQuotaTemplateAsync(AwsServiceQuotasAssociateServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Support case for an existing quota increase request. This call only creates a Support case if the request has a Pending status. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSupportCaseAsync(AwsServiceQuotasCreateSupportCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSupportCaseAsync(AwsServiceQuotasCreateSupportCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the quota increase request for the specified quota from your quota request template. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceQuotaIncreaseRequestFromTemplateAsync(AwsServiceQuotasDeleteServiceQuotaIncreaseRequestFromTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceQuotaIncreaseRequestFromTemplateAsync(AwsServiceQuotasDeleteServiceQuotaIncreaseRequestFromTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateServiceQuotaTemplateAsync(AwsServiceQuotasDisassociateServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateServiceQuotaTemplateAsync(AwsServiceQuotasDisassociateServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of the association for the quota request template. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssociationForServiceQuotaTemplateAsync(AwsServiceQuotasGetAssociationForServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssociationForServiceQuotaTemplateAsync(AwsServiceQuotasGetAssociationForServiceQuotaTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas uti- lization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutoManagementConfigurationAsync(AwsServiceQuotasGetAutoManagementConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutoManagementConfigurationAsync(AwsServiceQuotasGetAutoManagementConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAwsDefaultServiceQuotaAsync(AwsServiceQuotasGetAwsDefaultServiceQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAwsDefaultServiceQuotaAsync(AwsServiceQuotasGetAwsDefaultServiceQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the quota utilization report for your Amazon Web Services ac- count. This operation returns paginated results showing your quota us- age across all Amazon Web Services services, sorted by utilization per- centage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and r...
@@ -98,8 +91,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQuotaUtilizationReportAsync(AwsServiceQuotasGetQuotaUtilizationReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQuotaUtilizationReportAsync(AwsServiceQuotasGetQuotaUtilizationReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified quota increase request. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRequestedServiceQuotaChangeAsync(AwsServiceQuotasGetRequestedServiceQuotaChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRequestedServiceQuotaChangeAsync(AwsServiceQuotasGetRequestedServiceQuotaChangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the specified quota increase request in your quota request template. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceQuotaIncreaseRequestFromTemplateAsync(AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceQuotaIncreaseRequestFromTemplateAsync(AwsServiceQuotasGetServiceQuotaIncreaseRequestFromTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceQuotaAsync(AwsServiceQuotasGetServiceQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceQuotaAsync(AwsServiceQuotasGetServiceQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases. See also: AWS API Documentation list-aws-default-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
@@ -138,8 +127,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAwsDefaultServiceQuotasAsync(AwsServiceQuotasListAwsDefaultServiceQuotasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAwsDefaultServiceQuotasAsync(AwsServiceQuotasListAwsDefaultServiceQuotasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, re- source level, or all levels. See also: AWS API Documentation list-requested-service-quota-change-history-by-quota is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginat...
@@ -148,8 +136,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRequestedServiceQuotaChangeHistoryByQuotaAsync(AwsServiceQuotasListRequestedServiceQuotaChangeHistoryByQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRequestedServiceQuotaChangeHistoryByQuotaAsync(AwsServiceQuotasListRequestedServiceQuotaChangeHistoryByQuotaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the quota increase requests for the specified Amazon Web Ser- vices service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days. See also: AWS API Documentation list-requested-service-quota-change-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate a...
@@ -158,8 +145,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRequestedServiceQuotaChangeHistoryAsync(AwsServiceQuotasListRequestedServiceQuotaChangeHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRequestedServiceQuotaChangeHistoryAsync(AwsServiceQuotasListRequestedServiceQuotaChangeHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the quota increase requests in the specified quota request tem- plate. See also: AWS API Documentation list-service-quota-increase-requests-in-template is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expr...
@@ -168,8 +154,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceQuotaIncreaseRequestsInTemplateAsync(AwsServiceQuotasListServiceQuotaIncreaseRequestsInTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceQuotaIncreaseRequestsInTemplateAsync(AwsServiceQuotasListServiceQuotaIncreaseRequestsInTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not re- trieved. Filter responses to return applied quota values at either the account level, resource level, or all levels. See also: AWS API Documentation list-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
@@ -178,8 +163,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceQuotasAsync(AwsServiceQuotasListServiceQuotasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceQuotasAsync(AwsServiceQuotasListServiceQuotasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the names and codes for the Amazon Web Services services inte- grated with Service Quotas. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Servic...
@@ -188,8 +172,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServicesAsync(AwsServiceQuotasListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServicesAsync(AwsServiceQuotasListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the tags assigned to the specified applied quota. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsServiceQuotasListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsServiceQuotasListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a quota increase request to your quota request template. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutServiceQuotaIncreaseRequestIntoTemplateAsync(AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutServiceQuotaIncreaseRequestIntoTemplateAsync(AwsServiceQuotasPutServiceQuotaIncreaseRequestIntoTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a quota increase request for the specified quota at the account or resource level. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RequestServiceQuotaIncreaseAsync(AwsServiceQuotasRequestServiceQuotaIncreaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RequestServiceQuotaIncreaseAsync(AwsServiceQuotasRequestServiceQuotaIncreaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas config- urations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAutoManagementAsync(AwsServiceQuotasStartAutoManagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAutoManagementAsync(AwsServiceQuotasStartAutoManagementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns a unique re- port identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, de- pending on the number of quotas in your account. Use the GetQuotaUti- lizationReport operation to check the status and retrieve the results when the report is...
@@ -238,8 +217,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQuotaUtilizationReportAsync(AwsServiceQuotasStartQuotaUtilizationReportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQuotaUtilizationReportAsync(AwsServiceQuotasStartQuotaUtilizationReportOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAutoManagementAsync(AwsServiceQuotasStopAutoManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAutoManagementAsync(AwsServiceQuotasStopAutoManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsServiceQuotasTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsServiceQuotasTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsServiceQuotasUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsServiceQuotasUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates your Service Quotas Automatic Management configuration, includ- ing notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
@@ -278,7 +253,6 @@ public interface IAwsServiceQuotas
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutoManagementAsync(AwsServiceQuotasUpdateAutoManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutoManagementAsync(AwsServiceQuotasUpdateAutoManagementOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

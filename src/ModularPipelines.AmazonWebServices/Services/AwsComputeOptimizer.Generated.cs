@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws computeoptimizer commands.
+/// aws compute-optimizer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsComputeOptimizer : IAwsComputeOptimizer
@@ -287,21 +287,6 @@ public class AwsComputeOptimizer : IAwsComputeOptimizer
     }
 
     /// <summary>
-    /// Returns the Compute Optimizer enrollment (opt-in) status of organiza- tion member accounts, if your account is an organization management ac- count. To get the enrollment status of standalone accounts, use the GetEn- rollmentStatus action. See also: AWS API Documentation get-enrollment-statuses-for-organization is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetEnrollmentStatusesForOrganizationAsync(
-        AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the enrollment (opt in) status of an account to the Compute Op- timizer service. If the account is the management account of an organization, this ac- tion also confirms the enrollment status of member accounts of the or- ganization. Use the GetEnrollmentStatusesForOrganization action to get detailed information about the enrollment status of member accounts of an organization. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -314,6 +299,21 @@ public class AwsComputeOptimizer : IAwsComputeOptimizer
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerGetEnrollmentStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the Compute Optimizer enrollment (opt-in) status of organiza- tion member accounts, if your account is an organization management ac- count. To get the enrollment status of standalone accounts, use the GetEn- rollmentStatus action. See also: AWS API Documentation get-enrollment-statuses-for-organization is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetEnrollmentStatusesForOrganizationAsync(
+        AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerGetEnrollmentStatusesForOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

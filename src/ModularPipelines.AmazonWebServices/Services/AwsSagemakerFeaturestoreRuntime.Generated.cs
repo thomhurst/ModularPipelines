@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakerfeaturestoreruntime commands.
+/// aws sagemaker-featurestore-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsSagemakerFeaturestoreRuntime : IAwsSagemakerFeaturestoreRuntime

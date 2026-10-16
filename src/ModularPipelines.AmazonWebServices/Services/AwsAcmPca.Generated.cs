@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws acmpca commands.
+/// aws acm-pca commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAcmPca : IAwsAcmPca
@@ -33,7 +33,7 @@ public class AwsAcmPca : IAwsAcmPca
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws acm-pca wait sub-commands.
     /// </summary>
     public AwsAcmPcaWait Wait => _wait ??= new AwsAcmPcaWait(_command);
 

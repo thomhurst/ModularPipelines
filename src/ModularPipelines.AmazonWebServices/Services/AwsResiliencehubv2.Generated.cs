@@ -33,7 +33,7 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws resiliencehubv2 wait sub-commands.
     /// </summary>
     public AwsResiliencehubv2Wait Wait => _wait ??= new AwsResiliencehubv2Wait(_command);
 
@@ -687,21 +687,6 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists services. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServicesAsync(
-        AwsResiliencehubv2ListServicesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists topology edges for a service. See also: AWS API Documentation list-service-topology-edges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceTopologyEdgeSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -714,6 +699,21 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists services. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: serviceSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListServicesAsync(
+        AwsResiliencehubv2ListServicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -792,21 +792,6 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the runs of a test, or all test runs for a service. See also: AWS API Documentation list-test-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testRuns
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTestRunsAsync(
-        AwsResiliencehubv2ListTestRunsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the state-change events observed for a test run monitoring source. Events are returned for one source per call, in chronological order. See also: AWS API Documentation list-test-run-source-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -837,14 +822,14 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
     }
 
     /// <summary>
-    /// Lists the tests configured for a service. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tests
+    /// Lists the runs of a test, or all test runs for a service. See also: AWS API Documentation list-test-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: testRuns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTestsAsync(
-        AwsResiliencehubv2ListTestsOptions options,
+    public virtual async Task<CommandResult> ListTestRunsAsync(
+        AwsResiliencehubv2ListTestRunsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -879,6 +864,21 @@ public class AwsResiliencehubv2 : IAwsResiliencehubv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubv2ListTestTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the tests configured for a service. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tests
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTestsAsync(
+        AwsResiliencehubv2ListTestsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

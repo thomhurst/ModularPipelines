@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralaccount commands.
+/// aws partnercentral-account commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptConnectionInvitationAsync(AwsPartnercentralAccountAcceptConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptConnectionInvitationAsync(AwsPartnercentralAccountAcceptConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifica- tions. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAwsTrainingCertificationEmailDomainAsync(AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAwsTrainingCertificationEmailDomainAsync(AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending connection invitation before it has been accepted or rejected. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelConnectionInvitationAsync(AwsPartnercentralAccountCancelConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelConnectionInvitationAsync(AwsPartnercentralAccountCancelConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an existing connection between partners, terminating the part- nership relationship. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelConnectionAsync(AwsPartnercentralAccountCancelConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelConnectionAsync(AwsPartnercentralAccountCancelConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an in-progress profile update task, stopping any pending changes to the partner profile. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelProfileUpdateTaskAsync(AwsPartnercentralAccountCancelProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelProfileUpdateTaskAsync(AwsPartnercentralAccountCancelProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new connection invitation to establish a partnership with an- other organization. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConnectionInvitationAsync(AwsPartnercentralAccountCreateConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConnectionInvitationAsync(AwsPartnercentralAccountCreateConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new partner account in the AWS Partner Network with the spec- ified details and configuration. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePartnerAsync(AwsPartnercentralAccountCreatePartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePartnerAsync(AwsPartnercentralAccountCreatePartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between an email domain and AWS training and certification for the partner account. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAwsTrainingCertificationEmailDomainAsync(AwsPartnercentralAccountDisassociateAwsTrainingCertificationEmailDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAwsTrainingCertificationEmailDomainAsync(AwsPartnercentralAccountDisassociateAwsTrainingCertificationEmailDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the alliance lead contact information for a partner account. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAllianceLeadContactAsync(AwsPartnercentralAccountGetAllianceLeadContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAllianceLeadContactAsync(AwsPartnercentralAccountGetAllianceLeadContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific connection invitation. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionInvitationAsync(AwsPartnercentralAccountGetConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionInvitationAsync(AwsPartnercentralAccountGetConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific connection between partners. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionAsync(AwsPartnercentralAccountGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionAsync(AwsPartnercentralAccountGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the connection preferences for a partner account, including access settings and exclusions. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionPreferencesAsync(AwsPartnercentralAccountGetConnectionPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionPreferencesAsync(AwsPartnercentralAccountGetConnectionPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific partner account. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPartnerAsync(AwsPartnercentralAccountGetPartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPartnerAsync(AwsPartnercentralAccountGetPartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific profile update task. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileUpdateTaskAsync(AwsPartnercentralAccountGetProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileUpdateTaskAsync(AwsPartnercentralAccountGetProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the visibility settings for a partner profile, determining who can see the profile information. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileVisibilityAsync(AwsPartnercentralAccountGetProfileVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileVisibilityAsync(AwsPartnercentralAccountGetProfileVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQualificationsAssociationDetailsAsync(AwsPartnercentralAccountGetQualificationsAssociationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQualificationsAssociationDetailsAsync(AwsPartnercentralAccountGetQualificationsAssociationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and details of the most recent qualifications as- sociation task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssoci- ationTask . See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQualificationsAssociationTaskAsync(AwsPartnercentralAccountGetQualificationsAssociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQualificationsAssociationTaskAsync(AwsPartnercentralAccountGetQualificationsAssociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and details of the most recent qualifications dis- association task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualifications- DisassociationTask . See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetQualificationsDisassociationTaskAsync(AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetQualificationsDisassociationTaskAsync(AwsPartnercentralAccountGetQualificationsDisassociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVerificationAsync(AwsPartnercentralAccountGetVerificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVerificationAsync(AwsPartnercentralAccountGetVerificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria. See also: AWS API Documentation list-connection-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
@@ -218,8 +199,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionInvitationsAsync(AwsPartnercentralAccountListConnectionInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionInvitationsAsync(AwsPartnercentralAccountListConnectionInvitationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists active connections for the partner account, with optional filter- ing by connection type and participant. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
@@ -228,8 +208,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConnectionsAsync(AwsPartnercentralAccountListConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConnectionsAsync(AwsPartnercentralAccountListConnectionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists partner accounts in the catalog, providing a summary view of all partners. See also: AWS API Documentation list-partners is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PartnerSummaryList
@@ -238,8 +217,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPartnersAsync(AwsPartnercentralAccountListPartnersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPartnersAsync(AwsPartnercentralAccountListPartnersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all tags associated with a specific AWS Partner Central Account resource. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralAccountListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralAccountListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates the alliance lead contact information for a partner account. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAllianceLeadContactAsync(AwsPartnercentralAccountPutAllianceLeadContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAllianceLeadContactAsync(AwsPartnercentralAccountPutAllianceLeadContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the visibility level for a partner profile, controlling who can view the profile information. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutProfileVisibilityAsync(AwsPartnercentralAccountPutProfileVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutProfileVisibilityAsync(AwsPartnercentralAccountPutProfileVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a connection invitation from another partner, declining the partnership request. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectConnectionInvitationAsync(AwsPartnercentralAccountRejectConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectConnectionInvitationAsync(AwsPartnercentralAccountRejectConnectionInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an email verification code to the specified email address for ac- count verification purposes. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendEmailVerificationCodeAsync(AwsPartnercentralAccountSendEmailVerificationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendEmailVerificationCodeAsync(AwsPartnercentralAccountSendEmailVerificationCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a profile update task to modify partner profile information asynchronously. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartProfileUpdateTaskAsync(AwsPartnercentralAccountStartProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartProfileUpdateTaskAsync(AwsPartnercentralAccountStartProfileUpdateTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociation- Task to monitor task progress. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQualificationsAssociationTaskAsync(AwsPartnercentralAccountStartQualificationsAssociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQualificationsAssociationTaskAsync(AwsPartnercentralAccountStartQualificationsAssociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates an asynchronous task to disassociate your partner qualifica- tions from a primary account. You must currently be associated and can- not disassociate if you are the primary partner. Use GetQualifications- DisassociationTask to monitor task progress. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartQualificationsDisassociationTaskAsync(AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartQualificationsDisassociationTaskAsync(AwsPartnercentralAccountStartQualificationsDisassociationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a new verification process for a partner account. This opera- tion begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Part- ner Central. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVerificationAsync(AwsPartnercentralAccountStartVerificationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVerificationAsync(AwsPartnercentralAccountStartVerificationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a specified AWS Partner Central Account re- source. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPartnercentralAccountTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPartnercentralAccountTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes specified tags from an AWS Partner Central Account resource. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralAccountUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralAccountUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the connection preferences for a partner account, modifying ac- cess settings and exclusions. See also: AWS API Documentation
@@ -358,7 +325,6 @@ public interface IAwsPartnercentralAccount
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectionPreferencesAsync(AwsPartnercentralAccountUpdateConnectionPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectionPreferencesAsync(AwsPartnercentralAccountUpdateConnectionPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

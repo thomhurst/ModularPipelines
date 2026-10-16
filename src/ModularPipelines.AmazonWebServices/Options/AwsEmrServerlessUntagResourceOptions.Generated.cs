@@ -27,7 +27,7 @@ public record AwsEmrServerlessUntagResourceOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Removes tags from resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/ses- sions\/[0-9a-zA-Z]+)?</param>
     /// <param name="TagKeys">The keys of the tags to be removed. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 1 o max: 128 o pattern: [A-Za-z0-9 /_.:=+@-]+ Syntax: "string" "string" ...</param>
     public AwsEmrServerlessUntagResourceOptions(
         string ResourceArn,
@@ -71,7 +71,7 @@ public record AwsEmrServerlessUntagResourceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+)?
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs. Constraints: o min: 60 o max: 1024 o pattern: arn:(aws[a-zA-Z0-9-]*):emr-serverless:.+:(\d{12}):\/ap- plications\/[0-9a-zA-Z]+(\/jobruns\/[0-9a-zA-Z]+|\/ses- sions\/[0-9a-zA-Z]+)?
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

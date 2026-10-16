@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsDms
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dms wait sub-commands.
     /// </summary>
-    AwsDmsWait Wait => throw new System.NotSupportedException();
+    AwsDmsWait Wait { get; }
 
     /// <summary>
     /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS re- sources, or used in a Condition statement in an IAM policy for DMS. For more information, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsToResourceAsync(AwsDmsAddTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsToResourceAsync(AwsDmsAddTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies a pending maintenance action to a resource (for example, to a replication instance). See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ApplyPendingMaintenanceActionAsync(AwsDmsApplyPendingMaintenanceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ApplyPendingMaintenanceActionAsync(AwsDmsApplyPendingMaintenanceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version o...
@@ -53,8 +51,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchStartRecommendationsAsync(AwsDmsBatchStartRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchStartRecommendationsAsync(AwsDmsBatchStartRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion . Required permissions: dms:CancelMetadataModelConversion . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMetadataModelConversionAsync(AwsDmsCancelMetadataModelConversionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelMetadataModelConversionAsync(AwsDmsCancelMetadataModelConversionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation . Required permissions: dms:CancelMetadataModelCreation . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelMetadataModelCreationAsync(AwsDmsCancelMetadataModelCreationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelMetadataModelCreationAsync(AwsDmsCancelMetadataModelCreationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual as- sessments that are currently running. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelReplicationTaskAssessmentRunAsync(AwsDmsCancelReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelReplicationTaskAssessmentRunAsync(AwsDmsCancelReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data migration using the provided settings. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataMigrationAsync(AwsDmsCreateDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataMigrationAsync(AwsDmsCreateDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database. Required permissions: dms:CreateDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataProviderAsync(AwsDmsCreateDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataProviderAsync(AwsDmsCreateDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an endpoint using the provided settings. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEnd- point API call. Specifying DatabaseName when you create a MySQL end- point replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointAsync(AwsDmsCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointAsync(AwsDmsCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an DMS event notification subscription. You can specify the type of source (SourceType ) you want to be noti- fied of, provide a list of DMS source IDs (SourceIds ) that triggers the events, and provide a list of event categories (EventCategories ) for events you want to be notified of. If you specify both the Source- Type and SourceIds , such as SourceType = replication-instance and SourceIdentifier = my-replinstance , you will be notified of all the replication instance events for the ...
@@ -123,8 +114,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventSubscriptionAsync(AwsDmsCreateEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventSubscriptionAsync(AwsDmsCreateEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Creates a Fleet Advisor collector using the specified parameters. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateFleetAdvisorCollectorAsync(AwsDmsCreateFleetAdvisorCollectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateFleetAdvisorCollectorAsync(AwsDmsCreateFleetAdvisorCollectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the instance profile using the specified parameters. Required permissions: dms:CreateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceProfileAsync(AwsDmsCreateInstanceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceProfileAsync(AwsDmsCreateInstanceProfileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider . Required permissions: dms:CreateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMigrationProjectAsync(AwsDmsCreateMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMigrationProjectAsync(AwsDmsCreateMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a configuration that you can later provide to configure and start an DMS Serverless replication. You can also provide options to validate the configuration inputs before you start the replication. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationConfigAsync(AwsDmsCreateReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationConfigAsync(AwsDmsCreateReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate per- missions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API . For information on the required permissions, see IAM Per- missions Needed to Use DMS . NOTE: If you don't specify a version when creating a replication instance, DMS will create the instance using the default...
@@ -173,8 +159,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationInstanceAsync(AwsDmsCreateReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationInstanceAsync(AwsDmsCreateReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services ac- count, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the...
@@ -183,8 +168,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationSubnetGroupAsync(AwsDmsCreateReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationSubnetGroupAsync(AwsDmsCreateReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a replication task using the specified parameters. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationTaskAsync(AwsDmsCreateReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationTaskAsync(AwsDmsCreateReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified certificate. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCertificateAsync(AwsDmsDeleteCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCertificateAsync(AwsDmsDeleteCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the connection between a replication instance and an endpoint. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionAsync(AwsDmsDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionAsync(AwsDmsDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified data migration. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataMigrationAsync(AwsDmsDeleteDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataMigrationAsync(AwsDmsDeleteDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the data provider must be deleted or modified before you can delete the data provider. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataProviderAsync(AwsDmsDeleteDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataProviderAsync(AwsDmsDeleteDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified endpoint. NOTE: All tasks associated with the endpoint must be deleted before you can delete the endpoint. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAsync(AwsDmsDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAsync(AwsDmsDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an DMS event subscription. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventSubscriptionAsync(AwsDmsDeleteEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventSubscriptionAsync(AwsDmsDeleteEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Deletes the specified Fleet Advisor collector. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFleetAdvisorCollectorAsync(AwsDmsDeleteFleetAdvisorCollectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFleetAdvisorCollectorAsync(AwsDmsDeleteFleetAdvisorCollectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Deletes the specified Fleet Advisor collector databases. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFleetAdvisorDatabasesAsync(AwsDmsDeleteFleetAdvisorDatabasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFleetAdvisorDatabasesAsync(AwsDmsDeleteFleetAdvisorDatabasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceProfileAsync(AwsDmsDeleteInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceProfileAsync(AwsDmsDeleteInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can delete it. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMigrationProjectAsync(AwsDmsDeleteMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMigrationProjectAsync(AwsDmsDeleteMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an DMS Serverless replication configuration. This effectively deprovisions any and all replications that use this configuration. You can't delete the configuration for an DMS Serverless replication that is ongoing. You can delete the configuration when the replication is in a non-RUNNING and non-STARTING state. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationConfigAsync(AwsDmsDeleteReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationConfigAsync(AwsDmsDeleteReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified replication instance. NOTE: You must delete any migration tasks that are associated with the replication instance before you can delete it. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationInstanceAsync(AwsDmsDeleteReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationInstanceAsync(AwsDmsDeleteReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a subnet group. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationSubnetGroupAsync(AwsDmsDeleteReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationSubnetGroupAsync(AwsDmsDeleteReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this as- sessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationTaskAssessmentRunAsync(AwsDmsDeleteReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationTaskAssessmentRunAsync(AwsDmsDeleteReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified replication task. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationTaskAsync(AwsDmsDeleteReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationTaskAsync(AwsDmsDeleteReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the DMS attributes for a customer account. These attrib- utes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quo- tas supported by the account, such as the number of replication in- stances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS...
@@ -353,8 +321,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountAttributesAsync(AwsDmsDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountAttributesAsync(AwsDmsDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Other- wise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a sou...
@@ -363,8 +330,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicableIndividualAssessmentsAsync(AwsDmsDescribeApplicableIndividualAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicableIndividualAssessmentsAsync(AwsDmsDescribeApplicableIndividualAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a description of the certificate. See also: AWS API Documentation describe-certificates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Certificates
@@ -373,8 +339,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCertificatesAsync(AwsDmsDescribeCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCertificatesAsync(AwsDmsDescribeCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint. See also: AWS API Documentation describe-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
@@ -383,8 +348,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConnectionsAsync(AwsDmsDescribeConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConnectionsAsync(AwsDmsDescribeConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns configuration parameters for a schema conversion project. Required permissions: dms:DescribeConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConversionConfigurationAsync(AwsDmsDescribeConversionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConversionConfigurationAsync(AwsDmsDescribeConversionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about data migrations. See also: AWS API Documentation describe-data-migrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DataMigrations
@@ -403,8 +366,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataMigrationsAsync(AwsDmsDescribeDataMigrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataMigrationsAsync(AwsDmsDescribeDataMigrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of data providers for your account in the cur- rent region. Required permissions: dms:ListDataProviders . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataProvidersAsync(AwsDmsDescribeDataProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataProvidersAsync(AwsDmsDescribeDataProvidersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine. See also: AWS API Documentation
@@ -423,18 +384,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointSettingsAsync(AwsDmsDescribeEndpointSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about the endpoints for your account in the current region. See also: AWS API Documentation describe-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointsAsync(AwsDmsDescribeEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointSettingsAsync(AwsDmsDescribeEndpointSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the type of endpoints available. See also: AWS API Documentation describe-endpoint-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SupportedEndpointTypes
@@ -443,8 +393,16 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointTypesAsync(AwsDmsDescribeEndpointTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointTypesAsync(AwsDmsDescribeEndpointTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information about the endpoints for your account in the current region. See also: AWS API Documentation describe-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Endpoints
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeEndpointsAsync(AwsDmsDescribeEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the replication instance versions used in the project. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEngineVersionsAsync(AwsDmsDescribeEngineVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEngineVersionsAsync(AwsDmsDescribeEngineVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the Database Migration Service User Guide. See also: AWS API Documentation
@@ -463,18 +420,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventCategoriesAsync(AwsDmsDescribeEventCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsAsync(AwsDmsDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventCategoriesAsync(AwsDmsDescribeEventCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the event subscriptions for a customer account. The descrip- tion of a subscription includes SubscriptionName , SNSTopicARN , Cus- tomerID , SourceType , SourceID , CreationTime , and Status . If you specify SubscriptionName , this action lists the description for that subscription. See also: AWS API Documentation describe-event-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by p...
@@ -483,8 +429,16 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventSubscriptionsAsync(AwsDmsDescribeEventSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventSubscriptionsAsync(AwsDmsDescribeEventSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeEventsAsync(AwsDmsDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of extension pack installation requests for a migration project, initiated by StartExtensionPackAssociation . Required permissions: dms:ListExtensionPacks . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExtensionPackAssociationsAsync(AwsDmsDescribeExtensionPackAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExtensionPackAssociationsAsync(AwsDmsDescribeExtensionPackAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Returns a list of the Fleet Advisor collectors in your account. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetAdvisorCollectorsAsync(AwsDmsDescribeFleetAdvisorCollectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetAdvisorCollectorsAsync(AwsDmsDescribeFleetAdvisorCollectorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Returns a list of Fleet Advisor databases in your account. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetAdvisorDatabasesAsync(AwsDmsDescribeFleetAdvisorDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetAdvisorDatabasesAsync(AwsDmsDescribeFleetAdvisorDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors. See also: AWS API Docu...
@@ -523,8 +474,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetAdvisorLsaAnalysisAsync(AwsDmsDescribeFleetAdvisorLsaAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetAdvisorLsaAnalysisAsync(AwsDmsDescribeFleetAdvisorLsaAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Provides descriptions of the schemas discovered by your Fleet Advisor collectors. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetAdvisorSchemaObjectSummaryAsync(AwsDmsDescribeFleetAdvisorSchemaObjectSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetAdvisorSchemaObjectSummaryAsync(AwsDmsDescribeFleetAdvisorSchemaObjectSummaryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Returns a list of schemas detected by Fleet Advisor Collectors in your account. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeFleetAdvisorSchemasAsync(AwsDmsDescribeFleetAdvisorSchemasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeFleetAdvisorSchemasAsync(AwsDmsDescribeFleetAdvisorSchemasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceProfilesAsync(AwsDmsDescribeInstanceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceProfilesAsync(AwsDmsDescribeInstanceProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model assessment requests for a migration project, initiated by StartMetadataModelAssessment . Required permissions: dms:ListMetadataModelAssessments . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelAssessmentsAsync(AwsDmsDescribeMetadataModelAssessmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelAssessmentsAsync(AwsDmsDescribeMetadataModelAssessmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a list of child metadata models for the specified metadata model in the database hierarchy. Required permissions: dms:DescribeMetadataModelChildren . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-children is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment...
@@ -573,8 +519,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelChildrenAsync(AwsDmsDescribeMetadataModelChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelChildrenAsync(AwsDmsDescribeMetadataModelChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model conversion requests for a migration project, initiated by StartMetadataModelConversion . To cancel a queued or in-progress request, call CancelMetadataModelConversion . Required permissions: dms:ListMetadataModelConversions . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelConversionsAsync(AwsDmsDescribeMetadataModelConversionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelConversionsAsync(AwsDmsDescribeMetadataModelConversionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model creation requests for a mi- gration project, initiated by StartMetadataModelCreation . To cancel a queued or in-progress request, call CancelMetadataModelCreation . Required permissions: dms:DescribeMetadataModelCreations . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation describe-metadata-model-creations is a paginated operation. Multiple API calls may be issued in order t...
@@ -593,8 +537,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelCreationsAsync(AwsDmsDescribeMetadataModelCreationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelCreationsAsync(AwsDmsDescribeMetadataModelCreationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model export requests for a migra- tion project, initiated by StartMetadataModelExportAsScript . Required permissions: dms:ListMetadataModelExports . For more in- formation, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelExportsAsScriptAsync(AwsDmsDescribeMetadataModelExportsAsScriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelExportsAsScriptAsync(AwsDmsDescribeMetadataModelExportsAsScriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model export requests for a migra- tion project, initiated by StartMetadataModelExportToTarget . Required permissions: dms:ListMetadataModelExports . For more in- formation, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelExportsToTargetAsync(AwsDmsDescribeMetadataModelExportsToTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelExportsToTargetAsync(AwsDmsDescribeMetadataModelExportsToTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of metadata model import requests for a migra- tion project, initiated by StartMetadataModelImport . Required permissions: dms:DescribeMetadataModelImports . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelImportsAsync(AwsDmsDescribeMetadataModelImportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelImportsAsync(AwsDmsDescribeMetadataModelImportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target data- base if applicable. Required permissions: dms:DescribeMetadataModel . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetadataModelAsync(AwsDmsDescribeMetadataModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetadataModelAsync(AwsDmsDescribeMetadataModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of migration projects for your account in the current region. Required permissions: dms:ListMigrationProjects . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMigrationProjectsAsync(AwsDmsDescribeMigrationProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMigrationProjectsAsync(AwsDmsDescribeMigrationProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the replication instance types that can be created in the specified region. See also: AWS API Documentation describe-orderable-replication-instances is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the fol...
@@ -653,8 +591,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrderableReplicationInstancesAsync(AwsDmsDescribeOrderableReplicationInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrderableReplicationInstancesAsync(AwsDmsDescribeOrderableReplicationInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of upcoming maintenance events for replication instances in your account in the current Region. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePendingMaintenanceActionsAsync(AwsDmsDescribePendingMaintenanceActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePendingMaintenanceActionsAsync(AwsDmsDescribePendingMaintenanceActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Returns a paginated list of limitations for recommendations of target Amazon Web Services engines. See also: AWS API Documentati...
@@ -673,8 +609,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecommendationLimitationsAsync(AwsDmsDescribeRecommendationLimitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecommendationLimitationsAsync(AwsDmsDescribeRecommendationLimitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Returns a paginated list of target engine recommendations for your source databases. See also: AWS API Documentation
@@ -683,8 +618,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecommendationsAsync(AwsDmsDescribeRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecommendationsAsync(AwsDmsDescribeRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status of the RefreshSchemas operation. See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRefreshSchemasStatusAsync(AwsDmsDescribeRefreshSchemasStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRefreshSchemasStatusAsync(AwsDmsDescribeRefreshSchemasStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns one or more existing DMS Serverless replication configurations as a list of structures. See also: AWS API Documentation
@@ -703,18 +636,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationConfigsAsync(AwsDmsDescribeReplicationConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about replication instances for your account in the current region. See also: AWS API Documentation describe-replication-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationInstancesAsync(AwsDmsDescribeReplicationInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationConfigsAsync(AwsDmsDescribeReplicationConfigsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the task logs for the specified task. See also: AWS API Documentation
@@ -723,18 +645,16 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationInstanceTaskLogsAsync(AwsDmsDescribeReplicationInstanceTaskLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationInstanceTaskLogsAsync(AwsDmsDescribeReplicationInstanceTaskLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides details on replication progress by returning status informa- tion for one or more provisioned DMS Serverless replications. See also: AWS API Documentation
+    /// Returns information about replication instances for your account in the current region. See also: AWS API Documentation describe-replication-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationsAsync(AwsDmsDescribeReplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationInstancesAsync(AwsDmsDescribeReplicationInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the replication subnet groups. See also: AWS API Documentation describe-replication-subnet-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ReplicationSubnetGroups
@@ -743,8 +663,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationSubnetGroupsAsync(AwsDmsDescribeReplicationSubnetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationSubnetGroupsAsync(AwsDmsDescribeReplicationSubnetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns table and schema statistics for one or more provisioned repli- cations that use a given DMS Serverless replication configuration. See also: AWS API Documentation
@@ -753,8 +672,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationTableStatisticsAsync(AwsDmsDescribeReplicationTableStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationTableStatisticsAsync(AwsDmsDescribeReplicationTableStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide . See also: AWS API Documentation describe-replication-task-assessment-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
@@ -763,8 +681,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationTaskAssessmentResultsAsync(AwsDmsDescribeReplicationTaskAssessmentResultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationTaskAssessmentResultsAsync(AwsDmsDescribeReplicationTaskAssessmentResultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of premigration assessment runs based on fil- ter settings. These filter settings can specify a combination of premigration assess- ment runs, migration tasks, replication instances, and assessment run status values. NOTE: This operation doesn't return information about individual assess- ments. For this information, see the DescribeReplicationTaskIndivid- ualAssessments operation. See also: AWS API Documentation
@@ -773,8 +690,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationTaskAssessmentRunsAsync(AwsDmsDescribeReplicationTaskAssessmentRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationTaskAssessmentRunsAsync(AwsDmsDescribeReplicationTaskAssessmentRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of individual assessments based on filter set- tings. These filter settings can specify a combination of premigration assess- ment runs, migration tasks, and assessment status values. See also: AWS API Documentation
@@ -783,8 +699,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationTaskIndividualAssessmentsAsync(AwsDmsDescribeReplicationTaskIndividualAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationTaskIndividualAssessmentsAsync(AwsDmsDescribeReplicationTaskIndividualAssessmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about replication tasks for your account in the current region. See also: AWS API Documentation describe-replication-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Replicat...
@@ -793,8 +708,16 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationTasksAsync(AwsDmsDescribeReplicationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationTasksAsync(AwsDmsDescribeReplicationTasksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Provides details on replication progress by returning status informa- tion for one or more provisioned DMS Serverless replications. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeReplicationsAsync(AwsDmsDescribeReplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the schema for the specified endpoint. See also: AWS API Documentation describe-schemas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Schemas
@@ -803,8 +726,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSchemasAsync(AwsDmsDescribeSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSchemasAsync(AwsDmsDescribeSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns table statistics on the database migration task, including ta- ble name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table. See also: AWS API Documentation describe-table-statistics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. ...
@@ -813,8 +735,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTableStatisticsAsync(AwsDmsDescribeTableStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTableStatisticsAsync(AwsDmsDescribeTableStatisticsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file. Required permissions: dms:ExportMetadataModelAssessment . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportMetadataModelAssessmentAsync(AwsDmsExportMetadataModelAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportMetadataModelAssessmentAsync(AwsDmsExportMetadataModelAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTargetSelectionRulesAsync(AwsDmsGetTargetSelectionRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTargetSelectionRulesAsync(AwsDmsGetTargetSelectionRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads the specified certificate. See also: AWS API Documentation
@@ -843,8 +762,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportCertificateAsync(AwsDmsImportCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportCertificateAsync(AwsDmsImportCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all metadata tags attached to an DMS resource, including replica- tion instance, endpoint, subnet group, and migration task. For more in- formation, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
@@ -853,8 +771,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDmsListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDmsListTagsForResourceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified schema conversion configuration using the pro- vided parameters. Required permissions: dms:UpdateConversionConfiguration . For more information, see Actions, resources, and condition keys for Database Migration Service . See also: AWS API Documentation
@@ -863,8 +780,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyConversionConfigurationAsync(AwsDmsModifyConversionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyConversionConfigurationAsync(AwsDmsModifyConversionConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing DMS data migration. See also: AWS API Documentation
@@ -873,8 +789,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyDataMigrationAsync(AwsDmsModifyDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyDataMigrationAsync(AwsDmsModifyDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified data provider using the provided settings. Required permissions: dms:UpdateDataProvider . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: You must remove the data provider from all migration projects before you can modify it. See also: AWS API Documentation
@@ -883,8 +798,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyDataProviderAsync(AwsDmsModifyDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyDataProviderAsync(AwsDmsModifyDataProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified endpoint. NOTE: For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEnd- point API call. Specifying DatabaseName when you modify a MySQL end- point replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task. See also: AWS API Documentation
@@ -893,8 +807,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEndpointAsync(AwsDmsModifyEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyEndpointAsync(AwsDmsModifyEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing DMS event notification subscription. See also: AWS API Documentation
@@ -903,8 +816,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEventSubscriptionAsync(AwsDmsModifyEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyEventSubscriptionAsync(AwsDmsModifyEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
@@ -913,8 +825,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyInstanceProfileAsync(AwsDmsModifyInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyInstanceProfileAsync(AwsDmsModifyInstanceProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject . For more infor- mation, see Actions, resources, and condition keys for Database Mi- gration Service . NOTE: The migration project must be closed before you can modify it. See also: AWS API Documentation
@@ -923,8 +834,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyMigrationProjectAsync(AwsDmsModifyMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyMigrationProjectAsync(AwsDmsModifyMigrationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing DMS Serverless replication configuration that you can use to start a replication. This command includes input validation and logic to check the state of any replication that uses this configu- ration. You can only modify a replication configuration before any replication that uses it has started. As soon as you have initially started a replication with a given configuiration, you can't modify that configuration, even if you stop it. Other run statuses that allow you to run t...
@@ -933,8 +843,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyReplicationConfigAsync(AwsDmsModifyReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyReplicationConfigAsync(AwsDmsModifyReplicationConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new val- ues in the request. Some settings are applied during the maintenance window. See also: AWS API Documentation
@@ -943,8 +852,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyReplicationInstanceAsync(AwsDmsModifyReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyReplicationInstanceAsync(AwsDmsModifyReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the settings for the specified replication subnet group. See also: AWS API Documentation
@@ -953,8 +861,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyReplicationSubnetGroupAsync(AwsDmsModifyReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyReplicationSubnetGroupAsync(AwsDmsModifyReplicationSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. For more information about DMS tasks, see Working with Migration Tasks in the Database Migration Service User Guide . See also: AWS API Documentation
@@ -963,8 +870,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyReplicationTaskAsync(AwsDmsModifyReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyReplicationTaskAsync(AwsDmsModifyReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance. See also: AWS API Documentation
@@ -973,8 +879,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MoveReplicationTaskAsync(AwsDmsMoveReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MoveReplicationTaskAsync(AwsDmsMoveReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reboots a replication instance. Rebooting results in a momentary out- age, until the replication instance becomes available again. See also: AWS API Documentation
@@ -983,8 +888,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootReplicationInstanceAsync(AwsDmsRebootReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebootReplicationInstanceAsync(AwsDmsRebootReplicationInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Populates the schema for the specified endpoint. This is an asynchro- nous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus opera- tion. See also: AWS API Documentation
@@ -993,8 +897,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RefreshSchemasAsync(AwsDmsRefreshSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RefreshSchemasAsync(AwsDmsRefreshSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reloads the target database table with the source data for a given DMS Serverless replication configuration. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
@@ -1003,8 +906,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReloadReplicationTablesAsync(AwsDmsReloadReplicationTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReloadReplicationTablesAsync(AwsDmsReloadReplicationTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reloads the target database table with the source data. You can only use this operation with a task in the RUNNING state, oth- erwise the service will throw an InvalidResourceStateFault exception. See also: AWS API Documentation
@@ -1013,8 +915,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReloadTablesAsync(AwsDmsReloadTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReloadTablesAsync(AwsDmsReloadTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes metadata tags from an DMS resource, including replication in- stance, endpoint, subnet group, and migration task. For more informa- tion, see ` Tag https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html`__ data type description. See also: AWS API Documentation
@@ -1023,8 +924,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveTagsFromResourceAsync(AwsDmsRemoveTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveTagsFromResourceAsync(AwsDmsRemoveTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Runs large-scale assessment (LSA) analysis on every Fleet Advisor col- lector in your account. See also: AWS API Documentation
@@ -1033,8 +933,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RunFleetAdvisorLsaAnalysisAsync(AwsDmsRunFleetAdvisorLsaAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RunFleetAdvisorLsaAnalysisAsync(AwsDmsRunFleetAdvisorLsaAnalysisOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified data migration. See also: AWS API Documentation
@@ -1043,8 +942,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDataMigrationAsync(AwsDmsStartDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDataMigrationAsync(AwsDmsStartDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in...
@@ -1053,8 +951,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartExtensionPackAssociationAsync(AwsDmsStartExtensionPackAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartExtensionPackAssociationAsync(AwsDmsStartExtensionPackAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the as- sessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has change...
@@ -1063,8 +960,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelAssessmentAsync(AwsDmsStartMetadataModelAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelAssessmentAsync(AwsDmsStartMetadataModelAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they com- plete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, re...
@@ -1073,8 +969,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelConversionAsync(AwsDmsStartMetadataModelConversionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelConversionAsync(AwsDmsStartMetadataModelConversionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migra- tion project's queue, the creation begins after they complete. NOTE: This operation supports only Microsoft SQL Server to Aurora Post- greSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conver- sion paths. To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a...
@@ -1083,8 +978,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelCreationAsync(AwsDmsStartMetadataModelCreationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelCreationAsync(AwsDmsStartMetadataModelCreationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* opera- tions are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models ...
@@ -1093,8 +987,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelExportAsScriptAsync(AwsDmsStartMetadataModelExportAsScriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelExportAsScriptAsync(AwsDmsStartMetadataModelExportAsScriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the mi- gration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. NOTE: If objects with the same name already ex...
@@ -1103,8 +996,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelExportToTargetAsync(AwsDmsStartMetadataModelExportToTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelExportToTargetAsync(AwsDmsStartMetadataModelExportToTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the mi- gration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport . For more in- formation, see Actions, resource...
@@ -1113,8 +1005,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMetadataModelImportAsync(AwsDmsStartMetadataModelImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMetadataModelImportAsync(AwsDmsStartMetadataModelImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see Amazon Web Services DMS Fleet Advisor end of support . Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for mul...
@@ -1123,8 +1014,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRecommendationsAsync(AwsDmsStartRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRecommendationsAsync(AwsDmsStartRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replica- tion workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint us- ing the server resources that DMS has provisioned for the DMS Server- less replication. See also: AWS API Documentation
@@ -1133,8 +1023,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartReplicationAsync(AwsDmsStartReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartReplicationAsync(AwsDmsStartReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the replication task assessment for unsupported data types in the source database. You can only use this operation for a task if the following conditions are true: o The task must be in the stopped state. o The task must have successful connections to the source and target. If either of these conditions are not met, an InvalidResourceStateFault error will result. For information about DMS task assessments, see Creating a task assess- ment report in the Database Migration Service User Guid...
@@ -1143,8 +1032,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartReplicationTaskAssessmentAsync(AwsDmsStartReplicationTaskAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartReplicationTaskAssessmentAsync(AwsDmsStartReplicationTaskAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a new premigration assessment run for one or more individual as- sessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the as- sessment run and its individual assessments com...
@@ -1153,8 +1041,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartReplicationTaskAssessmentRunAsync(AwsDmsStartReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartReplicationTaskAssessmentRunAsync(AwsDmsStartReplicationTaskAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks in the Database Migration Service User Guide. See also: AWS API Documentation
@@ -1163,8 +1050,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartReplicationTaskAsync(AwsDmsStartReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartReplicationTaskAsync(AwsDmsStartReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specified data migration. See also: AWS API Documentation
@@ -1173,8 +1059,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopDataMigrationAsync(AwsDmsStopDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopDataMigrationAsync(AwsDmsStopDataMigrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovi- sion the stopped replications. See also: AWS API Documentation
@@ -1183,8 +1068,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopReplicationAsync(AwsDmsStopReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopReplicationAsync(AwsDmsStopReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the replication task. See also: AWS API Documentation
@@ -1193,8 +1077,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopReplicationTaskAsync(AwsDmsStopReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopReplicationTaskAsync(AwsDmsStopReplicationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests the connection between the replication instance and the endpoint. See also: AWS API Documentation
@@ -1203,8 +1086,7 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestConnectionAsync(AwsDmsTestConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestConnectionAsync(AwsDmsTestConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.5 or higher. If any replication instances are from versions earlier than 3.4.5, the operation raises an error and tells you to upgrade these instances to version 3.4.5 or higher. To en- able migration regardless of version, set the Force option to true. However, if ...
@@ -1213,7 +1095,6 @@ public interface IAwsDms
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSubscriptionsToEventBridgeAsync(AwsDmsUpdateSubscriptionsToEventBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSubscriptionsToEventBridgeAsync(AwsDmsUpdateSubscriptionsToEventBridgeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

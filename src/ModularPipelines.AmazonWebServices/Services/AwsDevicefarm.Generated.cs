@@ -707,21 +707,6 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListOfferingsAsync(
-        AwsDevicefarmListOfferingsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevicefarmListOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of all historical purchases, renewals, and system re- newal transactions for an AWS account. The list is paginated and or- dered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to in- voke the operation. If you must be able to invoke this operation, con- tact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offering-transactions is a paginated operation. Multiple API calls may ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -734,6 +719,21 @@ public class AwsDevicefarm : IAwsDevicefarm
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevicefarmListOfferingTransactionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListOfferingsAsync(
+        AwsDevicefarmListOfferingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevicefarmListOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsS3Api
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws s3api wait sub-commands.
     /// </summary>
-    AwsS3ApiWait Wait => throw new System.NotSupportedException();
+    AwsS3ApiWait Wait { get; }
 
     /// <summary>
     /// This operation aborts a multipart upload. After a multipart upload is aborted, no additional parts can be uploaded using that upload ID. The storage consumed by any previously uploaded parts will be freed. How- ever, if any part uploads are currently in progress, those part uploads might or might not succeed. As a result, it might be necessary to abort a given multipart upload multiple times in order to completely free all storage consumed by all parts. To verify that all parts have been removed...
@@ -33,8 +33,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AbortMultipartUploadAsync(AwsS3apiAbortMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AbortMultipartUploadAsync(AwsS3apiAbortMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Completes a multipart upload by assembling previously uploaded parts. You first initiate the multipart upload and then upload all parts using the UploadPart operation or the UploadPartCopy operation. After suc- cessfully uploading all relevant parts of an upload, you call this Com- pleteMultipartUpload operation to complete the upload. Upon receiving this request, Amazon S3 concatenates all the parts in ascending order by part number to create a new object. In the CompleteMultipartUpload request...
@@ -43,8 +42,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteMultipartUploadAsync(AwsS3apiCompleteMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteMultipartUploadAsync(AwsS3apiCompleteMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a copy of an object that is already stored in Amazon S3. WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapo...
@@ -53,8 +51,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyObjectAsync(AwsS3apiCopyObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyObjectAsync(AwsS3apiCopyObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an S3 Metadata V2 metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your metadata tables with server-side encryption with Key Management Service (KMS) keys (SSE-KMS), you need ad...
@@ -63,8 +60,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBucketMetadataConfigurationAsync(AwsS3apiCreateBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBucketMetadataConfigurationAsync(AwsS3apiCreateBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: We recommend that you create your S3 Metadata configurations by us- ing the V2 CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1 CreateBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Creates a V1 S3 Me...
@@ -73,8 +69,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBucketMetadataTableConfigurationAsync(AwsS3apiCreateBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBucketMetadataTableConfigurationAsync(AwsS3apiCreateBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see ` CreateBucket https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html`__ . Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate re- quests. Anonymous requests are never allowed to create buckets. By cre- ating the bucket, you become the bucket owner. There are two types of buckets: general purpose...
@@ -83,8 +78,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBucketAsync(AwsS3apiCreateBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBucketAsync(AwsS3apiCreateBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
@@ -93,8 +87,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMultipartUploadAsync(AwsS3apiCreateMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMultipartUploadAsync(AwsS3apiCreateMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a session that establishes temporary security credentials to support fast authentication and authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that include the Availability Zone in the re- quest endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide . To make Zonal endpoint API requests on a directory bucket, use the Cre- ateSession API operation. Specifically, you grant s3express:CreateSes- sion...
@@ -103,8 +96,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSessionAsync(AwsS3apiCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSessionAsync(AwsS3apiCreateSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Deletes an analytics configuration for the bucket (specified by the an- alytics configuration ID). To use this operation, you must have permissions to perform the s3:Put- AnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subre- source Operations and Managing Access Permissions to ...
@@ -113,8 +105,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketAnalyticsConfigurationAsync(AwsS3apiDeleteBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketAnalyticsConfigurationAsync(AwsS3apiDeleteBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Deletes the cors configuration information set for the bucket. To use this operation, you must have permission to perform the s3:Put- BucketCORS action. The bucket owner has this permission by default and can grant this permission to others. For information about cors , see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . Related Resources o PutBucketCors o RESTOPTIONSobject WARNING: You must URL encode any signed h...
@@ -123,8 +114,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketCorsAsync(AwsS3apiDeleteBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketCorsAsync(AwsS3apiDeleteBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This implementation of the DELETE action resets the default encryption for the bucket as server-side encryption with Amazon S3 managed keys (SSE-S3). NOTE: o General purpose buckets - For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide . o Directory buckets - For directory buckets, there are only two sup- ported options for server-side encryption: SSE-S3 and SSE-KMS. For information about the default encryption configur...
@@ -133,8 +123,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketEncryptionAsync(AwsS3apiDeleteBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketEncryptionAsync(AwsS3apiDeleteBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and high throughput access tiers. To get the lowest storage cost on data ...
@@ -143,8 +132,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketIntelligentTieringConfigurationAsync(AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketIntelligentTieringConfigurationAsync(AwsS3apiDeleteBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an S3 Inventory configuration (identified by the inventory ID) from the bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory...
@@ -153,8 +141,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketInventoryConfigurationAsync(AwsS3apiDeleteBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketInventoryConfigurationAsync(AwsS3apiDeleteBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the lifecycle sub- resource associated with the bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of rules contained in the deleted lifecycle configuration. Permissions o General purpose bucket permissions - By default, all Amazon S3 re- sources are private, including buckets, objects, and related subre- sources (for exa...
@@ -163,8 +150,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketLifecycleAsync(AwsS3apiDeleteBucketLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketLifecycleAsync(AwsS3apiDeleteBucketLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 DeleteBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 DeleteBucketMetadataTableConfiguration API operation with V2 configurations, you will receive an HTTP 405 Method Not Allowed er- ror. Permissions To use this operation, you must have th...
@@ -173,8 +159,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketMetadataConfigurationAsync(AwsS3apiDeleteBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketMetadataConfigurationAsync(AwsS3apiDeleteBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: We recommend that you delete your S3 Metadata configurations by us- ing the V2 DeleteBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 DeleteBucketMetadataTableConfigura- tion API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Deletes a V...
@@ -183,8 +168,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketMetadataTableConfigurationAsync(AwsS3apiDeleteBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketMetadataTableConfigurationAsync(AwsS3apiDeleteBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a metrics configuration for the Amazon CloudWatch request met- rics (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported....
@@ -193,8 +177,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketMetricsConfigurationAsync(AwsS3apiDeleteBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketMetricsConfigurationAsync(AwsS3apiDeleteBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the S3 bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted. NOTE: o Directory buckets - If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed. o Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style reque...
@@ -203,8 +186,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketAsync(AwsS3apiDeleteBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketAsync(AwsS3apiDeleteBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Removes OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permis- sions in a Policy . For information about Amazon S3 Object Ownership, see Using Object Own- ership . The following operations are related to DeleteBucketOwnershipControls : o GetBucketOwnershipControls o PutBucketOwnershipControls...
@@ -213,8 +195,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketOwnershipControlsAsync(AwsS3apiDeleteBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketOwnershipControlsAsync(AwsS3apiDeleteBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S...
@@ -223,8 +204,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketPolicyAsync(AwsS3apiDeleteBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketPolicyAsync(AwsS3apiDeleteBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Deletes the replication configuration from the bucket. To use this operation, you must have permissions to perform the s3:Pu- tReplicationConfiguration action. The bucket owner has these permis- sions by default and can grant it to others. For more information about permissions, see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources . NOTE: It can take a while for the deleti...
@@ -233,8 +213,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketReplicationAsync(AwsS3apiDeleteBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketReplicationAsync(AwsS3apiDeleteBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Deletes tags from the general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use UntagResource instead. To use this operation, you must have permission to perform the s3:Put- BucketTagging action. By default, the bucket owner has this permission and can grant this permission to others...
@@ -243,8 +222,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketTaggingAsync(AwsS3apiDeleteBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketTaggingAsync(AwsS3apiDeleteBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting a website configu- ration on the specified bucket. You will get a 200 OK response if the website configuration you are trying to delete does not exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permiss...
@@ -253,8 +231,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBucketWebsiteAsync(AwsS3apiDeleteBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBucketWebsiteAsync(AwsS3apiDeleteBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific annotation from an Amazon S3 object. Use the x-amz-object-if-match header to perform a conditional delete that only succeeds if the object's ETag matches the provided value, preventing race conditions during concurrent updates. Deleting an annotation is permanent. Annotations are not independently versioned, so there is no delete marker or way to recover a deleted an- notation. To use this operation, you must have the s3:DeleteObjectAnnotation per- mission. If the object is pr...
@@ -263,8 +240,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectAnnotationAsync(AwsS3apiDeleteObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteObjectAnnotationAsync(AwsS3apiDeleteObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an object from a bucket. The behavior depends on the bucket's versioning state: o If bucket versioning is not enabled, the operation permanently deletes the object. o If bucket versioning is enabled, the operation inserts a delete marker, which becomes the current version of the object. To perma- nently delete an object in a versioned bucket, you must include the objects versionId in the request. For more information about version- ing-enabled buckets, see Deleting object versions from a...
@@ -273,18 +249,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectAsync(AwsS3apiDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// This operation enables you to delete multiple objects from a bucket us- ing a single HTTP request. If you know the object keys that you want to delete, then this operation provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request can contain a list of up to 1,000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-ena...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectsAsync(AwsS3apiDeleteObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteObjectAsync(AwsS3apiDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Removes the entire tag set from the specified object. For more informa- tion about managing object tags, see Object Tagging . To use this operation, you must have permission to perform the s3:Dele- teObjectTagging action. To delete tags of a specific object version, add the versionId query parameter in the request. You will need permission for the s3:DeleteOb- jectVersionTagging action. The following operations are related to DeleteObj...
@@ -293,8 +258,16 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteObjectTaggingAsync(AwsS3apiDeleteObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteObjectTaggingAsync(AwsS3apiDeleteObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// This operation enables you to delete multiple objects from a bucket us- ing a single HTTP request. If you know the object keys that you want to delete, then this operation provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request can contain a list of up to 1,000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-ena...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteObjectsAsync(AwsS3apiDeleteObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Removes the PublicAccessBlock configuration for an Amazon S3 bucket. This operation removes the bucket-level configuration only. The effec- tive public access behavior will still be governed by account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:PutBucketPublicAccessBlock permis- sion. For more information about permissions, see Permissions Related to Bucket Subresour...
@@ -303,8 +276,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePublicAccessBlockAsync(AwsS3apiDeletePublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePublicAccessBlockAsync(AwsS3apiDeletePublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the attribute-based access control (ABAC) property of the gen- eral purpose bucket. If ABAC is enabled on your bucket, you can use tags on the bucket for access control. For more information, see Enabling ABAC in general purpose buckets . See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketAbacAsync(AwsS3apiGetBucketAbacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketAbacAsync(AwsS3apiGetBucketAbacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. This implementation of the GET action uses the accelerate subresource to return the Transfer Acceleration state of a bucket, which is either Enabled or Suspended . Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to and from Amazon S3. To use this operation, you must have permission to perform the s3:GetAccelerateConfiguration action. The bucket owner has this permis- sion by d...
@@ -323,8 +294,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketAccelerateConfigurationAsync(AwsS3apiGetBucketAccelerateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketAccelerateConfigurationAsync(AwsS3apiGetBucketAccelerateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. This implementation of the GET action uses the acl subresource to re- turn the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have the READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. When you use this API operation with an access point, provide the alias of the access point in ...
@@ -333,8 +303,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketAclAsync(AwsS3apiGetBucketAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketAclAsync(AwsS3apiGetBucketAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. This implementation of the GET action returns an analytics configura- tion (identified by the analytics configuration ID) from the bucket. To use this operation, you must have permissions to perform the s3:Get- AnalyticsConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see Permissions Related to Bucket Subre- source Operat...
@@ -343,8 +312,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketAnalyticsConfigurationAsync(AwsS3apiGetBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketAnalyticsConfigurationAsync(AwsS3apiGetBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the Cross-Origin Resource Sharing (CORS) configuration informa- tion set for the bucket. To use this operation, you must have permission to perform the s3:Get- BucketCORS action. By default, the bucket owner has this permission and can grant it to others. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda ...
@@ -353,8 +321,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketCorsAsync(AwsS3apiGetBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketCorsAsync(AwsS3apiGetBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the default encryption configuration for an Amazon S3 bucket. By default, all buckets have a default encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). This operation also returns the BucketKeyEnabled and BlockedEncryptionTypes statuses. NOTE: o General purpose buckets - For information about the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide . o Directory buckets - For directory buckets,...
@@ -363,8 +330,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketEncryptionAsync(AwsS3apiGetBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketEncryptionAsync(AwsS3apiGetBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and high throughput access tiers. To get the lowest storage cost on data tha...
@@ -373,8 +339,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketIntelligentTieringConfigurationAsync(AwsS3apiGetBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketIntelligentTieringConfigurationAsync(AwsS3apiGetBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an S3 Inventory configuration (identified by the inventory con- figuration ID) from the bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoin...
@@ -383,8 +348,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketInventoryConfigurationAsync(AwsS3apiGetBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketInventoryConfigurationAsync(AwsS3apiGetBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the lifecycle configuration information set on the bucket. For information about lifecycle configuration, see Object Lifecycle Manage- ment . Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API, which is compatible with the new functionality. The previ- ous version of the API supported filtering based only on an object ...
@@ -393,8 +357,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketLifecycleConfigurationAsync(AwsS3apiGetBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketLifecycleConfigurationAsync(AwsS3apiGetBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: Using the GetBucketLocation operation is no longer a best practice. To return the Region that a bucket resides in, we recommend that you use the HeadBucket operation instead. For backward compatibility, Amazon S3 continues to support the GetBucketLocation operation. Returns the Region the bucket resides in. You set the bucket's Region using the LocationConstraint request parameter in a CreateBucket re- quest. For more information, see CreateBucket . NOTE: In a bucket's home Region, call...
@@ -403,8 +366,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketLocationAsync(AwsS3apiGetBucketLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketLocationAsync(AwsS3apiGetBucketLocationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the logging status of a bucket and the permissions users have to view and modify that status. The following operations are related to GetBucketLogging : o CreateBucket o PutBucketLogging WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this value to my%20%20file.txt . See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketLoggingAsync(AwsS3apiGetBucketLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketLoggingAsync(AwsS3apiGetBucketLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . NOTE: You can use the V2 GetBucketMetadataConfiguration API operation with V1 or V2 metadata configurations. However, if you try to use the V1 GetBucketMetadataTableConfiguration API operation with V2 configura- tions, you will receive an HTTP 405 Method Not Allowed error. Permissions To use this operation, you must have the s3...
@@ -423,8 +384,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketMetadataConfigurationAsync(AwsS3apiGetBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketMetadataConfigurationAsync(AwsS3apiGetBucketMetadataConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: We recommend that you retrieve your S3 Metadata configurations by using the V2 GetBucketMetadataTableConfiguration API operation. We no longer recommend using the V1 GetBucketMetadataTableConfiguration API operation. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by us- ing CreateBucketMetadataConfiguration so that you can expire journal table records and create a live inventory table. Retrieves the V1 S3...
@@ -433,8 +393,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketMetadataTableConfigurationAsync(AwsS3apiGetBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketMetadataTableConfigurationAsync(AwsS3apiGetBucketMetadataTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that this doesn't include the daily storage metrics. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availa...
@@ -443,8 +402,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketMetricsConfigurationAsync(AwsS3apiGetBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketMetricsConfigurationAsync(AwsS3apiGetBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the notification configuration of a bucket. If notifications are not enabled on the bucket, the action returns an empty NotificationConfiguration element. By default, you must be the bucket owner to read the notification con- figuration of a bucket. However, the bucket owner can use a bucket pol- icy to grant permission to other users to read this configuration with the s3:GetBucketNotification permission. When you use this API...
@@ -453,8 +411,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketNotificationConfigurationAsync(AwsS3apiGetBucketNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketNotificationConfigurationAsync(AwsS3apiGetBucketNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Retrieves OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:GetBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying permis- sions in a policy . NOTE: A bucket doesn't have OwnershipControls settings in the following cases: o The bucket was created before the BucketOwnerEnforced ownership setting was introduced and you've never explicitly applied this...
@@ -463,8 +420,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketOwnershipControlsAsync(AwsS3apiGetBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketOwnershipControlsAsync(AwsS3apiGetBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the policy of a specified bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zones in the Amazon S...
@@ -473,8 +429,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketPolicyAsync(AwsS3apiGetBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketPolicyAsync(AwsS3apiGetBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation, you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For more information about when Amazon S3 considers a bucket public, see The Meaning of "Public" . The following operations are related to GetBucketPolicyStatus : o Us...
@@ -483,8 +438,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketPolicyStatusAsync(AwsS3apiGetBucketPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketPolicyStatusAsync(AwsS3apiGetBucketPolicyStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the replication configuration of a bucket. NOTE: It can take a while to propagate the put or delete a replication configuration to all Amazon S3 systems. Therefore, a get request soon after put or delete can return a wrong result. For information about replication configuration, see Replication in the Amazon S3 User Guide . This action requires permissions for the s3:GetReplicationConfiguration action. For more information abou...
@@ -493,8 +447,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketReplicationAsync(AwsS3apiGetBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketReplicationAsync(AwsS3apiGetBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this ver- sion of the operation, you must be the bucket owner. For more informa- tion, see Requester Pays Buckets . The following operations are related to GetBucketRequestPayment : o ListObjects WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode th...
@@ -503,8 +456,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketRequestPaymentAsync(AwsS3apiGetBucketRequestPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketRequestPaymentAsync(AwsS3apiGetBucketRequestPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the tag set associated with the general purpose bucket. To use this operation, you must have permission to perform the s3:Get- BucketTagging action. By default, the bucket owner has this permission and can grant this permission to others. GetBucketTagging has the following special error: o Error code: NoSuchTagSet o Description: There is no tag set associated with the bucket. The following operations are related to GetBucketTag...
@@ -513,8 +465,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketTaggingAsync(AwsS3apiGetBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketTaggingAsync(AwsS3apiGetBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the versioning state of a bucket. To retrieve the versioning state of a bucket, you must be the bucket owner. This implementation also returns the MFA Delete status of the version- ing state. If the MFA Delete status is enabled , the bucket owner must use an authentication device to change the versioning state of the bucket. The following operations are related to GetBucketVersioning : o GetObject o PutObject o DeleteObject WAR...
@@ -523,8 +474,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketVersioningAsync(AwsS3apiGetBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketVersioningAsync(AwsS3apiGetBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the website configuration for a bucket. To host website on Ama- zon S3, you can configure a bucket as website by adding a website con- figuration. For more information about hosting websites, see Hosting Websites on Amazon S3 . This GET action requires the S3:GetBucketWebsite permission. By de- fault, only the bucket owner can read the bucket website configuration. However, bucket owners can allow other users to read the websit...
@@ -533,8 +483,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBucketWebsiteAsync(AwsS3apiGetBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBucketWebsiteAsync(AwsS3apiGetBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the access control list (ACL) of an object. To use this opera- tion, you must have s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see Mapping of ACL permissions and access policy permissions in the Amazon S3 User Guide This functionality is not supported for Amazon S3 on Outposts. By default, GET returns ACL information about the current version of an object. To return ACL information about ...
@@ -543,8 +492,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAclAsync(AwsS3apiGetObjectAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectAclAsync(AwsS3apiGetObjectAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an annotation from an Amazon S3 object. To use this opera- tion, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inven- tory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buck- ets). Th...
@@ -553,8 +501,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAnnotationAsync(AwsS3apiGetObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectAnnotationAsync(AwsS3apiGetObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all of the metadata from an object without returning the ob- ject itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts . All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes . NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Zonal endpoint. These end- points supp...
@@ -563,8 +510,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAttributesAsync(AwsS3apiGetObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectAttributesAsync(AwsS3apiGetObjectAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Gets an object's current legal hold status. For more information, see Locking Objects . This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObjectLegalHold : o GetObjectAttributes WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this value to my%20%20file.txt ...
@@ -573,8 +519,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectLegalHoldAsync(AwsS3apiGetObjectLegalHoldOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectLegalHoldAsync(AwsS3apiGetObjectLegalHoldOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see Locking Objects . The following action is related to GetObjectLockConfiguration : o GetObjectAttributes WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , con...
@@ -583,8 +528,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectLockConfigurationAsync(AwsS3apiGetObjectLockConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectLockConfigurationAsync(AwsS3apiGetObjectLockConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an object from Amazon S3. In the GetObject request, specify the full key name for the object. General purpose buckets - Both the virtual-hosted-style requests and the path-style requests are supported. For a virtual hosted-style request example, if you have the object photos/2006/February/sam- ple.jpg , specify the object key name as /photos/2006/February/sam- ple.jpg . For a path-style request example, if you have the object photos/2006/February/sample.jpg in the bucket named exampleb...
@@ -593,8 +537,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectAsync(AwsS3apiGetObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectAsync(AwsS3apiGetObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Retrieves an object's retention settings. For more information, see Locking Objects . This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObjectRetention : o GetObjectAttributes WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this value to my%20%20file.txt . ...
@@ -603,8 +546,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectRetentionAsync(AwsS3apiGetObjectRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectRetentionAsync(AwsS3apiGetObjectRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns the tag-set of an object. You send the GET request against the tagging subresource associated with the object. To use this operation, you must have permission to perform the s3:GetO- bjectTagging action. By default, the GET action returns information about current version of an object. For a versioned bucket, you can have multiple versions of an object in your bucket. To retrieve tags of any other version, use the versionId que...
@@ -613,8 +555,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectTaggingAsync(AwsS3apiGetObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectTaggingAsync(AwsS3apiGetObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. NOTE: You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObj...
@@ -623,8 +564,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetObjectTorrentAsync(AwsS3apiGetObjectTorrentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetObjectTorrentAsync(AwsS3apiGetObjectTorrentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. This operation returns the bucket-level configuration only. To under- stand the effective public access behavior, you must also consider ac- count-level settings (which may inherit from organization-level poli- cies). To use this operation, you must have the s3:GetBucketPublicAc- cessBlock permission. For more information about Amazon S3 permissions, see Specifying ...
@@ -633,8 +573,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPublicAccessBlockAsync(AwsS3apiGetPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPublicAccessBlockAsync(AwsS3apiGetPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// You can use this operation to determine if a bucket exists and if you have permission to access it. The action returns a 200 OK HTTP status code if the bucket exists and you have permission to access it. You can make a HeadBucket call on any bucket name to any Region in the parti- tion, and regardless of the permissions on the bucket, you will receive a response header with the correct bucket location so that you can then make a proper, signed request to the appropriate Regional endpoint. NOTE: ...
@@ -643,8 +582,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HeadBucketAsync(AwsS3apiHeadBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HeadBucketAsync(AwsS3apiHeadBucketOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The HEAD operation retrieves metadata from an object without returning the object itself. This operation is useful if you're interested only in an object's metadata. NOTE: A HEAD request has the same options as a GET operation on an object. The response is identical to the GET response except that there is no response body. Because of this, if the HEAD request generates an error, it returns a generic code, such as 400 Bad Request , 403 For- bidden , 404 Not Found , 405 Method Not Allowed , 412 P...
@@ -653,8 +591,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> HeadObjectAsync(AwsS3apiHeadObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> HeadObjectAsync(AwsS3apiHeadObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Lists the analytics configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. You should always check the IsTruncated ele- ment in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there will be ...
@@ -663,8 +600,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBucketAnalyticsConfigurationsAsync(AwsS3apiListBucketAnalyticsConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBucketAnalyticsConfigurationsAsync(AwsS3apiListBucketAnalyticsConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and high throughput access tiers. To get the lowest storage cost on data th...
@@ -673,8 +609,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBucketIntelligentTieringConfigurationsAsync(AwsS3apiListBucketIntelligentTieringConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBucketIntelligentTieringConfigurationsAsync(AwsS3apiListBucketIntelligentTieringConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken . You use the NextContinuationToken...
@@ -683,8 +618,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBucketInventoryConfigurationsAsync(AwsS3apiListBucketInventoryConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBucketInventoryConfigurationsAsync(AwsS3apiListBucketInventoryConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the metrics configurations for the bucket. The metrics configura- tions are only for the request metrics of the bucket and do not provide information on daily storage metrics. You can have up to 1,000 configu- rations per bucket. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-ho...
@@ -693,8 +627,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBucketMetricsConfigurationsAsync(AwsS3apiListBucketMetricsConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBucketMetricsConfigurationsAsync(AwsS3apiListBucketMetricsConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns a list of all buckets owned by the authenticated sender of the request. To grant IAM permission to use this operation, you must add the s3:ListAllMyBuckets policy action. For information about Amazon S3 buckets, see Creating, configuring, and working with Amazon S3 buckets . WARNING: We strongly recommend using only paginated ListBuckets requests. Un- paginated ListBuckets requests are only supported for Amazon Web Services acc...
@@ -703,8 +636,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBucketsAsync(AwsS3apiListBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBucketsAsync(AwsS3apiListBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all Amazon S3 directory buckets owned by the authen- ticated sender of the request. For more information about directory buckets, see Directory buckets in the Amazon S3 User Guide . NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't suppo...
@@ -713,8 +645,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDirectoryBucketsAsync(AwsS3apiListDirectoryBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDirectoryBucketsAsync(AwsS3apiListDirectoryBucketsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a multipart upload that has been initi- ated by the CreateMultipartUpload request, but has not yet been com- pleted or aborted. NOTE: Directory buckets - If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed. To delete these in-progress multipart uploads, use the ListMultipartUploads opera- tion t...
@@ -723,8 +654,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMultipartUploadsAsync(AwsS3apiListMultipartUploadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMultipartUploadsAsync(AwsS3apiListMultipartUploadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the annotations attached to an Amazon S3 object. Results are pag- inated, with a maximum of 1,000 annotations per object. Use the Annota- tionPrefix parameter to filter the results by name prefix. To use this operation, you must have the s3:ListObjectAnnotations per- mission. NOTE: Annotations are not supported by the following features: S3 Inven- tory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buck- ets). T...
@@ -733,28 +663,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectAnnotationsAsync(AwsS3apiListObjectAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. WARNING: This action has been revised. We recommend that you use the newer version, ListObjectsV2 , when developing app...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectsAsync(AwsS3apiListObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can con- tain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. For more information about listing objects, see Listing object keys pro- grammatically in the Amazon S3 User Guide . To get a list of your buck- ets, see List...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectsV2Async(AwsS3apiListObjectsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectAnnotationsAsync(AwsS3apiListObjectAnnotationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. WARNING: To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. NOTE: A 200 OK response can contain valid or invalid XML. Make sure to de- sign your application to parse the contents o...
@@ -763,8 +672,25 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListObjectVersionsAsync(AwsS3apiListObjectVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListObjectVersionsAsync(AwsS3apiListObjectVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. WARNING: This action has been revised. We recommend that you use the newer version, ListObjectsV2 , when developing app...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListObjectsAsync(AwsS3apiListObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can con- tain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. For more information about listing objects, see Listing object keys pro- grammatically in the Amazon S3 User Guide . To get a list of your buck- ets, see List...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListObjectsV2Async(AwsS3apiListObjectsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the parts that have been uploaded for a specific multipart up- load. To use this operation, you must provide the upload ID in the request. You obtain this uploadID by sending the initiate multipart upload re- quest through CreateMultipartUpload . The ListParts request returns a maximum of 1,000 uploaded parts. The limit of 1,000 parts is also the default value. You can restrict the number of parts in a response by specifying the max-parts request para- meter. If your multipart upload consi...
@@ -773,8 +699,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPartsAsync(AwsS3apiListPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPartsAsync(AwsS3apiListPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have s3:PutBucketABAC permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging ac- tions to tag your bucket. For more information, see Enabling ABAC in general pu...
@@ -783,8 +708,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketAbacAsync(AwsS3apiPutBucketAbacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketAbacAsync(AwsS3apiPutBucketAbacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to Amazon S3. To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has this permis- sion by default. The bucket owner can grant this permission to others. For more information about permissions, see Permission...
@@ -793,8 +717,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketAccelerateConfigurationAsync(AwsS3apiPutBucketAccelerateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketAccelerateConfigurationAsync(AwsS3apiPutBucketAccelerateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
@@ -803,8 +726,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketAclAsync(AwsS3apiPutBucketAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketAclAsync(AwsS3apiPutBucketAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets an analytics configuration for the bucket (specified by the ana- lytics configuration ID). You can have up to 1,000 analytics configura- tions per bucket. You can choose to have storage class analysis export analysis reports sent to a comma-separated values (CSV) flat file. See the DataExport request element. Reports are updated daily and are based on the object filters that you configure. When selecting data export, you specify a...
@@ -813,8 +735,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketAnalyticsConfigurationAsync(AwsS3apiPutBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketAnalyticsConfigurationAsync(AwsS3apiPutBucketAnalyticsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration ex- ists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucket- CORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.co...
@@ -823,8 +744,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketCorsAsync(AwsS3apiPutBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketCorsAsync(AwsS3apiPutBucketCorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation configures default encryption and Amazon S3 Bucket Keys for an existing bucket. You can also block encryption types using this operation. NOTE: Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazonaws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more infor- mation about endpoints in Ava...
@@ -833,8 +753,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketEncryptionAsync(AwsS3apiPutBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketEncryptionAsync(AwsS3apiPutBucketEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to 1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage class is designed to optimize stor- age costs by automatically moving data to the most cost-effective stor- age access tier, without performance impact or operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low la- tency and h...
@@ -843,8 +762,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketIntelligentTieringConfigurationAsync(AwsS3apiPutBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketIntelligentTieringConfigurationAsync(AwsS3apiPutBucketIntelligentTieringConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This implementation of the PUT action adds an S3 Inventory configura- tion (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket. Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly basis, and the results are published to a flat file. The bucket that is inventoried is called the source bucket, and the bucket where the inventory flat file is stored is called the desti- nation bucket. The destination buc...
@@ -853,8 +771,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketInventoryConfigurationAsync(AwsS3apiPutBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketInventoryConfigurationAsync(AwsS3apiPutBucketInventoryConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new lifecycle configuration for the bucket or replaces an ex- isting lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any con- figuration details, they must be included in the new lifecycle configu- ration. For information about lifecycle configuration, see Managing your storage lifecycle . NOTE: Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more...
@@ -863,8 +780,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketLifecycleConfigurationAsync(AwsS3apiPutBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketLifecycleConfigurationAsync(AwsS3apiPutBucketLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
@@ -873,8 +789,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketLoggingAsync(AwsS3apiPutBucketLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketLoggingAsync(AwsS3apiPutBucketLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can have up to 1,000 metrics configurations per bucket. If you're updating an existing metrics configuration, note that this is a full replacement of the existing metrics configuration. If you don't include the elements you want to keep, they are erased. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-...
@@ -883,8 +798,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketMetricsConfigurationAsync(AwsS3apiPutBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketMetricsConfigurationAsync(AwsS3apiPutBucketMetricsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Enables notifications of specified events for a bucket. For more infor- mation about event notifications, see Configuring Event Notifications . Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the speci- fied type...
@@ -893,8 +807,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketNotificationConfigurationAsync(AwsS3apiPutBucketNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketNotificationConfigurationAsync(AwsS3apiPutBucketNotificationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permis- sion. For more information about Amazon S3 permissions, see Specifying permissions in a policy . For information about Amazon S3 Object Ownership, see Using object own- ership . The following operations are related to PutBucketOwnershipControls : o GetBucketOwnershipControls o DeleteBucketOwnersh...
@@ -903,8 +816,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketOwnershipControlsAsync(AwsS3apiPutBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketOwnershipControlsAsync(AwsS3apiPutBucketOwnershipControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. NOTE: Directory buckets - For directory buckets, you must make re- quests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format `` https://s3express-control.*region-code* .amazon- aws.com/bucket-name `` . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see Regional and Zonal endpoints for directory buckets in Availability Zone...
@@ -913,8 +825,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketPolicyAsync(AwsS3apiPutBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketPolicyAsync(AwsS3apiPutBucketPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Creates a replication configuration or replaces an existing one. For more information, see Replication in the Amazon S3 User Guide . Specify the replication configuration in the request body. In the replication configuration, you provide the name of the destination bucket or buckets where you want Amazon S3 to replicate objects, the IAM role that Amazon S3 can assume to replicate objects on your behalf, and other relevant information. ...
@@ -923,8 +834,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketReplicationAsync(AwsS3apiPutBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketReplicationAsync(AwsS3apiPutBucketReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration pa- rameter enables the bucket owner (only) to specify that the person re- questing the download will be charged for the download. For more infor- mation, see Requester Pays Buckets . The following operations are related to PutBucketRequestPayment : o CreateBucket o GetBucketRequestPayment WARNING: Yo...
@@ -933,8 +843,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketRequestPaymentAsync(AwsS3apiPutBucketRequestPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketRequestPaymentAsync(AwsS3apiPutBucketRequestPaymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the tags for a general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket , you can no longer use this operation for that bucket and must use the TagResource or UntagResource operations instead. Use tags to organize your Amazon Web Services bill to reflect your own cost structure. To do this, sign up to get your Amazon Web Services ac- count bill...
@@ -943,8 +852,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketTaggingAsync(AwsS3apiPutBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketTaggingAsync(AwsS3apiPutBucketTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. NOTE: When you enable versioning on a bucket for the first time, it might take a short amount of time for the change to be fully propagated. While this change is propagating, you might encounter intermittent HTTP 404 NoSuchKey errors for requests to objects created or updated after enabling versioning. We recommend that you wait for 15 minutes after enabling versioning before issuing write operations (PUT or DELETE ) on objects in the ...
@@ -953,8 +861,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketVersioningAsync(AwsS3apiPutBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketVersioningAsync(AwsS3apiPutBucketVersioningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the configuration of the website that is specified in the website subresource. To configure a bucket as a website, you can add this sub- resource on the bucket with website configuration information such as the file name of the index document and any redirect rules. For more information, see Hosting Websites on Amazon S3 . This PUT action requires the S3:PutBucketWebsite permission. By de- fault, only the bucket owner can configur...
@@ -963,8 +870,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBucketWebsiteAsync(AwsS3apiPutBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBucketWebsiteAsync(AwsS3apiPutBucketWebsiteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
@@ -973,8 +879,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectAclAsync(AwsS3apiPutObjectAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectAclAsync(AwsS3apiPutObjectAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific ob- ject or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see Annotation naming guidelines in the Amazon S3 User Guide . Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects...
@@ -983,8 +888,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectAnnotationAsync(AwsS3apiPutObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectAnnotationAsync(AwsS3apiPutObjectAnnotationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see Locking Objects . This functionality is not supported for Amazon S3 on Outposts. WARNING: You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt , containing two spaces after my , you must URL encode this value to my%20%20file.txt . See also: AWS API Documentation
@@ -993,8 +897,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectLegalHoldAsync(AwsS3apiPutObjectLegalHoldOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectLegalHoldAsync(AwsS3apiPutObjectLegalHoldOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more informa- tion, see Locking Objects . NOTE: o The DefaultRetention settings require both a mode and a period. o The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ...
@@ -1003,8 +906,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectLockConfigurationAsync(AwsS3apiPutObjectLockConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectLockConfigurationAsync(AwsS3apiPutObjectLockConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: End of support notice: As of October 1, 2025, Amazon S3 has discon- tinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) er- ror. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland...
@@ -1013,8 +915,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectAsync(AwsS3apiPutObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectAsync(AwsS3apiPutObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more infor- mation, see Locking Objects . Users or accounts require the s3:PutOb- jectRetention permission in order to place an Object Retention configu- ration on objects. Bypassing a Governance Retention configuration re- quires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts. WARNING: You must URL encode any signed h...
@@ -1023,8 +924,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectRetentionAsync(AwsS3apiPutObjectRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectRetentionAsync(AwsS3apiPutObjectRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Sets the supplied tag-set to an object that already exists in a bucket. A tag is a key-value pair. For more information, see Object Tagging . You can associate tags with an object by sending a PUT request against the tagging subresource that is associated with the object. You can re- trieve tags by sending a GET request. For more information, see GetObjectTagging . For tagging-related restrictions related to characters and encodings, s...
@@ -1033,8 +933,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutObjectTaggingAsync(AwsS3apiPutObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutObjectTaggingAsync(AwsS3apiPutObjectTaggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketPubli- cAccessBlock permission. For more information about Amazon S3 permis- sions, see Specifying Permissions in a Policy . WARNING: When Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock configuration for both the bucket (or the bucket th...
@@ -1043,8 +942,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutPublicAccessBlockAsync(AwsS3apiPutPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutPublicAccessBlockAsync(AwsS3apiPutPublicAccessBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renames an existing object in a directory bucket that uses the S3 Ex- press One Zone storage class. You can use RenameObject by specifying an existing objects name as the source and the new name of the object as the destination within the same directory bucket. NOTE: RenameObject is only supported for objects stored in the S3 Express One Zone storage class. To prevent overwriting an object, you can use the If-None-Match condi- tional header. o If-None-Match - Renames the object only if an object...
@@ -1053,8 +951,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RenameObjectAsync(AwsS3apiRenameObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RenameObjectAsync(AwsS3apiRenameObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Restores an archived copy of an object back into Amazon S3 This functionality is not supported for Amazon S3 on Outposts. This action performs the following types of requests: o restore an archive - Restore an archived object For more information about the S3 structure in the request body, see the following: o PutObject o Managing Access with ACLs in the Amazon S3 User Guide o Protecting Data Using Server-Side Encryption in the Amazon ...
@@ -1063,8 +960,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreObjectAsync(AwsS3apiRestoreObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreObjectAsync(AwsS3apiRestoreObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. This action filters the contents of an Amazon S3 object based on a sim- ple structured query language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses this format to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization form...
@@ -1073,8 +969,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SelectObjectContentAsync(AwsS3apiSelectObjectContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SelectObjectContentAsync(AwsS3apiSelectObjectContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the an- notation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this oper- ation, the bucket must have an existing Amazon S3 Metadata configura- tion. To use this operation, you must have the s3:UpdateBucketMetadataAnnota- tionTableConfi...
@@ -1083,8 +978,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBucketMetadataAnnotationTableConfigurationAsync(AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBucketMetadataAnnotationTableConfigurationAsync(AwsS3apiUpdateBucketMetadataAnnotationTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables a live inventory table for an S3 Metadata configu- ration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the following permissions. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . If you want to encrypt your inventory table with server-side encryption with Key Management Service (KMS)...
@@ -1093,8 +987,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBucketMetadataInventoryTableConfigurationAsync(AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBucketMetadataInventoryTableConfigurationAsync(AwsS3apiUpdateBucketMetadataInventoryTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables or disables journal table record expiration for an S3 Metadata configuration on a general purpose bucket. For more information, see Accelerating data discovery with S3 Metadata in the Amazon S3 User Guide . Permissions To use this operation, you must have the s3:UpdateBucketMetadata- JournalTableConfiguration permission. For more information, see Setting up permissions for configuring metadata tables in the Amazon S3 User Guide . The following operations are related to UpdateBucketMetada...
@@ -1103,8 +996,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBucketMetadataJournalTableConfigurationAsync(AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBucketMetadataJournalTableConfigurationAsync(AwsS3apiUpdateBucketMetadataJournalTableConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption op- eration to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Man- agement Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation t...
@@ -1113,8 +1005,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateObjectEncryptionAsync(AwsS3apiUpdateObjectEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateObjectEncryptionAsync(AwsS3apiUpdateObjectEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a part by copying data from an existing object as data source. To specify the data source, you add the request header x-amz-copy-source in your request. To specify a byte range, you add the request header x-amz-copy-source-range in your request. For information about maximum and minimum part sizes and other multi- part upload specifications, see Multipart upload limits in the Amazon S3 User Guide . NOTE: Instead of copying data from an existing object as part data, you might use the Uplo...
@@ -1123,8 +1014,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UploadPartCopyAsync(AwsS3apiUploadPartCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UploadPartCopyAsync(AwsS3apiUploadPartCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a part in a multipart upload. NOTE: In this operation, you provide new data as a part of an object in your request. However, you have an option to specify your existing Amazon S3 object as a data source for the part you are uploading. To upload a part from an existing object, you use the UploadPartCopy operation. You must initiate a multipart upload (see CreateMultipartUpload ) be- fore you can upload any part. In response to your initiate request, Amazon S3 returns an upload ID, a uniqu...
@@ -1133,8 +1023,7 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UploadPartAsync(AwsS3apiUploadPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UploadPartAsync(AwsS3apiUploadPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see Transforming objects with Object Lambda access points in the Amazon S3 User Guide . This operation supports metadata that can be returned by GetObject , in addition to RequestRoute , RequestToken , StatusCode , ErrorCode , and ErrorMessage . The GetObject response metadata is supported so th...
@@ -1143,7 +1032,6 @@ public interface IAwsS3Api
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> WriteGetObjectResponseAsync(AwsS3apiWriteGetObjectResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> WriteGetObjectResponseAsync(AwsS3apiWriteGetObjectResponseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

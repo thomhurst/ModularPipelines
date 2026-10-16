@@ -497,21 +497,6 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Generates a list of all models in the account, including model name and ARN, dataset, and status. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListModelsAsync(
-        AwsLookoutequipmentListModelsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of ver- sions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -524,6 +509,21 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Generates a list of all models in the account, including model name and ARN, dataset, and status. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListModelsAsync(
+        AwsLookoutequipmentListModelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

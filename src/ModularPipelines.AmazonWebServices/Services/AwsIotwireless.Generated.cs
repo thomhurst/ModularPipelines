@@ -1202,21 +1202,6 @@ public class AwsIotwireless : IAwsIotwireless
     }
 
     /// <summary>
-    /// Lists the wireless gateways registered to your AWS account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWirelessGatewaysAsync(
-        AwsIotwirelessListWirelessGatewaysOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List the wireless gateway tasks definitions registered to your AWS ac- count. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1229,6 +1214,21 @@ public class AwsIotwireless : IAwsIotwireless
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewayTaskDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the wireless gateways registered to your AWS account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWirelessGatewaysAsync(
+        AwsIotwirelessListWirelessGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIotwirelessListWirelessGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

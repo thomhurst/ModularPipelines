@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws ssmguiconnect commands.
+/// aws ssm-guiconnect commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsSsmGuiconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConnectionRecordingPreferencesAsync(AwsSsmGuiconnectDeleteConnectionRecordingPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConnectionRecordingPreferencesAsync(AwsSsmGuiconnectDeleteConnectionRecordingPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsSsmGuiconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConnectionRecordingPreferencesAsync(AwsSsmGuiconnectGetConnectionRecordingPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConnectionRecordingPreferencesAsync(AwsSsmGuiconnectGetConnectionRecordingPreferencesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the preferences for recording RDP connections. See also: AWS API Documentation
@@ -48,7 +46,6 @@ public interface IAwsSsmGuiconnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConnectionRecordingPreferencesAsync(AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConnectionRecordingPreferencesAsync(AwsSsmGuiconnectUpdateConnectionRecordingPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

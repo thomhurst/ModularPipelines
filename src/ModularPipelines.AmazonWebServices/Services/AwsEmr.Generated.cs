@@ -33,7 +33,7 @@ public class AwsEmr : IAwsEmr
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws emr wait sub-commands.
     /// </summary>
     public AwsEmrWait Wait => _wait ??= new AwsEmrWait(_command);
 

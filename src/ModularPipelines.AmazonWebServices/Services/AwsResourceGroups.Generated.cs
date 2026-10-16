@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws resourcegroups commands.
+/// aws resource-groups commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsResourceGroups : IAwsResourceGroups
@@ -137,21 +137,6 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetTagsAsync(
-        AwsResourceGroupsGetTagsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns information about a specified tag-sync task. Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTagSyncTask on the application group See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -160,6 +145,21 @@ public class AwsResourceGroups : IAwsResourceGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetTagSyncTaskAsync(
         AwsResourceGroupsGetTagSyncTaskOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of tags that are associated with a resource group, spec- ified by an Amazon resource name (ARN). Minimum permissions To run this command, you must have the following permissions: o resource-groups:GetTags See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetTagsAsync(
+        AwsResourceGroupsGetTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -182,21 +182,6 @@ public class AwsResourceGroups : IAwsResourceGroups
     }
 
     /// <summary>
-    /// Returns the status of the last grouping or ungrouping action for each resource in the specified application group. See also: AWS API Documentation list-grouping-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGroupingStatusesAsync(
-        AwsResourceGroupsListGroupingStatusesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions: o resource-groups:ListGroupResources o cloudformation:DescribeStacks o cloudformation:ListStackResources o tag:GetResources See also: AWS API Documentation list-group-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -209,6 +194,21 @@ public class AwsResourceGroups : IAwsResourceGroups
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceGroupsListGroupResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the status of the last grouping or ungrouping action for each resource in the specified application group. See also: AWS API Documentation list-grouping-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListGroupingStatusesAsync(
+        AwsResourceGroupsListGroupingStatusesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

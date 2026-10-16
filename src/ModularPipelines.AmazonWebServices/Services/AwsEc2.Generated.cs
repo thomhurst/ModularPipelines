@@ -33,7 +33,7 @@ public class AwsEc2 : IAwsEc2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ec2 wait sub-commands.
     /// </summary>
     public AwsEc2Wait Wait => _wait ??= new AwsEc2Wait(_command);
 
@@ -4287,6 +4287,21 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. Af- ter seven days...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAddressTransfersAsync(
+        AwsEc2DescribeAddressTransfersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Describes the attributes of the specified Elastic IP addresses. For re- quirements, see Using reverse DNS for email applications . See also: AWS API Documentation describe-addresses-attribute is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the r...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4314,21 +4329,6 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide . When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. Af- ter seven days...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAddressTransfersAsync(
-        AwsEc2DescribeAddressTransfersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeAddressTransfersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4497,21 +4497,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes details about Capacity Blocks in the Amazon Web Services Re- gion that you're currently using. See also: AWS API Documentation describe-capacity-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeCapacityBlocksAsync(
-        AwsEc2DescribeCapacityBlocksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks. See also: AWS API Documentation describe-capacity-block-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4524,6 +4509,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlockStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes details about Capacity Blocks in the Amazon Web Services Re- gion that you're currently using. See also: AWS API Documentation describe-capacity-blocks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeCapacityBlocksAsync(
+        AwsEc2DescribeCapacityBlocksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityBlocksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4602,21 +4602,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more of your Capacity Reservations. The results de- scribe only the Capacity Reservations in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeCapacityReservationsAsync(
-        AwsEc2DescribeCapacityReservationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to deter- mine the relative proximity of your capacity within the Amazon Web Ser- vices network before it is launched and use this information to allo- cate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4629,6 +4614,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationTopologyOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more of your Capacity Reservations. The results de- scribe only the Capacity Reservations in the Amazon Web Services Region that you're currently using. See also: AWS API Documentation describe-capacity-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --qu...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeCapacityReservationsAsync(
+        AwsEc2DescribeCapacityReservationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeCapacityReservationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5052,21 +5052,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns infor- mation about resource types whose ID formats can be modified; it does not return information about other resource types. For more informa- tion, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conver- sion-task | c...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeIdentityIdFormatAsync(
-        AwsEc2DescribeIdentityIdFormatOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the ID format settings for your resources on a per-Region ba- sis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conver- sion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5079,6 +5064,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIdFormatOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns infor- mation about resource types whose ID formats can be modified; it does not return information about other resource types. For more informa- tion, see Resource IDs in the Amazon Elastic Compute Cloud User Guide . The following resource types support longer IDs: bundle | conver- sion-task | c...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeIdentityIdFormatAsync(
+        AwsEc2DescribeIdentityIdFormatOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5112,21 +5112,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that refer- ence a deregistered AMI are terminated, specifying the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeImagesAsync(
-        AwsEc2DescribeImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see View your AMI usage in the Amazon EC2 User Guide . See also: AWS API Documentation describe-image-usage-report-entries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5154,6 +5139,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImageUsageReportsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that refer- ence a deregistered AMI are terminated, specifying the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeImagesAsync(
+        AwsEc2DescribeImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5277,21 +5277,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. The respons...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeInstancesAsync(
-        AwsEc2DescribeInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the historical SQL Server High Availability states for Amazon EC2 instances that are enabled for Amazon EC2 High Availability for SQL Server monitoring. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5379,6 +5364,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstanceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes infor- mation for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. The respons...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeInstancesAsync(
+        AwsEc2DescribeInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5487,21 +5487,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers. See also: AWS API Documentation describe-ipam-prefix-list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeIpamPrefixListResolversAsync(
-        AwsEc2DescribeIpamPrefixListResolversOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes one or more IPAM prefix list resolver Targets. Use this oper- ation to view the configuration and status of resolver targets. See also: AWS API Documentation describe-ipam-prefix-list-resolver-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5514,6 +5499,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolverTargetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more IPAM prefix list resolvers. Use this operation to view the configuration, status, and properties of your resolvers. See also: AWS API Documentation describe-ipam-prefix-list-resolvers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeIpamPrefixListResolversAsync(
+        AwsEc2DescribeIpamPrefixListResolversOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeIpamPrefixListResolversOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5607,21 +5607,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more launch templates. See also: AWS API Documentation describe-launch-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LaunchTemplates
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLaunchTemplatesAsync(
-        AwsEc2DescribeLaunchTemplatesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account. See also: AWS API Documentation describe-launch-template-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -5637,18 +5622,27 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// Describes one or more launch templates. See also: AWS API Documentation describe-launch-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LaunchTemplates
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTablesAsync(
-        AwsEc2DescribeLocalGatewayRouteTablesOptions? options = null,
+    public virtual async Task<CommandResult> DescribeLaunchTemplatesAsync(
+        AwsEc2DescribeLaunchTemplatesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLaunchTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaAsync(
+        AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociaOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5667,18 +5661,18 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
+    /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateway-route-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLocalGatewaysAsync(
-        AwsEc2DescribeLocalGatewaysOptions? options = null,
+    public virtual async Task<CommandResult> DescribeLocalGatewayRouteTablesAsync(
+        AwsEc2DescribeLocalGatewayRouteTablesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayRouteTablesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5709,6 +5703,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewayVirtualInterfacesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-local-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLocalGatewaysAsync(
+        AwsEc2DescribeLocalGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeLocalGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6252,21 +6261,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified security groups or all of your security groups. See also: AWS API Documentation describe-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecurityGroups
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSecurityGroupsAsync(
-        AwsEc2DescribeSecurityGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes security group VPC associations made with AssociateSecurityGroupVpc . See also: AWS API Documentation describe-security-group-vpc-associations is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6279,6 +6273,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupVpcAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified security groups or all of your security groups. See also: AWS API Documentation describe-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SecurityGroups
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeSecurityGroupsAsync(
+        AwsEc2DescribeSecurityGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSecurityGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6312,21 +6321,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snap- shots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permis- sions. The create volume permissions fall into the following categories: o public : The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon We...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
-        AwsEc2DescribeSnapshotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the storage tier status of one or more Amazon EBS snapshots. See also: AWS API Documentation describe-snapshot-tier-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotTierStat...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6339,6 +6333,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotTierStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snap- shots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permis- sions. The create volume permissions fall into the following categories: o public : The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon We...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeSnapshotsAsync(
+        AwsEc2DescribeSnapshotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeSnapshotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6687,21 +6696,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Describes one or more transit gateways. By default, all transit gate- ways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeTransitGatewaysAsync(
-        AwsEc2DescribeTransitGatewaysOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateway-vpc-attachments is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6714,6 +6708,21 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewayVpcAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes one or more transit gateways. By default, all transit gate- ways are described. Alternatively, you can filter the results. See also: AWS API Documentation describe-transit-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the result...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTransitGatewaysAsync(
+        AwsEc2DescribeTransitGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeTransitGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -6822,6 +6831,21 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data incon- sistencies on the volume. Volume events notify you if this occurs. Vol- ume actio...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeVolumeStatusAsync(
+        AwsEc2DescribeVolumeStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide . See also: AWS API Documentation describe-volumes-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -6849,21 +6873,6 @@ public class AwsEc2 : IAwsEc2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data incon- sistencies on the volume. Volume events notify you if this occurs. Vol- ume actio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeVolumeStatusAsync(
-        AwsEc2DescribeVolumeStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEc2DescribeVolumeStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -9792,21 +9801,6 @@ public class AwsEc2 : IAwsEc2
     }
 
     /// <summary>
-    /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should re- ceive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elas...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ModifyIdentityIdFormatAsync(
-        AwsEc2ModifyIdentityIdFormatOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Modifies the ID format for the specified resource on a per-Region ba- sis. You can specify that resources should receive longer IDs (17-char- acter IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | ex- port-task | flow-log | image | import-task | ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -9815,6 +9809,21 @@ public class AwsEc2 : IAwsEc2
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyIdFormatAsync(
         AwsEc2ModifyIdFormatOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should re- ceive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elas...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ModifyIdentityIdFormatAsync(
+        AwsEc2ModifyIdentityIdFormatOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

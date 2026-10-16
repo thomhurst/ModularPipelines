@@ -33,7 +33,7 @@ public class AwsInspector2 : IAwsInspector2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws inspector2 wait sub-commands.
     /// </summary>
     public AwsInspector2Wait Wait => _wait ??= new AwsInspector2Wait(_command);
 
@@ -1227,21 +1227,6 @@ public class AwsInspector2 : IAwsInspector2
     }
 
     /// <summary>
-    /// Updates the configurations for your Amazon Inspector organization. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UpdateOrganizationConfigurationAsync(
-        AwsInspector2UpdateOrganizationConfigurationOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Updates the Amazon Inspector deep inspection custom paths for your or- ganization. You must be an Amazon Inspector delegated administrator to use this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1250,6 +1235,21 @@ public class AwsInspector2 : IAwsInspector2
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOrgEc2DeepInspectionConfigurationAsync(
         AwsInspector2UpdateOrgEc2DeepInspectionConfigurationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the configurations for your Amazon Inspector organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateOrganizationConfigurationAsync(
+        AwsInspector2UpdateOrganizationConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

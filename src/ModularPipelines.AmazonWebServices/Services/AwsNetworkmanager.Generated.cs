@@ -122,21 +122,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateConnectionAsync(
-        AwsNetworkmanagerCreateConnectionOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Creates a core network Connect peer for a specified core network con- nect attachment between a core network and an appliance. The peer ad- dress and transit gateway address must be the same IP address family (IPv4 or IPv6). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -145,6 +130,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateConnectPeerAsync(
         AwsNetworkmanagerCreateConnectPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateConnectionAsync(
+        AwsNetworkmanagerCreateConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -332,21 +332,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Deletes the specified connection in your global network. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteConnectionAsync(
-        AwsNetworkmanagerDeleteConnectionOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes a Connect peer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -355,6 +340,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteConnectPeerAsync(
         AwsNetworkmanagerDeleteConnectPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the specified connection in your global network. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteConnectionAsync(
+        AwsNetworkmanagerDeleteConnectionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -617,21 +617,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your connections in a global net- work. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connections
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetConnectionsAsync(
-        AwsNetworkmanagerGetConnectionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns information about a core network Connect peer associations. See also: AWS API Documentation get-connect-peer-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConnectPeerAssociat...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -655,6 +640,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConnectPeerAsync(
         AwsNetworkmanagerGetConnectPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about one or more of your connections in a global net- work. See also: AWS API Documentation get-connections is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connections
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetConnectionsAsync(
+        AwsNetworkmanagerGetConnectionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -902,21 +902,6 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     }
 
     /// <summary>
-    /// Gets information about one or more of your sites in a global network. See also: AWS API Documentation get-sites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Sites
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetSitesAsync(
-        AwsNetworkmanagerGetSitesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns information about a site-to-site VPN attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -925,6 +910,21 @@ public class AwsNetworkmanager : IAwsNetworkmanager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSiteToSiteVpnAttachmentAsync(
         AwsNetworkmanagerGetSiteToSiteVpnAttachmentOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about one or more of your sites in a global network. See also: AWS API Documentation get-sites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: Sites
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSitesAsync(
+        AwsNetworkmanagerGetSitesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

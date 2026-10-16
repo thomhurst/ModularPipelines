@@ -28,8 +28,7 @@ public interface IAwsForecastquery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryForecastAsync(AwsForecastqueryQueryForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryForecastAsync(AwsForecastqueryQueryForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a what-if forecast. See also: AWS API Documentation
@@ -38,7 +37,6 @@ public interface IAwsForecastquery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> QueryWhatIfForecastAsync(AwsForecastqueryQueryWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> QueryWhatIfForecastAsync(AwsForecastqueryQueryWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

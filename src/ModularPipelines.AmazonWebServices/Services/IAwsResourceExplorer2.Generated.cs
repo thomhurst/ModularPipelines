@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws resourceexplorer2 commands.
+/// aws resource-explorer-2 commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDefaultViewAsync(AwsResourceExplorer_2AssociateDefaultViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDefaultViewAsync(AwsResourceExplorerNumber2AssociateDefaultViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a list of views. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetViewAsync(AwsResourceExplorer_2BatchGetViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetViewAsync(AwsResourceExplorerNumber2BatchGetViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Turns on Amazon Web Services Resource Explorer in the Amazon Web Ser- vices Region in which you called this operation by creating an index. Resource Explorer begins discovering the resources in this Region and stores the details about the resources in the index so that they can be queried by using the Search operation. You can create only one index in a Region. NOTE: This operation creates only a local index. To promote the local in- dex in one Amazon Web Services Region into the aggregator inde...
@@ -48,8 +46,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIndexAsync(AwsResourceExplorer_2CreateIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIndexAsync(AwsResourceExplorerNumber2CreateIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceExplorerSetupAsync(AwsResourceExplorer_2CreateResourceExplorerSetupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceExplorerSetupAsync(AwsResourceExplorerNumber2CreateResourceExplorerSetupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a view that users can query by using the Search operation. Re- sults from queries that you make using this view include only resources that match the view's Filters . For more information about Amazon Web Services Resource Explorer views, see Managing views in the Amazon Web Services Resource Explorer User Guide . Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the Amazon resource name (ARN) of this view can Search using vie...
@@ -68,8 +64,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateViewAsync(AwsResourceExplorer_2CreateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateViewAsync(AwsResourceExplorerNumber2CreateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the GetIndex operation and checking the Status response value. NOTE: If the index you delete is the agg...
@@ -78,8 +73,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIndexAsync(AwsResourceExplorer_2DeleteIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIndexAsync(AwsResourceExplorerNumber2DeleteIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Re- source Explorer is configured. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceExplorerSetupAsync(AwsResourceExplorer_2DeleteResourceExplorerSetupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceExplorerSetupAsync(AwsResourceExplorerNumber2DeleteResourceExplorerSetupOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all Search operations in that Region must explicitly specify the view to use until you configure a new default by calling the AssociateDefaultView operation. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteViewAsync(AwsResourceExplorer_2DeleteViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteViewAsync(AwsResourceExplorerNumber2DeleteViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All Search operations in that Region must explicitly specify a view or the operation fails. You can config- ure a new default by calling the AssociateDefaultView operation. If an Amazon Web Services Region doesn't have a default view config- ured, then users must explicitly specify a view with every Search oper- ation performed in that Region. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDefaultViewAsync(AwsResourceExplorer_2DisassociateDefaultViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDefaultViewAsync(AwsResourceExplorerNumber2DisassociateDefaultViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of your account's Amazon Web Services service ac- cess, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountLevelServiceConfigurationAsync(AwsResourceExplorer_2GetAccountLevelServiceConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountLevelServiceConfigurationAsync(AwsResourceExplorerNumber2GetAccountLevelServiceConfigurationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the de- fault for the Amazon Web Services Region in which you call this opera- tion. You can then call GetView to retrieve the details of that view. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDefaultViewAsync(AwsResourceExplorer_2GetDefaultViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDefaultViewAsync(AwsResourceExplorerNumber2GetDefaultViewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIndexAsync(AwsResourceExplorer_2GetIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIndexAsync(AwsResourceExplorerNumber2GetIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of the specified Amazon Web Services-managed view . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetManagedViewAsync(AwsResourceExplorer_2GetManagedViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetManagedViewAsync(AwsResourceExplorerNumber2GetManagedViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and details of a Resource Explorer setup opera- tion. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions. See also: AWS API Documentation get-resource-explorer-setup is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a...
@@ -158,8 +145,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceExplorerSetupAsync(AwsResourceExplorer_2GetResourceExplorerSetupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceExplorerSetupAsync(AwsResourceExplorerNumber2GetResourceExplorerSetupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceIndexAsync(AwsResourceExplorer_2GetServiceIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceIndexAsync(AwsResourceExplorerNumber2GetServiceIndexOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceViewAsync(AwsResourceExplorer_2GetServiceViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceViewAsync(AwsResourceExplorerNumber2GetServiceViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of the specified view. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetViewAsync(AwsResourceExplorer_2GetViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetViewAsync(AwsResourceExplorerNumber2GetViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of a member's indexes in all Amazon Web Services Re- gions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call. See also: AWS API Documentation list-indexes-for-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-p...
@@ -198,8 +181,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIndexesForMembersAsync(AwsResourceExplorer_2ListIndexesForMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIndexesForMembersAsync(AwsResourceExplorerNumber2ListIndexesForMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Ser- vices Resource Explorer. See also: AWS API Documentation list-indexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extrac...
@@ -208,8 +190,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIndexesAsync(AwsResourceExplorer_2ListIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIndexesAsync(AwsResourceExplorerNumber2ListIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon resource names (ARNs) of the Amazon Web Services-man- aged views available in the Amazon Web Services Region in which you call this operation. See also: AWS API Documentation list-managed-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
@@ -218,8 +199,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedViewsAsync(AwsResourceExplorer_2ListManagedViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedViewsAsync(AwsResourceExplorerNumber2ListManagedViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you dont explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. See also: AWS API Documentation list-resources uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para-...
@@ -228,8 +208,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourcesAsync(AwsResourceExplorer_2ListResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourcesAsync(AwsResourceExplorerNumber2ListResourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes in- cluding their ARNs, types, and Regions. See also: AWS API Documentation list-service-indexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
@@ -238,8 +217,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceIndexesAsync(AwsResourceExplorer_2ListServiceIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceIndexesAsync(AwsResourceExplorerNumber2ListServiceIndexesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Resource Explorer service views available in the current Ama- zon Web Services account. This operation returns the ARNs of available service views. See also: AWS API Documentation list-service-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
@@ -248,8 +226,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceViewsAsync(AwsResourceExplorer_2ListServiceViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceViewsAsync(AwsResourceExplorerNumber2ListServiceViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access al- lows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer. See also: AWS API Documentation list-streaming-access-for-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-pagi...
@@ -258,8 +235,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStreamingAccessForServicesAsync(AwsResourceExplorer_2ListStreamingAccessForServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStreamingAccessForServicesAsync(AwsResourceExplorerNumber2ListStreamingAccessForServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer. See also: AWS API Documentation list-supported-resource-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
@@ -268,8 +244,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSupportedResourceTypesAsync(AwsResourceExplorer_2ListSupportedResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSupportedResourceTypesAsync(AwsResourceExplorerNumber2ListSupportedResourceTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags that are attached to the specified resource. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsResourceExplorer_2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsResourceExplorerNumber2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services Region in which you call this operation. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no more results to display. See also: AWS API Documentation list-views is a paginated...
@@ -288,8 +262,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListViewsAsync(AwsResourceExplorer_2ListViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListViewsAsync(AwsResourceExplorerNumber2ListViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFil- ter parameter ...
@@ -298,8 +271,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAsync(AwsResourceExplorer_2SearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAsync(AwsResourceExplorerNumber2SearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tag key and value pairs to an Amazon Web Services Re- source Explorer view or index. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsResourceExplorer_2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsResourceExplorerNumber2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsResourceExplorer_2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsResourceExplorerNumber2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the type of the index from one of the following types to the other. For more information about indexes and the role they perform in Amazon Web Services Resource Explorer, see Turning on cross-Region search by creating an aggregator index in the Amazon Web Services Re- source Explorer User Guide . o ``AGGREGATOR`` index type The index contains information about re- sources from all Amazon Web Services Regions in the Amazon Web Ser- vices account in which you've created a Resource Explorer...
@@ -328,8 +298,7 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIndexTypeAsync(AwsResourceExplorer_2UpdateIndexTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIndexTypeAsync(AwsResourceExplorerNumber2UpdateIndexTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view. See also: AWS API Documentation
@@ -338,7 +307,6 @@ public interface IAwsResourceExplorer2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateViewAsync(AwsResourceExplorer_2UpdateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateViewAsync(AwsResourceExplorerNumber2UpdateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

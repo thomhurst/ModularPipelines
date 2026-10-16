@@ -33,7 +33,7 @@ public class AwsInterconnect : IAwsInterconnect
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws interconnect wait sub-commands.
     /// </summary>
     public AwsInterconnectWait Wait => _wait ??= new AwsInterconnectWait(_command);
 

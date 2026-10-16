@@ -33,7 +33,7 @@ public class AwsAcm : IAwsAcm
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws acm wait sub-commands.
     /// </summary>
     public AwsAcmWait Wait => _wait ??= new AwsAcmWait(_command);
 

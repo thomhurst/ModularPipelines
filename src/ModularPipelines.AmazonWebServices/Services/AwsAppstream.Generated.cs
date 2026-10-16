@@ -33,7 +33,7 @@ public class AwsAppstream : IAwsAppstream
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws appstream wait sub-commands.
     /// </summary>
     public AwsAppstreamWait Wait => _wait ??= new AwsAppstreamWait(_command);
 
@@ -657,6 +657,21 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
+    /// Retrieves license included application usage information. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeAppLicenseUsageAsync(
+        AwsAppstreamDescribeAppLicenseUsageOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves a list that describes one or more application fleet associa- tions. Either ApplicationArn or FleetName must be specified. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -684,21 +699,6 @@ public class AwsAppstream : IAwsAppstream
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppstreamDescribeApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves license included application usage information. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeAppLicenseUsageAsync(
-        AwsAppstreamDescribeAppLicenseUsageOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -867,21 +867,6 @@ public class AwsAppstream : IAwsAppstream
     }
 
     /// <summary>
-    /// Retrieves a list that describes one or more specified users in the user pool. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeUsersAsync(
-        AwsAppstreamDescribeUsersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following: o The stack name o The user name (email address of the user associated with the stack) and the authentication type for the user See also: AWS API Documentation describe-user-stack-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When us...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -894,6 +879,21 @@ public class AwsAppstream : IAwsAppstream
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAppstreamDescribeUserStackAssociationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list that describes one or more specified users in the user pool. See also: AWS API Documentation describe-users is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Users
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeUsersAsync(
+        AwsAppstreamDescribeUsersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -377,21 +377,6 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
     }
 
     /// <summary>
-    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use De- scribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListApplicationsAsync(
-        AwsKinesisanalyticsv2ListApplicationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the versions for the specified application, including ver- sions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, in- voke the DescribeApplicationVersion operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -404,6 +389,21 @@ public class AwsKinesisanalyticsv2 : IAwsKinesisanalyticsv2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use De- scribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListApplicationsAsync(
+        AwsKinesisanalyticsv2ListApplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsKinesisanalyticsv2ListApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -602,21 +602,6 @@ public class AwsKendra : IAwsKendra
     }
 
     /// <summary>
-    /// Lists the data source connectors that you have created. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataSourcesAsync(
-        AwsKendraListDataSourcesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets statistics about synchronizing a data source connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -625,6 +610,21 @@ public class AwsKendra : IAwsKendra
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataSourceSyncJobsAsync(
         AwsKendraListDataSourceSyncJobsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the data source connectors that you have created. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataSourcesAsync(
+        AwsKendraListDataSourcesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

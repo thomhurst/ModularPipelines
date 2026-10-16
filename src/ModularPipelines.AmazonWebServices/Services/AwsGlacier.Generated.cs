@@ -33,7 +33,7 @@ public class AwsGlacier : IAwsGlacier
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws glacier wait sub-commands.
     /// </summary>
     public AwsGlacierWait Wait => _wait ??= new AwsGlacierWait(_command);
 

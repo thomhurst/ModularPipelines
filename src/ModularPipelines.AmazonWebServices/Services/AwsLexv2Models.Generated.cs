@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lexv2models commands.
+/// aws lexv2-models commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLexv2Models : IAwsLexv2Models
@@ -33,7 +33,7 @@ public class AwsLexv2Models : IAwsLexv2Models
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws lexv2-models wait sub-commands.
     /// </summary>
     public AwsLexv2ModelsWait Wait => _wait ??= new AwsLexv2ModelsWait(_command);
 
@@ -867,21 +867,6 @@ public class AwsLexv2Models : IAwsLexv2Models
     }
 
     /// <summary>
-    /// Gets a list of aliases for the specified bot. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBotAliasesAsync(
-        AwsLexv2ModelsListBotAliasesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// The action to list the replicated bots created from the source bot alias. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -890,6 +875,21 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBotAliasReplicasAsync(
         AwsLexv2ModelsListBotAliasReplicasOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of aliases for the specified bot. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBotAliasesAsync(
+        AwsLexv2ModelsListBotAliasesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -972,21 +972,6 @@ public class AwsLexv2Models : IAwsLexv2Models
     }
 
     /// <summary>
-    /// Gets a list of available bots. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListBotsAsync(
-        AwsLexv2ModelsListBotsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Contains information about all the versions replication statuses ap- plicable for Global Resiliency. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1014,6 +999,21 @@ public class AwsLexv2Models : IAwsLexv2Models
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of available bots. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListBotsAsync(
+        AwsLexv2ModelsListBotsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLexv2ModelsListBotsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1122,21 +1122,6 @@ public class AwsLexv2Models : IAwsLexv2Models
     }
 
     /// <summary>
-    /// Get a list of intents that meet the specified criteria. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListIntentsAsync(
-        AwsLexv2ModelsListIntentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves summary metrics for the stages within intents in your bot. The following fields are required: o metrics A list of AnalyticsIntentStageMetric objects. In each ob- ject, use the name field to specify the metric to calculate, the sta- tistic field to specify whether to calculate the Sum , Average , or Max number, and the order field to specify whether to sort the re- sults in Ascending or Descending order. o startDateTime and endDateTime Define a time range for which you want to retrieve ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1145,6 +1130,21 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIntentStageMetricsAsync(
         AwsLexv2ModelsListIntentStageMetricsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Get a list of intents that meet the specified criteria. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIntentsAsync(
+        AwsLexv2ModelsListIntentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1197,21 +1197,6 @@ public class AwsLexv2Models : IAwsLexv2Models
     }
 
     /// <summary>
-    /// Gets a list of slots that match the specified criteria. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSlotsAsync(
-        AwsLexv2ModelsListSlotsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a list of slot types that match the specified criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1220,6 +1205,21 @@ public class AwsLexv2Models : IAwsLexv2Models
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSlotTypesAsync(
         AwsLexv2ModelsListSlotTypesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of slots that match the specified criteria. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSlotsAsync(
+        AwsLexv2ModelsListSlotsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

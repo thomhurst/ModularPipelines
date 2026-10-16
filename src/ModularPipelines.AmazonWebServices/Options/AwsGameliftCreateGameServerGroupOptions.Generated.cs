@@ -134,7 +134,7 @@ public record AwsGameliftCreateGameServerGroupOptions : AwsOptions, IValidatable
     public AwsGameliftCreateGameServerGroupBalancingStrategy? BalancingStrategy { get; set; }
 
     /// <summary>
-    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected in- stances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default. Possible values: o NO_PROTECTION o FULL_PROTECTION
+    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected in- stances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion. An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This prop- erty is set to NO_PROTECTION by default. Possible values: o NO_PROTECTION o FULL_PROTECTION
     /// </summary>
     [CliOption("--game-server-protection-policy")]
     public AwsGameliftCreateGameServerGroupGameServerProtectionPolicy? GameServerProtectionPolicy { get; set; }

@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws supportapp commands.
+/// aws support-app commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSlackChannelConfigurationAsync(AwsSupportAppCreateSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSlackChannelConfigurationAsync(AwsSupportAppCreateSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an alias for an Amazon Web Services account ID. The alias ap- pears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAccountAliasAsync(AwsSupportAppDeleteAccountAliasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAccountAliasAsync(AwsSupportAppDeleteAccountAliasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Slack channel configuration from your Amazon Web Services ac- count. This operation doesn't delete your Slack channel. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSlackChannelConfigurationAsync(AwsSupportAppDeleteSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSlackChannelConfigurationAsync(AwsSupportAppDeleteSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSlackWorkspaceConfigurationAsync(AwsSupportAppDeleteSlackWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSlackWorkspaceConfigurationAsync(AwsSupportAppDeleteSlackWorkspaceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountAliasAsync(AwsSupportAppGetAccountAliasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountAliasAsync(AwsSupportAppGetAccountAliasOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Slack channel configurations for an Amazon Web Services ac- count. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSlackChannelConfigurationsAsync(AwsSupportAppListSlackChannelConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSlackChannelConfigurationsAsync(AwsSupportAppListSlackChannelConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Slack workspace configurations for an Amazon Web Services ac- count. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSlackWorkspaceConfigurationsAsync(AwsSupportAppListSlackWorkspaceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSlackWorkspaceConfigurationsAsync(AwsSupportAppListSlackWorkspaceConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates an individual alias for each Amazon Web Services ac- count ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountAliasAsync(AwsSupportAppPutAccountAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountAliasAsync(AwsSupportAppPutAccountAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a Slack workspace for your Amazon Web Services account. To call this API, your account must be part of an organization in Organi- zations. If you're the management account and you want to register Slack work- spaces for your organization, you must complete the following tasks: o Sign in to the Amazon Web Services Support Center and authorize the Slack workspaces where you want your organization to have access to. See Authorize a Slack workspace in the Amazon Web Services Support User G...
@@ -108,8 +100,7 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterSlackWorkspaceForOrganizationAsync(AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterSlackWorkspaceForOrganizationAsync(AwsSupportAppRegisterSlackWorkspaceForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration for a Slack channel, such as case update no- tifications. See also: AWS API Documentation
@@ -118,7 +109,6 @@ public interface IAwsSupportApp
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSlackChannelConfigurationAsync(AwsSupportAppUpdateSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSlackChannelConfigurationAsync(AwsSupportAppUpdateSlackChannelConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

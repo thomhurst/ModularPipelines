@@ -33,7 +33,7 @@ public class AwsSes : IAwsSes
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ses wait sub-commands.
     /// </summary>
     public AwsSesWait Wait => _wait ??= new AwsSesWait(_command);
 

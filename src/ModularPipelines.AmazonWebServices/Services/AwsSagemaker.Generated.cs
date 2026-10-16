@@ -33,7 +33,7 @@ public class AwsSagemaker : IAwsSagemaker
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws sagemaker wait sub-commands.
     /// </summary>
     public AwsSagemakerWait Wait => _wait ??= new AwsSagemakerWait(_command);
 
@@ -1182,6 +1182,21 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
+    /// Creates a training session in Amazon SageMaker. A training session pro- visions compute resources for fine-tuning a foundation model using Low-Rank Adaptation (LoRA). After the session is created, you can sub- mit training operations and sample inference requests through the Ama- zon SageMaker Training Session Runtime API. The following operations are related to CreateTrainingSession : o DescribeTrainingSession o ListTrainingSessions o StopTrainingSession o DeleteTrainingSession See also: AWS AP...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateTrainingSessionAsync(
+        AwsSagemakerCreateTrainingSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Starts a transform job. A transform job uses a trained model to get in- ferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following: o TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. o ModelName - Identifies the mode...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2120,6 +2135,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteTrainingJobAsync(
         AwsSagemakerDeleteTrainingJobOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes a training session. You must stop a running session before deleting it. Use the StopTrainingSession operation to stop the session first. The following operations are related to DeleteTrainingSession : o CreateTrainingSession o DescribeTrainingSession o StopTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteTrainingSessionAsync(
+        AwsSagemakerDeleteTrainingSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3267,6 +3297,21 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
+    /// Retrieves detailed information about a training session, including its current status, model configuration, Low-Rank Adaptation (LoRA) parame- ters, and timestamps. The following operations are related to DescribeTrainingSession : o CreateTrainingSession o ListTrainingSessions o StopTrainingSession o DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTrainingSessionAsync(
+        AwsSagemakerDescribeTrainingSessionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns information about a transform job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4002,21 +4047,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List the contents of a hub. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListHubContentsAsync(
-        AwsSagemakerListHubContentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List hub content versions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4025,6 +4055,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHubContentVersionsAsync(
         AwsSagemakerListHubContentVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List the contents of a hub. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListHubContentsAsync(
+        AwsSagemakerListHubContentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -4077,21 +4122,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListImagesAsync(
-        AwsSagemakerListImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time. See also: AWS API Documentation list-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4104,6 +4134,21 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must ex...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListImagesAsync(
+        AwsSagemakerListImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4137,21 +4182,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Lists recommendation jobs that satisfy various filters. See also: AWS API Documentation list-inference-recommendations-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceRecommendationsJ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInferenceRecommendationsJobsAsync(
-        AwsSagemakerListInferenceRecommendationsJobsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListInferenceRecommendationsJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types. See also: AWS API Documentation list-inference-recommendations-job-steps is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4164,6 +4194,21 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists recommendation jobs that satisfy various filters. See also: AWS API Documentation list-inference-recommendations-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InferenceRecommendationsJ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInferenceRecommendationsJobsAsync(
+        AwsSagemakerListInferenceRecommendationsJobsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListInferenceRecommendationsJobsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4302,21 +4347,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// List existing model cards. See also: AWS API Documentation list-model-cards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListModelCardsAsync(
-        AwsSagemakerListModelCardsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListModelCardsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List existing versions of an Amazon SageMaker Model Card. See also: AWS API Documentation list-model-card-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ModelCardVersionSummaryList
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4329,6 +4359,21 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List existing model cards. See also: AWS API Documentation list-model-cards is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ModelCardSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListModelCardsAsync(
+        AwsSagemakerListModelCardsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListModelCardsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4542,21 +4587,6 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
-    /// Gets a list of the pipeline executions. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PipelineExecutionSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPipelineExecutionsAsync(
-        AwsSagemakerListPipelineExecutionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a list of PipeLineExecutionStep objects. See also: AWS API Documentation list-pipeline-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineExecutionSteps
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4572,6 +4602,21 @@ public class AwsSagemaker : IAwsSagemaker
     }
 
     /// <summary>
+    /// Gets a list of the pipeline executions. See also: AWS API Documentation list-pipeline-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: PipelineExecutionSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPipelineExecutionsAsync(
+        AwsSagemakerListPipelineExecutionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Gets a list of parameters for a pipeline execution. See also: AWS API Documentation list-pipeline-parameters-for-execution is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: PipelineParameters
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -4580,6 +4625,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPipelineParametersForExecutionAsync(
         AwsSagemakerListPipelineParametersForExecutionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets a list of all versions of the pipeline. See also: AWS API Documentation list-pipeline-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineVersionSummaries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPipelineVersionsAsync(
+        AwsSagemakerListPipelineVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -4599,21 +4659,6 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListPipelinesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets a list of all versions of the pipeline. See also: AWS API Documentation list-pipeline-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PipelineVersionSummaries
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPipelineVersionsAsync(
-        AwsSagemakerListPipelineVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -4779,6 +4824,21 @@ public class AwsSagemaker : IAwsSagemaker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListTrainingPlansOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists training sessions in your account. You can filter results by cre- ation time, name, and status. The operation paginates results. To re- trieve additional results, use the NextToken parameter. The following operations are related to ListTrainingSessions : o CreateTrainingSession o DescribeTrainingSession See also: AWS API Documentation list-training-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrainingSessionsAsync(
+        AwsSagemakerListTrainingSessionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSagemakerListTrainingSessionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -5405,6 +5465,21 @@ public class AwsSagemaker : IAwsSagemaker
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopTrainingJobAsync(
         AwsSagemakerStopTrainingJobOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Stops a running training session and sets the session status to Stop- ping . After the session stops, the status changes to Stopped . To delete a stopped session, use the DeleteTrainingSession operation. The following operations are related to StopTrainingSession : o CreateTrainingSession o DescribeTrainingSession o DeleteTrainingSession See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopTrainingSessionAsync(
+        AwsSagemakerStopTrainingSessionOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

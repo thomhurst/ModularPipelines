@@ -242,21 +242,6 @@ public class AwsSupport : IAwsSupport
     }
 
     /// <summary>
-    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeTrustedAdvisorChecksAsync(
-        AwsSupportDescribeTrustedAdvisorChecksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response contains an array of TrustedAdvisorCheckSummary objects. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn'...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -265,6 +250,21 @@ public class AwsSupport : IAwsSupport
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTrustedAdvisorCheckSummariesAsync(
         AwsSupportDescribeTrustedAdvisorCheckSummariesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about all available Trusted Advisor checks, includ- ing the name, ID, category, description, and metadata. You must specify a language code. The response contains a TrustedAdvisorCheckDescription object for each check. You must set the Amazon Web Services Region to us-east-1. NOTE: o You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. o If yo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeTrustedAdvisorChecksAsync(
+        AwsSupportDescribeTrustedAdvisorChecksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

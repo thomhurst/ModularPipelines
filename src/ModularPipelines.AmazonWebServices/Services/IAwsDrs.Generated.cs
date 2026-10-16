@@ -28,8 +28,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSourceNetworkStackAsync(AwsDrsAssociateSourceNetworkStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSourceNetworkStackAsync(AwsDrsAssociateSourceNetworkStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an in-progress Recovery Plan execution. Remaining steps are skipped. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelRecoveryPlanExecutionAsync(AwsDrsCancelRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelRecoveryPlanExecutionAsync(AwsDrsCancelRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an extended source server in the target Account based on the source server in staging account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExtendedSourceServerAsync(AwsDrsCreateExtendedSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExtendedSourceServerAsync(AwsDrsCreateExtendedSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Launch Configuration Template. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLaunchConfigurationTemplateAsync(AwsDrsCreateLaunchConfigurationTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLaunchConfigurationTemplateAsync(AwsDrsCreateLaunchConfigurationTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Recovery Plan to orchestrate multi-server disaster recovery. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecoveryPlanAsync(AwsDrsCreateRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecoveryPlanAsync(AwsDrsCreateRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a step in a Recovery Plan. A step is either SERVER type (servers to recover in parallel) or WAIT type (timed pause between steps). See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRecoveryPlanStepAsync(AwsDrsCreateRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRecoveryPlanStepAsync(AwsDrsCreateRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new ReplicationConfigurationTemplate. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReplicationConfigurationTemplateAsync(AwsDrsCreateReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReplicationConfigurationTemplateAsync(AwsDrsCreateReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Source Network resource for a provided VPC ID. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSourceNetworkAsync(AwsDrsCreateSourceNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSourceNetworkAsync(AwsDrsCreateSourceNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a single Job by ID. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteJobAsync(AwsDrsDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteJobAsync(AwsDrsDeleteJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a resource launch action. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLaunchActionAsync(AwsDrsDeleteLaunchActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLaunchActionAsync(AwsDrsDeleteLaunchActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a single Launch Configuration Template by ID. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLaunchConfigurationTemplateAsync(AwsDrsDeleteLaunchConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLaunchConfigurationTemplateAsync(AwsDrsDeleteLaunchConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery In- stance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecoveryInstanceAsync(AwsDrsDeleteRecoveryInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecoveryInstanceAsync(AwsDrsDeleteRecoveryInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Recovery Plan execution record. Must be in a terminal status. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecoveryPlanExecutionAsync(AwsDrsDeleteRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecoveryPlanExecutionAsync(AwsDrsDeleteRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (CREATED , IN_PROGRESS ). See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecoveryPlanAsync(AwsDrsDeleteRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecoveryPlanAsync(AwsDrsDeleteRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a step from a Recovery Plan. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRecoveryPlanStepAsync(AwsDrsDeleteRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRecoveryPlanStepAsync(AwsDrsDeleteRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a single Replication Configuration Template by ID See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReplicationConfigurationTemplateAsync(AwsDrsDeleteReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReplicationConfigurationTemplateAsync(AwsDrsDeleteReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete Source Network resource. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSourceNetworkAsync(AwsDrsDeleteSourceNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSourceNetworkAsync(AwsDrsDeleteSourceNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a single Source Server by ID. The Source Server must be discon- nected first. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSourceServerAsync(AwsDrsDeleteSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSourceServerAsync(AwsDrsDeleteSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a detailed Job log with pagination. See also: AWS API Documentation describe-job-log-items is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -208,8 +190,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobLogItemsAsync(AwsDrsDescribeJobLogItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobLogItemsAsync(AwsDrsDescribeJobLogItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creation- DataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to Support and only used in response to relevant support tickets. See also: AWS API Documentation describe-jobs is a paginated ...
@@ -218,8 +199,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobsAsync(AwsDrsDescribeJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobsAsync(AwsDrsDescribeJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Launch Configuration Templates, filtered by Launch Configura- tion Template IDs See also: AWS API Documentation describe-launch-configuration-templates is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ...
@@ -228,8 +208,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLaunchConfigurationTemplatesAsync(AwsDrsDescribeLaunchConfigurationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLaunchConfigurationTemplatesAsync(AwsDrsDescribeLaunchConfigurationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Recovery Instances or multiple Recovery Instances by ID. See also: AWS API Documentation describe-recovery-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -238,8 +217,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecoveryInstancesAsync(AwsDrsDescribeRecoveryInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecoveryInstancesAsync(AwsDrsDescribeRecoveryInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Recovery Snapshots for a single Source Server. See also: AWS API Documentation describe-recovery-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -248,8 +226,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecoverySnapshotsAsync(AwsDrsDescribeRecoverySnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecoverySnapshotsAsync(AwsDrsDescribeRecoverySnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs. See also: AWS API Documentation describe-replication-configuration-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
@@ -258,8 +235,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReplicationConfigurationTemplatesAsync(AwsDrsDescribeReplicationConfigurationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReplicationConfigurationTemplatesAsync(AwsDrsDescribeReplicationConfigurationTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Source Networks or multiple Source Networks filtered by ID. See also: AWS API Documentation describe-source-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -268,8 +244,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSourceNetworksAsync(AwsDrsDescribeSourceNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSourceNetworksAsync(AwsDrsDescribeSourceNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Source Servers or multiple Source Servers filtered by ID. See also: AWS API Documentation describe-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -278,8 +253,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSourceServersAsync(AwsDrsDescribeSourceServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSourceServersAsync(AwsDrsDescribeSourceServersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elas- tic Disaster Recovery for enabling the replication of the Recovery In- stance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties ...
@@ -288,8 +262,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisconnectRecoveryInstanceAsync(AwsDrsDisconnectRecoveryInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisconnectRecoveryInstanceAsync(AwsDrsDisconnectRecoveryInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot dis- connect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall it...
@@ -298,8 +271,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisconnectSourceServerAsync(AwsDrsDisconnectSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisconnectSourceServerAsync(AwsDrsDisconnectSourceServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export the Source Network CloudFormation template to an S3 bucket. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportSourceNetworkCfnTemplateAsync(AwsDrsExportSourceNetworkCfnTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportSourceNetworkCfnTemplateAsync(AwsDrsExportSourceNetworkCfnTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery In- stance ID. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFailbackReplicationConfigurationAsync(AwsDrsGetFailbackReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFailbackReplicationConfigurationAsync(AwsDrsGetFailbackReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a LaunchConfiguration, filtered by Source Server IDs. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLaunchConfigurationAsync(AwsDrsGetLaunchConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLaunchConfigurationAsync(AwsDrsGetLaunchConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details of a Recovery Plan execution. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryPlanExecutionAsync(AwsDrsGetRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryPlanExecutionAsync(AwsDrsGetRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the details of a step within a Recovery Plan execution. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryPlanExecutionStepAsync(AwsDrsGetRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryPlanExecutionStepAsync(AwsDrsGetRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a Recovery Plan by ARN. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryPlanAsync(AwsDrsGetRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryPlanAsync(AwsDrsGetRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a Recovery Plan step by ARN. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryPlanStepAsync(AwsDrsGetRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryPlanStepAsync(AwsDrsGetRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a ReplicationConfiguration, filtered by Source Server ID. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReplicationConfigurationAsync(AwsDrsGetReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReplicationConfigurationAsync(AwsDrsGetReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initialize Elastic Disaster Recovery. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InitializeServiceAsync(AwsDrsInitializeServiceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InitializeServiceAsync(AwsDrsInitializeServiceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of source servers on a staging account that are extensi- ble, which means that: a. The source server is not already extended into this Account. b. The source server on the Account were reading from is not an extension of another source server. See also: AWS API Documentation list-extensible-source-servers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ...
@@ -398,8 +361,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExtensibleSourceServersAsync(AwsDrsListExtensibleSourceServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExtensibleSourceServersAsync(AwsDrsListExtensibleSourceServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists resource launch actions. See also: AWS API Documentation list-launch-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -408,18 +370,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLaunchActionsAsync(AwsDrsListLaunchActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists executions of Recovery Plans, optionally filtered by plan or sta- tus. See also: AWS API Documentation list-recovery-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPl...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryPlanExecutionsAsync(AwsDrsListRecoveryPlanExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLaunchActionsAsync(AwsDrsListLaunchActionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all steps within a Recovery Plan execution. See also: AWS API Documentation list-recovery-plan-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExecutionSteps
@@ -428,18 +379,16 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(AwsDrsListRecoveryPlanExecutionStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(AwsDrsListRecoveryPlanExecutionStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all Recovery Plans in the account. See also: AWS API Documentation list-recovery-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlans
+    /// Lists executions of Recovery Plans, optionally filtered by plan or sta- tus. See also: AWS API Documentation list-recovery-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryPlansAsync(AwsDrsListRecoveryPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecoveryPlanExecutionsAsync(AwsDrsListRecoveryPlanExecutionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all steps in a Recovery Plan. See also: AWS API Documentation list-recovery-plan-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recoveryPlanSteps
@@ -448,8 +397,16 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryPlanStepsAsync(AwsDrsListRecoveryPlanStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecoveryPlanStepsAsync(AwsDrsListRecoveryPlanStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists all Recovery Plans in the account. See also: AWS API Documentation list-recovery-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlans
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListRecoveryPlansAsync(AwsDrsListRecoveryPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of staging accounts for existing extended source servers. See also: AWS API Documentation list-staging-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: accounts
@@ -458,8 +415,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStagingAccountsAsync(AwsDrsListStagingAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStagingAccountsAsync(AwsDrsListStagingAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tags for your Elastic Disaster Recovery resources. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsDrsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsDrsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Puts a resource launch action. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutLaunchActionAsync(AwsDrsPutLaunchActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutLaunchActionAsync(AwsDrsPutLaunchActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReorderRecoveryPlanStepsAsync(AwsDrsReorderRecoveryPlanStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReorderRecoveryPlanStepsAsync(AwsDrsReorderRecoveryPlanStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retries a failed SERVER type execution step. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RetryRecoveryPlanExecutionStepAsync(AwsDrsRetryRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RetryRecoveryPlanExecutionStepAsync(AwsDrsRetryRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target re- gion - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReverseReplicationAsync(AwsDrsReverseReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReverseReplicationAsync(AwsDrsReverseReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the fail- back process. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartFailbackLaunchAsync(AwsDrsStartFailbackLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartFailbackLaunchAsync(AwsDrsStartFailbackLaunchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRecoveryAsync(AwsDrsStartRecoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRecoveryAsync(AwsDrsStartRecoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan can- not have more than one execution in a non-terminal status at a time. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartRecoveryPlanExecutionAsync(AwsDrsStartRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartRecoveryPlanExecutionAsync(AwsDrsStartRecoveryPlanExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartReplicationAsync(AwsDrsStartReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartReplicationAsync(AwsDrsStartReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated Cloud- Formation stack. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSourceNetworkRecoveryAsync(AwsDrsStartSourceNetworkRecoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSourceNetworkRecoveryAsync(AwsDrsStartSourceNetworkRecoveryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts replication for a Source Network. This action would make the Source Network protected. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSourceNetworkReplicationAsync(AwsDrsStartSourceNetworkReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSourceNetworkReplicationAsync(AwsDrsStartSourceNetworkReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAIL- BACK_NOT_STARTED. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopFailbackAsync(AwsDrsStopFailbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopFailbackAsync(AwsDrsStopFailbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopReplicationAsync(AwsDrsStopReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopReplicationAsync(AwsDrsStopReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops replication for a Source Network. This action would make the Source Network unprotected. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSourceNetworkReplicationAsync(AwsDrsStopSourceNetworkReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSourceNetworkReplicationAsync(AwsDrsStopSourceNetworkReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsDrsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsDrsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery In- stances from the Elastic Disaster Recovery service. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateRecoveryInstancesAsync(AwsDrsTerminateRecoveryInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateRecoveryInstancesAsync(AwsDrsTerminateRecoveryInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsDrsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsDrsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to update the failback replication configuration of a Recov- ery Instance by ID. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateFailbackReplicationConfigurationAsync(AwsDrsUpdateFailbackReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateFailbackReplicationConfigurationAsync(AwsDrsUpdateFailbackReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a LaunchConfiguration by Source Server ID. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLaunchConfigurationAsync(AwsDrsUpdateLaunchConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLaunchConfigurationAsync(AwsDrsUpdateLaunchConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Launch Configuration Template by ID. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLaunchConfigurationTemplateAsync(AwsDrsUpdateLaunchConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLaunchConfigurationTemplateAsync(AwsDrsUpdateLaunchConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecoveryPlanExecutionStepAsync(AwsDrsUpdateRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecoveryPlanExecutionStepAsync(AwsDrsUpdateRecoveryPlanExecutionStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Recovery Plan's name or description. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecoveryPlanAsync(AwsDrsUpdateRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecoveryPlanAsync(AwsDrsUpdateRecoveryPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Recovery Plan step's name or configuration. Step type is im- mutable. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRecoveryPlanStepAsync(AwsDrsUpdateRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRecoveryPlanStepAsync(AwsDrsUpdateRecoveryPlanStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to update a ReplicationConfiguration by Source Server ID. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReplicationConfigurationAsync(AwsDrsUpdateReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReplicationConfigurationAsync(AwsDrsUpdateReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a ReplicationConfigurationTemplate by ID. See also: AWS API Documentation
@@ -708,7 +640,6 @@ public interface IAwsDrs
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReplicationConfigurationTemplateAsync(AwsDrsUpdateReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReplicationConfigurationTemplateAsync(AwsDrsUpdateReplicationConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

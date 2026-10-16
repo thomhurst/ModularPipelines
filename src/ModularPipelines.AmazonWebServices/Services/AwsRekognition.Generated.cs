@@ -33,7 +33,7 @@ public class AwsRekognition : IAwsRekognition
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rekognition wait sub-commands.
     /// </summary>
     public AwsRekognitionWait Wait => _wait ??= new AwsRekognitionWait(_command);
 
@@ -342,21 +342,6 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:De- scribeProjects action. See also: AWS API Documentation describe-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeProjectsAsync(
-        AwsRekognitionDescribeProjectsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRekognitionDescribeProjectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists and describes the versions of an Amazon Rekognition project. You can specify up to 10 model or adapter versions in ProjectVersionArns . If you don't specify a value, descriptions for all model/adapter ver- sions in the project are returned. This operation requires permissions to perform the rekognition:De- scribeProjectVersions action. See also: AWS API Documentation describe-project-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data se...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -369,6 +354,21 @@ public class AwsRekognition : IAwsRekognition
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about your Rekognition projects. This operation requires permissions to perform the rekognition:De- scribeProjects action. See also: AWS API Documentation describe-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeProjectsAsync(
+        AwsRekognitionDescribeProjectsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRekognitionDescribeProjectsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

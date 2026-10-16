@@ -28,8 +28,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHttpNamespaceAsync(AwsServicediscoveryCreateHttpNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHttpNamespaceAsync(AwsServicediscoveryCreateHttpNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is back- end.example.com . Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances re- quest or using DNS. For the current quota on the number of namespaces that you can...
@@ -38,8 +37,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePrivateDnsNamespaceAsync(AwsServicediscoveryCreatePrivateDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePrivateDnsNamespaceAsync(AwsServicediscoveryCreatePrivateDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a public namespace based on DNS, which is visible on the inter- net. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend , the resulting DNS name for the service is backend.example.com . You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon...
@@ -48,8 +46,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePublicDnsNamespaceAsync(AwsServicediscoveryCreatePublicDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePublicDnsNamespaceAsync(AwsServicediscoveryCreatePublicDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a service. This action defines the configuration for the fol- lowing entities: o For public and private DNS namespaces, one of the following combina- tions of DNS records in Amazon Route 53: o A o AAAA o A and AAAA o SRV o CNAME o Optionally, a health check After you create the service, you can submit a RegisterInstance re- quest, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register usi...
@@ -58,8 +55,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceAsync(AwsServicediscoveryCreateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceAsync(AwsServicediscoveryCreateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNamespaceAsync(AwsServicediscoveryDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNamespaceAsync(AwsServicediscoveryDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes specific attributes associated with a service. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceAttributesAsync(AwsServicediscoveryDeleteServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceAttributesAsync(AwsServicediscoveryDeleteServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the re- quest fails. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceAsync(AwsServicediscoveryDeleteServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceAsync(AwsServicediscoveryDeleteServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterInstanceAsync(AwsServicediscoveryDeregisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterInstanceAsync(AwsServicediscoveryDeregisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances al- lowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to dis- cover instances. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DiscoverInstancesAsync(AwsServicediscoveryDiscoverInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DiscoverInstancesAsync(AwsServicediscoveryDiscoverInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Discovers the increasing revision associated with an instance. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DiscoverInstancesRevisionAsync(AwsServicediscoveryDiscoverInstancesRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DiscoverInstancesRevisionAsync(AwsServicediscoveryDiscoverInstancesRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specified instance. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstanceAsync(AwsServicediscoveryGetInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstanceAsync(AwsServicediscoveryGetInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current health status (Healthy , Unhealthy , or Unknown ) of one or more instances that are associated with a specified service. NOTE: There's a brief delay between when you register an instance and when the health status for the instance is available. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetInstancesHealthStatusAsync(AwsServicediscoveryGetInstancesHealthStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetInstancesHealthStatusAsync(AwsServicediscoveryGetInstancesHealthStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a namespace. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNamespaceAsync(AwsServicediscoveryGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNamespaceAsync(AwsServicediscoveryGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. NOTE: To get a list of operations that match specified criteria, see ListOperations . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOperationAsync(AwsServicediscoveryGetOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOperationAsync(AwsServicediscoveryGetOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the attributes associated with a specified service. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceAttributesAsync(AwsServicediscoveryGetServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceAttributesAsync(AwsServicediscoveryGetServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the settings for a specified service. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetServiceAsync(AwsServicediscoveryGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetServiceAsync(AwsServicediscoveryGetServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists summary information about the instances that you registered by using a specified service. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Instan...
@@ -188,8 +172,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstancesAsync(AwsServicediscoveryListInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstancesAsync(AwsServicediscoveryListInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must ex...
@@ -198,8 +181,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNamespacesAsync(AwsServicediscoveryListNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNamespacesAsync(AwsServicediscoveryListNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists operations that match the criteria that you specify. See also: AWS API Documentation list-operations is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Operations
@@ -208,8 +190,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOperationsAsync(AwsServicediscoveryListOperationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOperationsAsync(AwsServicediscoveryListOperationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists summary information for all the services that are associated with one or more namespaces. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Service...
@@ -218,8 +199,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServicesAsync(AwsServicediscoveryListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServicesAsync(AwsServicediscoveryListServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags for the specified resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsServicediscoveryListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsServicediscoveryListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs: o For each DNS record that you define in the service that's specified by ServiceId , a record is created or updated in the hosted zone that's associated with the corresponding namespace. o If the service includes HealthCheckConfig , a health check is created based on the settings in the health check configur...
@@ -238,8 +217,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterInstanceAsync(AwsServicediscoveryRegisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterInstanceAsync(AwsServicediscoveryRegisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to the specified resource. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsServicediscoveryTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsServicediscoveryTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified resource. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsServicediscoveryUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsServicediscoveryUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an HTTP namespace. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHttpNamespaceAsync(AwsServicediscoveryUpdateHttpNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHttpNamespaceAsync(AwsServicediscoveryUpdateHttpNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomCon- fig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInstanceCustomHealthStatusAsync(AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInstanceCustomHealthStatusAsync(AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a private DNS namespace. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePrivateDnsNamespaceAsync(AwsServicediscoveryUpdatePrivateDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePrivateDnsNamespaceAsync(AwsServicediscoveryUpdatePrivateDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a public DNS namespace. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePublicDnsNamespaceAsync(AwsServicediscoveryUpdatePublicDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePublicDnsNamespaceAsync(AwsServicediscoveryUpdatePublicDnsNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a request to update a specified service to add service-level attributes. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceAttributesAsync(AwsServicediscoveryUpdateServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceAttributesAsync(AwsServicediscoveryUpdateServiceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a request to perform the following operations: o Update the TTL setting for existing DnsRecords configurations o Add, update, or delete HealthCheckConfig for a specified service NOTE: You can't add, update, or delete a HealthCheckCustomConfig configu- ration. For public and private DNS namespaces, note the following: o If you omit any existing DnsRecords or HealthCheckConfig configura- tions from an UpdateService request, the configurations are deleted from the service. o If you omit an ...
@@ -318,7 +289,6 @@ public interface IAwsServicediscovery
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceAsync(AwsServicediscoveryUpdateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceAsync(AwsServicediscoveryUpdateServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

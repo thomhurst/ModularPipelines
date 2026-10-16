@@ -617,6 +617,21 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
+    /// Lists all steps within a Recovery Plan execution. See also: AWS API Documentation list-recovery-plan-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExecutionSteps
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(
+        AwsDrsListRecoveryPlanExecutionStepsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists executions of Recovery Plans, optionally filtered by plan or sta- tus. See also: AWS API Documentation list-recovery-plan-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPl...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -632,14 +647,14 @@ public class AwsDrs : IAwsDrs
     }
 
     /// <summary>
-    /// Lists all steps within a Recovery Plan execution. See also: AWS API Documentation list-recovery-plan-execution-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPlanExecutionSteps
+    /// Lists all steps in a Recovery Plan. See also: AWS API Documentation list-recovery-plan-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recoveryPlanSteps
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecoveryPlanExecutionStepsAsync(
-        AwsDrsListRecoveryPlanExecutionStepsOptions options,
+    public virtual async Task<CommandResult> ListRecoveryPlanStepsAsync(
+        AwsDrsListRecoveryPlanStepsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -659,21 +674,6 @@ public class AwsDrs : IAwsDrs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDrsListRecoveryPlansOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all steps in a Recovery Plan. See also: AWS API Documentation list-recovery-plan-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: recoveryPlanSteps
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecoveryPlanStepsAsync(
-        AwsDrsListRecoveryPlanStepsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

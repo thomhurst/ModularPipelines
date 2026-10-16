@@ -33,7 +33,7 @@ public class AwsRedshift : IAwsRedshift
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws redshift wait sub-commands.
     /// </summary>
     public AwsRedshiftWait Wait => _wait ??= new AwsRedshiftWait(_command);
 
@@ -942,21 +942,6 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup proper- ties, and security and access properties. This operation supports pagi- nation. For more information about managing clusters, go to Amazon Red- shift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the speci- fied ke...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeClustersAsync(
-        AwsRedshiftDescribeClustersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns one or more cluster subnet group objects, which contain meta- data about your cluster subnet groups. By default, this operation re- turns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environ- ment for tag keys, and admin and test for ta...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -999,6 +984,21 @@ public class AwsRedshift : IAwsRedshift
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeClusterVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup proper- ties, and security and access properties. This operation supports pagi- nation. For more information about managing clusters, go to Amazon Red- shift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the speci- fied ke...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeClustersAsync(
+        AwsRedshiftDescribeClustersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeClustersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1122,21 +1122,6 @@ public class AwsRedshift : IAwsRedshift
     }
 
     /// <summary>
-    /// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeEventsAsync(
-        AwsRedshiftDescribeEventsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists descriptions of all the Amazon Redshift event notification sub- scriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1149,6 +1134,21 @@ public class AwsRedshift : IAwsRedshift
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeEventsAsync(
+        AwsRedshiftDescribeEventsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRedshiftDescribeEventsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

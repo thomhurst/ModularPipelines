@@ -115,6 +115,12 @@ public record AwsCognitoIdpCreateIdentityProviderOptions : AwsOptions, IValidata
     [CliOption("--idp-identifiers", GroupValues = true)]
     public IEnumerable<string>? IdpIdentifiers { get; set; }
 
+    /// <summary>
+    /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). The map is keyed by level, from Level1 through Level4 , and each value is the ACR value that the IdP uses for the corresponding level. Amazon Cognito uses this mapping to translate a requested user pool ACR level to the value that the IdP expects, and to map an ACR value that the IdP returns back to a user pool level. When the IdP returns an ACR value that isn't mapped, Amazon Cognito resolves it to the lowest level. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't re- stricted to the Essentials or Plus feature plan. Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o pattern: Level[1-4] value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--acr-mapping", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? AcrMapping { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

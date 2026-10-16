@@ -28,8 +28,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddPolicyStatementAsync(AwsEntityresolutionAddPolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddPolicyStatementAsync(AwsEntityresolutionAddPolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple unique IDs in a matching workflow. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteUniqueIdAsync(AwsEntityresolutionBatchDeleteUniqueIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteUniqueIdAsync(AwsEntityresolutionBatchDeleteUniqueIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateI- dMappingWorkflow API. WARNING: Incremental processing is not supported for ID mapping workflows. See also: AWS API Documentation create-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays...
@@ -48,8 +46,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIdMappingWorkflowAsync(AwsEntityresolutionCreateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIdMappingWorkflowAsync(AwsEntityresolutionCreateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an ID namespace object which will help customers provide meta- data explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the Up- dateIdNamespace API. See also: AWS API Documentation create-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled ...
@@ -58,8 +55,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIdNamespaceAsync(AwsEntityresolutionCreateIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIdNamespaceAsync(AwsEntityresolutionCreateIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow . WARNING: For workflows where resolutionType is PROVIDER , incremental pro- cessing is not supported. See also: AWS API Documentation create-matching-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command...
@@ -68,8 +64,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMatchingWorkflowAsync(AwsEntityresolutionCreateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMatchingWorkflowAsync(AwsEntityresolutionCreateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a schema mapping, which defines the schema of the input cus- tomer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSchemaMappingAsync(AwsEntityresolutionCreateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSchemaMappingAsync(AwsEntityresolutionCreateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the IdMappingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdMappingWorkflowAsync(AwsEntityresolutionDeleteIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdMappingWorkflowAsync(AwsEntityresolutionDeleteIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the IdNamespace with a given name. This operation returns a Re- sourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIdNamespaceAsync(AwsEntityresolutionDeleteIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIdNamespaceAsync(AwsEntityresolutionDeleteIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the MatchingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMatchingWorkflowAsync(AwsEntityresolutionDeleteMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMatchingWorkflowAsync(AwsEntityresolutionDeleteMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the policy statement. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyStatementAsync(AwsEntityresolutionDeletePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyStatementAsync(AwsEntityresolutionDeletePolicyStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not ex- ist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig . See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSchemaMappingAsync(AwsEntityresolutionDeleteSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSchemaMappingAsync(AwsEntityresolutionDeleteSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates or retrieves Match IDs for records using a rule-based match- ing workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The op- eration saves results to Amazon S3. The processing type (processingType ) you choose affects both the accu- racy and response time of the operation. Add...
@@ -138,8 +127,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GenerateMatchIdAsync(AwsEntityresolutionGenerateMatchIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GenerateMatchIdAsync(AwsEntityresolutionGenerateMatchIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdMappingJobAsync(AwsEntityresolutionGetIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdMappingJobAsync(AwsEntityresolutionGetIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the IdMappingWorkflow with a given name, if it exists. See also: AWS API Documentation get-id-mapping-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not support document types.
@@ -158,8 +145,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdMappingWorkflowAsync(AwsEntityresolutionGetIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdMappingWorkflowAsync(AwsEntityresolutionGetIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the IdNamespace with a given name, if it exists. See also: AWS API Documentation get-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -168,8 +154,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdNamespaceAsync(AwsEntityresolutionGetIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdNamespaceAsync(AwsEntityresolutionGetIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMatchIdAsync(AwsEntityresolutionGetMatchIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMatchIdAsync(AwsEntityresolutionGetMatchIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the status, metrics, and errors (if there are any) that are as- sociated with a job. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMatchingJobAsync(AwsEntityresolutionGetMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMatchingJobAsync(AwsEntityresolutionGetMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the MatchingWorkflow with a given name, if it exists. See also: AWS API Documentation get-matching-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -198,8 +181,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMatchingWorkflowAsync(AwsEntityresolutionGetMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMatchingWorkflowAsync(AwsEntityresolutionGetMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource-based policy. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPolicyAsync(AwsEntityresolutionGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPolicyAsync(AwsEntityresolutionGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the ProviderService of a given name. See also: AWS API Documentation get-provider-service uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -218,8 +199,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProviderServiceAsync(AwsEntityresolutionGetProviderServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProviderServiceAsync(AwsEntityresolutionGetProviderServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the SchemaMapping of a given name. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSchemaMappingAsync(AwsEntityresolutionGetSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSchemaMappingAsync(AwsEntityresolutionGetSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all ID mapping jobs for a given workflow. See also: AWS API Documentation list-id-mapping-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
@@ -238,8 +217,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdMappingJobsAsync(AwsEntityresolutionListIdMappingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdMappingJobsAsync(AwsEntityresolutionListIdMappingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-id-mapping-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query ex...
@@ -248,8 +226,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdMappingWorkflowsAsync(AwsEntityresolutionListIdMappingWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdMappingWorkflowsAsync(AwsEntityresolutionListIdMappingWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all ID namespaces. See also: AWS API Documentation list-id-namespaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: idNamespaceSummaries
@@ -258,8 +235,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIdNamespacesAsync(AwsEntityresolutionListIdNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIdNamespacesAsync(AwsEntityresolutionListIdNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all jobs for a given workflow. See also: AWS API Documentation list-matching-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
@@ -268,8 +244,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMatchingJobsAsync(AwsEntityresolutionListMatchingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMatchingJobsAsync(AwsEntityresolutionListMatchingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account. See also: AWS API Documentation list-matching-workflows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
@@ -278,8 +253,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMatchingWorkflowsAsync(AwsEntityresolutionListMatchingWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMatchingWorkflowsAsync(AwsEntityresolutionListMatchingWorkflowsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the ProviderServices that are available in this Amazon Web Services Region. See also: AWS API Documentation list-provider-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -288,8 +262,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProviderServicesAsync(AwsEntityresolutionListProviderServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProviderServicesAsync(AwsEntityresolutionListProviderServicesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account. See also: AWS API Documentation list-schema-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
@@ -298,8 +271,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSchemaMappingsAsync(AwsEntityresolutionListSchemaMappingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSchemaMappingsAsync(AwsEntityresolutionListSchemaMappingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the tags associated with an Entity Resolution resource. In En- tity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsEntityresolutionListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsEntityresolutionListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the resource-based policy. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutPolicyAsync(AwsEntityresolutionPutPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutPolicyAsync(AwsEntityresolutionPutPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the IdMappingJob of a workflow. The workflow must have previ- ously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartIdMappingJobAsync(AwsEntityresolutionStartIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartIdMappingJobAsync(AwsEntityresolutionStartIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartMatchingJobAsync(AwsEntityresolutionStartMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartMatchingJobAsync(AwsEntityresolutionStartMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags (key-value pairs) to the specified Entity Res- olution resource. Tags can help you organize and categorize your re- sources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResour...
@@ -348,8 +316,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsEntityresolutionTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsEntityresolutionTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping , and MatchingWorkflow can be tagged. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsEntityresolutionUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsEntityresolutionUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing IdMappingWorkflow . This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed. WARNING: Incremental processing is not supported for ID mapping workflows. See also: AWS API Documentation update-id-mapping-workflow uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and ...
@@ -368,8 +334,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdMappingWorkflowAsync(AwsEntityresolutionUpdateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdMappingWorkflowAsync(AwsEntityresolutionUpdateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing ID namespace. See also: AWS API Documentation update-id-namespace uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
@@ -378,8 +343,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIdNamespaceAsync(AwsEntityresolutionUpdateIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIdNamespaceAsync(AwsEntityresolutionUpdateIdNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. WARNING: For workflows where resolutionType is PROVIDER , incremental pro- cessing is not supported. See also: AWS API Documentation update-matching-workflow uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document m...
@@ -388,8 +352,7 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMatchingWorkflowAsync(AwsEntityresolutionUpdateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMatchingWorkflowAsync(AwsEntityresolutionUpdateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a schema mapping. NOTE: A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a work- flow. See also: AWS API Documentation
@@ -398,7 +361,6 @@ public interface IAwsEntityresolution
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSchemaMappingAsync(AwsEntityresolutionUpdateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSchemaMappingAsync(AwsEntityresolutionUpdateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

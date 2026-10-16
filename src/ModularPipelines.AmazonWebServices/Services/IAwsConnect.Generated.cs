@@ -28,8 +28,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ActivateEvaluationFormAsync(AwsConnectActivateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ActivateEvaluationFormAsync(AwsConnectActivateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified dataset for a Connect Customer instance with the target account. You can associate only one dataset in a single call. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateAnalyticsDataSetAsync(AwsConnectAssociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateAnalyticsDataSetAsync(AwsConnectAssociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Associates an approved origin to an Connect Customer instance. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateApprovedOriginAsync(AwsConnectAssociateApprovedOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateApprovedOriginAsync(AwsConnectAssociateApprovedOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateBotAsync(AwsConnectAssociateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateBotAsync(AwsConnectAssociateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API: o Programmatically assign queued contacts to available users. o Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user. Important things to know o Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode. o This API can be used to offer a contact to an agent even if the agent...
@@ -68,8 +64,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateContactWithUserAsync(AwsConnectAssociateContactWithUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateContactWithUserAsync(AwsConnectAssociateContactWithUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an existing vocabulary as the default. Contact Lens for Con- nect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDefaultVocabularyAsync(AwsConnectAssociateDefaultVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDefaultVocabularyAsync(AwsConnectAssociateDefaultVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an email address alias with an existing email address in an Connect Customer instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address. Use cases Following are common uses cases for this API: o Unified customer support : Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management...
@@ -88,8 +82,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateEmailAddressAliasAsync(AwsConnectAssociateEmailAddressAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateEmailAddressAliasAsync(AwsConnectAssociateEmailAddressAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a connect resource to a flow. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateFlowAsync(AwsConnectAssociateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateFlowAsync(AwsConnectAssociateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateHoursOfOperationsAsync(AwsConnectAssociateHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateHoursOfOperationsAsync(AwsConnectAssociateHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Associates a storage resource type for the first time. You can only as- sociate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only asso- ciates it to the instance. Ensure that the resource being specified in the storage configuration, like an ...
@@ -118,8 +109,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateInstanceStorageConfigAsync(AwsConnectAssociateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateInstanceStorageConfigAsync(AwsConnectAssociateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Lambda function. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateLambdaFunctionAsync(AwsConnectAssociateLambdaFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateLambdaFunctionAsync(AwsConnectAssociateLambdaFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateLexBotAsync(AwsConnectAssociateLexBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateLexBotAsync(AwsConnectAssociateLexBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a flow with a phone number claimed to your Connect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traf- fic distribution group and you are calling this API using an in- stance in...
@@ -148,8 +136,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePhoneNumberContactFlowAsync(AwsConnectAssociatePhoneNumberContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePhoneNumberContactFlowAsync(AwsConnectAssociatePhoneNumberContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to in- bound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue. Important things to know o You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50. o The email addresses must alre...
@@ -158,8 +145,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateQueueEmailAddressesAsync(AwsConnectAssociateQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateQueueEmailAddressesAsync(AwsConnectAssociateQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of quick connects with a queue. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateQueueQuickConnectsAsync(AwsConnectAssociateQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateQueueQuickConnectsAsync(AwsConnectAssociateQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of queues with a routing profile. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateRoutingProfileQueuesAsync(AwsConnectAssociateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateRoutingProfileQueuesAsync(AwsConnectAssociateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Associates a security key to the instance. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSecurityKeyAsync(AwsConnectAssociateSecurityKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSecurityKeyAsync(AwsConnectAssociateSecurityKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate security profiles with an Entity in an Amazon Connect in- stance. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateSecurityProfilesAsync(AwsConnectAssociateSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateSecurityProfilesAsync(AwsConnectAssociateSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is cre- ated. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTrafficDistributionGroupUserAsync(AwsConnectAssociateTrafficDistributionGroupUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTrafficDistributionGroupUserAsync(AwsConnectAssociateTrafficDistributionGroupUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a set of proficiencies with a user. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateUserProficienciesAsync(AwsConnectAssociateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateUserProficienciesAsync(AwsConnectAssociateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a workspace with one or more users or routing profiles, al- lowing them to access the workspace's configured views and pages. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateWorkspaceAsync(AwsConnectAssociateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateWorkspaceAsync(AwsConnectAssociateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a list of analytics datasets for a given Connect Customer instance to a target account. You can associate multiple datasets in a single call. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateAnalyticsDataSetAsync(AwsConnectBatchAssociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateAnalyticsDataSetAsync(AwsConnectBatchAssociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates values for attributes in a data table. The value may be a de- fault or it may be associated with a primary value. The value must pass all customer defined validation as well as the default validation for the value type. The operation must conform to Batch Operation API Stan- dards. Although the standard specifies that successful and failed enti- ties are listed separately in the response, authorization fails if any primary values or attributes are unauthorized. The combination of pri- ma...
@@ -248,8 +226,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateDataTableValueAsync(AwsConnectBatchCreateDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateDataTableValueAsync(AwsConnectBatchCreateDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warn- ing is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteDataTableValueAsync(AwsConnectBatchDeleteDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteDataTableValueAsync(AwsConnectBatchDeleteDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves multiple values from a data table without evaluating expres- sions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDescribeDataTableValueAsync(AwsConnectBatchDescribeDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDescribeDataTableValueAsync(AwsConnectBatchDescribeDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a list of analytics datasets associated with a given Connect Customer instance. You can disassociate multiple datasets in a single call. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateAnalyticsDataSetAsync(AwsConnectBatchDisassociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateAnalyticsDataSetAsync(AwsConnectBatchDisassociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to retrieve metadata about multiple attached files on an as- sociated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetAttachedFileMetadataAsync(AwsConnectBatchGetAttachedFileMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetAttachedFileMetadataAsync(AwsConnectBatchGetAttachedFileMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the flow associations for the given resources. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetFlowAssociationAsync(AwsConnectBatchGetFlowAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetFlowAssociationAsync(AwsConnectBatchGetFlowAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Connect Customer. The out- bound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create con- tacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the sam...
@@ -308,8 +280,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchPutContactAsync(AwsConnectBatchPutContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchPutContactAsync(AwsConnectBatchPutContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates multiple data table values using all properties from BatchCre- ateDataTableValue. System managed values are not modifiable by cus- tomers. The operation requires proper lock versions to prevent concur- rent modification conflicts. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchUpdateDataTableValueAsync(AwsConnectBatchUpdateDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchUpdateDataTableValueAsync(AwsConnectBatchUpdateDataTableValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Ama- zon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API f...
@@ -328,8 +298,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ClaimPhoneNumberAsync(AwsConnectClaimPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ClaimPhoneNumberAsync(AwsConnectClaimPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CompleteAttachedFileUploadAsync(AwsConnectCompleteAttachedFileUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CompleteAttachedFileUploadAsync(AwsConnectCompleteAttachedFileUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an agent status for the specified Connect Customer instance. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentStatusAsync(AwsConnectCreateAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentStatusAsync(AwsConnectCreateAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream pro- cessing such as conversational analytics. WARNING: The AssociatedResourceArn must be the ARN of a completed voice con- tact, FileUseCaseType must be set to VOICE_RECORDING , and File- SourceUri must be a valid S3 URI. NOTE: For example, you can call CreateContact , then CreateAttachedFile ...
@@ -358,8 +325,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAttachedFileAsync(AwsConnectCreateAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAttachedFileAsync(AwsConnectCreateAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an authorization code for the specified Connect Customer in- stance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters. See also: AWS API Documentation
@@ -368,8 +334,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAuthCodeAsync(AwsConnectCreateAuthCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAuthCodeAsync(AwsConnectCreateAuthCodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a named alias that points to a specific version of a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateContactFlowAliasAsync(AwsConnectCreateContactFlowAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a named alias that points to a specific version of a contact flow module. See also: AWS API Documentation
@@ -378,8 +352,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactFlowModuleAliasAsync(AwsConnectCreateContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactFlowModuleAliasAsync(AwsConnectCreateContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a flow module for the specified Connect Customer instance. See also: AWS API Documentation
@@ -388,8 +361,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactFlowModuleAsync(AwsConnectCreateContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactFlowModuleAsync(AwsConnectCreateContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point in time for version control and rollback capabilities. See also: AWS API Documentation
@@ -398,8 +370,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactFlowModuleVersionAsync(AwsConnectCreateContactFlowModuleVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactFlowModuleVersionAsync(AwsConnectCreateContactFlowModuleVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a flow for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . See also: AWS API Documentation
@@ -408,18 +379,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactFlowAsync(AwsConnectCreateContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactFlowAsync(AwsConnectCreateContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactFlowVersionAsync(AwsConnectCreateContactFlowVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactFlowVersionAsync(AwsConnectCreateContactFlowVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. o For VOICE: The supported initiation method is TRANSFER . The con- tacts created with this initiation method have a subtype con- nect:ExternalAudio . o For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . o For TASK: The supported initiation method is API . Contacts cre- ated with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is create...
@@ -428,8 +397,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactAsync(AwsConnectCreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactAsync(AwsConnectCreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an attribute to an existing data table. Creating a new primary at- tribute uses the empty value for the specified value type for all ex- isting records. This should not affect uniqueness of published data ta- bles since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes. See also: AWS API Documentation
@@ -438,8 +406,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataTableAttributeAsync(AwsConnectCreateDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataTableAttributeAsync(AwsConnectCreateDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas. See also: AWS API Documentation
@@ -448,8 +415,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataTableAsync(AwsConnectCreateDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataTableAsync(AwsConnectCreateDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create new email address in the specified Connect Customer instance. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide. See also: AWS API Documentation
@@ -458,8 +424,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEmailAddressAsync(AwsConnectCreateEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEmailAddressAsync(AwsConnectCreateEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an evaluation form in the specified Connect Customer instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form. See also: AWS API Documentation
@@ -468,8 +433,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEvaluationFormAsync(AwsConnectCreateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEvaluationFormAsync(AwsConnectCreateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an extraction definition in the specified Connect Customer in- stance. An extraction definition specifies how structured data is ex- tracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found. See also: AWS API Documentation
@@ -478,8 +442,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExtractionDefinitionAsync(AwsConnectCreateExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExtractionDefinitionAsync(AwsConnectCreateExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates hours of operation. See also: AWS API Documentation
@@ -488,8 +451,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHoursOfOperationAsync(AwsConnectCreateHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHoursOfOperationAsync(AwsConnectCreateHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an hours of operation override in an Connect Customer hours of operation resource. See also: AWS API Documentation
@@ -498,8 +460,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHoursOfOperationOverrideAsync(AwsConnectCreateHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHoursOfOperationOverrideAsync(AwsConnectCreateHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Initiates an Connect Customer instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Connect Customer. For more information, see Create an Connect Customer instance in the Connect Customer Administrator Guide . Connect Customer enforces a lim...
@@ -508,8 +469,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateInstanceAsync(AwsConnectCreateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateInstanceAsync(AwsConnectCreateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services resource association with an Connect Customer instance. See also: AWS API Documentation
@@ -518,8 +478,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationAssociationAsync(AwsConnectCreateIntegrationAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationAssociationAsync(AwsConnectCreateIntegrationAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new metric definition for the specified Connect Customer in- stance. You can create custom metrics that use formulas referencing ex- isting Amazon Web Services-managed metrics, optionally with filters ap- plied. See also: AWS API Documentation
@@ -528,8 +487,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMetricAsync(AwsConnectCreateMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMetricAsync(AwsConnectCreateMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new notification to be delivered to specified recipients. No- tifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
@@ -538,8 +496,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNotificationAsync(AwsConnectCreateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNotificationAsync(AwsConnectCreateNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrat- ing custom participants or Enable multi-user web, in-app, and video calling . See also: AWS API Documentation
@@ -548,8 +505,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateParticipantAsync(AwsConnectCreateParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateParticipantAsync(AwsConnectCreateParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -558,8 +514,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePersistentContactAssociationAsync(AwsConnectCreatePersistentContactAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePersistentContactAssociationAsync(AwsConnectCreatePersistentContactAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Create an attribute for routing proficiency (for example, agent cer- tification) that has predefined values (for example, a list of possi- ble certifications). For more information, see Create predefined at- tributes for rout...
@@ -568,8 +523,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePredefinedAttributeAsync(AwsConnectCreatePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePredefinedAttributeAsync(AwsConnectCreatePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Cus- tomer Administrator Guide . See also: AWS API Documentation
@@ -578,8 +532,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePromptAsync(AwsConnectCreatePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePromptAsync(AwsConnectCreatePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifica- tions, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -588,8 +541,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePushNotificationRegistrationAsync(AwsConnectCreatePushNotificationRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePushNotificationRegistrationAsync(AwsConnectCreatePushNotificationRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new queue for the specified Connect Customer instance. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in another Amazon Web Services Re...
@@ -598,8 +550,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQueueAsync(AwsConnectCreateQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQueueAsync(AwsConnectCreateQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a quick connect for the specified Connect Customer instance. See also: AWS API Documentation
@@ -608,8 +559,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQuickConnectAsync(AwsConnectCreateQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQuickConnectAsync(AwsConnectCreateQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new routing profile. See also: AWS API Documentation
@@ -618,8 +568,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRoutingProfileAsync(AwsConnectCreateRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRoutingProfileAsync(AwsConnectCreateRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule. See also: AWS API Documentation
@@ -628,8 +577,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRuleAsync(AwsConnectCreateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRuleAsync(AwsConnectCreateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation
@@ -638,8 +586,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSecurityProfileAsync(AwsConnectCreateSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSecurityProfileAsync(AwsConnectCreateSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new task template in the specified Connect Customer instance. See also: AWS API Documentation
@@ -648,8 +595,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTaskTemplateAsync(AwsConnectCreateTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTaskTemplateAsync(AwsConnectCreateTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a test case with its content and metadata for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -658,8 +604,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTestCaseAsync(AwsConnectCreateTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTestCaseAsync(AwsConnectCreateTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a traffic distribution group given an Connect Customer instance that has been replicated. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionGroup data type). If you call UpdateTrafficDis- tribution with a modified SignInConfig and a non-default TrafficDis- tributionGroup , an InvalidRequestException is returned. For more information about creating traffic distribution groups, see Set up tra...
@@ -668,8 +613,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTrafficDistributionGroupAsync(AwsConnectCreateTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTrafficDistributionGroupAsync(AwsConnectCreateTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a use case for an integration association. See also: AWS API Documentation
@@ -678,8 +622,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUseCaseAsync(AwsConnectCreateUseCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUseCaseAsync(AwsConnectCreateUseCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user hierarchy group. See also: AWS API Documentation
@@ -688,8 +631,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserHierarchyGroupAsync(AwsConnectCreateUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserHierarchyGroupAsync(AwsConnectCreateUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user account for the specified Connect Customer instance. WARNING: Certain UserIdentityInfo parameters are required in some situations. For example, Email , FirstName and LastName are required if you are using Connect Customer or SAML for identity management. NOTE: Fields in PhoneConfig cannot be set simultaneously with their corre- sponding channel-specific configuration parameters. Specifically: o PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs o PhoneConfig.AfterContactWorkT...
@@ -698,8 +640,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUserAsync(AwsConnectCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUserAsync(AwsConnectCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is re- turned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS ...
@@ -708,8 +649,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateViewAsync(AwsConnectCreateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateViewAsync(AwsConnectCreateViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content com- pared to that version. An error is displayed if the supplied ViewCon- tentSha256 is different from the ViewContentSha256 of the $LATEST alias. See also: AWS API Documentation
@@ -718,8 +658,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateViewVersionAsync(AwsConnectCreateViewVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateViewVersionAsync(AwsConnectCreateViewVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom vocabulary associated with your Connect Customer in- stance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the de- fault vocabulary in post-call and real-time contact analysis sessions for that language. See also: AWS API Documentation
@@ -728,8 +667,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateVocabularyAsync(AwsConnectCreateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateVocabularyAsync(AwsConnectCreateVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to users or routing profiles. See also: AWS API Documentation
@@ -738,8 +676,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkspaceAsync(AwsConnectCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkspaceAsync(AwsConnectCreateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a view with a page in a workspace, defining what users see when they navigate to that page. See also: AWS API Documentation
@@ -748,8 +685,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkspacePageAsync(AwsConnectCreateWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkspacePageAsync(AwsConnectCreateWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates an evaluation form in the specified Connect Customer in- stance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form. See also: AWS API Documentation
@@ -758,8 +694,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeactivateEvaluationFormAsync(AwsConnectDeactivateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeactivateEvaluationFormAsync(AwsConnectDeactivateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an attached file along with the underlying S3 Object. WARNING: The attached file is permanently deleted if S3 bucket versioning is not enabled. See also: AWS API Documentation
@@ -768,8 +703,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAttachedFileAsync(AwsConnectDeleteAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAttachedFileAsync(AwsConnectDeleteAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified fields containing personally identifiable infor- mation (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state. WARNING: This deletion is permanent and cannot be undone. Performing this op- eration permanently deletes the specified PII. There is no retention period; ...
@@ -778,8 +712,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactDataAsync(AwsConnectDeleteContactDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactDataAsync(AwsConnectDeleteContactDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a contact evaluation in the specified Connect Customer in- stance. See also: AWS API Documentation
@@ -788,8 +721,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactEvaluationAsync(AwsConnectDeleteContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactEvaluationAsync(AwsConnectDeleteContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes an alias from a flow without deleting the version that the alias points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteContactFlowAliasAsync(AwsConnectDeleteContactFlowAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an alias reference, breaking the named connection to the under- lying module version without affecting the version itself. See also: AWS API Documentation
@@ -798,8 +739,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactFlowModuleAliasAsync(AwsConnectDeleteContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactFlowModuleAliasAsync(AwsConnectDeleteContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified flow module. See also: AWS API Documentation
@@ -808,8 +748,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactFlowModuleAsync(AwsConnectDeleteContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactFlowModuleAsync(AwsConnectDeleteContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a specific version of a contact flow module. See also: AWS API Documentation
@@ -818,8 +757,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactFlowModuleVersionAsync(AwsConnectDeleteContactFlowModuleVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactFlowModuleVersionAsync(AwsConnectDeleteContactFlowModuleVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a flow for the specified Connect Customer instance. See also: AWS API Documentation
@@ -828,8 +766,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactFlowAsync(AwsConnectDeleteContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactFlowAsync(AwsConnectDeleteContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the particular version specified in flow version identifier. See also: AWS API Documentation
@@ -838,8 +775,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactFlowVersionAsync(AwsConnectDeleteContactFlowVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactFlowVersionAsync(AwsConnectDeleteContactFlowVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an attribute and all its values from a data table. See also: AWS API Documentation
@@ -848,8 +784,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataTableAttributeAsync(AwsConnectDeleteDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataTableAttributeAsync(AwsConnectDeleteDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references to the data table, even from other data tables. This includes dynamic values and conditional valida- tions. System managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most re- cent time the table and its values were accessed. See also: AWS API Docu...
@@ -858,8 +793,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataTableAsync(AwsConnectDeleteDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataTableAsync(AwsConnectDeleteDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes email address from the specified Connect Customer instance. See also: AWS API Documentation
@@ -868,8 +802,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailAddressAsync(AwsConnectDeleteEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailAddressAsync(AwsConnectDeleteEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an evaluation form in the specified Connect Customer instance. o If the version property is provided, only the specified version of the evaluation form is deleted. o If no version is provided, then the full form (all versions) is deleted. See also: AWS API Documentation
@@ -878,8 +811,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEvaluationFormAsync(AwsConnectDeleteEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEvaluationFormAsync(AwsConnectDeleteEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an extraction definition from the specified Connect Customer instance. See also: AWS API Documentation
@@ -888,8 +820,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExtractionDefinitionAsync(AwsConnectDeleteExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExtractionDefinitionAsync(AwsConnectDeleteExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an hours of operation. See also: AWS API Documentation
@@ -898,8 +829,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHoursOfOperationAsync(AwsConnectDeleteHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHoursOfOperationAsync(AwsConnectDeleteHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an hours of operation override in an Connect Customer hours of operation resource. See also: AWS API Documentation
@@ -908,8 +838,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHoursOfOperationOverrideAsync(AwsConnectDeleteHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHoursOfOperationOverrideAsync(AwsConnectDeleteHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Deletes the Connect Customer instance. For more information, see Delete your Connect Customer instance in the Connect Customer Administrator Guide . Connect Customer enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 3...
@@ -918,8 +847,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteInstanceAsync(AwsConnectDeleteInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteInstanceAsync(AwsConnectDeleteInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Web Services resource association from an Connect Customer instance. The association must not have any use cases associ- ated with it. See also: AWS API Documentation
@@ -928,8 +856,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationAssociationAsync(AwsConnectDeleteIntegrationAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationAssociationAsync(AwsConnectDeleteIntegrationAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing metric from the specified Connect Customer in- stance. This operation fails with ResourceConflictException if the met- ric is currently in use in a dashboard. See also: AWS API Documentation
@@ -938,8 +865,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMetricAsync(AwsConnectDeleteMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMetricAsync(AwsConnectDeleteMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs. See also: AWS API Documentation
@@ -948,8 +874,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNotificationAsync(AwsConnectDeleteNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNotificationAsync(AwsConnectDeleteNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a predefined attribute from the specified Connect Customer in- stance. See also: AWS API Documentation
@@ -958,8 +883,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePredefinedAttributeAsync(AwsConnectDeletePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePredefinedAttributeAsync(AwsConnectDeletePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a prompt. See also: AWS API Documentation
@@ -968,8 +892,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePromptAsync(AwsConnectDeletePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePromptAsync(AwsConnectDeletePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes registration for a device token and a chat contact. See also: AWS API Documentation
@@ -978,8 +901,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePushNotificationRegistrationAsync(AwsConnectDeletePushNotificationRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePushNotificationRegistrationAsync(AwsConnectDeletePushNotificationRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a queue. See also: AWS API Documentation
@@ -988,8 +910,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQueueAsync(AwsConnectDeleteQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQueueAsync(AwsConnectDeleteQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as transfer options. o Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
@@ -998,8 +919,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQuickConnectAsync(AwsConnectDeleteQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQuickConnectAsync(AwsConnectDeleteQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a routing profile. See also: AWS API Documentation
@@ -1008,8 +928,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRoutingProfileAsync(AwsConnectDeleteRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRoutingProfileAsync(AwsConnectDeleteRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a rule for the specified Connect Customer instance. See also: AWS API Documentation
@@ -1018,8 +937,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRuleAsync(AwsConnectDeleteRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRuleAsync(AwsConnectDeleteRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a security profile. See also: AWS API Documentation
@@ -1028,8 +946,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSecurityProfileAsync(AwsConnectDeleteSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSecurityProfileAsync(AwsConnectDeleteSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a session for the specified Connect Customer instance. See also: AWS API Documentation
@@ -1038,8 +955,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSessionAsync(AwsConnectDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSessionAsync(AwsConnectDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the task template. See also: AWS API Documentation
@@ -1048,8 +964,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTaskTemplateAsync(AwsConnectDeleteTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTaskTemplateAsync(AwsConnectDeleteTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the test case that has already been created for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -1058,8 +973,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTestCaseAsync(AwsConnectDeleteTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTestCaseAsync(AwsConnectDeleteTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Connect Customer Administra- tor Guide . See also: AWS API Documentation
@@ -1068,8 +982,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTrafficDistributionGroupAsync(AwsConnectDeleteTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTrafficDistributionGroupAsync(AwsConnectDeleteTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a use case from an integration association. See also: AWS API Documentation
@@ -1078,8 +991,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUseCaseAsync(AwsConnectDeleteUseCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUseCaseAsync(AwsConnectDeleteUseCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups. See also: AWS API Documentation
@@ -1088,8 +1000,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserHierarchyGroupAsync(AwsConnectDeleteUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserHierarchyGroupAsync(AwsConnectDeleteUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user account from the specified Connect Customer instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Connect Customer Instance in the Connect Customer Administrator Guide . WARNING: After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as t...
@@ -1098,8 +1009,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUserAsync(AwsConnectDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUserAsync(AwsConnectDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the view entirely. It deletes the view and all associated qual- ifiers (versions and aliases). See also: AWS API Documentation
@@ -1108,8 +1018,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteViewAsync(AwsConnectDeleteViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteViewAsync(AwsConnectDeleteViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the particular version specified in ViewVersion identifier. See also: AWS API Documentation
@@ -1118,8 +1027,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteViewVersionAsync(AwsConnectDeleteViewVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteViewVersionAsync(AwsConnectDeleteViewVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the vocabulary that has the given identifier. See also: AWS API Documentation
@@ -1128,8 +1036,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteVocabularyAsync(AwsConnectDeleteVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteVocabularyAsync(AwsConnectDeleteVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a media asset (such as a logo) from a workspace. See also: AWS API Documentation
@@ -1138,8 +1045,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspaceMediaAsync(AwsConnectDeleteWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspaceMediaAsync(AwsConnectDeleteWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workspace and removes all associated view and resource as- signments. See also: AWS API Documentation
@@ -1148,8 +1054,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspaceAsync(AwsConnectDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspaceAsync(AwsConnectDeleteWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a view and a page in a workspace. The page will display the default view after deletion. See also: AWS API Documentation
@@ -1158,8 +1063,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkspacePageAsync(AwsConnectDeleteWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkspacePageAsync(AwsConnectDeleteWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an agent status. See also: AWS API Documentation
@@ -1168,8 +1072,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAgentStatusAsync(AwsConnectDescribeAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAgentStatusAsync(AwsConnectDescribeAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration ex- ists, the default configuration values for that attachment scope are returned. See also: AWS API Documentation
@@ -1178,8 +1081,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAttachedFilesConfigurationAsync(AwsConnectDescribeAttachedFilesConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAttachedFilesConfigurationAsync(AwsConnectDescribeAttachedFilesConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Describes the target authentication profile. See also: AWS API Documentation
@@ -1188,8 +1090,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAuthenticationProfileAsync(AwsConnectDescribeAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAuthenticationProfileAsync(AwsConnectDescribeAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a contact evaluation in the specified Connect Customer in- stance. See also: AWS API Documentation
@@ -1198,8 +1099,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContactEvaluationAsync(AwsConnectDescribeContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContactEvaluationAsync(AwsConnectDescribeContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information about a specific flow alias, including the version that it points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeContactFlowAliasAsync(AwsConnectDescribeContactFlowAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific alias, including which version it currently points to and its metadata. See also: AWS API Documentation
@@ -1208,8 +1117,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContactFlowModuleAliasAsync(AwsConnectDescribeContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContactFlowModuleAliasAsync(AwsConnectDescribeContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
@@ -1218,8 +1126,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContactFlowModuleAsync(AwsConnectDescribeContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContactFlowModuleAsync(AwsConnectDescribeContactFlowModuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified flow. You can also create and update flows using the Connect Customer Flow language . Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either...
@@ -1228,8 +1135,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContactFlowAsync(AwsConnectDescribeContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContactFlowAsync(AwsConnectDescribeContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Describes the specified contact. Use cases Following are common uses cases for this API: o Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom moni- toring or custom agent experience solutions. o Detect when a customer chat session disconnects due to a network is- sue on the agent's end. Use the DisconnectReason field in the ContactTraceRecor...
@@ -1238,8 +1144,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeContactAsync(AwsConnectDescribeContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeContactAsync(AwsConnectDescribeContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information for a specific data table attribute in- cluding its configuration, validation rules, and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with exist- ing operations. See also: AWS API Documentation
@@ -1248,8 +1153,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataTableAttributeAsync(AwsConnectDescribeDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataTableAttributeAsync(AwsConnectDescribeDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all properties for a data table except for attributes and val- ues. All properties from CreateDataTable are returned as well as prop- erties for region replication, versioning, and system tables. "De- scribe" is a deprecated term but is allowed to maintain consistency with existing operations. See also: AWS API Documentation
@@ -1258,8 +1162,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataTableAsync(AwsConnectDescribeDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataTableAsync(AwsConnectDescribeDataTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describe email address form the specified Connect Customer instance. See also: AWS API Documentation
@@ -1268,8 +1171,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEmailAddressAsync(AwsConnectDescribeEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEmailAddressAsync(AwsConnectDescribeEmailAddressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an evaluation form in the specified Connect Customer in- stance. If the version property is not provided, the latest version of the evaluation form is described. See also: AWS API Documentation
@@ -1278,8 +1180,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEvaluationFormAsync(AwsConnectDescribeEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEvaluationFormAsync(AwsConnectDescribeEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an extraction definition in the specified Connect Customer instance. See also: AWS API Documentation
@@ -1288,8 +1189,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeExtractionDefinitionAsync(AwsConnectDescribeExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeExtractionDefinitionAsync(AwsConnectDescribeExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the hours of operation. See also: AWS API Documentation
@@ -1298,8 +1198,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHoursOfOperationAsync(AwsConnectDescribeHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHoursOfOperationAsync(AwsConnectDescribeHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the hours of operation override. See also: AWS API Documentation
@@ -1308,8 +1207,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHoursOfOperationOverrideAsync(AwsConnectDescribeHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHoursOfOperationOverrideAsync(AwsConnectDescribeHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute. See also: AWS API Documentation
@@ -1318,8 +1216,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceAttributeAsync(AwsConnectDescribeInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceAttributeAsync(AwsConnectDescribeInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error sta- tus, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation
@@ -1328,8 +1225,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceAsync(AwsConnectDescribeInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceAsync(AwsConnectDescribeInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID. See also: AWS API Documentation
@@ -1338,8 +1234,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInstanceStorageConfigAsync(AwsConnectDescribeInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInstanceStorageConfigAsync(AwsConnectDescribeInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the full definition of an existing metric from the specified Connect Customer instance. See also: AWS API Documentation
@@ -1348,8 +1243,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMetricAsync(AwsConnectDescribeMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMetricAsync(AwsConnectDescribeMetricOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata. See also: AWS API Documentation
@@ -1358,8 +1252,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNotificationAsync(AwsConnectDescribeNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNotificationAsync(AwsConnectDescribeNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details and status of a phone number thats claimed to your Connect Customer instance or traffic distribution group. WARNING: If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic dis- tribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alterna...
@@ -1368,8 +1261,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePhoneNumberAsync(AwsConnectDescribePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePhoneNumberAsync(AwsConnectDescribePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the busine...
@@ -1378,8 +1270,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePredefinedAttributeAsync(AwsConnectDescribePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePredefinedAttributeAsync(AwsConnectDescribePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the prompt. See also: AWS API Documentation
@@ -1388,8 +1279,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePromptAsync(AwsConnectDescribePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePromptAsync(AwsConnectDescribePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified queue. See also: AWS API Documentation
@@ -1398,8 +1288,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQueueAsync(AwsConnectDescribeQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQueueAsync(AwsConnectDescribeQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the quick connect. See also: AWS API Documentation
@@ -1408,8 +1297,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQuickConnectAsync(AwsConnectDescribeQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQuickConnectAsync(AwsConnectDescribeQuickConnectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified routing profile. NOTE: DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incor- rect; we are working to update it. SearchRoutingProfiles does in- clude AssociatedQueueIds. See also: AWS API Documentation
@@ -1418,8 +1306,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRoutingProfileAsync(AwsConnectDescribeRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRoutingProfileAsync(AwsConnectDescribeRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a rule for the specified Connect Customer instance. See also: AWS API Documentation
@@ -1428,8 +1315,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRuleAsync(AwsConnectDescribeRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRuleAsync(AwsConnectDescribeRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation
@@ -1438,8 +1324,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSecurityProfileAsync(AwsConnectDescribeSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSecurityProfileAsync(AwsConnectDescribeSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -1448,8 +1333,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTestCaseAsync(AwsConnectDescribeTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTestCaseAsync(AwsConnectDescribeTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details and status of a traffic distribution group. See also: AWS API Documentation
@@ -1458,8 +1342,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTrafficDistributionGroupAsync(AwsConnectDescribeTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTrafficDistributionGroupAsync(AwsConnectDescribeTrafficDistributionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified hierarchy group. See also: AWS API Documentation
@@ -1468,8 +1351,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserHierarchyGroupAsync(AwsConnectDescribeUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserHierarchyGroupAsync(AwsConnectDescribeUserHierarchyGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the hierarchy structure of the specified Connect Customer in- stance. See also: AWS API Documentation
@@ -1478,8 +1360,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserHierarchyStructureAsync(AwsConnectDescribeUserHierarchyStructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserHierarchyStructureAsync(AwsConnectDescribeUserHierarchyStructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified user. You can find the instance ID in the Con- nect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs pro- vided in the output. See also: AWS API Documentation
@@ -1488,8 +1369,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUserAsync(AwsConnectDescribeUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUserAsync(AwsConnectDescribeUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, &lt;view-id&gt;:$SAVED , which is either an actual version number or an Con- nect Customer managed qualifier $SAVED | $LATEST . If it is not sup- plied, then $LATEST is assumed for customer managed views and an error is returned if there is no ...
@@ -1498,8 +1378,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeViewAsync(AwsConnectDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeViewAsync(AwsConnectDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes the specified vocabulary. See also: AWS API Documentation
@@ -1508,8 +1387,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeVocabularyAsync(AwsConnectDescribeVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeVocabularyAsync(AwsConnectDescribeVocabularyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details about a workspace, including its configuration and metadata. See also: AWS API Documentation
@@ -1518,8 +1396,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeWorkspaceAsync(AwsConnectDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeWorkspaceAsync(AwsConnectDescribeWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the dataset ID associated with a given Connect Customer in- stance. See also: AWS API Documentation
@@ -1528,8 +1405,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateAnalyticsDataSetAsync(AwsConnectDisassociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateAnalyticsDataSetAsync(AwsConnectDisassociateAnalyticsDataSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Revokes access to integrated applications from Connect Customer. See also: AWS API Documentation
@@ -1538,8 +1414,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateApprovedOriginAsync(AwsConnectDisassociateApprovedOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateApprovedOriginAsync(AwsConnectDisassociateApprovedOriginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex or Amazon Lex V2 bot. See also: AWS API Documentation
@@ -1548,8 +1423,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateBotAsync(AwsConnectDisassociateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateBotAsync(AwsConnectDisassociateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email ad- dress. Both email addresses continue to exist independently and can re- ceive emails directly. Use cases Following are common uses cases for this API: o Department separation : Remove alias relationships when splitting a consolidated support queue back into separate department-specific queue...
@@ -1558,8 +1432,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateEmailAddressAliasAsync(AwsConnectDisassociateEmailAddressAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateEmailAddressAliasAsync(AwsConnectDisassociateEmailAddressAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a connect resource from a flow. See also: AWS API Documentation
@@ -1568,8 +1441,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateFlowAsync(AwsConnectDisassociateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateFlowAsync(AwsConnectDisassociateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
@@ -1578,8 +1450,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateHoursOfOperationsAsync(AwsConnectDisassociateHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateHoursOfOperationsAsync(AwsConnectDisassociateHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Removes the storage type configurations for the specified resource type and association ID. See also: AWS API Documentation
@@ -1588,8 +1459,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateInstanceStorageConfigAsync(AwsConnectDisassociateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateInstanceStorageConfigAsync(AwsConnectDisassociateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks. See also: AWS API Documentation
@@ -1598,8 +1468,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateLambdaFunctionAsync(AwsConnectDisassociateLambdaFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateLambdaFunctionAsync(AwsConnectDisassociateLambdaFunctionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the speci- fied Amazon Lex bot. See also: AWS API Documentation
@@ -1608,8 +1477,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateLexBotAsync(AwsConnectDisassociateLexBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateLexBotAsync(AwsConnectDisassociateLexBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the flow association from a phone number claimed to your Con- nect Customer instance. WARNING: If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traf- fic distribution group and you are calling this API using an ...
@@ -1618,8 +1486,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociatePhoneNumberContactFlowAsync(AwsConnectDisassociatePhoneNumberContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociatePhoneNumberContactFlowAsync(AwsConnectDisassociatePhoneNumberContactFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email con- tacts or initiating outbound email contacts in this queue. Important things to know o Agents will no longer see these email addresses in their "From" ad- dress selection options for this queue. o The email addresses themselves are not deleted from the instance, only their availability for ...
@@ -1628,8 +1495,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateQueueEmailAddressesAsync(AwsConnectDisassociateQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateQueueEmailAddressesAsync(AwsConnectDisassociateQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a set of quick connects from a queue. See also: AWS API Documentation
@@ -1638,8 +1504,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateQueueQuickConnectsAsync(AwsConnectDisassociateQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateQueueQuickConnectsAsync(AwsConnectDisassociateQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException. See also: AWS API Documentation
@@ -1648,8 +1513,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateRoutingProfileQueuesAsync(AwsConnectDisassociateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateRoutingProfileQueuesAsync(AwsConnectDisassociateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Deletes the specified security key. See also: AWS API Documentation
@@ -1658,8 +1522,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSecurityKeyAsync(AwsConnectDisassociateSecurityKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSecurityKeyAsync(AwsConnectDisassociateSecurityKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance. See also: AWS API Documentation
@@ -1668,8 +1531,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateSecurityProfilesAsync(AwsConnectDisassociateSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateSecurityProfilesAsync(AwsConnectDisassociateSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. See also: AWS API Documentation
@@ -1678,8 +1540,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTrafficDistributionGroupUserAsync(AwsConnectDisassociateTrafficDistributionGroupUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTrafficDistributionGroupUserAsync(AwsConnectDisassociateTrafficDistributionGroupUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a set of proficiencies from a user. See also: AWS API Documentation
@@ -1688,8 +1549,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateUserProficienciesAsync(AwsConnectDisassociateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateUserProficienciesAsync(AwsConnectDisassociateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a workspace and one or more users or routing profiles. See also: AWS API Documentation
@@ -1698,8 +1558,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateWorkspaceAsync(AwsConnectDisassociateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateWorkspaceAsync(AwsConnectDisassociateWorkspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Dismisses contacts from an agents CCP and returns the agent to an available state, which allows the agent to receive a new routed con- tact. Contacts can only be dismissed if they are in a MISSED , ERROR , ENDED , or REJECTED state in the Agent Event Stream . See also: AWS API Documentation
@@ -1708,8 +1567,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DismissUserContactAsync(AwsConnectDismissUserContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DismissUserContactAsync(AwsConnectDismissUserContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Evaluates values at the time of the request and returns them. It con- siders the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the acces- sor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Ser- vice...
@@ -1718,8 +1576,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EvaluateDataTableValuesAsync(AwsConnectEvaluateDataTableValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EvaluateDataTableValuesAsync(AwsConnectEvaluateDataTableValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED . See also: AWS API Documentation
@@ -1728,8 +1585,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAttachedFileAsync(AwsConnectGetAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAttachedFileAsync(AwsConnectGetAttachedFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the contact attributes for the specified contact. See also: AWS API Documentation
@@ -1738,8 +1594,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactAttributesAsync(AwsConnectGetContactAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactAttributesAsync(AwsConnectGetContactAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves contact metric data for a specified contact. Use cases Following are common use cases for position in queue and estimated wait time: o Customer-Facing Wait Time Announcements - Display or announce the es- timated wait time and position in queue to customers before or during their queue experience. o Callback Offerings - Offer customers a callback option when the esti- mated wait time or position in queue exceeds a defined threshold. o Queue Routing Decisions - Route incoming contacts t...
@@ -1748,8 +1603,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactMetricsAsync(AwsConnectGetContactMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactMetricsAsync(AwsConnectGetContactMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This op- eration returns whether cross-region routing is currently enabled or disabled (isolated) for the instance. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. See also: AWS API Documentation
@@ -1758,8 +1612,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCrossRegionRoutingAsync(AwsConnectGetCrossRegionRoutingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCrossRegionRoutingAsync(AwsConnectGetCrossRegionRoutingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the real-time metric data from the specified Connect Customer in- stance. For a description of each metric, see Metrics definitions in the Con- nect Customer Administrator Guide . NOTE: When you make a successful API request, you can expect the following metric values in the response: o Metric value is null : The calculation cannot be performed due to divide by zero or insufficient data o Metric value is a number (including 0) of defined type : The num- ber provided is the calculation resul...
@@ -1768,8 +1621,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCurrentMetricDataAsync(AwsConnectGetCurrentMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCurrentMetricDataAsync(AwsConnectGetCurrentMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the real-time active user data from the specified Connect Customer instance. See also: AWS API Documentation
@@ -1778,8 +1630,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCurrentUserDataAsync(AwsConnectGetCurrentUserDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCurrentUserDataAsync(AwsConnectGetCurrentUserDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the hours of operations with the effective override applied. See also: AWS API Documentation
@@ -1788,8 +1639,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEffectiveHoursOfOperationsAsync(AwsConnectGetEffectiveHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEffectiveHoursOfOperationsAsync(AwsConnectGetEffectiveHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status and results of a validation process started by StartEvaluationFormValidation . Returns the current execution status (IN_PROGRESS , COMPLETED , or FAILED ), the validated form version, and when completed, a list of findings that identify structural issues and quality improvements for the evaluation form, and may include suggested fixes. If the validation failed, a reason is provided indicating the cause of the failure. See also: AWS API Documentation
@@ -1798,8 +1648,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvaluationFormValidationAsync(AwsConnectGetEvaluationFormValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvaluationFormValidationAsync(AwsConnectGetEvaluationFormValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Supports SAML sign-in for Connect Customer. Retrieves a token for fed- eration. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Connect Customer, see `Configure SAML with IAM for Connect Customer in the *Connect Customer Administrator Guide* . &lt;https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html &gt;`__ NOTE: This API doesn't support root users. If you...
@@ -1808,8 +1657,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFederationTokenAsync(AwsConnectGetFederationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFederationTokenAsync(AwsConnectGetFederationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the flow associated for a given resource. See also: AWS API Documentation
@@ -1818,8 +1666,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFlowAssociationAsync(AwsConnectGetFlowAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFlowAssociationAsync(AwsConnectGetFlowAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets historical metric data from the specified Connect Customer in- stance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide . NOTE: We recommend using the GetMetricDataV2 API. It provides more flexi- bility, features, and the ability to query longer time ranges than GetMetricData . Use it to retrieve historical agent and contact met- rics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to...
@@ -1828,8 +1675,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetricDataAsync(AwsConnectGetMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetricDataAsync(AwsConnectGetMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets metric data from the specified Connect Customer instance. GetMetricDataV2 offers more features than GetMetricData , the previ- ous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy lev- els. It can retrieve historical data for the last 3 months, at vary- ing intervals. It does not support agent queues. For a description of the historical metrics that ...
@@ -1838,8 +1684,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMetricDataV2Async(AwsConnectGetMetricDataV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMetricDataV2Async(AwsConnectGetMetricDataV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the prompt file. See also: AWS API Documentation
@@ -1848,8 +1693,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPromptFileAsync(AwsConnectGetPromptFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPromptFileAsync(AwsConnectGetPromptFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets details about a specific task template in the specified Connect Customer instance. See also: AWS API Documentation
@@ -1858,8 +1702,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTaskTemplateAsync(AwsConnectGetTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTaskTemplateAsync(AwsConnectGetTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary. See also: AWS API Documentation
@@ -1868,8 +1711,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTestCaseExecutionSummaryAsync(AwsConnectGetTestCaseExecutionSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTestCaseExecutionSummaryAsync(AwsConnectGetTestCaseExecutionSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current traffic distribution for a given traffic distrib- ution group. See also: AWS API Documentation
@@ -1878,8 +1720,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrafficDistributionAsync(AwsConnectGetTrafficDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrafficDistributionAsync(AwsConnectGetTrafficDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Connect Customer instance. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance was created. WARNING: Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers fre- quently, contact us for a service quota exception. Otherwise, it is po...
@@ -1888,8 +1729,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportPhoneNumberAsync(AwsConnectImportPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportPhoneNumberAsync(AwsConnectImportPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Imports a media asset (such as a logo) for use in a workspace. See also: AWS API Documentation
@@ -1898,8 +1738,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportWorkspaceMediaAsync(AwsConnectImportWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportWorkspaceMediaAsync(AwsConnectImportWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists agent statuses. See also: AWS API Documentation list-agent-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AgentStatusSummaryList
@@ -1908,8 +1747,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentStatusesAsync(AwsConnectListAgentStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentStatusesAsync(AwsConnectListAgentStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the association status of requested dataset ID for a given Con- nect Customer instance. See also: AWS API Documentation
@@ -1918,8 +1756,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnalyticsDataAssociationsAsync(AwsConnectListAnalyticsDataAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnalyticsDataAssociationsAsync(AwsConnectListAnalyticsDataAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the data lake datasets available to associate with for a given Connect Customer instance. See also: AWS API Documentation
@@ -1928,8 +1765,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnalyticsDataLakeDataSetsAsync(AwsConnectListAnalyticsDataLakeDataSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnalyticsDataLakeDataSetsAsync(AwsConnectListAnalyticsDataLakeDataSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all approved origins associated with the instance. See also: AWS API Documentation list-approved-origins is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
@@ -1938,8 +1774,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApprovedOriginsAsync(AwsConnectListApprovedOriginsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApprovedOriginsAsync(AwsConnectListApprovedOriginsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about contact tree, a list of associated contacts with a unique identifier. See also: AWS API Documentation
@@ -1948,8 +1783,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociatedContactsAsync(AwsConnectListAssociatedContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociatedContactsAsync(AwsConnectListAssociatedContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the attached files configurations for the specified Connect Customer instance. This API returns effective configurations (custom overrides or de- faults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned. See also: AWS API Documentation list-attached-files-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can d...
@@ -1958,8 +1792,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAttachedFilesConfigurationsAsync(AwsConnectListAttachedFilesConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAttachedFilesConfigurationsAsync(AwsConnectListAttachedFilesConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Provides summary information about the authentication profiles in a specified Connect Customer instance. See also: AWS API Documentation list-authentication-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. Wh...
@@ -1968,8 +1801,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAuthenticationProfilesAsync(AwsConnectListAuthenticationProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAuthenticationProfilesAsync(AwsConnectListAuthenticationProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots. See also: AWS API Documentation list-bots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using...
@@ -1978,8 +1810,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBotsAsync(AwsConnectListBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBotsAsync(AwsConnectListBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the child hours of operations for the speci- fied parent hours of operation. For more information about child hours of operations, see Link over- rides from different hours of operation in the Administrator Guide . See also: AWS API Documentation list-child-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using ...
@@ -1988,8 +1819,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChildHoursOfOperationsAsync(AwsConnectListChildHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChildHoursOfOperationsAsync(AwsConnectListChildHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists contact evaluations in the specified Connect Customer instance. See also: AWS API Documentation list-contact-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EvaluationSummaryList
@@ -1998,8 +1828,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactEvaluationsAsync(AwsConnectListContactEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactEvaluationsAsync(AwsConnectListContactEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists the aliases associated with a flow, including the version that each alias points to. See also: AWS API Documentation list-contact-flow-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Co...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListContactFlowAliasesAsync(AwsConnectListContactFlowAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all aliases associated with a contact flow module, showing their current version mappings and metadata. See also: AWS API Documentation list-contact-flow-module-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
@@ -2008,18 +1846,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactFlowModuleAliasesAsync(AwsConnectListContactFlowModuleAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Cont...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactFlowModulesAsync(AwsConnectListContactFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactFlowModuleAliasesAsync(AwsConnectListContactFlowModuleAliasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of all versions for a specific contact flow module. See also: AWS API Documentation list-contact-flow-module-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cont...
@@ -2028,18 +1855,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactFlowModuleVersionsAsync(AwsConnectListContactFlowModuleVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactFlowModuleVersionsAsync(AwsConnectListContactFlowModuleVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Ad- ministrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Cont...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactFlowsAsync(AwsConnectListContactFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactFlowModulesAsync(AwsConnectListContactFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the available versions for the specified Connect Customer instance and flow identifier. See also: AWS API Documentation list-contact-flow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
@@ -2048,8 +1873,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactFlowVersionsAsync(AwsConnectListContactFlowVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactFlowVersionsAsync(AwsConnectListContactFlowVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Ad- ministrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListContactFlowsAsync(AwsConnectListContactFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes , returns a list of references associ- ated with the contact. References are links to documents that are re- lated to a contact, such as emails, attachments, or URLs. See also: AWS API Documentation list-contact-references is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagin...
@@ -2058,8 +1891,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactReferencesAsync(AwsConnectListContactReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactReferencesAsync(AwsConnectListContactReferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all attributes for a specified data table. A maximum of 100 at- tributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be fil- tered by specific attribute IDs for CloudFormation integration. See also: AWS API Documentation list-data-table-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi...
@@ -2068,8 +1900,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTableAttributesAsync(AwsConnectListDataTableAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTableAttributesAsync(AwsConnectListDataTableAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all primary value combinations for a given data table. Returns the unique combinations of primary attribute values that identify records in the table. Up to 100 records are returned per request. See also: AWS API Documentation list-data-table-primary-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on...
@@ -2078,18 +1909,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTablePrimaryValuesAsync(AwsConnectListDataTablePrimaryValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists all data tables for the specified Amazon Connect instance. Re- turns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTablesAsync(AwsConnectListDataTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTablePrimaryValuesAsync(AwsConnectListDataTablePrimaryValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns the raw stored values along with metadata such as lock versions and modification timestamps. See also: AWS API Documentation list-data-table-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
@@ -2098,8 +1918,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataTableValuesAsync(AwsConnectListDataTableValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataTableValuesAsync(AwsConnectListDataTableValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists all data tables for the specified Amazon Connect instance. Re- turns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDataTablesAsync(AwsConnectListDataTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the default vocabularies for the specified Connect Customer in- stance. See also: AWS API Documentation list-default-vocabularies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DefaultVocabula...
@@ -2108,8 +1936,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDefaultVocabulariesAsync(AwsConnectListDefaultVocabulariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDefaultVocabulariesAsync(AwsConnectListDefaultVocabulariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance. See also: AWS API Documentation list-entity-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
@@ -2118,8 +1945,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEntitySecurityProfilesAsync(AwsConnectListEntitySecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEntitySecurityProfilesAsync(AwsConnectListEntitySecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the available AI versions for evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-ai-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
@@ -2128,18 +1954,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEvaluationFormAiVersionsAsync(AwsConnectListEvaluationFormAiVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EvaluationFormSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEvaluationFormsAsync(AwsConnectListEvaluationFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEvaluationFormAiVersionsAsync(AwsConnectListEvaluationFormAiVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists versions of an evaluation form in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Evalua...
@@ -2148,8 +1963,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEvaluationFormVersionsAsync(AwsConnectListEvaluationFormVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEvaluationFormVersionsAsync(AwsConnectListEvaluationFormVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EvaluationFormSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListEvaluationFormsAsync(AwsConnectListEvaluationFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists extraction definitions in the specified Connect Customer in- stance. See also: AWS API Documentation list-extraction-definitions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ExtractionDefi...
@@ -2158,8 +1981,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExtractionDefinitionsAsync(AwsConnectListExtractionDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExtractionDefinitionsAsync(AwsConnectListExtractionDefinitionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the flow association based on the filters. See also: AWS API Documentation list-flow-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: FlowAssociationSummaryList
@@ -2168,8 +1990,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlowAssociationsAsync(AwsConnectListFlowAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlowAssociationsAsync(AwsConnectListFlowAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the hours of operation overrides. See also: AWS API Documentation list-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrideList
@@ -2178,8 +1999,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHoursOfOperationOverridesAsync(AwsConnectListHoursOfOperationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHoursOfOperationOverridesAsync(AwsConnectListHoursOfOperationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the hours of operation for the specified Connect Customer instance. For more information about hours of operation, see Set the Hours of Op- eration for a Queue in the Connect Customer Administrator Guide . See also: AWS API Documentation list-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and t...
@@ -2188,8 +2008,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHoursOfOperationsAsync(AwsConnectListHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHoursOfOperationsAsync(AwsConnectListHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all attribute types for the given instance. See also: AWS API Documentation list-instance-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
@@ -2198,18 +2017,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstanceAttributesAsync(AwsConnectListInstanceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, cre- ation-in-progress state, and failed state. Instances that aren't suc- cessfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis-...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstancesAsync(AwsConnectListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstanceAttributesAsync(AwsConnectListInstanceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
@@ -2218,8 +2026,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInstanceStorageConfigsAsync(AwsConnectListInstanceStorageConfigsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInstanceStorageConfigsAsync(AwsConnectListInstanceStorageConfigsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, cre- ation-in-progress state, and failed state. Instances that aren't suc- cessfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis-...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListInstancesAsync(AwsConnectListInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the Amazon Web Services resource as- sociations for the specified Connect Customer instance. See also: AWS API Documentation list-integration-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
@@ -2228,8 +2044,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListIntegrationAssociationsAsync(AwsConnectListIntegrationAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListIntegrationAssociationsAsync(AwsConnectListIntegrationAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks. See also: AWS API Documentation list-lambda-functions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
@@ -2238,8 +2053,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLambdaFunctionsAsync(AwsConnectListLambdaFunctionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLambdaFunctionsAsync(AwsConnectListLambdaFunctionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently asso- ciated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API. See also: AWS API Documentation list-lex-bots is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and th...
@@ -2248,8 +2062,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLexBotsAsync(AwsConnectListLexBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLexBotsAsync(AwsConnectListLexBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of metric summaries for the specified Con- nect Customer instance. Use pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation list-metrics is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument mus...
@@ -2258,8 +2071,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMetricsAsync(AwsConnectListMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMetricsAsync(AwsConnectListMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of all notifications in the Amazon Connect instance. See also: AWS API Documentation
@@ -2268,8 +2080,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotificationsAsync(AwsConnectListNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotificationsAsync(AwsConnectListNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the phone numbers for the specified Connect Customer instance. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . WARNING: o We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN , SHARED , THIRD_PARTY_TF , and THIRD_PARTY_DID . While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID . o Th...
@@ -2278,8 +2089,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPhoneNumbersAsync(AwsConnectListPhoneNumbersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPhoneNumbersAsync(AwsConnectListPhoneNumbersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists phone numbers claimed to your Connect Customer instance or traf- fic distribution group. If the provided TargetArn is a traffic distrib- ution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide . NOTE: o When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the inst...
@@ -2288,8 +2098,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPhoneNumbersV2Async(AwsConnectListPhoneNumbersV2Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPhoneNumbersV2Async(AwsConnectListPhoneNumbersV2Options? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists predefined attributes for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. You can use predefined attributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business un...
@@ -2298,8 +2107,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPredefinedAttributesAsync(AwsConnectListPredefinedAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPredefinedAttributesAsync(AwsConnectListPredefinedAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the prompts for the specified Connect Cus- tomer instance. See also: AWS API Documentation list-prompts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: PromptSummaryList
@@ -2308,8 +2116,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPromptsAsync(AwsConnectListPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPromptsAsync(AwsConnectListPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units. Important things to know o The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email. o ...
@@ -2318,8 +2125,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueueEmailAddressesAsync(AwsConnectListQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueueEmailAddressesAsync(AwsConnectListQueueEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the quick connects associated with a queue. See also: AWS API Documentation list-queue-quick-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: QuickConnectSummaryList
@@ -2328,8 +2134,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueueQuickConnectsAsync(AwsConnectListQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueueQuickConnectsAsync(AwsConnectListQueueQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the queues for the specified Connect Cus- tomer instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of re- sults if you have more than 1000 agents and you limit the number of re- sults of the API call in code. For more information about queues, see Queues: Standard and Agent in the Connect Customer Administrator Guide . See also: AWS API Documentation list-queues is a paginated o...
@@ -2338,8 +2143,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQueuesAsync(AwsConnectListQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQueuesAsync(AwsConnectListQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the quick connects for the specified Connect Customer instance. See also: AWS API Documentation list-quick-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: QuickConne...
@@ -2348,8 +2152,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListQuickConnectsAsync(AwsConnectListQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListQuickConnectsAsync(AwsConnectListQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a list of analysis segments for a real-time chat analysis ses- sion. This API supports CHAT channels only. WARNING: This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs. See also: AWS API Documentation
@@ -2358,8 +2161,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRealtimeContactAnalysisSegmentsV2Async(AwsConnectListRealtimeContactAnalysisSegmentsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRealtimeContactAnalysisSegmentsV2Async(AwsConnectListRealtimeContactAnalysisSegmentsV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the manual assignment queues associated with a routing profile. Use cases Following are common uses cases for this API: o This API returns list of queues where contacts can be manually as- signed or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Wor...
@@ -2368,8 +2170,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoutingProfileManualAssignmentQueuesAsync(AwsConnectListRoutingProfileManualAssignmentQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoutingProfileManualAssignmentQueuesAsync(AwsConnectListRoutingProfileManualAssignmentQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the queues associated with a routing profile. See also: AWS API Documentation list-routing-profile-queues is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RoutingProfileQueueConfigSummaryList
@@ -2378,8 +2179,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoutingProfileQueuesAsync(AwsConnectListRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoutingProfileQueuesAsync(AwsConnectListRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the routing profiles for the speci- fied Connect Customer instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Connect Customer Administrator Guide . See also: AWS API Documentation list-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output te...
@@ -2388,8 +2188,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRoutingProfilesAsync(AwsConnectListRoutingProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRoutingProfilesAsync(AwsConnectListRoutingProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all rules for the specified Connect Customer instance. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RuleSummaryList
@@ -2398,8 +2197,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRulesAsync(AwsConnectListRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRulesAsync(AwsConnectListRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all security keys associated with the in- stance. See also: AWS API Documentation list-security-keys is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
@@ -2408,8 +2206,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityKeysAsync(AwsConnectListSecurityKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityKeysAsync(AwsConnectListSecurityKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the allowed AI agents in a specific security profile. See also: AWS API Documentation list-security-profile-ai-agents is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedAIAgen...
@@ -2418,8 +2215,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityProfileAiAgentsAsync(AwsConnectListSecurityProfileAiAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityProfileAiAgentsAsync(AwsConnectListSecurityProfileAiAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of third-party applications or MCP Servers in a specific security profile. See also: AWS API Documentation list-security-profile-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
@@ -2428,8 +2224,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityProfileApplicationsAsync(AwsConnectListSecurityProfileApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityProfileApplicationsAsync(AwsConnectListSecurityProfileApplicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of Flow Modules an AI Agent can invoke as a tool See also: AWS API Documentation list-security-profile-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AllowedFlowModules
@@ -2438,8 +2233,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityProfileFlowModulesAsync(AwsConnectListSecurityProfileFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityProfileFlowModulesAsync(AwsConnectListSecurityProfileFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profile-permissions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginati...
@@ -2448,8 +2242,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityProfilePermissionsAsync(AwsConnectListSecurityProfilePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityProfilePermissionsAsync(AwsConnectListSecurityProfilePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the security profiles for the speci- fied Connect Customer instance. For more information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation list-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire da...
@@ -2458,8 +2251,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSecurityProfilesAsync(AwsConnectListSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSecurityProfilesAsync(AwsConnectListSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags for the specified resource. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -2468,8 +2260,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsConnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsConnectListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists task templates for the specified Connect Customer instance. See also: AWS API Documentation list-task-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TaskTemplates
@@ -2478,8 +2269,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTaskTemplatesAsync(AwsConnectListTaskTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTaskTemplatesAsync(AwsConnectListTaskTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists detailed steps of test case execution that includes all observa- tions along with actions taken and data associated in the specified Amazon Connect instance. See also: AWS API Documentation
@@ -2488,8 +2278,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestCaseExecutionRecordsAsync(AwsConnectListTestCaseExecutionRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestCaseExecutionRecordsAsync(AwsConnectListTestCaseExecutionRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -2498,8 +2287,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestCaseExecutionsAsync(AwsConnectListTestCaseExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestCaseExecutionsAsync(AwsConnectListTestCaseExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the test cases present in the specific Amazon Connect instance. See also: AWS API Documentation list-test-cases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TestCaseSummaryList
@@ -2508,18 +2296,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTestCasesAsync(AwsConnectListTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficDistributionGroupsAsync(AwsConnectListTrafficDistributionGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTestCasesAsync(AwsConnectListTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists traffic distribution group users. See also: AWS API Documentation list-traffic-distribution-group-users is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupUserSumma- ry...
@@ -2528,8 +2305,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTrafficDistributionGroupUsersAsync(AwsConnectListTrafficDistributionGroupUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTrafficDistributionGroupUsersAsync(AwsConnectListTrafficDistributionGroupUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListTrafficDistributionGroupsAsync(AwsConnectListTrafficDistributionGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the use cases for the integration association. See also: AWS API Documentation list-use-cases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UseCaseSummaryList
@@ -2538,8 +2323,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUseCasesAsync(AwsConnectListUseCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUseCasesAsync(AwsConnectListUseCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the hierarchy groups for the speci- fied Connect Customer instance. For more information about agent hierarchies, see Set Up Agent Hierar- chies in the Connect Customer Administrator Guide . See also: AWS API Documentation list-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --...
@@ -2548,8 +2332,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserHierarchyGroupsAsync(AwsConnectListUserHierarchyGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserHierarchyGroupsAsync(AwsConnectListUserHierarchyGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a paginated list of notifications for a specific user, in- cluding the notification status for that user. See also: AWS API Documentation
@@ -2558,8 +2341,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserNotificationsAsync(AwsConnectListUserNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserNotificationsAsync(AwsConnectListUserNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists proficiencies associated with a user. See also: AWS API Documentation list-user-proficiencies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UserProficiencyList
@@ -2568,8 +2350,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUserProficienciesAsync(AwsConnectListUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUserProficienciesAsync(AwsConnectListUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides summary information about the users for the specified Connect Customer instance. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: UserSummaryList
@@ -2578,18 +2359,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsersAsync(AwsConnectListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ViewsS...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListViewsAsync(AwsConnectListViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsersAsync(AwsConnectListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all the available versions for the specified Connect Customer instance and view identifier. Results will be sorted from highest to lowest. See also: AWS API Documentation list-view-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
@@ -2598,8 +2368,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListViewVersionsAsync(AwsConnectListViewVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListViewVersionsAsync(AwsConnectListViewVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ViewsS...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListViewsAsync(AwsConnectListViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists media assets (such as logos) associated with a workspace. See also: AWS API Documentation
@@ -2608,8 +2386,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspaceMediaAsync(AwsConnectListWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspaceMediaAsync(AwsConnectListWorkspaceMediaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the page configurations in a workspace, including the views as- signed to each page. See also: AWS API Documentation list-workspace-pages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workspace...
@@ -2618,8 +2395,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspacePagesAsync(AwsConnectListWorkspacePagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspacePagesAsync(AwsConnectListWorkspacePagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the workspaces in an Amazon Connect instance. See also: AWS API Documentation list-workspaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkspaceSummaryList
@@ -2628,8 +2404,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkspacesAsync(AwsConnectListWorkspacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkspacesAsync(AwsConnectListWorkspacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact. See also: AWS API Documentation
@@ -2638,8 +2413,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MonitorContactAsync(AwsConnectMonitorContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MonitorContactAsync(AwsConnectMonitorContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows pausing an ongoing task contact. See also: AWS API Documentation
@@ -2648,8 +2422,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PauseContactAsync(AwsConnectPauseContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PauseContactAsync(AwsConnectPauseContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the current status of a user or agent in Connect Customer. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -2658,8 +2431,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutUserStatusAsync(AwsConnectPutUserStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutUserStatusAsync(AwsConnectPutUserStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Releases a phone number previously claimed to an Connect Customer in- stance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. WARNING: To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Connect Customer admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period h...
@@ -2668,8 +2440,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReleasePhoneNumberAsync(AwsConnectReleasePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReleasePhoneNumberAsync(AwsConnectReleasePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Cus- tomer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -2678,8 +2449,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ReplicateInstanceAsync(AwsConnectReplicateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ReplicateInstanceAsync(AwsConnectReplicateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows resuming a task contact in a paused state. See also: AWS API Documentation
@@ -2688,8 +2458,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeContactAsync(AwsConnectResumeContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeContactAsync(AwsConnectResumeContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported. See also: AWS API Documentation
@@ -2698,8 +2467,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeContactRecordingAsync(AwsConnectResumeContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeContactRecordingAsync(AwsConnectResumeContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches AgentStatuses in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-agent-statuses is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: AgentStatuses
@@ -2708,8 +2476,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAgentStatusesAsync(AwsConnectSearchAgentStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAgentStatusesAsync(AwsConnectSearchAgentStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided Targe- tArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group. See also: AWS API Documentation search-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by provi...
@@ -2718,8 +2485,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchAvailablePhoneNumbersAsync(AwsConnectSearchAvailablePhoneNumbersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchAvailablePhoneNumbersAsync(AwsConnectSearchAvailablePhoneNumbersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches contact evaluations in an Connect Customer instance, with op- tional filtering. Use cases Following are common uses cases for this API: o Find contact evaluations by using specific search criteria. o Find contact evaluations that are tagged with a specific set of tags. Important things to know o A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see up- dated information for recently changed contact evaluations, ...
@@ -2728,8 +2494,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchContactEvaluationsAsync(AwsConnectSearchContactEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchContactEvaluationsAsync(AwsConnectSearchContactEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the flow modules in an Connect Customer instance, with op- tional filtering. See also: AWS API Documentation search-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Con...
@@ -2738,8 +2503,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchContactFlowModulesAsync(AwsConnectSearchContactFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchContactFlowModulesAsync(AwsConnectSearchContactFlowModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the flows in an Connect Customer instance, with optional fil- tering. See also: AWS API Documentation search-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ContactFlows
@@ -2748,8 +2512,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchContactFlowsAsync(AwsConnectSearchContactFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchContactFlowsAsync(AwsConnectSearchContactFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches contacts in an Connect Customer instance. See also: AWS API Documentation search-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Contacts
@@ -2758,8 +2521,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchContactsAsync(AwsConnectSearchContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchContactsAsync(AwsConnectSearchContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for data tables based on the table's ID, name, and descrip- tion. In the future, this operation can support searching on attribute names and possibly primary values. Follows other search operations closely and supports both search criteria and filters. See also: AWS API Documentation search-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
@@ -2768,8 +2530,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchDataTablesAsync(AwsConnectSearchDataTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchDataTablesAsync(AwsConnectSearchDataTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches email address in an instance, with optional filtering. See also: AWS API Documentation
@@ -2778,8 +2539,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchEmailAddressesAsync(AwsConnectSearchEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchEmailAddressesAsync(AwsConnectSearchEmailAddressesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches evaluation forms in an Connect Customer instance, with op- tional filtering. Use cases Following are common uses cases for this API: o List all evaluation forms in an instance. o Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more. o Find all evaluation forms that are tagged with a specific set of tags. Important things to know o A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete)...
@@ -2788,8 +2548,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchEvaluationFormsAsync(AwsConnectSearchEvaluationFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchEvaluationFormsAsync(AwsConnectSearchEvaluationFormsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the hours of operation overrides. See also: AWS API Documentation search-hours-of-operation-overrides is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: HoursOfOperationOverrides
@@ -2798,8 +2557,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchHoursOfOperationOverridesAsync(AwsConnectSearchHoursOfOperationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchHoursOfOperationOverridesAsync(AwsConnectSearchHoursOfOperationOverridesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches the hours of operation in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-hours-of-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Ho...
@@ -2808,8 +2566,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchHoursOfOperationsAsync(AwsConnectSearchHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchHoursOfOperationsAsync(AwsConnectSearchHoursOfOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation search-metrics is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
@@ -2818,8 +2575,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchMetricsAsync(AwsConnectSearchMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchMetricsAsync(AwsConnectSearchMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for notifications based on specified criteria and filters. Re- turns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags. See also: AWS API Documentation
@@ -2828,8 +2584,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchNotificationsAsync(AwsConnectSearchNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchNotificationsAsync(AwsConnectSearchNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined at- tributes for: o Routing proficiency (for example, agent certification) that has pre- defined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing con- tacts to agents . o Contact information that varies between transfers or conferences, such as the name of the business unit handling th...
@@ -2838,8 +2593,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchPredefinedAttributesAsync(AwsConnectSearchPredefinedAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchPredefinedAttributesAsync(AwsConnectSearchPredefinedAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches prompts in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-prompts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Prompts
@@ -2848,8 +2602,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchPromptsAsync(AwsConnectSearchPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchPromptsAsync(AwsConnectSearchPromptsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches queues in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-queues is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Queues
@@ -2858,8 +2611,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchQueuesAsync(AwsConnectSearchQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchQueuesAsync(AwsConnectSearchQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches quick connects in an Connect Customer instance, with optional filtering. See also: AWS API Documentation search-quick-connects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: QuickConnects
@@ -2868,8 +2620,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchQuickConnectsAsync(AwsConnectSearchQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchQuickConnectsAsync(AwsConnectSearchQuickConnectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches tags used in an Connect Customer instance using optional search criteria. See also: AWS API Documentation search-resource-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Tags
@@ -2878,8 +2629,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchResourceTagsAsync(AwsConnectSearchResourceTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchResourceTagsAsync(AwsConnectSearchResourceTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches routing profiles in an Connect Customer instance, with op- tional filtering. NOTE: SearchRoutingProfiles does not populate LastModifiedRegion, LastMod- ifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvail- abilityTimer in its response, but DescribeRoutingProfile does. See also: AWS API Documentation search-routing-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing ...
@@ -2888,8 +2638,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchRoutingProfilesAsync(AwsConnectSearchRoutingProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchRoutingProfilesAsync(AwsConnectSearchRoutingProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches rules in an Connect Customer instance, with optional filter- ing. See also: AWS API Documentation search-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
@@ -2898,8 +2647,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchRulesAsync(AwsConnectSearchRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchRulesAsync(AwsConnectSearchRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches security profiles in an Connect Customer instance, with op- tional filtering. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation search-security-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Y...
@@ -2908,8 +2656,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchSecurityProfilesAsync(AwsConnectSearchSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchSecurityProfilesAsync(AwsConnectSearchSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for test cases in the specified Amazon Connect instance, with optional filtering. See also: AWS API Documentation search-test-cases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TestCases
@@ -2918,8 +2665,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchTestCasesAsync(AwsConnectSearchTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchTestCasesAsync(AwsConnectSearchTestCasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches UserHierarchyGroups in an Connect Customer instance, with op- tional filtering. WARNING: The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI. See also: AWS API Documentation search-user-hierarchy-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment...
@@ -2928,8 +2674,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchUserHierarchyGroupsAsync(AwsConnectSearchUserHierarchyGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchUserHierarchyGroupsAsync(AwsConnectSearchUserHierarchyGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches users in an Connect Customer instance, with optional filter- ing. NOTE: AfterContactWorkTimeLimit is returned in milliseconds. See also: AWS API Documentation search-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the...
@@ -2938,8 +2683,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchUsersAsync(AwsConnectSearchUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchUsersAsync(AwsConnectSearchUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches views based on name, description, or tags. See also: AWS API Documentation search-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Views
@@ -2948,8 +2692,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchViewsAsync(AwsConnectSearchViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchViewsAsync(AwsConnectSearchViewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for vocabularies within a specific Connect Customer instance using State , NameStartsWith , and LanguageCode . See also: AWS API Documentation search-vocabularies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
@@ -2958,8 +2701,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchVocabulariesAsync(AwsConnectSearchVocabulariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchVocabulariesAsync(AwsConnectSearchVocabulariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches for workspace associations with users or routing profiles based on various criteria. See also: AWS API Documentation search-workspace-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
@@ -2968,8 +2710,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchWorkspaceAssociationsAsync(AwsConnectSearchWorkspaceAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchWorkspaceAssociationsAsync(AwsConnectSearchWorkspaceAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Searches workspaces based on name, description, visibility, or tags. See also: AWS API Documentation search-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Workspaces
@@ -2978,8 +2719,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchWorkspacesAsync(AwsConnectSearchWorkspacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchWorkspacesAsync(AwsConnectSearchWorkspacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes: o SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat o ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created be- fore handling...
@@ -2988,8 +2728,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendChatIntegrationEventAsync(AwsConnectSendChatIntegrationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendChatIntegrationEventAsync(AwsConnectSendChatIntegrationEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns . NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. See also: AWS API Documentation
@@ -2998,8 +2737,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendOutboundEmailAsync(AwsConnectSendOutboundEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendOutboundEmailAsync(AwsConnectSendOutboundEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an outbound web notification to a customer's web browser for out- bound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns . NOTE: Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API. See also: AWS API Documentation
@@ -3008,8 +2746,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendOutboundWebNotificationAsync(AwsConnectSendOutboundWebNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendOutboundWebNotificationAsync(AwsConnectSendOutboundWebNotificationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
@@ -3018,8 +2755,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAssistantContactAsync(AwsConnectStartAssistantContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAssistantContactAsync(AwsConnectStartAssistantContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a pre-signed Amazon S3 URL in response for uploading your con- tent. WARNING: You may only use this API to upload attachments to a Connect Cus- tomer Case , Connect Customer Email , or Connect Customer Task . See also: AWS API Documentation
@@ -3028,8 +2764,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAttachedFileUploadAsync(AwsConnectStartAttachedFileUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAttachedFileUploadAsync(AwsConnectStartAttachedFileUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. To receive connection information directly in th...
@@ -3038,8 +2773,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartChatContactAsync(AwsConnectStartChatContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartChatContactAsync(AwsConnectStartChatContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a Contact Lens post-call analytics job for the specified con- tact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration. WARNING: A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI. NOTE: For example, you...
@@ -3048,8 +2782,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContactConversationalAnalyticsJobAsync(AwsConnectStartContactConversationalAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContactConversationalAnalyticsJobAsync(AwsConnectStartContactConversationalAnalyticsJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an empty evaluation in the specified Connect Customer instance, using the given evaluation form for the particular contact. The evalua- tion form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evalua- tion form, the contact evaluation cannot be started. See also: AWS API Documentation
@@ -3058,8 +2791,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContactEvaluationAsync(AwsConnectStartContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContactEvaluationAsync(AwsConnectStartContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables in-flight message processing for an ongoing chat session. Mes- sage processing will stay active for the rest of the chat, even if an individual contact segment ends. See also: AWS API Documentation
@@ -3068,8 +2800,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContactMediaProcessingAsync(AwsConnectStartContactMediaProcessingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContactMediaProcessingAsync(AwsConnectStartContactMediaProcessingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts recording the contact: o If the API is called before the agent joins the call, recording starts when the agent joins the call. o If the API is called after the agent joins the call, recording starts at the time of the API call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such ...
@@ -3078,8 +2809,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContactRecordingAsync(AwsConnectStartContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContactRecordingAsync(AwsConnectStartContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Connect Customer Administrator Guide . For more information about chat, see the following topics in the Con- nect Customer Administrator Guide : o Concepts: Web and mobile messaging capabilities in Connect Customer o Connect Customer Chat security best practices See also: AWS API Documentation
@@ -3088,8 +2818,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartContactStreamingAsync(AwsConnectStartContactStreamingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartContactStreamingAsync(AwsConnectStartContactStreamingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the Con- tactId of the email contact created. See also: AWS API Documentation
@@ -3098,8 +2827,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEmailContactAsync(AwsConnectStartEmailContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEmailContactAsync(AwsConnectStartEmailContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts an asynchronous validation process for an evaluation form ver- sion in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying re- quired fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for genera- tive AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes. Se...
@@ -3108,8 +2836,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartEvaluationFormValidationAsync(AwsConnectStartEvaluationFormValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartEvaluationFormValidationAsync(AwsConnectStartEvaluationFormValidationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a new outbound SMS or WhatsApp contact to a customer. Re- sponse of this API provides the ContactId of the outbound SMS or What- sApp contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELE- PHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing...
@@ -3118,8 +2845,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartOutboundChatContactAsync(AwsConnectStartOutboundChatContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartOutboundChatContactAsync(AwsConnectStartOutboundChatContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a flow to send an agent reply or outbound email contact (cre- ated from the CreateContact API) to a customer. See also: AWS API Documentation
@@ -3128,8 +2854,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartOutboundEmailContactAsync(AwsConnectStartOutboundEmailContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartOutboundEmailContactAsync(AwsConnectStartOutboundEmailContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId ). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the RingTime- outInSeconds parameter. If not specified, the ...
@@ -3138,8 +2863,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartOutboundVoiceContactAsync(AwsConnectStartOutboundVoiceContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartOutboundVoiceContactAsync(AwsConnectStartOutboundVoiceContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing ca- pabilities in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -3148,8 +2872,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartScreenSharingAsync(AwsConnectStartScreenSharingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartScreenSharingAsync(AwsConnectStartScreenSharingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide . When using PreviousContactId and RelatedContactId input parameters, note the following: o PreviousContactId o Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain. o There can be a maximum of 12 linked task contacts in a chain. Tha...
@@ -3158,8 +2881,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTaskContactAsync(AwsConnectStartTaskContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTaskContactAsync(AwsConnectStartTaskContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts executing a published test case. See also: AWS API Documentation
@@ -3168,8 +2890,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartTestCaseExecutionAsync(AwsConnectStartTestCaseExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartTestCaseExecutionAsync(AwsConnectStartTestCaseExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are speci- fied (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId). See also: AWS API Documentation
@@ -3178,8 +2899,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartWebRtcContactAsync(AwsConnectStartWebRtcContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartWebRtcContactAsync(AwsConnectStartWebRtcContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops in-flight message processing for an ongoing chat session. See also: AWS API Documentation
@@ -3188,8 +2908,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopContactMediaProcessingAsync(AwsConnectStopContactMediaProcessingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopContactMediaProcessingAsync(AwsConnectStopContactMediaProcessingOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods: o DISCONNECT o TRANSFER o QUEUE_TRANSFER o EXTERNAL_OUTBOUND o MONITOR Chat and task contacts can be terminated in any state, regardless of initiation method. See also: AWS API Documentation
@@ -3198,8 +2917,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopContactAsync(AwsConnectStopContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopContactAsync(AwsConnectStopContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops recording a call when a contact is being recorded. StopContac- tRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time. See al...
@@ -3208,8 +2926,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopContactRecordingAsync(AwsConnectStopContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopContactRecordingAsync(AwsConnectStopContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming API. See also: AWS API Documentation
@@ -3218,8 +2935,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopContactStreamingAsync(AwsConnectStopContactStreamingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopContactStreamingAsync(AwsConnectStopContactStreamingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a running test execution. See also: AWS API Documentation
@@ -3228,8 +2944,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopTestCaseExecutionAsync(AwsConnectStopTestCaseExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopTestCaseExecutionAsync(AwsConnectStopTestCaseExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits a contact evaluation in the specified Connect Customer in- stance. Answers included in the request are merged with existing an- swers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({} ) to the ques- tion identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission. See also: AWS API Documentation
@@ -3238,8 +2953,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SubmitContactEvaluationAsync(AwsConnectSubmitContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SubmitContactEvaluationAsync(AwsConnectSubmitContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with si- lence i...
@@ -3248,8 +2962,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SuspendContactRecordingAsync(AwsConnectSuspendContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SuspendContactRecordingAsync(AwsConnectSuspendContactRecordingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
@@ -3258,8 +2971,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagContactAsync(AwsConnectTagContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagContactAsync(AwsConnectTagContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, task templates, and custom metrics. For a complete list, see Tagging resources in Connect Customer . For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide . See also: AWS API Documentation
@@ -3268,8 +2980,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsConnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsConnectTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can trans- fer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements: o Transfer is only supported for TASK and EMAIL contacts. o Do not use both Queu...
@@ -3278,8 +2989,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TransferContactAsync(AwsConnectTransferContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TransferContactAsync(AwsConnectTransferContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the contact resource. For more informa- tion about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage . See also: AWS API Documentation
@@ -3288,8 +2998,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagContactAsync(AwsConnectUntagContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagContactAsync(AwsConnectUntagContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified resource. See also: AWS API Documentation
@@ -3298,8 +3007,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsConnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsConnectUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates agent status. See also: AWS API Documentation
@@ -3308,8 +3016,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentStatusAsync(AwsConnectUpdateAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentStatusAsync(AwsConnectUpdateAgentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the attached files configuration for the specified Connect Cus- tomer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supportedonly specified fields are updated, while unspecified fields retain their current values. See also: AWS API Documentation
@@ -3318,8 +3025,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAttachedFilesConfigurationAsync(AwsConnectUpdateAttachedFilesConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAttachedFilesConfigurationAsync(AwsConnectUpdateAttachedFilesConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. To request access to this API, contact Amazon Web Services Sup- port. Updates the selected authentication profile. See also: AWS API Documentation
@@ -3328,8 +3034,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAuthenticationProfileAsync(AwsConnectUpdateAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAuthenticationProfileAsync(AwsConnectUpdateAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can up- date the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save ...
@@ -3338,8 +3043,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactAttributesAsync(AwsConnectUpdateContactAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactAttributesAsync(AwsConnectUpdateContactAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates details about a contact evaluation in the specified Connect Customer instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({} ) to the question identifier. See also: AWS API Documentation
@@ -3348,8 +3052,16 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactEvaluationAsync(AwsConnectUpdateContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactEvaluationAsync(AwsConnectUpdateContactEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates the name, description, or flow version associated with an alias. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateContactFlowAliasAsync(AwsConnectUpdateContactFlowAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified flow. You can also create and update flows using the Connect Customer Flow language . Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
@@ -3358,8 +3070,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowContentAsync(AwsConnectUpdateContactFlowContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowContentAsync(AwsConnectUpdateContactFlowContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates metadata about specified flow. See also: AWS API Documentation
@@ -3368,8 +3079,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowMetadataAsync(AwsConnectUpdateContactFlowMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowMetadataAsync(AwsConnectUpdateContactFlowMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a specific Aliases metadata, including the version its tied to, its name, and description. See also: AWS API Documentation
@@ -3378,8 +3088,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowModuleAliasAsync(AwsConnectUpdateContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowModuleAliasAsync(AwsConnectUpdateContactFlowModuleAliasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates specified flow module for the specified Connect Customer in- stance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED . After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. See also: AWS API Documentation
@@ -3388,8 +3097,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowModuleContentAsync(AwsConnectUpdateContactFlowModuleContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowModuleContentAsync(AwsConnectUpdateContactFlowModuleContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates metadata about specified flow module. See also: AWS API Documentation
@@ -3398,8 +3106,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowModuleMetadataAsync(AwsConnectUpdateContactFlowModuleMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowModuleMetadataAsync(AwsConnectUpdateContactFlowModuleMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The name of the flow. You can also create and update flows using the Connect Customer Flow language . See also: AWS API Documentation
@@ -3408,8 +3115,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactFlowNameAsync(AwsConnectUpdateContactFlowNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactFlowNameAsync(AwsConnectUpdateContactFlowNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. WARNING: You can add or update user-defined contact information for both on- going and completed contacts. See also: AWS API Documentation
@@ -3418,8 +3124,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactAsync(AwsConnectUpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactAsync(AwsConnectUpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds ). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing ...
@@ -3428,8 +3133,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactRoutingDataAsync(AwsConnectUpdateContactRoutingDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactRoutingDataAsync(AwsConnectUpdateContactRoutingDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the scheduled time of a task contact that is already scheduled. See also: AWS API Documentation
@@ -3438,8 +3142,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactScheduleAsync(AwsConnectUpdateContactScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactScheduleAsync(AwsConnectUpdateContactScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the task template association on an existing task contact. You can update the task template on a contact before assignment to support tasks that are created without a template (for example Rules or disconnect flows ) or change the agent interaction form to represent the latest task data (for example an initial request that was submitted as a refund gets updated to an account cancellation and requires a new template). This operation can only be used with task contacts that are in progress...
@@ -3448,8 +3151,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactTaskTemplateAsync(AwsConnectUpdateContactTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactTaskTemplateAsync(AwsConnectUpdateContactTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true , this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region. NOTE: This operation is available only for Amazon Connect Global Re- siliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use t...
@@ -3458,8 +3160,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCrossRegionRoutingAsync(AwsConnectUpdateCrossRegionRoutingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCrossRegionRoutingAsync(AwsConnectUpdateCrossRegionRoutingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates all properties for an attribute using all properties from Cre- ateDataTableAttribute. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed attributes are not mutable by customers. Changing an at- tribute's validation does not invalidate existing values since valida- tion only runs when values are created or updated. See also: AWS API Documentation
@@ -3468,8 +3169,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataTableAttributeAsync(AwsConnectUpdateDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataTableAttributeAsync(AwsConnectUpdateDataTableAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable. See also: AWS API Documentation
@@ -3478,8 +3178,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataTableMetadataAsync(AwsConnectUpdateDataTableMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataTableMetadataAsync(AwsConnectUpdateDataTableMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the primary values for a record. This operation affects all ex- isting values that are currently associated to the record and its pri- mary values. Users that have restrictions on attributes and/or primary values are not authorized to use this endpoint. The combination of new primary values must be unique within the table. See also: AWS API Documentation
@@ -3488,8 +3187,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataTablePrimaryValuesAsync(AwsConnectUpdateDataTablePrimaryValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataTablePrimaryValuesAsync(AwsConnectUpdateDataTablePrimaryValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an email address metadata. For more information about email ad- dresses, see Create email addresses in the Connect Customer Administra- tor Guide. See also: AWS API Documentation
@@ -3498,8 +3196,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEmailAddressMetadataAsync(AwsConnectUpdateEmailAddressMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEmailAddressMetadataAsync(AwsConnectUpdateEmailAddressMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates details about a specific evaluation form version in the speci- fied Connect Customer instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content. See also: AWS API Documentation
@@ -3508,8 +3205,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEvaluationFormAsync(AwsConnectUpdateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEvaluationFormAsync(AwsConnectUpdateEvaluationFormOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an extraction definition in the specified Connect Customer in- stance. See also: AWS API Documentation
@@ -3518,8 +3214,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateExtractionDefinitionAsync(AwsConnectUpdateExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateExtractionDefinitionAsync(AwsConnectUpdateExtractionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the hours of operation. See also: AWS API Documentation
@@ -3528,8 +3223,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHoursOfOperationAsync(AwsConnectUpdateHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHoursOfOperationAsync(AwsConnectUpdateHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the hours of operation override. See also: AWS API Documentation
@@ -3538,8 +3232,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHoursOfOperationOverrideAsync(AwsConnectUpdateHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHoursOfOperationOverrideAsync(AwsConnectUpdateHoursOfOperationOverrideOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Updates the value for the specified attribute type. See also: AWS API Documentation
@@ -3548,8 +3241,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInstanceAttributeAsync(AwsConnectUpdateInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInstanceAttributeAsync(AwsConnectUpdateInstanceAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Updates an existing configuration for a resource type. This API is idempotent. See also: AWS API Documentation
@@ -3558,8 +3250,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateInstanceStorageConfigAsync(AwsConnectUpdateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateInstanceStorageConfigAsync(AwsConnectUpdateInstanceStorageConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance. See also: AWS API Documentation
@@ -3568,8 +3259,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMetricContentAsync(AwsConnectUpdateMetricContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMetricContentAsync(AwsConnectUpdateMetricContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and/or description of an existing metric in the speci- fied Connect Customer instance. See also: AWS API Documentation
@@ -3578,8 +3268,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMetricMetadataAsync(AwsConnectUpdateMetricMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMetricMetadataAsync(AwsConnectUpdateMetricMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the localized content of an existing notification. This opera- tion applies to all users for whom the notification was sent. See also: AWS API Documentation
@@ -3588,8 +3277,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNotificationContentAsync(AwsConnectUpdateNotificationContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNotificationContentAsync(AwsConnectUpdateNotificationContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents: o If a code is provided : Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles. o If an error is provided : The error branch of the Authenticate Cus- tomer block is executed. NOTE: The API returns a success response to acknowledge the request. How- ever, the interaction and exchange of identity information occur async...
@@ -3598,8 +3286,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateParticipantAuthenticationAsync(AwsConnectUpdateParticipantAuthenticationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateParticipantAuthenticationAsync(AwsConnectUpdateParticipantAuthenticationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: o Customer idle timeout o Customer auto-disconnect timeout o Agent idle timeout o Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
@@ -3608,8 +3295,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateParticipantRoleConfigAsync(AwsConnectUpdateParticipantRoleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateParticipantRoleConfigAsync(AwsConnectUpdateParticipantRoleConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a phone numbers metadata. WARNING: To verify the status of a previous UpdatePhoneNumberMetadata opera- tion, call the DescribePhoneNumber API. See also: AWS API Documentation
@@ -3618,8 +3304,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePhoneNumberMetadataAsync(AwsConnectUpdatePhoneNumberMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePhoneNumberMetadataAsync(AwsConnectUpdatePhoneNumberMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates your claimed phone number from its current Connect Customer in- stance or traffic distribution group to another Connect Customer in- stance or traffic distribution group in the same Amazon Web Services Region. WARNING: After using this API, you must verify that the phone number is at- tached to the correct flow in the target instance or traffic distri- bution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It does...
@@ -3628,8 +3313,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePhoneNumberAsync(AwsConnectUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePhoneNumberAsync(AwsConnectUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifica- tions). For more information, see Create predefined attributes for routing contacts to agents ...
@@ -3638,8 +3322,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePredefinedAttributeAsync(AwsConnectUpdatePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePredefinedAttributeAsync(AwsConnectUpdatePredefinedAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a prompt. See also: AWS API Documentation
@@ -3648,8 +3331,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePromptAsync(AwsConnectUpdatePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePromptAsync(AwsConnectUpdatePromptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the hours of operation for the specified queue. See also: AWS API Documentation
@@ -3658,8 +3340,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueHoursOfOperationAsync(AwsConnectUpdateQueueHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueHoursOfOperationAsync(AwsConnectUpdateQueueHoursOfOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the maximum number of contacts allowed in a queue before it is considered full. See also: AWS API Documentation
@@ -3668,8 +3349,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueMaxContactsAsync(AwsConnectUpdateQueueMaxContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueMaxContactsAsync(AwsConnectUpdateQueueMaxContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and description of a queue. At least Name or Descrip- tion must be provided. See also: AWS API Documentation
@@ -3678,8 +3358,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueNameAsync(AwsConnectUpdateQueueNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueNameAsync(AwsConnectUpdateQueueNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. WARNING: o If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer in- stance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId . However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an in- stance in a...
@@ -3688,8 +3367,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueOutboundCallerConfigAsync(AwsConnectUpdateQueueOutboundCallerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueOutboundCallerConfigAsync(AwsConnectUpdateQueueOutboundCallerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the outbound email address Id for a specified queue. See also: AWS API Documentation
@@ -3698,8 +3376,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueOutboundEmailConfigAsync(AwsConnectUpdateQueueOutboundEmailConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueOutboundEmailConfigAsync(AwsConnectUpdateQueueOutboundEmailConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of the queue. See also: AWS API Documentation
@@ -3708,8 +3385,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQueueStatusAsync(AwsConnectUpdateQueueStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQueueStatusAsync(AwsConnectUpdateQueueStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration settings for the specified quick connect. See also: AWS API Documentation
@@ -3718,8 +3394,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQuickConnectConfigAsync(AwsConnectUpdateQuickConnectConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQuickConnectConfigAsync(AwsConnectUpdateQuickConnectConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and description of a quick connect. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
@@ -3728,8 +3403,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateQuickConnectNameAsync(AwsConnectUpdateQuickConnectNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateQuickConnectNameAsync(AwsConnectUpdateQuickConnectNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time . See also: AWS API Documentation
@@ -3738,8 +3412,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRoutingProfileAgentAvailabilityTimerAsync(AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRoutingProfileAgentAvailabilityTimerAsync(AwsConnectUpdateRoutingProfileAgentAvailabilityTimerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile. See also: AWS API Documentation
@@ -3748,8 +3421,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRoutingProfileConcurrencyAsync(AwsConnectUpdateRoutingProfileConcurrencyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRoutingProfileConcurrencyAsync(AwsConnectUpdateRoutingProfileConcurrencyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the default outbound queue of a routing profile. See also: AWS API Documentation
@@ -3758,8 +3430,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRoutingProfileDefaultOutboundQueueAsync(AwsConnectUpdateRoutingProfileDefaultOutboundQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRoutingProfileDefaultOutboundQueueAsync(AwsConnectUpdateRoutingProfileDefaultOutboundQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and description of a routing profile. The request ac- cepts the following data in JSON format. At least Name or Description must be provided. See also: AWS API Documentation
@@ -3768,8 +3439,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRoutingProfileNameAsync(AwsConnectUpdateRoutingProfileNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRoutingProfileNameAsync(AwsConnectUpdateRoutingProfileNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties associated with a set of queues for a routing profile. See also: AWS API Documentation
@@ -3778,8 +3448,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRoutingProfileQueuesAsync(AwsConnectUpdateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRoutingProfileQueuesAsync(AwsConnectUpdateRoutingProfileQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule. See also: AWS API Documentation
@@ -3788,8 +3457,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRuleAsync(AwsConnectUpdateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRuleAsync(AwsConnectUpdateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide . For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions . See also: AWS API Documentation
@@ -3798,8 +3466,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSecurityProfileAsync(AwsConnectUpdateSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSecurityProfileAsync(AwsConnectUpdateSecurityProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. In- stead it does a full update of template content. See also: AWS API Documentation
@@ -3808,8 +3475,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTaskTemplateAsync(AwsConnectUpdateTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTaskTemplateAsync(AwsConnectUpdateTaskTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates any of the metadata for a test case, such as the name, descrip- tion, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance. See also: AWS API Documentation
@@ -3818,8 +3484,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTestCaseAsync(AwsConnectUpdateTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTestCaseAsync(AwsConnectUpdateTestCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the traffic distribution for a given traffic distribution group. WARNING: When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Re- gion but there won't be any agents available to receive the calls. NOTE: The SignInConfig distribution is available only on a default Traf- ficDistributionGroup (see the IsDefault parameter in the TrafficDistributionG...
@@ -3828,8 +3493,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTrafficDistributionAsync(AwsConnectUpdateTrafficDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTrafficDistributionAsync(AwsConnectUpdateTrafficDistributionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings. NOTE: This operation replaces the UpdateUserPhoneConfig API. While Upda- teUserPhoneConfig applies the same ACW timeout to all channels, Up- dateUserConfig allows you to set different auto-accept and ACW time- out values for each channel type. See also: AWS API Documentation
@@ -3838,8 +3502,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserConfigAsync(AwsConnectUpdateUserConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserConfigAsync(AwsConnectUpdateUserConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name of the user hierarchy group. See also: AWS API Documentation
@@ -3848,8 +3511,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserHierarchyGroupNameAsync(AwsConnectUpdateUserHierarchyGroupNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserHierarchyGroupNameAsync(AwsConnectUpdateUserHierarchyGroupNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the specified hierarchy group to the specified user. See also: AWS API Documentation
@@ -3858,8 +3520,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserHierarchyAsync(AwsConnectUpdateUserHierarchyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserHierarchyAsync(AwsConnectUpdateUserHierarchyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the user hierarchy structure: add, remove, and rename user hi- erarchy levels. See also: AWS API Documentation
@@ -3868,8 +3529,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserHierarchyStructureAsync(AwsConnectUpdateUserHierarchyStructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserHierarchyStructureAsync(AwsConnectUpdateUserHierarchyStructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the identity information for the specified user. WARNING: We strongly recommend limiting who has the ability to invoke Upda- teUserIdentityInfo . Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the ...
@@ -3878,8 +3538,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserIdentityInfoAsync(AwsConnectUpdateUserIdentityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserIdentityInfoAsync(AwsConnectUpdateUserIdentityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a notification for a specific user, such as mark- ing it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget. See also: AWS API Documentation
@@ -3888,8 +3547,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserNotificationStatusAsync(AwsConnectUpdateUserNotificationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserNotificationStatusAsync(AwsConnectUpdateUserNotificationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the phone configuration settings for the specified user. NOTE: We recommend using the UpdateUserConfig API, which supports addi- tional functionality that is not available in the UpdateUser- PhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles. See also: AWS API Documentation
@@ -3898,8 +3556,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserPhoneConfigAsync(AwsConnectUpdateUserPhoneConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserPhoneConfigAsync(AwsConnectUpdateUserPhoneConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties associated with the proficiencies of a user. See also: AWS API Documentation
@@ -3908,8 +3565,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserProficienciesAsync(AwsConnectUpdateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserProficienciesAsync(AwsConnectUpdateUserProficienciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the specified routing profile to the specified user. See also: AWS API Documentation
@@ -3918,8 +3574,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserRoutingProfileAsync(AwsConnectUpdateUserRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserRoutingProfileAsync(AwsConnectUpdateUserRoutingProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the specified security profiles to the specified user. See also: AWS API Documentation
@@ -3928,8 +3583,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUserSecurityProfilesAsync(AwsConnectUpdateUserSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUserSecurityProfilesAsync(AwsConnectUpdateUserSecurityProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the view content of the given view identifier in the specified Connect Customer instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED . Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED . See also: AWS API Documentation
@@ -3938,8 +3592,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateViewContentAsync(AwsConnectUpdateViewContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateViewContentAsync(AwsConnectUpdateViewContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the view metadata. Note that either Name or Description must be provided. See also: AWS API Documentation
@@ -3948,8 +3601,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateViewMetadataAsync(AwsConnectUpdateViewMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateViewMetadataAsync(AwsConnectUpdateViewMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the metadata of a workspace, such as its name and description. See also: AWS API Documentation
@@ -3958,8 +3610,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceMetadataAsync(AwsConnectUpdateWorkspaceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceMetadataAsync(AwsConnectUpdateWorkspaceMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the configuration of a page in a workspace, including the asso- ciated view and input data. See also: AWS API Documentation
@@ -3968,8 +3619,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspacePageAsync(AwsConnectUpdateWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspacePageAsync(AwsConnectUpdateWorkspacePageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the theme configuration for a workspace, including colors and styling. See also: AWS API Documentation
@@ -3978,8 +3628,7 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceThemeAsync(AwsConnectUpdateWorkspaceThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceThemeAsync(AwsConnectUpdateWorkspaceThemeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users only, or none. See also: AWS API Documentation
@@ -3988,7 +3637,6 @@ public interface IAwsConnect
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkspaceVisibilityAsync(AwsConnectUpdateWorkspaceVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkspaceVisibilityAsync(AwsConnectUpdateWorkspaceVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralchannel commands.
+/// aws partnercentral-channel commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptChannelHandshakeAsync(AwsPartnercentralChannelAcceptChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptChannelHandshakeAsync(AwsPartnercentralChannelAcceptChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a pending channel handshake request. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelChannelHandshakeAsync(AwsPartnercentralChannelCancelChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelChannelHandshakeAsync(AwsPartnercentralChannelCancelChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new channel handshake request to establish a partnership with another AWS account. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelHandshakeAsync(AwsPartnercentralChannelCreateChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelHandshakeAsync(AwsPartnercentralChannelCreateChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new program management account for managing partner relation- ships. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProgramManagementAccountAsync(AwsPartnercentralChannelCreateProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProgramManagementAccountAsync(AwsPartnercentralChannelCreateProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new partner relationship between accounts. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRelationshipAsync(AwsPartnercentralChannelCreateRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRelationshipAsync(AwsPartnercentralChannelCreateRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a program management account. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProgramManagementAccountAsync(AwsPartnercentralChannelDeleteProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProgramManagementAccountAsync(AwsPartnercentralChannelDeleteProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a partner relationship. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRelationshipAsync(AwsPartnercentralChannelDeleteRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRelationshipAsync(AwsPartnercentralChannelDeleteRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of a specific partner relationship. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRelationshipAsync(AwsPartnercentralChannelGetRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRelationshipAsync(AwsPartnercentralChannelGetRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
@@ -108,8 +100,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelHandshakesAsync(AwsPartnercentralChannelListChannelHandshakesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelHandshakesAsync(AwsPartnercentralChannelListChannelHandshakesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -118,8 +109,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProgramManagementAccountsAsync(AwsPartnercentralChannelListProgramManagementAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProgramManagementAccountsAsync(AwsPartnercentralChannelListProgramManagementAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists partner relationships based on specified criteria. See also: AWS API Documentation list-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -128,8 +118,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRelationshipsAsync(AwsPartnercentralChannelListRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRelationshipsAsync(AwsPartnercentralChannelListRelationshipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags associated with a specific resource. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralChannelListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsPartnercentralChannelListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects a pending channel handshake request. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectChannelHandshakeAsync(AwsPartnercentralChannelRejectChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectChannelHandshakeAsync(AwsPartnercentralChannelRejectChannelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a specified resource. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsPartnercentralChannelTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsPartnercentralChannelTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a specified resource. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralChannelUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsPartnercentralChannelUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a program management account. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProgramManagementAccountAsync(AwsPartnercentralChannelUpdateProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProgramManagementAccountAsync(AwsPartnercentralChannelUpdateProgramManagementAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of a partner relationship. See also: AWS API Documentation
@@ -188,7 +172,6 @@ public interface IAwsPartnercentralChannel
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRelationshipAsync(AwsPartnercentralChannelUpdateRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRelationshipAsync(AwsPartnercentralChannelUpdateRelationshipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

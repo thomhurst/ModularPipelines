@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentcorecontrol commands.
+/// aws bedrock-agentcore-control commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
@@ -33,7 +33,7 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws bedrock-agentcore-control wait sub-commands.
     /// </summary>
     public AwsBedrockAgentcoreControlWait Wait => _wait ??= new AwsBedrockAgentcoreControlWait(_command);
 
@@ -1497,21 +1497,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all Amazon Secure Agents in your account. See also: AWS API Documentation list-agent-runtimes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentRuntimes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAgentRuntimesAsync(
-        AwsBedrockAgentcoreControlListAgentRuntimesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disasso- ciate before you can delete the capacity provider. Results are pagi- nated; use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-agent-runtime-versions-by-capacity-provider is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1539,6 +1524,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all Amazon Secure Agents in your account. See also: AWS API Documentation list-agent-runtimes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: agentRuntimes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAgentRuntimesAsync(
+        AwsBedrockAgentcoreControlListAgentRuntimesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListAgentRuntimesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1617,21 +1617,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all configuration bundles in the account. See also: AWS API Documentation list-configuration-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: bundles
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListConfigurationBundlesAsync(
-        AwsBedrockAgentcoreControlListConfigurationBundlesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source. See also: AWS API Documentation list-configuration-bundle-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1644,6 +1629,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all configuration bundles in the account. See also: AWS API Documentation list-configuration-bundles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: bundles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListConfigurationBundlesAsync(
+        AwsBedrockAgentcoreControlListConfigurationBundlesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListConfigurationBundlesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1677,21 +1677,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all datasets in the caller's account, paginated. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasets
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDatasetsAsync(
-        AwsBedrockAgentcoreControlListDatasetsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all published versions of a dataset, sorted by version number de- scending (newest first). Does not include the DRAFT working copy. See also: AWS API Documentation list-dataset-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1704,6 +1689,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all datasets in the caller's account, paginated. See also: AWS API Documentation list-datasets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: datasets
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDatasetsAsync(
+        AwsBedrockAgentcoreControlListDatasetsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListDatasetsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1752,21 +1752,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Lists all gateways in the account. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListGatewaysAsync(
-        AwsBedrockAgentcoreControlListGatewaysOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all targets for a specific gateway. See also: AWS API Documentation list-gateway-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1782,6 +1767,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
+    /// Lists all gateways in the account. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListGatewaysAsync(
+        AwsBedrockAgentcoreControlListGatewaysOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListGatewaysOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Operation to list the endpoints of a harness. See also: AWS API Documentation list-harness-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: endpoints
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1790,6 +1790,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListHarnessEndpointsAsync(
         AwsBedrockAgentcoreControlListHarnessEndpointsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Operation to list the versions of a Harness. See also: AWS API Documentation list-harness-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: harnessVersions
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListHarnessVersionsAsync(
+        AwsBedrockAgentcoreControlListHarnessVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1809,21 +1824,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListHarnessesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Operation to list the versions of a Harness. See also: AWS API Documentation list-harness-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: harnessVersions
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListHarnessVersionsAsync(
-        AwsBedrockAgentcoreControlListHarnessVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1932,21 +1932,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies. See also: AWS API Documentation list-policy-engines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPolicyEnginesAsync(
-        AwsBedrockAgentcoreControlListPolicyEnginesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a paginated list of metadata-only policy engine summaries without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy engine, but does not include descriptions or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Documentation list-policy-engine-s...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1959,6 +1944,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEngineSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies. See also: AWS API Documentation list-policy-engines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPolicyEnginesAsync(
+        AwsBedrockAgentcoreControlListPolicyEnginesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsBedrockAgentcoreControlListPolicyEnginesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1977,21 +1977,6 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     }
 
     /// <summary>
-    /// Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations. See also: AWS API Documentation list-policy-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPolicyGenerationsAsync(
-        AwsBedrockAgentcoreControlListPolicyGenerationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This light- weight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the cus- tomer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed. See also: AWS API Docum...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2000,6 +1985,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPolicyGenerationSummariesAsync(
         AwsBedrockAgentcoreControlListPolicyGenerationSummariesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations. See also: AWS API Documentation list-policy-generations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPolicyGenerationsAsync(
+        AwsBedrockAgentcoreControlListPolicyGenerationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

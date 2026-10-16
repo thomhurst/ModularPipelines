@@ -122,21 +122,6 @@ public class AwsOrganizations : IAwsOrganizations
     }
 
     /// <summary>
-    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see Managing organizational units (OUs) in the Organizations User Guide . If the request includes tags, then the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateOrganizationalUnitAsync(
-        AwsOrganizationsCreateOrganizationalUnitOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the management account of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL ), the new organization is created with all features enabled and service co...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -149,6 +134,21 @@ public class AwsOrganizations : IAwsOrganizations
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOrganizationsCreateOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see Managing organizational units (OUs) in the Organizations User Guide . If the request includes tags, then the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateOrganizationalUnitAsync(
+        AwsOrganizationsCreateOrganizationalUnitOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -182,21 +182,6 @@ public class AwsOrganizations : IAwsOrganizations
     }
 
     /// <summary>
-    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. You can only call this operation from the management account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteOrganizationalUnitAsync(
-        AwsOrganizationsDeleteOrganizationalUnitOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts. When an organization is deleted, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departureMethod:LEFT and departureTime . This event is available only in the management account's event history. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -209,6 +194,21 @@ public class AwsOrganizations : IAwsOrganizations
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOrganizationsDeleteOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. You can only call this operation from the management account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteOrganizationalUnitAsync(
+        AwsOrganizationsDeleteOrganizationalUnitOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -317,21 +317,6 @@ public class AwsOrganizations : IAwsOrganizations
     }
 
     /// <summary>
-    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeOrganizationalUnitAsync(
-        AwsOrganizationsDescribeOrganizationalUnitOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about the organization that the user's account belongs to. You can call this operation from any account in a organization. NOTE: Even if a policy type is shown as available in the organization, you can disable it separately at the root level with DisablePolicyType . Use ListRoots to see the status of policy types for a specified root. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -344,6 +329,21 @@ public class AwsOrganizations : IAwsOrganizations
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOrganizationsDescribeOrganizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeOrganizationalUnitAsync(
+        AwsOrganizationsDescribeOrganizationalUnitOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws customerprofiles commands.
+/// aws customer-profiles commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCustomerProfiles : IAwsCustomerProfiles
@@ -1202,21 +1202,6 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation list-object-type-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListObjectTypeAttributesAsync(
-        AwsCustomerProfilesListObjectTypeAttributesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// The ListObjectTypeAttributeValues API provides access to the most re- cent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and stan- dard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1225,6 +1210,21 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectTypeAttributeValuesAsync(
         AwsCustomerProfilesListObjectTypeAttributeValuesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation list-object-type-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListObjectTypeAttributesAsync(
+        AwsCustomerProfilesListObjectTypeAttributesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1262,18 +1262,18 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
+    /// Lists all of the template information for object types. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProfileObjectsAsync(
-        AwsCustomerProfilesListProfileObjectsOptions options,
+    public virtual async Task<CommandResult> ListProfileObjectTypeTemplatesAsync(
+        AwsCustomerProfilesListProfileObjectTypeTemplatesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCustomerProfilesListProfileObjectTypeTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1292,18 +1292,18 @@ public class AwsCustomerProfiles : IAwsCustomerProfiles
     }
 
     /// <summary>
-    /// Lists all of the template information for object types. See also: AWS API Documentation
+    /// Returns a list of objects associated with a profile of a given Pro- fileObjectType. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProfileObjectTypeTemplatesAsync(
-        AwsCustomerProfilesListProfileObjectTypeTemplatesOptions? options = null,
+    public virtual async Task<CommandResult> ListProfileObjectsAsync(
+        AwsCustomerProfilesListProfileObjectsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCustomerProfilesListProfileObjectTypeTemplatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

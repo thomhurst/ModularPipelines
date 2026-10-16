@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsCloudcontrol
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudcontrol wait sub-commands.
     /// </summary>
-    AwsCloudcontrolWait Wait => throw new System.NotSupportedException();
+    AwsCloudcontrolWait Wait { get; }
 
     /// <summary>
     /// Cancels the specified resource operation request. For more information, see Canceling resource operation requests in the Amazon Web Services Cloud Control API User Guide . Only resource operations requests with a status of PENDING or IN_PROGRESS can be canceled. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelResourceRequestAsync(AwsCloudcontrolCancelResourceRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelResourceRequestAsync(AwsCloudcontrolCancelResourceRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified resource. For more information, see Creating a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource creation request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent type returned by CreateResource . See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateResourceAsync(AwsCloudcontrolCreateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateResourceAsync(AwsCloudcontrolCreateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified resource. For details, see Deleting a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource deletion request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent returned by DeleteResource . See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourceAsync(AwsCloudcontrolDeleteResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourceAsync(AwsCloudcontrolDeleteResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the current state of the specified resource. For details, see Reading a resource's current state . You can use this action to return information about an existing re- source in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceAsync(AwsCloudcontrolGetResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceAsync(AwsCloudcontrolGetResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current status of a resource operation request. For more information, see Tracking the progress of resource operation requests in the Amazon Web Services Cloud Control API User Guide . See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourceRequestStatusAsync(AwsCloudcontrolGetResourceRequestStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourceRequestStatusAsync(AwsCloudcontrolGetResourceRequestStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns existing resource operation requests. This includes requests of all status types. For more information, see Listing active resource op- eration requests in the Amazon Web Services Cloud Control API User Guide . NOTE: Resource operation requests expire after 7 days. See also: AWS API Documentation list-resource-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
@@ -83,8 +78,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceRequestsAsync(AwsCloudcontrolListResourceRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceRequestsAsync(AwsCloudcontrolListResourceRequestsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified resources. For more informa- tion, see Discovering resources in the Amazon Web Services Cloud Con- trol API User Guide . You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of re...
@@ -93,8 +87,7 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourcesAsync(AwsCloudcontrolListResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourcesAsync(AwsCloudcontrolListResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch opera- tions contained in a JSON patch document that adheres to the ` RFC 6902 - JavaScript Object Notation (JSON) Patch https://datatracker.ietf.org/doc/html/rfc6902`__ standard. For details on how Cloud Control API performs resource update opera- tions, see Updating a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource update re...
@@ -103,7 +96,6 @@ public interface IAwsCloudcontrol
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResourceAsync(AwsCloudcontrolUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResourceAsync(AwsCloudcontrolUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

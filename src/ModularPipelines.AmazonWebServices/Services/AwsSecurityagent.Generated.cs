@@ -122,6 +122,36 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
+    /// Disassociates a batch of findings from their linked issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchDisassociateFindingIssueAsync(
+        AwsSecurityagentBatchDisassociateFindingIssueOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Exports a batch of findings to the connected issue tracker as issues. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchExportFindingsAsync(
+        AwsSecurityagentBatchExportFindingsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves information about one or more agent spaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -152,21 +182,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more code review jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetCodeReviewJobsAsync(
-        AwsSecurityagentBatchGetCodeReviewJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a code review job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -175,6 +190,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetCodeReviewJobTasksAsync(
         AwsSecurityagentBatchGetCodeReviewJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more code review jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetCodeReviewJobsAsync(
+        AwsSecurityagentBatchGetCodeReviewJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -212,21 +242,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more pentest jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetPentestJobsAsync(
-        AwsSecurityagentBatchGetPentestJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a pentest job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -235,6 +250,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetPentestJobTasksAsync(
         AwsSecurityagentBatchGetPentestJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more pentest jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetPentestJobsAsync(
+        AwsSecurityagentBatchGetPentestJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -287,21 +317,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Retrieves information about one or more threat model jobs in an agent space. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetThreatModelJobsAsync(
-        AwsSecurityagentBatchGetThreatModelJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about one or more tasks within a threat model job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -310,6 +325,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetThreatModelJobTasksAsync(
         AwsSecurityagentBatchGetThreatModelJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about one or more threat model jobs in an agent space. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetThreatModelJobsAsync(
+        AwsSecurityagentBatchGetThreatModelJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -812,21 +842,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of code review job summaries for the specified code review configuration. See also: AWS API Documentation list-code-review-jobs-for-code-review is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followi...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCodeReviewJobsForCodeReviewAsync(
-        AwsSecurityagentListCodeReviewJobsForCodeReviewOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a paginated list of task summaries for the specified code re- view job, optionally filtered by step name or category. See also: AWS API Documentation list-code-review-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -835,6 +850,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCodeReviewJobTasksAsync(
         AwsSecurityagentListCodeReviewJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of code review job summaries for the specified code review configuration. See also: AWS API Documentation list-code-review-jobs-for-code-review is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followi...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListCodeReviewJobsForCodeReviewAsync(
+        AwsSecurityagentListCodeReviewJobsForCodeReviewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -932,21 +962,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of pentest job summaries for the specified pentest configuration. See also: AWS API Documentation list-pentest-jobs-for-pentest is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPentestJobsForPentestAsync(
-        AwsSecurityagentListPentestJobsForPentestOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a paginated list of task summaries for the specified pentest job, optionally filtered by step name or category. See also: AWS API Documentation list-pentest-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -955,6 +970,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPentestJobTasksAsync(
         AwsSecurityagentListPentestJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of pentest job summaries for the specified pentest configuration. See also: AWS API Documentation list-pentest-jobs-for-pentest is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListPentestJobsForPentestAsync(
+        AwsSecurityagentListPentestJobsForPentestOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1052,21 +1082,6 @@ public class AwsSecurityagent : IAwsSecurityagent
     }
 
     /// <summary>
-    /// Returns a paginated list of threat model job summaries for the speci- fied threat model. See also: AWS API Documentation list-threat-model-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatMod...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListThreatModelJobsAsync(
-        AwsSecurityagentListThreatModelJobsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a paginated list of task summaries for the specified threat model job. See also: AWS API Documentation list-threat-model-job-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatMode...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1075,6 +1090,21 @@ public class AwsSecurityagent : IAwsSecurityagent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListThreatModelJobTasksAsync(
         AwsSecurityagentListThreatModelJobTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of threat model job summaries for the speci- fied threat model. See also: AWS API Documentation list-threat-model-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: threatMod...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListThreatModelJobsAsync(
+        AwsSecurityagentListThreatModelJobsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

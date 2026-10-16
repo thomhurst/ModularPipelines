@@ -302,21 +302,6 @@ public class AwsManagedblockchain : IAwsManagedblockchain
     }
 
     /// <summary>
-    /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProposalsAsync(
-        AwsManagedblockchainListProposalsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -325,6 +310,21 @@ public class AwsManagedblockchain : IAwsManagedblockchain
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProposalVotesAsync(
         AwsManagedblockchainListProposalVotesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProposalsAsync(
+        AwsManagedblockchainListProposalsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

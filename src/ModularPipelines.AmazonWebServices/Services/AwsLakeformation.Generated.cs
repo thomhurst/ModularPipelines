@@ -62,6 +62,21 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
+    /// Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are re- turned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachRlsPolicyAsync(
+        AwsLakeformationAttachRlsPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Batch operation to grant permissions to the principal. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -197,6 +212,21 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
+    /// Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is cre- ated independently of any resource, and is later associated with a re- source and principal using AttachRLSPolicy . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateRlsPolicyAsync(
+        AwsLakeformationCreateRlsPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Deletes a data cell filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -287,6 +317,21 @@ public class AwsLakeformation : IAwsLakeformation
     }
 
     /// <summary>
+    /// Deletes a row-level security policy. Any active attachments of the pol- icy are automatically removed as part of the deletion, so you do not need to detach the policy first. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteRlsPolicyAsync(
+        AwsLakeformationDeleteRlsPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -340,6 +385,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeTransactionAsync(
         AwsLakeformationDescribeTransactionOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer ap- plied to the principal's queries on that resource. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetachRlsPolicyAsync(
+        AwsLakeformationDetachRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -490,6 +550,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceLfTagsAsync(
         AwsLakeformationGetResourceLfTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the definition of a row-level security policy, including its attachment columns and filter expression. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRlsPolicyAsync(
+        AwsLakeformationGetRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -689,6 +764,36 @@ public class AwsLakeformation : IAwsLakeformation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the row-level security policies in the Data Catalog. See also: AWS API Documentation list-rls-policies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RLSPolicies
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRlsPoliciesAsync(
+        AwsLakeformationListRlsPoliciesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListRlsPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name. See also: AWS API Documentation list-rls-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRlsPolicyAttachmentsAsync(
+        AwsLakeformationListRlsPolicyAttachmentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLakeformationListRlsPolicyAttachmentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -910,6 +1015,21 @@ public class AwsLakeformation : IAwsLakeformation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateResourceAsync(
         AwsLakeformationUpdateResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateRlsPolicyAsync(
+        AwsLakeformationUpdateRlsPolicyOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

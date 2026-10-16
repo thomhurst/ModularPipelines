@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws backupgateway commands.
+/// aws backup-gateway commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateGatewayToServerAsync(AwsBackupGatewayAssociateGatewayToServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateGatewayToServerAsync(AwsBackupGatewayAssociateGatewayToServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGatewayAsync(AwsBackupGatewayCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGatewayAsync(AwsBackupGatewayCreateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a backup gateway. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteGatewayAsync(AwsBackupGatewayDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteGatewayAsync(AwsBackupGatewayDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a hypervisor. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHypervisorAsync(AwsBackupGatewayDeleteHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHypervisorAsync(AwsBackupGatewayDeleteHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateGatewayFromServerAsync(AwsBackupGatewayDisassociateGatewayFromServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateGatewayFromServerAsync(AwsBackupGatewayDisassociateGatewayFromServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gate- way's bandwidth rate limit schedule. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBandwidthRateLimitScheduleAsync(AwsBackupGatewayGetBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBandwidthRateLimitScheduleAsync(AwsBackupGatewayGetBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// By providing the ARN (Amazon Resource Name), this API returns the gate- way. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGatewayAsync(AwsBackupGatewayGetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGatewayAsync(AwsBackupGatewayGetGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates re- sources to them. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHypervisorAsync(AwsBackupGatewayGetHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHypervisorAsync(AwsBackupGatewayGetHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action retrieves the property mappings for the specified hypervi- sor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetHypervisorPropertyMappingsAsync(AwsBackupGatewayGetHypervisorPropertyMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetHypervisorPropertyMappingsAsync(AwsBackupGatewayGetHypervisorPropertyMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// By providing the ARN (Amazon Resource Name), this API returns the vir- tual machine. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetVirtualMachineAsync(AwsBackupGatewayGetVirtualMachineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetVirtualMachineAsync(AwsBackupGatewayGetVirtualMachineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Connect to a hypervisor by importing its configuration. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportHypervisorConfigurationAsync(AwsBackupGatewayImportHypervisorConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportHypervisorConfigurationAsync(AwsBackupGatewayImportHypervisorConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
@@ -138,8 +127,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGatewaysAsync(AwsBackupGatewayListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGatewaysAsync(AwsBackupGatewayListGatewaysOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists your hypervisors. See also: AWS API Documentation list-hypervisors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Hypervisors
@@ -148,8 +136,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHypervisorsAsync(AwsBackupGatewayListHypervisorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHypervisorsAsync(AwsBackupGatewayListHypervisorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags applied to the resource identified by its Amazon Re- source Name (ARN). See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBackupGatewayListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBackupGatewayListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists your virtual machines. See also: AWS API Documentation list-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: VirtualMachines
@@ -168,8 +154,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListVirtualMachinesAsync(AwsBackupGatewayListVirtualMachinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListVirtualMachinesAsync(AwsBackupGatewayListVirtualMachinesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit sched- ule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutBandwidthRateLimitScheduleAsync(AwsBackupGatewayPutBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutBandwidthRateLimitScheduleAsync(AwsBackupGatewayPutBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity proper- ties available from the hypervisor to the properties available in Ama- zon Web Services. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutHypervisorPropertyMappingsAsync(AwsBackupGatewayPutHypervisorPropertyMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutHypervisorPropertyMappingsAsync(AwsBackupGatewayPutHypervisorPropertyMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the maintenance start time for a gateway. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMaintenanceStartTimeAsync(AwsBackupGatewayPutMaintenanceStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMaintenanceStartTimeAsync(AwsBackupGatewayPutMaintenanceStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action sends a request to sync metadata across the specified vir- tual machines. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartVirtualMachinesMetadataSyncAsync(AwsBackupGatewayStartVirtualMachinesMetadataSyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartVirtualMachinesMetadataSyncAsync(AwsBackupGatewayStartVirtualMachinesMetadataSyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tag the resource. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBackupGatewayTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBackupGatewayTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestHypervisorConfigurationAsync(AwsBackupGatewayTestHypervisorConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestHypervisorConfigurationAsync(AwsBackupGatewayTestHypervisorConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the resource. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBackupGatewayUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBackupGatewayUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewayInformationAsync(AwsBackupGatewayUpdateGatewayInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewayInformationAsync(AwsBackupGatewayUpdateGatewayInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the gateway virtual machine (VM) software. The request immedi- ately triggers the software update. NOTE: When you make this request, you get a 200 OK success response imme- diately. However, it might take some time for the update to com- plete. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGatewaySoftwareNowAsync(AwsBackupGatewayUpdateGatewaySoftwareNowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGatewaySoftwareNowAsync(AwsBackupGatewayUpdateGatewaySoftwareNowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a hypervisor metadata, including its host, username, and pass- word. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request. See also: AWS API Documentation
@@ -268,7 +244,6 @@ public interface IAwsBackupGateway
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateHypervisorAsync(AwsBackupGatewayUpdateHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateHypervisorAsync(AwsBackupGatewayUpdateHypervisorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

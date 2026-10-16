@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsCodecommit
 {
     /// <summary>
-    /// aws credential-helper sub-commands.
+    /// aws codecommit credential-helper sub-commands.
     /// </summary>
-    AwsCodecommitCredentialHelper CredentialHelper => throw new System.NotSupportedException();
+    AwsCodecommitCredentialHelper CredentialHelper { get; }
 
     /// <summary>
     /// Creates an association between an approval rule template and a speci- fied repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the tem- plate, an approval rule that matches the template contents is created for all pu...
@@ -33,8 +33,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateApprovalRuleTemplateWithRepositoryAsync(AwsCodecommitAssociateApprovalRuleTemplateWithRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateApprovalRuleTemplateWithRepositoryAsync(AwsCodecommitAssociateApprovalRuleTemplateWithRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an association between an approval rule template and one or more specified repositories. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateApprovalRuleTemplateWithRepositoriesAsync(AwsCodecommitBatchAssociateApprovalRuleTemplateWithRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateApprovalRuleTemplateWithRepositoriesAsync(AwsCodecommitBatchAssociateApprovalRuleTemplateWithRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDescribeMergeConflictsAsync(AwsCodecommitBatchDescribeMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDescribeMergeConflictsAsync(AwsCodecommitBatchDescribeMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between an approval rule template and one or more specified repositories. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateApprovalRuleTemplateFromRepositoriesAsync(AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateApprovalRuleTemplateFromRepositoriesAsync(AwsCodecommitBatchDisassociateApprovalRuleTemplateFromRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the contents of one or more commits in a repository. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetCommitsAsync(AwsCodecommitBatchGetCommitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetCommitsAsync(AwsCodecommitBatchGetCommitsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about one or more repositories. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetRepositoriesAsync(AwsCodecommitBatchGetRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetRepositoriesAsync(AwsCodecommitBatchGetRepositoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see AssociateApprovalRuleTemplateWithRepository . See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApprovalRuleTemplateAsync(AwsCodecommitCreateApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApprovalRuleTemplateAsync(AwsCodecommitCreateApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a branch in a repository and points the branch to a commit. NOTE: Calling the create branch operation does not set a repository's de- fault branch. To do this, call the update default branch operation. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBranchAsync(AwsCodecommitCreateBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBranchAsync(AwsCodecommitCreateBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a commit for a repository on the tip of a specified branch. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCommitAsync(AwsCodecommitCreateCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCommitAsync(AwsCodecommitCreateCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an approval rule for a pull request. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePullRequestApprovalRuleAsync(AwsCodecommitCreatePullRequestApprovalRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePullRequestApprovalRuleAsync(AwsCodecommitCreatePullRequestApprovalRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a pull request in the specified repository. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePullRequestAsync(AwsCodecommitCreatePullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePullRequestAsync(AwsCodecommitCreatePullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new, empty repository. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRepositoryAsync(AwsCodecommitCreateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRepositoryAsync(AwsCodecommitCreateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you deter- mine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. NOTE: This unreferenced merge commit can only be accessed using the Get- Commit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference...
@@ -153,8 +141,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUnreferencedMergeCommitAsync(AwsCodecommitCreateUnreferencedMergeCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUnreferencedMergeCommitAsync(AwsCodecommitCreateUnreferencedMergeCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApprovalRuleTemplateAsync(AwsCodecommitDeleteApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApprovalRuleTemplateAsync(AwsCodecommitDeleteApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBranchAsync(AwsCodecommitDeleteBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBranchAsync(AwsCodecommitDeleteBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the content of a comment made on a change, file, or commit in a repository. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCommentContentAsync(AwsCodecommitDeleteCommentContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCommentContentAsync(AwsCodecommitDeleteCommentContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteFileAsync(AwsCodecommitDeleteFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteFileAsync(AwsCodecommitDeleteFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an ap- proval rule from a merged or closed pull request. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePullRequestApprovalRuleAsync(AwsCodecommitDeletePullRequestApprovalRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePullRequestApprovalRuleAsync(AwsCodecommitDeletePullRequestApprovalRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. WARNING: Deleting a repository also deletes all associated objects and meta- data. After a repository is deleted, all future push calls to the deleted repository fail. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRepositoryAsync(AwsCodecommitDeleteRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRepositoryAsync(AwsCodecommitDeleteRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMergeConflictsAsync(AwsCodecommitDescribeMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMergeConflictsAsync(AwsCodecommitDescribeMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about one or more pull request events. See also: AWS API Documentation describe-pull-request-events is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: pullRequestEvents
@@ -233,8 +213,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePullRequestEventsAsync(AwsCodecommitDescribePullRequestEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePullRequestEventsAsync(AwsCodecommitDescribePullRequestEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between a template and a repository so that ap- proval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateApprovalRuleTemplateFromRepositoryAsync(AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateApprovalRuleTemplateFromRepositoryAsync(AwsCodecommitDisassociateApprovalRuleTemplateFromRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EvaluatePullRequestApprovalRulesAsync(AwsCodecommitEvaluatePullRequestApprovalRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EvaluatePullRequestApprovalRulesAsync(AwsCodecommitEvaluatePullRequestApprovalRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specified approval rule template. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetApprovalRuleTemplateAsync(AwsCodecommitGetApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetApprovalRuleTemplateAsync(AwsCodecommitGetApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve addi- tional pages. For the typical usage workflow, see GetDifferences . See also: AWS API Documentation get-blob-differences is a paginated operation. Multiple API calls may be issued in o...
@@ -273,8 +249,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlobDifferencesAsync(AwsCodecommitGetBlobDifferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlobDifferencesAsync(AwsCodecommitGetBlobDifferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the base-64 encoded content of an individual blob in a reposi- tory. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlobAsync(AwsCodecommitGetBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlobAsync(AwsCodecommitGetBlobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a repository branch, including its name and the last commit ID. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBranchAsync(AwsCodecommitGetBranchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBranchAsync(AwsCodecommitGetBranchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the content of a comment made on a change, file, or commit in a repository. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommentAsync(AwsCodecommitGetCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommentAsync(AwsCodecommitGetCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about reactions to a specified comment ID. Reac- tions from users who have been deleted will not be included in the count. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommentReactionsAsync(AwsCodecommitGetCommentReactionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommentReactionsAsync(AwsCodecommitGetCommentReactionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about comments made on the comparison between two commits. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-compared-commit is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate...
@@ -323,8 +294,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommentsForComparedCommitAsync(AwsCodecommitGetCommentsForComparedCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommentsForComparedCommitAsync(AwsCodecommitGetCommentsForComparedCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns comments made on a pull request. NOTE: Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. See also: AWS API Documentation get-comments-for-pull-request is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
@@ -333,8 +303,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommentsForPullRequestAsync(AwsCodecommitGetCommentsForPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommentsForPullRequestAsync(AwsCodecommitGetCommentsForPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a commit, including commit message and com- mitter information. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCommitAsync(AwsCodecommitGetCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCommitAsync(AwsCodecommitGetCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified ref- erence). Results can be limited to a specified path. For line-level diff details, pass the beforeBlob.blobId and af- terBlob.blobId values from a Difference object to GetBlobDifferences . See also: AWS API Documentation get-differences is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can d...
@@ -353,8 +321,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDifferencesAsync(AwsCodecommitGetDifferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDifferencesAsync(AwsCodecommitGetDifferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the base-64 encoded contents of a specified file and its meta- data. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFileAsync(AwsCodecommitGetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFileAsync(AwsCodecommitGetFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the contents of a specified folder in a repository. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetFolderAsync(AwsCodecommitGetFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetFolderAsync(AwsCodecommitGetFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specified merge commit. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMergeCommitAsync(AwsCodecommitGetMergeCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMergeCommitAsync(AwsCodecommitGetMergeCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository. See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMergeConflictsAsync(AwsCodecommitGetMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMergeConflictsAsync(AwsCodecommitGetMergeConflictsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not avail- able, use GetMergeConflicts or DescribeMergeConflicts. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMergeOptionsAsync(AwsCodecommitGetMergeOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMergeOptionsAsync(AwsCodecommitGetMergeOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the approval states for a specified pull re- quest. Approval states only apply to pull requests that have one or more approval rules applied to them. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPullRequestApprovalStatesAsync(AwsCodecommitGetPullRequestApprovalStatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPullRequestApprovalStatesAsync(AwsCodecommitGetPullRequestApprovalStatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a pull request in a specified repository. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPullRequestAsync(AwsCodecommitGetPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPullRequestAsync(AwsCodecommitGetPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their re- quirements for the pull request. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPullRequestOverrideStateAsync(AwsCodecommitGetPullRequestOverrideStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPullRequestOverrideStateAsync(AwsCodecommitGetPullRequestOverrideStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositoryAsync(AwsCodecommitGetRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositoryAsync(AwsCodecommitGetRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about triggers configured for a repository. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositoryTriggersAsync(AwsCodecommitGetRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositoryTriggersAsync(AwsCodecommitGetRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApprovalRuleTemplatesAsync(AwsCodecommitListApprovalRuleTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApprovalRuleTemplatesAsync(AwsCodecommitListApprovalRuleTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all approval rule templates that are associated with a specified repository. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociatedApprovalRuleTemplatesForRepositoryAsync(AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociatedApprovalRuleTemplatesForRepositoryAsync(AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more branches in a repository. See also: AWS API Documentation list-branches is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: branches
@@ -483,8 +438,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBranchesAsync(AwsCodecommitListBranchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBranchesAsync(AwsCodecommitListBranchesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of commits and changes to a specified file. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFileCommitHistoryAsync(AwsCodecommitListFileCommitHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFileCommitHistoryAsync(AwsCodecommitListFileCommitHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN. See also: AWS API Documentation list-pull-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
@@ -503,8 +456,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPullRequestsAsync(AwsCodecommitListPullRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPullRequestsAsync(AwsCodecommitListPullRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all repositories associated with the specified approval rule tem- plate. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositoriesForApprovalRuleTemplateAsync(AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositoriesForApprovalRuleTemplateAsync(AwsCodecommitListRepositoriesForApprovalRuleTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about one or more repositories. See also: AWS API Documentation list-repositories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: repositories
@@ -523,8 +474,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositoriesAsync(AwsCodecommitListRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositoriesAsync(AwsCodecommitListRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the*CodeCommit User Guide* . See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCodecommitListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCodecommitListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Merges two branches using the fast-forward merge strategy. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergeBranchesByFastForwardAsync(AwsCodecommitMergeBranchesByFastForwardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergeBranchesByFastForwardAsync(AwsCodecommitMergeBranchesByFastForwardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Merges two branches using the squash merge strategy. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergeBranchesBySquashAsync(AwsCodecommitMergeBranchesBySquashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergeBranchesBySquashAsync(AwsCodecommitMergeBranchesBySquashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Merges two specified branches using the three-way merge strategy. See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergeBranchesByThreeWayAsync(AwsCodecommitMergeBranchesByThreeWayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergeBranchesByThreeWayAsync(AwsCodecommitMergeBranchesByThreeWayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergePullRequestByFastForwardAsync(AwsCodecommitMergePullRequestByFastForwardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergePullRequestByFastForwardAsync(AwsCodecommitMergePullRequestByFastForwardOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
@@ -583,8 +528,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergePullRequestBySquashAsync(AwsCodecommitMergePullRequestBySquashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergePullRequestBySquashAsync(AwsCodecommitMergePullRequestBySquashOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attempts to merge the source commit of a pull request into the speci- fied destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request. See also: AWS API Documentation
@@ -593,8 +537,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MergePullRequestByThreeWayAsync(AwsCodecommitMergePullRequestByThreeWayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MergePullRequestByThreeWayAsync(AwsCodecommitMergePullRequestByThreeWayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets aside (overrides) all approval rule requirements for a specified pull request. See also: AWS API Documentation
@@ -603,8 +546,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> OverridePullRequestApprovalRulesAsync(AwsCodecommitOverridePullRequestApprovalRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> OverridePullRequestApprovalRulesAsync(AwsCodecommitOverridePullRequestApprovalRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Posts a comment on the comparison between two commits. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PostCommentForComparedCommitAsync(AwsCodecommitPostCommentForComparedCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PostCommentForComparedCommitAsync(AwsCodecommitPostCommentForComparedCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Posts a comment on a pull request. See also: AWS API Documentation
@@ -623,8 +564,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PostCommentForPullRequestAsync(AwsCodecommitPostCommentForPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PostCommentForPullRequestAsync(AwsCodecommitPostCommentForPullRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request. See also: AWS API Documentation
@@ -633,8 +573,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PostCommentReplyAsync(AwsCodecommitPostCommentReplyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PostCommentReplyAsync(AwsCodecommitPostCommentReplyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a re- action for yourself. You cannot add, modify, or delete a reaction for another user. See also: AWS API Documentation
@@ -643,8 +582,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutCommentReactionAsync(AwsCodecommitPutCommentReactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutCommentReactionAsync(AwsCodecommitPutCommentReactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch. See also: AWS API Documentation
@@ -653,8 +591,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutFileAsync(AwsCodecommitPutFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutFileAsync(AwsCodecommitPutFileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces all triggers for a repository. Used to create or delete trig- gers. See also: AWS API Documentation
@@ -663,8 +600,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRepositoryTriggersAsync(AwsCodecommitPutRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRepositoryTriggersAsync(AwsCodecommitPutRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide . See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCodecommitTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCodecommitTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated. See also: AWS API Documentation
@@ -683,8 +618,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestRepositoryTriggersAsync(AwsCodecommitTestRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestRepositoryTriggersAsync(AwsCodecommitTestRepositoryTriggersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags for a resource in CodeCommit. For a list of valid re- sources in CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide . See also: AWS API Documentation
@@ -693,8 +627,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCodecommitUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCodecommitUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined. See also: AWS API Documentation
@@ -703,8 +636,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApprovalRuleTemplateContentAsync(AwsCodecommitUpdateApprovalRuleTemplateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApprovalRuleTemplateContentAsync(AwsCodecommitUpdateApprovalRuleTemplateContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the description for a specified approval rule template. See also: AWS API Documentation
@@ -713,8 +645,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApprovalRuleTemplateDescriptionAsync(AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApprovalRuleTemplateDescriptionAsync(AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name of a specified approval rule template. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApprovalRuleTemplateNameAsync(AwsCodecommitUpdateApprovalRuleTemplateNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApprovalRuleTemplateNameAsync(AwsCodecommitUpdateApprovalRuleTemplateNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the contents of a comment. See also: AWS API Documentation
@@ -733,8 +663,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCommentAsync(AwsCodecommitUpdateCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCommentAsync(AwsCodecommitUpdateCommentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets or changes the default branch name for the specified repository. NOTE: If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDefaultBranchAsync(AwsCodecommitUpdateDefaultBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDefaultBranchAsync(AwsCodecommitUpdateDefaultBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required ap- provers and the approval pool for approvers. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePullRequestApprovalRuleContentAsync(AwsCodecommitUpdatePullRequestApprovalRuleContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePullRequestApprovalRuleContentAsync(AwsCodecommitUpdatePullRequestApprovalRuleContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePullRequestApprovalStateAsync(AwsCodecommitUpdatePullRequestApprovalStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePullRequestApprovalStateAsync(AwsCodecommitUpdatePullRequestApprovalStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the contents of the description of a pull request. See also: AWS API Documentation
@@ -773,8 +699,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePullRequestDescriptionAsync(AwsCodecommitUpdatePullRequestDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePullRequestDescriptionAsync(AwsCodecommitUpdatePullRequestDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a pull request. See also: AWS API Documentation
@@ -783,8 +708,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePullRequestStatusAsync(AwsCodecommitUpdatePullRequestStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePullRequestStatusAsync(AwsCodecommitUpdatePullRequestStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Replaces the title of a pull request. See also: AWS API Documentation
@@ -793,8 +717,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePullRequestTitleAsync(AwsCodecommitUpdatePullRequestTitleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePullRequestTitleAsync(AwsCodecommitUpdatePullRequestTitleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets or changes the comment or description for a repository. NOTE: The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-en- code the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the de- scription field in any application that uses this API to display the repository description on a webpage. See also: AWS API Documentation
@@ -803,8 +726,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRepositoryDescriptionAsync(AwsCodecommitUpdateRepositoryDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRepositoryDescriptionAsync(AwsCodecommitUpdateRepositoryDescriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRepositoryEncryptionKeyAsync(AwsCodecommitUpdateRepositoryEncryptionKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRepositoryEncryptionKeyAsync(AwsCodecommitUpdateRepositoryEncryptionKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Quotas in the CodeCommit User Guide. See also: AWS API Documentation
@@ -823,7 +744,6 @@ public interface IAwsCodecommit
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRepositoryNameAsync(AwsCodecommitUpdateRepositoryNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRepositoryNameAsync(AwsCodecommitUpdateRepositoryNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

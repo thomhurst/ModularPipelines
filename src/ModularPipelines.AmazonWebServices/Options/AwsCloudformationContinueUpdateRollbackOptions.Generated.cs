@@ -81,6 +81,12 @@ public record AwsCloudformationContinueUpdateRollbackOptions : AwsOptions, IVali
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
+    /// <summary>
+    /// Specifies whether CloudFormation forces the rollback to continue by skipping resources currently in the UPDATE_FAILED state. Use this instead of listing each resource individually in ResourcesToSkip . Only resources that entered the UPDATE_FAILED state because a roll- back failed are skipped. If you don't specify a value, the default is false and CloudFormation doesn't skip any resources. ForceRollback and ResourcesToSkip are mutually exclusive. Speci- fying both in the same request returns a validation error. WARNING: We recommend that you troubleshoot resources before skipping them. CloudFormation sets the status of the skipped resources to UPDATE_COMPLETE and continues to roll back the stack, including resources in nested stacks. After the rollback completes, the skipped resources no longer match the resources in the stack template. Before performing another stack update, you must up- date the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable. Drift detection reports skipped resources as NOT_CHECKED . For guidance, see Continue rolling back an update in the CloudForma- tion User Guide .
+    /// </summary>
+    [CliFlag("--force-rollback", NegatedName = "--no-force-rollback")]
+    public bool? ForceRollback { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

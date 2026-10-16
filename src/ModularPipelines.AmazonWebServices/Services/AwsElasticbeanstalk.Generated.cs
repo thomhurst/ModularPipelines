@@ -33,7 +33,7 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elasticbeanstalk wait sub-commands.
     /// </summary>
     public AwsElasticbeanstalkWait Wait => _wait ??= new AwsElasticbeanstalkWait(_command);
 
@@ -297,21 +297,6 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
     }
 
     /// <summary>
-    /// Returns the descriptions of existing applications. This action only returns information about applications that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applica- tions. When the user calls the DescribeApplications action, the re- sponse will only include the two applications that the user has permis- sion to access instead of all three applications. If the user doesnt have access to any of the appl...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeApplicationsAsync(
-        AwsElasticbeanstalkDescribeApplicationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesnt have access to any of the resources an empty result is returned. NOTE: The AW...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -324,6 +309,21 @@ public class AwsElasticbeanstalk : IAwsElasticbeanstalk
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticbeanstalkDescribeApplicationVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the descriptions of existing applications. This action only returns information about applications that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applica- tions. When the user calls the DescribeApplications action, the re- sponse will only include the two applications that the user has permis- sion to access instead of all three applications. If the user doesnt have access to any of the appl...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeApplicationsAsync(
+        AwsElasticbeanstalkDescribeApplicationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

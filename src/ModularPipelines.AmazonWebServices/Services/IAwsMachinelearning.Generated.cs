@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsMachinelearning
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws machinelearning wait sub-commands.
     /// </summary>
-    AwsMachinelearningWait Wait => throw new System.NotSupportedException();
+    AwsMachinelearningWait Wait { get; }
 
     /// <summary>
     /// Adds one or more tags to an object, up to a limit of 10. Each tag con- sists of a key and an optional value. If you add a tag using a key that is already associated with the ML object, AddTags updates the tag's value. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddTagsAsync(AwsMachinelearningAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddTagsAsync(AwsMachinelearningAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates predictions for a group of observations. The observations to process exist in one or more data files referenced by a DataSource . This operation creates a new BatchPrediction , and uses an MLModel and the data files referenced by the DataSource as information sources. CreateBatchPrediction is an asynchronous operation. In response to CreateBatchPrediction , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the BatchPrediction status to PENDING . After the BatchPredicti...
@@ -43,8 +42,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBatchPredictionAsync(AwsMachinelearningCreateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBatchPredictionAsync(AwsMachinelearningCreateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a DataSource object from an Amazon Relational Database Service (Amazon RDS). A DataSource references data that can be used to perform CreateMLModel , CreateEvaluation , or CreateBatchPrediction operations. CreateDataSourceFromRDS is an asynchronous operation. In response to CreateDataSourceFromRDS , Amazon Machine Learning (Amazon ML) imme- diately returns and sets the DataSource status to PENDING . After the DataSource is created and ready for use, Amazon ML sets the Sta- tus parameter ...
@@ -53,8 +51,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSourceFromRdsAsync(AwsMachinelearningCreateDataSourceFromRdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSourceFromRdsAsync(AwsMachinelearningCreateDataSourceFromRdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a DataSource from a database hosted on an Amazon Redshift clus- ter. A DataSource references data that can be used to perform either CreateMLModel , CreateEvaluation , or CreateBatchPrediction operations. CreateDataSourceFromRedshift is an asynchronous operation. In re- sponse to CreateDataSourceFromRedshift , Amazon Machine Learning (Amazon ML) immediately returns and sets the DataSource status to PENDING . After the DataSource is created and ready for use, Amazon ML sets the Status par...
@@ -63,8 +60,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSourceFromRedshiftAsync(AwsMachinelearningCreateDataSourceFromRedshiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSourceFromRedshiftAsync(AwsMachinelearningCreateDataSourceFromRedshiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a DataSource object. A DataSource references data that can be used to perform CreateMLModel , CreateEvaluation , or CreateBatchPre- diction operations. CreateDataSourceFromS3 is an asynchronous operation. In response to CreateDataSourceFromS3 , Amazon Machine Learning (Amazon ML) immedi- ately returns and sets the DataSource status to PENDING . After the DataSource has been created and is ready for use, Amazon ML sets the Status parameter to COMPLETED . DataSource in the COMPLETED or PEN...
@@ -73,8 +69,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataSourceFromS3Async(AwsMachinelearningCreateDataSourceFromS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataSourceFromS3Async(AwsMachinelearningCreateDataSourceFromS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Evaluation of an MLModel . An MLModel is evaluated on a set of observations associated to a DataSource . Like a DataSource for an MLModel , the DataSource for an Evaluation contains values for the Target Variable . The Evaluation compares the predicted result for each observation to the actual outcome and provides a summary so that you know how effective the MLModel functions on the test data. Evaluation generates a relevant performance metric, such as BinaryAUC, Regression- RMSE o...
@@ -83,8 +78,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEvaluationAsync(AwsMachinelearningCreateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEvaluationAsync(AwsMachinelearningCreateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new MLModel using the DataSource and the recipe as informa- tion sources. An MLModel is nearly immutable. Users can update only the MLModelName and the ScoreThreshold in an MLModel without creating a new MLModel . CreateMLModel is an asynchronous operation. In response to Cre- ateMLModel , Amazon Machine Learning (Amazon ML) immediately returns and sets the MLModel status to PENDING . After the MLModel has been created and ready is for use, Amazon ML sets the status to COMPLETED . You ...
@@ -93,8 +87,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMlModelAsync(AwsMachinelearningCreateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMlModelAsync(AwsMachinelearningCreateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a real-time endpoint for the MLModel . The endpoint contains the URI of the MLModel ; that is, the location to send real-time pre- diction requests for the specified MLModel . See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRealtimeEndpointAsync(AwsMachinelearningCreateRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRealtimeEndpointAsync(AwsMachinelearningCreateRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the DELETED status to a BatchPrediction , rendering it unus- able. After using the DeleteBatchPrediction operation, you can use the Get- BatchPrediction operation to verify that the status of the BatchPredic- tion changed to DELETED. Caution: The result of the DeleteBatchPrediction operation is irre- versible. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBatchPredictionAsync(AwsMachinelearningDeleteBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBatchPredictionAsync(AwsMachinelearningDeleteBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the DELETED status to a DataSource , rendering it unusable. After using the DeleteDataSource operation, you can use the GetData- Source operation to verify that the status of the DataSource changed to DELETED. Caution: The results of the DeleteDataSource operation are irre- versible. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataSourceAsync(AwsMachinelearningDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataSourceAsync(AwsMachinelearningDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the DELETED status to an Evaluation , rendering it unusable. After invoking the DeleteEvaluation operation, you can use the GetEval- uation operation to verify that the status of the Evaluation changed to DELETED . Caution: The results of the DeleteEvaluation operation are irre- versible. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEvaluationAsync(AwsMachinelearningDeleteEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEvaluationAsync(AwsMachinelearningDeleteEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns the DELETED status to an MLModel , rendering it unusable. After using the DeleteMLModel operation, you can use the GetMLModel op- eration to verify that the status of the MLModel changed to DELETED. Caution: The result of the DeleteMLModel operation is irreversible. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMlModelAsync(AwsMachinelearningDeleteMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMlModelAsync(AwsMachinelearningDeleteMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a real time endpoint of an MLModel . See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRealtimeEndpointAsync(AwsMachinelearningDeleteRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRealtimeEndpointAsync(AwsMachinelearningDeleteRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified tags associated with an ML object. After this op- eration is complete, you can't recover deleted tags. If you specify a tag that doesn't exist, Amazon ML ignores it. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsAsync(AwsMachinelearningDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagsAsync(AwsMachinelearningDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of BatchPrediction operations that match the search cri- teria in the request. See also: AWS API Documentation describe-batch-predictions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions...
@@ -173,8 +159,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeBatchPredictionsAsync(AwsMachinelearningDescribeBatchPredictionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeBatchPredictionsAsync(AwsMachinelearningDescribeBatchPredictionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of DataSource that match the search criteria in the re- quest. See also: AWS API Documentation describe-data-sources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Results
@@ -183,8 +168,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSourcesAsync(AwsMachinelearningDescribeDataSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSourcesAsync(AwsMachinelearningDescribeDataSourcesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of DescribeEvaluations that match the search criteria in the request. See also: AWS API Documentation describe-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Results
@@ -193,8 +177,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEvaluationsAsync(AwsMachinelearningDescribeEvaluationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEvaluationsAsync(AwsMachinelearningDescribeEvaluationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of MLModel that match the search criteria in the re- quest. See also: AWS API Documentation describe-ml-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Results
@@ -203,8 +186,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeMlModelsAsync(AwsMachinelearningDescribeMlModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeMlModelsAsync(AwsMachinelearningDescribeMlModelsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more of the tags for your Amazon ML object. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTagsAsync(AwsMachinelearningDescribeTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTagsAsync(AwsMachinelearningDescribeTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a BatchPrediction that includes detailed metadata, status, and data file information for a Batch Prediction request. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBatchPredictionAsync(AwsMachinelearningGetBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBatchPredictionAsync(AwsMachinelearningGetBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource . GetDataSource provides results in normal or verbose format. The ver- bose format adds the schema description and the list of files pointed to by the DataSource to the normal format. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataSourceAsync(AwsMachinelearningGetDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataSourceAsync(AwsMachinelearningGetDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an Evaluation that includes metadata as well as the current status of the Evaluation . See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEvaluationAsync(AwsMachinelearningGetEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEvaluationAsync(AwsMachinelearningGetEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an MLModel that includes detailed metadata, data source infor- mation, and the current status of the MLModel . GetMLModel provides results in normal or verbose format. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMlModelAsync(AwsMachinelearningGetMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMlModelAsync(AwsMachinelearningGetMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a prediction for the observation using the specified ML Model . Note: Not all response parameters will be populated. Whether a re- sponse parameter is populated depends on the type of model re- quested. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PredictAsync(AwsMachinelearningPredictOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PredictAsync(AwsMachinelearningPredictOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the BatchPredictionName of a BatchPrediction . You can use the GetBatchPrediction operation to view the contents of the updated data element. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBatchPredictionAsync(AwsMachinelearningUpdateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBatchPredictionAsync(AwsMachinelearningUpdateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the up- dated data element. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataSourceAsync(AwsMachinelearningUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataSourceAsync(AwsMachinelearningUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the EvaluationName of an Evaluation . You can use the GetEvaluation operation to view the contents of the up- dated data element. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEvaluationAsync(AwsMachinelearningUpdateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEvaluationAsync(AwsMachinelearningUpdateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the MLModelName and the ScoreThreshold of an MLModel . You can use the GetMLModel operation to view the contents of the up- dated data element. See also: AWS API Documentation
@@ -303,7 +276,6 @@ public interface IAwsMachinelearning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateMlModelAsync(AwsMachinelearningUpdateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateMlModelAsync(AwsMachinelearningUpdateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

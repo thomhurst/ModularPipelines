@@ -33,7 +33,7 @@ public class AwsTranscribe : IAwsTranscribe
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws transcribe wait sub-commands.
     /// </summary>
     public AwsTranscribeWait Wait => _wait ??= new AwsTranscribeWait(_command);
 

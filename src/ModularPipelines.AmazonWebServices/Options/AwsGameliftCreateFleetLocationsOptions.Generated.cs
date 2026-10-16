@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 fleet and begins populating the new lo- cations with instances. The new instances conform to the fleet's in- stance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsGameliftCreateFleetLocationsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 fleet and begins populating the new lo- cations with instances. The new instances conform to the fleet's in- stance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locatio...
     /// </summary>
     /// <param name="FleetId">A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
     /// <param name="Locations">A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]</param>

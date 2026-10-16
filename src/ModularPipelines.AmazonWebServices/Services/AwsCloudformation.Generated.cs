@@ -33,7 +33,7 @@ public class AwsCloudformation : IAwsCloudformation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudformation wait sub-commands.
     /// </summary>
     public AwsCloudformationWait Wait => _wait ??= new AwsCloudformationWait(_command);
 
@@ -1107,21 +1107,6 @@ public class AwsCloudformation : IAwsCloudformation
     }
 
     /// <summary>
-    /// Returns summary information about all extensions, including your pri- vate resource types, modules, and Hooks as well as all public exten- sions from Amazon Web Services and third-party publishers. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, th...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTypesAsync(
-        AwsCloudformationListTypesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudformationListTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns summary information about the versions of an extension. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1134,6 +1119,21 @@ public class AwsCloudformation : IAwsCloudformation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudformationListTypeVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns summary information about all extensions, including your pri- vate resource types, modules, and Hooks as well as all public exten- sions from Amazon Web Services and third-party publishers. See also: AWS API Documentation list-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, th...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTypesAsync(
+        AwsCloudformationListTypesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudformationListTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

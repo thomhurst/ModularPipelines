@@ -28,7 +28,7 @@ public record AwsCloudtrailSearchSampleQueriesOptions : AwsOptions, IValidatable
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SearchPhrase">The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~\n]*$</param>
+    /// <param name="SearchPhrase">The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~/n]*$</param>
     public AwsCloudtrailSearchSampleQueriesOptions(
         string SearchPhrase
     )
@@ -57,7 +57,7 @@ public record AwsCloudtrailSearchSampleQueriesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~\n]*$
+    /// The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words. Constraints: o min: 2 o max: 1000 o pattern: ^[ -~/n]*$
     /// </summary>
     [CliOption("--search-phrase")]
     public string? SearchPhrase { get; private init; }

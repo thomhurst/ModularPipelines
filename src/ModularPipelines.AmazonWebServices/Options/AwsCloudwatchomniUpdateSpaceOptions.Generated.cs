@@ -68,6 +68,12 @@ public record AwsCloudwatchomniUpdateSpaceOptions : AwsOptions, IValidatableObje
     public string? Name { get; set; }
 
     /// <summary>
+    /// The ARN of the IAM role used by AgentCore online evaluation. Must be in the caller's account. Omit if the space does not use AgentCore online evaluation. Constraints: o min: 1 o max: 2048 o pattern: arn:.+
+    /// </summary>
+    [CliOption("--agent-core-evaluation-role-arn")]
+    public string? AgentCoreEvaluationRoleArn { get; set; }
+
+    /// <summary>
     /// How to encrypt the space's data at rest. Omit to leave encryption unchanged. Pass encryptionStrategy AWS_OWNED to stop using a cus- tomer managed key and revert to service owned encryption. encryptionStrategy -&gt; (string) [required] Which kind of key to use. Required. Possible values: o AWS_OWNED o CUSTOMER_MANAGED kmsKeyArn -&gt; (string) Customer managed KMS key ARN. Required when encryptionStrategy is CUSTOMER_MANAGED, and must be omitted when it is AWS_OWNED. Must be a symmetric ENCRYPT_DECRYPT key in the caller's account and region. Constraints: o pattern: arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+ Shorthand Syntax: encryptionStrategy=string,kmsKeyArn=string JSON Syntax: { "encryptionStrategy": "AWS_OWNED"|"CUSTOMER_MANAGED", "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]

@@ -33,7 +33,7 @@ public class AwsCodecommit : IAwsCodecommit
     #region Sub-command Groups
 
     /// <summary>
-    /// aws credential-helper sub-commands.
+    /// aws codecommit credential-helper sub-commands.
     /// </summary>
     public AwsCodecommitCredentialHelper CredentialHelper => _credentialHelper ??= new AwsCodecommitCredentialHelper(_command);
 

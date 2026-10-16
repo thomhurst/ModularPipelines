@@ -887,21 +887,6 @@ public class AwsWellarchitected : IAwsWellarchitected
     }
 
     /// <summary>
-    /// List the available lenses. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListLensesAsync(
-        AwsWellarchitectedListLensesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWellarchitectedListLensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List the improvements of a particular lens review. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -944,6 +929,21 @@ public class AwsWellarchitected : IAwsWellarchitected
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List the available lenses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListLensesAsync(
+        AwsWellarchitectedListLensesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWellarchitectedListLensesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

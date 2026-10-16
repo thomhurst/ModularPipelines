@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws agentregistrycontrol commands.
+/// aws agent-registry-control commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAgentRegistryControl : IAwsAgentRegistryControl
@@ -33,7 +33,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws agent-registry-control wait sub-commands.
     /// </summary>
     public AwsAgentRegistryControlWait Wait => _wait ??= new AwsAgentRegistryControlWait(_command);
 

@@ -497,21 +497,6 @@ public class AwsWickr : IAwsWickr
     }
 
     /// <summary>
-    /// Retrieves a paginated list of security groups in a specified Wickr net- work. You can sort the results by various criteria. See also: AWS API Documentation list-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSecurityGroupsAsync(
-        AwsWickrListSecurityGroupsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a paginated list of users who belong to a specific security group in a Wickr network. See also: AWS API Documentation list-security-group-users is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -520,6 +505,21 @@ public class AwsWickr : IAwsWickr
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSecurityGroupUsersAsync(
         AwsWickrListSecurityGroupUsersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a paginated list of security groups in a specified Wickr net- work. You can sort the results by various criteria. See also: AWS API Documentation list-security-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSecurityGroupsAsync(
+        AwsWickrListSecurityGroupsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

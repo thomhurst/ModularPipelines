@@ -28,8 +28,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationCloudWatchLoggingOptionAsync(AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationCloudWatchLoggingOptionAsync(AwsKinesisanalyticsv2AddApplicationCloudWatchLoggingOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a streaming source to your SQL-based Kinesis Data Analytics appli- cation. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication . Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. See al...
@@ -38,8 +37,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationInputAsync(AwsKinesisanalyticsv2AddApplicationInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationInputAsync(AwsKinesisanalyticsv2AddApplicationInputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Ana- lytics application. An input processor pre-processes records on the in- put stream before the application's SQL code executes. Currently, the only input processor available is Amazon Lambda . See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationInputProcessingConfigurationAsync(AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationInputProcessingConfigurationAsync(AwsKinesisanalyticsv2AddApplicationInputProcessingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-applica- tion stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your ap- plication using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-ap...
@@ -58,8 +55,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationOutputAsync(AwsKinesisanalyticsv2AddApplicationOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationOutputAsync(AwsKinesisanalyticsv2AddApplicationOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a reference data source to an existing SQL-based Kinesis Data Ana- lytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 ob- ject) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table. See also:...
@@ -68,8 +64,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationReferenceDataSourceAsync(AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationReferenceDataSourceAsync(AwsKinesisanalyticsv2AddApplicationReferenceDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications: o VPC configurations are not supported for SQL applications. o When a VPC is added to a Managed Service for Apache Flink applica- tion, the application can no longer be accessed from the Internet di- rectly. To enable Internet access to the application, add an Internet ...
@@ -78,8 +73,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddApplicationVpcConfigurationAsync(AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddApplicationVpcConfigurationAsync(AwsKinesisanalyticsv2AddApplicationVpcConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Managed Service for Apache Flink application. For information about creating a Managed Service for Apache Flink application, see Creating an Application . See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationAsync(AwsKinesisanalyticsv2CreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationAsync(AwsKinesisanalyticsv2CreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates and returns a URL that you can use to connect to an applica- tion's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds p...
@@ -98,8 +91,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationPresignedUrlAsync(AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationPresignedUrlAsync(AwsKinesisanalyticsv2CreateApplicationPresignedUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot of the application's state data. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateApplicationSnapshotAsync(AwsKinesisanalyticsv2CreateApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateApplicationSnapshotAsync(AwsKinesisanalyticsv2CreateApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationCloudWatchLoggingOptionAsync(AwsKinesisanalyticsv2DeleteApplicationCloudWatchLoggingOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationCloudWatchLoggingOptionAsync(AwsKinesisanalyticsv2DeleteApplicationCloudWatchLoggingOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an InputProcessingConfiguration from an input. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationInputProcessingConfigurationAsync(AwsKinesisanalyticsv2DeleteApplicationInputProcessingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationInputProcessingConfigurationAsync(AwsKinesisanalyticsv2DeleteApplicationInputProcessingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationAsync(AwsKinesisanalyticsv2DeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationAsync(AwsKinesisanalyticsv2DeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the output destination configuration from your SQL-based Kine- sis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationOutputAsync(AwsKinesisanalyticsv2DeleteApplicationOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationOutputAsync(AwsKinesisanalyticsv2DeleteApplicationOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately re- moves the in-application table that you created using the AddApplica- tionReferenceDataSource operation. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationReferenceDataSourceAsync(AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationReferenceDataSourceAsync(AwsKinesisanalyticsv2DeleteApplicationReferenceDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a snapshot of application state. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationSnapshotAsync(AwsKinesisanalyticsv2DeleteApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationSnapshotAsync(AwsKinesisanalyticsv2DeleteApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a VPC configuration from a Managed Service for Apache Flink ap- plication. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteApplicationVpcConfigurationAsync(AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteApplicationVpcConfigurationAsync(AwsKinesisanalyticsv2DeleteApplicationVpcConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the ListApplicationOperations operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationOperationAsync(AwsKinesisanalyticsv2DescribeApplicationOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationOperationAsync(AwsKinesisanalyticsv2DescribeApplicationOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the ListApplications operation. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationAsync(AwsKinesisanalyticsv2DescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationAsync(AwsKinesisanalyticsv2DescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a snapshot of application state data. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationSnapshotAsync(AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationSnapshotAsync(AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides a detailed description of a specified version of the applica- tion. To see a list of all the versions of an application, invoke the ListApplicationVersions operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeApplicationVersionAsync(AwsKinesisanalyticsv2DescribeApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeApplicationVersionAsync(AwsKinesisanalyticsv2DescribeApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 ob- ject. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytic...
@@ -228,8 +208,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DiscoverInputSchemaAsync(AwsKinesisanalyticsv2DiscoverInputSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DiscoverInputSchemaAsync(AwsKinesisanalyticsv2DiscoverInputSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the DescribeApplicationOperation operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation list-application-operations is a paginated operation. Multiple API calls may be issued in order to retrieve the en...
@@ -238,8 +217,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationOperationsAsync(AwsKinesisanalyticsv2ListApplicationOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationOperationsAsync(AwsKinesisanalyticsv2ListApplicationOperationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists information about the current application snapshots. See also: AWS API Documentation list-application-snapshots is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: SnapshotSummaries
@@ -248,18 +226,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationSnapshotsAsync(AwsKinesisanalyticsv2ListApplicationSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use De- scribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationsAsync(AwsKinesisanalyticsv2ListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationSnapshotsAsync(AwsKinesisanalyticsv2ListApplicationSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the versions for the specified application, including ver- sions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, in- voke the DescribeApplicationVersion operation. NOTE: This operation is supported only for Managed Service for Apache Flink. See also: AWS API Documentation list-application-versions is a paginated operation. Multiple API calls may be issued in...
@@ -268,8 +235,16 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListApplicationVersionsAsync(AwsKinesisanalyticsv2ListApplicationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListApplicationVersionsAsync(AwsKinesisanalyticsv2ListApplicationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use De- scribeApplication . See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListApplicationsAsync(AwsKinesisanalyticsv2ListApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging . See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsKinesisanalyticsv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsKinesisanalyticsv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status. You can roll back an application only if it is in the UPDATING , AU- TOSCALING , or RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Ser- vice for Apache Flink rejects the rollback request. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackApplicationAsync(AwsKinesisanalyticsv2RollbackApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackApplicationAsync(AwsKinesisanalyticsv2RollbackApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified Managed Service for Apache Flink application. Af- ter creating an application, you must exclusively call this operation to start your application. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartApplicationAsync(AwsKinesisanalyticsv2StartApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartApplicationAsync(AwsKinesisanalyticsv2StartApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true . You can use the DescribeApplication operation to find the application status. Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set to true . See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopApplicationAsync(AwsKinesisanalyticsv2StopApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopApplicationAsync(AwsKinesisanalyticsv2StopApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging . See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsKinesisanalyticsv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsKinesisanalyticsv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more tags from a Managed Service for Apache Flink appli- cation. For more information, see Using Tagging . See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsKinesisanalyticsv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsKinesisanalyticsv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING . If you invoke it when the ap- plication is in a state other than these two states, it throws a Re- sourceInUseException . The service makes use of the updated configura- tion the next time it schedules maintenance for the application. If you invoke this operation after the service schedules mainte...
@@ -338,8 +307,7 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationMaintenanceConfigurationAsync(AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationMaintenanceConfigurationAsync(AwsKinesisanalyticsv2UpdateApplicationMaintenanceConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration. Managed Service for Apache Flink updates the ApplicationVersionId each time you update your application. See also: AWS API Documentation
@@ -348,7 +316,6 @@ public interface IAwsKinesisanalyticsv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateApplicationAsync(AwsKinesisanalyticsv2UpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateApplicationAsync(AwsKinesisanalyticsv2UpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -197,21 +197,6 @@ public class AwsInvoicing : IAwsInvoicing
     }
 
     /// <summary>
-    /// Returns the Amazon Web Services-supported procurement portals for e-in- voice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which de- fine the supported document and attachment types. For faster, more re- liable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListProcurementPortalsAsync(
-        AwsInvoicingListProcurementPortalsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInvoicingListProcurementPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination. See also: AWS API Documentation list-procurement-portal-suppliers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respons...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -224,6 +209,21 @@ public class AwsInvoicing : IAwsInvoicing
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns the Amazon Web Services-supported procurement portals for e-in- voice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which de- fine the supported document and attachment types. For faster, more re- liable responses, use pagination. See also: AWS API Documentation list-procurement-portals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disabl...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListProcurementPortalsAsync(
+        AwsInvoicingListProcurementPortalsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsInvoicingListProcurementPortalsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

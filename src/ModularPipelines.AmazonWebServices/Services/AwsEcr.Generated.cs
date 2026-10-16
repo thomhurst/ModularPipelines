@@ -33,7 +33,7 @@ public class AwsEcr : IAwsEcr
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ecr wait sub-commands.
     /// </summary>
     public AwsEcrWait Wait => _wait ??= new AwsEcrWait(_command);
 

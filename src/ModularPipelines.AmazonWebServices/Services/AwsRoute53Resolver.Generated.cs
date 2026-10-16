@@ -722,21 +722,6 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
     }
 
     /// <summary>
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListFirewallRulesAsync(
-        AwsRoute53resolverListFirewallRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves the rule-type variants that can be used in the FirewallRule- Type field of CreateFirewallRule and UpdateFirewallRule . Each re- turned FirewallRuleTypeDefinition identifies one variant + value com- bination for example, FirewallAdvancedContentCategory + VIO- LENCE_AND_HATE_SPEECH , or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCate- gory , FirewallAdvancedThreatCategory , DnsThreatProtection , and Part- nerThreatPro...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -749,6 +734,21 @@ public class AwsRoute53Resolver : IAwsRoute53Resolver
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsRoute53resolverListFirewallRuleTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For infor- mation, see MaxResults . For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus ) and, on failure, StatusMessage with the reason. See also: AWS API Documentation list-firewall-rules is a paginated operatio...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListFirewallRulesAsync(
+        AwsRoute53resolverListFirewallRulesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

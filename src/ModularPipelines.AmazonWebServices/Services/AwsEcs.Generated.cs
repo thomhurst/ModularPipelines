@@ -33,7 +33,7 @@ public class AwsEcs : IAwsEcs
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ecs wait sub-commands.
     /// </summary>
     public AwsEcsWait Wait => _wait ??= new AwsEcsWait(_command);
 
@@ -672,21 +672,6 @@ public class AwsEcs : IAwsEcs
     }
 
     /// <summary>
-    /// Returns a list of daemons. You can filter the results by cluster or ca- pacity provider. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDaemonsAsync(
-        AwsEcsListDaemonsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEcsListDaemonsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of daemon task definitions that are registered to your account. You can filter the results by family name, status, or both to find daemon task definitions that match your criteria. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -699,6 +684,21 @@ public class AwsEcs : IAwsEcs
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEcsListDaemonTaskDefinitionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of daemons. You can filter the results by cluster or ca- pacity provider. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDaemonsAsync(
+        AwsEcsListDaemonsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsEcsListDaemonsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

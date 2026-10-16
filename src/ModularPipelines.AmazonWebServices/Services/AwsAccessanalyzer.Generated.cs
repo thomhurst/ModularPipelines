@@ -317,21 +317,6 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     }
 
     /// <summary>
-    /// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetFindingsStatisticsAsync(
-        AwsAccessanalyzerGetFindingsStatisticsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the ac- cess-analyzer:GetFinding action. See also: AWS API Documentation get-finding-v2 is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -340,6 +325,21 @@ public class AwsAccessanalyzer : IAwsAccessanalyzer
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFindingV2Async(
         AwsAccessanalyzerGetFindingV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of aggregated finding statistics for an external ac- cess or unused access analyzer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingsStatisticsAsync(
+        AwsAccessanalyzerGetFindingsStatisticsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

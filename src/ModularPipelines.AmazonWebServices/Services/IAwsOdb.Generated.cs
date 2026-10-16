@@ -28,8 +28,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptMarketplaceRegistrationAsync(AwsOdbAcceptMarketplaceRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptMarketplaceRegistrationAsync(AwsOdbAcceptMarketplaceRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateIamRoleToResourceAsync(AwsOdbAssociateIamRoleToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateIamRoleToResourceAsync(AwsOdbAssociateIamRoleToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds virtual machines to the specified Exascale VM cluster. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateVirtualMachinesToExadbVmClusterAsync(AwsOdbAssociateVirtualMachinesToExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateVirtualMachinesToExadbVmClusterAsync(AwsOdbAssociateVirtualMachinesToExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new backup of the specified Autonomous Database. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutonomousDatabaseBackupAsync(AwsOdbCreateAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutonomousDatabaseBackupAsync(AwsOdbCreateAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Autonomous Database. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutonomousDatabaseAsync(AwsOdbCreateAutonomousDatabaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutonomousDatabaseAsync(AwsOdbCreateAutonomousDatabaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new wallet for the specified Autonomous Database. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAutonomousDatabaseWalletAsync(AwsOdbCreateAutonomousDatabaseWalletOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAutonomousDatabaseWalletAsync(AwsOdbCreateAutonomousDatabaseWalletOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Autonomous VM cluster in the specified Exadata infra- structure. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCloudAutonomousVmClusterAsync(AwsOdbCreateCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCloudAutonomousVmClusterAsync(AwsOdbCreateCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Exadata infrastructure. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCloudExadataInfrastructureAsync(AwsOdbCreateCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCloudExadataInfrastructureAsync(AwsOdbCreateCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a VM cluster on the specified Exadata infrastructure. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCloudVmClusterAsync(AwsOdbCreateCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCloudVmClusterAsync(AwsOdbCreateCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Exascale VM cluster. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExadbVmClusterAsync(AwsOdbCreateExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExadbVmClusterAsync(AwsOdbCreateExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Exascale storage vault. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExascaleDbStorageVaultAsync(AwsOdbCreateExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExascaleDbStorageVaultAsync(AwsOdbCreateExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an ODB network. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOdbNetworkAsync(AwsOdbCreateOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOdbNetworkAsync(AwsOdbCreateOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a peering connection between an ODB network and a VPC. A peering connection enables private connectivity between the networks for application-tier communication. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOdbPeeringConnectionAsync(AwsOdbCreateOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOdbPeeringConnectionAsync(AwsOdbCreateOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Autonomous Database backup. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutonomousDatabaseBackupAsync(AwsOdbDeleteAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutonomousDatabaseBackupAsync(AwsOdbDeleteAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Autonomous Database. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAutonomousDatabaseAsync(AwsOdbDeleteAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAutonomousDatabaseAsync(AwsOdbDeleteAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Autonomous VM cluster. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCloudAutonomousVmClusterAsync(AwsOdbDeleteCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCloudAutonomousVmClusterAsync(AwsOdbDeleteCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Exadata infrastructure. Before you use this oper- ation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCloudExadataInfrastructureAsync(AwsOdbDeleteCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCloudExadataInfrastructureAsync(AwsOdbDeleteCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified VM cluster. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCloudVmClusterAsync(AwsOdbDeleteCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCloudVmClusterAsync(AwsOdbDeleteCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Exascale VM cluster. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExadbVmClusterAsync(AwsOdbDeleteExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExadbVmClusterAsync(AwsOdbDeleteExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Exascale storage vault. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteExascaleDbStorageVaultAsync(AwsOdbDeleteExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteExascaleDbStorageVaultAsync(AwsOdbDeleteExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified ODB network. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOdbNetworkAsync(AwsOdbDeleteOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOdbNetworkAsync(AwsOdbDeleteOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an ODB peering connection. When you delete an ODB peering connection, the underlying VPC peering connection is also deleted. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOdbPeeringConnectionAsync(AwsOdbDeleteOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOdbPeeringConnectionAsync(AwsOdbDeleteOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Ser- vices service integration. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateIamRoleFromResourceAsync(AwsOdbDisassociateIamRoleFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateIamRoleFromResourceAsync(AwsOdbDisassociateIamRoleFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes virtual machines from the specified Exascale VM cluster. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateVirtualMachinesFromExadbVmClusterAsync(AwsOdbDisassociateVirtualMachinesFromExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateVirtualMachinesFromExadbVmClusterAsync(AwsOdbDisassociateVirtualMachinesFromExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a failover of the specified Autonomous Database to a standby peer database. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FailoverAutonomousDatabaseAsync(AwsOdbFailoverAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FailoverAutonomousDatabaseAsync(AwsOdbFailoverAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific Autonomous Database backup. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutonomousDatabaseBackupAsync(AwsOdbGetAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutonomousDatabaseBackupAsync(AwsOdbGetAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific Autonomous Database. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutonomousDatabaseAsync(AwsOdbGetAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutonomousDatabaseAsync(AwsOdbGetAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the wallet details for the specified Autonomous Database. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAutonomousDatabaseWalletDetailsAsync(AwsOdbGetAutonomousDatabaseWalletDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAutonomousDatabaseWalletDetailsAsync(AwsOdbGetAutonomousDatabaseWalletDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific Autonomous VM cluster. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudAutonomousVmClusterAsync(AwsOdbGetCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudAutonomousVmClusterAsync(AwsOdbGetCloudAutonomousVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Exadata infrastructure. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudExadataInfrastructureAsync(AwsOdbGetCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudExadataInfrastructureAsync(AwsOdbGetCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudExadataInfrastructureUnallocatedResourcesAsync(AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudExadataInfrastructureUnallocatedResourcesAsync(AwsOdbGetCloudExadataInfrastructureUnallocatedResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified VM cluster. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCloudVmClusterAsync(AwsOdbGetCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCloudVmClusterAsync(AwsOdbGetCloudVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified DB node. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDbNodeAsync(AwsOdbGetDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDbNodeAsync(AwsOdbGetDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified database server. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDbServerAsync(AwsOdbGetDbServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDbServerAsync(AwsOdbGetDbServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Exascale VM cluster. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExadbVmClusterAsync(AwsOdbGetExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExadbVmClusterAsync(AwsOdbGetExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Exascale storage vault. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExascaleDbStorageVaultAsync(AwsOdbGetExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExascaleDbStorageVaultAsync(AwsOdbGetExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the tenancy activation link and onboarding status for your Ama- zon Web Services account. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOciOnboardingStatusAsync(AwsOdbGetOciOnboardingStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOciOnboardingStatusAsync(AwsOdbGetOciOnboardingStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified ODB network. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOdbNetworkAsync(AwsOdbGetOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOdbNetworkAsync(AwsOdbGetOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about an ODB peering connection. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetOdbPeeringConnectionAsync(AwsOdbGetOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetOdbPeeringConnectionAsync(AwsOdbGetOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initializes the ODB service for the first time in an account. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InitializeServiceAsync(AwsOdbInitializeServiceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InitializeServiceAsync(AwsOdbInitializeServiceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the backups of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-backups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseBackups
@@ -428,8 +388,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabaseBackupsAsync(AwsOdbListAutonomousDatabaseBackupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousDatabaseBackupsAsync(AwsOdbListAutonomousDatabaseBackupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the available character sets for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-character-sets is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: autonomousDataba...
@@ -438,8 +397,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabaseCharacterSetsAsync(AwsOdbListAutonomousDatabaseCharacterSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousDatabaseCharacterSetsAsync(AwsOdbListAutonomousDatabaseCharacterSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the clones of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-clones is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabaseClones
@@ -448,8 +406,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabaseClonesAsync(AwsOdbListAutonomousDatabaseClonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousDatabaseClonesAsync(AwsOdbListAutonomousDatabaseClonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the peer databases of the specified Autonomous Database. See also: AWS API Documentation list-autonomous-database-peers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousDatabasePeers
@@ -458,18 +415,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabasePeersAsync(AwsOdbListAutonomousDatabasePeersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region. See also: AWS API Documentation list-autonomous-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabasesAsync(AwsOdbListAutonomousDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousDatabasePeersAsync(AwsOdbListAutonomousDatabasePeersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the available Oracle Database software versions for Autonomous Databases. See also: AWS API Documentation list-autonomous-database-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: aut...
@@ -478,8 +424,16 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousDatabaseVersionsAsync(AwsOdbListAutonomousDatabaseVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousDatabaseVersionsAsync(AwsOdbListAutonomousDatabaseVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region. See also: AWS API Documentation list-autonomous-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAutonomousDatabasesAsync(AwsOdbListAutonomousDatabasesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Autonomous VMs in an Autonomous VM cluster. See also: AWS API Documentation list-autonomous-virtual-machines is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: autonomousVirtualMachines
@@ -488,8 +442,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAutonomousVirtualMachinesAsync(AwsOdbListAutonomousVirtualMachinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAutonomousVirtualMachinesAsync(AwsOdbListAutonomousVirtualMachinesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Autonomous VM clusters in a specified Cloud Exadata infra- structure. See also: AWS API Documentation list-cloud-autonomous-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clo...
@@ -498,8 +451,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCloudAutonomousVmClustersAsync(AwsOdbListCloudAutonomousVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCloudAutonomousVmClustersAsync(AwsOdbListCloudAutonomousVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the Exadata infrastructures owned by your Amazon Web Services account. See also: AWS API Documentation list-cloud-exadata-infrastructures is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
@@ -508,8 +460,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCloudExadataInfrastructuresAsync(AwsOdbListCloudExadataInfrastructuresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCloudExadataInfrastructuresAsync(AwsOdbListCloudExadataInfrastructuresOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the VM clusters owned by your Amazon Web Ser- vices account or only the ones on the specified Exadata infrastructure. See also: AWS API Documentation list-cloud-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
@@ -518,8 +469,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCloudVmClustersAsync(AwsOdbListCloudVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCloudVmClustersAsync(AwsOdbListCloudVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the DB nodes for the specified VM cluster. See also: AWS API Documentation list-db-nodes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dbNodes
@@ -528,8 +478,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDbNodesAsync(AwsOdbListDbNodesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDbNodesAsync(AwsOdbListDbNodesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the database servers that belong to the spec- ified Exadata infrastructure. See also: AWS API Documentation list-db-servers is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
@@ -538,8 +487,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDbServersAsync(AwsOdbListDbServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDbServersAsync(AwsOdbListDbServersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the shapes that are available for an Exadata infrastructure. See also: AWS API Documentation list-db-system-shapes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: dbSystemShap...
@@ -548,8 +496,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDbSystemShapesAsync(AwsOdbListDbSystemShapesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDbSystemShapesAsync(AwsOdbListDbSystemShapesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the Exascale VM clusters owned by your Amazon Web Services account. See also: AWS API Documentation list-exadb-vm-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: exad...
@@ -558,8 +505,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExadbVmClustersAsync(AwsOdbListExadbVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExadbVmClustersAsync(AwsOdbListExadbVmClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account. See also: AWS API Documentation list-exascale-db-storage-vaults is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
@@ -568,8 +514,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExascaleDbStorageVaultsAsync(AwsOdbListExascaleDbStorageVaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExascaleDbStorageVaultsAsync(AwsOdbListExascaleDbStorageVaultsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the flex components that are available for an Exadata infrastructure. See also: AWS API Documentation list-flex-components is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: flex...
@@ -578,8 +523,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListFlexComponentsAsync(AwsOdbListFlexComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListFlexComponentsAsync(AwsOdbListFlexComponentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version. See also: AWS API Documentation list-gi-minor-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
@@ -588,8 +532,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGiMinorVersionsAsync(AwsOdbListGiMinorVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGiMinorVersionsAsync(AwsOdbListGiMinorVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about Oracle Grid Infrastructure (GI) software ver- sions that are available for a VM cluster for the specified shape. See also: AWS API Documentation list-gi-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
@@ -598,8 +541,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListGiVersionsAsync(AwsOdbListGiVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListGiVersionsAsync(AwsOdbListGiVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the ODB networks owned by your Amazon Web Services account. See also: AWS API Documentation list-odb-networks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: odbNetworks
@@ -608,8 +550,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOdbNetworksAsync(AwsOdbListOdbNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOdbNetworksAsync(AwsOdbListOdbNetworksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all ODB peering connections or those associated with a specific ODB network. See also: AWS API Documentation list-odb-peering-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: odbPe...
@@ -618,8 +559,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOdbPeeringConnectionsAsync(AwsOdbListOdbPeeringConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOdbPeeringConnectionsAsync(AwsOdbListOdbPeeringConnectionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the system versions that are available for a VM cluster for the specified giVersion and shape . See also: AWS API Documentation list-system-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
@@ -628,8 +568,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSystemVersionsAsync(AwsOdbListSystemVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSystemVersionsAsync(AwsOdbListSystemVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the tags applied to this resource. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsOdbListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsOdbListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reboots the specified Autonomous Database. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootAutonomousDatabaseAsync(AwsOdbRebootAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebootAutonomousDatabaseAsync(AwsOdbRebootAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reboots the specified DB node in a VM cluster. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootDbNodeAsync(AwsOdbRebootDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebootDbNodeAsync(AwsOdbRebootDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores the specified Autonomous Database to a point in time. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreAutonomousDatabaseAsync(AwsOdbRestoreAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreAutonomousDatabaseAsync(AwsOdbRestoreAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shrinks the storage of the specified Autonomous Database to reclaim un- used space. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ShrinkAutonomousDatabaseAsync(AwsOdbShrinkAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ShrinkAutonomousDatabaseAsync(AwsOdbShrinkAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified Autonomous Database. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAutonomousDatabaseAsync(AwsOdbStartAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAutonomousDatabaseAsync(AwsOdbStartAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the specified DB node in a VM cluster. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartDbNodeAsync(AwsOdbStartDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartDbNodeAsync(AwsOdbStartDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specified Autonomous Database. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopAutonomousDatabaseAsync(AwsOdbStopAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopAutonomousDatabaseAsync(AwsOdbStopAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specified DB node in a VM cluster. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopDbNodeAsync(AwsOdbStopDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopDbNodeAsync(AwsOdbStopDbNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs a switchover of the specified Autonomous Database to a standby peer database. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SwitchoverAutonomousDatabaseAsync(AwsOdbSwitchoverAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SwitchoverAutonomousDatabaseAsync(AwsOdbSwitchoverAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies tags to the specified resource. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsOdbTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsOdbTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from the specified resource. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsOdbUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsOdbUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an Autonomous Database backup. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutonomousDatabaseBackupAsync(AwsOdbUpdateAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutonomousDatabaseBackupAsync(AwsOdbUpdateAutonomousDatabaseBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an Autonomous Database. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAutonomousDatabaseAsync(AwsOdbUpdateAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAutonomousDatabaseAsync(AwsOdbUpdateAutonomousDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the properties of an Exadata infrastructure resource. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCloudExadataInfrastructureAsync(AwsOdbUpdateCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCloudExadataInfrastructureAsync(AwsOdbUpdateCloudExadataInfrastructureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified Exascale VM cluster. See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateExadbVmClusterAsync(AwsOdbUpdateExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateExadbVmClusterAsync(AwsOdbUpdateExadbVmClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified Exascale storage vault. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateExascaleDbStorageVaultAsync(AwsOdbUpdateExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateExascaleDbStorageVaultAsync(AwsOdbUpdateExascaleDbStorageVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates properties of a specified ODB network. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOdbNetworkAsync(AwsOdbUpdateOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOdbNetworkAsync(AwsOdbUpdateOdbNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the settings of an Oracle Database@Amazon Web Services peering connection. You can update the display name and add or remove CIDR blocks from the peering connection. See also: AWS API Documentation
@@ -818,7 +739,6 @@ public interface IAwsOdb
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOdbPeeringConnectionAsync(AwsOdbUpdateOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOdbPeeringConnectionAsync(AwsOdbUpdateOdbPeeringConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

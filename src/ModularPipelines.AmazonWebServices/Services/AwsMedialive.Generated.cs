@@ -33,7 +33,7 @@ public class AwsMedialive : IAwsMedialive
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws medialive wait sub-commands.
     /// </summary>
     public AwsMedialiveWait Wait => _wait ??= new AwsMedialiveWait(_command);
 
@@ -1152,21 +1152,6 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// List input devices See also: AWS API Documentation list-input-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InputDevices
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInputDevicesAsync(
-        AwsMedialiveListInputDevicesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMedialiveListInputDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List input devices that are currently being transferred. List input de- vices that you are transferring from your AWS account or input devices that another AWS account is transferring to you. See also: AWS API Documentation list-input-device-transfers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1179,6 +1164,21 @@ public class AwsMedialive : IAwsMedialive
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List input devices See also: AWS API Documentation list-input-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InputDevices
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInputDevicesAsync(
+        AwsMedialiveListInputDevicesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMedialiveListInputDevicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1227,21 +1227,6 @@ public class AwsMedialive : IAwsMedialive
     }
 
     /// <summary>
-    /// Retrieve a list of the existing multiplexes. See also: AWS API Documentation list-multiplexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Multiplexes
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMultiplexesAsync(
-        AwsMedialiveListMultiplexesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMedialiveListMultiplexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// List the programs that currently exist for a specific multiplex. See also: AWS API Documentation list-multiplex-programs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MultiplexPrograms
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1254,6 +1239,21 @@ public class AwsMedialive : IAwsMedialive
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieve a list of the existing multiplexes. See also: AWS API Documentation list-multiplexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Multiplexes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMultiplexesAsync(
+        AwsMedialiveListMultiplexesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMedialiveListMultiplexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -60,6 +61,12 @@ public record AwsDevopsAgentGetAgentSpaceOptions : AwsOptions, IValidatableObjec
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
+
+    /// <summary>
+    /// How much data to include in the response. Possible values: o METADATA_ONLY o ALL_DATA
+    /// </summary>
+    [CliOption("--included-data")]
+    public AwsDevopsAgentGetAgentSpaceIncludedData? IncludedData { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

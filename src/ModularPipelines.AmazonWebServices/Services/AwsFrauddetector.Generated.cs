@@ -302,21 +302,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Deletes all events of a particular event type. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteEventsByEventTypeAsync(
-        AwsFrauddetectorDeleteEventsByEventTypeOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -325,6 +310,21 @@ public class AwsFrauddetector : IAwsFrauddetector
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventTypeAsync(
         AwsFrauddetectorDeleteEventTypeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes all events of a particular event type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteEventsByEventTypeAsync(
+        AwsFrauddetectorDeleteEventsByEventTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -527,21 +527,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDetectorsAsync(
-        AwsFrauddetectorGetDetectorsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetDetectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a particular detector version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -554,6 +539,21 @@ public class AwsFrauddetector : IAwsFrauddetector
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDetectorsAsync(
+        AwsFrauddetectorGetDetectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetDetectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -707,21 +707,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 1 and 10. T...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetModelsAsync(
-        AwsFrauddetectorGetModelsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets the details of the specified model version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -734,6 +719,21 @@ public class AwsFrauddetector : IAwsFrauddetector
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 1 and 10. T...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetModelsAsync(
+        AwsFrauddetectorGetModelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

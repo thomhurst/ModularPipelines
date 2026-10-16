@@ -28,8 +28,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateLensesAsync(AwsWellarchitectedAssociateLensesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateLensesAsync(AwsWellarchitectedAssociateLensesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate a profile with a workload. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateProfilesAsync(AwsWellarchitectedAssociateProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateProfilesAsync(AwsWellarchitectedAssociateProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommenda- tion generation. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentContextAsync(AwsWellarchitectedCreateAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentContextAsync(AwsWellarchitectedCreateAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentGoalAsync(AwsWellarchitectedCreateAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentGoalAsync(AwsWellarchitectedCreateAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an optimization profile that defines the scope and configura- tion for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Ama- zon Web Services resources. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAgentProfileAsync(AwsWellarchitectedCreateAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAgentProfileAsync(AwsWellarchitectedCreateAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services ac- counts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the or- ganization or OU are granted access to the lens. For more infor...
@@ -78,8 +73,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLensShareAsync(AwsWellarchitectedCreateLensShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLensShareAsync(AwsWellarchitectedCreateLensShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have im- ported a lens. The LensAlias is used to identify the lens to be pub- lished. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateLensVersionAsync(AwsWellarchitectedCreateLensVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateLensVersionAsync(AwsWellarchitectedCreateLensVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a milestone for an existing workload. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMilestoneAsync(AwsWellarchitectedCreateMilestoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMilestoneAsync(AwsWellarchitectedCreateMilestoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a profile. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProfileAsync(AwsWellarchitectedCreateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProfileAsync(AwsWellarchitectedCreateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a profile share. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProfileShareAsync(AwsWellarchitectedCreateProfileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProfileShareAsync(AwsWellarchitectedCreateProfileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a review template. NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with ap- plicable law, providing adequate privacy notices, and obtaining nec- essary consents for processing such data. See also:...
@@ -128,8 +118,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReviewTemplateAsync(AwsWellarchitectedCreateReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReviewTemplateAsync(AwsWellarchitectedCreateReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a review template share. The owner of a review template can share it with other Amazon Web Ser- vices accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review tem- plate share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. NOTE: Disclaimer By sharing your revie...
@@ -138,8 +127,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTemplateShareAsync(AwsWellarchitectedCreateTemplateShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTemplateShareAsync(AwsWellarchitectedCreateTemplateShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a work- load can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter i...
@@ -148,8 +136,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkloadAsync(AwsWellarchitectedCreateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkloadAsync(AwsWellarchitectedCreateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a workload share. The owner of a workload can share it with other Amazon Web Services ac- counts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see Sharing a workload in the Well-Architected Tool User Guide . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkloadShareAsync(AwsWellarchitectedCreateWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkloadShareAsync(AwsWellarchitectedCreateWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a context associated with a profile. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentContextAsync(AwsWellarchitectedDeleteAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentContextAsync(AwsWellarchitectedDeleteAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an optimization goal from a profile. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentGoalAsync(AwsWellarchitectedDeleteAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentGoalAsync(AwsWellarchitectedDeleteAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an optimization profile and its associated configuration. This action cannot be undone. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAgentProfileAsync(AwsWellarchitectedDeleteAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAgentProfileAsync(AwsWellarchitectedDeleteAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Ama- zon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services ac- counts, you acknowledge that Amazon Web Services will make your cus- tom lenses available to those other accounts. Those other accounts may continue to access and use yo...
@@ -198,8 +181,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLensAsync(AwsWellarchitectedDeleteLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLensAsync(AwsWellarchitectedDeleteLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. NOTE: Disclaimer By sharing your custom lenses with other Amazon Web Services ac- counts, you acknowledge that Amazon Web Services will make your cus- tom lenses available to those other accounts. Those other accounts may continue to access and us...
@@ -208,8 +190,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteLensShareAsync(AwsWellarchitectedDeleteLensShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteLensShareAsync(AwsWellarchitectedDeleteLensShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a profile. NOTE: Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile avail- able to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileAsync(AwsWellarchitectedDeleteProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileAsync(AwsWellarchitectedDeleteProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a profile share. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProfileShareAsync(AwsWellarchitectedDeleteProfileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProfileShareAsync(AwsWellarchitectedDeleteProfileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteReviewTemplateAsync(AwsWellarchitectedDeleteReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteReviewTemplateAsync(AwsWellarchitectedDeleteReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a review template share. After the review template share is deleted, Amazon Web Services ac- counts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTemplateShareAsync(AwsWellarchitectedDeleteTemplateShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTemplateShareAsync(AwsWellarchitectedDeleteTemplateShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing workload. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkloadAsync(AwsWellarchitectedDeleteWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkloadAsync(AwsWellarchitectedDeleteWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a workload share. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkloadShareAsync(AwsWellarchitectedDeleteWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkloadShareAsync(AwsWellarchitectedDeleteWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. NOTE: The Amazon Web Services Well-Architected Framework lens (wellarchi- tected ) cannot be removed from a workload. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateLensesAsync(AwsWellarchitectedDisassociateLensesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateLensesAsync(AwsWellarchitectedDisassociateLensesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociate a profile from a workload. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateProfilesAsync(AwsWellarchitectedDisassociateProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateProfilesAsync(AwsWellarchitectedDisassociateProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . NOTE: Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used ...
@@ -298,8 +271,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExportLensAsync(AwsWellarchitectedExportLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExportLensAsync(AwsWellarchitectedExportLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific context associated with a profile. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentContextAsync(AwsWellarchitectedGetAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentContextAsync(AwsWellarchitectedGetAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific optimization goal. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentGoalAsync(AwsWellarchitectedGetAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentGoalAsync(AwsWellarchitectedGetAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about an optimization profile, including its configuration and metadata. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentProfileAsync(AwsWellarchitectedGetAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentProfileAsync(AwsWellarchitectedGetAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a recommendation generation process, in- cluding its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Interme- diate values are QUEUED and IN_PROGRESS. See also: AWS API Documentation get-agent-recommendation-generation uses document type values. Document types follow the JSON data model where valid values are: strings, num- ...
@@ -338,8 +307,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentRecommendationGenerationAsync(AwsWellarchitectedGetAgentRecommendationGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentRecommendationGenerationAsync(AwsWellarchitectedGetAgentRecommendationGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information about a specific optimization recommen- dation, including its impact analysis, content, and implementation guidance. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAgentRecommendationAsync(AwsWellarchitectedGetAgentRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAgentRecommendationAsync(AwsWellarchitectedGetAgentRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the answer to a specific question in a workload review. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAnswerAsync(AwsWellarchitectedGetAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAnswerAsync(AwsWellarchitectedGetAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConsolidatedReportAsync(AwsWellarchitectedGetConsolidatedReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConsolidatedReportAsync(AwsWellarchitectedGetConsolidatedReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Global settings for all workloads. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetGlobalSettingsAsync(AwsWellarchitectedGetGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetGlobalSettingsAsync(AwsWellarchitectedGetGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an existing lens. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLensAsync(AwsWellarchitectedGetLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLensAsync(AwsWellarchitectedGetLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get lens review. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLensReviewAsync(AwsWellarchitectedGetLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLensReviewAsync(AwsWellarchitectedGetLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get lens review report. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLensReviewReportAsync(AwsWellarchitectedGetLensReviewReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLensReviewReportAsync(AwsWellarchitectedGetLensReviewReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get lens version differences. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetLensVersionDifferenceAsync(AwsWellarchitectedGetLensVersionDifferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetLensVersionDifferenceAsync(AwsWellarchitectedGetLensVersionDifferenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a milestone for an existing workload. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMilestoneAsync(AwsWellarchitectedGetMilestoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMilestoneAsync(AwsWellarchitectedGetMilestoneOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get profile information. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileAsync(AwsWellarchitectedGetProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileAsync(AwsWellarchitectedGetProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get profile template. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProfileTemplateAsync(AwsWellarchitectedGetProfileTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProfileTemplateAsync(AwsWellarchitectedGetProfileTemplateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get review template answer. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReviewTemplateAnswerAsync(AwsWellarchitectedGetReviewTemplateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReviewTemplateAnswerAsync(AwsWellarchitectedGetReviewTemplateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get a lens review associated with a review template. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReviewTemplateLensReviewAsync(AwsWellarchitectedGetReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReviewTemplateLensReviewAsync(AwsWellarchitectedGetReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get review template. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReviewTemplateAsync(AwsWellarchitectedGetReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReviewTemplateAsync(AwsWellarchitectedGetReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an existing workload. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkloadAsync(AwsWellarchitectedGetWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkloadAsync(AwsWellarchitectedGetWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias . If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT . The lens cannot be applied to workloads or shared with other Amazon Web Services ac- counts until it's published with CreateLensVersion . Lenses are defined in JSON. For more information, see JSON format spec- ification in the Well-Architected Tool User Guide . ...
@@ -498,8 +451,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportLensAsync(AwsWellarchitectedImportLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportLensAsync(AwsWellarchitectedImportLensOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists contexts associated with a profile. See also: AWS API Documentation list-agent-contexts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
@@ -508,8 +460,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentContextsAsync(AwsWellarchitectedListAgentContextsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentContextsAsync(AwsWellarchitectedListAgentContextsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists optimization goals associated with a specified profile. Goals de- fine specific targets and objectives for the optimization process. See also: AWS API Documentation list-agent-goals is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
@@ -518,8 +469,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentGoalsAsync(AwsWellarchitectedListAgentGoalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentGoalsAsync(AwsWellarchitectedListAgentGoalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations. See also: AWS API Documentation list-agent-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
@@ -528,8 +478,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentProfilesAsync(AwsWellarchitectedListAgentProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentProfilesAsync(AwsWellarchitectedListAgentProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists recommendation generation processes for a specified profile. See also: AWS API Documentation list-agent-recommendation-generations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: items
@@ -538,8 +487,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRecommendationGenerationsAsync(AwsWellarchitectedListAgentRecommendationGenerationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentRecommendationGenerationsAsync(AwsWellarchitectedListAgentRecommendationGenerationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists recommendation items for a specific recommendation. Recommenda- tion items provide detailed information about individual optimization opportunities. See also: AWS API Documentation list-agent-recommendation-items uses document type values. Document types follow the JSON data model where valid values are: strings, num- bers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax...
@@ -548,8 +496,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRecommendationItemsAsync(AwsWellarchitectedListAgentRecommendationItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentRecommendationItemsAsync(AwsWellarchitectedListAgentRecommendationItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists active optimization recommendations for a specified profile with optional filtering by state. See also: AWS API Documentation list-agent-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expre...
@@ -558,8 +505,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAgentRecommendationsAsync(AwsWellarchitectedListAgentRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAgentRecommendationsAsync(AwsWellarchitectedListAgentRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List of answers for a particular workload and lens. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAnswersAsync(AwsWellarchitectedListAnswersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAnswersAsync(AwsWellarchitectedListAnswersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List of Trusted Advisor check details by account related to the work- load. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCheckDetailsAsync(AwsWellarchitectedListCheckDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCheckDetailsAsync(AwsWellarchitectedListCheckDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List of Trusted Advisor checks summarized for all accounts related to the workload. See also: AWS API Documentation
@@ -588,18 +532,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCheckSummariesAsync(AwsWellarchitectedListCheckSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// List the available lenses. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLensesAsync(AwsWellarchitectedListLensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCheckSummariesAsync(AwsWellarchitectedListCheckSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the improvements of a particular lens review. See also: AWS API Documentation
@@ -608,8 +541,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLensReviewImprovementsAsync(AwsWellarchitectedListLensReviewImprovementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLensReviewImprovementsAsync(AwsWellarchitectedListLensReviewImprovementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List lens reviews for a particular workload. See also: AWS API Documentation
@@ -618,8 +550,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLensReviewsAsync(AwsWellarchitectedListLensReviewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLensReviewsAsync(AwsWellarchitectedListLensReviewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the lens shares associated with the lens. See also: AWS API Documentation
@@ -628,8 +559,16 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLensSharesAsync(AwsWellarchitectedListLensSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLensSharesAsync(AwsWellarchitectedListLensSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// List the available lenses. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListLensesAsync(AwsWellarchitectedListLensesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all milestones for an existing workload. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMilestonesAsync(AwsWellarchitectedListMilestonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMilestonesAsync(AwsWellarchitectedListMilestonesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List lens notifications. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNotificationsAsync(AwsWellarchitectedListNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNotificationsAsync(AwsWellarchitectedListNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List profile notifications. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileNotificationsAsync(AwsWellarchitectedListProfileNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileNotificationsAsync(AwsWellarchitectedListProfileNotificationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List profile shares. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfileSharesAsync(AwsWellarchitectedListProfileSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfileSharesAsync(AwsWellarchitectedListProfileSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List profiles. See also: AWS API Documentation
@@ -678,8 +613,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProfilesAsync(AwsWellarchitectedListProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProfilesAsync(AwsWellarchitectedListProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the answers of a review template. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReviewTemplateAnswersAsync(AwsWellarchitectedListReviewTemplateAnswersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReviewTemplateAnswersAsync(AwsWellarchitectedListReviewTemplateAnswersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List review templates. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReviewTemplatesAsync(AwsWellarchitectedListReviewTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReviewTemplatesAsync(AwsWellarchitectedListReviewTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the share invitations. WorkloadNamePrefix , LensNamePrefix , ProfileNamePrefix , and Tem- plateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType . See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListShareInvitationsAsync(AwsWellarchitectedListShareInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListShareInvitationsAsync(AwsWellarchitectedListShareInvitationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the tags for a resource. NOTE: The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. See also: AWS API Documentation
@@ -718,8 +649,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsWellarchitectedListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsWellarchitectedListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List review template shares. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTemplateSharesAsync(AwsWellarchitectedListTemplateSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTemplateSharesAsync(AwsWellarchitectedListTemplateSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the workload shares associated with the workload. See also: AWS API Documentation
@@ -738,8 +667,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkloadSharesAsync(AwsWellarchitectedListWorkloadSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkloadSharesAsync(AwsWellarchitectedListWorkloadSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Paginated list of workloads. See also: AWS API Documentation
@@ -748,8 +676,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkloadsAsync(AwsWellarchitectedListWorkloadsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkloadsAsync(AwsWellarchitectedListWorkloadsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Submits user feedback on a recommendation to help improve future opti- mization suggestions and track implementation outcomes. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAgentRecommendationFeedbackAsync(AwsWellarchitectedPutAgentRecommendationFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAgentRecommendationFeedbackAsync(AwsWellarchitectedPutAgentRecommendationFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates a new recommendation generation process for the specified op- timization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGenera- tion to check status. See also: AWS API Documentation start-agent-recommendation-generation uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, n...
@@ -768,8 +694,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartAgentRecommendationGenerationAsync(AwsWellarchitectedStartAgentRecommendationGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartAgentRecommendationGenerationAsync(AwsWellarchitectedStartAgentRecommendationGenerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to the specified resource. NOTE: The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. See also: AWS API Documentation
@@ -778,8 +703,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsWellarchitectedTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsWellarchitectedTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes specified tags from a resource. NOTE: The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2 See also: AWS API Documentation
@@ -788,8 +712,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsWellarchitectedUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsWellarchitectedUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing context associated with a profile. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentContextAsync(AwsWellarchitectedUpdateAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentContextAsync(AwsWellarchitectedUpdateAgentContextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the pillars and title of an existing goal associated with a profile. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentGoalAsync(AwsWellarchitectedUpdateAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentGoalAsync(AwsWellarchitectedUpdateAgentGoalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentProfileAsync(AwsWellarchitectedUpdateAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentProfileAsync(AwsWellarchitectedUpdateAgentProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a recommendation to track its progress through the implementation lifecycle. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAgentRecommendationStatusAsync(AwsWellarchitectedUpdateAgentRecommendationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAgentRecommendationStatusAsync(AwsWellarchitectedUpdateAgentRecommendationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the answer to a specific question in a workload review. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAnswerAsync(AwsWellarchitectedUpdateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAnswerAsync(AwsWellarchitectedUpdateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update whether the Amazon Web Services account is opted into organiza- tion sharing and discovery integration features. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateGlobalSettingsAsync(AwsWellarchitectedUpdateGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateGlobalSettingsAsync(AwsWellarchitectedUpdateGlobalSettingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update integration features. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateIntegrationAsync(AwsWellarchitectedUpdateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateIntegrationAsync(AwsWellarchitectedUpdateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update lens review for a particular workload. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLensReviewAsync(AwsWellarchitectedUpdateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLensReviewAsync(AwsWellarchitectedUpdateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a profile. See also: AWS API Documentation
@@ -878,8 +793,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProfileAsync(AwsWellarchitectedUpdateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProfileAsync(AwsWellarchitectedUpdateProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a review template answer. See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReviewTemplateAnswerAsync(AwsWellarchitectedUpdateReviewTemplateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReviewTemplateAnswerAsync(AwsWellarchitectedUpdateReviewTemplateAnswerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a lens review associated with a review template. See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReviewTemplateLensReviewAsync(AwsWellarchitectedUpdateReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReviewTemplateLensReviewAsync(AwsWellarchitectedUpdateReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a review template. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReviewTemplateAsync(AwsWellarchitectedUpdateReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReviewTemplateAsync(AwsWellarchitectedUpdateReviewTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Pre- vious documentation implied that a workload ARN must be specified. See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateShareInvitationAsync(AwsWellarchitectedUpdateShareInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateShareInvitationAsync(AwsWellarchitectedUpdateShareInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update an existing workload. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkloadAsync(AwsWellarchitectedUpdateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkloadAsync(AwsWellarchitectedUpdateWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a workload share. See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkloadShareAsync(AwsWellarchitectedUpdateWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkloadShareAsync(AwsWellarchitectedUpdateWorkloadShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrade lens review for a particular workload. See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeLensReviewAsync(AwsWellarchitectedUpgradeLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeLensReviewAsync(AwsWellarchitectedUpgradeLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrade a profile. See also: AWS API Documentation
@@ -958,8 +865,7 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeProfileVersionAsync(AwsWellarchitectedUpgradeProfileVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeProfileVersionAsync(AwsWellarchitectedUpgradeProfileVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upgrade the lens review of a review template. See also: AWS API Documentation
@@ -968,7 +874,6 @@ public interface IAwsWellarchitected
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpgradeReviewTemplateLensReviewAsync(AwsWellarchitectedUpgradeReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpgradeReviewTemplateLensReviewAsync(AwsWellarchitectedUpgradeReviewTemplateLensReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

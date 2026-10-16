@@ -33,7 +33,7 @@ public class AwsMachinelearning : IAwsMachinelearning
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws machinelearning wait sub-commands.
     /// </summary>
     public AwsMachinelearningWait Wait => _wait ??= new AwsMachinelearningWait(_command);
 

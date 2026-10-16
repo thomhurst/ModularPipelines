@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkmessaging commands.
+/// aws chime-sdk-messaging commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateChannelFlowAsync(AwsChimeSdkMessagingAssociateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateChannelFlowAsync(AwsChimeSdkMessagingAssociateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a specified number of users and bots to a channel. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchCreateChannelMembershipAsync(AwsChimeSdkMessagingBatchCreateChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchCreateChannelMembershipAsync(AwsChimeSdkMessagingBatchCreateChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Calls back Amazon Chime SDK messaging with a processing response mes- sage. This should be invoked from the processor Lambda. This is a de- veloper API. You can return one of the following processing responses: o Update message content or metadata o Deny a message o Make no changes to the message See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ChannelFlowCallbackAsync(AwsChimeSdkMessagingChannelFlowCallbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ChannelFlowCallbackAsync(AwsChimeSdkMessagingChannelFlowCallbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan , and then CreateChannelMembership . Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is auto- matically kicked from the channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the heade...
@@ -58,8 +55,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelBanAsync(AwsChimeSdkMessagingCreateChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelBanAsync(AwsChimeSdkMessagingCreateChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a channel flow, a container for processors. Processors are AWS Lambda functions that perform actions on chat messages, such as strip- ping out profanity. You can associate channel flows with channels, and the processors in the channel flow then take action on all messages sent to that channel. This is a developer API. Channel flows process the following items: o New and updated messages o Persistent and non-persistent messages o The Standard message type NOTE: Channel flows don't process...
@@ -68,8 +64,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelFlowAsync(AwsChimeSdkMessagingCreateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelFlowAsync(AwsChimeSdkMessagingCreateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the request header. A channel member can: o List messages o Send messages o Receive messages o Edit their own messages o Leave the channel Privacy settings impact this action as follows: o Public Channels: You do not need to be a member to list messages, but you must be a member to send messages. o Private Channels: You must be a member to list or send messages. NOTE: The x-amz-chime-bearer request header is man...
@@ -78,8 +73,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelMembershipAsync(AwsChimeSdkMessagingCreateChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelMembershipAsync(AwsChimeSdkMessagingCreateChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new ChannelModerator . A channel moderator can: o Add and remove other members of the channel. o Add and remove other moderators of the channel. o Add and remove user bans for the channel. o Redact messages in the channel. o List messages in the channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot of the user that makes the API call as the value in the header. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelModeratorAsync(AwsChimeSdkMessagingCreateChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelModeratorAsync(AwsChimeSdkMessagingCreateChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a channel to which you can add users and send messages. Restriction : You can't change a channel's privacy. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelAsync(AwsChimeSdkMessagingCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelAsync(AwsChimeSdkMessagingCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a member from a channel's ban list. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelBanAsync(AwsChimeSdkMessagingDeleteChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelBanAsync(AwsChimeSdkMessagingDeleteChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a channel flow, an irreversible process. This is a developer API. NOTE: This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is asso- ciated with, use the ListChannelsAssociatedWithChannelFlow API. Use the DisassociateChannelFlow API to disassociate a channel flow from all channels. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelFlowAsync(AwsChimeSdkMessagingDeleteChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelFlowAsync(AwsChimeSdkMessagingDeleteChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a member from a channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the AppIn- stanceUserArn of the user that makes the API call as the value in the header. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelMembershipAsync(AwsChimeSdkMessagingDeleteChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelMembershipAsync(AwsChimeSdkMessagingDeleteChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a channel message. Only admins can perform this action. Dele- tion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage . NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelMessageAsync(AwsChimeSdkMessagingDeleteChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelMessageAsync(AwsChimeSdkMessagingDeleteChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a channel moderator. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelModeratorAsync(AwsChimeSdkMessagingDeleteChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelModeratorAsync(AwsChimeSdkMessagingDeleteChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteChannelAsync(AwsChimeSdkMessagingDeleteChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteChannelAsync(AwsChimeSdkMessagingDeleteChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the streaming configurations for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingDeleteMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a channel ban. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelBanAsync(AwsChimeSdkMessagingDescribeChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelBanAsync(AwsChimeSdkMessagingDescribeChannelBanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a channel flow in an Amazon Chime AppIn- stance . This is a developer API. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelFlowAsync(AwsChimeSdkMessagingDescribeChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelFlowAsync(AwsChimeSdkMessagingDescribeChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the details of a channel based on the membership of the speci- fied AppInstanceUser or AppInstanceBot . NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelMembershipForAppInstanceUserAsync(AwsChimeSdkMessagingDescribeChannelMembershipForAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelMembershipForAppInstanceUserAsync(AwsChimeSdkMessagingDescribeChannelMembershipForAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a user's channel membership. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelMembershipAsync(AwsChimeSdkMessagingDescribeChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelMembershipAsync(AwsChimeSdkMessagingDescribeChannelMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a channel moderated by the specified AppIn- stanceUser or AppInstanceBot . NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelModeratedByAppInstanceUserAsync(AwsChimeSdkMessagingDescribeChannelModeratedByAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelModeratedByAppInstanceUserAsync(AwsChimeSdkMessagingDescribeChannelModeratedByAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a single ChannelModerator. NOTE: The x-amz-chime-bearer request header is mandatory. Use the AppIn- stanceUserArn of the user that makes the API call as the value in the header. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelModeratorAsync(AwsChimeSdkMessagingDescribeChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelModeratorAsync(AwsChimeSdkMessagingDescribeChannelModeratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of a channel in an Amazon Chime AppInstance . NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeChannelAsync(AwsChimeSdkMessagingDescribeChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeChannelAsync(AwsChimeSdkMessagingDescribeChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a channel flow from all its channels. Once disassociated, all messages to that channel stop going through the channel flow processor. NOTE: Only administrators or channel moderators can disassociate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateChannelFlowAsync(AwsChimeSdkMessagingDisassociateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateChannelFlowAsync(AwsChimeSdkMessagingDisassociateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership prefer- ences. Users or bots in the AppInstanceAdmin and channel moderator roles can't retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use ...
@@ -258,8 +235,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChannelMembershipPreferencesAsync(AwsChimeSdkMessagingGetChannelMembershipPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChannelMembershipPreferencesAsync(AwsChimeSdkMessagingGetChannelMembershipPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the full details of a channel message. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChannelMessageAsync(AwsChimeSdkMessagingGetChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChannelMessageAsync(AwsChimeSdkMessagingGetChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets message status for a specified messageId . Use this API to deter- mine the intermediate status of messages going through channel flow processing. The API provides an alternative to retrieving message sta- tus if the event was not received because a client wasn't connected to a websocket. Messages can have any one of these statuses. SENT Message processed successfully PENDING Ongoing processing FAILED Processing failed DENIED Message denied by the processor NOTE: o This API does not return s...
@@ -278,8 +253,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChannelMessageStatusAsync(AwsChimeSdkMessagingGetChannelMessageStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChannelMessageStatusAsync(AwsChimeSdkMessagingGetChannelMessageStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The details of the endpoint for the messaging session. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMessagingSessionEndpointAsync(AwsChimeSdkMessagingGetMessagingSessionEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMessagingSessionEndpointAsync(AwsChimeSdkMessagingGetMessagingSessionEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the data streaming configuration for an AppInstance . For more information, see Streaming messaging data in the Amazon Chime SDK Developer Guide . See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingGetMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingGetMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the users and bots banned from a particular channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelBansAsync(AwsChimeSdkMessagingListChannelBansOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelBansAsync(AwsChimeSdkMessagingListChannelBansOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated lists of all the channel flows created under a sin- gle Chime. This is a developer API. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelFlowsAsync(AwsChimeSdkMessagingListChannelFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelFlowsAsync(AwsChimeSdkMessagingListChannelFlowsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all channels that an AppInstanceUser or AppInstanceBot is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelMembershipsForAppInstanceUserAsync(AwsChimeSdkMessagingListChannelMembershipsForAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelMembershipsForAppInstanceUserAsync(AwsChimeSdkMessagingListChannelMembershipsForAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all channel memberships in a channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the ListChannelMembershipsForAppInstanceUser API. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelMembershipsAsync(AwsChimeSdkMessagingListChannelMembershipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelMembershipsAsync(AwsChimeSdkMessagingListChannelMembershipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all the messages in a channel. Returns a paginated list of Chan- nelMessages . By default, sorted by creation timestamp in descending order. NOTE: Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as th...
@@ -348,8 +316,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelMessagesAsync(AwsChimeSdkMessagingListChannelMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelMessagesAsync(AwsChimeSdkMessagingListChannelMessagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the moderators for a channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelModeratorsAsync(AwsChimeSdkMessagingListChannelModeratorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelModeratorsAsync(AwsChimeSdkMessagingListChannelModeratorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only asso- ciate a channel with one channel flow. This is a developer API. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelsAssociatedWithChannelFlowAsync(AwsChimeSdkMessagingListChannelsAssociatedWithChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelsAssociatedWithChannelFlowAsync(AwsChimeSdkMessagingListChannelsAssociatedWithChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// A list of the channels moderated by an AppInstanceUser . NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -378,8 +343,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelsModeratedByAppInstanceUserAsync(AwsChimeSdkMessagingListChannelsModeratedByAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelsModeratedByAppInstanceUserAsync(AwsChimeSdkMessagingListChannelsModeratedByAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality &amp; restrictions o Use privacy = PUBLIC to retrieve all public channels in the account. o Only an AppInstanceAdmin can set privacy = PRIVATE to list the pri- vate channels in an account. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Docu...
@@ -388,8 +352,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelsAsync(AwsChimeSdkMessagingListChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelsAsync(AwsChimeSdkMessagingListChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSubChannelsAsync(AwsChimeSdkMessagingListSubChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSubChannelsAsync(AwsChimeSdkMessagingListSubChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags applied to an Amazon Chime SDK messaging resource. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkMessagingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkMessagingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the number of days before the channel is automatically deleted. NOTE: o A background process deletes expired channels within 6 hours of expiration. Actual deletion times may vary. o Expired channels that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. o The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See al...
@@ -418,8 +379,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutChannelExpirationSettingsAsync(AwsChimeSdkMessagingPutChannelExpirationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutChannelExpirationSettingsAsync(AwsChimeSdkMessagingPutChannelExpirationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set prefer- ences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppIn...
@@ -428,8 +388,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutChannelMembershipPreferencesAsync(AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutChannelMembershipPreferencesAsync(AwsChimeSdkMessagingPutChannelMembershipPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the data streaming configuration for an AppInstance . For more in- formation, see Streaming messaging data in the Amazon Chime SDK Devel- oper Guide . See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutMessagingStreamingConfigurationsAsync(AwsChimeSdkMessagingPutMessagingStreamingConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Redacts message content and metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RedactChannelMessageAsync(AwsChimeSdkMessagingRedactChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RedactChannelMessageAsync(AwsChimeSdkMessagingRedactChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. NOTE: This operation isn't supported for AppInstanceUsers with a large number of memberships. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchChannelsAsync(AwsChimeSdkMessagingSearchChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchChannelsAsync(AwsChimeSdkMessagingSearchChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a message to a particular channel that the member is a part of. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain meta- data. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata. See also: AWS AP...
@@ -468,8 +424,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendChannelMessageAsync(AwsChimeSdkMessagingSendChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendChannelMessageAsync(AwsChimeSdkMessagingSendChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies the specified tags to the specified Amazon Chime SDK messaging resource. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsChimeSdkMessagingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsChimeSdkMessagingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified Amazon Chime SDK messag- ing resource. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkMessagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkMessagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates channel flow attributes. This is a developer API. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelFlowAsync(AwsChimeSdkMessagingUpdateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelFlowAsync(AwsChimeSdkMessagingUpdateChannelFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the content of a message. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -508,8 +460,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelMessageAsync(AwsChimeSdkMessagingUpdateChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelMessageAsync(AwsChimeSdkMessagingUpdateChannelMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a channel's attributes. Restriction : You can't change a channel's privacy. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelAsync(AwsChimeSdkMessagingUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelAsync(AwsChimeSdkMessagingUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The details of the time when a user last read messages in a channel. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
@@ -528,7 +478,6 @@ public interface IAwsChimeSdkMessaging
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelReadMarkerAsync(AwsChimeSdkMessagingUpdateChannelReadMarkerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelReadMarkerAsync(AwsChimeSdkMessagingUpdateChannelReadMarkerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

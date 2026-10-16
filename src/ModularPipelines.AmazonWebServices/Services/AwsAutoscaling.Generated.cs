@@ -47,21 +47,6 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using Attach- TrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers . You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more Classic Load Balancers to the specified Auto Scal- ing group. Amazon EC2 Auto Scaling registers the runn...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AttachLoadBalancersAsync(
-        AwsAutoscalingAttachLoadBalancersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using Attach- TrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancerTargetGroups . You can use both the original AttachLoadBalancerTargetGroups API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -70,6 +55,21 @@ public class AwsAutoscaling : IAwsAutoscaling
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AttachLoadBalancerTargetGroupsAsync(
         AwsAutoscalingAttachLoadBalancerTargetGroupsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types. We recommend using Attach- TrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers . You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more Classic Load Balancers to the specified Auto Scal- ing group. Amazon EC2 Auto Scaling registers the runn...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> AttachLoadBalancersAsync(
+        AwsAutoscalingAttachLoadBalancersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -422,21 +422,6 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// Gets information about the lifecycle hooks for the specified Auto Scal- ing group. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLifecycleHooksAsync(
-        AwsAutoscalingDescribeLifecycleHooksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the available types of lifecycle hooks. The following hook types are supported: o autoscaling:EC2_INSTANCE_LAUNCHING o autoscaling:EC2_INSTANCE_TERMINATING See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -452,14 +437,14 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using De- scribeTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancers . You can use both the original DescribeLoadBalancers API operation and Describe- TrafficSources on the same Auto Scaling group. Gets information about the load balancers for the specified Auto Scal- ing group. This operation describes only...
+    /// Gets information about the lifecycle hooks for the specified Auto Scal- ing group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeLoadBalancersAsync(
-        AwsAutoscalingDescribeLoadBalancersOptions options,
+    public virtual async Task<CommandResult> DescribeLifecycleHooksAsync(
+        AwsAutoscalingDescribeLifecycleHooksOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -475,6 +460,21 @@ public class AwsAutoscaling : IAwsAutoscaling
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLoadBalancerTargetGroupsAsync(
         AwsAutoscalingDescribeLoadBalancerTargetGroupsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types. We recommend using De- scribeTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancers . You can use both the original DescribeLoadBalancers API operation and Describe- TrafficSources on the same Auto Scaling group. Gets information about the load balancers for the specified Auto Scal- ing group. This operation describes only...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeLoadBalancersAsync(
+        AwsAutoscalingDescribeLoadBalancersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -647,21 +647,6 @@ public class AwsAutoscaling : IAwsAutoscaling
     }
 
     /// <summary>
-    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using Detach- TrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancers . You can use both the original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DetachLoadBalancersAsync(
-        AwsAutoscalingDetachLoadBalancersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using Detach- TrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancerTargetGroups . You can use both the original DetachLoadBalancerTargetGroups API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more target groups from the specified Auto Scaling group. When you detach a target grou...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -670,6 +655,21 @@ public class AwsAutoscaling : IAwsAutoscaling
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetachLoadBalancerTargetGroupsAsync(
         AwsAutoscalingDetachLoadBalancerTargetGroupsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// NOTE: This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types. We recommend using Detach- TrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancers . You can use both the original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DetachLoadBalancersAsync(
+        AwsAutoscalingDetachLoadBalancersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

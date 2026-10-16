@@ -33,7 +33,7 @@ public class AwsElementalinference : IAwsElementalinference
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws elementalinference wait sub-commands.
     /// </summary>
     public AwsElementalinferenceWait Wait => _wait ??= new AwsElementalinferenceWait(_command);
 

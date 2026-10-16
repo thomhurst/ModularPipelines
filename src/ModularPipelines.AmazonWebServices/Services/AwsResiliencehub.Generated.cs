@@ -542,21 +542,6 @@ public class AwsResiliencehub : IAwsResiliencehub
     }
 
     /// <summary>
-    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or with- out using any filter. If you try to filter applications using multi- ple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this opera- tion. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAppsAsync(
-        AwsResiliencehubListAppsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubListAppsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the Application Components in the Resilience Hub application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -614,6 +599,21 @@ public class AwsResiliencehub : IAwsResiliencehub
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists your Resilience Hub applications. NOTE: You can filter applications using only one filter at a time or with- out using any filter. If you try to filter applications using multi- ple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this opera- tion. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAppsAsync(
+        AwsResiliencehubListAppsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResiliencehubListAppsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

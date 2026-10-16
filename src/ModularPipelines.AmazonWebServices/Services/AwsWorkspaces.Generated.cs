@@ -557,21 +557,6 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeConnectionAliasesAsync(
-        AwsWorkspacesDescribeConnectionAliasesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeConnectionAliasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified con- nection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -584,6 +569,21 @@ public class AwsWorkspaces : IAwsWorkspaces
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeConnectionAliasesAsync(
+        AwsWorkspacesDescribeConnectionAliasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeConnectionAliasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -722,21 +722,6 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Describes the connection status of the specified WorkSpaces. See also: AWS API Documentation describe-workspaces-connection-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: WorkspacesConnec...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeWorkspacesConnectionStatusAsync(
-        AwsWorkspacesDescribeWorkspacesConnectionStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeWorkspacesConnectionStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the snapshots for the specified WorkSpace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -749,6 +734,21 @@ public class AwsWorkspaces : IAwsWorkspaces
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the connection status of the specified WorkSpaces. See also: AWS API Documentation describe-workspaces-connection-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: WorkspacesConnec...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeWorkspacesConnectionStatusAsync(
+        AwsWorkspacesDescribeWorkspacesConnectionStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeWorkspacesConnectionStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

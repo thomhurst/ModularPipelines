@@ -198,6 +198,12 @@ public record AwsMediaconnectUpdateFlowOutputOptions : AwsOptions, IValidatableO
     [CliOption("--ndi-output-timecode-source")]
     public AwsMediaconnectUpdateFlowOutputNdiOutputTimecodeSource? NdiOutputTimecodeSource { get; set; }
 
+    /// <summary>
+    /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged. Constraints: o min: -40 o max: 0
+    /// </summary>
+    [CliOption("--ndi-audio-reference-level")]
+    public int? NdiAudioReferenceLevel { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

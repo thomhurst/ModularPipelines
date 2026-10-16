@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lambdamicrovms commands.
+/// aws lambda-microvms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLambdaMicrovms : IAwsLambdaMicrovms
@@ -167,21 +167,6 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListManagedMicrovmImagesAsync(
-        AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists versions of a managed MicroVM image. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -197,6 +182,21 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
+    /// Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListManagedMicrovmImagesAsync(
+        AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists builds for a MicroVM image version with optional filtering by ar- chitecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -205,6 +205,21 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMicrovmImageBuildsAsync(
         AwsLambdaMicrovmsListMicrovmImageBuildsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists versions of a MicroVM image. We recommend using pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMicrovmImageVersionsAsync(
+        AwsLambdaMicrovmsListMicrovmImageVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -224,21 +239,6 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists versions of a MicroVM image. We recommend using pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMicrovmImageVersionsAsync(
-        AwsLambdaMicrovmsListMicrovmImageVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

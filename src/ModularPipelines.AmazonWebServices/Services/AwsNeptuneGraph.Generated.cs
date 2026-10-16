@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws neptunegraph commands.
+/// aws neptune-graph commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsNeptuneGraph : IAwsNeptuneGraph
@@ -33,7 +33,7 @@ public class AwsNeptuneGraph : IAwsNeptuneGraph
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws neptune-graph wait sub-commands.
     /// </summary>
     public AwsNeptuneGraphWait Wait => _wait ??= new AwsNeptuneGraphWait(_command);
 

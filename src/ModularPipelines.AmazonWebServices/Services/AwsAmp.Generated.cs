@@ -33,7 +33,7 @@ public class AwsAmp : IAwsAmp
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws amp wait sub-commands.
     /// </summary>
     public AwsAmpWait Wait => _wait ??= new AwsAmpWait(_command);
 

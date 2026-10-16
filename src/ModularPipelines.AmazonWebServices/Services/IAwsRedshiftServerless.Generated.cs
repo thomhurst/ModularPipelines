@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws redshiftserverless commands.
+/// aws redshift-serverless commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ConvertRecoveryPointToSnapshotAsync(AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ConvertRecoveryPointToSnapshotAsync(AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a custom domain association for Amazon Redshift Serverless. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomDomainAssociationAsync(AwsRedshiftServerlessCreateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomDomainAssociationAsync(AwsRedshiftServerlessCreateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift Serverless managed VPC endpoint. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointAccessAsync(AwsRedshiftServerlessCreateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointAccessAsync(AwsRedshiftServerlessCreateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a namespace in Amazon Redshift Serverless. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateNamespaceAsync(AwsRedshiftServerlessCreateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateNamespaceAsync(AwsRedshiftServerlessCreateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateReservationAsync(AwsRedshiftServerlessCreateReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateReservationAsync(AwsRedshiftServerlessCreateReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateScheduledActionAsync(AwsRedshiftServerlessCreateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateScheduledActionAsync(AwsRedshiftServerlessCreateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotCopyConfigurationAsync(AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotCopyConfigurationAsync(AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot of all databases in a namespace. For more informa- tion about snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotAsync(AwsRedshiftServerlessCreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotAsync(AwsRedshiftServerlessCreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identi- fier. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUsageLimitAsync(AwsRedshiftServerlessCreateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUsageLimitAsync(AwsRedshiftServerlessCreateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an workgroup in Amazon Redshift Serverless. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned on, the following capabilities are blocked: o Creating a public access workgroup o Modifying a private workgroup to public o Adding a subnet with VPC BPA turned on to the workgroup...
@@ -118,8 +109,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateWorkgroupAsync(AwsRedshiftServerlessCreateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateWorkgroupAsync(AwsRedshiftServerlessCreateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a custom domain association for Amazon Redshift Serverless. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomDomainAssociationAsync(AwsRedshiftServerlessDeleteCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomDomainAssociationAsync(AwsRedshiftServerlessDeleteCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Redshift Serverless managed VPC endpoint. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAccessAsync(AwsRedshiftServerlessDeleteEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAccessAsync(AwsRedshiftServerlessDeleteEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteNamespaceAsync(AwsRedshiftServerlessDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteNamespaceAsync(AwsRedshiftServerlessDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified resource policy. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsRedshiftServerlessDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsRedshiftServerlessDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a scheduled action. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScheduledActionAsync(AwsRedshiftServerlessDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScheduledActionAsync(AwsRedshiftServerlessDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a snapshot copy configuration See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSnapshotCopyConfigurationAsync(AwsRedshiftServerlessDeleteSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSnapshotCopyConfigurationAsync(AwsRedshiftServerlessDeleteSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a snapshot from Amazon Redshift Serverless. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSnapshotAsync(AwsRedshiftServerlessDeleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSnapshotAsync(AwsRedshiftServerlessDeleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a usage limit from Amazon Redshift Serverless. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUsageLimitAsync(AwsRedshiftServerlessDeleteUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUsageLimitAsync(AwsRedshiftServerlessDeleteUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workgroup. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteWorkgroupAsync(AwsRedshiftServerlessDeleteWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteWorkgroupAsync(AwsRedshiftServerlessDeleteWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a database user name and temporary password with temporary au- thorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCre- dentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, th...
@@ -218,8 +199,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCredentialsAsync(AwsRedshiftServerlessGetCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCredentialsAsync(AwsRedshiftServerlessGetCredentialsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a specific custom domain association. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomDomainAssociationAsync(AwsRedshiftServerlessGetCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomDomainAssociationAsync(AwsRedshiftServerlessGetCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information, such as the name, about a VPC endpoint. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEndpointAccessAsync(AwsRedshiftServerlessGetEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEndpointAccessAsync(AwsRedshiftServerlessGetEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified work- groups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetI- dentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integrati...
@@ -248,8 +226,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityCenterAuthTokenAsync(AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityCenterAuthTokenAsync(AwsRedshiftServerlessGetIdentityCenterAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a namespace in Amazon Redshift Serverless. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetNamespaceAsync(AwsRedshiftServerlessGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetNamespaceAsync(AwsRedshiftServerlessGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a recovery point. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRecoveryPointAsync(AwsRedshiftServerlessGetRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRecoveryPointAsync(AwsRedshiftServerlessGetRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the reservation offering. The offering determines the payment schedule for the reservation. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservationOfferingAsync(AwsRedshiftServerlessGetReservationOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservationOfferingAsync(AwsRedshiftServerlessGetReservationOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservationAsync(AwsRedshiftServerlessGetReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservationAsync(AwsRedshiftServerlessGetReservationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a resource policy. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsRedshiftServerlessGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsRedshiftServerlessGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a scheduled action. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetScheduledActionAsync(AwsRedshiftServerlessGetScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetScheduledActionAsync(AwsRedshiftServerlessGetScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific snapshot. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSnapshotAsync(AwsRedshiftServerlessGetSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSnapshotAsync(AwsRedshiftServerlessGetSnapshotOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a TableRestoreStatus object. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTableRestoreStatusAsync(AwsRedshiftServerlessGetTableRestoreStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTableRestoreStatusAsync(AwsRedshiftServerlessGetTableRestoreStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the Redshift Serverless version for a specified track. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTrackAsync(AwsRedshiftServerlessGetTrackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTrackAsync(AwsRedshiftServerlessGetTrackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a usage limit. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetUsageLimitAsync(AwsRedshiftServerlessGetUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetUsageLimitAsync(AwsRedshiftServerlessGetUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a specific workgroup. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetWorkgroupAsync(AwsRedshiftServerlessGetWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetWorkgroupAsync(AwsRedshiftServerlessGetWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists custom domain associations for Amazon Redshift Serverless. See also: AWS API Documentation list-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: associations
@@ -368,8 +334,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomDomainAssociationsAsync(AwsRedshiftServerlessListCustomDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomDomainAssociationsAsync(AwsRedshiftServerlessListCustomDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of EndpointAccess objects and relevant information. See also: AWS API Documentation list-endpoint-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: endpoints
@@ -378,8 +343,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEndpointAccessAsync(AwsRedshiftServerlessListEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEndpointAccessAsync(AwsRedshiftServerlessListEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a list of specified managed workgroups in your account. See also: AWS API Documentation list-managed-workgroups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: managedWorkgr...
@@ -388,8 +352,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListManagedWorkgroupsAsync(AwsRedshiftServerlessListManagedWorkgroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListManagedWorkgroupsAsync(AwsRedshiftServerlessListManagedWorkgroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a list of specified namespaces. See also: AWS API Documentation list-namespaces is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: namespaces
@@ -398,8 +361,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListNamespacesAsync(AwsRedshiftServerlessListNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListNamespacesAsync(AwsRedshiftServerlessListNamespacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of recovery points. See also: AWS API Documentation list-recovery-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: recoveryPoints
@@ -408,8 +370,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecoveryPointsAsync(AwsRedshiftServerlessListRecoveryPointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecoveryPointsAsync(AwsRedshiftServerlessListRecoveryPointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the current reservation offerings in your account. See also: AWS API Documentation list-reservation-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: reservationOfferingsList
@@ -418,8 +379,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReservationOfferingsAsync(AwsRedshiftServerlessListReservationOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReservationOfferingsAsync(AwsRedshiftServerlessListReservationOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Reservation objects. See also: AWS API Documentation list-reservations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: reservationsList
@@ -428,8 +388,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReservationsAsync(AwsRedshiftServerlessListReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReservationsAsync(AwsRedshiftServerlessListReservationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions. See also: AWS API Documentation list-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
@@ -438,8 +397,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListScheduledActionsAsync(AwsRedshiftServerlessListScheduledActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListScheduledActionsAsync(AwsRedshiftServerlessListScheduledActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of snapshot copy configurations. See also: AWS API Documentation list-snapshot-copy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshotCopyConfigurations
@@ -448,8 +406,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSnapshotCopyConfigurationsAsync(AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSnapshotCopyConfigurationsAsync(AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of snapshots. See also: AWS API Documentation list-snapshots is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: snapshots
@@ -458,8 +415,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSnapshotsAsync(AwsRedshiftServerlessListSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSnapshotsAsync(AwsRedshiftServerlessListSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about an array of TableRestoreStatus objects. See also: AWS API Documentation list-table-restore-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: tableRestoreStatuses
@@ -468,8 +424,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTableRestoreStatusAsync(AwsRedshiftServerlessListTableRestoreStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTableRestoreStatusAsync(AwsRedshiftServerlessListTableRestoreStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags assigned to a resource. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRedshiftServerlessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRedshiftServerlessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Amazon Redshift Serverless versions. See also: AWS API Documentation list-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tracks
@@ -488,8 +442,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTracksAsync(AwsRedshiftServerlessListTracksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTracksAsync(AwsRedshiftServerlessListTracksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all usage limits within Amazon Redshift Serverless. See also: AWS API Documentation list-usage-limits is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: usageLimits
@@ -498,8 +451,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListUsageLimitsAsync(AwsRedshiftServerlessListUsageLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListUsageLimitsAsync(AwsRedshiftServerlessListUsageLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about a list of specified workgroups. See also: AWS API Documentation list-workgroups is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workgroups
@@ -508,8 +460,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListWorkgroupsAsync(AwsRedshiftServerlessListWorkgroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListWorkgroupsAsync(AwsRedshiftServerlessListWorkgroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts. See also: AWS API Documentation
@@ -518,8 +469,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsRedshiftServerlessPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsRedshiftServerlessPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restore the data from a recovery point. See also: AWS API Documentation
@@ -528,8 +478,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreFromRecoveryPointAsync(AwsRedshiftServerlessRestoreFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreFromRecoveryPointAsync(AwsRedshiftServerlessRestoreFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a namespace from a snapshot. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreFromSnapshotAsync(AwsRedshiftServerlessRestoreFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreFromSnapshotAsync(AwsRedshiftServerlessRestoreFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a table from a recovery point to your Amazon Redshift Server- less instance. You can't use this operation to restore tables with in- terleaved sort keys. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreTableFromRecoveryPointAsync(AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreTableFromRecoveryPointAsync(AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restores a table from a snapshot to your Amazon Redshift Serverless in- stance. You can't use this operation to restore tables with interleaved sort keys . See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreTableFromSnapshotAsync(AwsRedshiftServerlessRestoreTableFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreTableFromSnapshotAsync(AwsRedshiftServerlessRestoreTableFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Assigns one or more tags to a resource. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRedshiftServerlessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsRedshiftServerlessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a tag or set of tags from a resource. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRedshiftServerlessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsRedshiftServerlessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Amazon Redshift Serverless certificate associated with a custom domain. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCustomDomainAssociationAsync(AwsRedshiftServerlessUpdateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCustomDomainAssociationAsync(AwsRedshiftServerlessUpdateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an Amazon Redshift Serverless managed endpoint. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEndpointAccessAsync(AwsRedshiftServerlessUpdateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEndpointAccessAsync(AwsRedshiftServerlessUpdateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateLakehouseConfigurationAsync(AwsRedshiftServerlessUpdateLakehouseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateLakehouseConfigurationAsync(AwsRedshiftServerlessUpdateLakehouseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDes- tinationType is s3table ) cannot be combined with any other namespace configuration change and must be submitted as its own request. See also: A...
@@ -618,8 +559,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateNamespaceAsync(AwsRedshiftServerlessUpdateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateNamespaceAsync(AwsRedshiftServerlessUpdateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a scheduled action. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateScheduledActionAsync(AwsRedshiftServerlessUpdateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateScheduledActionAsync(AwsRedshiftServerlessUpdateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a snapshot copy configuration. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSnapshotCopyConfigurationAsync(AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSnapshotCopyConfigurationAsync(AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a snapshot. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSnapshotAsync(AwsRedshiftServerlessUpdateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSnapshotAsync(AwsRedshiftServerlessUpdateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateUsageLimitAsync(AwsRedshiftServerlessUpdateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateUsageLimitAsync(AwsRedshiftServerlessUpdateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a workgroup is in an account with VPC BPA turned...
@@ -668,7 +604,6 @@ public interface IAwsRedshiftServerless
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateWorkgroupAsync(AwsRedshiftServerlessUpdateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateWorkgroupAsync(AwsRedshiftServerlessUpdateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

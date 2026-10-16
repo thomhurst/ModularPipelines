@@ -106,7 +106,7 @@ public record AwsEmrServerlessStartJobRunOptions : AwsOptions, IValidatableObjec
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The maximum duration for the job run to run. If the job run runs be- yond this duration, it will be automatically cancelled. Constraints: o min: 0 o max: 1000000
+    /// The maximum duration, in minutes, for the job run. If the job run exceeds this duration, Amazon EMR Serverless cancels it automati- cally. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11. Setting a value of 0 to dis- able the timeout is no longer supported for BATCH mode job runs. Constraints: o min: 0 o max: 1000000
     /// </summary>
     [CliOption("--execution-timeout-minutes")]
     public int? ExecutionTimeoutMinutes { get; set; }

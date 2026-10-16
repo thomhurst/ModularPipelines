@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws kinesisvideosignaling commands.
+/// aws kinesis-video-signaling commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsKinesisVideoSignaling : IAwsKinesisVideoSignaling

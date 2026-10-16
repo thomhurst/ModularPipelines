@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRepostspace
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws repostspace wait sub-commands.
     /// </summary>
-    AwsRepostspaceWait Wait => throw new System.NotSupportedException();
+    AwsRepostspaceWait Wait { get; }
 
     /// <summary>
     /// Add role to multiple users or groups in a private re:Post channel. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAddChannelRoleToAccessorsAsync(AwsRepostspaceBatchAddChannelRoleToAccessorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAddChannelRoleToAccessorsAsync(AwsRepostspaceBatchAddChannelRoleToAccessorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add a role to multiple users or groups in a private re:Post. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAddRoleAsync(AwsRepostspaceBatchAddRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAddRoleAsync(AwsRepostspaceBatchAddRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a role from multiple users or groups in a private re:Post chan- nel. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchRemoveChannelRoleFromAccessorsAsync(AwsRepostspaceBatchRemoveChannelRoleFromAccessorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchRemoveChannelRoleFromAccessorsAsync(AwsRepostspaceBatchRemoveChannelRoleFromAccessorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove a role from multiple users or groups in a private re:Post. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchRemoveRoleAsync(AwsRepostspaceBatchRemoveRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchRemoveRoleAsync(AwsRepostspaceBatchRemoveRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a channel in an AWS re:Post Private private re:Post. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateChannelAsync(AwsRepostspaceCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateChannelAsync(AwsRepostspaceCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an AWS re:Post Private private re:Post. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSpaceAsync(AwsRepostspaceCreateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSpaceAsync(AwsRepostspaceCreateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AWS re:Post Private private re:Post. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSpaceAsync(AwsRepostspaceDeleteSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSpaceAsync(AwsRepostspaceDeleteSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the user or group from the list of administrators of the pri- vate re:Post. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterAdminAsync(AwsRepostspaceDeregisterAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterAdminAsync(AwsRepostspaceDeregisterAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays information about a channel in a private re:Post. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetChannelAsync(AwsRepostspaceGetChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetChannelAsync(AwsRepostspaceGetChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays information about the AWS re:Post Private private re:Post. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSpaceAsync(AwsRepostspaceGetSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSpaceAsync(AwsRepostspaceGetSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the list of channel within a private re:Post with some informa- tion about each channel. See also: AWS API Documentation list-channels is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: channe...
@@ -133,8 +123,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChannelsAsync(AwsRepostspaceListChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChannelsAsync(AwsRepostspaceListChannelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post. See also: AWS API Documentation list-spaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
@@ -143,8 +132,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSpacesAsync(AwsRepostspaceListSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSpacesAsync(AwsRepostspaceListSpacesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the tags that are associated with the AWS re:Post Private re- source specified by the resourceArn. The only resource that can be tagged is a private re:Post. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsRepostspaceListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsRepostspaceListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a user or group to the list of administrators of the private re:Post. See also: AWS API Documentation
@@ -163,8 +150,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAdminAsync(AwsRepostspaceRegisterAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAdminAsync(AwsRepostspaceRegisterAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an invitation email to selected users and groups. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendInvitesAsync(AwsRepostspaceSendInvitesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendInvitesAsync(AwsRepostspaceSendInvitesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key thats already associated with the resource, the new tag value that you spec- ify replaces the previous value for that tag. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsRepostspaceTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsRepostspaceTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association of the tag with the AWS re:Post Private re- source. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsRepostspaceUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsRepostspaceUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing channel. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateChannelAsync(AwsRepostspaceUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateChannelAsync(AwsRepostspaceUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing AWS re:Post Private private re:Post. See also: AWS API Documentation
@@ -213,7 +195,6 @@ public interface IAwsRepostspace
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSpaceAsync(AwsRepostspaceUpdateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSpaceAsync(AwsRepostspaceUpdateSpaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

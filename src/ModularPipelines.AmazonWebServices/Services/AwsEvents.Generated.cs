@@ -33,7 +33,7 @@ public class AwsEvents : IAwsEvents
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws events wizard sub-commands.
     /// </summary>
     public AwsEventsWizard Wizard => _wizard ??= new AwsEventsWizard(_command);
 

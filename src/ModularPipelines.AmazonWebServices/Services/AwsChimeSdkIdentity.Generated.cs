@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkidentity commands.
+/// aws chime-sdk-identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
@@ -287,21 +287,6 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
     }
 
     /// <summary>
-    /// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAppInstancesAsync(
-        AwsChimeSdkIdentityListAppInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkIdentityListAppInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all the AppInstanceUserEndpoints created under a single AppIn- stanceUser . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -329,6 +314,21 @@ public class AwsChimeSdkIdentity : IAwsChimeSdkIdentity
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAppInstancesAsync(
+        AwsChimeSdkIdentityListAppInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsChimeSdkIdentityListAppInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

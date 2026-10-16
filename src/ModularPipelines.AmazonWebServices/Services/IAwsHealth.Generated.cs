@@ -28,8 +28,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAffectedAccountsForOrganizationAsync(AwsHealthDescribeAffectedAccountsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAffectedAccountsForOrganizationAsync(AwsHealthDescribeAffectedAccountsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, de- pending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are re- quired. Before you can call this operation, you must first enable Health to work with Organizations. To do th...
@@ -38,8 +37,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAffectedEntitiesForOrganizationAsync(AwsHealthDescribeAffectedEntitiesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAffectedEntitiesForOrganizationAsync(AwsHealthDescribeAffectedEntitiesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of entities that have been affected by the specified events, based on the specified filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. Events that have impact beyond that of the affected entities, or where the ex- tent of impact is unknown, include at least one entity indicating this. At least one event ARN is required. NOTE: o This API operation uses pagination. ...
@@ -48,8 +46,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAffectedEntitiesAsync(AwsHealthDescribeAffectedEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAffectedEntitiesAsync(AwsHealthDescribeAffectedEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of entity aggregates for your Organizations that are af- fected by each of the specified events. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntityAggregatesForOrganizationAsync(AwsHealthDescribeEntityAggregatesForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntityAggregatesForOrganizationAsync(AwsHealthDescribeEntityAggregatesForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the number of entities that are affected by each of the speci- fied events. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEntityAggregatesAsync(AwsHealthDescribeEntityAggregatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEntityAggregatesAsync(AwsHealthDescribeEntityAggregatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. See also: AWS API Documentation describe-event-aggregates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
@@ -78,8 +73,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventAggregatesAsync(AwsHealthDescribeEventAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventAggregatesAsync(AwsHealthDescribeEventAggregatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about one or more specified events for one or more Amazon Web Services accounts in your organization. This infor- mation includes standard event data (such as the Amazon Web Services Region and service), an event description, and (depending on the event) possible metadata. This operation doesn't return affected entities, such as the resources related to the event. To return affected enti- ties, use the DescribeAffectedEntitiesForOrganization operation. NOTE: Before y...
@@ -88,8 +82,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventDetailsForOrganizationAsync(AwsHealthDescribeEventDetailsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventDetailsForOrganizationAsync(AwsHealthDescribeEventDetailsForOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information about one or more specified events. Infor- mation includes standard event data (Amazon Web Services Region, ser- vice, and so on, as returned by DescribeEvents ), a detailed event de- scription, and possible additional metadata that depends upon the na- ture of the event. Affected entities are not included. To retrieve the entities, use the DescribeAffectedEntities operation. If a specified event can't be retrieved, an error message is returned for that event. NOTE: ...
@@ -98,28 +91,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventDetailsAsync(AwsHealthDescribeEventDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about events across your organization in Organiza- tions. You can use the``filters`` parameter to specify the events that you want to return. Events are returned in a summary form and don't in- clude the affected accounts, detailed description, any additional meta- data that depends on the event type, or any affected resources. To re- trieve that information, use the following operations: o DescribeAffectedAccountsForOrganization o DescribeEventDetailsForOrganization o Descri...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsForOrganizationAsync(AwsHealthDescribeEventsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns information about events that meet the specified filter crite- ria. Events are returned in a summary form and do not include the de- tailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime , starting with the most recent event. NOTE: o When you...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsAsync(AwsHealthDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventDetailsAsync(AwsHealthDescribeEventDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the Health event, such as the category, Amazon Web Services service, and event code. The metadata for each event appears in the EventType object. If you don't specify a filter criteria, the API operation returns all event types, in no particular order. NOTE: This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. See als...
@@ -128,8 +100,25 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventTypesAsync(AwsHealthDescribeEventTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventTypesAsync(AwsHealthDescribeEventTypesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information about events across your organization in Organiza- tions. You can use the``filters`` parameter to specify the events that you want to return. Events are returned in a summary form and don't in- clude the affected accounts, detailed description, any additional meta- data that depends on the event type, or any affected resources. To re- trieve that information, use the following operations: o DescribeAffectedAccountsForOrganization o DescribeEventDetailsForOrganization o Descri...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeEventsForOrganizationAsync(AwsHealthDescribeEventsForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information about events that meet the specified filter crite- ria. Events are returned in a summary form and do not include the de- tailed description, any additional metadata that depends on the event type, or any affected resources. To retrieve that information, use the DescribeEventDetails and DescribeAffectedEntities operations. If no filter criteria are specified, all events are returned. Results are sorted by lastModifiedTime , starting with the most recent event. NOTE: o When you...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeEventsAsync(AwsHealthDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation provides status information on enabling or disabling Health to work with your organization. To call this operation, you must use the organization's management account. See also: AWS API Documentation
@@ -138,8 +127,16 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHealthServiceStatusForOrganizationAsync(AwsHealthDescribeHealthServiceStatusForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHealthServiceStatusForOrganizationAsync(AwsHealthDescribeHealthServiceStatusForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns lifecycle information for Amazon Web Services services, includ- ing end-of-life dates, version recommendations, and lifecycle events. See also: AWS API Documentation describe-service-lifecycle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeServiceLifecycleAsync(AwsHealthDescribeServiceLifecycleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables Health from working with Organizations. To call this opera- tion, you must sign in to the organization's management account. For more information, see Aggregating Health events in the Health User Guide . This operation doesn't remove the service-linked role from the manage- ment account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see Deleting a Service-Linked Role in the IAM User Guide ...
@@ -148,8 +145,7 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableHealthServiceAccessForOrganizationAsync(AwsHealthDisableHealthServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableHealthServiceAccessForOrganizationAsync(AwsHealthDisableHealthServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables Health to work with Organizations. You can use the organiza- tional view feature to aggregate events from all Amazon Web Services accounts in your organization in a centralized location. This operation also creates a service-linked role for the management account in the organization. NOTE: To call this operation, you must meet the following requirements: o You must have a Business, Enterprise On-Ramp, or Enterprise Sup- port plan from Amazon Web Services Support to use the Health API. If...
@@ -158,7 +154,6 @@ public interface IAwsHealth
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableHealthServiceAccessForOrganizationAsync(AwsHealthEnableHealthServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableHealthServiceAccessForOrganizationAsync(AwsHealthEnableHealthServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

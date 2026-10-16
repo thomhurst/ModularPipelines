@@ -33,7 +33,7 @@ public class AwsOmics : IAwsOmics
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws omics wait sub-commands.
     /// </summary>
     public AwsOmicsWait Wait => _wait ??= new AwsOmicsWait(_command);
 
@@ -972,21 +972,6 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Retrieves a list of annotation stores. See also: AWS API Documentation list-annotation-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAnnotationStoresAsync(
-        AwsOmicsListAnnotationStoresOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the versions of an annotation store. See also: AWS API Documentation list-annotation-store-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: annotationStoreVersions
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -999,6 +984,21 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// WARNING: Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see Amazon Web Services HealthOmics variant store and annotation store availability change . Retrieves a list of annotation stores. See also: AWS API Documentation list-annotation-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. Yo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAnnotationStoresAsync(
+        AwsOmicsListAnnotationStoresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListAnnotationStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1092,21 +1092,6 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSe...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListReadSetsAsync(
-        AwsOmicsListReadSetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output. See also: AWS API Documentation list-read-set-upload-parts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1115,6 +1100,21 @@ public class AwsOmics : IAwsOmics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReadSetUploadPartsAsync(
         AwsOmicsListReadSetUploadPartsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format. See also: AWS API Documentation list-read-sets is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: readSe...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListReadSetsAsync(
+        AwsOmicsListReadSetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1137,21 +1137,6 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-references is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListReferencesAsync(
-        AwsOmicsListReferencesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves a list of reference stores linked to your account and returns their metadata in JSON format. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-reference-stores is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1164,6 +1149,21 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListReferenceStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see Creating a reference store in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-references is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListReferencesAsync(
+        AwsOmicsListReferencesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1197,6 +1197,21 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
+    /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed. See also: AWS API Documentation list-run-tasks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRunTasksAsync(
+        AwsOmicsListRunTasksOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns a paginated list of individual workflow runs within a specific batch. Use this operation to map each runSettingId to its HealthOmics-generated runId , and to check the submission status of each run. Only one filter per call is supported. See also: AWS API Documentation list-runs-in-batch is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output tex...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1224,21 +1239,6 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListRunsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed. See also: AWS API Documentation list-run-tasks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRunTasksAsync(
-        AwsOmicsListRunTasksOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1317,21 +1317,6 @@ public class AwsOmics : IAwsOmics
     }
 
     /// <summary>
-    /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkflowsAsync(
-        AwsOmicsListWorkflowsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the workflow versions for the specified workflow. For more infor- mation, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation list-workflow-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1344,6 +1329,21 @@ public class AwsOmics : IAwsOmics
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkflowsAsync(
+        AwsOmicsListWorkflowsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsOmicsListWorkflowsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

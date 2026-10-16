@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws chimesdkidentity commands.
+/// aws chime-sdk-identity commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppInstanceAdminAsync(AwsChimeSdkIdentityCreateAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppInstanceAdminAsync(AwsChimeSdkIdentityCreateAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a bot under an Amazon Chime AppInstance . The request consists of a unique Configuration and Name for that bot. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppInstanceBotAsync(AwsChimeSdkIdentityCreateAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppInstanceBotAsync(AwsChimeSdkIdentityCreateAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppInstanceAsync(AwsChimeSdkIdentityCreateAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppInstanceAsync(AwsChimeSdkIdentityCreateAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user under an Amazon Chime AppInstance . The request consists of a unique appInstanceUserId and Name for that user. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAppInstanceUserAsync(AwsChimeSdkIdentityCreateAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAppInstanceUserAsync(AwsChimeSdkIdentityCreateAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot . This action does not delete the user. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppInstanceAdminAsync(AwsChimeSdkIdentityDeleteAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppInstanceAdminAsync(AwsChimeSdkIdentityDeleteAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AppInstanceBot . See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppInstanceBotAsync(AwsChimeSdkIdentityDeleteAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppInstanceBotAsync(AwsChimeSdkIdentityDeleteAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AppInstance and all associated data asynchronously. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppInstanceAsync(AwsChimeSdkIdentityDeleteAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppInstanceAsync(AwsChimeSdkIdentityDeleteAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an AppInstanceUser . See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAppInstanceUserAsync(AwsChimeSdkIdentityDeleteAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAppInstanceUserAsync(AwsChimeSdkIdentityDeleteAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters an AppInstanceUserEndpoint . See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterAppInstanceUserEndpointAsync(AwsChimeSdkIdentityDeregisterAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterAppInstanceUserEndpointAsync(AwsChimeSdkIdentityDeregisterAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of an AppInstanceAdmin . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppInstanceAdminAsync(AwsChimeSdkIdentityDescribeAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppInstanceAdminAsync(AwsChimeSdkIdentityDescribeAppInstanceAdminOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The AppInstanceBot's information. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppInstanceBotAsync(AwsChimeSdkIdentityDescribeAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppInstanceBotAsync(AwsChimeSdkIdentityDescribeAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of an AppInstance . See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppInstanceAsync(AwsChimeSdkIdentityDescribeAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppInstanceAsync(AwsChimeSdkIdentityDescribeAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of an AppInstanceUserEndpoint . See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppInstanceUserEndpointAsync(AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppInstanceUserEndpointAsync(AwsChimeSdkIdentityDescribeAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the full details of an AppInstanceUser . See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAppInstanceUserAsync(AwsChimeSdkIdentityDescribeAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAppInstanceUserAsync(AwsChimeSdkIdentityDescribeAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the retention settings for an AppInstance . See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAppInstanceRetentionSettingsAsync(AwsChimeSdkIdentityGetAppInstanceRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAppInstanceRetentionSettingsAsync(AwsChimeSdkIdentityGetAppInstanceRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the administrators in the AppInstance . See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInstanceAdminsAsync(AwsChimeSdkIdentityListAppInstanceAdminsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppInstanceAdminsAsync(AwsChimeSdkIdentityListAppInstanceAdminsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all AppInstanceBots created under a single AppInstance . See also: AWS API Documentation
@@ -188,18 +172,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInstanceBotsAsync(AwsChimeSdkIdentityListAppInstanceBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInstancesAsync(AwsChimeSdkIdentityListAppInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppInstanceBotsAsync(AwsChimeSdkIdentityListAppInstanceBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the AppInstanceUserEndpoints created under a single AppIn- stanceUser . See also: AWS API Documentation
@@ -208,8 +181,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInstanceUserEndpointsAsync(AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppInstanceUserEndpointsAsync(AwsChimeSdkIdentityListAppInstanceUserEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all AppInstanceUsers created under a single AppInstance . See also: AWS API Documentation
@@ -218,8 +190,16 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAppInstanceUsersAsync(AwsChimeSdkIdentityListAppInstanceUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAppInstanceUsersAsync(AwsChimeSdkIdentityListAppInstanceUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Lists all Amazon Chime AppInstance s created under a single AWS ac- count. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAppInstancesAsync(AwsChimeSdkIdentityListAppInstancesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags applied to an Amazon Chime SDK identity resource. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkIdentityListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsChimeSdkIdentityListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the amount of time in days that a given AppInstance retains data. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAppInstanceRetentionSettingsAsync(AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAppInstanceRetentionSettingsAsync(AwsChimeSdkIdentityPutAppInstanceRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the number of days before the AppInstanceUser is automatically deleted. NOTE: A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAppInstanceUserExpirationSettingsAsync(AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAppInstanceUserExpirationSettingsAsync(AwsChimeSdkIdentityPutAppInstanceUserExpirationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers an endpoint under an Amazon Chime AppInstanceUser . The end- point receives messages for a user. For push notifications, the end- point is a mobile device used to receive mobile push notifications for a user. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterAppInstanceUserEndpointAsync(AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterAppInstanceUserEndpointAsync(AwsChimeSdkIdentityRegisterAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsChimeSdkIdentityTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsChimeSdkIdentityTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkIdentityUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsChimeSdkIdentityUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the name and metadata of an AppInstanceBot . See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppInstanceBotAsync(AwsChimeSdkIdentityUpdateAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppInstanceBotAsync(AwsChimeSdkIdentityUpdateAppInstanceBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates AppInstance metadata. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppInstanceAsync(AwsChimeSdkIdentityUpdateAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppInstanceAsync(AwsChimeSdkIdentityUpdateAppInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details of an AppInstanceUserEndpoint . You can update the name and AllowMessage values. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppInstanceUserEndpointAsync(AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppInstanceUserEndpointAsync(AwsChimeSdkIdentityUpdateAppInstanceUserEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the details of an AppInstanceUser . You can update names and metadata. See also: AWS API Documentation
@@ -318,7 +289,6 @@ public interface IAwsChimeSdkIdentity
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateAppInstanceUserAsync(AwsChimeSdkIdentityUpdateAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateAppInstanceUserAsync(AwsChimeSdkIdentityUpdateAppInstanceUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

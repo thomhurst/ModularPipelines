@@ -28,8 +28,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateExternalConnectionAsync(AwsCodeartifactAssociateExternalConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateExternalConnectionAsync(AwsCodeartifactAssociateExternalConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies package versions from one repository to another repository in the same domain. NOTE: You must specify versions or versionRevisions . You cannot specify both. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyPackageVersionsAsync(AwsCodeartifactCopyPackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyPackageVersionsAsync(AwsCodeartifactCopyPackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a domain. CodeArtifact domains make it easier to manage multi- ple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Ser- vices accounts. An asset is stored only once in a domain, even if it's in multiple repositories. Although you can have multiple domains, we recommend a single produc- tion domain that contains all published artifacts so that your develop- ment teams can find and share packages. You can...
@@ -48,8 +46,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDomainAsync(AwsCodeartifactCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDomainAsync(AwsCodeartifactCreateDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the CodeArtifact User Guide . See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePackageGroupAsync(AwsCodeartifactCreatePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePackageGroupAsync(AwsCodeartifactCreatePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a repository. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRepositoryAsync(AwsCodeartifactCreateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRepositoryAsync(AwsCodeartifactCreateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a domain. You cannot delete a domain that contains reposito- ries. If you want to delete a domain with repositories, first delete its repositories. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainAsync(AwsCodeartifactDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainAsync(AwsCodeartifactDeleteDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy set on a domain. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDomainPermissionsPolicyAsync(AwsCodeartifactDeleteDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDomainPermissionsPolicyAsync(AwsCodeartifactDeleteDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a package group. Deleting a package group does not delete pack- ages or package versions associated with the package group. When a package group is deleted, the direct child package groups will become children of the package group's direct parent package group. Therefore, if any of the child groups are inheriting any settings from the parent, those settings could change. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackageGroupAsync(AwsCodeartifactDeletePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackageGroupAsync(AwsCodeartifactDeletePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a package and all associated package versions. A deleted pack- age cannot be restored. To delete one or more package versions, use the DeletePackageVersions API. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackageAsync(AwsCodeartifactDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackageAsync(AwsCodeartifactDeletePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived . Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, ListPackageVersions ), but you can restore them using UpdatePackageVersionsStatus . See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePackageVersionsAsync(AwsCodeartifactDeletePackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePackageVersionsAsync(AwsCodeartifactDeletePackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a repository. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRepositoryAsync(AwsCodeartifactDeleteRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRepositoryAsync(AwsCodeartifactDeleteRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy that is set on a repository. After a re- source policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate. WARNING: Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose per- missions to perform the repository actions granted by the deleted policy. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRepositoryPermissionsPolicyAsync(AwsCodeartifactDeleteRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRepositoryPermissionsPolicyAsync(AwsCodeartifactDeleteRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a DomainDescription object that contains information about the requested domain. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDomainAsync(AwsCodeartifactDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDomainAsync(AwsCodeartifactDescribeDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a PackageGroupDescription object that contains information about the requested package group. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackageGroupAsync(AwsCodeartifactDescribePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackageGroupAsync(AwsCodeartifactDescribePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a PackageDescription object that contains information about the requested package. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackageAsync(AwsCodeartifactDescribePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackageAsync(AwsCodeartifactDescribePackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a PackageVersionDescription object that contains information about the requested package version. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePackageVersionAsync(AwsCodeartifactDescribePackageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePackageVersionAsync(AwsCodeartifactDescribePackageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a RepositoryDescription object that contains detailed informa- tion about the requested repository. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRepositoryAsync(AwsCodeartifactDescribeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRepositoryAsync(AwsCodeartifactDescribeRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an existing external connection from a repository. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateExternalConnectionAsync(AwsCodeartifactDisassociateExternalConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateExternalConnectionAsync(AwsCodeartifactDisassociateExternalConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the assets in package versions and sets the package versions' status to Disposed . A disposed package version cannot be restored in your repository because its assets are deleted. To view all disposed package versions in a repository, use ListPackageVersions and set the status parameter to Disposed . To view information about a disposed package version, use DescribePackageVersion . See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisposePackageVersionsAsync(AwsCodeartifactDisposePackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisposePackageVersionsAsync(AwsCodeartifactDisposePackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the most closely associated package group to the specified package. This API does not require that the package exist in any repos- itory in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration applies to a package be- fore that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see Package group definition syntax and ...
@@ -218,8 +199,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAssociatedPackageGroupAsync(AwsCodeartifactGetAssociatedPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAssociatedPackageGroupAsync(AwsCodeartifactGetAssociatedPackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a temporary authorization token for accessing repositories in the domain. This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions. For more information about authorization tokens, see CodeArtifact authentication and tokens . NOTE: CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command. You can call login periodically to refresh the token. When you create an authorization token with the GetAutho...
@@ -228,8 +208,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAuthorizationTokenAsync(AwsCodeartifactGetAuthorizationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAuthorizationTokenAsync(AwsCodeartifactGetAuthorizationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource policy attached to the specified domain. NOTE: The policy is a resource-based policy, not an identity-based policy. For more information, see Identity-based policies and resource-based policies in the IAM User Guide . See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainPermissionsPolicyAsync(AwsCodeartifactGetDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainPermissionsPolicyAsync(AwsCodeartifactGetDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPackageVersionAssetAsync(AwsCodeartifactGetPackageVersionAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPackageVersionAssetAsync(AwsCodeartifactGetPackageVersionAssetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might con- tain formatting for Markdown or reStructuredText. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPackageVersionReadmeAsync(AwsCodeartifactGetPackageVersionReadmeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPackageVersionReadmeAsync(AwsCodeartifactGetPackageVersionReadmeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format: o cargo o generic o maven o npm o nuget o pypi o ruby o swift See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositoryEndpointAsync(AwsCodeartifactGetRepositoryEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositoryEndpointAsync(AwsCodeartifactGetRepositoryEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the resource policy that is set on a repository. See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetRepositoryPermissionsPolicyAsync(AwsCodeartifactGetRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetRepositoryPermissionsPolicyAsync(AwsCodeartifactGetRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about re- striction types and added repository lists, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Documentation list-allowed-repositories-for-group is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
@@ -288,8 +262,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAllowedRepositoriesForGroupAsync(AwsCodeartifactListAllowedRepositoriesForGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAllowedRepositoriesForGroupAsync(AwsCodeartifactListAllowedRepositoriesForGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of packages associated with the requested package group. For information package group association and matching, see Package group definition syntax and matching behavior in the CodeArtifact User Guide . See also: AWS API Documentation list-associated-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query arg...
@@ -298,8 +271,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAssociatedPackagesAsync(AwsCodeartifactListAssociatedPackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAssociatedPackagesAsync(AwsCodeartifactListAssociatedPackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned Domain- Summary object contains information about a domain. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the -...
@@ -308,8 +280,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainsAsync(AwsCodeartifactListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainsAsync(AwsCodeartifactListDomainsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of package groups in the requested domain. See also: AWS API Documentation list-package-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: packageGroups
@@ -318,18 +289,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackageGroupsAsync(AwsCodeartifactListPackageGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a list of PackageSummary objects for packages in a repository that match the request parameters. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackagesAsync(AwsCodeartifactListPackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackageGroupsAsync(AwsCodeartifactListPackageGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of AssetSummary objects for assets in a package version. See also: AWS API Documentation list-package-version-assets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: assets
@@ -338,8 +298,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackageVersionAssetsAsync(AwsCodeartifactListPackageVersionAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackageVersionAssetsAsync(AwsCodeartifactListPackageVersionAssetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the pack- age format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned. See also: AWS API Documentation
@@ -348,8 +307,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackageVersionDependenciesAsync(AwsCodeartifactListPackageVersionDependenciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackageVersionDependenciesAsync(AwsCodeartifactListPackageVersionDependenciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of PackageVersionSummary objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no --status parameter. See also: AWS API Documentation list-package-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output te...
@@ -358,8 +316,16 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPackageVersionsAsync(AwsCodeartifactListPackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPackageVersionsAsync(AwsCodeartifactListPackageVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a list of PackageSummary objects for packages in a repository that match the request parameters. See also: AWS API Documentation list-packages is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListPackagesAsync(AwsCodeartifactListPackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters. See also: AWS API Documentation list-repositories-in-domain is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
@@ -368,8 +334,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositoriesInDomainAsync(AwsCodeartifactListRepositoriesInDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositoriesInDomainAsync(AwsCodeartifactListRepositoriesInDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input parameters. See also: AWS API Documentation list-repositories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
@@ -378,8 +343,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRepositoriesAsync(AwsCodeartifactListRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRepositoriesAsync(AwsCodeartifactListRepositoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of direct children of the specified package group. For information package group hierarchy, see Package group definition syntax and matching behavior in the CodeArtifact User Guide . See also: AWS API Documentation list-sub-package-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated r...
@@ -388,8 +352,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSubPackageGroupsAsync(AwsCodeartifactListSubPackageGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSubPackageGroupsAsync(AwsCodeartifactListSubPackageGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsCodeartifactListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsCodeartifactListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets up the idiomatic tool for your package format to use your CodeArtifact repository. Your login information is valid for up to 12 hours after which you must login again.
@@ -408,8 +370,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LoginAsync(AwsCodeartifactLoginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LoginAsync(AwsCodeartifactLoginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Un- finished state until all of its assets have been uploaded (see Package version status in the CodeArtifact user guide ). To set the package versions status to Published , omit the unfinished flag when uploading the final asset, or set the status using UpdatePackageVersionStatus . Once a package versions status is set to Published , it cannot change back to...
@@ -418,8 +379,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PublishPackageVersionAsync(AwsCodeartifactPublishPackageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PublishPackageVersionAsync(AwsCodeartifactPublishPackageVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy , the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDomainPermissionsPolicyAsync(AwsCodeartifactPutDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDomainPermissionsPolicyAsync(AwsCodeartifactPutDomainPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide . PutPackageOriginConfiguration can b...
@@ -438,8 +397,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutPackageOriginConfigurationAsync(AwsCodeartifactPutPackageOriginConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutPackageOriginConfigurationAsync(AwsCodeartifactPutPackageOriginConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets the resource policy on a repository that specifies permissions to access it. When you call PutRepositoryPermissionsPolicy , the resource policy on the repository is ignored when evaluting permissions. This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being able to update the resource policy. See also: AWS API Documentation
@@ -448,8 +406,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutRepositoryPermissionsPolicyAsync(AwsCodeartifactPutRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutRepositoryPermissionsPolicyAsync(AwsCodeartifactPutRepositoryPermissionsPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds or updates tags for a resource in CodeArtifact. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsCodeartifactTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsCodeartifactTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from a resource in CodeArtifact. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsCodeartifactUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsCodeartifactUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a package group's origin configuration, use UpdatePackageGroupOriginConfiguration . See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageGroupAsync(AwsCodeartifactUpdatePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageGroupAsync(AwsCodeartifactUpdatePackageGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a pack- age can be added to a repository. You can allow or block direct pub- lishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source. For more information about package group origin controls and configuration, see Package group origin controls in the CodeArtifact User Guide . See also: AWS API Docu...
@@ -488,8 +442,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageGroupOriginConfigurationAsync(AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageGroupOriginConfigurationAsync(AwsCodeartifactUpdatePackageGroupOriginConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of one or more versions of a package. Using Up- datePackageVersionsStatus , you can update the status of package ver- sions to Archived , Published , or Unlisted . To set the status of a package version to Disposed , use DisposePackageVersions . See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePackageVersionsStatusAsync(AwsCodeartifactUpdatePackageVersionsStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePackageVersionsStatusAsync(AwsCodeartifactUpdatePackageVersionsStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the properties of a repository. See also: AWS API Documentation
@@ -508,7 +460,6 @@ public interface IAwsCodeartifact
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateRepositoryAsync(AwsCodeartifactUpdateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateRepositoryAsync(AwsCodeartifactUpdateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

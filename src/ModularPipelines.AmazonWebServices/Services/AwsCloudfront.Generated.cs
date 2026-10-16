@@ -33,7 +33,7 @@ public class AwsCloudfront : IAwsCloudfront
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudfront wait sub-commands.
     /// </summary>
     public AwsCloudfrontWait Wait => _wait ??= new AwsCloudfrontWait(_command);
 
@@ -1602,6 +1602,36 @@ public class AwsCloudfront : IAwsCloudfront
     }
 
     /// <summary>
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn para- meter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDistributionTenantsByCustomizationAsync(
+        AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsByCustomizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DistributionTenantList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDistributionTenantsAsync(
+        AwsCloudfrontListDistributionTenantsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the distributions in your account that are associated with the specified AnycastIpListId . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1794,36 +1824,6 @@ public class AwsCloudfront : IAwsCloudfront
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn para- meter, but not both in the same request. See also: AWS API Documentation list-distribution-tenants-by-customization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDistributionTenantsByCustomizationAsync(
-        AwsCloudfrontListDistributionTenantsByCustomizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsByCustomizationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the distribution tenants in your Amazon Web Services account. See also: AWS API Documentation list-distribution-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: DistributionTenantList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDistributionTenantsAsync(
-        AwsCloudfrontListDistributionTenantsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudfrontListDistributionTenantsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

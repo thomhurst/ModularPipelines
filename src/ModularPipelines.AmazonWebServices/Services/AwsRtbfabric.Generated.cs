@@ -33,7 +33,7 @@ public class AwsRtbfabric : IAwsRtbfabric
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws rtbfabric wait sub-commands.
     /// </summary>
     public AwsRtbfabricWait Wait => _wait ??= new AwsRtbfabricWait(_command);
 

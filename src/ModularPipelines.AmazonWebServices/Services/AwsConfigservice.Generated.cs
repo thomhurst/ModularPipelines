@@ -452,21 +452,6 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
-    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the ac- count. See also: AWS API Documentation describe-configuration-aggregators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeConfigurationAggregatorsAsync(
-        AwsConfigserviceDescribeConfigurationAggregatorsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConfigurationAggregatorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message. See also: AWS API Documentation describe-configuration-aggregator-sources-status is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -482,18 +467,18 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
-    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. NOTE: When making a request to this operation, you can only specify one configuration recorder. See also: AWS API Documentation
+    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the ac- count. See also: AWS API Documentation describe-configuration-aggregators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeConfigurationRecordersAsync(
-        AwsConfigserviceDescribeConfigurationRecordersOptions? options = null,
+    public virtual async Task<CommandResult> DescribeConfigurationAggregatorsAsync(
+        AwsConfigserviceDescribeConfigurationAggregatorsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConfigurationRecordersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConfigurationAggregatorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -512,6 +497,21 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
+    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. NOTE: When making a request to this operation, you can only specify one configuration recorder. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeConfigurationRecordersAsync(
+        AwsConfigserviceDescribeConfigurationRecordersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConfigurationRecordersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Returns compliance details for each rule in that conformance pack. NOTE: You must provide exact rule names. See also: AWS API Documentation describe-conformance-pack-compliance is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -524,21 +524,6 @@ public class AwsConfigservice : IAwsConfigservice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of one or more conformance packs. See also: AWS API Documentation describe-conformance-packs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ConformancePackDetails
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeConformancePacksAsync(
-        AwsConfigserviceDescribeConformancePacksOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConformancePacksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -557,18 +542,18 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
-    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all de- livery channels associated with the account. NOTE: Currently, you can specify only one delivery channel per region in your account. See also: AWS API Documentation
+    /// Returns a list of one or more conformance packs. See also: AWS API Documentation describe-conformance-packs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ConformancePackDetails
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeDeliveryChannelsAsync(
-        AwsConfigserviceDescribeDeliveryChannelsOptions? options = null,
+    public virtual async Task<CommandResult> DescribeConformancePacksAsync(
+        AwsConfigserviceDescribeConformancePacksOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeDeliveryChannelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeConformancePacksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -587,18 +572,18 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
-    /// Returns a list of organization Config rules. NOTE: When you specify the limit and the next token, you receive a pagi- nated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organization If you deploy an organizational rule or conformance pack in an orga- nization administrator account, and then establish a delegated ad- ministrator and deploy an organi...
+    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all de- livery channels associated with the account. NOTE: Currently, you can specify only one delivery channel per region in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeOrganizationConfigRulesAsync(
-        AwsConfigserviceDescribeOrganizationConfigRulesOptions? options = null,
+    public virtual async Task<CommandResult> DescribeDeliveryChannelsAsync(
+        AwsConfigserviceDescribeDeliveryChannelsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeOrganizationConfigRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeDeliveryChannelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -617,18 +602,18 @@ public class AwsConfigservice : IAwsConfigservice
     }
 
     /// <summary>
-    /// Returns a list of organization conformance packs. NOTE: When you specify the limit and the next token, you receive a pagi- nated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organization If you deploy an organizational rule or conformance pack in an orga- nization administrator account, and then establish a delegated ad- ministrator a...
+    /// Returns a list of organization Config rules. NOTE: When you specify the limit and the next token, you receive a pagi- nated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organization If you deploy an organizational rule or conformance pack in an orga- nization administrator account, and then establish a delegated ad- ministrator and deploy an organi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeOrganizationConformancePacksAsync(
-        AwsConfigserviceDescribeOrganizationConformancePacksOptions? options = null,
+    public virtual async Task<CommandResult> DescribeOrganizationConfigRulesAsync(
+        AwsConfigserviceDescribeOrganizationConfigRulesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeOrganizationConformancePacksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeOrganizationConfigRulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -644,6 +629,21 @@ public class AwsConfigservice : IAwsConfigservice
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeOrganizationConformancePackStatusesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of organization conformance packs. NOTE: When you specify the limit and the next token, you receive a pagi- nated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organization If you deploy an organizational rule or conformance pack in an orga- nization administrator account, and then establish a delegated ad- ministrator a...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeOrganizationConformancePacksAsync(
+        AwsConfigserviceDescribeOrganizationConformancePacksOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConfigserviceDescribeOrganizationConformancePacksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsServicecatalog
 {
     /// <summary>
-    /// aws generate sub-commands.
+    /// aws servicecatalog generate sub-commands.
     /// </summary>
-    AwsServicecatalogGenerate Generate => throw new System.NotSupportedException();
+    AwsServicecatalogGenerate Generate { get; }
 
     /// <summary>
     /// Accepts an offer to share the specified portfolio. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptPortfolioShareAsync(AwsServicecatalogAcceptPortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptPortfolioShareAsync(AwsServicecatalogAcceptPortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified budget with the specified resource. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateBudgetWithResourceAsync(AwsServicecatalogAssociateBudgetWithResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateBudgetWithResourceAsync(AwsServicecatalogAssociateBudgetWithResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID , PrincipalARN , and PrincipalType parameters are re- quired. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN . NOTE: When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared...
@@ -53,8 +51,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociatePrincipalWithPortfolioAsync(AwsServicecatalogAssociatePrincipalWithPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociatePrincipalWithPortfolioAsync(AwsServicecatalogAssociatePrincipalWithPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -63,8 +60,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateProductWithPortfolioAsync(AwsServicecatalogAssociateProductWithPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateProductWithPortfolioAsync(AwsServicecatalogAssociateProductWithPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates a self-service action with a provisioning artifact. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateServiceActionWithProvisioningArtifactAsync(AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateServiceActionWithProvisioningArtifactAsync(AwsServicecatalogAssociateServiceActionWithProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate the specified TagOption with the specified portfolio or prod- uct. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateTagOptionWithResourceAsync(AwsServicecatalogAssociateTagOptionWithResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateTagOptionWithResourceAsync(AwsServicecatalogAssociateTagOptionWithResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associates multiple self-service actions with provisioning artifacts. See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchAssociateServiceActionWithProvisioningArtifactAsync(AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchAssociateServiceActionWithProvisioningArtifactAsync(AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a batch of self-service actions from the specified provi- sioning artifact. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDisassociateServiceActionFromProvisioningArtifactAsync(AwsServicecatalogBatchDisassociateServiceActionFromProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDisassociateServiceActionFromProvisioningArtifactAsync(AwsServicecatalogBatchDisassociateServiceActionFromProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a port- folio using CreatePortfolioShare . This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus . See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyProductAsync(AwsServicecatalogCopyProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyProductAsync(AwsServicecatalogCopyProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a constraint. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConstraintAsync(AwsServicecatalogCreateConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConstraintAsync(AwsServicecatalogCreateConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a portfolio. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -133,8 +123,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePortfolioAsync(AwsServicecatalogCreatePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePortfolioAsync(AwsServicecatalogCreatePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shares the specified portfolio with the specified account or organiza- tion node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfo- lio share to an organization node. Y...
@@ -143,8 +132,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePortfolioShareAsync(AwsServicecatalogCreatePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePortfolioShareAsync(AwsServicecatalogCreatePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
@@ -153,8 +141,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProductAsync(AwsServicecatalogCreateProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProductAsync(AwsServicecatalogCreateProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAIL- ABLE or TAINTED. To view the resource changes in the change set, use DescribeProvi- sionedProductPlan . To create or modify the provisioned product, use ExecuteProvisionedProductP...
@@ -163,8 +150,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProvisionedProductPlanAsync(AwsServicecatalogCreateProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProvisionedProductPlanAsync(AwsServicecatalogCreateProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a provisioning artifact (also known as a version) for the spec- ified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudforma- tion:GetTemplate IAM policy permission. This policy permission is re- quired when using the ImportFromPhysicalId template source in the in- formation data section. See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateProvisioningArtifactAsync(AwsServicecatalogCreateProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateProvisioningArtifactAsync(AwsServicecatalogCreateProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a self-service action. See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateServiceActionAsync(AwsServicecatalogCreateServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateServiceActionAsync(AwsServicecatalogCreateServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a TagOption. See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTagOptionAsync(AwsServicecatalogCreateTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTagOptionAsync(AwsServicecatalogCreateTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified constraint. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConstraintAsync(AwsServicecatalogDeleteConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConstraintAsync(AwsServicecatalogDeleteConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePortfolioAsync(AwsServicecatalogDeletePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePortfolioAsync(AwsServicecatalogDeletePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops sharing the specified portfolio with the specified account or or- ganization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administra- tor. Note that if a delegated admin is de-registered, portfolio shares cre- ated from that account are removed. See also: AWS API Documentation
@@ -223,8 +204,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePortfolioShareAsync(AwsServicecatalogDeletePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePortfolioShareAsync(AwsServicecatalogDeletePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -233,8 +213,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProductAsync(AwsServicecatalogDeleteProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProductAsync(AwsServicecatalogDeleteProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified plan. See also: AWS API Documentation
@@ -243,8 +222,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProvisionedProductPlanAsync(AwsServicecatalogDeleteProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProvisionedProductPlanAsync(AwsServicecatalogDeleteProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning arti- fact for a product, because a product must have at least one provision- ing artifact. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteProvisioningArtifactAsync(AwsServicecatalogDeleteProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteProvisioningArtifactAsync(AwsServicecatalogDeleteProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a self-service action. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteServiceActionAsync(AwsServicecatalogDeleteServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteServiceActionAsync(AwsServicecatalogDeleteServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagOptionAsync(AwsServicecatalogDeleteTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagOptionAsync(AwsServicecatalogDeleteTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified constraint. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeConstraintAsync(AwsServicecatalogDescribeConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeConstraintAsync(AwsServicecatalogDescribeConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status of the specified copy product operation. See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCopyProductStatusAsync(AwsServicecatalogDescribeCopyProductStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCopyProductStatusAsync(AwsServicecatalogDescribeCopyProductStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified portfolio. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -303,18 +276,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePortfolioAsync(AwsServicecatalogDescribePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePortfolioSharesAsync(AwsServicecatalogDescribePortfolioSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePortfolioAsync(AwsServicecatalogDescribePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin. See also: AWS API Documentation
@@ -323,8 +285,16 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePortfolioShareStatusAsync(AwsServicecatalogDescribePortfolioShareStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePortfolioShareStatusAsync(AwsServicecatalogDescribePortfolioShareStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribePortfolioSharesAsync(AwsServicecatalogDescribePortfolioSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified product. This operation is run with administrator access. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProductAsAdminAsync(AwsServicecatalogDescribeProductAsAdminOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProductAsAdminAsync(AwsServicecatalogDescribeProductAsAdminOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified product. NOTE: Running this operation with administrator access results in a fail- ure. DescribeProductAsAdmin should be used instead. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProductAsync(AwsServicecatalogDescribeProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProductAsync(AwsServicecatalogDescribeProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified product. See also: AWS API Documentation
@@ -353,8 +321,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProductViewAsync(AwsServicecatalogDescribeProductViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProductViewAsync(AwsServicecatalogDescribeProductViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified provisioned product. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProvisionedProductAsync(AwsServicecatalogDescribeProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProvisionedProductAsync(AwsServicecatalogDescribeProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the resource changes for the specified plan. See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProvisionedProductPlanAsync(AwsServicecatalogDescribeProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProvisionedProductPlanAsync(AwsServicecatalogDescribeProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified provisioning artifact (also known as a version) for the specified product. See also: AWS API Documentation
@@ -383,8 +348,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProvisioningArtifactAsync(AwsServicecatalogDescribeProvisioningArtifactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProvisioningArtifactAsync(AwsServicecatalogDescribeProvisioningArtifactOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to ProvisionProduct , do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Ta...
@@ -393,8 +357,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeProvisioningParametersAsync(AwsServicecatalogDescribeProvisioningParametersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeProvisioningParametersAsync(AwsServicecatalogDescribeProvisioningParametersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct , TerminateProvisionedProduct , or UpdateProvi- sionedProduct ). NOTE: If a provisioned product was transferred to a new owner using Up- dateProvisionedProductProperties , the new owner will be able to de- scribe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to ...
@@ -403,8 +366,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRecordAsync(AwsServicecatalogDescribeRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRecordAsync(AwsServicecatalogDescribeRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceActionExecutionParametersAsync(AwsServicecatalogDescribeServiceActionExecutionParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceActionExecutionParametersAsync(AwsServicecatalogDescribeServiceActionExecutionParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a self-service action. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeServiceActionAsync(AwsServicecatalogDescribeServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeServiceActionAsync(AwsServicecatalogDescribeServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the specified TagOption. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTagOptionAsync(AwsServicecatalogDescribeTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTagOptionAsync(AwsServicecatalogDescribeTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disable portfolio sharing through the Organizations service. This com- mand will not delete your current shares, but prevents you from creat- ing new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator i...
@@ -443,8 +402,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableAwsOrganizationsAccessAsync(AwsServicecatalogDisableAwsOrganizationsAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableAwsOrganizationsAccessAsync(AwsServicecatalogDisableAwsOrganizationsAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified budget from the specified resource. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateBudgetFromResourceAsync(AwsServicecatalogDisassociateBudgetFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateBudgetFromResourceAsync(AwsServicecatalogDisassociateBudgetFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipal- WithPortfolio call request details. For example, to disassociate an as- sociation created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio . For portfolios that have been shared with principal name sharing en- abled: after disassociating a principal, share recipient accounts...
@@ -463,8 +420,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociatePrincipalFromPortfolioAsync(AwsServicecatalogDisassociatePrincipalFromPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociatePrincipalFromPortfolioAsync(AwsServicecatalogDisassociatePrincipalFromPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified product from the specified portfolio. A delegated admin is authorized to invoke this command. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateProductFromPortfolioAsync(AwsServicecatalogDisassociateProductFromPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateProductFromPortfolioAsync(AwsServicecatalogDisassociateProductFromPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified self-service action association from the specified provisioning artifact. See also: AWS API Documentation
@@ -483,8 +438,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateServiceActionFromProvisioningArtifactAsync(AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateServiceActionFromProvisioningArtifactAsync(AwsServicecatalogDisassociateServiceActionFromProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disassociates the specified TagOption from the specified resource. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateTagOptionFromResourceAsync(AwsServicecatalogDisassociateTagOptionFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateTagOptionFromResourceAsync(AwsServicecatalogDisassociateTagOptionFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:En- ableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized...
@@ -503,8 +456,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAwsOrganizationsAccessAsync(AwsServicecatalogEnableAwsOrganizationsAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAwsOrganizationsAccessAsync(AwsServicecatalogEnableAwsOrganizationsAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provisions or modifies a product based on the resource changes for the specified plan. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteProvisionedProductPlanAsync(AwsServicecatalogExecuteProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteProvisionedProductPlanAsync(AwsServicecatalogExecuteProvisionedProductPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes a self-service action against a provisioned product. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteProvisionedProductServiceActionAsync(AwsServicecatalogExecuteProvisionedProductServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteProvisionedProductServiceActionAsync(AwsServicecatalogExecuteProvisionedProductServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAwsOrganizationsAccessStatusAsync(AwsServicecatalogGetAwsOrganizationsAccessStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAwsOrganizationsAccessStatusAsync(AwsServicecatalogGetAwsOrganizationsAccessStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This API takes either a ProvisonedProductId or a ProvisionedProductName , along with a list of one or more output keys, and responds with the key/value pairs of those outputs. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetProvisionedProductOutputsAsync(AwsServicecatalogGetProvisionedProductOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetProvisionedProductOutputsAsync(AwsServicecatalogGetProvisionedProductOutputsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provision- ing artifact. Once imported, all supported governance actions are sup- ported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE , UPDATE_COMPLETE , UPDATE_...
@@ -553,8 +501,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ImportAsProvisionedProductAsync(AwsServicecatalogImportAsProvisionedProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ImportAsProvisionedProductAsync(AwsServicecatalogImportAsProvisionedProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType , you can list portfolios for which organizational shares were accepted by this account. See also: AWS API Documentation list-accepted-portfolio-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and t...
@@ -563,8 +510,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAcceptedPortfolioSharesAsync(AwsServicecatalogListAcceptedPortfolioSharesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAcceptedPortfolioSharesAsync(AwsServicecatalogListAcceptedPortfolioSharesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the budgets associated to the specified resource. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBudgetsForResourceAsync(AwsServicecatalogListBudgetsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBudgetsForResourceAsync(AwsServicecatalogListBudgetsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the constraints for the specified portfolio and product. See also: AWS API Documentation list-constraints-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConstraintDetails
@@ -583,8 +528,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConstraintsForPortfolioAsync(AwsServicecatalogListConstraintsForPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConstraintsForPortfolioAsync(AwsServicecatalogListConstraintsForPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the paths to the specified product. A path describes how the user gets access to a specified product and is necessary when provisioning a product. A path also determines the constraints that are put on a prod- uct. A path is dependent on a specific product, porfolio, and princi- pal. NOTE: When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see Granting users access in the Service Catalog User...
@@ -593,8 +537,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListLaunchPathsAsync(AwsServicecatalogListLaunchPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListLaunchPathsAsync(AwsServicecatalogListLaunchPathsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the organization nodes that have access to the specified portfo- lio. This API can only be called by the management account in the orga- nization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation list-organization-portfolio-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate ar...
@@ -603,8 +546,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationPortfolioAccessAsync(AwsServicecatalogListOrganizationPortfolioAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationPortfolioAccessAsync(AwsServicecatalogListOrganizationPortfolioAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation. See also: AWS API Documentation
@@ -613,8 +555,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPortfolioAccessAsync(AwsServicecatalogListPortfolioAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPortfolioAccessAsync(AwsServicecatalogListPortfolioAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all portfolios that the specified product is associated with. See also: AWS API Documentation list-portfolios-for-product is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
@@ -623,8 +564,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPortfoliosForProductAsync(AwsServicecatalogListPortfoliosForProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPortfoliosForProductAsync(AwsServicecatalogListPortfoliosForProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all portfolios in the catalog. See also: AWS API Documentation list-portfolios is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: PortfolioDetails
@@ -633,8 +573,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPortfoliosAsync(AwsServicecatalogListPortfoliosOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPortfoliosAsync(AwsServicecatalogListPortfoliosOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all PrincipalARN s and corresponding PrincipalType s associated with the specified portfolio. See also: AWS API Documentation list-principals-for-portfolio is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
@@ -643,8 +582,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPrincipalsForPortfolioAsync(AwsServicecatalogListPrincipalsForPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPrincipalsForPortfolioAsync(AwsServicecatalogListPrincipalsForPortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the plans for the specified provisioned product or all plans to which the user has access. See also: AWS API Documentation list-provisioned-product-plans is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
@@ -653,8 +591,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProvisionedProductPlansAsync(AwsServicecatalogListProvisionedProductPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProvisionedProductPlansAsync(AwsServicecatalogListProvisionedProductPlansOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all provisioning artifacts (also known as versions) for the spec- ified self-service action. See also: AWS API Documentation list-provisioning-artifacts-for-service-action is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the ...
@@ -663,8 +600,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProvisioningArtifactsForServiceActionAsync(AwsServicecatalogListProvisioningArtifactsForServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProvisioningArtifactsForServiceActionAsync(AwsServicecatalogListProvisioningArtifactsForServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all provisioning artifacts (also known as versions) for the spec- ified product. See also: AWS API Documentation
@@ -673,8 +609,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListProvisioningArtifactsAsync(AwsServicecatalogListProvisioningArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListProvisioningArtifactsAsync(AwsServicecatalogListProvisioningArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the specified requests or all performed requests. See also: AWS API Documentation list-record-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RecordDetails
@@ -683,8 +618,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecordHistoryAsync(AwsServicecatalogListRecordHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecordHistoryAsync(AwsServicecatalogListRecordHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the resources associated with the specified TagOption. See also: AWS API Documentation list-resources-for-tag-option is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceDetails
@@ -693,8 +627,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourcesForTagOptionAsync(AwsServicecatalogListResourcesForTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourcesForTagOptionAsync(AwsServicecatalogListResourcesForTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID. See also: AWS API Documentation list-service-actions-for-provisioning-artifact is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data fro...
@@ -703,8 +636,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceActionsForProvisioningArtifactAsync(AwsServicecatalogListServiceActionsForProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceActionsForProvisioningArtifactAsync(AwsServicecatalogListServiceActionsForProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all self-service actions. See also: AWS API Documentation list-service-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ServiceActionSummaries
@@ -713,8 +645,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListServiceActionsAsync(AwsServicecatalogListServiceActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListServiceActionsAsync(AwsServicecatalogListServiceActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can fil- ter for stack instances that are associated with a specific Amazon Web Services account name or Region. See also: AWS API Documentation
@@ -723,8 +654,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListStackInstancesForProvisionedProductAsync(AwsServicecatalogListStackInstancesForProvisionedProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListStackInstancesForProvisionedProductAsync(AwsServicecatalogListStackInstancesForProvisionedProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the specified TagOptions or all TagOptions. See also: AWS API Documentation list-tag-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TagOptionDetails
@@ -733,8 +663,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagOptionsAsync(AwsServicecatalogListTagOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagOptionsAsync(AwsServicecatalogListTagOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the result of the provisioning engine execution. See also: AWS API Documentation
@@ -743,8 +672,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyProvisionProductEngineWorkflowResultAsync(AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyProvisionProductEngineWorkflowResultAsync(AwsServicecatalogNotifyProvisionProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the result of the terminate engine execution. See also: AWS API Documentation
@@ -753,8 +681,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyTerminateProvisionedProductEngineWorkflowResultAsync(AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyTerminateProvisionedProductEngineWorkflowResultAsync(AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Notifies the result of the update engine execution. See also: AWS API Documentation
@@ -763,8 +690,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> NotifyUpdateProvisionedProductEngineWorkflowResultAsync(AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> NotifyUpdateProvisionedProductEngineWorkflowResultAsync(AwsServicecatalogNotifyUpdateProvisionedProductEngineWorkflowResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provisions the specified product. A provisioned product is a resourced instance of a product. For exam- ple, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using DescribeRecord . If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed:...
@@ -773,8 +699,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ProvisionProductAsync(AwsServicecatalogProvisionProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ProvisionProductAsync(AwsServicecatalogProvisionProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rejects an offer to share the specified portfolio. See also: AWS API Documentation
@@ -783,8 +708,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectPortfolioShareAsync(AwsServicecatalogRejectPortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectPortfolioShareAsync(AwsServicecatalogRejectPortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the provisioned products that are available (not terminated). To use additional filtering, see SearchProvisionedProducts . See also: AWS API Documentation scan-provisioned-products is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
@@ -793,8 +717,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScanProvisionedProductsAsync(AwsServicecatalogScanProvisionedProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ScanProvisionedProductsAsync(AwsServicecatalogScanProvisionedProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the products for the specified portfolio or all products. See also: AWS API Documentation search-products-as-admin is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ProductViewDe...
@@ -803,8 +726,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchProductsAsAdminAsync(AwsServicecatalogSearchProductsAsAdminOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchProductsAsAdminAsync(AwsServicecatalogSearchProductsAsAdminOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the products to which the caller has access. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchProductsAsync(AwsServicecatalogSearchProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchProductsAsync(AwsServicecatalogSearchProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about the provisioned products that meet the specified criteria. See also: AWS API Documentation
@@ -823,8 +744,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SearchProvisionedProductsAsync(AwsServicecatalogSearchProvisionedProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SearchProvisionedProductsAsync(AwsServicecatalogSearchProvisionedProductsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Terminates the specified provisioned product. This operation does not delete any records associated with the provi- sioned product. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
@@ -833,8 +753,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateProvisionedProductAsync(AwsServicecatalogTerminateProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateProvisionedProductAsync(AwsServicecatalogTerminateProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified constraint. See also: AWS API Documentation
@@ -843,8 +762,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConstraintAsync(AwsServicecatalogUpdateConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConstraintAsync(AwsServicecatalogUpdateConstraintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified portfolio. You cannot update a product that was shared with you. See also: AWS API Documentation
@@ -853,8 +771,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePortfolioAsync(AwsServicecatalogUpdatePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePortfolioAsync(AwsServicecatalogUpdatePortfolioOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare oper- ation is IN_PROGRESS , as the share is not available to recipient enti- ties. In this case, you must wait for the portfolio share to be com- pleted. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an externa...
@@ -863,8 +780,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePortfolioShareAsync(AwsServicecatalogUpdatePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePortfolioShareAsync(AwsServicecatalogUpdatePortfolioShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified product. See also: AWS API Documentation
@@ -873,8 +789,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProductAsync(AwsServicecatalogUpdateProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProductAsync(AwsServicecatalogUpdateProductOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord . See also: AWS API Documentation
@@ -883,8 +798,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProvisionedProductAsync(AwsServicecatalogUpdateProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProvisionedProductAsync(AwsServicecatalogUpdateProvisionedProductOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Requests updates to the properties of the specified provisioned prod- uct. See also: AWS API Documentation
@@ -893,8 +807,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProvisionedProductPropertiesAsync(AwsServicecatalogUpdateProvisionedProductPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProvisionedProductPropertiesAsync(AwsServicecatalogUpdateProvisionedProductPropertiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you. See also: AWS API Documentation
@@ -903,8 +816,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateProvisioningArtifactAsync(AwsServicecatalogUpdateProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateProvisioningArtifactAsync(AwsServicecatalogUpdateProvisioningArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a self-service action. See also: AWS API Documentation
@@ -913,8 +825,7 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateServiceActionAsync(AwsServicecatalogUpdateServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateServiceActionAsync(AwsServicecatalogUpdateServiceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified TagOption. See also: AWS API Documentation
@@ -923,7 +834,6 @@ public interface IAwsServicecatalog
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateTagOptionAsync(AwsServicecatalogUpdateTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateTagOptionAsync(AwsServicecatalogUpdateTagOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

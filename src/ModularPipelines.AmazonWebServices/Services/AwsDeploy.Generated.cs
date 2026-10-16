@@ -33,7 +33,7 @@ public class AwsDeploy : IAwsDeploy
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws deploy wait sub-commands.
     /// </summary>
     public AwsDeployWait Wait => _wait ??= new AwsDeployWait(_command);
 
@@ -102,21 +102,6 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BatchGetDeploymentsAsync(
-        AwsDeployBatchGetDeploymentsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances . The maximum number of tar- gets that can be returned is 25. The type of targets returned depends on the deployment's compute plat- form or deployment method: o EC2/On-premises : Information about Amazon EC2 instance targets. o Lambda : Information about Lambda functions targets. o Amazon ECS : Information about A...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -125,6 +110,21 @@ public class AwsDeploy : IAwsDeploy
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetDeploymentTargetsAsync(
         AwsDeployBatchGetDeploymentTargetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> BatchGetDeploymentsAsync(
+        AwsDeployBatchGetDeploymentsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -507,21 +507,6 @@ public class AwsDeploy : IAwsDeploy
     }
 
     /// <summary>
-    /// Lists the deployments in a deployment group for an application regis- tered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDeploymentsAsync(
-        AwsDeployListDeploymentsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDeployListDeploymentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns an array of target IDs that are associated a deployment. See also: AWS API Documentation list-deployment-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: targetIds
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -534,6 +519,21 @@ public class AwsDeploy : IAwsDeploy
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the deployments in a deployment group for an application regis- tered with the user or Amazon Web Services account. See also: AWS API Documentation list-deployments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following q...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDeploymentsAsync(
+        AwsDeployListDeploymentsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDeployListDeploymentsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws resourceexplorer2 commands.
+/// aws resource-explorer-2 commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsResourceExplorer2 : IAwsResourceExplorer2
@@ -39,7 +39,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateDefaultViewAsync(
-        AwsResourceExplorer_2AssociateDefaultViewOptions options,
+        AwsResourceExplorerNumber2AssociateDefaultViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -54,11 +54,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BatchGetViewAsync(
-        AwsResourceExplorer_2BatchGetViewOptions? options = null,
+        AwsResourceExplorerNumber2BatchGetViewOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2BatchGetViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2BatchGetViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -69,11 +69,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateIndexAsync(
-        AwsResourceExplorer_2CreateIndexOptions? options = null,
+        AwsResourceExplorerNumber2CreateIndexOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2CreateIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2CreateIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateResourceExplorerSetupAsync(
-        AwsResourceExplorer_2CreateResourceExplorerSetupOptions options,
+        AwsResourceExplorerNumber2CreateResourceExplorerSetupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -99,7 +99,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateViewAsync(
-        AwsResourceExplorer_2CreateViewOptions options,
+        AwsResourceExplorerNumber2CreateViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -114,7 +114,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteIndexAsync(
-        AwsResourceExplorer_2DeleteIndexOptions options,
+        AwsResourceExplorerNumber2DeleteIndexOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -129,11 +129,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourceExplorerSetupAsync(
-        AwsResourceExplorer_2DeleteResourceExplorerSetupOptions? options = null,
+        AwsResourceExplorerNumber2DeleteResourceExplorerSetupOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2DeleteResourceExplorerSetupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2DeleteResourceExplorerSetupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteViewAsync(
-        AwsResourceExplorer_2DeleteViewOptions options,
+        AwsResourceExplorerNumber2DeleteViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -159,11 +159,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisassociateDefaultViewAsync(
-        AwsResourceExplorer_2DisassociateDefaultViewOptions? options = null,
+        AwsResourceExplorerNumber2DisassociateDefaultViewOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2DisassociateDefaultViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2DisassociateDefaultViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -174,11 +174,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAccountLevelServiceConfigurationAsync(
-        AwsResourceExplorer_2GetAccountLevelServiceConfigurationOptions? options = null,
+        AwsResourceExplorerNumber2GetAccountLevelServiceConfigurationOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2GetAccountLevelServiceConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2GetAccountLevelServiceConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -189,11 +189,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDefaultViewAsync(
-        AwsResourceExplorer_2GetDefaultViewOptions? options = null,
+        AwsResourceExplorerNumber2GetDefaultViewOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2GetDefaultViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2GetDefaultViewOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -204,11 +204,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIndexAsync(
-        AwsResourceExplorer_2GetIndexOptions? options = null,
+        AwsResourceExplorerNumber2GetIndexOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2GetIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2GetIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -219,7 +219,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetManagedViewAsync(
-        AwsResourceExplorer_2GetManagedViewOptions options,
+        AwsResourceExplorerNumber2GetManagedViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -234,7 +234,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResourceExplorerSetupAsync(
-        AwsResourceExplorer_2GetResourceExplorerSetupOptions options,
+        AwsResourceExplorerNumber2GetResourceExplorerSetupOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -249,11 +249,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServiceIndexAsync(
-        AwsResourceExplorer_2GetServiceIndexOptions? options = null,
+        AwsResourceExplorerNumber2GetServiceIndexOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2GetServiceIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2GetServiceIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServiceViewAsync(
-        AwsResourceExplorer_2GetServiceViewOptions options,
+        AwsResourceExplorerNumber2GetServiceViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -279,7 +279,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetViewAsync(
-        AwsResourceExplorer_2GetViewOptions options,
+        AwsResourceExplorerNumber2GetViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -294,7 +294,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIndexesForMembersAsync(
-        AwsResourceExplorer_2ListIndexesForMembersOptions options,
+        AwsResourceExplorerNumber2ListIndexesForMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -309,11 +309,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListIndexesAsync(
-        AwsResourceExplorer_2ListIndexesOptions? options = null,
+        AwsResourceExplorerNumber2ListIndexesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListIndexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListIndexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -324,11 +324,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListManagedViewsAsync(
-        AwsResourceExplorer_2ListManagedViewsOptions? options = null,
+        AwsResourceExplorerNumber2ListManagedViewsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListManagedViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListManagedViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -339,11 +339,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListResourcesAsync(
-        AwsResourceExplorer_2ListResourcesOptions? options = null,
+        AwsResourceExplorerNumber2ListResourcesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListResourcesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -354,11 +354,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListServiceIndexesAsync(
-        AwsResourceExplorer_2ListServiceIndexesOptions? options = null,
+        AwsResourceExplorerNumber2ListServiceIndexesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListServiceIndexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListServiceIndexesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -369,11 +369,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListServiceViewsAsync(
-        AwsResourceExplorer_2ListServiceViewsOptions? options = null,
+        AwsResourceExplorerNumber2ListServiceViewsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListServiceViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListServiceViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -384,11 +384,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListStreamingAccessForServicesAsync(
-        AwsResourceExplorer_2ListStreamingAccessForServicesOptions? options = null,
+        AwsResourceExplorerNumber2ListStreamingAccessForServicesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListStreamingAccessForServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListStreamingAccessForServicesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -399,11 +399,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSupportedResourceTypesAsync(
-        AwsResourceExplorer_2ListSupportedResourceTypesOptions? options = null,
+        AwsResourceExplorerNumber2ListSupportedResourceTypesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListSupportedResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListSupportedResourceTypesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -414,7 +414,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
-        AwsResourceExplorer_2ListTagsForResourceOptions options,
+        AwsResourceExplorerNumber2ListTagsForResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -429,11 +429,11 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListViewsAsync(
-        AwsResourceExplorer_2ListViewsOptions? options = null,
+        AwsResourceExplorerNumber2ListViewsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorer_2ListViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsResourceExplorerNumber2ListViewsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -444,7 +444,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAsync(
-        AwsResourceExplorer_2SearchOptions options,
+        AwsResourceExplorerNumber2SearchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -459,7 +459,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TagResourceAsync(
-        AwsResourceExplorer_2TagResourceOptions options,
+        AwsResourceExplorerNumber2TagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -474,7 +474,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
-        AwsResourceExplorer_2UntagResourceOptions options,
+        AwsResourceExplorerNumber2UntagResourceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -489,7 +489,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateIndexTypeAsync(
-        AwsResourceExplorer_2UpdateIndexTypeOptions options,
+        AwsResourceExplorerNumber2UpdateIndexTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -504,7 +504,7 @@ public class AwsResourceExplorer2 : IAwsResourceExplorer2
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateViewAsync(
-        AwsResourceExplorer_2UpdateViewOptions options,
+        AwsResourceExplorerNumber2UpdateViewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

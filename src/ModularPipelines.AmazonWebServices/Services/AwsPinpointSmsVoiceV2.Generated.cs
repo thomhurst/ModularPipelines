@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pinpointsmsvoicev2 commands.
+/// aws pinpoint-sms-voice-v2 commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
@@ -392,21 +392,6 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteOptedOutNumberAsync(
-        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -415,6 +400,21 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteOptOutListAsync(
         AwsPinpointSmsVoiceV2DeleteOptOutListOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes an existing opted out destination phone number from the speci- fied opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteOptedOutNumberAsync(
+        AwsPinpointSmsVoiceV2DeleteOptedOutNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -692,21 +692,6 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the out- put includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify a...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeOptedOutNumbersAsync(
-        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the specified opt-out list or all opt-out lists in your ac- count. If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists. If you specify an opt-out list name that isn't valid, an error is re- turned. See also: AWS API Documentation describe-opt-out-lists is a paginated...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -719,6 +704,21 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeOptOutListsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the out- put includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify a...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeOptedOutNumbersAsync(
+        AwsPinpointSmsVoiceV2DescribeOptedOutNumbersOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -857,21 +857,6 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Retrieves the specified registrations. See also: AWS API Documentation describe-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Registrations
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeRegistrationsAsync(
-        AwsPinpointSmsVoiceV2DescribeRegistrationsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Retrieves the specified registration type definitions. You can use De- scribeRegistrationTypeDefinitions to view the requirements for creat- ing, filling out, and submitting each registration type. See also: AWS API Documentation describe-registration-type-definitions is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -899,6 +884,21 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the specified registrations. See also: AWS API Documentation describe-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Registrations
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeRegistrationsAsync(
+        AwsPinpointSmsVoiceV2DescribeRegistrationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPinpointSmsVoiceV2DescribeRegistrationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1022,7 +1022,7 @@ public class AwsPinpointSmsVoiceV2 : IAwsPinpointSmsVoiceV2
     }
 
     /// <summary>
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no num- bers match. ResourceNotFoundException is thrown only for invalid Regis- trationId (campaign not found). See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can di...
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US . See also: AWS API Documentation list-available-phone-numbers is a paginated operation. Multipl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

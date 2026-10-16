@@ -33,7 +33,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudwatch wait sub-commands.
     /// </summary>
     public AwsCloudwatchWait Wait => _wait ??= new AwsCloudwatchWait(_command);
 
@@ -537,21 +537,6 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to ap- pear. To see metric statistics sooner, use GetMetricData or GetMetricStatistics . If you are using CloudWatch cross-account observability, you can use this operation in a mo...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMetricsAsync(
-        AwsCloudwatchListMetricsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchListMetricsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of metric streams in this account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -564,6 +549,21 @@ public class AwsCloudwatch : IAwsCloudwatch
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchListMetricStreamsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to ap- pear. To see metric statistics sooner, use GetMetricData or GetMetricStatistics . If you are using CloudWatch cross-account observability, you can use this operation in a mo...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMetricsAsync(
+        AwsCloudwatchListMetricsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchListMetricsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

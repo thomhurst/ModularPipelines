@@ -272,21 +272,6 @@ public class AwsGrafana : IAwsGrafana
     }
 
     /// <summary>
-    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListWorkspaceServiceAccountsAsync(
-        AwsGrafanaListWorkspaceServiceAccountsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of tokens for a workspace service account. NOTE: This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-account-tokens is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -295,6 +280,21 @@ public class AwsGrafana : IAwsGrafana
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListWorkspaceServiceAccountTokensAsync(
         AwsGrafanaListWorkspaceServiceAccountTokensOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above. See also: AWS API Documentation list-workspace-service-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListWorkspaceServiceAccountsAsync(
+        AwsGrafanaListWorkspaceServiceAccountsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

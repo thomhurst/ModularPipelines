@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws cognitoidentity commands.
+/// aws cognito-identity commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCognitoIdentity : IAwsCognitoIdentity
@@ -122,21 +122,6 @@ public class AwsCognitoIdentity : IAwsCognitoIdentity
     }
 
     /// <summary>
-    /// Gets the roles for an identity pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetIdentityPoolRolesAsync(
-        AwsCognitoIdentityGetIdentityPoolRolesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -145,6 +130,21 @@ public class AwsCognitoIdentity : IAwsCognitoIdentity
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIdAsync(
         AwsCognitoIdentityGetIdOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets the roles for an identity pool. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetIdentityPoolRolesAsync(
+        AwsCognitoIdentityGetIdentityPoolRolesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

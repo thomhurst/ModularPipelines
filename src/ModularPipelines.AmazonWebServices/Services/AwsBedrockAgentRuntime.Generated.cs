@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentruntime commands.
+/// aws bedrock-agent-runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
@@ -272,21 +272,6 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     }
 
     /// <summary>
-    /// Lists all invocations associated with a specific session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInvocationsAsync(
-        AwsBedrockAgentRuntimeListInvocationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocation-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -295,6 +280,21 @@ public class AwsBedrockAgentRuntime : IAwsBedrockAgentRuntime
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInvocationStepsAsync(
         AwsBedrockAgentRuntimeListInvocationStepsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all invocations associated with a specific session. For more in- formation about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions . See also: AWS API Documentation list-invocations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInvocationsAsync(
+        AwsBedrockAgentRuntimeListInvocationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

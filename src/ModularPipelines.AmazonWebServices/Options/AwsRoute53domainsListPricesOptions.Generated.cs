@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: o Registration o Transfer o Owner change o Domain renewal o Domain restoration See also: AWS API Documentation list-prices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument mus...
+/// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: o Registration o Transfer o Owner change o Renewal o Restoration NOTE: The prices that ListPrices returns are the standard rates for a TLD. ListPrices doesn't return registry premium prices, which apply to individual domain names rather than to a TLD. To get accurate pric- ing for a specific domain name, including premium prices, call Get- DomainPrices . See also: AWS API Documentation list-prices is ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

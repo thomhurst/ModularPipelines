@@ -13,7 +13,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws rdsdata commands.
+/// aws rds-data commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsRdsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchExecuteStatementAsync(AwsRdsDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchExecuteStatementAsync(AwsRdsDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a SQL transaction. NOTE: A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an im- plicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfte...
@@ -38,8 +37,7 @@ public interface IAwsRdsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BeginTransactionAsync(AwsRdsDataBeginTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BeginTransactionAsync(AwsRdsDataBeginTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsRdsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CommitTransactionAsync(AwsRdsDataCommitTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CommitTransactionAsync(AwsRdsDataCommitTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsRdsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteStatementAsync(AwsRdsDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteStatementAsync(AwsRdsDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Performs a rollback of a transaction. Rolling back a transaction can- cels its changes. See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsRdsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RollbackTransactionAsync(AwsRdsDataRollbackTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RollbackTransactionAsync(AwsRdsDataRollbackTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

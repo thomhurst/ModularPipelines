@@ -81,6 +81,12 @@ public record AwsEmrServerlessGetResourceDashboardOptions : AwsOptions, IValidat
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
+    /// <summary>
+    /// Allows access to system profile logs for Lake Formation-enabled ses- sions. Default is false.
+    /// </summary>
+    [CliFlag("--access-system-profile-logs", NegatedName = "--no-access-system-profile-logs")]
+    public bool? AccessSystemProfileLogs { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

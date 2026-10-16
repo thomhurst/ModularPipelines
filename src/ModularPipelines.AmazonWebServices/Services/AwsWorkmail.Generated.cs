@@ -722,21 +722,6 @@ public class AwsWorkmail : IAwsWorkmail
     }
 
     /// <summary>
-    /// Requests a user's mailbox details for a specified organization and user. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetMailboxDetailsAsync(
-        AwsWorkmailGetMailboxDetailsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -745,6 +730,21 @@ public class AwsWorkmail : IAwsWorkmail
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMailDomainAsync(
         AwsWorkmailGetMailDomainOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Requests a user's mailbox details for a specified organization and user. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetMailboxDetailsAsync(
+        AwsWorkmailGetMailboxDetailsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -902,6 +902,21 @@ public class AwsWorkmail : IAwsWorkmail
     }
 
     /// <summary>
+    /// Lists the mail domains in a given WorkMail organization. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMailDomainsAsync(
+        AwsWorkmailListMailDomainsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the mailbox export jobs started for the specified organization within the last seven days. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -925,21 +940,6 @@ public class AwsWorkmail : IAwsWorkmail
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMailboxPermissionsAsync(
         AwsWorkmailListMailboxPermissionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the mail domains in a given WorkMail organization. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMailDomainsAsync(
-        AwsWorkmailListMailDomainsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

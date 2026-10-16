@@ -28,8 +28,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSuiteDefinitionAsync(AwsIotdeviceadvisorCreateSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSuiteDefinitionAsync(AwsIotdeviceadvisorCreateSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Device Advisor test suite. Requires permission to access the DeleteSuiteDefinition action. See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSuiteDefinitionAsync(AwsIotdeviceadvisorDeleteSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSuiteDefinitionAsync(AwsIotdeviceadvisorDeleteSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about an Device Advisor endpoint. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEndpointAsync(AwsIotdeviceadvisorGetEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEndpointAsync(AwsIotdeviceadvisorGetEndpointOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a Device Advisor test suite. Requires permission to access the GetSuiteDefinition action. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSuiteDefinitionAsync(AwsIotdeviceadvisorGetSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSuiteDefinitionAsync(AwsIotdeviceadvisorGetSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets information about a Device Advisor test suite run. Requires permission to access the GetSuiteRun action. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSuiteRunAsync(AwsIotdeviceadvisorGetSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSuiteRunAsync(AwsIotdeviceadvisorGetSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the GetSuiteRunReport action. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSuiteRunReportAsync(AwsIotdeviceadvisorGetSuiteRunReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSuiteRunReportAsync(AwsIotdeviceadvisorGetSuiteRunReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSuiteDefinitionsAsync(AwsIotdeviceadvisorListSuiteDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSuiteDefinitionsAsync(AwsIotdeviceadvisorListSuiteDefinitionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSuiteRunsAsync(AwsIotdeviceadvisorListSuiteRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSuiteRunsAsync(AwsIotdeviceadvisorListSuiteRunsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the ListTagsForResource action. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsIotdeviceadvisorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsIotdeviceadvisorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun action. See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartSuiteRunAsync(AwsIotdeviceadvisorStartSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartSuiteRunAsync(AwsIotdeviceadvisorStartSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the StopSuiteRun action. See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopSuiteRunAsync(AwsIotdeviceadvisorStopSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopSuiteRunAsync(AwsIotdeviceadvisorStopSuiteRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the TagResource action. See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsIotdeviceadvisorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsIotdeviceadvisorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the UntagResource action. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsIotdeviceadvisorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsIotdeviceadvisorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a Device Advisor test suite. Requires permission to access the UpdateSuiteDefinition action. See also: AWS API Documentation
@@ -158,7 +145,6 @@ public interface IAwsIotdeviceadvisor
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSuiteDefinitionAsync(AwsIotdeviceadvisorUpdateSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateSuiteDefinitionAsync(AwsIotdeviceadvisorUpdateSuiteDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

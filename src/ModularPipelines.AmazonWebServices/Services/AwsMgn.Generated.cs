@@ -827,21 +827,6 @@ public class AwsMgn : IAwsMgn
     }
 
     /// <summary>
-    /// Lists network migration mapping jobs, which analyze and create rela- tionships between source and target network resources. See also: AWS API Documentation list-network-migration-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListNetworkMigrationMappingsAsync(
-        AwsMgnListNetworkMigrationMappingsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists mapping update jobs, which apply customer modifications to the generated network mappings. See also: AWS API Documentation list-network-migration-mapping-updates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followin...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -850,6 +835,21 @@ public class AwsMgn : IAwsMgn
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListNetworkMigrationMappingUpdatesAsync(
         AwsMgnListNetworkMigrationMappingUpdatesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists network migration mapping jobs, which analyze and create rela- tionships between source and target network resources. See also: AWS API Documentation list-network-migration-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListNetworkMigrationMappingsAsync(
+        AwsMgnListNetworkMigrationMappingsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

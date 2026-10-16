@@ -33,7 +33,7 @@ public class AwsGroundstation : IAwsGroundstation
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws groundstation wait sub-commands.
     /// </summary>
     public AwsGroundstationWait Wait => _wait ??= new AwsGroundstationWait(_command);
 
@@ -372,21 +372,6 @@ public class AwsGroundstation : IAwsGroundstation
     }
 
     /// <summary>
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactsAsync(
-        AwsGroundstationListContactsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of versions for a specified contact. See also: AWS API Documentation list-contact-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: contactVersionsList
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -395,6 +380,21 @@ public class AwsGroundstation : IAwsGroundstation
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContactVersionsAsync(
         AwsGroundstationListContactVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundSta- tion , missionprofileArn , and satelliteArn . See also: AWS API Documentation list-contacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactsAsync(
+        AwsGroundstationListContactsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

@@ -34,12 +34,12 @@ public class AwsDynamodb : IAwsDynamodb
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws dynamodb wait sub-commands.
     /// </summary>
     public AwsDynamodbWait Wait => _wait ??= new AwsDynamodbWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws dynamodb wizard sub-commands.
     /// </summary>
     public AwsDynamodbWizard Wizard => _wizard ??= new AwsDynamodbWizard(_command);
 

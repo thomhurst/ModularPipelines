@@ -33,7 +33,7 @@ public class AwsS3Api : IAwsS3Api
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws s3api wait sub-commands.
     /// </summary>
     public AwsS3ApiWait Wait => _wait ??= new AwsS3ApiWait(_command);
 
@@ -417,21 +417,6 @@ public class AwsS3Api : IAwsS3Api
     }
 
     /// <summary>
-    /// This operation enables you to delete multiple objects from a bucket us- ing a single HTTP request. If you know the object keys that you want to delete, then this operation provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request can contain a list of up to 1,000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-ena...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteObjectsAsync(
-        AwsS3apiDeleteObjectsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Removes the entire tag set from the specified object. For more informa- tion about managing object tags, see Object Tagging . To use this operation, you must have permission to perform the s3:Dele- teObjectTagging action. To delete tags of a specific object version, add the versionId query parameter in the request. You will need permission for the s3:DeleteOb- jectVersionTagging action. The following operations are related to DeleteObj...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -440,6 +425,21 @@ public class AwsS3Api : IAwsS3Api
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteObjectTaggingAsync(
         AwsS3apiDeleteObjectTaggingOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This operation enables you to delete multiple objects from a bucket us- ing a single HTTP request. If you know the object keys that you want to delete, then this operation provides a suitable alternative to sending individual delete requests, reducing per-request overhead. The request can contain a list of up to 1,000 keys that you want to delete. In the XML, you provide the object key names, and optionally, version IDs if you want to delete a specific version of the object from a versioning-ena...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteObjectsAsync(
+        AwsS3apiDeleteObjectsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1107,6 +1107,21 @@ public class AwsS3Api : IAwsS3Api
     }
 
     /// <summary>
+    /// NOTE: This operation is not supported for directory buckets. Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. WARNING: To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. NOTE: A 200 OK response can contain valid or invalid XML. Make sure to de- sign your application to parse the contents o...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListObjectVersionsAsync(
+        AwsS3apiListObjectVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// NOTE: This operation is not supported for directory buckets. Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. WARNING: This action has been revised. We recommend that you use the newer version, ListObjectsV2 , when developing app...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1130,21 +1145,6 @@ public class AwsS3Api : IAwsS3Api
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListObjectsV2Async(
         AwsS3apiListObjectsV2Options options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. WARNING: To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. NOTE: A 200 OK response can contain valid or invalid XML. Make sure to de- sign your application to parse the contents o...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListObjectVersionsAsync(
-        AwsS3apiListObjectVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

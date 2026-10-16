@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws kinesisvideoarchivedmedia commands.
+/// aws kinesis-video-archived-media commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsKinesisVideoArchivedMedia : IAwsKinesisVideoArchivedMedia

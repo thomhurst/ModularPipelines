@@ -28,8 +28,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptHandshakeAsync(AwsOrganizationsAcceptHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptHandshakeAsync(AwsOrganizationsAcceptHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Attaches a policy to a root, an organizational unit (OU), or an indi- vidual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_P...
@@ -38,8 +37,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AttachPolicyAsync(AwsOrganizationsAttachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AttachPolicyAsync(AwsOrganizationsAttachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a Handshake . Only the account that sent a handshake can call this operation. The re- cipient of the handshake can't cancel it, but can use DeclineHandshake to decline. After a handshake is canceled, the recipient can no longer respond to the handshake. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelHandshakeAsync(AwsOrganizationsCancelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelHandshakeAsync(AwsOrganizationsCancelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Closes an Amazon Web Services member account within an organization. You can close an account when all features are enabled . You can't close the management account with this API. This is an asynchronous re- quest that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful com- pletion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the sta...
@@ -58,8 +55,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CloseAccountAsync(AwsOrganizationsCloseAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CloseAccountAsync(AwsOrganizationsCloseAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the back- ground. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the re- quest, do one o...
@@ -68,8 +64,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAccountAsync(AwsOrganizationsCreateAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAccountAsync(AwsOrganizationsCreateAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This action is available if all of the following are true: o You're authorized to create accounts in the Amazon Web Services Gov- Cloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the ` Amazon Web Services GovCloud User Guide . &lt;- https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/wel- come.html&gt;`__ o You already have an account in the Amazon Web Services GovCloud (US) Region that is paired with a management account of an organization in the comme...
@@ -78,18 +73,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateGovCloudAccountAsync(AwsOrganizationsCreateGovCloudAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see Managing organizational units (OUs) in the Organizations User Guide . If the request includes tags, then the ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOrganizationalUnitAsync(AwsOrganizationsCreateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateGovCloudAccountAsync(AwsOrganizationsCreateGovCloudAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the management account of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL ), the new organization is created with all features enabled and service co...
@@ -98,8 +82,16 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateOrganizationAsync(AwsOrganizationsCreateOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateOrganizationAsync(AwsOrganizationsCreateOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see Managing organizational units (OUs) in the Organizations User Guide . If the request includes tags, then the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CreateOrganizationalUnitAsync(AwsOrganizationsCreateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see Managing Organi- zations policies . If the request includes tags, then the requester must have the organi- zations:TagResource permission. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreatePolicyAsync(AwsOrganizationsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreatePolicyAsync(AwsOrganizationsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the hand- shake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
@@ -118,18 +109,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeclineHandshakeAsync(AwsOrganizationsDeclineHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. You can only call this operation from the management account. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOrganizationalUnitAsync(AwsOrganizationsDeleteOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeclineHandshakeAsync(AwsOrganizationsDeclineHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts. When an organization is deleted, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departureMethod:LEFT and departureTime . This event is available only in the management account's event history. See also: AWS API Documentation
@@ -138,8 +118,16 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteOrganizationAsync(AwsOrganizationsDeleteOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteOrganizationAsync(AwsOrganizationsDeleteOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. You can only call this operation from the management account. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DeleteOrganizationalUnitAsync(AwsOrganizationsDeleteOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organiza- tional units (OUs), roots, and accounts. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePolicyAsync(AwsOrganizationsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePolicyAsync(AwsOrganizationsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy from your organization. You can only call this operation from the management account. See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsOrganizationsDeleteResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsOrganizationsDeleteResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. WARNING: Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential im- pacts. You can run this action only for Amazon Web Services services that sup- port this f...
@@ -168,8 +154,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterDelegatedAdministratorAsync(AwsOrganizationsDeregisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterDelegatedAdministratorAsync(AwsOrganizationsDeregisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves Organizations-related information about the specified ac- count. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountAsync(AwsOrganizationsDescribeAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountAsync(AwsOrganizationsDescribeAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the current status of an asynchronous request to create an account. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -188,8 +172,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCreateAccountStatusAsync(AwsOrganizationsDescribeCreateAccountStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCreateAccountStatusAsync(AwsOrganizationsDescribeCreateAccountStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to management policies. It does not apply to authorization policies: service control policies (SCPs) and resource control policies (RCPs). For more information about policy inheritance, see Understanding man- age...
@@ -198,8 +181,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEffectivePolicyAsync(AwsOrganizationsDescribeEffectivePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEffectivePolicyAsync(AwsOrganizationsDescribeEffectivePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. You can view ACCEPTED , DECLINED , or CANCELED handshakes in API Re- sponses for 30 days before they are deleted. You can call this operation from any account in a organization. See also: AWS API Documentation
@@ -208,18 +190,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHandshakeAsync(AwsOrganizationsDescribeHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationalUnitAsync(AwsOrganizationsDescribeOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHandshakeAsync(AwsOrganizationsDescribeHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about the organization that the user's account belongs to. You can call this operation from any account in a organization. NOTE: Even if a policy type is shown as available in the organization, you can disable it separately at the root level with DisablePolicyType . Use ListRoots to see the status of policy types for a specified root. See also: AWS API Documentation
@@ -228,8 +199,16 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrganizationAsync(AwsOrganizationsDescribeOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrganizationAsync(AwsOrganizationsDescribeOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves information about an organizational unit (OU). You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeOrganizationalUnitAsync(AwsOrganizationsDescribeOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a policy. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePolicyAsync(AwsOrganizationsDescribePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePolicyAsync(AwsOrganizationsDescribePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a resource policy. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResourcePolicyAsync(AwsOrganizationsDescribeResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResourcePolicyAsync(AwsOrganizationsDescribeResourcePolicyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns details for a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResponsibilityTransferAsync(AwsOrganizationsDescribeResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResponsibilityTransferAsync(AwsOrganizationsDescribeResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Detaches a policy from a target root, organizational unit (OU), or ac- count. WARNING: If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that lim- its the permissions that can be delegated, you must attach the replace- ment SCP befor...
@@ -268,8 +244,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DetachPolicyAsync(AwsOrganizationsDetachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DetachPolicyAsync(AwsOrganizationsDetachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal ) with Organizations. When you disable integration, the specified service no longer can create a service-linked role in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations. WARNING: W...
@@ -278,8 +253,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableAwsServiceAccessAsync(AwsOrganizationsDisableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableAwsServiceAccessAsync(AwsOrganizationsDisableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the En- ablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a...
@@ -288,8 +262,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisablePolicyTypeAsync(AwsOrganizationsDisablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisablePolicyTypeAsync(AwsOrganizationsDisablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables all features in an organization. This enables the use of orga- nization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have ac- cess only to consolidated billing, and you can't use any of the ad- vanced account administration features that Organizations supports. For more information, see Enabling all features in your organization in the Organizations User Guide . WARNING: This operation is required only for orga...
@@ -298,8 +271,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAllFeaturesAsync(AwsOrganizationsEnableAllFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAllFeaturesAsync(AwsOrganizationsEnableAllFeaturesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides an Amazon Web Services service (the service that is specified by ServicePrincipal ) with permissions to view the structure of an or- ganization, create a service-linked role in all the accounts in the or- ganization, and allow the service to perform operations on behalf of the organization and its accounts. Establishing these permissions can be a first step in enabling the integration of an Amazon Web Services service with Organizations. WARNING: We recommend that you enable integration...
@@ -308,8 +280,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableAwsServiceAccessAsync(AwsOrganizationsEnableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableAwsServiceAccessAsync(AwsOrganizationsEnableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organiza- tional unit (OU), or account in that root. You can undo this by using the DisablePolicyType operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use ListRoots to see the status of policy types for a specified root, and then use this operation. You can only call this opera...
@@ -318,8 +289,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnablePolicyTypeAsync(AwsOrganizationsEnablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnablePolicyTypeAsync(AwsOrganizationsEnablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invita- tion is implemented as a Handshake whose details are in the response. WARNING: If you receive an exception that indicates that you exceeded your account limits for the organization or that the operation failed be- cause your organization is still initializing, wait one hour and then try a...
@@ -328,8 +298,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InviteAccountToOrganizationAsync(AwsOrganizationsInviteAccountToOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InviteAccountToOrganizationAsync(AwsOrganizationsInviteAccountToOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an invitation to another organization's management account to designate your account with the specified responsibilities for their organization. The invitation is implemented as a Handshake whose de- tails are in the response. You can only call this operation from the management account. See also: AWS API Documentation
@@ -338,8 +307,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InviteOrganizationToTransferResponsibilityAsync(AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InviteOrganizationToTransferResponsibilityAsync(AwsOrganizationsInviteOrganizationToTransferResponsibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To re- move a member account as a user in the management account, use Re- moveAccountFromOrganization instead. You can only call from operation from a member account. When an account leaves an organization, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departureMethod:LEFT and departureTime . This event...
@@ -348,8 +316,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> LeaveOrganizationAsync(AwsOrganizationsLeaveOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> LeaveOrganizationAsync(AwsOrganizationsLeaveOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the accounts in an organization that are contained by the speci- fied target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you spec- ify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an emp...
@@ -358,8 +325,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountsForParentAsync(AwsOrganizationsListAccountsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountsForParentAsync(AwsOrganizationsListAccountsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the accounts in the organization. To request only the ac- counts in a specified root or organizational unit (OU), use the Lis- tAccountsForParent operation instead. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates t...
@@ -368,8 +334,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountsAsync(AwsOrganizationsListAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountsAsync(AwsOrganizationsListAccountsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the accounts in an organization that have invalid effective policies. An invalid effective policy is an effective policy that fails validation checks, resulting in the effective policy not being fully enforced on all the intended accounts within an organization. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-accounts-with-invalid-effective-policy is a paginated operation. Multipl...
@@ -378,8 +343,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAccountsWithInvalidEffectivePolicyAsync(AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAccountsWithInvalidEffectivePolicyAsync(AwsOrganizationsListAccountsWithInvalidEffectivePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform op- erations on your organization and its accounts. For more information about integrating other services with Organiza- tions, including the list of services that currently work with Organi- zations, see Using Organizations with other Amazon Web Services ser- vices in the Organizations Use...
@@ -388,8 +352,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListAwsServiceAccessForOrganizationAsync(AwsOrganizationsListAwsServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListAwsServiceAccessForOrganizationAsync(AwsOrganizationsListAwsServiceAccessForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the organizational units (OUs) or accounts that are con- tained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken ret...
@@ -398,8 +361,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListChildrenAsync(AwsOrganizationsListChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListChildrenAsync(AwsOrganizationsListChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the account creation requests that match the specified status that is currently being tracked for the organization. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You c...
@@ -408,8 +370,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCreateAccountStatusAsync(AwsOrganizationsListCreateAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCreateAccountStatusAsync(AwsOrganizationsListCreateAccountStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-delegated-administrators is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text an...
@@ -418,8 +379,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDelegatedAdministratorsAsync(AwsOrganizationsListDelegatedAdministratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDelegatedAdministratorsAsync(AwsOrganizationsListDelegatedAdministratorsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Amazon Web Services services for which the specified account is a delegated administrator. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-delegated-services-for-account is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and t...
@@ -428,8 +388,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDelegatedServicesForAccountAsync(AwsOrganizationsListDelegatedServicesForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDelegatedServicesForAccountAsync(AwsOrganizationsListDelegatedServicesForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the validation errors on an effective policy for a specified account and policy type. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-effective-policy-validation-errors is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
@@ -438,8 +397,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEffectivePolicyValidationErrorsAsync(AwsOrganizationsListEffectivePolicyValidationErrorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEffectivePolicyValidationErrorsAsync(AwsOrganizationsListEffectivePolicyValidationErrorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recent handshakes that you have received. You can view CANCELED , ACCEPTED , DECLINED , or EXPIRED handshakes in API responses for 30 days before they are deleted. You can call this operation from any account in a organization. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests u...
@@ -448,8 +406,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHandshakesForAccountAsync(AwsOrganizationsListHandshakesForAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHandshakesForAccountAsync(AwsOrganizationsListHandshakesForAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recent handshakes that you have sent. You can view CANCELED , ACCEPTED , DECLINED , or EXPIRED handshakes in API responses for 30 days before they are deleted. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more...
@@ -458,8 +415,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHandshakesForOrganizationAsync(AwsOrganizationsListHandshakesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHandshakesForOrganizationAsync(AwsOrganizationsListHandshakesForOrganizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists transfers that allow you to manage the specified responsibilities for another organization. This operation returns both transfer invita- tions and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you hav...
@@ -468,8 +424,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListInboundResponsibilityTransfersAsync(AwsOrganizationsListInboundResponsibilityTransfersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListInboundResponsibilityTransfersAsync(AwsOrganizationsListInboundResponsibilityTransfersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the organizational units (OUs) in a parent organizational unit or root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You can only call this operation from the managem...
@@ -478,8 +433,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOrganizationalUnitsForParentAsync(AwsOrganizationsListOrganizationalUnitsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOrganizationalUnitsForParentAsync(AwsOrganizationsListOrganizationalUnitsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists transfers that allow an account outside your organization to man- age the specified responsibilities for your organization. This opera- tion returns both transfer invitations and transfers. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextTo...
@@ -488,8 +442,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListOutboundResponsibilityTransfersAsync(AwsOrganizationsListOutboundResponsibilityTransfersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListOutboundResponsibilityTransfersAsync(AwsOrganizationsListOutboundResponsibilityTransfersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the root or organizational units (OUs) that serve as the immedi- ate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextT...
@@ -498,8 +451,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListParentsAsync(AwsOrganizationsListParentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListParentsAsync(AwsOrganizationsListParentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken ...
@@ -508,8 +460,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPoliciesForTargetAsync(AwsOrganizationsListPoliciesForTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPoliciesForTargetAsync(AwsOrganizationsListPoliciesForTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of all policies in an organization of a specified type. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You can only call this operation from the management...
@@ -518,8 +469,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListPoliciesAsync(AwsOrganizationsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListPoliciesAsync(AwsOrganizationsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the roots that are defined in the current organization. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You can only call this operation from the management account or a...
@@ -528,8 +478,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRootsAsync(AwsOrganizationsListRootsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRootsAsync(AwsOrganizationsListRootsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of result...
@@ -538,8 +487,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsOrganizationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsOrganizationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to. NOTE: When calling List* operations, always check the NextToken response parameter value, even if you receive an empty result set. These op- erations can occasionally return an empty set of results even when more results are available. Continue making requests until NextToken returns null. A null NextToken value indicates that you have re- trieved all available results. You can only call this ...
@@ -548,8 +496,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTargetsForPolicyAsync(AwsOrganizationsListTargetsForPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTargetsForPolicyAsync(AwsOrganizationsListTargetsForPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. You can only call this operation from the management account. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> MoveAccountAsync(AwsOrganizationsMoveAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> MoveAccountAsync(AwsOrganizationsMoveAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates a resource policy. You can only call this operation from the management account.. See also: AWS API Documentation
@@ -568,8 +514,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsOrganizationsPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsOrganizationsPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still re- quires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that sup- port this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at Amazon Web S...
@@ -578,8 +523,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterDelegatedAdministratorAsync(AwsOrganizationsRegisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterDelegatedAdministratorAsync(AwsOrganizationsRegisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is respon- sible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account af- ter it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with LeaveOrganizati...
@@ -588,8 +532,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RemoveAccountFromOrganizationAsync(AwsOrganizationsRemoveAccountFromOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RemoveAccountFromOrganizationAsync(AwsOrganizationsRemoveAccountFromOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more tags to the specified resource. Currently, you can attach tags to the following resources in Organiza- tions. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsOrganizationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsOrganizationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified respon- sibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransfer- Terminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see Example log entries: TerminateResponsibilityTransfer in the Orga...
@@ -608,8 +550,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TerminateResponsibilityTransferAsync(AwsOrganizationsTerminateResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TerminateResponsibilityTransferAsync(AwsOrganizationsTerminateResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations. o Amazon Web Services account o Organization root o Organizational unit (OU) o Policy (any type) You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsOrganizationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsOrganizationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. You can only call this operation from the management account. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateOrganizationalUnitAsync(AwsOrganizationsUpdateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateOrganizationalUnitAsync(AwsOrganizationsUpdateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. You can only call this operation from the management account or a mem- ber account that is a delegated administrator. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePolicyAsync(AwsOrganizationsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePolicyAsync(AwsOrganizationsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a transfer. A transfer is the arrangement between two manage- ment accounts where one account designates the other with specified re- sponsibilities for their organization. You can update the name assigned to a transfer. See also: AWS API Documentation
@@ -648,7 +586,6 @@ public interface IAwsOrganizations
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateResponsibilityTransferAsync(AwsOrganizationsUpdateResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateResponsibilityTransferAsync(AwsOrganizationsUpdateResponsibilityTransferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

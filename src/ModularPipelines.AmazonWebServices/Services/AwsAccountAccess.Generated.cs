@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws accountaccess commands.
+/// aws account-access commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsAccountAccess : IAwsAccountAccess
@@ -33,7 +33,7 @@ public class AwsAccountAccess : IAwsAccountAccess
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws account-access wait sub-commands.
     /// </summary>
     public AwsAccountAccessWait Wait => _wait ??= new AwsAccountAccessWait(_command);
 

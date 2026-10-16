@@ -22,9 +22,9 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRedshift
 {
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws redshift wait sub-commands.
     /// </summary>
-    AwsRedshiftWait Wait => throw new System.NotSupportedException();
+    AwsRedshiftWait Wait { get; }
 
     /// <summary>
     /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs. See also: AWS API Documentation
@@ -33,8 +33,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AcceptReservedNodeExchangeAsync(AwsRedshiftAcceptReservedNodeExchangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AcceptReservedNodeExchangeAsync(AwsRedshiftAcceptReservedNodeExchangeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner web- site. See also: AWS API Documentation
@@ -43,8 +42,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AddPartnerAsync(AwsRedshiftAddPartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AddPartnerAsync(AwsRedshiftAddPartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// From a datashare consumer account, associates a datashare with the ac- count (AssociateEntireAccount) or the specified namespace (Consumer- Arn). If you make this association, the consumer can consume the datashare. See also: AWS API Documentation
@@ -53,8 +51,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateDataShareConsumerAsync(AwsRedshiftAssociateDataShareConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateDataShareConsumerAsync(AwsRedshiftAssociateDataShareConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Proto- col (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2Se- curityGroupName an...
@@ -63,8 +60,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeClusterSecurityGroupIngressAsync(AwsRedshiftAuthorizeClusterSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeClusterSecurityGroupIngressAsync(AwsRedshiftAuthorizeClusterSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the cor- rect access permissions. See also: AWS API Documentation
@@ -73,8 +69,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeDataShareAsync(AwsRedshiftAuthorizeDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeDataShareAsync(AwsRedshiftAuthorizeDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Grants access to a cluster. See also: AWS API Documentation
@@ -83,8 +78,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeEndpointAccessAsync(AwsRedshiftAuthorizeEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeEndpointAccessAsync(AwsRedshiftAuthorizeEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -93,8 +87,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AuthorizeSnapshotAccessAsync(AwsRedshiftAuthorizeSnapshotAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AuthorizeSnapshotAccessAsync(AwsRedshiftAuthorizeSnapshotAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a set of cluster snapshots. See also: AWS API Documentation
@@ -103,8 +96,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchDeleteClusterSnapshotsAsync(AwsRedshiftBatchDeleteClusterSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchDeleteClusterSnapshotsAsync(AwsRedshiftBatchDeleteClusterSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the settings for a set of cluster snapshots. See also: AWS API Documentation
@@ -113,8 +105,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchModifyClusterSnapshotsAsync(AwsRedshiftBatchModifyClusterSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchModifyClusterSnapshotsAsync(AwsRedshiftBatchModifyClusterSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a resize operation for a cluster. See also: AWS API Documentation
@@ -123,8 +114,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelResizeAsync(AwsRedshiftCancelResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelResizeAsync(AwsRedshiftCancelResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snap- shots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you...
@@ -133,8 +123,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyClusterSnapshotAsync(AwsRedshiftCopyClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyClusterSnapshotAsync(AwsRedshiftCopyClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an authentication profile with the specified parameters. See also: AWS API Documentation
@@ -143,8 +132,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateAuthenticationProfileAsync(AwsRedshiftCreateAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateAuthenticationProfileAsync(AwsRedshiftCreateAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new cluster with the specified parameters. To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the sub- nets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide . VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region f...
@@ -153,8 +141,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterAsync(AwsRedshiftCreateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterAsync(AwsRedshiftCreateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift parameter group. Creating parameter groups is independent of creating clusters. You can associate a cluster with a parameter group when you create the cluster. You can also associate an existing cluster with a parameter group after the cluster is created by using ModifyCluster . Parameters in the parameter group define specific behavior that applies to the databases you create on the cluster. For more information about parameters and parameter groups, go to Amazon Reds...
@@ -163,8 +150,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterParameterGroupAsync(AwsRedshiftCreateClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterParameterGroupAsync(AwsRedshiftCreateClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -173,8 +159,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterSecurityGroupAsync(AwsRedshiftCreateClusterSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterSecurityGroupAsync(AwsRedshiftCreateClusterSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -183,8 +168,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterSnapshotAsync(AwsRedshiftCreateClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterSnapshotAsync(AwsRedshiftCreateClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Ama- zon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to Amazon Redshift Cluster Sub- net Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -193,8 +177,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateClusterSubnetGroupAsync(AwsRedshiftCreateClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateClusterSubnetGroupAsync(AwsRedshiftCreateClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN). See also: AWS API Documentation
@@ -203,8 +186,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomDomainAssociationAsync(AwsRedshiftCreateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomDomainAssociationAsync(AwsRedshiftCreateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a Redshift-managed VPC endpoint. See also: AWS API Documentation
@@ -213,8 +195,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEndpointAccessAsync(AwsRedshiftCreateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEndpointAccessAsync(AwsRedshiftCreateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications wil...
@@ -223,8 +204,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEventSubscriptionAsync(AwsRedshiftCreateEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEventSubscriptionAsync(AwsRedshiftCreateEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more informa- tion, go to Hardware Security Modules in...
@@ -233,8 +213,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHsmClientCertificateAsync(AwsRedshiftCreateHsmClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHsmClientCertificateAsync(AwsRedshiftCreateHsmClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM. In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to Hardware Security Modules in the Amazon Reds...
@@ -243,8 +222,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateHsmConfigurationAsync(AwsRedshiftCreateHsmConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateHsmConfigurationAsync(AwsRedshiftCreateHsmConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
@@ -253,8 +231,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateIntegrationAsync(AwsRedshiftCreateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateIntegrationAsync(AwsRedshiftCreateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
@@ -263,8 +240,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateQev2IdcApplicationAsync(AwsRedshiftCreateQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateQev2IdcApplicationAsync(AwsRedshiftCreateQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Redshift application for use with IAM Identity Cen- ter. See also: AWS API Documentation
@@ -273,8 +249,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateRedshiftIdcApplicationAsync(AwsRedshiftCreateRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateRedshiftIdcApplicationAsync(AwsRedshiftCreateRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation. See also: AWS API Documentation
@@ -283,8 +258,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateScheduledActionAsync(AwsRedshiftCreateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateScheduledActionAsync(AwsRedshiftCreateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key from Key Management Service (KMS) to encrypt copied snapshots in a destination region. For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -293,8 +267,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotCopyGrantAsync(AwsRedshiftCreateSnapshotCopyGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotCopyGrantAsync(AwsRedshiftCreateSnapshotCopyGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule. See also: AWS API Documentation
@@ -303,8 +276,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateSnapshotScheduleAsync(AwsRedshiftCreateSnapshotScheduleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateSnapshotScheduleAsync(AwsRedshiftCreateSnapshotScheduleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds tags to a cluster. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value. See also: AWS API Documentation
@@ -313,8 +285,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTagsAsync(AwsRedshiftCreateTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTagsAsync(AwsRedshiftCreateTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier. See also: AWS API Documentation
@@ -323,8 +294,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateUsageLimitAsync(AwsRedshiftCreateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateUsageLimitAsync(AwsRedshiftCreateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// From a datashare producer account, removes authorization from the spec- ified datashare. See also: AWS API Documentation
@@ -333,8 +303,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeauthorizeDataShareAsync(AwsRedshiftDeauthorizeDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeauthorizeDataShareAsync(AwsRedshiftDeauthorizeDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an authentication profile. See also: AWS API Documentation
@@ -343,8 +312,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteAuthenticationProfileAsync(AwsRedshiftDeleteAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteAuthenticationProfileAsync(AwsRedshiftDeleteAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a previously provisioned cluster without its final snapshot be- ing created. A successful response from the web service indicates that the request was received correctly. Use DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . If you want to shut down the cluster and retain it for future us...
@@ -353,8 +321,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterAsync(AwsRedshiftDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterAsync(AwsRedshiftDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified Amazon Redshift parameter group. NOTE: You cannot delete a parameter group if it is associated with a clus- ter. See also: AWS API Documentation
@@ -363,8 +330,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterParameterGroupAsync(AwsRedshiftDeleteClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterParameterGroupAsync(AwsRedshiftDeleteClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Redshift security group. NOTE: You cannot delete a security group that is associated with any clus- ters. You cannot delete the default security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -373,8 +339,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterSecurityGroupAsync(AwsRedshiftDeleteClusterSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterSecurityGroupAsync(AwsRedshiftDeleteClusterSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snap- shot. See al...
@@ -383,8 +348,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterSnapshotAsync(AwsRedshiftDeleteClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterSnapshotAsync(AwsRedshiftDeleteClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified cluster subnet group. See also: AWS API Documentation
@@ -393,8 +357,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteClusterSubnetGroupAsync(AwsRedshiftDeleteClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteClusterSubnetGroupAsync(AwsRedshiftDeleteClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Contains information about deleting a custom domain association for a cluster. See also: AWS API Documentation
@@ -403,8 +366,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomDomainAssociationAsync(AwsRedshiftDeleteCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomDomainAssociationAsync(AwsRedshiftDeleteCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a Redshift-managed VPC endpoint. See also: AWS API Documentation
@@ -413,8 +375,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEndpointAccessAsync(AwsRedshiftDeleteEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEndpointAccessAsync(AwsRedshiftDeleteEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Redshift event notification subscription. See also: AWS API Documentation
@@ -423,8 +384,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEventSubscriptionAsync(AwsRedshiftDeleteEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEventSubscriptionAsync(AwsRedshiftDeleteEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified HSM client certificate. See also: AWS API Documentation
@@ -433,8 +393,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHsmClientCertificateAsync(AwsRedshiftDeleteHsmClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHsmClientCertificateAsync(AwsRedshiftDeleteHsmClientCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified Amazon Redshift HSM configuration. See also: AWS API Documentation
@@ -443,8 +402,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHsmConfigurationAsync(AwsRedshiftDeleteHsmConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHsmConfigurationAsync(AwsRedshiftDeleteHsmConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
@@ -453,8 +411,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteIntegrationAsync(AwsRedshiftDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteIntegrationAsync(AwsRedshiftDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website. See also: AWS API Documentation
@@ -463,8 +420,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeletePartnerAsync(AwsRedshiftDeletePartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeletePartnerAsync(AwsRedshiftDeletePartnerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
@@ -473,8 +429,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteQev2IdcApplicationAsync(AwsRedshiftDeleteQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteQev2IdcApplicationAsync(AwsRedshiftDeleteQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an Amazon Redshift IAM Identity Center application. See also: AWS API Documentation
@@ -483,8 +438,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteRedshiftIdcApplicationAsync(AwsRedshiftDeleteRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteRedshiftIdcApplicationAsync(AwsRedshiftDeleteRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the resource policy for a specified resource. See also: AWS API Documentation
@@ -493,8 +447,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteResourcePolicyAsync(AwsRedshiftDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteResourcePolicyAsync(AwsRedshiftDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a scheduled action. See also: AWS API Documentation
@@ -503,8 +456,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteScheduledActionAsync(AwsRedshiftDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteScheduledActionAsync(AwsRedshiftDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified snapshot copy grant. See also: AWS API Documentation
@@ -513,8 +465,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSnapshotCopyGrantAsync(AwsRedshiftDeleteSnapshotCopyGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSnapshotCopyGrantAsync(AwsRedshiftDeleteSnapshotCopyGrantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a snapshot schedule. See also: AWS API Documentation
@@ -523,8 +474,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSnapshotScheduleAsync(AwsRedshiftDeleteSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSnapshotScheduleAsync(AwsRedshiftDeleteSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags. See also: AWS API Documentation
@@ -533,8 +483,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTagsAsync(AwsRedshiftDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTagsAsync(AwsRedshiftDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a usage limit from a cluster. See also: AWS API Documentation
@@ -543,8 +492,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteUsageLimitAsync(AwsRedshiftDeleteUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteUsageLimitAsync(AwsRedshiftDeleteUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregisters a cluster or serverless namespace from the Amazon Web Ser- vices Glue Data Catalog. See also: AWS API Documentation
@@ -553,8 +501,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeregisterNamespaceAsync(AwsRedshiftDeregisterNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeregisterNamespaceAsync(AwsRedshiftDeregisterNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of attributes attached to an account See also: AWS API Documentation
@@ -563,8 +510,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAccountAttributesAsync(AwsRedshiftDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAccountAttributesAsync(AwsRedshiftDescribeAccountAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an authentication profile. See also: AWS API Documentation
@@ -573,8 +519,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeAuthenticationProfilesAsync(AwsRedshiftDescribeAuthenticationProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeAuthenticationProfilesAsync(AwsRedshiftDescribeAuthenticationProfilesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of ClusterDbRevision objects. See also: AWS API Documentation describe-cluster-db-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ClusterDbRevisions
@@ -583,8 +528,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterDbRevisionsAsync(AwsRedshiftDescribeClusterDbRevisionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterDbRevisionsAsync(AwsRedshiftDescribeClusterDbRevisionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to re- trieve the description of a specific parameter group. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . If you spe...
@@ -593,8 +537,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterParameterGroupsAsync(AwsRedshiftDescribeClusterParameterGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterParameterGroupsAsync(AwsRedshiftDescribeClusterParameterGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response in- cludes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on. You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from ModifyClusterParameterGroup , you can specify source equal to user . For ...
@@ -603,8 +546,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterParametersAsync(AwsRedshiftDescribeClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterParametersAsync(AwsRedshiftDescribeClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about Amazon Redshift security groups. If the name of a security group is specified, the response will contain only infor- mation about only that security group. For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For ...
@@ -613,8 +555,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterSecurityGroupsAsync(AwsRedshiftDescribeClusterSecurityGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterSecurityGroupsAsync(AwsRedshiftDescribeClusterSecurityGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by your Amazon Web Ser- vices account. No information is returned for snapshots owned by inac- tive Amazon Web Services accounts. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the speci- fied keys and values. For example, if...
@@ -623,18 +564,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterSnapshotsAsync(AwsRedshiftDescribeClusterSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup proper- ties, and security and access properties. This operation supports pagi- nation. For more information about managing clusters, go to Amazon Red- shift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the speci- fied ke...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClustersAsync(AwsRedshiftDescribeClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterSnapshotsAsync(AwsRedshiftDescribeClusterSnapshotsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns one or more cluster subnet group objects, which contain meta- data about your cluster subnet groups. By default, this operation re- turns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environ- ment for tag keys, and admin and test for ta...
@@ -643,8 +573,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterSubnetGroupsAsync(AwsRedshiftDescribeClusterSubnetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterSubnetGroupsAsync(AwsRedshiftDescribeClusterSubnetGroupsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all the available maintenance tracks. See also: AWS API Documentation describe-cluster-tracks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: MaintenanceTracks
@@ -653,8 +582,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterTracksAsync(AwsRedshiftDescribeClusterTracksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterTracksAsync(AwsRedshiftDescribeClusterTracksOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation describe-cluster-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable p...
@@ -663,8 +591,16 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeClusterVersionsAsync(AwsRedshiftDescribeClusterVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeClusterVersionsAsync(AwsRedshiftDescribeClusterVersionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup proper- ties, and security and access properties. This operation supports pagi- nation. For more information about managing clusters, go to Amazon Red- shift Clusters in the Amazon Redshift Cluster Management Guide . If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the speci- fied ke...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeClustersAsync(AwsRedshiftDescribeClustersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Contains information about custom domain associations for a cluster. See also: AWS API Documentation describe-custom-domain-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Associations
@@ -673,8 +609,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeCustomDomainAssociationsAsync(AwsRedshiftDescribeCustomDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeCustomDomainAssociationsAsync(AwsRedshiftDescribeCustomDomainAssociationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of datashares where the account identifier being called is a consumer account identifier. See also: AWS API Documentation describe-data-shares-for-consumer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
@@ -683,8 +618,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSharesForConsumerAsync(AwsRedshiftDescribeDataSharesForConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSharesForConsumerAsync(AwsRedshiftDescribeDataSharesForConsumerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of datashares when the account identifier being called is a producer account identifier. See also: AWS API Documentation describe-data-shares-for-producer is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
@@ -693,8 +627,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSharesForProducerAsync(AwsRedshiftDescribeDataSharesForProducerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSharesForProducerAsync(AwsRedshiftDescribeDataSharesForProducerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the status of any inbound or outbound datashares available in the specified account. See also: AWS API Documentation describe-data-shares is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DataShare...
@@ -703,8 +636,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDataSharesAsync(AwsRedshiftDescribeDataSharesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDataSharesAsync(AwsRedshiftDescribeDataSharesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of parameter settings for the specified parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation describe-default-cluster-parameters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --outpu...
@@ -713,8 +645,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeDefaultClusterParametersAsync(AwsRedshiftDescribeDefaultClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeDefaultClusterParametersAsync(AwsRedshiftDescribeDefaultClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes a Redshift-managed VPC endpoint. See also: AWS API Documentation describe-endpoint-access is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: EndpointAccessList
@@ -723,8 +654,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointAccessAsync(AwsRedshiftDescribeEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointAccessAsync(AwsRedshiftDescribeEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes an endpoint authorization. See also: AWS API Documentation describe-endpoint-authorization is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EndpointAuthorizationList
@@ -733,8 +663,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEndpointAuthorizationAsync(AwsRedshiftDescribeEndpointAuthorizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEndpointAuthorizationAsync(AwsRedshiftDescribeEndpointAuthorizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays a list of event categories for all event source types, or for a specified source type. For a list of the event categories and source types, go to Amazon Redshift Event Notifications . See also: AWS API Documentation
@@ -743,18 +672,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventCategoriesAsync(AwsRedshiftDescribeEventCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
-
-    /// <summary>
-    /// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventsAsync(AwsRedshiftDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventCategoriesAsync(AwsRedshiftDescribeEventCategoriesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists descriptions of all the Amazon Redshift event notification sub- scriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any...
@@ -763,8 +681,16 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeEventSubscriptionsAsync(AwsRedshiftDescribeEventSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeEventSubscriptionsAsync(AwsRedshiftDescribeEventSubscriptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns events related to clusters, security groups, snapshots, and pa- rameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned. See also: AWS API Documentation describe-events is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providin...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeEventsAsync(AwsRedshiftDescribeEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM cer- tificates owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates tha...
@@ -773,8 +699,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHsmClientCertificatesAsync(AwsRedshiftDescribeHsmClientCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHsmClientCertificatesAsync(AwsRedshiftDescribeHsmClientCertificatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the specified Amazon Redshift HSM configura- tion. If no configuration ID is specified, returns information about all the HSM configurations owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environ- ment for tag keys, and admin and test for tag values, all HSM connec- tions ...
@@ -783,8 +708,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHsmConfigurationsAsync(AwsRedshiftDescribeHsmConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHsmConfigurationsAsync(AwsRedshiftDescribeHsmConfigurationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of inbound integrations. See also: AWS API Documentation describe-inbound-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: InboundIntegrations
@@ -793,8 +717,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeInboundIntegrationsAsync(AwsRedshiftDescribeInboundIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeInboundIntegrationsAsync(AwsRedshiftDescribeInboundIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes one or more zero-ETL or S3 event integrations with Amazon Redshift. See also: AWS API Documentation describe-integrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Integrations
@@ -803,8 +726,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeIntegrationsAsync(AwsRedshiftDescribeIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeIntegrationsAsync(AwsRedshiftDescribeIntegrationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster. See also: AWS API Documentation
@@ -813,8 +735,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeLoggingStatusAsync(AwsRedshiftDescribeLoggingStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeLoggingStatusAsync(AwsRedshiftDescribeLoggingStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type. See also: AWS API Documentation describe-node-configuration-options is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
@@ -823,8 +744,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeNodeConfigurationOptionsAsync(AwsRedshiftDescribeNodeConfigurationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeNodeConfigurationOptionsAsync(AwsRedshiftDescribeNodeConfigurationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific Amazon Web Ser- vices Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more ...
@@ -833,8 +753,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeOrderableClusterOptionsAsync(AwsRedshiftDescribeOrderableClusterOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeOrderableClusterOptionsAsync(AwsRedshiftDescribeOrderableClusterOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the partner integrations defined for a clus- ter. See also: AWS API Documentation
@@ -843,8 +762,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribePartnersAsync(AwsRedshiftDescribePartnersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribePartnersAsync(AwsRedshiftDescribePartnersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plications. To retrieve additional results, use the MaxRecords and Marker parameters. See also: AWS API Documentation describe-qev2-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument m...
@@ -853,8 +771,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeQev2IdcApplicationsAsync(AwsRedshiftDescribeQev2IdcApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeQev2IdcApplicationsAsync(AwsRedshiftDescribeQev2IdcApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the Amazon Redshift IAM Identity Center applications. See also: AWS API Documentation describe-redshift-idc-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RedshiftIdcApplication...
@@ -863,8 +780,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeRedshiftIdcApplicationsAsync(AwsRedshiftDescribeRedshiftIdcApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeRedshiftIdcApplicationsAsync(AwsRedshiftDescribeRedshiftIdcApplicationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns exchange status details and associated metadata for a re- served-node exchange. Statuses include such values as in progress and requested. See also: AWS API Documentation describe-reserved-node-exchange-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument ...
@@ -873,8 +789,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedNodeExchangeStatusAsync(AwsRedshiftDescribeReservedNodeExchangeStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedNodeExchangeStatusAsync(AwsRedshiftDescribeReservedNodeExchangeStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of the available reserved node offerings by Amazon Red- shift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be re- served for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster. For more information about reserved node ...
@@ -883,8 +798,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedNodeOfferingsAsync(AwsRedshiftDescribeReservedNodeOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedNodeOfferingsAsync(AwsRedshiftDescribeReservedNodeOfferingsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the descriptions of the reserved nodes. See also: AWS API Documentation describe-reserved-nodes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ReservedNodes
@@ -893,8 +807,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeReservedNodesAsync(AwsRedshiftDescribeReservedNodesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeReservedNodesAsync(AwsRedshiftDescribeReservedNodesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the speci- fied cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using ModifyCluster and specifying a different number or type of nodes for the cluster. See also: AWS API Documentation
@@ -903,8 +816,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeResizeAsync(AwsRedshiftDescribeResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeResizeAsync(AwsRedshiftDescribeResizeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Describes properties of scheduled actions. See also: AWS API Documentation describe-scheduled-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ScheduledActions
@@ -913,8 +825,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeScheduledActionsAsync(AwsRedshiftDescribeScheduledActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeScheduledActionsAsync(AwsRedshiftDescribeScheduledActionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination region. For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation describe-snapshot-copy-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- men...
@@ -923,8 +834,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnapshotCopyGrantsAsync(AwsRedshiftDescribeSnapshotCopyGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnapshotCopyGrantsAsync(AwsRedshiftDescribeSnapshotCopyGrantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of snapshot schedules. See also: AWS API Documentation describe-snapshot-schedules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SnapshotSchedules
@@ -933,8 +843,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeSnapshotSchedulesAsync(AwsRedshiftDescribeSnapshotSchedulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeSnapshotSchedulesAsync(AwsRedshiftDescribeSnapshotSchedulesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns account level backups storage size and provisional storage. See also: AWS API Documentation
@@ -943,8 +852,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeStorageAsync(AwsRedshiftDescribeStorageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeStorageAsync(AwsRedshiftDescribeStorageOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the status of one or more table restore requests made using the RestoreTableFromClusterSnapshot API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRe- storeStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise Descri- beTableRestoreStatus returns the status of the table specified by TableRestoreRequestId . See also: AWS API Documentation describe-table-restore-status...
@@ -953,8 +861,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTableRestoreStatusAsync(AwsRedshiftDescribeTableRestoreStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTableRestoreStatusAsync(AwsRedshiftDescribeTableRestoreStatusOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of tags. You can return tags from a specific resource by specifying an ARN, or you can return all tags for a given type of re- source, such as clusters, snapshots, and so on. The following are limitations for DescribeTags : o You cannot specify an ARN and a resource-type value together in the same request. o You cannot use the MaxRecords and Marker parameters together with the ARN parameter. o The MaxRecords parameter can be a range from 10 to 50 results to re- turn in a request. ...
@@ -963,8 +870,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeTagsAsync(AwsRedshiftDescribeTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeTagsAsync(AwsRedshiftDescribeTagsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows usage limits on a cluster. Results are filtered based on the com- bination of input usage limit identifier, cluster identifier, and fea- ture type parameters: o If usage limit identifier, cluster identifier, and feature type are not provided, then all usage limit objects for the current account in the current region are returned. o If usage limit identifier is provided, then the corresponding usage limit object is returned. o If cluster identifier is provided, then all usage limit objects ...
@@ -973,8 +879,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeUsageLimitsAsync(AwsRedshiftDescribeUsageLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeUsageLimitsAsync(AwsRedshiftDescribeUsageLimitsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster. See also: AWS API Documentation
@@ -983,8 +888,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableLoggingAsync(AwsRedshiftDisableLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableLoggingAsync(AwsRedshiftDisableLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using an encrypted sym- metric key from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon Redshift permission to the key in the destination region. See also: AWS API Documentation
@@ -993,8 +897,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisableSnapshotCopyAsync(AwsRedshiftDisableSnapshotCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisableSnapshotCopyAsync(AwsRedshiftDisableSnapshotCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// From a datashare consumer account, remove association for the specified datashare. See also: AWS API Documentation
@@ -1003,8 +906,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateDataShareConsumerAsync(AwsRedshiftDisassociateDataShareConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateDataShareConsumerAsync(AwsRedshiftDisassociateDataShareConsumerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster. See also: AWS API Documentation
@@ -1013,8 +915,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableLoggingAsync(AwsRedshiftEnableLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableLoggingAsync(AwsRedshiftEnableLoggingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the automatic copy of snapshots from one region to another re- gion for a specified cluster. See also: AWS API Documentation
@@ -1023,8 +924,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> EnableSnapshotCopyAsync(AwsRedshiftEnableSnapshotCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> EnableSnapshotCopyAsync(AwsRedshiftEnableSnapshotCopyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone. See also: AWS API Documentation
@@ -1033,8 +933,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> FailoverPrimaryComputeAsync(AwsRedshiftFailoverPrimaryComputeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> FailoverPrimaryComputeAsync(AwsRedshiftFailoverPrimaryComputeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a database user name and temporary password with temporary au- thorization to log on to an Amazon Redshift database. The action re- turns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 min- ute...
@@ -1043,8 +942,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClusterCredentialsAsync(AwsRedshiftGetClusterCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClusterCredentialsAsync(AwsRedshiftGetClusterCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a database user name and temporary password with temporary au- thorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) iden- tity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this opera- tion must have an IAM policy attached that a...
@@ -1053,8 +951,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetClusterCredentialsWithIamAsync(AwsRedshiftGetClusterCredentialsWithIamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetClusterCredentialsWithIamAsync(AwsRedshiftGetClusterCredentialsWithIamOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Iden- tity Center identity from enhanced credentials and creates a secure to- ken that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token con- tains the caller's Ama...
@@ -1063,8 +960,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetIdentityCenterAuthTokenAsync(AwsRedshiftGetIdentityCenterAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetIdentityCenterAuthTokenAsync(AwsRedshiftGetIdentityCenterAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type. See also: AWS API Documentation get-reserved-node-exchange-configuration-options is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
@@ -1073,8 +969,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservedNodeExchangeConfigurationOptionsAsync(AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservedNodeExchangeConfigurationOptionsAsync(AwsRedshiftGetReservedNodeExchangeConfigurationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node. See also: AWS API Documentation get-reserved-node-exchange-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
@@ -1083,8 +978,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReservedNodeExchangeOfferingsAsync(AwsRedshiftGetReservedNodeExchangeOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReservedNodeExchangeOfferingsAsync(AwsRedshiftGetReservedNodeExchangeOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the resource policy for a specified resource. See also: AWS API Documentation
@@ -1093,8 +987,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetResourcePolicyAsync(AwsRedshiftGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetResourcePolicyAsync(AwsRedshiftGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account. See also: AWS API Documentation list-recommendations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the ...
@@ -1103,8 +996,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsRedshiftListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsRedshiftListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator). See also: AWS API Documentation
@@ -1113,8 +1005,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyAquaConfigurationAsync(AwsRedshiftModifyAquaConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyAquaConfigurationAsync(AwsRedshiftModifyAquaConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an authentication profile. See also: AWS API Documentation
@@ -1123,8 +1014,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyAuthenticationProfileAsync(AwsRedshiftModifyAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyAuthenticationProfileAsync(AwsRedshiftModifyAuthenticationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster. See also: AWS API Documentation
@@ -1133,8 +1023,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterDbRevisionAsync(AwsRedshiftModifyClusterDbRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterDbRevisionAsync(AwsRedshiftModifyClusterDbRevisionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services ser- vices. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Red- shift Cluster Management Guide . See also: AWS API Documentation
@@ -1143,8 +1032,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterIamRolesAsync(AwsRedshiftModifyClusterIamRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterIamRolesAsync(AwsRedshiftModifyClusterIamRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the maintenance settings of a cluster. See also: AWS API Documentation
@@ -1153,8 +1041,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterMaintenanceAsync(AwsRedshiftModifyClusterMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterMaintenanceAsync(AwsRedshiftModifyClusterMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the admin user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modify- ing a parameter group requires a ...
@@ -1163,8 +1050,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterAsync(AwsRedshiftModifyClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterAsync(AwsRedshiftModifyClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the parameters of a parameter group. For the parameters para- meter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
@@ -1173,8 +1059,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterParameterGroupAsync(AwsRedshiftModifyClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterParameterGroupAsync(AwsRedshiftModifyClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a clus- ter snapshot. See also: AWS API Documentation
@@ -1183,8 +1068,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterSnapshotAsync(AwsRedshiftModifyClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterSnapshotAsync(AwsRedshiftModifyClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a snapshot schedule for a cluster. See also: AWS API Documentation
@@ -1193,8 +1077,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterSnapshotScheduleAsync(AwsRedshiftModifyClusterSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterSnapshotScheduleAsync(AwsRedshiftModifyClusterSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. If a subnet group for a provisioned cluster is in an account with VPC BPA turned on, the following capabilities are blocked:...
@@ -1203,8 +1086,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyClusterSubnetGroupAsync(AwsRedshiftModifyClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyClusterSubnetGroupAsync(AwsRedshiftModifyClusterSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Contains information for changing a custom domain association. See also: AWS API Documentation
@@ -1213,8 +1095,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyCustomDomainAssociationAsync(AwsRedshiftModifyCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyCustomDomainAssociationAsync(AwsRedshiftModifyCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a Redshift-managed VPC endpoint. See also: AWS API Documentation
@@ -1223,8 +1104,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEndpointAccessAsync(AwsRedshiftModifyEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyEndpointAccessAsync(AwsRedshiftModifyEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an existing Amazon Redshift event notification subscription. See also: AWS API Documentation
@@ -1233,8 +1113,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyEventSubscriptionAsync(AwsRedshiftModifyEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyEventSubscriptionAsync(AwsRedshiftModifyEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
@@ -1243,8 +1122,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyIntegrationAsync(AwsRedshiftModifyIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyIntegrationAsync(AwsRedshiftModifyIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the lakehouse configuration for a cluster. This operation al- lows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation. See also: AWS API Documentation
@@ -1253,8 +1131,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyLakehouseConfigurationAsync(AwsRedshiftModifyLakehouseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyLakehouseConfigurationAsync(AwsRedshiftModifyLakehouseConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center ap- plication. See also: AWS API Documentation
@@ -1263,8 +1140,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyQev2IdcApplicationAsync(AwsRedshiftModifyQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyQev2IdcApplicationAsync(AwsRedshiftModifyQev2IdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes an existing Amazon Redshift IAM Identity Center application. See also: AWS API Documentation
@@ -1273,8 +1149,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyRedshiftIdcApplicationAsync(AwsRedshiftModifyRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyRedshiftIdcApplicationAsync(AwsRedshiftModifyRedshiftIdcApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a scheduled action. See also: AWS API Documentation
@@ -1283,8 +1158,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyScheduledActionAsync(AwsRedshiftModifyScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyScheduledActionAsync(AwsRedshiftModifyScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the number of days to retain snapshots in the destination Ama- zon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the reten- tion period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only ne...
@@ -1293,8 +1167,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySnapshotCopyRetentionPeriodAsync(AwsRedshiftModifySnapshotCopyRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySnapshotCopyRetentionPeriodAsync(AwsRedshiftModifySnapshotCopyRetentionPeriodOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously. See also: AWS API Documentation
@@ -1303,8 +1176,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifySnapshotScheduleAsync(AwsRedshiftModifySnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifySnapshotScheduleAsync(AwsRedshiftModifySnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit. See also: AWS API Documentation
@@ -1313,8 +1185,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ModifyUsageLimitAsync(AwsRedshiftModifyUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ModifyUsageLimitAsync(AwsRedshiftModifyUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pauses a cluster. See also: AWS API Documentation
@@ -1323,8 +1194,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PauseClusterAsync(AwsRedshiftPauseClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PauseClusterAsync(AwsRedshiftPauseClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Allows you to purchase reserved nodes. Amazon Redshift offers a prede- fined set of reserved node offerings. You can purchase one or more of the offerings. You can call the DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guid...
@@ -1333,8 +1203,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PurchaseReservedNodeOfferingAsync(AwsRedshiftPurchaseReservedNodeOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PurchaseReservedNodeOfferingAsync(AwsRedshiftPurchaseReservedNodeOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the resource policy for a specified resource. See also: AWS API Documentation
@@ -1343,8 +1212,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutResourcePolicyAsync(AwsRedshiftPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutResourcePolicyAsync(AwsRedshiftPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Manage- ment Guide . See also: AWS API Documentation
@@ -1353,8 +1221,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RebootClusterAsync(AwsRedshiftRebootClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RebootClusterAsync(AwsRedshiftRebootClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog. See also: AWS API Documentation
@@ -1363,8 +1230,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RegisterNamespaceAsync(AwsRedshiftRegisterNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RegisterNamespaceAsync(AwsRedshiftRegisterNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// From a datashare consumer account, rejects the specified datashare. See also: AWS API Documentation
@@ -1373,8 +1239,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RejectDataShareAsync(AwsRedshiftRejectDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RejectDataShareAsync(AwsRedshiftRejectDataShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "en- gine-default". To reset the entire parameter group specify the Rese- tAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters. See also: AWS API Documentation
@@ -1383,8 +1248,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResetClusterParameterGroupAsync(AwsRedshiftResetClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResetClusterParameterGroupAsync(AwsRedshiftResetClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is avail- able for read and write operations more quickly than with the classic resize method. Elastic resize operations have the following restrictions: o You can only resize clusters of the following types: o dc2.large o dc2.8xlarge o rg.large o rg.xlarge o rg.4xlarge o rg.12xlarge o ra3.large o...
@@ -1393,8 +1257,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResizeClusterAsync(AwsRedshiftResizeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResizeClusterAsync(AwsRedshiftResizeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new cluster from a snapshot. By default, Amazon Redshift cre- ates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new clus- ter is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the ModifyClus- ter API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you ca...
@@ -1403,8 +1266,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreFromClusterSnapshotAsync(AwsRedshiftRestoreFromClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreFromClusterSnapshotAsync(AwsRedshiftRestoreFromClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new table from a table in an Amazon Redshift cluster snap- shot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original ...
@@ -1413,8 +1275,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RestoreTableFromClusterSnapshotAsync(AwsRedshiftRestoreTableFromClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RestoreTableFromClusterSnapshotAsync(AwsRedshiftRestoreTableFromClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resumes a paused cluster. See also: AWS API Documentation
@@ -1423,8 +1284,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ResumeClusterAsync(AwsRedshiftResumeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ResumeClusterAsync(AwsRedshiftResumeClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes an ingress rule in an Amazon Redshift security group for a pre- viously authorized IP range or Amazon EC2 security group. To add an ingress rule, see AuthorizeClusterSecurityGroupIngress . For informa- tion about managing security groups, go to Amazon Redshift Cluster Se- curity Groups in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -1433,8 +1293,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeClusterSecurityGroupIngressAsync(AwsRedshiftRevokeClusterSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeClusterSecurityGroupIngressAsync(AwsRedshiftRevokeClusterSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes access to a cluster. See also: AWS API Documentation
@@ -1443,8 +1302,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeEndpointAccessAsync(AwsRedshiftRevokeEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeEndpointAccessAsync(AwsRedshiftRevokeEndpointAccessOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the ability of the specified Amazon Web Services account to re- store the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to Amazon Red- shift Snapshots in the Amazon Redshift Cluster Management Guide . See also: AWS API Documentation
@@ -1453,8 +1311,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeSnapshotAccessAsync(AwsRedshiftRevokeSnapshotAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeSnapshotAccessAsync(AwsRedshiftRevokeSnapshotAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rotates the encryption keys for a cluster. See also: AWS API Documentation
@@ -1463,8 +1320,7 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RotateEncryptionKeyAsync(AwsRedshiftRotateEncryptionKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RotateEncryptionKeyAsync(AwsRedshiftRotateEncryptionKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a partner integration. See also: AWS API Documentation
@@ -1473,7 +1329,6 @@ public interface IAwsRedshift
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdatePartnerStatusAsync(AwsRedshiftUpdatePartnerStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdatePartnerStatusAsync(AwsRedshiftUpdatePartnerStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

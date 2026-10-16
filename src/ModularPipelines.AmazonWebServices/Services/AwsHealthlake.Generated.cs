@@ -33,7 +33,7 @@ public class AwsHealthlake : IAwsHealthlake
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws healthlake wait sub-commands.
     /// </summary>
     public AwsHealthlakeWait Wait => _wait ??= new AwsHealthlakeWait(_command);
 
@@ -192,21 +192,6 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken pa- rameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataTransformationProfilesAsync(
-        AwsHealthlakeListDataTransformationProfilesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetData- TransformationProfile to retrieve profile content. Results are pagi- nated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profile-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -215,6 +200,21 @@ public class AwsHealthlake : IAwsHealthlake
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataTransformationProfileVersionsAsync(
         AwsHealthlakeListDataTransformationProfileVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken pa- rameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataTransformationProfilesAsync(
+        AwsHealthlakeListDataTransformationProfilesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

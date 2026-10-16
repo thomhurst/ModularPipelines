@@ -30,7 +30,7 @@ public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions, IValidatab
     /// </summary>
     /// <param name="StreamArn">The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024</param>
     /// <param name="ShardId">The identifier of the shard. The iterator will be returned for this shard ID. Constraints: o min: 28 o max: 65</param>
-    /// <param name="ShardIteratorType">Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER</param>
+    /// <param name="ShardIteratorType">Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. o AT_TIMESTAMP - Start reading from the position denoted by a spe- cific timestamp, provided in the parameter Timestamp . Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER o AT_TIMESTAMP</param>
     public AwsDynamodbstreamsGetShardIteratorOptions(
         string StreamArn,
         string ShardId,
@@ -76,7 +76,7 @@ public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions, IValidatab
     public string? ShardId { get; private init; }
 
     /// <summary>
-    /// Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER
+    /// Determines how the shard iterator is used to start reading stream records from the shard: o AT_SEQUENCE_NUMBER - Start reading exactly from the position de- noted by a specific sequence number. o AFTER_SEQUENCE_NUMBER - Start reading right after the position de- noted by a specific sequence number. o TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trim- ming) from the stream. o LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard. o AT_TIMESTAMP - Start reading from the position denoted by a spe- cific timestamp, provided in the parameter Timestamp . Possible values: o TRIM_HORIZON o LATEST o AT_SEQUENCE_NUMBER o AFTER_SEQUENCE_NUMBER o AT_TIMESTAMP
     /// </summary>
     [CliOption("--shard-iterator-type")]
     public AwsDynamodbstreamsGetShardIteratorShardIteratorType? ShardIteratorType { get; private init; }
@@ -86,6 +86,12 @@ public record AwsDynamodbstreamsGetShardIteratorOptions : AwsOptions, IValidatab
     /// </summary>
     [CliOption("--sequence-number")]
     public string? SequenceNumber { get; set; }
+
+    /// <summary>
+    /// The timestamp of the stream record from which to start reading. Used with shard iterator type AT_TIMESTAMP . A timestamp is the Unix epoch date with precision in milliseconds. For example, 1791316726.480 . The iterator points to the first stream record whose ApproximateCreationDateTime is at or after the specified time- stamp. If no record with that exact timestamp exists, the iterator points to the next (later) record. If the timestamp is older than the current trim horizon, the iterator points to the oldest untrimmed stream record (TRIM_HORIZON ). If the timestamp is in the future, the request returns a ValidationException .
+    /// </summary>
+    [CliOption("--timestamp")]
+    public string? Timestamp { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

@@ -947,21 +947,6 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details. See also: AWS API Documentation list-collaboration-privacy-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pagina...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetsAsync(
-        AwsCleanroomsListCollaborationPrivacyBudgetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns an array that summarizes each privacy budget template in a specified collaboration. See also: AWS API Documentation list-collaboration-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following ...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -970,6 +955,21 @@ public class AwsCleanrooms : IAwsCleanrooms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetTemplatesAsync(
         AwsCleanroomsListCollaborationPrivacyBudgetTemplatesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details. See also: AWS API Documentation list-collaboration-privacy-budgets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pagina...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListCollaborationPrivacyBudgetsAsync(
+        AwsCleanroomsListCollaborationPrivacyBudgetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1067,6 +1067,21 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
+    /// Lists the version history of an intermediate table. Each call to Popu- lateIntermediateTable creates a new version. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-table-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIntermediateTableVersionsAsync(
+        AwsCleanroomsListIntermediateTableVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists intermediate tables owned by the caller in a membership. We rec- ommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1082,14 +1097,14 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists the version history of an intermediate table. Each call to Popu- lateIntermediateTable creates a new version. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-intermediate-table-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query...
+    /// Lists all members within a collaboration. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: memberSummaries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListIntermediateTableVersionsAsync(
-        AwsCleanroomsListIntermediateTableVersionsOptions options,
+    public virtual async Task<CommandResult> ListMembersAsync(
+        AwsCleanroomsListMembersOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1112,14 +1127,14 @@ public class AwsCleanrooms : IAwsCleanrooms
     }
 
     /// <summary>
-    /// Lists all members within a collaboration. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: memberSummaries
+    /// Returns detailed information about the privacy budget templates in a specified membership. See also: AWS API Documentation list-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMembersAsync(
-        AwsCleanroomsListMembersOptions options,
+    public virtual async Task<CommandResult> ListPrivacyBudgetTemplatesAsync(
+        AwsCleanroomsListPrivacyBudgetTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1135,21 +1150,6 @@ public class AwsCleanrooms : IAwsCleanrooms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPrivacyBudgetsAsync(
         AwsCleanroomsListPrivacyBudgetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns detailed information about the privacy budget templates in a specified membership. See also: AWS API Documentation list-privacy-budget-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListPrivacyBudgetTemplatesAsync(
-        AwsCleanroomsListPrivacyBudgetTemplatesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

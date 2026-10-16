@@ -557,6 +557,21 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
+    /// Creates a named alias that points to a specific version of a flow. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateContactFlowAliasAsync(
+        AwsConnectCreateContactFlowAliasOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Creates a named alias that points to a specific version of a contact flow module. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -617,7 +632,7 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1180,6 +1195,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteContactEvaluationAsync(
         AwsConnectDeleteContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes an alias from a flow without deleting the version that the alias points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteContactFlowAliasAsync(
+        AwsConnectDeleteContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1795,6 +1825,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeContactEvaluationAsync(
         AwsConnectDescribeContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about a specific flow alias, including the version that it points to. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeContactFlowAliasAsync(
+        AwsConnectDescribeContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3002,6 +3047,21 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
+    /// Lists the aliases associated with a flow, including the version that each alias points to. See also: AWS API Documentation list-contact-flow-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Co...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactFlowAliasesAsync(
+        AwsConnectListContactFlowAliasesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists all aliases associated with a contact flow module, showing their current version mappings and metadata. See also: AWS API Documentation list-contact-flow-module-aliases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3010,21 +3070,6 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContactFlowModuleAliasesAsync(
         AwsConnectListContactFlowModuleAliasesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Cont...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactFlowModulesAsync(
-        AwsConnectListContactFlowModulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3047,14 +3092,14 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Ad- ministrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// Provides information about the flow modules for the specified Connect Customer instance. See also: AWS API Documentation list-contact-flow-modules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Cont...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListContactFlowsAsync(
-        AwsConnectListContactFlowsOptions options,
+    public virtual async Task<CommandResult> ListContactFlowModulesAsync(
+        AwsConnectListContactFlowModulesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3070,6 +3115,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContactFlowVersionsAsync(
         AwsConnectListContactFlowVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language . For more information about flows, see Flows in the Connect Customer Ad- ministrator Guide . See also: AWS API Documentation list-contact-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --ou...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListContactFlowsAsync(
+        AwsConnectListContactFlowsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3122,21 +3182,6 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists all data tables for the specified Amazon Connect instance. Re- turns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataTablesAsync(
-        AwsConnectListDataTablesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns the raw stored values along with metadata such as lock versions and modification timestamps. See also: AWS API Documentation list-data-table-values is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3145,6 +3190,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataTableValuesAsync(
         AwsConnectListDataTableValuesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all data tables for the specified Amazon Connect instance. Re- turns summary information for each table including basic metadata and modification details. See also: AWS API Documentation list-data-tables is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataTablesAsync(
+        AwsConnectListDataTablesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3197,21 +3257,6 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EvaluationFormSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEvaluationFormsAsync(
-        AwsConnectListEvaluationFormsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists versions of an evaluation form in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Evalua...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3220,6 +3265,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEvaluationFormVersionsAsync(
         AwsConnectListEvaluationFormVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-forms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EvaluationFormSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEvaluationFormsAsync(
+        AwsConnectListEvaluationFormsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -3302,21 +3362,6 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, cre- ation-in-progress state, and failed state. Instances that aren't suc- cessfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis-...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstancesAsync(
-        AwsConnectListInstancesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3329,6 +3374,21 @@ public class AwsConnect : IAwsConnect
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, cre- ation-in-progress state, and failed state. Instances that aren't suc- cessfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis-...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInstancesAsync(
+        AwsConnectListInstancesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListInstancesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3767,21 +3827,6 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTrafficDistributionGroupsAsync(
-        AwsConnectListTrafficDistributionGroupsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListTrafficDistributionGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists traffic distribution group users. See also: AWS API Documentation list-traffic-distribution-group-users is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupUserSumma- ry...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3794,6 +3839,21 @@ public class AwsConnect : IAwsConnect
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists traffic distribution groups. See also: AWS API Documentation list-traffic-distribution-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TrafficDistributionGroupSummaryList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrafficDistributionGroupsAsync(
+        AwsConnectListTrafficDistributionGroupsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsConnectListTrafficDistributionGroupsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -3872,21 +3932,6 @@ public class AwsConnect : IAwsConnect
     }
 
     /// <summary>
-    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ViewsS...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListViewsAsync(
-        AwsConnectListViewsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns all the available versions for the specified Connect Customer instance and view identifier. Results will be sorted from highest to lowest. See also: AWS API Documentation list-view-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -3895,6 +3940,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListViewVersionsAsync(
         AwsConnectListViewVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name. See also: AWS API Documentation list-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: ViewsS...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListViewsAsync(
+        AwsConnectListViewsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -5020,6 +5080,21 @@ public class AwsConnect : IAwsConnect
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateContactEvaluationAsync(
         AwsConnectUpdateContactEvaluationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the name, description, or flow version associated with an alias. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateContactFlowAliasAsync(
+        AwsConnectUpdateContactFlowAliasOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

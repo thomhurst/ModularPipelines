@@ -902,21 +902,6 @@ public class AwsPersonalize : IAwsPersonalize
     }
 
     /// <summary>
-    /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, in- cluding the Amazon Resource Name (ARN). For more information on solu- tions, see CreateSolution . See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination b...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSolutionsAsync(
-        AwsPersonalizeListSolutionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPersonalizeListSolutionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns a list of solution versions for the given solution. When a so- lution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solu- tion version, including the Amazon Resource Name (ARN). See also: AWS API Documentation list-solution-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -929,6 +914,21 @@ public class AwsPersonalize : IAwsPersonalize
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPersonalizeListSolutionVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, in- cluding the Amazon Resource Name (ARN). For more information on solu- tions, see CreateSolution . See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination b...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSolutionsAsync(
+        AwsPersonalizeListSolutionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsPersonalizeListSolutionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

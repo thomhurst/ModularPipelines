@@ -28,8 +28,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> AssociateEmailIdentityCertificateAsync(AwsSesv2AssociateEmailIdentityCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> AssociateEmailIdentityCertificateAsync(AwsSesv2AssociateEmailIdentityCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves batches of metric data collected based on your sending activ- ity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative). See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> BatchGetMetricDataAsync(AwsSesv2BatchGetMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> BatchGetMetricDataAsync(AwsSesv2BatchGetMetricDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels an export job. See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CancelExportJobAsync(AwsSesv2CancelExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CancelExportJobAsync(AwsSesv2CancelExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. A single configuration set can include more than one event destination. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsSesv2CreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationSetEventDestinationAsync(AwsSesv2CreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateConfigurationSetAsync(AwsSesv2CreateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateConfigurationSetAsync(AwsSesv2CreateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a contact list. See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactListAsync(AwsSesv2CreateContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactListAsync(AwsSesv2CreateContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list. See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateContactAsync(AwsSesv2CreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateContactAsync(AwsSesv2CreateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateCustomVerificationEmailTemplateAsync(AwsSesv2CreateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateCustomVerificationEmailTemplateAsync(AwsSesv2CreateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDedicatedIpPoolAsync(AwsSesv2CreateDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDedicatedIpPoolAsync(AwsSesv2CreateDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new predictive inbox placement test. Predictive inbox place- ment tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the ...
@@ -118,8 +109,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDeliverabilityTestReportAsync(AwsSesv2CreateDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDeliverabilityTestReportAsync(AwsSesv2CreateDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By ver- ifying an identity, you demonstrate that you're the owner of the iden- tity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the ad- dress. Your email address is verified as soon as you follo...
@@ -128,8 +118,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEmailIdentityAsync(AwsSesv2CreateEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEmailIdentityAsync(AwsSesv2CreateEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified sending authorization policy for the given iden- tity (an email address or a domain). NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: ...
@@ -138,8 +127,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEmailIdentityPolicyAsync(AwsSesv2CreateEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEmailIdentityPolicyAsync(AwsSesv2CreateEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -148,18 +136,16 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateEmailTemplateAsync(AwsSesv2CreateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateEmailTemplateAsync(AwsSesv2CreateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId . Call GetExportJob with that ID until JobStatus is COMPLETED , FAILED , or CANCELLED . When the status is COMPLETED , download the export file from the pre-signed URL in ExportDestination.S3Url . When the status is FAILED , see FailureInfo . To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the re- quest. You can execute thi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateExportJobAsync(AwsSesv2CreateExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateExportJobAsync(AwsSesv2CreateExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an import job for a data destination. See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateImportJobAsync(AwsSesv2CreateImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateImportJobAsync(AwsSesv2CreateImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parame- ters. From the data flow standpoint there is no difference between pri- mary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been cre- ated and where it can be managed. See also: AWS API Documentation
@@ -178,8 +163,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateMultiRegionEndpointAsync(AwsSesv2CreateMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateMultiRegionEndpointAsync(AwsSesv2CreateMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a tenant. Tenants are logical containers that group related SES resources to- gether. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure ten- ant-level suppression at creation time. When tenant-level sup...
@@ -188,8 +172,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTenantAsync(AwsSesv2CreateTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTenantAsync(AwsSesv2CreateTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate a resource with a tenant. Resources can be email identities, configuration sets, or email tem- plates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations. See also: AWS API Documentation
@@ -198,8 +181,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateTenantResourceAssociationAsync(AwsSesv2CreateTenantResourceAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateTenantResourceAssociationAsync(AwsSesv2CreateTenantResourceAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
@@ -208,8 +190,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsSesv2DeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationSetEventDestinationAsync(AwsSesv2DeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
@@ -218,8 +199,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteConfigurationSetAsync(AwsSesv2DeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteConfigurationSetAsync(AwsSesv2DeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a contact list and all of the contacts on that list. See also: AWS API Documentation
@@ -228,8 +208,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactListAsync(AwsSesv2DeleteContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactListAsync(AwsSesv2DeleteContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a contact from a contact list. See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteContactAsync(AwsSesv2DeleteContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteContactAsync(AwsSesv2DeleteContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteCustomVerificationEmailTemplateAsync(AwsSesv2DeleteCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteCustomVerificationEmailTemplateAsync(AwsSesv2DeleteCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a dedicated IP pool. See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDedicatedIpPoolAsync(AwsSesv2DeleteDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDedicatedIpPoolAsync(AwsSesv2DeleteDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an email identity. An identity can be either an email address or a domain name. See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailIdentityAsync(AwsSesv2DeleteEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailIdentityAsync(AwsSesv2DeleteEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
@@ -278,8 +253,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailIdentityPolicyAsync(AwsSesv2DeleteEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailIdentityPolicyAsync(AwsSesv2DeleteEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an email template. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -288,8 +262,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteEmailTemplateAsync(AwsSesv2DeleteEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteEmailTemplateAsync(AwsSesv2DeleteEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted. See also: AWS API Documentation
@@ -298,8 +271,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteMultiRegionEndpointAsync(AwsSesv2DeleteMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteMultiRegionEndpointAsync(AwsSesv2DeleteMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is re- moved from the account-level suppression list. See also: AWS API Documentation
@@ -308,8 +280,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteSuppressedDestinationAsync(AwsSesv2DeleteSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteSuppressedDestinationAsync(AwsSesv2DeleteSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing tenant. When you delete a tenant, its associations with resources are removed, but the resources themselves are not deleted. See also: AWS API Documentation
@@ -318,8 +289,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTenantAsync(AwsSesv2DeleteTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTenantAsync(AwsSesv2DeleteTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations. See also: AWS API Documentation
@@ -328,8 +298,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteTenantResourceAssociationAsync(AwsSesv2DeleteTenantResourceAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteTenantResourceAssociationAsync(AwsSesv2DeleteTenantResourceAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose cer- tificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 retu...
@@ -338,8 +307,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DisassociateEmailIdentityCertificateAsync(AwsSesv2DisassociateEmailIdentityCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DisassociateEmailIdentityCertificateAsync(AwsSesv2DisassociateEmailIdentityCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region. See also: AWS API Documentation
@@ -348,8 +316,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetAccountAsync(AwsSesv2GetAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetAccountAsync(AwsSesv2GetAccountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of the blacklists that your dedicated IP addresses ap- pear on. See also: AWS API Documentation
@@ -358,8 +325,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlacklistReportsAsync(AwsSesv2GetBlacklistReportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlacklistReportsAsync(AwsSesv2GetBlacklistReportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of event destinations that are associated with a con- figuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
@@ -368,8 +334,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfigurationSetEventDestinationsAsync(AwsSesv2GetConfigurationSetEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfigurationSetEventDestinationsAsync(AwsSesv2GetConfigurationSetEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an existing configuration set, including the ded- icated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See als...
@@ -378,8 +343,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetConfigurationSetAsync(AwsSesv2GetConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetConfigurationSetAsync(AwsSesv2GetConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns contact list metadata. It does not return any information about the contacts present in the list. See also: AWS API Documentation
@@ -388,8 +352,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactListAsync(AwsSesv2GetContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactListAsync(AwsSesv2GetContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a contact from a contact list. See also: AWS API Documentation
@@ -398,8 +361,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetContactAsync(AwsSesv2GetContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetContactAsync(AwsSesv2GetContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -408,8 +370,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetCustomVerificationEmailTemplateAsync(AwsSesv2GetCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetCustomVerificationEmailTemplateAsync(AwsSesv2GetCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address. See also: AWS API Documentation
@@ -418,8 +379,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDedicatedIpAsync(AwsSesv2GetDedicatedIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDedicatedIpAsync(AwsSesv2GetDedicatedIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve information about the dedicated pool. See also: AWS API Documentation
@@ -428,8 +388,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDedicatedIpPoolAsync(AwsSesv2GetDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDedicatedIpPoolAsync(AwsSesv2GetDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account. See also: AWS API Documentation
@@ -438,8 +397,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDedicatedIpsAsync(AwsSesv2GetDedicatedIpsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDedicatedIpsAsync(AwsSesv2GetDedicatedIpsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to per- form predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services serv...
@@ -448,8 +406,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeliverabilityDashboardOptionsAsync(AwsSesv2GetDeliverabilityDashboardOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeliverabilityDashboardOptionsAsync(AwsSesv2GetDeliverabilityDashboardOptionsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the results of a predictive inbox placement test. See also: AWS API Documentation
@@ -458,8 +415,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDeliverabilityTestReportAsync(AwsSesv2GetDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDeliverabilityTestReportAsync(AwsSesv2GetDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for. See also: AWS API Documentation
@@ -468,8 +424,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainDeliverabilityCampaignAsync(AwsSesv2GetDomainDeliverabilityCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainDeliverabilityCampaignAsync(AwsSesv2GetDomainDeliverabilityCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email. See also: AWS API Documentation
@@ -478,8 +433,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDomainStatisticsReportAsync(AwsSesv2GetDomainStatisticsReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDomainStatisticsReportAsync(AwsSesv2GetDomainStatisticsReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other de- liverability factors. See also: AWS API Documentation
@@ -488,8 +442,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailAddressInsightsAsync(AwsSesv2GetEmailAddressInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailAddressInsightsAsync(AwsSesv2GetEmailAddressInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about a specific identity, including the iden- tity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings. See also: AWS API Documentation
@@ -498,8 +451,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailIdentityAsync(AwsSesv2GetEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailIdentityAsync(AwsSesv2GetEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending...
@@ -508,8 +460,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailIdentityPoliciesAsync(AwsSesv2GetEmailIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailIdentityPoliciesAsync(AwsSesv2GetEmailIdentityPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than 50 times per second. See also: AWS API Documentation
@@ -518,18 +469,16 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetEmailTemplateAsync(AwsSesv2GetEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetEmailTemplateAsync(AwsSesv2GetEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Provides information about an export job. See also: AWS API Documentation
+    /// Provides information about an export job. When the job status is COMPLETED , the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetExportJobAsync(AwsSesv2GetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetExportJobAsync(AwsSesv2GetExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about an import job. See also: AWS API Documentation
@@ -538,8 +487,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetImportJobAsync(AwsSesv2GetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetImportJobAsync(AwsSesv2GetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about a specific message, including the from ad- dress, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -548,8 +496,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMessageInsightsAsync(AwsSesv2GetMessageInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMessageInsightsAsync(AwsSesv2GetMessageInsightsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the multi-region endpoint (global-endpoint) configuration. Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be displayed. See also: AWS API Documentation
@@ -558,8 +505,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetMultiRegionEndpointAsync(AwsSesv2GetMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetMultiRegionEndpointAsync(AwsSesv2GetMultiRegionEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Ser- vices Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The repu- tation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommen- dations operation. Se...
@@ -568,8 +514,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetReputationEntityAsync(AwsSesv2GetReputationEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetReputationEntityAsync(AwsSesv2GetReputationEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific email address that's on the sup- pression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
@@ -578,8 +523,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetSuppressedDestinationAsync(AwsSesv2GetSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetSuppressedDestinationAsync(AwsSesv2GetSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression at- tributes. See also: AWS API Documentation
@@ -588,8 +532,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetTenantAsync(AwsSesv2GetTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetTenantAsync(AwsSesv2GetTenantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
@@ -598,8 +541,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListConfigurationSetsAsync(AwsSesv2ListConfigurationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListConfigurationSetsAsync(AwsSesv2ListConfigurationSetsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - re- gardless of the number of contacts returned. See also: AWS API Documentation
@@ -608,8 +550,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactListsAsync(AwsSesv2ListContactListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactListsAsync(AwsSesv2ListContactListsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the contacts present in a specific contact list. See also: AWS API Documentation
@@ -618,8 +559,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListContactsAsync(AwsSesv2ListContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListContactsAsync(AwsSesv2ListContactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -628,8 +568,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListCustomVerificationEmailTemplatesAsync(AwsSesv2ListCustomVerificationEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListCustomVerificationEmailTemplatesAsync(AwsSesv2ListCustomVerificationEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all of the dedicated IP pools that exist in your Amazon Web Ser- vices account in the current Region. See also: AWS API Documentation
@@ -638,8 +577,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDedicatedIpPoolsAsync(AwsSesv2ListDedicatedIpPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDedicatedIpPoolsAsync(AwsSesv2ListDedicatedIpPoolsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show a list of the predictive inbox placement tests that you've per- formed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results. See also: AWS API Documentation
@@ -648,8 +586,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDeliverabilityTestReportsAsync(AwsSesv2ListDeliverabilityTestReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDeliverabilityTestReportsAsync(AwsSesv2ListDeliverabilityTestReportsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is avail- able for a domain only if you enabled the Deliverability dashboard for the domain. See also: AWS API Documentation
@@ -658,8 +595,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDomainDeliverabilityCampaignsAsync(AwsSesv2ListDomainDeliverabilityCampaignsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDomainDeliverabilityCampaignsAsync(AwsSesv2ListDomainDeliverabilityCampaignsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are veri- fied as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint. See also: AWS API Documentation
@@ -668,8 +604,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEmailIdentitiesAsync(AwsSesv2ListEmailIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEmailIdentitiesAsync(AwsSesv2ListEmailIdentitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the S/MIME certificates that are associated with the specified email identity. The results include certificates in all states, such as PROVISIONING , ACTIVE , INACTIVE , DEPROVISIONING , and FAILED . If a certificate has passed its expiration time, it's returned with a status of FAILED . We recommend using pagination to ensure that the operation returns quickly and successfully. When there are more results than fit in a single response, the response includes a NextToken value that you use ...
@@ -678,8 +613,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEmailIdentityCertificatesAsync(AwsSesv2ListEmailIdentityCertificatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEmailIdentityCertificatesAsync(AwsSesv2ListEmailIdentityCertificatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -688,8 +622,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListEmailTemplatesAsync(AwsSesv2ListEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListEmailTemplatesAsync(AwsSesv2ListEmailTemplatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the export jobs. See also: AWS API Documentation
@@ -698,8 +631,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListExportJobsAsync(AwsSesv2ListExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListExportJobsAsync(AwsSesv2ListExportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all of the import jobs. See also: AWS API Documentation
@@ -708,8 +640,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListImportJobsAsync(AwsSesv2ListImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListImportJobsAsync(AwsSesv2ListImportJobsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed. See also: AWS API Documentation list-multi-region-endpoints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response,...
@@ -718,8 +649,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListMultiRegionEndpointsAsync(AwsSesv2ListMultiRegionEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListMultiRegionEndpointsAsync(AwsSesv2ListMultiRegionEndpointsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -728,8 +658,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListRecommendationsAsync(AwsSesv2ListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListRecommendationsAsync(AwsSesv2ListRecommendationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List reputation entities in your Amazon SES account in the current Ama- zon Web Services Region. You can filter the results by entity type, reputation impact, sending status, or entity reference prefix. Reputation entities represent resources in your account that have reputation tracking and management capabilities. Use this operation to get an overview of all entities and their current reputation sta- tus. See also: AWS API Documentation list-reputation-entities is a paginated operation. Multip...
@@ -738,8 +667,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListReputationEntitiesAsync(AwsSesv2ListReputationEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListReputationEntitiesAsync(AwsSesv2ListReputationEntitiesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, con- figuration set, or email template. See also: AWS API Documentation list-resource-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
@@ -748,8 +676,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListResourceTenantsAsync(AwsSesv2ListResourceTenantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListResourceTenantsAsync(AwsSesv2ListResourceTenantsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's sup- pression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
@@ -758,8 +685,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListSuppressedDestinationsAsync(AwsSesv2ListSuppressedDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListSuppressedDestinationsAsync(AwsSesv2ListSuppressedDestinationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value . A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key. See also: AWS API Documentation
@@ -768,8 +694,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsSesv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsSesv2ListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configu- ration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type. See also: AWS API Documentation list-tenant-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When ...
@@ -778,8 +703,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTenantResourcesAsync(AwsSesv2ListTenantResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTenantResourcesAsync(AwsSesv2ListTenantResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp. See also: AWS API Documentation list-tenants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated respo...
@@ -788,8 +712,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTenantsAsync(AwsSesv2ListTenantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTenantsAsync(AwsSesv2ListTenantsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable or disable the automatic warm-up feature for dedicated IP ad- dresses. See also: AWS API Documentation
@@ -798,8 +721,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountDedicatedIpWarmupAttributesAsync(AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountDedicatedIpWarmupAttributesAsync(AwsSesv2PutAccountDedicatedIpWarmupAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update your Amazon SES account details. See also: AWS API Documentation
@@ -808,8 +730,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountDetailsAsync(AwsSesv2PutAccountDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountDetailsAsync(AwsSesv2PutAccountDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set the pricing plan for your Amazon SES account. See also: AWS API Documentation
@@ -818,8 +739,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountPricingAttributesAsync(AwsSesv2PutAccountPricingAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountPricingAttributesAsync(AwsSesv2PutAccountPricingAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable or disable the ability of your account to send email. See also: AWS API Documentation
@@ -828,8 +748,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountSendingAttributesAsync(AwsSesv2PutAccountSendingAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountSendingAttributesAsync(AwsSesv2PutAccountSendingAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Change the settings for the account-level suppression list. See also: AWS API Documentation
@@ -838,8 +757,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountSuppressionAttributesAsync(AwsSesv2PutAccountSuppressionAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountSuppressionAttributesAsync(AwsSesv2PutAccountSuppressionAttributesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -848,8 +766,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutAccountVdmAttributesAsync(AwsSesv2PutAccountVdmAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutAccountVdmAttributesAsync(AwsSesv2PutAccountVdmAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate the configuration set with a MailManager archive. When you send email using the SendEmail or SendBulkEmail operations the message as it will be given to the receiving SMTP server will be archived, along with the recipient information. See also: AWS API Documentation
@@ -858,8 +775,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetArchivingOptionsAsync(AwsSesv2PutConfigurationSetArchivingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetArchivingOptionsAsync(AwsSesv2PutConfigurationSetArchivingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for send- ing specific types of email. See also: AWS API Documentation
@@ -868,8 +784,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(AwsSesv2PutConfigurationSetDeliveryOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetDeliveryOptionsAsync(AwsSesv2PutConfigurationSetDeliveryOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Ser- vices Region. See also: AWS API Documentation
@@ -878,8 +793,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetReputationOptionsAsync(AwsSesv2PutConfigurationSetReputationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetReputationOptionsAsync(AwsSesv2PutConfigurationSetReputationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable or disable email sending for messages that use a particular con- figuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
@@ -888,8 +802,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetSendingOptionsAsync(AwsSesv2PutConfigurationSetSendingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetSendingOptionsAsync(AwsSesv2PutConfigurationSetSendingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specify the suppression list preferences for a configuration set. You can also use this operation to specify a SuppressionScope to override the suppression scope of the tenant or account for emails sent using this configuration set. See also: AWS API Documentation
@@ -898,8 +811,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetSuppressionOptionsAsync(AwsSesv2PutConfigurationSetSuppressionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetSuppressionOptionsAsync(AwsSesv2PutConfigurationSetSuppressionOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specify a custom domain to use for open and click tracking elements in email that you send. See also: AWS API Documentation
@@ -908,8 +820,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetTrackingOptionsAsync(AwsSesv2PutConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetTrackingOptionsAsync(AwsSesv2PutConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -918,8 +829,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutConfigurationSetVdmOptionsAsync(AwsSesv2PutConfigurationSetVdmOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutConfigurationSetVdmOptionsAsync(AwsSesv2PutConfigurationSetVdmOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Move a dedicated IP address to an existing dedicated IP pool. NOTE: The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation. See also: AWS API Documentation
@@ -928,8 +838,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDedicatedIpInPoolAsync(AwsSesv2PutDedicatedIpInPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDedicatedIpInPoolAsync(AwsSesv2PutDedicatedIpInPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to convert a dedicated IP pool to a different scaling mode. NOTE: MANAGED pools cannot be converted to STANDARD scaling mode. See also: AWS API Documentation
@@ -938,8 +847,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDedicatedIpPoolScalingAttributesAsync(AwsSesv2PutDedicatedIpPoolScalingAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDedicatedIpPoolScalingAttributesAsync(AwsSesv2PutDedicatedIpPoolScalingAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// See also: AWS API Documentation
@@ -948,8 +856,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDedicatedIpWarmupAttributesAsync(AwsSesv2PutDedicatedIpWarmupAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDedicatedIpWarmupAttributesAsync(AwsSesv2PutDedicatedIpWarmupAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enable or disable the Deliverability dashboard. When you enable the De- liverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscrip- tion charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the fea...
@@ -958,8 +865,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutDeliverabilityDashboardOptionAsync(AwsSesv2PutDeliverabilityDashboardOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutDeliverabilityDashboardOptionAsync(AwsSesv2PutDeliverabilityDashboardOptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to associate a configuration set with an email identity. See also: AWS API Documentation
@@ -968,8 +874,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEmailIdentityConfigurationSetAttributesAsync(AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEmailIdentityConfigurationSetAttributesAsync(AwsSesv2PutEmailIdentityConfigurationSetAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to enable or disable DKIM authentication for an email identity. See also: AWS API Documentation
@@ -978,8 +883,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEmailIdentityDkimAttributesAsync(AwsSesv2PutEmailIdentityDkimAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEmailIdentityDkimAttributesAsync(AwsSesv2PutEmailIdentityDkimAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the fol- lowing: o Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM). o Update the key length that should be used for Easy DKIM. o Change from using no DKIM authentication to using Easy DKIM. o Change from using no DKIM authentication to using BYODKIM. o Change from using Easy DKIM to using BYODKIM. o Change from using BYODKIM to u...
@@ -988,8 +892,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEmailIdentityDkimSigningAttributesAsync(AwsSesv2PutEmailIdentityDkimSigningAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEmailIdentityDkimSigningAttributesAsync(AwsSesv2PutEmailIdentityDkimSigningAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true , you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanis...
@@ -998,8 +901,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEmailIdentityFeedbackAttributesAsync(AwsSesv2PutEmailIdentityFeedbackAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEmailIdentityFeedbackAttributesAsync(AwsSesv2PutEmailIdentityFeedbackAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity. See also: AWS API Documentation
@@ -1008,8 +910,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutEmailIdentityMailFromAttributesAsync(AwsSesv2PutEmailIdentityMailFromAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutEmailIdentityMailFromAttributesAsync(AwsSesv2PutEmailIdentityMailFromAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an email address to the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the address is added to the account-level suppression list. See also: AWS API Documentation
@@ -1018,8 +919,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutSuppressedDestinationAsync(AwsSesv2PutSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutSuppressedDestinationAsync(AwsSesv2PutSuppressedDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Configure the suppression list preferences for a tenant. Use this oper- ation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT , Amazon SES maintains a separate suppression list for the tenant. When you set the scope to AC- COUNT , the tenant uses the account-level suppression list. See also: AWS API Documentation
@@ -1028,8 +928,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PutTenantSuppressionAttributesAsync(AwsSesv2PutTenantSuppressionAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> PutTenantSuppressionAttributesAsync(AwsSesv2PutTenantSuppressionAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Composes an email message to multiple destinations. See also: AWS API Documentation
@@ -1038,8 +937,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendBulkEmailAsync(AwsSesv2SendBulkEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendBulkEmailAsync(AwsSesv2SendBulkEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds an email address to the list of identities for your Amazon SES ac- count in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email tem- plates in the Amazon SES Developer Guid...
@@ -1048,8 +946,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendCustomVerificationEmailAsync(AwsSesv2SendCustomVerificationEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendCustomVerificationEmailAsync(AwsSesv2SendCustomVerificationEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages: o Simple A standard email message. When you create this type of mes- sage, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you. o Raw A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attac...
@@ -1058,8 +955,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SendEmailAsync(AwsSesv2SendEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SendEmailAsync(AwsSesv2SendEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value ac...
@@ -1068,8 +964,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsSesv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsSesv2TagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -1078,8 +973,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TestRenderEmailTemplateAsync(AwsSesv2TestRenderEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TestRenderEmailTemplateAsync(AwsSesv2TestRenderEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more tags (keys and values) from a specified resource. See also: AWS API Documentation
@@ -1088,8 +982,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsSesv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsSesv2UntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
@@ -1098,8 +991,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsSesv2UpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetEventDestinationAsync(AwsSesv2UpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left un- changed. See also: AWS API Documentation
@@ -1108,8 +1000,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateConfigurationSetAsync(AwsSesv2UpdateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateConfigurationSetAsync(AwsSesv2UpdateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates contact list metadata. This operation does a complete replace- ment. See also: AWS API Documentation
@@ -1118,8 +1009,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactListAsync(AwsSesv2UpdateContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactListAsync(AwsSesv2UpdateContactListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
@@ -1128,8 +1018,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateContactAsync(AwsSesv2UpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateContactAsync(AwsSesv2UpdateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -1138,8 +1027,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateCustomVerificationEmailTemplateAsync(AwsSesv2UpdateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateCustomVerificationEmailTemplateAsync(AwsSesv2UpdateCustomVerificationEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the specified sending authorization policy for the given iden- tity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. NOTE: This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES De...
@@ -1148,8 +1036,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEmailIdentityPolicyAsync(AwsSesv2UpdateEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEmailIdentityPolicyAsync(AwsSesv2UpdateEmailIdentityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an email template. Email templates enable you to send personal- ized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
@@ -1158,8 +1045,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateEmailTemplateAsync(AwsSesv2UpdateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateEmailTemplateAsync(AwsSesv2UpdateEmailTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the en- tity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending ca- pability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send re...
@@ -1168,8 +1054,7 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReputationEntityCustomerManagedStatusAsync(AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReputationEntityCustomerManagedStatusAsync(AwsSesv2UpdateReputationEntityCustomerManagedStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-man- aged (predefined policies). You can select from none, standard, and strict policies. See also: AWS API Documentation
@@ -1178,7 +1063,6 @@ public interface IAwsSesv2
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateReputationEntityPolicyAsync(AwsSesv2UpdateReputationEntityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateReputationEntityPolicyAsync(AwsSesv2UpdateReputationEntityPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

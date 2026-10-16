@@ -34,12 +34,12 @@ public class AwsIam : IAwsIam
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws iam wait sub-commands.
     /// </summary>
     public AwsIamWait Wait => _wait ??= new AwsIamWait(_command);
 
     /// <summary>
-    /// aws wizard sub-commands.
+    /// aws iam wizard sub-commands.
     /// </summary>
     public AwsIamWizard Wizard => _wizard ??= new AwsIamWizard(_command);
 
@@ -1593,6 +1593,21 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
+    /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-instance-profile-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListInstanceProfileTagsAsync(
+        AwsIamListInstanceProfileTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to Using instance profiles in the IAM User Guide . You can paginate the results using the MaxItems and Marker parameters. See also: AWS API Documentation list-instance-profiles-for-role is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1623,14 +1638,14 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-instance-profile-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a ...
+    /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-mfa-device-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListInstanceProfileTagsAsync(
-        AwsIamListInstanceProfileTagsOptions options,
+    public virtual async Task<CommandResult> ListMfaDeviceTagsAsync(
+        AwsIamListMfaDeviceTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1653,14 +1668,14 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-mfa-device-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and ...
+    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federa- tion . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-open-id-connect-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMfaDeviceTagsAsync(
-        AwsIamListMfaDeviceTagsOptions options,
+    public virtual async Task<CommandResult> ListOpenIdConnectProviderTagsAsync(
+        AwsIamListOpenIdConnectProviderTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1680,21 +1695,6 @@ public class AwsIam : IAwsIam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListOpenIdConnectProvidersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see About web identity federa- tion . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-open-id-connect-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable paginat...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListOpenIdConnectProviderTagsAsync(
-        AwsIamListOpenIdConnectProviderTagsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1788,6 +1788,21 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
+    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-role-tags is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRoleTagsAsync(
+        AwsIamListRoleTagsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see IAM roles in the IAM User Guide . NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. This operation does not return the fol- lowing attributes, even though they are an attribute of the returned object: o PermissionsBoundary o RoleLastUsed o Tags To view all of the information for a role, see GetRo...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1803,14 +1818,14 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-role-tags is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based fed- eration . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-saml-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRoleTagsAsync(
-        AwsIamListRoleTagsOptions options,
+    public virtual async Task<CommandResult> ListSamlProviderTagsAsync(
+        AwsIamListSamlProviderTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1833,14 +1848,14 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see About SAML 2.0-based fed- eration . For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-saml-provider-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginatio...
+    /// Lists the tags that are attached to the specified IAM server certifi- cate. The returned list of tags is sorted by tag key. For more informa- tion about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certific...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSamlProviderTagsAsync(
-        AwsIamListSamlProviderTagsOptions options,
+    public virtual async Task<CommandResult> ListServerCertificateTagsAsync(
+        AwsIamListServerCertificateTagsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -1860,21 +1875,6 @@ public class AwsIam : IAwsIam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListServerCertificatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists the tags that are attached to the specified IAM server certifi- cate. The returned list of tags is sorted by tag key. For more informa- tion about tagging, see Tagging IAM resources in the IAM User Guide . NOTE: For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, Working with server certific...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListServerCertificateTagsAsync(
-        AwsIamListServerCertificateTagsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1938,21 +1938,6 @@ public class AwsIam : IAwsIam
     }
 
     /// <summary>
-    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list. NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. This operation does not return the fol- lowing attributes, even though they are an attribute of the returned object: o PermissionsBoundary o Tags To view all of the information for a us...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListUsersAsync(
-        AwsIamListUsersOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListUsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the tags that are attached to the specified IAM user. The re- turned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide . See also: AWS API Documentation list-user-tags is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1965,6 +1950,21 @@ public class AwsIam : IAwsIam
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list. NOTE: IAM resource-listing operations return a subset of the available at- tributes for the resource. This operation does not return the fol- lowing attributes, even though they are an attribute of the returned object: o PermissionsBoundary o Tags To view all of the information for a us...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListUsersAsync(
+        AwsIamListUsersOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIamListUsersOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
