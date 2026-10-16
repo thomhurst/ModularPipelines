@@ -1,4 +1,3 @@
-using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.FileSystem;
@@ -15,14 +14,28 @@ public static class NugetUploadHelper
         string? apiKey,
         CancellationToken cancellationToken)
     {
-        return await packagePaths
-            .SelectAsync(async nugetFile => await context.Tools.DotNet.NuGet.PushAsync(new DotNetNuGetPushOptions([nugetFile.Path])
+        var results = new List<CommandResult>();
+        foreach (var nugetFile in packagePaths)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            results.Add(await context.Tools.DotNet.NuGet.PushAsync(new DotNetNuGetPushOptions(GetPushPaths(nugetFile))
             {
                 Source = source,
                 ApiKey = apiKey,
                 SkipDuplicate = true,
-            }, cancellationToken: cancellationToken),
-                cancellationToken: cancellationToken)
-            .ProcessOneAtATime();
+            }, cancellationToken: cancellationToken).ConfigureAwait(false));
+        }
+
+        return results.ToArray();
+    }
+
+    private static string[] GetPushPaths(FilePath package)
+    {
+        var symbolsPath = Path.ChangeExtension(package.Path, ".snupkg");
+        // NuGet skips automatic symbol uploads when the primary package already exists.
+        // An explicit symbol input retries that upload independently of the primary.
+        return package.Path.EndsWith(".nupkg", StringComparison.OrdinalIgnoreCase) && File.Exists(symbolsPath)
+            ? [package.Path, symbolsPath]
+            : [package.Path];
     }
 }
