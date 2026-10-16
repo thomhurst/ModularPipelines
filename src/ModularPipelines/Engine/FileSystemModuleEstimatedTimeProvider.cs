@@ -91,7 +91,9 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
                     return null;
                 }
             })
-            .ProcessInParallel();
+            .ProcessInParallel()
+            .GetResultsAsync()
+            .ConfigureAwait(false);
 
         return subModuleEstimations.OfType<SubModuleEstimation>();
     }

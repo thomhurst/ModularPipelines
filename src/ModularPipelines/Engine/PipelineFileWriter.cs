@@ -26,7 +26,9 @@ internal class PipelineFileWriter : IPipelineFileWriter, IScopeDisposer
             .ForEachAsync(x =>
                 x.WriteAsync(_pipelineContextProvider.GetModuleContext())
             )
-            .ProcessInParallel();
+            .ProcessInParallel()
+            .WaitAsync()
+            .ConfigureAwait(false);
     }
 
     public IEnumerable<IServiceScope> GetScopes()

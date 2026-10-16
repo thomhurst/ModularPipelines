@@ -14,14 +14,14 @@ namespace ModularPipelines.Engine;
 /// concurrently from multiple threads without external synchronization.
 /// </para>
 /// <para>
-/// Exceptions are stored in a <see cref="ConcurrentBag{T}"/> which provides
-/// lock-free thread-safe operations for concurrent module execution scenarios.
+/// Exceptions are stored in a <see cref="ConcurrentQueue{T}"/> which preserves
+/// registration order during concurrent module execution.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
 internal class SecondaryExceptionContainer : ISecondaryExceptionContainer
 {
-    private readonly ConcurrentBag<ExceptionDispatchInfo> _exceptions = [];
+    private readonly ConcurrentQueue<ExceptionDispatchInfo> _exceptions = new();
 
     /// <summary>
     /// Registers an exception that occurred during pipeline execution.
@@ -32,7 +32,7 @@ internal class SecondaryExceptionContainer : ISecondaryExceptionContainer
     /// </remarks>
     public void RegisterException(Exception exception)
     {
-        _exceptions.Add(ExceptionDispatchInfo.Capture(exception));
+        _exceptions.Enqueue(ExceptionDispatchInfo.Capture(exception));
     }
 
     /// <summary>
