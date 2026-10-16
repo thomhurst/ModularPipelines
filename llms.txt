@@ -30,6 +30,7 @@
 - [MP0020](/docs/analyzers/MP0020.md): Repeated WithSkipWhen calls on one module configuration builder are OR-ed.
 - [MP0021](/docs/analyzers/MP0021.md): Optional dependency accessed with GetModule instead of GetModuleIfRegistered.
 - [MP0022](/docs/analyzers/MP0022.md): Required dependency accessed with GetModuleIfRegistered instead of GetModule.
+- [MP0023](/docs/analyzers/MP0023.md): Non-generic outcome tests do not match generic engine results; use Status, ExceptionOrDefault, or SkipDecisionOrDefault.
 - [MPCLI001](/docs/analyzers/MPCLI001.md): CliFlag property must be bool? or int?
 - [MPCLI002](/docs/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.

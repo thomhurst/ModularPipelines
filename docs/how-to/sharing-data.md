@@ -142,6 +142,46 @@ if (result.SkipDecisionOrDefault is { } skipDecision)
 }
 ```
 
+## Checking type-erased results[​](#checking-type-erased-results "Direct link to Checking type-erased results")
+
+`PipelineSummary.Results` and the `IModuleResult` parameter of `IModuleEndHandler.OnModuleEndAsync` expose results without the module's value type. Use `Status`, `ExceptionOrDefault`, and `SkipDecisionOrDefault` to inspect these results:
+
+```
+var failed = summary.Results.Where(result => result.Status == ModuleStatus.Failed);
+
+
+
+foreach (var result in summary.Results)
+
+{
+
+    if (result.ExceptionOrDefault is { } exception)
+
+    {
+
+        Console.Error.WriteLine($"{result.Name}: {exception.Message}");
+
+    }
+
+
+
+    if (result.SkipDecisionOrDefault is { } decision)
+
+    {
+
+        Console.WriteLine($"{result.Name} skipped: {decision.Reason}");
+
+    }
+
+}
+```
+
+`Status == ModuleStatus.Failed` selects that exact status. `ExceptionOrDefault` also exposes exceptions for failure outcomes with other statuses, such as `FailureIgnored` or `TimedOut`.
+
+The engine produces `ModuleResult<T>.Failure` and `ModuleResult<T>.Skipped`, including when results are exposed through `IModuleResult`. These generic records do not inherit from `ModuleResult.Failure` or `ModuleResult.Skipped`. Consequently, `result is ModuleResult.Failure` and `summary.Results.OfType<ModuleResult.Skipped>()` miss those engine outcomes. Analyzer [`MP0023`](/ModularPipelines/docs/analyzers/MP0023.md) warns about these non-generic outcome tests on `IModuleResult` or `ModuleResult` values and collections, including type patterns in switches.
+
+When the value type is known, the generic patterns shown above remain valid. The non-generic records remain public for explicit construction and implicit conversion to `ModuleResult<T>`. If you intentionally store those constructed records in a type-erased collection, a non-generic test can be valid; suppress MP0023 at that specific occurrence.
+
 ## Important: Declare Dependencies[​](#important-declare-dependencies "Direct link to Important: Declare Dependencies")
 
 Always declare dependencies using `[DependsOn<T>]` to ensure the dependent module has completed before you call `GetModule`:
