@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "git",
-  "toolVersion": "git version 2.55.0",
+  "toolVersion": "2.55.0",
   "commandCount": 182,
   "commandTreeSha256": "b3dd2c42e4d7200c3fcaa16a5cdee8b9e4c2bf690bcf4f91e4169c6d6dfe983f",
   "commands": [
