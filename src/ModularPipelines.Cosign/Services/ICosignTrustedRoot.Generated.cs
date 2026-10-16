@@ -13,7 +13,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Services;
 
 /// <summary>
-/// cosign trustedroot commands.
+/// cosign trusted-root commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
