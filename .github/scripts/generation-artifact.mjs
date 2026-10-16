@@ -10,6 +10,18 @@ const maximumContentBytes = 256 * 1024 * 1024;
 const maximumFiles = 50000;
 const maximumReportBytes = 65536;
 
+export function selectPublicationArtifact(jobs, artifacts, tool) {
+  // A publisher-only rerun can reuse a successful generation attempt. A newer
+  // failed generation attempt must never fall back to an older successful one.
+  const latest = jobs.filter(job => job.name === `Generate ${tool}`)
+    .sort((left, right) => right.run_attempt - left.run_attempt || right.id - left.id)[0];
+  if (!latest || latest.conclusion !== 'success') return null;
+  const matches = artifacts.filter(artifact =>
+    artifact.name === `generated-${tool}-publication-${latest.run_attempt}` && !artifact.expired);
+  if (matches.length !== 1) throw new Error('Missing or ambiguous publication artifact');
+  return { id: matches[0].id, runAttempt: String(latest.run_attempt) };
+}
+
 function git(root, args, input) {
   const result = spawnSync('git', ['-C', root, ...args], { input, maxBuffer: maximumArtifactBytes });
   if (result.status !== 0) throw new Error(`git ${args[0]} failed: ${result.stderr}`);
@@ -55,7 +67,8 @@ function assertOptions(options) {
   if (!/^[a-z][a-z0-9-]*$/.test(options.tool)) throw new Error('Invalid tool');
   if (!/^[A-Za-z][A-Za-z0-9]*$/.test(options.prefix)) throw new Error('Invalid prefix');
   if (!/^src\/ModularPipelines\.[A-Za-z0-9.]+$/.test(options.packageDirectory)) throw new Error('Invalid package directory');
-  if (!/^[a-f0-9]{40}$/.test(options.sourceSha) || !/^[1-9][0-9]*$/.test(options.runId)) throw new Error('Invalid generation identity');
+  if (!/^[a-f0-9]{40}$/.test(options.sourceSha) || !/^[1-9][0-9]*$/.test(options.runId) ||
+      !/^[1-9][0-9]*$/.test(options.runAttempt)) throw new Error('Invalid generation identity');
   if (!Number.isSafeInteger(options.maximumFileBytes) || options.maximumFileBytes < 1 || options.maximumFileBytes > 25 * 1024 * 1024) {
     throw new Error('Invalid file size limit');
   }
@@ -84,7 +97,8 @@ function validatePath(root, entry, options) {
 
 export function validateArtifact(root, artifact, options) {
   assertOptions(options);
-  if (artifact.formatVersion !== 1 || artifact.tool !== options.tool || artifact.sourceSha !== options.sourceSha || artifact.runId !== options.runId) {
+  if (artifact.formatVersion !== 1 || artifact.tool !== options.tool || artifact.sourceSha !== options.sourceSha ||
+      artifact.runId !== options.runId || artifact.runAttempt !== options.runAttempt) {
     throw new Error('Artifact generation identity mismatch');
   }
   if (typeof artifact.coverageReport !== 'string' || Buffer.byteLength(artifact.coverageReport) > maximumReportBytes || artifact.coverageReport.includes('\0')) {
@@ -146,7 +160,7 @@ export function exportArtifact(root, directory, logFile, options) {
   }));
   const log = readFileSync(logFile, 'utf8');
   const marker = log.lastIndexOf('Command coverage report:');
-  const artifact = { formatVersion: 1, tool: options.tool, sourceSha: options.sourceSha, runId: options.runId,
+  const artifact = { formatVersion: 1, tool: options.tool, sourceSha: options.sourceSha, runId: options.runId, runAttempt: options.runAttempt,
     coverageReport: marker < 0 ? '' : log.slice(marker), changes };
   validateArtifact(root, artifact, options);
   const json = JSON.stringify(artifact);
@@ -188,16 +202,22 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     generateCommandFacade: process.env.GENERATION_COMMAND_FACADE === 'true',
     sourceSha: process.env.GENERATION_SOURCE_SHA,
     runId: process.env.GITHUB_RUN_ID,
+    runAttempt: process.env.GENERATION_RUN_ATTEMPT || process.env.GITHUB_RUN_ATTEMPT,
     maximumFileBytes: Number(process.env.GENERATION_MAX_FILE_BYTES),
     hasChanges: process.env.GENERATION_HAS_CHANGES !== 'false',
   };
   const [operation, directory, logFile] = process.argv.slice(2);
-  if (operation === 'export') exportArtifact(process.env.GITHUB_WORKSPACE, directory, logFile, options);
+  if (operation === 'select') {
+    const jobs = JSON.parse(readFileSync(directory, 'utf8')).flatMap(page => page.jobs);
+    const artifacts = JSON.parse(readFileSync(logFile, 'utf8')).flatMap(page => page.artifacts);
+    const selected = selectPublicationArtifact(jobs, artifacts, options.tool);
+    appendFileSync(process.env.GITHUB_OUTPUT, `id=${selected?.id ?? ''}\nrun_attempt=${selected?.runAttempt ?? ''}\n`);
+  } else if (operation === 'export') exportArtifact(process.env.GITHUB_WORKSPACE, directory, logFile, options);
   else if (operation === 'import') {
     const artifact = importArtifact(process.env.GITHUB_WORKSPACE, directory, options);
     writeFileSync(process.env.GENERATION_MANIFEST, artifact.changes.map(change => change.path).join('\n'));
     const delimiter = randomUUID();
     appendFileSync(process.env.GITHUB_OUTPUT,
       `has_changes=${artifact.changes.length > 0}\ncoverage-report<<${delimiter}\n${artifact.coverageReport}\n${delimiter}\n`);
-  } else throw new Error('Expected export or import');
+  } else throw new Error('Expected select, export or import');
 }

@@ -128,6 +128,7 @@ jobs:
 
   # Generate options for each tool in parallel (Linux)
   generate:
+    name: Generate ${{ matrix.tool }}
     needs:
       - validate-generation-safety
       - tool-catalog
@@ -788,7 +789,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: generated-${{ matrix.tool }}-publication
+          name: generated-${{ matrix.tool }}-publication-${{ github.run_attempt }}
           path: ${{ runner.temp }}/publication-data/generated-options.json
           if-no-files-found: error
           overwrite: true
@@ -796,6 +797,7 @@ jobs:
 
   # Generate options for Windows-only tools
   generate-windows:
+    name: Generate ${{ matrix.tool }}
     needs:
       - validate-generation-safety
       - tool-catalog
@@ -1067,7 +1069,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
-          name: generated-${{ matrix.tool }}-publication
+          name: generated-${{ matrix.tool }}-publication-${{ github.run_attempt }}
           path: ${{ runner.temp }}/publication-data/generated-options.json
           if-no-files-found: error
           overwrite: true
@@ -1100,30 +1102,25 @@ jobs:
       GENERATION_MAX_FILE_BYTES: ${{ matrix.maximumFileSizeBytes }}
 
     steps:
-      - name: Find successful tool handoff
-        id: artifact
-        env:
-          GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ github.token }}
-          ARTIFACT_NAME: generated-${{ matrix.tool }}-publication
-        run: |
-          artifact_id="$(gh api --paginate "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/artifacts" \
-            --jq '.artifacts[] | select(.name == env.ARTIFACT_NAME and .expired == false) | .id')"
-          if [[ "$artifact_id" == *$'\n'* ]]; then
-            echo 'Ambiguous publication artifact' >&2
-            exit 1
-          fi
-          echo "id=$artifact_id" >> "$GITHUB_OUTPUT"
-          # Failed generation has no handoff. Successful no-change runs upload an
-          # empty handoff, replacing any result from an earlier attempt of this run.
-
       - name: Checkout trusted publication code
-        if: steps.artifact.outputs.id != ''
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
+
+      - name: Find successful tool handoff
+        id: artifact
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate --slurp "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/jobs?filter=all&per_page=100" \
+            > "$RUNNER_TEMP/generation-jobs.json"
+          gh api --paginate --slurp "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+            > "$RUNNER_TEMP/generation-artifacts.json"
+          node .github/scripts/generation-artifact.mjs select \
+            "$RUNNER_TEMP/generation-jobs.json" "$RUNNER_TEMP/generation-artifacts.json"
 
       - name: Download generated data outside checkout
         if: steps.artifact.outputs.id != ''
@@ -1138,6 +1135,7 @@ jobs:
         id: handoff
         env:
           GENERATION_MANIFEST: ${{ runner.temp }}/publication-paths.txt
+          GENERATION_RUN_ATTEMPT: ${{ steps.artifact.outputs.run_attempt }}
         run: node .github/scripts/generation-artifact.mjs import "$RUNNER_TEMP/publication-data"
 
       - name: Validate provenance and stage exact generated paths

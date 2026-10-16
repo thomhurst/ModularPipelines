@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { exportArtifact, importArtifact, validateArtifact } from './generation-artifact.mjs';
+import { exportArtifact, importArtifact, selectPublicationArtifact, validateArtifact } from './generation-artifact.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../', import.meta.url));
 const artifactScript = fileURLToPath(new URL('./generation-artifact.mjs', import.meta.url));
@@ -45,8 +45,8 @@ function fixture(t) {
   git('add', '.');
   git('commit', '--quiet', '-m', 'baseline');
   const options = { tool: 'fake', prefix: 'Fake', packageDirectory, generateCommandFacade: true,
-    sourceSha: git('rev-parse', 'HEAD'), runId: '12345', maximumFileBytes: 25 * 1024 * 1024 };
-  const artifact = { formatVersion: 1, tool: options.tool, sourceSha: options.sourceSha, runId: options.runId,
+    sourceSha: git('rev-parse', 'HEAD'), runId: '12345', runAttempt: '1', maximumFileBytes: 25 * 1024 * 1024 };
+  const artifact = { formatVersion: 1, tool: options.tool, sourceSha: options.sourceSha, runId: options.runId, runAttempt: options.runAttempt,
     coverageReport: 'Command coverage report:\n- fake: 10 commands\n', changes: [entry(generatedPath, '// updated\n')] };
   function save(value = artifact) {
     writeFileSync(path.join(handoff, 'generated-options.json'), JSON.stringify(value));
@@ -76,6 +76,8 @@ test('round trip exports exact staged bytes, imports data, and stages only valid
   exportArtifact(f.root, f.handoff, log, f.options);
   f.git('reset', '--hard', '--quiet', 'HEAD');
   const importedEnv = { ...process.env, GITHUB_WORKSPACE: f.root, GITHUB_RUN_ID: f.options.runId, GITHUB_OUTPUT: output,
+    GITHUB_RUN_ATTEMPT: '2',
+    GENERATION_RUN_ATTEMPT: f.options.runAttempt,
     GENERATION_TOOL: f.options.tool, GENERATION_PREFIX: f.options.prefix, GENERATION_PACKAGE_DIRECTORY: packageDirectory,
     GENERATION_COMMAND_FACADE: 'true', GENERATION_SOURCE_SHA: f.options.sourceSha,
     GENERATION_MAX_FILE_BYTES: String(f.options.maximumFileBytes), GENERATION_MANIFEST: manifest };
@@ -125,6 +127,7 @@ test('artifact C# content stays inert during import', t => {
 for (const [name, field, value] of [
   ['wrong format', 'formatVersion', 2], ['wrong tool', 'tool', 'other'],
   ['wrong source', 'sourceSha', 'a'.repeat(40)], ['wrong run', 'runId', '999'],
+  ['wrong attempt', 'runAttempt', '2'], ['missing attempt', 'runAttempt', undefined],
   ['missing changes', 'changes', null], ['malformed entry', 'changes', [null]],
   ['missing report', 'coverageReport', null], ['oversized report', 'coverageReport', 'x'.repeat(65537)],
 ]) {
@@ -252,6 +255,8 @@ test('workflow keeps credentials and execution on opposite sides of handoff', ()
   assert.doesNotMatch(generation, /contents: write|pull-requests: write|secrets\.|CLI_SCRAPER_PAT_TOKEN/);
   assert.equal((generation.match(/contents: read/g) || []).length, 2);
   assert.equal((generation.match(/name: Upload publication data/g) || []).length, 2);
+  assert.equal((generation.match(/name: Generate \$\{\{ matrix.tool \}\}/g) || []).length, 2);
+  assert.equal((generation.match(/name: generated-\$\{\{ matrix.tool \}\}-publication-\$\{\{ github.run_attempt \}\}/g) || []).length, 2);
   const publication = workflow.slice(workflow.indexOf('\n  publish:'), workflow.indexOf('\n  report-scheduled-failure:'));
   assert.doesNotMatch(publication, /dotnet |actions\/cache|npm |Invoke-Expression|git apply/);
   assert.match(publication, /ref: \$\{\{ github.sha \}\}/);
@@ -260,5 +265,38 @@ test('workflow keeps credentials and execution on opposite sides of handoff', ()
   assert.match(publication, /Assert-GeneratedOptionsFreshness.ps1/);
   assert.match(publication, /inputs\['enable-auto-merge'\]/);
   assert.match(publication, /github.event.inputs.create-pr != 'false'/);
+  assert.match(publication, /jobs\?filter=all&per_page=100/);
+  assert.match(publication, /GENERATION_RUN_ATTEMPT: \$\{\{ steps.artifact.outputs.run_attempt \}\}/);
   assert.match(workflow, /os: \[ubuntu-latest, windows-latest\]/);
+});
+
+test('handoff selection uses the latest tool job and preserves publisher-only retries', () => {
+  const successful = { id: 10, name: 'Generate fake', run_attempt: 1, conclusion: 'success' };
+  const artifact = { id: 20, name: 'generated-fake-publication-1', expired: false };
+  const otherTool = { id: 30, name: 'Generate other', run_attempt: 2, conclusion: 'failure' };
+  assert.deepEqual(selectPublicationArtifact([otherTool, successful], [artifact], 'fake'), { id: 20, runAttempt: '1' });
+  assert.equal(selectPublicationArtifact([otherTool], [artifact], 'fake'), null);
+  for (const conclusion of ['failure', 'cancelled', 'skipped', null]) {
+    const retry = { ...successful, id: 40, run_attempt: 2, conclusion };
+    assert.equal(selectPublicationArtifact([retry, successful], [artifact], 'fake'), null);
+  }
+  const retried = { ...successful, id: 40, run_attempt: 2 };
+  const newArtifact = { ...artifact, id: 50, name: 'generated-fake-publication-2' };
+  assert.deepEqual(selectPublicationArtifact([successful, retried], [artifact, newArtifact], 'fake'), { id: 50, runAttempt: '2' });
+  assert.throws(() => selectPublicationArtifact([retried], [artifact], 'fake'), /Missing or ambiguous/);
+  assert.throws(() => selectPublicationArtifact([successful], [{ ...artifact, expired: true }], 'fake'), /Missing or ambiguous/);
+  assert.throws(() => selectPublicationArtifact([successful], [artifact, artifact], 'fake'), /Missing or ambiguous/);
+});
+
+test('selection CLI passes the successful generation attempt to the publisher', t => {
+  const f = fixture(t);
+  const jobsFile = path.join(f.directory, 'jobs.json');
+  const artifactsFile = path.join(f.directory, 'artifacts.json');
+  const output = path.join(f.directory, 'output');
+  writeFileSync(jobsFile, JSON.stringify([{ jobs: [] }, { jobs: [{ id: 10, name: 'Generate fake', run_attempt: 1, conclusion: 'success' }] }]));
+  writeFileSync(artifactsFile, JSON.stringify([{ artifacts: [] }, { artifacts: [{ id: 20, name: 'generated-fake-publication-1', expired: false }] }]));
+  run(process.execPath, [artifactScript, 'select', jobsFile, artifactsFile], {
+    env: { ...process.env, GENERATION_TOOL: 'fake', GITHUB_RUN_ATTEMPT: '2', GITHUB_OUTPUT: output },
+  });
+  assert.equal(readFileSync(output, 'utf8'), 'id=20\nrun_attempt=1\n');
 });
