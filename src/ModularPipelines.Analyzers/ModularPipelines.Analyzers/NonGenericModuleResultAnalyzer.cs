@@ -44,36 +44,20 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
             var queryableType = startContext.Compilation.GetTypeByMetadataName("System.Linq.Queryable");
             var sequenceType = startContext.Compilation.GetTypeByMetadataName("System.Collections.Generic.IEnumerable`1");
 
-            bool IsNonGenericOutcome(ITypeSymbol? type) => type is not null
-                && (SymbolEqualityComparer.Default.Equals(type, failureType)
-                    || SymbolEqualityComparer.Default.Equals(type, skippedType));
-
-            startContext.RegisterOperationAction(operationContext =>
-            {
-                var (inputType, matchedType, syntax) = GetOutcomeTest(operationContext.Operation);
-
-                if (syntax is not null && IsErasedResult(inputType, resultType, resultInterface) && IsNonGenericOutcome(matchedType))
-                {
-                    operationContext.ReportDiagnostic(Diagnostic.Create(Rule, syntax.GetLocation()));
-                }
-            }, OperationKind.IsType, OperationKind.DeclarationPattern, OperationKind.TypePattern, OperationKind.RecursivePattern);
+            startContext.RegisterOperationAction(
+                operationContext => AnalyzeOutcomeTest(operationContext, resultType, resultInterface, failureType, skippedType),
+                OperationKind.IsType, OperationKind.DeclarationPattern, OperationKind.TypePattern, OperationKind.RecursivePattern);
 
             startContext.RegisterOperationAction(operationContext =>
             {
                 var invocation = (IInvocationOperation) operationContext.Operation;
-                if (!IsNonGenericOutcome(GetOfTypeOutcome(invocation, enumerableType, queryableType))
+                if (!IsNonGenericOutcome(GetOfTypeOutcome(invocation, enumerableType, queryableType), failureType, skippedType)
                     || !IsErasedResultSequence(invocation.Arguments[0].Value, sequenceType, resultType, resultInterface))
                 {
                     return;
                 }
 
-                var name = (invocation.Syntax as InvocationExpressionSyntax)?.Expression switch
-                {
-                    MemberAccessExpressionSyntax access => access.Name as GenericNameSyntax,
-                    MemberBindingExpressionSyntax binding => binding.Name as GenericNameSyntax,
-                    GenericNameSyntax generic => generic,
-                    _ => null,
-                };
+                var name = GetOfTypeName(invocation);
                 if (name is not null)
                 {
                     operationContext.ReportDiagnostic(Diagnostic.Create(Rule, name.TypeArgumentList.Arguments[0].GetLocation()));
@@ -81,6 +65,32 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
             }, OperationKind.Invocation);
         });
     }
+
+    private static void AnalyzeOutcomeTest(OperationAnalysisContext context, INamedTypeSymbol resultType,
+        INamedTypeSymbol resultInterface, INamedTypeSymbol? failureType, INamedTypeSymbol? skippedType)
+    {
+        var (inputType, matchedType, syntax) = GetOutcomeTest(context.Operation);
+
+        if (syntax is not null && IsErasedResult(inputType, resultType, resultInterface)
+            && IsNonGenericOutcome(matchedType, failureType, skippedType))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(Rule, syntax.GetLocation()));
+        }
+    }
+
+    private static bool IsNonGenericOutcome(ITypeSymbol? type, INamedTypeSymbol? failureType, INamedTypeSymbol? skippedType) =>
+        type is not null
+        && (SymbolEqualityComparer.Default.Equals(type, failureType)
+            || SymbolEqualityComparer.Default.Equals(type, skippedType));
+
+    private static GenericNameSyntax? GetOfTypeName(IInvocationOperation invocation) =>
+        (invocation.Syntax as InvocationExpressionSyntax)?.Expression switch
+        {
+            MemberAccessExpressionSyntax access => access.Name as GenericNameSyntax,
+            MemberBindingExpressionSyntax binding => binding.Name as GenericNameSyntax,
+            GenericNameSyntax generic => generic,
+            _ => null,
+        };
 
     private static bool IsErasedResult(ITypeSymbol? type, INamedTypeSymbol resultType, INamedTypeSymbol resultInterface) =>
         SymbolEqualityComparer.Default.Equals(type, resultType)
