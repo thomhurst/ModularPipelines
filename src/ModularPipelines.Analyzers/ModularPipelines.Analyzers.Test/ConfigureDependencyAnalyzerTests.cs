@@ -31,15 +31,29 @@ public class ConfigureDependencyAnalyzerTests
         """;
 
     [TestMethod]
-    [DataRow("DependsOn<Dependency>()")]
-    [DataRow("DependsOn(typeof(Dependency))")]
-    [DataRow("DependsOnOptional<Dependency>()")]
-    [DataRow("DependsOnOptional(typeof(Dependency))")]
+    [DataRow("DependsOn<Dependency>()", "GetModuleIfRegistered", "MP0022")]
+    [DataRow("DependsOn(typeof(Dependency))", "GetModuleIfRegistered", "MP0022")]
+    [DataRow("DependsOnOptional<Dependency>()", "GetModule", "MP0021")]
+    [DataRow("DependsOnOptional(typeof(Dependency))", "GetModule", "MP0021")]
+    public async Task Builder_Dependency_Only_Diagnoses_Mismatched_Accessor(string call, string accessor, string diagnosticId)
+    {
+        var source = CreateSource($"protected override void Configure(ModuleConfigurationBuilder module) => module.{call};")
+            .Replace($"context.{accessor}<Dependency>()", $"{{|#0:context.{accessor}<Dependency>()|}}");
+        await Missing.VerifyAnalyzerAsync(source,
+            Missing.Diagnostic(diagnosticId).WithLocation(0).WithArguments("Dependency"));
+    }
+
+    [TestMethod]
     [DataRow("DependsOnIf<Dependency>(false)")]
     [DataRow("DependsOnIf(condition: false, moduleType: typeof(Dependency))")]
-    public async Task Builder_Dependency_Satisfies_Both_Accessors(string call)
+    public async Task Disabled_Builder_Dependency_Does_Not_Satisfy_Accessors(string call)
     {
-        await Missing.VerifyAnalyzerAsync(CreateSource($"protected override void Configure(ModuleConfigurationBuilder module) => module.{call};"));
+        var source = CreateSource($"protected override void Configure(ModuleConfigurationBuilder module) => module.{call};")
+            .Replace("context.GetModule<Dependency>()", "{|#0:context.GetModule<Dependency>()|}")
+            .Replace("context.GetModuleIfRegistered<Dependency>()", "{|#1:context.GetModuleIfRegistered<Dependency>()|}");
+        await Missing.VerifyAnalyzerAsync(source,
+            Missing.Diagnostic("MP0001").WithLocation(0).WithArguments("Dependency"),
+            Missing.Diagnostic("MP0001").WithLocation(1).WithArguments("Dependency"));
     }
 
     [TestMethod]
@@ -55,7 +69,9 @@ public class ConfigureDependencyAnalyzerTests
                 }
             }
             """;
-        await Missing.VerifyAnalyzerAsync(source);
+        source = source.Replace("context.GetModuleIfRegistered<Dependency>()", "{|#0:context.GetModuleIfRegistered<Dependency>()|}");
+        await Missing.VerifyAnalyzerAsync(source,
+            Missing.Diagnostic("MP0022").WithLocation(0).WithArguments("Dependency"));
     }
 
     [TestMethod]
@@ -107,8 +123,8 @@ public class ConfigureDependencyAnalyzerTests
             .Replace("context.GetModule<Dependency>()", "{|#0:context.GetModule<Dependency>()|}")
             .Replace("context.GetModuleIfRegistered<Dependency>()", "{|#1:context.GetModuleIfRegistered<Dependency>()|}");
         await Missing.VerifyAnalyzerAsync(source,
-            Missing.Diagnostic().WithLocation(0).WithArguments("Dependency"),
-            Missing.Diagnostic().WithLocation(1).WithArguments("Dependency"));
+            Missing.Diagnostic("MP0001").WithLocation(0).WithArguments("Dependency"),
+            Missing.Diagnostic("MP0001").WithLocation(1).WithArguments("Dependency"));
     }
 
     [TestMethod]
@@ -134,7 +150,9 @@ public class ConfigureDependencyAnalyzerTests
                 protected override void Configure(ModuleConfigurationBuilder module) => module.DependsOn<Dependency>();
             }
             """;
-        await Missing.VerifyAnalyzerAsync(source);
+        source = source.Replace("context.GetModuleIfRegistered<Dependency>()", "{|#0:context.GetModuleIfRegistered<Dependency>()|}");
+        await Missing.VerifyAnalyzerAsync(source,
+            Missing.Diagnostic("MP0022").WithLocation(0).WithArguments("Dependency"));
     }
 
     [TestMethod]
@@ -185,8 +203,8 @@ public class ConfigureDependencyAnalyzerTests
             }
             """;
         await Missing.VerifyAnalyzerAsync(source,
-            Missing.Diagnostic().WithLocation(0).WithArguments("Dependency"),
-            Missing.Diagnostic().WithLocation(1).WithArguments("Dependency"));
+            Missing.Diagnostic("MP0001").WithLocation(0).WithArguments("Dependency"),
+            Missing.Diagnostic("MP0001").WithLocation(1).WithArguments("Dependency"));
     }
 
     [TestMethod]
@@ -208,7 +226,7 @@ public class ConfigureDependencyAnalyzerTests
     {
         var source = CreateSource("protected override void Configure(ModuleConfigurationBuilder module) => module.DependsOn<Dependency>();")
             .Replace("context.GetModule<Dependency>()", "ModularPipelines.Generated.TestModuleContextExtensions.GetDependencyModule(context)")
-            .Replace("context.GetModuleIfRegistered<Dependency>()", "ModularPipelines.Generated.TestModuleContextExtensions.GetDependencyModuleIfRegistered(context)");
+            .Replace("context.GetModuleIfRegistered<Dependency>()", "{|#0:ModularPipelines.Generated.TestModuleContextExtensions.GetDependencyModuleIfRegistered(context)|}");
         const string generatedAccessors = """
             #nullable enable
             using ModularPipelines;
@@ -232,6 +250,7 @@ public class ConfigureDependencyAnalyzerTests
                 AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
             },
         };
+        test.ExpectedDiagnostics.Add(Missing.Diagnostic("MP0022").WithLocation(0).WithArguments("Dependency"));
         await test.RunAsync(CancellationToken.None);
     }
 }

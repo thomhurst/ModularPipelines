@@ -250,10 +250,10 @@
     <value>Flow the module cancellation token</value>
   </data>
   <data name="UnflowedCancellationTokenAnalyzerMessageFormat" xml:space="preserve">
-    <value>Awaited call '{0}' accepts a CancellationToken; pass the ExecuteAsync cancellationToken</value>
+    <value>Awaited call '{0}' accepts a CancellationToken; pass the available module or callback cancellation token</value>
   </data>
   <data name="UnflowedCancellationTokenAnalyzerDescription" xml:space="preserve">
-    <value>Awaited operations in ExecuteAsync should receive its cancellation token so pipeline cancellation stops outstanding work.</value>
+    <value>Awaited operations in ExecuteAsync, lifecycle hooks, and asynchronous module configuration callbacks should receive the available cancellation token so pipeline cancellation stops outstanding work.</value>
   </data>
   <data name="ThreadSleepModuleAnalyzerTitle" xml:space="preserve">
     <value>Do not call Thread.Sleep in ExecuteAsync</value>
@@ -300,4 +300,10 @@
   <data name="CliOptionsBaseTitle" xml:space="preserve"><value>Invalid CLI options base type</value></data>
   <data name="CliOptionsBaseMessageFormat" xml:space="preserve"><value>Type '{0}' uses CLI attributes but does not derive from CommandLineToolOptions</value></data>
   <data name="CliOptionsBaseDescription" xml:space="preserve"><value>CLI attributes are only consumed on CommandLineToolOptions hierarchies.</value></data>
+  <data name="OptionalDependencyAccessorTitle" xml:space="preserve"><value>Use the optional module accessor</value></data>
+  <data name="OptionalDependencyAccessorMessageFormat" xml:space="preserve"><value>Dependency &apos;{0}&apos; is optional; use GetModuleIfRegistered instead of GetModule</value></data>
+  <data name="OptionalDependencyAccessorDescription" xml:space="preserve"><value>Optional dependencies can be absent. Use GetModuleIfRegistered to handle an unregistered module.</value></data>
+  <data name="RequiredDependencyAccessorTitle" xml:space="preserve"><value>Use the required module accessor</value></data>
+  <data name="RequiredDependencyAccessorMessageFormat" xml:space="preserve"><value>Dependency &apos;{0}&apos; is required; use GetModule instead of GetModuleIfRegistered</value></data>
+  <data name="RequiredDependencyAccessorDescription" xml:space="preserve"><value>Required dependencies are guaranteed to be registered. Use GetModule to avoid an unnecessary nullable lookup.</value></data>
 </root>

@@ -15,11 +15,13 @@ MP0010 | Usage | Error | Declares a module dependency on itself
 MP0013 | Usage | Warning | Module is not registered with the pipeline
 MP0014 | Usage | Warning | Async void method in a module
 MP0015 | Usage | Warning | Blocking call in ExecuteAsync
-MP0016 | Usage | Warning | ExecuteAsync cancellation token is not flowed
+MP0016 | Usage | Warning | Cancellation token is not flowed in ExecuteAsync, lifecycle hooks, or token-bearing async module configuration callbacks
 MP0017 | Usage | Warning | Thread.Sleep in ExecuteAsync
 MP0018 | Usage | Warning | Module class is not public
 MP0019 | Usage | Warning | Duplicate DependsOn declaration
 MP0020 | Usage | Warning | Repeated WithSkipWhen calls on one module configuration builder are OR-ed
+MP0021 | Usage | Warning | Optional dependency accessed with GetModule instead of GetModuleIfRegistered
+MP0022 | Usage | Info | Required dependency accessed with GetModuleIfRegistered instead of GetModule
 MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
 MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property

@@ -32,11 +32,13 @@ public class AnalyzerMetadataTests
             ModuleRegistrationAnalyzer.NonPublicModuleRule,
             DuplicateDependsOnAnalyzer.Rule,
             RepeatedSkipWhenAnalyzer.Rule,
+            MissingDependsOnAttributeAnalyzer.OptionalDependencyAccessorRule,
+            MissingDependsOnAttributeAnalyzer.RequiredDependencyAccessorRule,
         };
 
         Assert.AreSequenceEqual(
             Enumerable.Range(1, 10)
-                .Concat(Enumerable.Range(13, 8))
+                .Concat(Enumerable.Range(13, 10))
                 .Select(index => $"MP{index:0000}"),
             rules.Select(rule => rule.Id));
 

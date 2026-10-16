@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
@@ -14,6 +15,24 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "MP0001";
 
+    public const string OptionalDependencyAccessorId = "MP0021";
+
+    public const string RequiredDependencyAccessorId = "MP0022";
+
+    public static DiagnosticDescriptor OptionalDependencyAccessorRule { get; } = DiagnosticDescriptorFactory.Create(
+        OptionalDependencyAccessorId,
+        "OptionalDependencyAccessorTitle",
+        "OptionalDependencyAccessorMessageFormat",
+        "OptionalDependencyAccessorDescription",
+        severity: DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor RequiredDependencyAccessorRule { get; } = DiagnosticDescriptorFactory.Create(
+        RequiredDependencyAccessorId,
+        "RequiredDependencyAccessorTitle",
+        "RequiredDependencyAccessorMessageFormat",
+        "RequiredDependencyAccessorDescription",
+        severity: DiagnosticSeverity.Info);
+
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
         nameof(Resources.MissingDependsOnAttributeAnalyzerTitle),
@@ -23,7 +42,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     private const string OptionalModuleAccessorSuffix = "ModuleIfRegistered";
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule, OptionalDependencyAccessorRule, RequiredDependencyAccessorRule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -31,30 +50,20 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeMissingDependsOnAttributes, SyntaxKind.InvocationExpression);
+        context.RegisterCompilationStartAction(startContext =>
+        {
+            var declarations = new ConcurrentDictionary<INamedTypeSymbol, ImmutableDictionary<ITypeSymbol, DependencyDeclarationKind>>(SymbolEqualityComparer.Default);
+            startContext.RegisterSyntaxNodeAction(
+                nodeContext => AnalyzeMissingDependsOnAttributes(nodeContext, declarations),
+                SyntaxKind.InvocationExpression);
+        });
     }
 
-    private void AnalyzeMissingDependsOnAttributes(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeMissingDependsOnAttributes(
+        SyntaxNodeAnalysisContext context,
+        ConcurrentDictionary<INamedTypeSymbol, ImmutableDictionary<ITypeSymbol, DependencyDeclarationKind>> declarations)
     {
-        if (context.Node is not InvocationExpressionSyntax invocationExpressionSyntax)
-        {
-            return;
-        }
-
-        var invokedName = invocationExpressionSyntax.Expression switch
-        {
-            SimpleNameSyntax simpleName => simpleName,
-            MemberAccessExpressionSyntax memberAccess => memberAccess.Name,
-            _ => null,
-        };
-
-        if (invokedName is null || !CouldBeModuleAccessor(invokedName))
-        {
-            return;
-        }
-
-        if (context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol ||
-            !TryGetModuleType(context.Compilation, methodSymbol, invokedName, out var namedTypeSymbol))
+        if (!TryGetInvokedModule(context, out var invocationExpressionSyntax, out var methodSymbol, out var namedTypeSymbol))
         {
             return;
         }
@@ -75,11 +84,53 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var attributes = classSymbol.GetAllAttributesIncludingBaseAndInterfaces();
+        var dependencies = declarations.GetOrAdd(classSymbol, module =>
+            ModuleDependencyDeclarations.GetDeclarations(module, context.Compilation, context.CancellationToken));
 
-        if (!attributes.Any(x => x.IsDependsOnAttributeFor(context.Compilation, namedTypeSymbol))
-            && !ConfiguredDependencies.GetDependencies(classSymbol, context.Compilation, context.CancellationToken)
-                .Any(dependency => SymbolEqualityComparer.Default.Equals(dependency, namedTypeSymbol)))
+        ReportDependencyDiagnostic(context, moduleDeclaration, methodSymbol, namedTypeSymbol, dependencies);
+    }
+
+    private static bool TryGetInvokedModule(
+        SyntaxNodeAnalysisContext context,
+        out InvocationExpressionSyntax invocationExpressionSyntax,
+        out IMethodSymbol methodSymbol,
+        out INamedTypeSymbol moduleType)
+    {
+        invocationExpressionSyntax = null!;
+        methodSymbol = null!;
+        moduleType = null!;
+        if (context.Node is not InvocationExpressionSyntax invocation)
+        {
+            return false;
+        }
+
+        var invokedName = invocation.Expression switch
+        {
+            SimpleNameSyntax simpleName => simpleName,
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name,
+            _ => null,
+        };
+
+        if (invokedName is null || !CouldBeModuleAccessor(invokedName)
+            || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol method
+            || !TryGetModuleType(context.Compilation, method, invokedName, out moduleType))
+        {
+            return false;
+        }
+
+        invocationExpressionSyntax = invocation;
+        methodSymbol = method;
+        return true;
+    }
+
+    private static void ReportDependencyDiagnostic(
+        SyntaxNodeAnalysisContext context,
+        TypeDeclarationSyntax moduleDeclaration,
+        IMethodSymbol methodSymbol,
+        INamedTypeSymbol namedTypeSymbol,
+        ImmutableDictionary<ITypeSymbol, DependencyDeclarationKind> dependencies)
+    {
+        if (!dependencies.TryGetValue(namedTypeSymbol, out var declarationKind))
         {
             var properties = new Dictionary<string, string?>
             {
@@ -89,6 +140,14 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+        }
+        else if (declarationKind == DependencyDeclarationKind.Optional && !IsOptionalAccessor(methodSymbol))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(OptionalDependencyAccessorRule, context.Node.GetLocation(), namedTypeSymbol.Name));
+        }
+        else if (declarationKind == DependencyDeclarationKind.Required && IsOptionalAccessor(methodSymbol))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(RequiredDependencyAccessorRule, context.Node.GetLocation(), namedTypeSymbol.Name));
         }
     }
 

@@ -8,6 +8,36 @@ Modular Pipelines includes Roslyn analyzers that catch pipeline authoring mistak
 
 See the [complete analyzer rule reference](../analyzers/) for every rule, its category, default severity, and suppression examples.
 
+## Dependency access and cancellation
+
+[`MP0021`](../analyzers/MP0021.md) warns when an optional dependency is accessed with
+`GetModule<T>()`. Use `GetModuleIfRegistered<T>()` and handle an absent module.
+[`MP0022`](../analyzers/MP0022.md) is informational: a required dependency can use
+`GetModule<T>()` instead of an unnecessary nullable lookup. Both rules also recognize
+generated module accessors. Declarations include inherited `DependsOn` attributes
+and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required
+declaration wins when the same dependency is declared more than once. Conditional
+fluent declarations with an unknown condition do not produce accessor mismatch diagnostics.
+
+[`MP0016`](../analyzers/MP0016.md) checks cancellation forwarding in `ExecuteAsync`,
+its reachable helpers, and lifecycle overrides: `OnBeforeExecuteAsync`,
+`OnAfterExecuteAsync`, `OnSkippedAsync`, `OnCachedResultAsync`, and `OnFailedAsync`.
+It also checks asynchronous module configuration callbacks that receive a
+`CancellationToken`, including `WithSkipWhen`, `WithSkipWhenAll`, and
+`WithIgnoreFailuresWhen`. Pass the available token to asynchronous operations:
+
+```csharp
+protected override void Configure(ModuleConfigurationBuilder module) =>
+    module.WithSkipWhen(async (context, cancellationToken) =>
+    {
+        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+        return false;
+    });
+```
+
+Unrelated methods with the same names and callbacks without an available token
+are excluded.
+
 ## Configure a rule
 
 Set a rule's severity in `.editorconfig`:

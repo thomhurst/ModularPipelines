@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 using ModularPipelines.Analyzers.Extensions;
@@ -52,6 +53,11 @@ internal static class ModuleAuthoringAnalysis
         Compilation,
         Lazy<ImmutableArray<IMethodSymbol>>>
         ModuleExecuteMethods = new();
+
+    private static readonly ConditionalWeakTable<
+        Compilation,
+        Lazy<ImmutableDictionary<IMethodSymbol, ImmutableHashSet<IMethodSymbol>>>>
+        AdditionalCancellationRoots = new();
 
     public static void InitializeRegistrationAnalysis(AnalysisContext context)
     {
@@ -488,7 +494,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void AnalyzeAwait(OperationAnalysisContext context)
     {
-        if (GetModuleExecutionMethod(context) is not { } executionMethod
+        if (GetCancellationExecutionMethod(context) is not { } executionMethod
             || !IsInReachableBranch(context.Operation)
             || context.Operation is not IAwaitOperation awaitOperation)
         {
@@ -503,7 +509,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void AnalyzeForEachLoop(OperationAnalysisContext context)
     {
-        if (GetModuleExecutionMethod(context) is not { } executionMethod
+        if (GetCancellationExecutionMethod(context) is not { } executionMethod
             || !IsInReachableBranch(context.Operation)
             || context.Operation is not IForEachLoopOperation { IsAsynchronous: true } loop)
         {
@@ -520,9 +526,10 @@ internal static class ModuleAuthoringAnalysis
     {
         if (context.ContainingSymbol is not IMethodSymbol method
             || !IsInReachableBranch(context.Operation)
-            || method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet)
+            || method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet
+                or MethodKind.AnonymousFunction or MethodKind.LocalFunction)
             || method.IsAsync
-            || GetModuleExecutionMethod(context) is not { } executionMethod
+            || GetCancellationExecutionMethod(context) is not { } executionMethod
             || context.Operation is not IReturnOperation { ReturnedValue: { } returnedValue })
         {
             return;
@@ -936,7 +943,8 @@ internal static class ModuleAuthoringAnalysis
             .ToImmutableArray();
         var reachableNestedCallables = GetReachableCallables(
             invocations,
-            nestedCallables);
+            nestedCallables,
+            GetCallableSymbol(operation));
 
         return invocations.Where(invocation =>
             IsInsideReachableCallable(
@@ -1836,17 +1844,16 @@ internal static class ModuleAuthoringAnalysis
             return memberValues;
         }
 
-        memberValues = GetInvokedHelperMemberValues(
+        memberValues = [.. GetInvokedHelperMemberValues(
                 memberReference,
                 member,
-                compilation)
-            .ToArray();
+                compilation)];
         if (memberValues.Length > 0)
         {
             return memberValues;
         }
 
-        memberValues = GetConstructorMemberValues(member, compilation).ToArray();
+        memberValues = [.. GetConstructorMemberValues(member, compilation)];
         return memberValues.Length > 0
             ? memberValues
             : GetDeclaredMemberValues(member, compilation);
@@ -3954,6 +3961,196 @@ internal static class ModuleAuthoringAnalysis
             : attribute.ConstructorArguments.FirstOrDefault().Value as ITypeSymbol;
     }
 
+    private static IMethodSymbol? GetCancellationExecutionMethod(OperationAnalysisContext context)
+    {
+        var roots = AdditionalCancellationRoots.GetValue(
+            context.Compilation,
+            static compilation => new Lazy<ImmutableDictionary<IMethodSymbol, ImmutableHashSet<IMethodSymbol>>>(
+                () => GetAdditionalCancellationRoots(compilation))).Value;
+        var nestedCallables = GetEnclosingNestedCallables(context.Operation);
+
+        var methods = nestedCallables.Concat(
+            context.ContainingSymbol is IMethodSymbol method ? [method] : []);
+        foreach (var candidate in methods)
+        {
+            foreach (var root in roots)
+            {
+                if (!root.Value.Contains(candidate))
+                {
+                    continue;
+                }
+
+                var remainingCallables = nestedCallables.Where(callable =>
+                        !SymbolEqualityComparer.Default.Equals(callable, root.Key))
+                    .ToList();
+                if (NestedCallablesAreInvoked(context.Operation, remainingCallables, root.Key))
+                {
+                    return root.Key;
+                }
+            }
+        }
+
+        return GetModuleExecutionMethod(context);
+    }
+
+    private static ImmutableDictionary<IMethodSymbol, ImmutableHashSet<IMethodSymbol>>
+        GetAdditionalCancellationRoots(Compilation compilation)
+    {
+        var roots = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+        foreach (var method in GetNamedTypes(compilation.Assembly.GlobalNamespace)
+                     .SelectMany(static type => type.GetMembers().OfType<IMethodSymbol>()))
+        {
+            if (IsModuleLifecycleHook(method, compilation))
+            {
+                roots.Add(method);
+            }
+        }
+
+        roots.UnionWith(GetConfigurationCancellationRoots(compilation));
+
+        var result = ImmutableDictionary.CreateBuilder<IMethodSymbol, ImmutableHashSet<IMethodSymbol>>(
+            SymbolEqualityComparer.Default);
+        foreach (var root in roots)
+        {
+            result.Add(root, GetReachableMemberMethods(root, root.ContainingType, compilation, default));
+        }
+
+        return result.ToImmutable();
+    }
+
+    private static IEnumerable<IMethodSymbol> GetConfigurationCancellationRoots(Compilation compilation)
+    {
+        var builderType = compilation.GetTypeByMetadataName("ModularPipelines.ModuleConfigurationBuilder");
+        if (builderType is null)
+        {
+            yield break;
+        }
+
+        var configurationMethodNames = builderType.GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(static method => method.Parameters.Any(parameter =>
+                IsCancellationConfigurationDelegate(parameter.Type)))
+            .Select(static method => method.Name)
+            .ToImmutableHashSet(StringComparer.Ordinal);
+        foreach (var syntaxTree in compilation.SyntaxTrees)
+        {
+            foreach (var invocation in GetConfigurationInvocations(compilation, syntaxTree, builderType, configurationMethodNames))
+            {
+                foreach (var callback in GetCancellationConfigurationCallbacks(invocation, compilation))
+                {
+                    yield return callback;
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IInvocationOperation> GetConfigurationInvocations(
+        Compilation compilation,
+        SyntaxTree syntaxTree,
+        INamedTypeSymbol builderType,
+        ImmutableHashSet<string> configurationMethodNames)
+    {
+        var model = compilation.GetSemanticModel(syntaxTree);
+        foreach (var syntax in syntaxTree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>())
+        {
+            var name = syntax.Expression switch
+            {
+                MemberAccessExpressionSyntax member => member.Name.Identifier.ValueText,
+                MemberBindingExpressionSyntax member => member.Name.Identifier.ValueText,
+                SimpleNameSyntax simpleName => simpleName.Identifier.ValueText,
+                _ => null,
+            };
+            if (name is not null
+                && configurationMethodNames.Contains(name)
+                && model.GetOperation(syntax) is IInvocationOperation invocation
+                && SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, builderType)
+                && IsInReachableBranch(invocation))
+            {
+                yield return invocation;
+            }
+        }
+    }
+
+    private static IEnumerable<IMethodSymbol> GetCancellationConfigurationCallbacks(
+        IInvocationOperation invocation,
+        Compilation compilation)
+    {
+        foreach (var argument in invocation.Arguments)
+        {
+            if (!IsCancellationConfigurationDelegate(argument.Parameter?.Type))
+            {
+                continue;
+            }
+
+            foreach (var value in GetValueAndReachingCallbackValues(
+                         argument.Value,
+                         compilation,
+                         [with(SymbolEqualityComparer.Default)],
+                         [with(SymbolEqualityComparer.Default)],
+                         [with(SymbolEqualityComparer.Default)]))
+            {
+                foreach (var callback in GetConfigurationCallbackTargets(value)
+                             .Where(static callback => callback.Parameters.Any(IsCancellationToken)
+                                 && IsTaskLike(callback.ReturnType)))
+                {
+                    yield return callback;
+                }
+            }
+        }
+    }
+
+    private static bool IsCancellationConfigurationDelegate(ITypeSymbol? type)
+    {
+        if (type is IArrayTypeSymbol arrayType)
+        {
+            type = arrayType.ElementType;
+        }
+
+        return type is INamedTypeSymbol { DelegateInvokeMethod: { } invokeMethod }
+               && invokeMethod.Parameters.Any(IsCancellationToken)
+               && IsTaskLike(invokeMethod.ReturnType);
+    }
+
+    private static IEnumerable<IMethodSymbol> GetConfigurationCallbackTargets(IOperation value)
+    {
+        if (GetDirectDelegateTarget(value) is { } callback)
+        {
+            yield return callback;
+            yield break;
+        }
+
+        foreach (var child in value.ChildOperations)
+        {
+            foreach (var target in GetConfigurationCallbackTargets(child))
+            {
+                yield return target;
+            }
+        }
+    }
+
+    private static bool IsModuleLifecycleHook(IMethodSymbol method, Compilation compilation)
+    {
+        if (!method.IsOverride
+            || method.Name is not ("OnBeforeExecuteAsync" or "OnAfterExecuteAsync"
+                or "OnSkippedAsync" or "OnCachedResultAsync" or "OnFailedAsync"))
+        {
+            return false;
+        }
+
+        var moduleType = compilation.GetTypeByMetadataName(AnalyzerConstants.FullyQualifiedTypeNames.Module);
+        for (var overridden = method.OverriddenMethod;
+             overridden is not null;
+             overridden = overridden.OverriddenMethod)
+        {
+            if (SymbolEqualityComparer.Default.Equals(overridden.ContainingType.OriginalDefinition, moduleType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static IMethodSymbol? GetModuleExecutionMethod(OperationAnalysisContext context)
     {
         var nestedCallables = GetEnclosingNestedCallables(context.Operation);
@@ -4053,7 +4250,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool NestedCallablesAreInvoked(
         IOperation operation,
-        List<IMethodSymbol> nestedCallables)
+        List<IMethodSymbol> nestedCallables,
+        IMethodSymbol? executionRoot = null)
     {
         if (nestedCallables.Count == 0)
         {
@@ -4070,7 +4268,7 @@ internal static class ModuleAuthoringAnalysis
             .Cast<IMethodSymbol>()
             .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default)
             .ToImmutableArray();
-        var reachableCallables = GetReachableCallables(invocations, callables);
+        var reachableCallables = GetReachableCallables(invocations, callables, executionRoot);
 
         return nestedCallables.All(reachableCallables.Contains);
     }
@@ -4083,10 +4281,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static HashSet<IMethodSymbol> GetReachableCallables(
         ImmutableArray<IInvocationOperation> invocations,
-        ImmutableArray<IMethodSymbol> callables)
+        ImmutableArray<IMethodSymbol> callables,
+        IMethodSymbol? executionRoot = null)
     {
         var reachable = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
         var pending = new Queue<IMethodSymbol>();
+        if (executionRoot is not null)
+        {
+            reachable.Add(executionRoot);
+            pending.Enqueue(executionRoot);
+        }
 
         AddInvocationTargets(null, invocations, callables, reachable, pending);
         while (pending.Count > 0)
@@ -4755,7 +4959,8 @@ internal static class ModuleAuthoringAnalysis
             .ToImmutableArray();
         var reachableNestedCallables = GetReachableCallables(
             invocations,
-            nestedCallables);
+            nestedCallables,
+            GetCallableSymbol(operation));
 
         return GetInvokedMethods(
                 invocations,
