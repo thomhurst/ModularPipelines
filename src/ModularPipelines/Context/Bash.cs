@@ -1,19 +1,14 @@
-using ModularPipelines.Context;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Bash : IBashContext
+internal class Bash(ICommandContext command) : IBashContext
 {
     private static readonly TimeSpan WslPathExecutionTimeout = TimeSpan.FromSeconds(10);
 
-    private readonly ICommandContext _command;
-
-    public Bash(ICommandContext command)
-    {
-        _command = command;
-    }
+    private readonly ICommandContext _command = command;
 
     public virtual Task<CommandResult> RunAsync(
         string script,
@@ -44,34 +39,46 @@ internal class Bash : IBashContext
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
+        if (!OperatingSystem.IsWindows())
+        {
+            return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        }
+
+        var tool = CliCommandFactory.ResolveWindowsCommand(
+            options.Tool ?? "bash",
+            executionOptions?.WorkingDirectory,
+            executionOptions?.EnvironmentVariables) ?? options.Tool ?? "bash";
+        var isWsl = string.Equals(tool, Path.Combine(Environment.SystemDirectory, "bash.exe"), StringComparison.OrdinalIgnoreCase);
+
         return await _command.ExecuteCommandLineToolAsync(options with
         {
-            FilePath = await ToWslPath(
-                options.FilePath,
-                executionOptions?.WorkingDirectory,
-                cancellationToken).ConfigureAwait(false),
+            Tool = tool,
+            // Git/MSYS Bash accepts Windows drive paths with forward slashes without WSL or cygpath.
+            FilePath = isWsl
+                ? await ToWslPath(options.FilePath, executionOptions, cancellationToken).ConfigureAwait(false)
+                : options.FilePath.Replace('\\', '/'),
         }, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<string> ToWslPath(
         string path,
-        string? workingDirectory,
+        CommandExecutionOptions? executionOptions,
         CancellationToken cancellationToken)
     {
-        if (OperatingSystem.IsWindows())
+        var workingDirectory = Path.GetFullPath(executionOptions?.WorkingDirectory ?? Environment.CurrentDirectory);
+        // Preserve paths already expressed in WSL's filesystem; resolve Windows paths against the command's directory.
+        var absolutePath = path.StartsWith('/') ? path : Path.GetFullPath(path, workingDirectory);
+        var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(Path.Combine(Environment.SystemDirectory, "wsl.exe"))
         {
-            var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("wsl")
-            {
-                Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
-            }, new CommandExecutionOptions
-            {
-                ExecutionTimeout = WslPathExecutionTimeout,
-                WorkingDirectory = workingDirectory,
-            }, cancellationToken).ConfigureAwait(false);
+            Arguments = ["--exec", "wslpath", "-a", absolutePath],
+        }, new CommandExecutionOptions
+        {
+            ExecutionTimeout = WslPathExecutionTimeout,
+            WorkingDirectory = workingDirectory,
+            EnvironmentVariables = executionOptions?.EnvironmentVariables,
+            CommandLineCredentials = executionOptions?.CommandLineCredentials,
+        }, cancellationToken).ConfigureAwait(false);
 
-            return result.StandardOutput.Trim();
-        }
-
-        return path;
+        return result.StandardOutput.TrimEnd('\r', '\n');
     }
 }
