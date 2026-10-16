@@ -691,7 +691,7 @@ jobs:
           GitHub__StandardToken: ${{ matrix.instance == 0 && github.ref == 'refs/heads/main' && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
-          Publish__IsAlpha: ${{ inputs.is-alpha || false }}
+          Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
           CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}
           EMAIL_PASSWORD: ${{ matrix.instance == 0 && secrets.EMAIL_PASSWORD || '' }}
