@@ -79,6 +79,9 @@ public partial class GcloudCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.Google";
     public override string OutputDirectory => "src/ModularPipelines.Google";
 
+    protected override string? ParseVersionOutput(CliCommandResult result) =>
+        CliVersionParser.Parse(result, @"Google\s+Cloud\s+SDK\s+");
+
     #endregion
 
     #region Gcloud-Specific Configuration

@@ -53,7 +53,7 @@ public class MinikubeCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(executor.Arguments).IsEqualTo("version --short");
-            await Assert.That(version).IsEqualTo("v1.38.1");
+            await Assert.That(version).IsEqualTo("1.38.1");
         }
     }
 

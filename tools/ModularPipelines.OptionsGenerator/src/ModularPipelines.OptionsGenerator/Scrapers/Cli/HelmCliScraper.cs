@@ -17,6 +17,9 @@ public class HelmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCac
 
     protected override string VersionArguments => "version";
 
+    protected override string? ParseVersionOutput(CliCommandResult result) =>
+        CliVersionParser.Parse(result, @"version\.BuildInfo\{Version:\s*""");
+
     protected override bool GlobalOptionsBeforeSubcommands => false;
 
     // Helm registers its settings on root.PersistentFlags(); --help is Cobra's local flag.
