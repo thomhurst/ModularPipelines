@@ -30,6 +30,48 @@ example, set `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector endpoint.
 The trace and metric providers start when the pipeline is built. When the pipeline
 is disposed, both providers are flushed before their exporters are shut down.
 
+## Exporter configuration
+
+Pass an options transformation to configure the OTLP exporter in code. Return the
+supplied options instance or a replacement:
+
+```csharp
+using OpenTelemetry.Exporter;
+
+builder.AddOpenTelemetry(openTelemetry => openTelemetry.AddOtlpExporter(options =>
+{
+    options.Endpoint = new Uri("https://collector.example.com/otlp/");
+    options.Headers = "x-api-key=your-token";
+    options.Protocol = OtlpExportProtocol.HttpProtobuf;
+    return options;
+}));
+```
+
+These are common options for all signals. With HTTP/protobuf, set a base endpoint;
+the exporter appends paths such as `v1/traces` and `v1/metrics`. Signal-specific
+environment variables, such as `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`, take precedence
+over common options.
+
+Use `ConfigureTracing` and `ConfigureMetrics` to add instrumentation, processors,
+readers, or exporters through the standard OpenTelemetry builders. These hooks
+retain the pipeline's default sources and meter:
+
+```csharp
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
+
+builder.AddOpenTelemetry(openTelemetry => openTelemetry
+    .ConfigureTracing(tracing => tracing.AddSource("MyApplication"))
+    .ConfigureMetrics(metrics => metrics.AddMeter("MyApplication")));
+```
+
+The hooks accept `Action` callbacks, matching the mutable OpenTelemetry builder
+APIs. `openTelemetry.Builder` also exposes `IOpenTelemetryBuilder` for resource,
+logging, or other OpenTelemetry configuration. The existing parameterless
+`AddOtlpExporter()` remains available. Call either exporter overload only once;
+OpenTelemetry's unified exporter cannot be combined with signal-specific
+`AddOtlpExporter` registrations.
+
 ## Migrating to V4
 
 `OpenTelemetryPipelineBuilderExtensions` now lives in
@@ -92,4 +134,5 @@ providers, the integration also maps the commit environment variable (for exampl
 `GITHUB_SHA` or `CI_COMMIT_SHA`) to `vcs.ref.head.revision`.
 
 Exporter registration is optional. Without `AddOtlpExporter`, you can add another
-exporter by registering it through the normal OpenTelemetry services.
+exporter through `ConfigureTracing` and `ConfigureMetrics`, or through the normal
+OpenTelemetry services.

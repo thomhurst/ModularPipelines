@@ -1,1 +1,5 @@
 #nullable enable
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder.AddOtlpExporter(System.Func<OpenTelemetry.Exporter.OtlpExporterOptions!, OpenTelemetry.Exporter.OtlpExporterOptions!>! configure) -> ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder!
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder.Builder.get -> OpenTelemetry.IOpenTelemetryBuilder!
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder.ConfigureMetrics(System.Action<OpenTelemetry.Metrics.MeterProviderBuilder!>! configure) -> ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder!
+ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder.ConfigureTracing(System.Action<OpenTelemetry.Trace.TracerProviderBuilder!>! configure) -> ModularPipelines.OpenTelemetry.ModularPipelinesOpenTelemetryBuilder!

@@ -1,10 +1,14 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
 namespace ModularPipelines.OpenTelemetry.UnitTests;
@@ -71,6 +75,221 @@ public class OpenTelemetryRegistrationTests
         await Assert.That(result).IsSameReferenceAs(builder);
         await Assert.That(typeof(OpenTelemetryPipelineBuilderExtensions).Namespace)
             .IsEqualTo("ModularPipelines.OpenTelemetry");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddOtlpExporter_Configures_Trace_And_Metric_Export(bool replaceOptions)
+    {
+        using var handler = new RecordingHttpMessageHandler();
+        using var client = new HttpClient(handler);
+        var builder = TestPipelineBuilder.Create();
+        ModularPipelinesOpenTelemetryBuilder? telemetryBuilder = null;
+        ModularPipelinesOpenTelemetryBuilder? result = null;
+
+        builder.AddOpenTelemetry(telemetry =>
+        {
+            telemetryBuilder = telemetry;
+            result = telemetry.AddOtlpExporter(options =>
+            {
+                var configured = replaceOptions ? new OtlpExporterOptions() : options;
+                configured.Endpoint = new Uri("http://collector.example/otlp/");
+                configured.Headers = "x-test-token=test-value";
+                configured.Protocol = OtlpExportProtocol.HttpProtobuf;
+                configured.TimeoutMilliseconds = 1234;
+                configured.HttpClientFactory = () => client;
+                return configured;
+            });
+        });
+
+        using var services = builder.Services.BuildServiceProvider();
+        var traces = services.GetRequiredService<TracerProvider>();
+        var metrics = services.GetRequiredService<MeterProvider>();
+        using var source = new ActivitySource(PipelineTelemetry.PipelineSourceName);
+        using (source.StartActivity("export-test"))
+        {
+        }
+
+        using var meter = new Meter(PipelineTelemetry.MeterName);
+        meter.CreateCounter<long>("export-test").Add(1);
+        var tracesFlushed = traces.ForceFlush();
+        var metricsFlushed = metrics.ForceFlush();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        await Assert.That(result).IsSameReferenceAs(telemetryBuilder);
+        await Assert.That(options.TimeoutMilliseconds).IsEqualTo(1234);
+        await Assert.That(tracesFlushed).IsTrue();
+        await Assert.That(metricsFlushed).IsTrue();
+        await Assert.That(handler.Requests.Any(request =>
+            request.Uri.AbsolutePath == "/otlp/v1/traces" && request.Token == "test-value")).IsTrue();
+        await Assert.That(handler.Requests.Any(request =>
+            request.Uri.AbsolutePath == "/otlp/v1/metrics" && request.Token == "test-value")).IsTrue();
+    }
+
+    [Test]
+    public async Task Configure_Providers_Adds_Custom_Instrumentation_And_Processors()
+    {
+        var processor = new RecordingActivityProcessor();
+        var reader = new RecordingMetricReader();
+        var sourceName = $"custom-source-{Guid.NewGuid()}";
+        var meterName = $"custom-meter-{Guid.NewGuid()}";
+        var builder = TestPipelineBuilder.Create();
+        ModularPipelinesOpenTelemetryBuilder? telemetryBuilder = null;
+        ModularPipelinesOpenTelemetryBuilder? result = null;
+
+        builder.AddOpenTelemetry(telemetry =>
+        {
+            telemetryBuilder = telemetry;
+            result = telemetry
+                .ConfigureTracing(tracing => tracing.AddSource(sourceName).AddProcessor(processor))
+                .ConfigureMetrics(metrics => metrics.AddMeter(meterName).AddReader(reader));
+            telemetry.Builder.ConfigureResource(resource => resource.AddAttributes(
+                [new KeyValuePair<string, object>("test.attribute", "configured")]));
+        });
+
+        using var services = builder.Services.BuildServiceProvider();
+        var traces = services.GetRequiredService<TracerProvider>();
+        var metrics = services.GetRequiredService<MeterProvider>();
+        using var source = new ActivitySource(sourceName);
+        using var activity = source.StartActivity("custom");
+        using var defaultSource = new ActivitySource(PipelineTelemetry.PipelineSourceName);
+        using var defaultActivity = defaultSource.StartActivity("default");
+        using var meter = new Meter(meterName);
+        using var defaultMeter = new Meter(PipelineTelemetry.MeterName);
+        var counter = meter.CreateCounter<long>("custom");
+        var defaultCounter = defaultMeter.CreateCounter<long>("default");
+        traces.ForceFlush();
+        metrics.ForceFlush();
+
+        await Assert.That(result).IsSameReferenceAs(telemetryBuilder);
+        await Assert.That(activity).IsNotNull();
+        await Assert.That(defaultActivity).IsNotNull();
+        await Assert.That(counter.Enabled).IsTrue();
+        await Assert.That(defaultCounter.Enabled).IsTrue();
+        await Assert.That(processor.ForceFlushCalled).IsTrue();
+        await Assert.That(reader.CollectCalled).IsTrue();
+        await Assert.That(traces.GetResource().Attributes.Any(attribute =>
+            attribute.Key == "test.attribute" && Equals(attribute.Value, "configured"))).IsTrue();
+    }
+
+    [Test]
+    public void Configuration_Hooks_Reject_Null_Callbacks()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddOpenTelemetry(telemetry =>
+        {
+            Assert.Throws<ArgumentNullException>(() => telemetry.AddOtlpExporter(null!));
+            Assert.Throws<ArgumentNullException>(() => telemetry.ConfigureTracing(null!));
+            Assert.Throws<ArgumentNullException>(() => telemetry.ConfigureMetrics(null!));
+        });
+    }
+
+    [Test]
+    public void AddOtlpExporter_Rejects_A_Null_Options_Result()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(_ => null!));
+        using var services = builder.Services.BuildServiceProvider();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            _ = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue);
+    }
+
+    [Test]
+    public async Task AddOtlpExporter_Preserves_Options_Configuration_Order()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.Configure<OtlpExporterOptions>(options => options.Headers = "before");
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(options => new OtlpExporterOptions
+        {
+            Headers = options.Headers + ",transform",
+        }));
+        builder.Services.Configure<OtlpExporterOptions>(options => options.Headers += ",after");
+        builder.Services.PostConfigure<OtlpExporterOptions>(options => options.Headers += ",post");
+        using var services = builder.Services.BuildServiceProvider();
+
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        await Assert.That(options.Headers).IsEqualTo("before,transform,after,post");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddOtlpExporter_Default_HttpClient_Factory_Uses_PostConfigured_Options(bool replaceOptions)
+    {
+        var builder = TestPipelineBuilder.Create();
+        Func<HttpClient>? liveFactory = null;
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(options =>
+        {
+            liveFactory = options.HttpClientFactory;
+            var configured = replaceOptions ? new OtlpExporterOptions() : options;
+            configured.TimeoutMilliseconds = 1234;
+            configured.MaxResponseSizeBytes = 1024;
+            return configured;
+        }));
+        builder.Services.PostConfigure<OtlpExporterOptions>(options =>
+        {
+            options.TimeoutMilliseconds = 5678;
+            options.MaxResponseSizeBytes = 8192;
+        });
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        using var client = options.HttpClientFactory();
+
+        await Assert.That((object) options.HttpClientFactory).IsSameReferenceAs(liveFactory);
+        await Assert.That(client.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(5678));
+        await Assert.That(client.MaxResponseContentBufferSize).IsEqualTo(8192L);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddOtlpExporter_Preserves_Custom_HttpClient_Factory(bool configureFactoryBefore)
+    {
+        using var client = new HttpClient();
+        Func<HttpClient> factory = () => client;
+        var builder = TestPipelineBuilder.Create();
+        if (configureFactoryBefore)
+        {
+            builder.Services.Configure<OtlpExporterOptions>(options => options.HttpClientFactory = factory);
+        }
+
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(_ =>
+        {
+            var configured = new OtlpExporterOptions();
+            if (!configureFactoryBefore)
+            {
+                configured.HttpClientFactory = factory;
+            }
+
+            return configured;
+        }));
+        builder.Services.PostConfigure<OtlpExporterOptions>(options => options.TimeoutMilliseconds = 5678);
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        await Assert.That((object) options.HttpClientFactory).IsSameReferenceAs(factory);
+        await Assert.That(options.HttpClientFactory()).IsSameReferenceAs(client);
+    }
+
+    private sealed class RecordingHttpMessageHandler : HttpMessageHandler
+    {
+        public ConcurrentBag<(Uri Uri, string? Token)> Requests { get; } = [];
+
+        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Requests.Add((request.RequestUri!, request.Headers.GetValues("x-test-token").Single()));
+            return new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent([]),
+            };
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            => Task.FromResult(Send(request, cancellationToken));
     }
 
     private sealed class RecordingActivityProcessor : BaseProcessor<Activity>
