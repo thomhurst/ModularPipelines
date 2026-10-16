@@ -52,6 +52,35 @@ public class SignalRHubTests
     }
 
     [Test]
+    public async Task Retried_Dequeue_After_Reconnect_Returns_The_Original_Lease()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await test.Master.EnqueueModuleAsync(Assignment("Signal.First"), CancellationToken.None);
+        await test.Master.EnqueueModuleAsync(Assignment("Signal.Second"), CancellationToken.None);
+        var endpoint = await test.Discovery.Endpoint;
+        await using var connection = new HubConnectionBuilder()
+            .WithUrl(new Uri(endpoint.Url, "/pipeline-hub"), options =>
+                options.AccessTokenProvider = () => Task.FromResult(endpoint.AccessToken))
+            .Build();
+        await connection.StartAsync();
+        await connection.InvokeAsync<bool>(HubMethodNames.RegisterWorker, registration);
+        var claimId = Guid.NewGuid();
+
+        // Simulate a lost reply by replaying the same claim after reconnecting.
+        var original = await connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, claimId).WaitAsync(Timeout);
+        await connection.StopAsync();
+        await connection.StartAsync();
+        await connection.InvokeAsync<bool>(HubMethodNames.RegisterWorker, registration);
+        var retried = await connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, claimId).WaitAsync(Timeout);
+
+        await Assert.That(retried!.LeaseId).IsEqualTo(original!.LeaseId);
+        await Assert.That(await test.Master.GetActiveLeasesAsync(CancellationToken.None)).HasSingleItem();
+        var next = await connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, Guid.NewGuid()).WaitAsync(Timeout);
+        await Assert.That(next!.Assignment.ModuleId).IsNotEqualTo(original.Assignment.ModuleId);
+    }
+
+    [Test]
     public async Task New_Worker_Is_Rejected_After_Completion()
     {
         await using var test = await SignalRTestMaster.StartAsync();

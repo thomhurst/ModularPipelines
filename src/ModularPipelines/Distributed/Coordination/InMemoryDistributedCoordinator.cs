@@ -14,6 +14,7 @@ internal class InMemoryDistributedCoordinator(
     private readonly Lock _lock = new();
     private readonly PriorityQueue<ModuleAssignment, AssignmentQueuePriority> _workQueue = new();
     private readonly Dictionary<ModuleId, LeaseEntry> _leases = [];
+    private readonly Dictionary<(WorkerId WorkerId, Guid ClaimId), ModuleId> _claims = [];
     private readonly Dictionary<WorkerId, WorkerRegistration> _workers = [];
     private readonly Dictionary<WorkerId, WorkerStatus> _workerStatuses = [];
     private readonly Dictionary<WorkerId, DateTimeOffset> _heartbeats = [];
@@ -47,9 +48,17 @@ internal class InMemoryDistributedCoordinator(
         return Task.CompletedTask;
     }
 
-    public async Task<ModuleLease?> DequeueModuleAsync(
+    public Task<ModuleLease?> DequeueModuleAsync(
         WorkerId workerId,
         IReadOnlySet<Capability> workerCapabilities,
+        CancellationToken cancellationToken) =>
+        DequeueModuleAsync(workerId, workerCapabilities, claimId: null, cancellationToken);
+
+    // SignalR retries use the same claim ID, including when the original reply was lost.
+    internal async Task<ModuleLease?> DequeueModuleAsync(
+        WorkerId workerId,
+        IReadOnlySet<Capability> workerCapabilities,
+        Guid? claimId,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(workerCapabilities);
@@ -59,12 +68,17 @@ internal class InMemoryDistributedCoordinator(
             Task stateChanged;
             lock (_lock)
             {
+                if (claimId is { } id && _claims.TryGetValue((workerId, id), out var moduleId))
+                {
+                    return _leases[moduleId].Lease;
+                }
+
                 if (IsDequeueClosedLocked())
                 {
                     return null;
                 }
 
-                var lease = TryClaimLocked(workerId, workerCapabilities);
+                var lease = TryClaimLocked(workerId, workerCapabilities, claimId);
                 if (lease is not null)
                 {
                     return lease;
@@ -91,7 +105,7 @@ internal class InMemoryDistributedCoordinator(
         GetResultSource(result.ModuleId).TrySetResult(result);
         lock (_lock)
         {
-            _leases.Remove(result.ModuleId);
+            RemoveLeaseLocked(result.ModuleId);
             RemoveQueuedLocked(result.ModuleId);
             SignalStateChangedLocked();
         }
@@ -202,7 +216,7 @@ internal class InMemoryDistributedCoordinator(
             foreach (var entry in expired)
             {
                 var assignment = entry.Lease.Assignment;
-                _leases.Remove(assignment.ModuleId);
+                RemoveLeaseLocked(assignment.ModuleId);
                 if (HasResult(assignment.ModuleId))
                 {
                     continue;
@@ -291,7 +305,7 @@ internal class InMemoryDistributedCoordinator(
         || (_cancellation.Task.IsCompletedSuccessfully
             && _cancellation.Task.Result == DistributedCancellationReason.Stopped);
 
-    private ModuleLease? TryClaimLocked(WorkerId workerId, IReadOnlySet<Capability> workerCapabilities)
+    private ModuleLease? TryClaimLocked(WorkerId workerId, IReadOnlySet<Capability> workerCapabilities, Guid? claimId)
     {
         var alwaysRunOnly = _cancellation.Task.IsCompletedSuccessfully;
         RefreshQueuePrioritiesIfWorkerFleetChanged();
@@ -319,7 +333,12 @@ internal class InMemoryDistributedCoordinator(
                     WorkerId = workerId,
                     Assignment = assignment,
                 };
-                _leases[assignment.ModuleId] = new LeaseEntry(lease, _timeProvider.GetUtcNow() + _workerTimeout);
+                _leases[assignment.ModuleId] = new LeaseEntry(lease, _timeProvider.GetUtcNow() + _workerTimeout, claimId);
+                if (claimId is { } id)
+                {
+                    _claims[(workerId, id)] = assignment.ModuleId;
+                }
+
                 return lease;
             }
 
@@ -331,6 +350,14 @@ internal class InMemoryDistributedCoordinator(
             {
                 _workQueue.Enqueue(assignment, priority);
             }
+        }
+    }
+
+    private void RemoveLeaseLocked(ModuleId moduleId)
+    {
+        if (_leases.Remove(moduleId, out var entry) && entry.ClaimId is { } claimId)
+        {
+            _claims.Remove((entry.Lease.WorkerId, claimId));
         }
     }
 
@@ -429,7 +456,7 @@ internal class InMemoryDistributedCoordinator(
         return true;
     }
 
-    private sealed record LeaseEntry(ModuleLease Lease, DateTimeOffset ExpiresAt);
+    private sealed record LeaseEntry(ModuleLease Lease, DateTimeOffset ExpiresAt, Guid? ClaimId);
 
     private readonly record struct SchedulingWorker(
         WorkerId WorkerId,

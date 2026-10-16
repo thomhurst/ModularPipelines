@@ -71,12 +71,13 @@ internal sealed class DistributedPipelineHub(
         return masterState.Coordinator.SendHeartbeatAsync(status, Context.ConnectionAborted);
     }
 
-    public Task<ModuleLease?> DequeueModule()
+    public Task<ModuleLease?> DequeueModule(Guid claimId)
     {
         var registration = GetRegistration();
         return masterState.Coordinator.DequeueModuleAsync(
             registration.WorkerId,
             registration.Capabilities.ToHashSet(),
+            claimId,
             Context.ConnectionAborted);
     }
 

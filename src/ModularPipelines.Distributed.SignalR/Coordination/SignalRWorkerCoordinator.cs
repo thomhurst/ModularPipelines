@@ -68,10 +68,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         IReadOnlySet<Capability> workerCapabilities,
         CancellationToken cancellationToken)
     {
+        var claimId = Guid.NewGuid();
         try
         {
             var lease = await InvokeAsync(
-                    token => _connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, token),
+                    token => _connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, claimId, token),
                     cancellationToken)
                 .ConfigureAwait(false);
             if (lease is null)
