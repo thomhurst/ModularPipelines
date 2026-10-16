@@ -13,17 +13,39 @@ internal static class SafeWalk
         AttributesToSkip = SafeEnumerationOptions.AttributesToSkip | FileAttributes.ReparsePoint,
     };
 
-    public static IEnumerable<string> EnumerateFiles(FolderPath path, Func<FolderPath, bool> directoryExclusionFilters)
+    private static readonly EnumerationOptions GlobEnumerationOptions = new()
     {
-        foreach (var file in Directory.EnumerateFiles(path, "*", SafeEnumerationOptions))
+        IgnoreInaccessible = false,
+        AttributesToSkip = 0,
+    };
+
+    private static readonly EnumerationOptions GlobDirectoryEnumerationOptions = new()
+    {
+        IgnoreInaccessible = false,
+        AttributesToSkip = FileAttributes.ReparsePoint,
+    };
+
+    public static IEnumerable<string> EnumerateFiles(FolderPath path, Func<FolderPath, bool> directoryExclusionFilters)
+        => EnumerateFiles(path, directoryExclusionFilters, SafeEnumerationOptions, SafeDirectoryEnumerationOptions);
+
+    public static IEnumerable<string> EnumerateGlobFiles(FolderPath path)
+        => EnumerateFiles(path, _ => false, GlobEnumerationOptions, GlobDirectoryEnumerationOptions);
+
+    private static IEnumerable<string> EnumerateFiles(
+        FolderPath path,
+        Func<FolderPath, bool> directoryExclusionFilters,
+        EnumerationOptions fileOptions,
+        EnumerationOptions directoryOptions)
+    {
+        foreach (var file in Directory.EnumerateFiles(path, "*", fileOptions))
         {
             yield return file;
         }
 
-        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeDirectoryEnumerationOptions)
+        foreach (var folder in Directory.EnumerateDirectories(path, "*", directoryOptions)
                      .Where(x => !directoryExclusionFilters(x!)))
         {
-            foreach (var innerFile in EnumerateFiles(folder!, directoryExclusionFilters))
+            foreach (var innerFile in EnumerateFiles(folder!, directoryExclusionFilters, fileOptions, directoryOptions))
             {
                 yield return innerFile;
             }

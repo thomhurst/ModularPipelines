@@ -185,9 +185,9 @@ public class FolderPathProviderTests
         provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
             .Returns((string from, string to) => Path.GetRelativePath(from, to));
         provider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] paths) => Path.Combine(paths));
-        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly))
             .Returns(() => liveDirectories ? EnumerateLive(directories) : directories.ToArray());
-        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.AllDirectories))
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly))
             .Returns(() => EnumerateLive(files));
 
         // Model a bind mount: writes through the unrelated alias appear under source/child.
@@ -261,7 +261,7 @@ public class FolderPathProviderTests
         var provider = new Mock<IFileSystemProvider>();
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
         provider.Setup(p => p.GetRelativePath(source, target)).Returns(Path.GetRelativePath(source, target));
-        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly))
             .Returns(EnumerateDirectories);
         if (!cancelDuringEnumeration)
         {
