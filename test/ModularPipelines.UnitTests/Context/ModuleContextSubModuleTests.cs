@@ -151,41 +151,168 @@ public class ModuleContextSubModuleTests
     }
 
     [Test]
-    public async Task RunSubModuleAsync_PassesCancellationTokenToBody()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunSubModuleAsync_PassesCancellationTokenToBody(bool returnsResult)
     {
         var module = Mock.Of<IModule>();
         using var cancellationTokenSource = new CancellationTokenSource();
         var receivedToken = CancellationToken.None;
-        var mediator = new Mock<IMediator>();
-        mediator
-            .Setup(x => x.Publish(It.IsAny<SubModuleCreatedNotification>(), It.IsAny<CancellationToken>()))
-            .Returns(ValueTask.CompletedTask);
-        mediator
-            .Setup(x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), It.IsAny<CancellationToken>()))
-            .Returns(ValueTask.CompletedTask);
-        var estimatedTimeProvider = new Mock<ISafeModuleEstimatedTimeProvider>();
-        estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync([]);
-        estimatedTimeProvider
-            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
-        var context = CreateContext(
-            module,
-            new ModuleExecutionContext(module, module.GetType()),
-            mediator.Object,
-            estimatedTimeProvider.Object);
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        var context = CreateContext(executionContext);
 
-        await context.RunSubModuleAsync(
-            "Token-aware",
-            token =>
-            {
-                receivedToken = token;
-                return Task.CompletedTask;
-            },
-            cancellationTokenSource.Token);
+        Task<int> Body(CancellationToken token)
+        {
+            receivedToken = token;
+            return Task.FromResult(42);
+        }
+
+        if (returnsResult)
+        {
+            var result = await context.RunSubModuleAsync("Token-aware", Body, cancellationTokenSource.Token);
+            await Assert.That(result).IsEqualTo(42);
+        }
+        else
+        {
+            await context.RunSubModuleAsync("Token-aware", token => (Task) Body(token), cancellationTokenSource.Token);
+        }
 
         await Assert.That(receivedToken).IsEqualTo(cancellationTokenSource.Token);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunSubModuleAsync_DefaultToken_ObservesModuleCancellation(bool returnsResult)
+    {
+        var module = Mock.Of<IModule>();
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        var context = CreateContext(executionContext);
+        var receivedToken = CancellationToken.None;
+
+        async Task<int> Body(CancellationToken token)
+        {
+            receivedToken = token;
+            await moduleCancellation.CancelAsync();
+            token.ThrowIfCancellationRequested();
+            return 42;
+        }
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => returnsResult
+            ? context.RunSubModuleAsync("Canceled", Body)
+            : context.RunSubModuleAsync("Canceled", token => (Task) Body(token)));
+
+        await Assert.That(receivedToken).IsEqualTo(moduleCancellation.Token);
+        await Assert.That(exception!.CancellationToken).IsEqualTo(moduleCancellation.Token);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunSubModuleAsync_DefaultToken_AlreadyCanceledModuleDoesNotStart(bool returnsResult)
+    {
+        var module = Mock.Of<IModule>();
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        await moduleCancellation.CancelAsync();
+        var mediator = new Mock<IMediator>();
+        var context = CreateContext(executionContext, mediator.Object);
+        var bodyWasRun = false;
+
+        Task<int> Body(CancellationToken token)
+        {
+            bodyWasRun = true;
+            return Task.FromResult(42);
+        }
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => returnsResult
+            ? context.RunSubModuleAsync("Canceled", Body)
+            : context.RunSubModuleAsync("Canceled", token => (Task) Body(token)));
+
+        await Assert.That(bodyWasRun).IsFalse();
+        mediator.Verify(
+            x => x.Publish(It.IsAny<SubModuleCreatedNotification>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+        mediator.Verify(
+            x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task RunSubModuleAsync_CancellationDuringBody_CompletesWithoutMaskingOutcome(
+        bool returnsResult, bool bodyFails)
+    {
+        var module = Mock.Of<IModule>();
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        using var callerCancellation = new CancellationTokenSource();
+        var expectedException = new InvalidOperationException("Submodule failed after cancellation");
+        var mediator = new Mock<IMediator>();
+        SubModuleCompletedNotification? completed = null;
+        mediator
+            .Setup(x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), It.IsAny<CancellationToken>()))
+            .Callback<SubModuleCompletedNotification, CancellationToken>((notification, token) =>
+            {
+                token.ThrowIfCancellationRequested();
+                completed = notification;
+            })
+            .Returns(ValueTask.CompletedTask);
+        var context = CreateContext(executionContext, mediator.Object);
+
+        async Task<int> Body(CancellationToken token)
+        {
+            await callerCancellation.CancelAsync();
+            if (bodyFails)
+            {
+                throw expectedException;
+            }
+
+            return 42;
+        }
+
+        Task Run() => returnsResult
+            ? context.RunSubModuleAsync("Canceled", Body, callerCancellation.Token)
+            : context.RunSubModuleAsync("Canceled", token => (Task) Body(token), callerCancellation.Token);
+
+        if (bodyFails)
+        {
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(Run);
+            await Assert.That(exception).IsSameReferenceAs(expectedException);
+        }
+        else
+        {
+            await Run();
+        }
+
+        await Assert.That(completed).IsNotNull();
+        await Assert.That(completed!.IsSuccessful).IsEqualTo(!bodyFails);
+        mediator.Verify(
+            x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), CancellationToken.None),
+            Times.Once);
+    }
+
+    private static ModuleContext CreateContext(ModuleExecutionContext executionContext, IMediator? mediator = null)
+    {
+        var estimatedTimeProvider = new Mock<ISafeModuleEstimatedTimeProvider>();
+        estimatedTimeProvider
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(executionContext.ModuleType, It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
+        estimatedTimeProvider
+            .Setup(x => x.SaveSubModuleTimeAsync(executionContext.ModuleType, It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()))
+            .Callback<Type, SubModuleEstimation, CancellationToken>((_, _, token) => token.ThrowIfCancellationRequested())
+            .Returns(Task.CompletedTask);
+
+        return CreateContext(
+            executionContext.Module,
+            executionContext,
+            mediator ?? Mock.Of<IMediator>(),
+            estimatedTimeProvider.Object);
     }
 
     private static ModuleContext CreateContext(

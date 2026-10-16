@@ -67,16 +67,10 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
                 "A module cannot depend on its own result.");
         }
 
-        var module = _internalContext.GetModule<TModule>();
-
-        if (module == null)
-        {
-            throw new ModuleNotRegisteredException(
+        var module = _internalContext.GetModule<TModule>() ?? throw new ModuleNotRegisteredException(
                 $"Module '{moduleType.Name}' is not registered in the pipeline.\n" +
                 $"Add '.AddModule<{moduleType.Name}>()' to your pipeline configuration.",
                 null);
-        }
-
         return module;
     }
 
@@ -126,6 +120,11 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         Func<CancellationToken, Task<T>> body,
         CancellationToken cancellationToken)
     {
+        if (!cancellationToken.CanBeCanceled)
+        {
+            cancellationToken = _executionContext.ModuleCancellationTokenSource.Token;
+        }
+
         cancellationToken.ThrowIfCancellationRequested();
         var moduleType = _currentModule.GetType();
         var tracker = new SubModuleTracker(name, moduleType);
@@ -145,17 +144,19 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         }
         finally
         {
+            // Completion bookkeeping must run even when the sub-module token is canceled.
             var isSuccessful = tracker.Status == ModuleStatus.Succeeded;
             if (isSuccessful)
             {
                 await _estimatedTimeProvider.SaveSubModuleTimeAsync(
                     moduleType,
-                    new SubModuleEstimation(name, tracker.Duration)).ConfigureAwait(false);
+                    new SubModuleEstimation(name, tracker.Duration),
+                    CancellationToken.None).ConfigureAwait(false);
             }
 
             await _mediator.Publish(
                 new SubModuleCompletedNotification(_currentModule, tracker, isSuccessful),
-                cancellationToken)
+                CancellationToken.None)
                 .ConfigureAwait(false);
         }
     }
@@ -166,7 +167,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
             .GetSubModuleEstimatedTimesAsync(_currentModule.GetType())
             .ConfigureAwait(false);
 
-        return estimates.ToArray();
+        return [.. estimates];
     }
 
     #endregion

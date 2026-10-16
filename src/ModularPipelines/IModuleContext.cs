@@ -186,7 +186,10 @@ public interface IModuleContext : IPipelineContext
     /// <typeparam name="T">The result type of the sub-module.</typeparam>
     /// <param name="name">A descriptive name for the sub-module.</param>
     /// <param name="body">The async operation to execute.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// Cancellation token passed to the operation. If the token cannot be canceled, the current module's
+    /// execution token is used, including its timeout and pipeline cancellation.
+    /// </param>
     /// <returns>The result of the sub-module.</returns>
 #pragma warning disable RS0026 // Generic and non-generic delegates intentionally share the optional cancellation-token shape.
     Task<T> RunSubModuleAsync<T>(
@@ -199,7 +202,10 @@ public interface IModuleContext : IPipelineContext
     /// </summary>
     /// <param name="name">A descriptive name for the sub-module.</param>
     /// <param name="body">The async operation to execute.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="cancellationToken">
+    /// Cancellation token passed to the operation. If the token cannot be canceled, the current module's
+    /// execution token is used, including its timeout and pipeline cancellation.
+    /// </param>
     /// <returns>A task representing the sub-module.</returns>
     Task RunSubModuleAsync(
         string name,
