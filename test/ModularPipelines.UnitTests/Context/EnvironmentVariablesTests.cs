@@ -27,7 +27,8 @@ public class EnvironmentVariablesTests
         {
             var separator = Path.PathSeparator;
             Environment.SetEnvironmentVariable("PATH", $"{separator}first{separator}{separator}second{separator}first{separator}");
-            new EnvironmentVariables().AddToPath($"second{separator}{separator}third{separator}");
+            IEnvironmentVariablesContext variables = new EnvironmentVariables();
+            variables.AddToPath($"second{separator}{separator}third{separator}", EnvironmentVariableTarget.Process);
 
             await Assert.That(Environment.GetEnvironmentVariable("PATH"))
                 .IsEqualTo($"first{separator}second{separator}third");
@@ -48,17 +49,27 @@ public class EnvironmentVariablesTests
     }
 
     [Test]
-    [Arguments("first", "first;second;third")]
-    [Arguments("second", "second;first;third")]
-    [Arguments("new-tool", "new-tool;first;second;third")]
-    public async Task AddToPath_Can_Prepend_And_Move_Existing_Paths(string pathToAdd, string expected)
+    [Arguments("first", "first;second;third", false)]
+    [Arguments("first", "first;second;third", true)]
+    [Arguments("second", "second;first;third", false)]
+    [Arguments("second", "second;first;third", true)]
+    [Arguments("new-tool", "new-tool;first;second;third", false)]
+    [Arguments("new-tool", "new-tool;first;second;third", true)]
+    public async Task AddToPath_Can_Prepend_And_Move_Existing_Paths(string pathToAdd, string expected, bool explicitTarget)
     {
         await WithPathRestored(async () =>
         {
             Environment.SetEnvironmentVariable("PATH", string.Join(Path.PathSeparator, "first", "second", "third"));
             IEnvironmentVariablesContext variables = new EnvironmentVariables();
 
-            variables.AddToPath(pathToAdd, prepend: true);
+            if (explicitTarget)
+            {
+                variables.AddToPath(pathToAdd, prepend: true, EnvironmentVariableTarget.Process);
+            }
+            else
+            {
+                variables.AddToPath(pathToAdd, prepend: true);
+            }
 
             await Assert.That(Environment.GetEnvironmentVariable("PATH"))
                 .IsEqualTo(expected.Replace(';', Path.PathSeparator));

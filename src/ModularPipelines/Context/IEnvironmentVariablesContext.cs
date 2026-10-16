@@ -62,17 +62,21 @@ public interface IEnvironmentVariablesContext
     IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     /// <summary>
-    /// Adds a path to the PATH environment variable.
+    /// Adds a path to the process PATH environment variable.
     /// The path is appended using the platform-appropriate delimiter
     /// (semicolon on Windows, colon on Unix-like systems).
     /// Empty entries and duplicates are removed using platform-appropriate case comparison.
     /// </summary>
     /// <param name="pathToAdd">The path to add to the PATH environment variable.</param>
-    /// <param name="target">
-    /// The target scope in which to modify the PATH variable.
-    /// Defaults to <see cref="EnvironmentVariableTarget.Process"/>.
-    /// </param>
-    void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    void AddToPath(string pathToAdd);
+
+    /// <summary>
+    /// Appends a path to the PATH environment variable in the specified scope.
+    /// Empty entries and duplicates are removed using platform-appropriate case comparison.
+    /// </summary>
+    /// <param name="pathToAdd">The path to add to the PATH environment variable.</param>
+    /// <param name="target">The target scope in which to modify the PATH variable.</param>
+    void AddToPath(string pathToAdd, EnvironmentVariableTarget target);
 
     /// <summary>
     /// Adds a path to the beginning or end of the PATH environment variable.

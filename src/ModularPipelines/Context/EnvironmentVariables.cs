@@ -35,7 +35,12 @@ internal class EnvironmentVariables : IEnvironmentVariablesContext
         return Get(PathVariableName, target)?.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries) ?? [];
     }
 
-    public void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
+    public void AddToPath(string pathToAdd)
+    {
+        AddToPath(pathToAdd, EnvironmentVariableTarget.Process);
+    }
+
+    public void AddToPath(string pathToAdd, EnvironmentVariableTarget target)
     {
         AddToPath(pathToAdd, prepend: false, target);
     }
