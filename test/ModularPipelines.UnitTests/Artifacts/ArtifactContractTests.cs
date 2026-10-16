@@ -17,6 +17,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Validation;
 using Moq;
@@ -1281,6 +1282,22 @@ public class ArtifactContractTests
             Task.CompletedTask;
     }
 
+    private sealed class ArtifactUploadSignal
+    {
+        public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    private sealed class FailDuringArtifactUploadModule(ArtifactUploadSignal signal) : Module<string>
+    {
+        protected internal override async Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await signal.Started.Task.WaitAsync(cancellationToken);
+            throw new InvalidOperationException("failure while another module uploads artifacts");
+        }
+    }
+
     private sealed class RecordingResultRepository : IModuleResultRepository
     {
         public static int SaveCount { get; set; }
@@ -2213,6 +2230,106 @@ public class ArtifactContractTests
 
             estimates.Verify(provider => provider.SaveModuleTimeAsync(
                 typeof(LocalProducerModule), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FailFastPreservesCancellationDuringArtifactUpload(bool customBackend)
+    {
+        DeleteLocalArtifacts();
+        LocalConsumerModule.ConsumedContent = null;
+        var signal = new ArtifactUploadSignal();
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(x => x.UploadAsync(
+                It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .Returns(async (ArtifactDescriptor _, Stream _, CancellationToken token) =>
+            {
+                signal.Started.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                throw new InvalidOperationException("Upload must be canceled");
+            });
+
+        try
+        {
+            var builder = TestPipelineBuilder.Create();
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
+            builder.ConfigureOptions(options => options with
+            {
+                FailureMode = FailureMode.FailFast,
+                Concurrency = options.Concurrency with { MaxParallelism = 2 },
+            });
+            builder.Services.AddSingleton(signal);
+            builder.Services.AddSingleton(store.Object);
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<LocalConsumerModule>();
+            builder.AddModule<FailDuringArtifactUploadModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => pipeline.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+            var producerResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
+                .GetResult(typeof(LocalProducerModule));
+            var producer = pipeline.Services.GetServices<IModule>().OfType<LocalProducerModule>().Single();
+            var awaitedProducerResult = await producer;
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(FailDuringArtifactUploadModule));
+                await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Canceled);
+                await Assert.That(producerResult.ExceptionOrDefault).IsTypeOf<TaskCanceledException>();
+                await Assert.That(awaitedProducerResult).IsSameReferenceAs(producerResult);
+                await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task IndependentArtifactUploadCancellationStillFailsProducer(bool customBackend)
+    {
+        DeleteLocalArtifacts();
+        var cancellation = new OperationCanceledException("independent artifact store cancellation");
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(x => x.UploadAsync(
+                It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(cancellation);
+
+        try
+        {
+            var builder = TestPipelineBuilder.Create();
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
+            builder.Services.AddSingleton(store.Object);
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<LocalConsumerModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
+            var producerResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
+                .GetResult(typeof(LocalProducerModule));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(LocalProducerModule));
+                await Assert.That(exception.InnerException).IsSameReferenceAs(cancellation);
+                await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+            }
         }
         finally
         {
