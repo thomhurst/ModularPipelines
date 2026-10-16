@@ -19,14 +19,15 @@ namespace ModularPipelines;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This base class exists because <see cref="Failure"/> and <see cref="Skipped"/> results
-/// don't carry a typed value - only <see cref="ModuleResult{T}.Success"/> needs the type parameter.
-/// By separating the non-generic parts, we avoid creating unnecessary generic type instantiations
-/// for failure and skipped cases.
+/// The engine produces <see cref="ModuleResult{T}.Failure"/> and <see cref="ModuleResult{T}.Skipped"/>,
+/// which do not derive from the non-generic <see cref="Failure"/> and <see cref="Skipped"/> records.
+/// The non-generic records support explicit construction and conversion to <see cref="ModuleResult{T}"/>.
 /// </para>
 /// <para>
 /// Use <see cref="ModuleResult{T}"/> when you need type-safe access to success values.
-/// Use <see cref="ModuleResult"/> when working with results generically (e.g., logging, reporting).
+/// When consuming type-erased results through <see cref="IModuleResult"/> or this base class,
+/// inspect <see cref="Status"/>, <see cref="ExceptionOrDefault"/>, or <see cref="SkipDecisionOrDefault"/>
+/// instead of testing for the non-generic outcome records.
 /// </para>
 /// </remarks>
 [JsonConverter(typeof(ModuleResultJsonConverterFactory))]

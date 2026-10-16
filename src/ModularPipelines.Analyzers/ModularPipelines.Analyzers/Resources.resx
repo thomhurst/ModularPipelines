@@ -306,4 +306,7 @@
   <data name="RequiredDependencyAccessorTitle" xml:space="preserve"><value>Use the required module accessor</value></data>
   <data name="RequiredDependencyAccessorMessageFormat" xml:space="preserve"><value>Dependency &apos;{0}&apos; is required; use GetModule instead of GetModuleIfRegistered</value></data>
   <data name="RequiredDependencyAccessorDescription" xml:space="preserve"><value>Required dependencies are guaranteed to be registered. Use GetModule to avoid an unnecessary nullable lookup.</value></data>
+  <data name="NonGenericModuleResultAnalyzerTitle" xml:space="preserve"><value>Use type-erased module outcome checks</value></data>
+  <data name="NonGenericModuleResultAnalyzerMessageFormat" xml:space="preserve"><value>Non-generic outcome tests do not match generic engine results; use Status, ExceptionOrDefault, or SkipDecisionOrDefault</value></data>
+  <data name="NonGenericModuleResultAnalyzerDescription" xml:space="preserve"><value>The engine produces generic failure and skipped records. When consuming type-erased results, inspect Status, ExceptionOrDefault, or SkipDecisionOrDefault instead of testing non-generic outcome types.</value></data>
 </root>

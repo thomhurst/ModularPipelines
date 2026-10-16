@@ -499,5 +499,23 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("UnregisteredModuleAnalyzerTitle", resourceCulture);
             }
         }
+
+        internal static string NonGenericModuleResultAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("NonGenericModuleResultAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        internal static string NonGenericModuleResultAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("NonGenericModuleResultAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string NonGenericModuleResultAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("NonGenericModuleResultAnalyzerDescription", resourceCulture);
+            }
+        }
     }
 }
