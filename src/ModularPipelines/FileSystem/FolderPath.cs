@@ -293,6 +293,8 @@ public class FolderPath : IEquatable<FolderPath>
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CopyFile(filePath, newPath, overwrite: true);
             CopyMetadata(filePath, newPath, preserveTimestamps);
+            // Restore permissions last because read-only attributes can change the Unix mode.
+            FileCopyMetadata.CopyUnixPermissions(_provider, filePath, newPath);
         }
 
         // Creating child entries changes directory timestamps, so restore metadata after all writes.

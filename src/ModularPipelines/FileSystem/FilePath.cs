@@ -343,6 +343,7 @@ public class FilePath : IEquatable<FilePath>
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
 
         _provider.CopyFile(Path, path, true);
+        FileCopyMetadata.CopyUnixPermissions(_provider, Path, path);
         return new FilePath(path, _provider);
     }
 

@@ -7,7 +7,8 @@ public class CopyUnixPermissionsTests
 {
     [Test]
     [MatrixDataSource]
-    public async Task Async_Copy_Preserves_Permissions_Without_Special_Bits(
+    public async Task Copy_Preserves_Permissions_Without_Special_Bits(
+        [Matrix(false, true)] bool useAsync,
         [Matrix("file", "file-folder", "folder")] string copy,
         [Matrix(false, true)] bool overwrite,
         [Matrix(UnixFileMode.SetUser, UnixFileMode.SetGroup, UnixFileMode.StickyBit,
@@ -38,13 +39,34 @@ public class CopyUnixPermissionsTests
         switch (copy)
         {
             case "file":
-                await source.CopyToAsync(destination.Path);
+                if (useAsync)
+                {
+                    await source.CopyToAsync(destination.Path);
+                }
+                else
+                {
+                    source.CopyTo(destination.Path);
+                }
                 break;
             case "file-folder":
-                await source.CopyToAsync(destinationFolder);
+                if (useAsync)
+                {
+                    await source.CopyToAsync(destinationFolder);
+                }
+                else
+                {
+                    source.CopyTo(destinationFolder);
+                }
                 break;
             case "folder":
-                await sourceFolder.CopyToAsync(destinationFolder.Path);
+                if (useAsync)
+                {
+                    await sourceFolder.CopyToAsync(destinationFolder.Path);
+                }
+                else
+                {
+                    sourceFolder.CopyTo(destinationFolder.Path);
+                }
                 break;
         }
 
