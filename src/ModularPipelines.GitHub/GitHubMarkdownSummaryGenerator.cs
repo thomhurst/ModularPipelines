@@ -7,23 +7,20 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.GitHub;
 
-internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
+internal class GitHubMarkdownSummaryGenerator(
+    ISummaryLogReader summaryLogReader,
+    IDependencyGraphExporter dependencyGraphExporter,
+    ISecretObfuscator secretObfuscator) : IPipelineEventHandler
 {
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
-    private readonly ISummaryLogReader _summaryLogReader;
-    private readonly IDependencyGraphExporter _dependencyGraphExporter;
-
-    public GitHubMarkdownSummaryGenerator(
-        ISummaryLogReader summaryLogReader,
-        IDependencyGraphExporter dependencyGraphExporter)
-    {
-        _summaryLogReader = summaryLogReader;
-        _dependencyGraphExporter = dependencyGraphExporter;
-    }
+    private readonly ISummaryLogReader _summaryLogReader = summaryLogReader;
+    private readonly IDependencyGraphExporter _dependencyGraphExporter = dependencyGraphExporter;
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
 
     public Task OnPipelineStartAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
@@ -68,8 +65,10 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
-        var existingSummary = $"{mermaid}\n\n{table}\n\n{_summaryLogReader.GetOutput()}{exception}";
-        var contents = SelectContentsToAppend(currentFileSize, dependencyGraph, existingSummary);
+        var existingSummary = _secretObfuscator.Obfuscate(
+            $"{mermaid}\n\n{table}\n\n{_summaryLogReader.GetOutput()}{exception}", null);
+        var maskedDependencyGraph = _secretObfuscator.Obfuscate(dependencyGraph, null);
+        var contents = SelectContentsToAppend(currentFileSize, maskedDependencyGraph, existingSummary);
 
         if (contents is null)
         {
