@@ -1,9 +1,11 @@
-using ModularPipelines.Secrets;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
-using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.Engine;
 using ModularPipelines.Logging;
+using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
@@ -51,6 +53,44 @@ public class BuildSystemLogIssueLoggerProviderTests
         await Assert.That(writer.ToString())
             .IsEqualTo(
                 $"##vso[task.logissue type=error;]message: failure{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(LogLevel.Warning)]
+    [Arguments(LogLevel.Error)]
+    [Arguments(LogLevel.Critical)]
+    public async Task Logger_MasksRegisteredSecretsInMessagesAndExceptions(LogLevel logLevel)
+    {
+        const string secret = "annotation-secret";
+        var options = Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions());
+        var optionsProvider = new Mock<IOptionsProvider>();
+        optionsProvider.Setup(x => x.GetOptions()).Returns([]);
+        var secrets = new SecretProvider(
+            optionsProvider.Object,
+            Mock.Of<IBuildSystemSecretMasker>(),
+            options,
+            Mock.Of<ILogger<SecretProvider>>());
+        secrets.AddSecret(secret);
+        var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
+        formatterProvider.Setup(x => x.GetFormatter()).Returns(new AzurePipelinesFormatter());
+        using var writer = new StringWriter();
+        using var services = new ServiceCollection()
+            .AddSingleton(formatterProvider.Object)
+            .AddSingleton<IBuildSystemCommandWriter>(new BuildSystemCommandWriter(writer))
+            .AddSingleton<ISecretObfuscator>(new SecretObfuscator(secrets, options))
+            .AddSingleton<BuildSystemLogIssueLoggerProvider>()
+            .BuildServiceProvider();
+        var logger = services.GetRequiredService<BuildSystemLogIssueLoggerProvider>()
+            .CreateLogger("Example.Pipeline");
+
+        logger.Log(logLevel, "Message {Secret}", secret);
+        var encodedSecret = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(secret));
+        logger.Log(logLevel, new InvalidOperationException($"Failure {encodedSecret}"), "Message {Secret}", secret);
+
+        var issueType = logLevel == LogLevel.Warning ? "warning" : "error";
+        await Assert.That(writer.ToString()).IsEqualTo(
+            $"##vso[task.logissue type={issueType};]Message **********{Environment.NewLine}"
+            + $"##vso[task.logissue type={issueType};]Message **********: Failure **********{Environment.NewLine}");
     }
 
     [Test]
@@ -178,8 +218,12 @@ public class BuildSystemLogIssueLoggerProviderTests
         IBuildSystemFormatter formatter,
         TextWriter writer)
     {
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator.Setup(x => x.Obfuscate(It.IsAny<string>(), null))
+            .Returns((string input, object? _) => input);
         return new BuildSystemLogIssueLoggerProvider(
             formatter,
-            new BuildSystemCommandWriter(writer));
+            new BuildSystemCommandWriter(writer),
+            new Lazy<ISecretObfuscator>(() => obfuscator.Object));
     }
 }

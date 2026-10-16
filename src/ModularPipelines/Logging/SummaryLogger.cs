@@ -20,25 +20,18 @@ namespace ModularPipelines.Logging;
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class SummaryLogger : IInternalSummaryLogger
+internal class SummaryLogger(
+    ILogger<SummaryLogger> logger,
+    INonSpectreLoggerFactory? nonConsoleLoggerFactory = null,
+    ISecretObfuscator? secretObfuscator = null) : IInternalSummaryLogger
 {
-    private readonly ILogger<SummaryLogger> _logger;
-    private readonly INonSpectreLoggerFactory? _nonConsoleLoggerFactory;
-    private readonly ISecretObfuscator? _secretObfuscator;
+    private readonly ILogger<SummaryLogger> _logger = logger;
+    private readonly INonSpectreLoggerFactory? _nonConsoleLoggerFactory = nonConsoleLoggerFactory;
+    private readonly ISecretObfuscator? _secretObfuscator = secretObfuscator;
     private readonly List<SummaryLogEntry> _entries = [];
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
     private string? _cachedOutput;
     private int _displayedCount;
-
-    public SummaryLogger(
-        ILogger<SummaryLogger> logger,
-        INonSpectreLoggerFactory? nonConsoleLoggerFactory = null,
-        ISecretObfuscator? secretObfuscator = null)
-    {
-        _logger = logger;
-        _nonConsoleLoggerFactory = nonConsoleLoggerFactory;
-        _secretObfuscator = secretObfuscator;
-    }
 
     /// <inheritdoc />
     public void Information(string message)
@@ -93,7 +86,7 @@ internal class SummaryLogger : IInternalSummaryLogger
     {
         lock (_lock)
         {
-            return _entries.ToList();
+            return [.. _entries.Select(ObfuscateEntry)];
         }
     }
 
@@ -102,7 +95,7 @@ internal class SummaryLogger : IInternalSummaryLogger
     {
         lock (_lock)
         {
-            return _entries.Where(e => e.Category == category).ToList();
+            return [.. _entries.Where(e => e.Category == category).Select(ObfuscateEntry)];
         }
     }
 
@@ -113,7 +106,7 @@ internal class SummaryLogger : IInternalSummaryLogger
         {
             if (_cachedOutput != null)
             {
-                return _cachedOutput;
+                return _secretObfuscator?.Obfuscate(_cachedOutput, null) ?? _cachedOutput;
             }
 
             var sb = new StringBuilder();
@@ -150,8 +143,9 @@ internal class SummaryLogger : IInternalSummaryLogger
                 }
             }
 
+            // Cache formatting, but mask on every read to include secrets registered later.
             _cachedOutput = sb.ToString();
-            return _cachedOutput;
+            return _secretObfuscator?.Obfuscate(_cachedOutput, null) ?? _cachedOutput;
         }
     }
 
@@ -160,7 +154,7 @@ internal class SummaryLogger : IInternalSummaryLogger
     {
         lock (_lock)
         {
-            return _entries.ToList();
+            return [.. _entries];
         }
     }
 
@@ -180,8 +174,8 @@ internal class SummaryLogger : IInternalSummaryLogger
         List<SummaryLogEntry> pendingEntries;
         lock (_lock)
         {
-            displayedEntries = _entries.Take(_displayedCount).ToList();
-            pendingEntries = _entries.Skip(_displayedCount).ToList();
+            displayedEntries = [.. _entries.Take(_displayedCount)];
+            pendingEntries = [.. _entries.Skip(_displayedCount)];
         }
 
         // Entries rendered in the results output still reach file, telemetry, and build-system
@@ -217,6 +211,11 @@ internal class SummaryLogger : IInternalSummaryLogger
             _ => LogLevel.Information,
         };
 
+        if (!logger.IsEnabled(logLevel))
+        {
+            return;
+        }
+
         var message = entry.Category != null
             ? $"[{entry.Category}] {entry.Message}"
             : entry.Message;
@@ -229,6 +228,20 @@ internal class SummaryLogger : IInternalSummaryLogger
         }
 
         logger.Log(logLevel, "{Value}", message);
+    }
+
+    private SummaryLogEntry ObfuscateEntry(SummaryLogEntry entry)
+    {
+        if (_secretObfuscator is null)
+        {
+            return entry;
+        }
+
+        return entry with
+        {
+            Message = _secretObfuscator.Obfuscate(entry.Message, null),
+            Category = entry.Category is null ? null : _secretObfuscator.Obfuscate(entry.Category, null),
+        };
     }
 
     private void AddEntry(SummaryLogLevel level, string message, string? category)

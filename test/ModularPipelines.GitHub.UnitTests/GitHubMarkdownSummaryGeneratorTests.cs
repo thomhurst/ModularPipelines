@@ -1,12 +1,13 @@
-using ModularPipelines.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.GitHub.UnitTests;
 
@@ -53,6 +54,51 @@ public class GitHubMarkdownSummaryGeneratorTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult("executed");
+    }
+
+    private const string SummarySecret = "github-summary-secret";
+
+    private sealed class SecretFailureModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            context.Security.Secrets.AddSecret(SummarySecret);
+            context.Summary.KeyValue("Token", SummarySecret);
+            throw new InvalidOperationException($"Outer failure {SummarySecret}",
+                new ArgumentException($"Inner failure {SummarySecret}"));
+        }
+    }
+
+    [Test]
+    public async Task StepSummaryMasksRegisteredSecretsInEntriesAndExceptions()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-github-summary-");
+        var path = Path.Combine(directory.FullName, "summary.md");
+        var previousPath = Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+        try
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
+            var builder = Pipeline.CreateBuilder();
+            builder.AddModule<SecretFailureModule>();
+
+            await Assert.ThrowsAsync<PipelineException>(() => builder.RunAsync());
+
+            var summary = await File.ReadAllTextAsync(path);
+            using (Assert.Multiple())
+            {
+                await Assert.That(summary).Contains("Token: **********");
+                await Assert.That(summary).Contains("Outer failure **********");
+                await Assert.That(summary).Contains("Inner failure **********");
+                await Assert.That(summary).DoesNotContain(SummarySecret);
+            }
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", previousPath);
+            directory.Delete(recursive: true);
+        }
     }
 
     private sealed class OversizedDependencyGraphRenderer : IDependencyGraphExporter

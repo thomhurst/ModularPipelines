@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Logging;
 
@@ -15,29 +17,36 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
 
     private readonly IBuildSystemFormatter _formatter;
     private readonly IBuildSystemCommandWriter _commandWriter;
+    private readonly Lazy<ISecretObfuscator> _secretObfuscator;
     // Identity deduplicates propagated wrappers without merging independent failures that
     // share diagnostics. Weak keys let completed failures leave with their exception graph.
-    private readonly ConditionalWeakTable<Exception, object> _reportedErrors = new();
+    private readonly ConditionalWeakTable<Exception, object> _reportedErrors = [];
 
     public BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatterProvider formatterProvider,
-        IBuildSystemCommandWriter commandWriter)
-        : this(formatterProvider.GetFormatter(), commandWriter)
+        IBuildSystemCommandWriter commandWriter,
+        IServiceProvider serviceProvider)
+        : this(formatterProvider.GetFormatter(), commandWriter,
+            new Lazy<ISecretObfuscator>(serviceProvider.GetRequiredService<ISecretObfuscator>))
     {
     }
 
     internal BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatter formatter,
-        IBuildSystemCommandWriter commandWriter)
+        IBuildSystemCommandWriter commandWriter,
+        Lazy<ISecretObfuscator> secretObfuscator)
     {
         _formatter = formatter;
         _commandWriter = commandWriter;
+        // SecretProvider needs ILoggerFactory, which constructs this provider. Resolve only when logging.
+        _secretObfuscator = secretObfuscator;
     }
 
     public ILogger CreateLogger(string categoryName) =>
         new BuildSystemLogIssueLogger(
             _formatter,
             _commandWriter,
+            _secretObfuscator,
             _reportedErrors,
             IsIssueCategory(categoryName));
 
@@ -53,6 +62,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
         IBuildSystemCommandWriter commandWriter,
+        Lazy<ISecretObfuscator> secretObfuscator,
         ConditionalWeakTable<Exception, object> reportedErrors,
         bool isIssueCategory) : ILogger
     {
@@ -81,7 +91,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
                 return;
             }
 
-            var command = formatter.GetLogIssueCommand(logLevel, message);
+            var command = formatter.GetLogIssueCommand(logLevel, secretObfuscator.Value.Obfuscate(message, null));
             if (command is not null)
             {
                 commandWriter.WriteLine(command);

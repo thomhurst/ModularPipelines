@@ -2,9 +2,13 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -261,6 +265,42 @@ public class SummaryLoggerTests
     }
 
     #endregion
+
+    [Test]
+    public async Task SummaryReads_MaskSecretsRegisteredAfterEntriesAndOutputWereCached()
+    {
+        const string secret = "summary-secret";
+        var options = Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions());
+        var optionsProvider = new Mock<IOptionsProvider>();
+        optionsProvider.Setup(x => x.GetOptions()).Returns([]);
+        var secrets = new SecretProvider(
+            optionsProvider.Object,
+            Mock.Of<IBuildSystemSecretMasker>(),
+            options,
+            new NullLogger<SecretProvider>());
+        var logger = new SummaryLogger(
+            new NullLogger<SummaryLogger>(),
+            secretObfuscator: new SecretObfuscator(secrets, options));
+        var category = $"Deployment {secret}";
+        logger.KeyValue(category, "Token", secret);
+        var originalEntry = logger.GetEntries().Single();
+        _ = logger.GetOutput();
+
+        secrets.AddSecret(secret);
+
+        var entry = logger.GetEntries().Single();
+        var filteredEntry = logger.GetEntries(category).Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(entry.Message).IsEqualTo("Token: **********");
+            await Assert.That(entry.Category).IsEqualTo("Deployment **********");
+            await Assert.That(entry.Level).IsEqualTo(originalEntry.Level);
+            await Assert.That(entry.Timestamp).IsEqualTo(originalEntry.Timestamp);
+            await Assert.That(filteredEntry).IsEqualTo(entry);
+            await Assert.That(logger.GetOutput()).IsEqualTo(
+                $"[Deployment **********]{Environment.NewLine}Token: **********{Environment.NewLine}");
+        }
+    }
 
     #region Log Level Tests
 
