@@ -64,7 +64,6 @@ internal class ModuleExecutionPipeline(
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
-        ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
         var afterHookInvoked = false;
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
@@ -134,7 +133,7 @@ internal class ModuleExecutionPipeline(
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Track that the before hook executed (for OnAfterExecuteAsync in finally)
+            // Only invoke the after hook once execution has started.
             beforeHooksExecuted = true;
 
             // Mark as processing
@@ -154,15 +153,21 @@ internal class ModuleExecutionPipeline(
             executionContext.RecordEndTime();
             executionContext.Status = ModuleStatus.Succeeded;
 
-            moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
+            ModuleResult<T> moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
 
             afterHookInvoked = true;
             moduleResult = await InvokeAfterExecuteAsync(
                     module,
                     moduleContext,
                     moduleResult,
+                    executionContext,
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
+
+            if (moduleResult is ModuleResult<T>.Failure failure)
+            {
+                throw failure.Exception;
+            }
 
             await finalizer.FinalizeAsync(moduleResult).ConfigureAwait(false);
 
@@ -183,21 +188,32 @@ internal class ModuleExecutionPipeline(
         {
             executionContext.RecordEndTime();
 
-            // Call direct failed hook (before OnAfterExecuteAsync in finally)
+            // Report the attempt failure before giving the after hook a chance to recover.
             await _directHookInvoker.InvokeFailedAsync(module, moduleContext, exception, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            moduleResult = await HandleException(
+            var moduleResult = await HandleException(
                     module,
                     config,
                     executionContext,
                     moduleContext,
                     exception,
                     logger,
-                    result => moduleResult = result,
+                    beforeHooksExecuted && !afterHookInvoked,
                     completeModule)
                 .ConfigureAwait(false);
             await finalizer.FinalizeAsync(moduleResult).ConfigureAwait(false);
+            executionContext.SetTypedResult(moduleResult);
             finalizer.Complete(moduleResult);
+
+            if (moduleResult.Status != ModuleStatus.Canceled)
+            {
+                await SaveResults(
+                        module,
+                        moduleResult,
+                        moduleContext,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+            }
 
             return moduleResult;
         }
@@ -210,15 +226,6 @@ internal class ModuleExecutionPipeline(
 
             try
             {
-                moduleResult = await InvokePendingAfterHookAsync(
-                        module,
-                        moduleContext,
-                        executionContext,
-                        moduleResult,
-                        beforeHooksExecuted,
-                        afterHookInvoked)
-                    .ConfigureAwait(false);
-
                 // A module without other output gets no group header, so the results table is then
                 // the only other place its outcome appears.
                 LogModuleStatus(
@@ -232,29 +239,6 @@ internal class ModuleExecutionPipeline(
                 DisposeCancellationTokenSources(executionContext, originalCancellationTokenSource);
             }
         }
-    }
-
-    private async Task<ModuleResult<T>?> InvokePendingAfterHookAsync<T>(
-        Module<T> module,
-        IModuleContext moduleContext,
-        ModuleExecutionContext<T> executionContext,
-        ModuleResult<T>? moduleResult,
-        bool beforeHooksExecuted,
-        bool afterHookInvoked)
-    {
-        if (!beforeHooksExecuted || moduleResult is null || afterHookInvoked)
-        {
-            return moduleResult;
-        }
-
-        moduleResult = await InvokeAfterExecuteAsync(
-                module,
-                moduleContext,
-                moduleResult,
-                CancellationToken.None)
-            .ConfigureAwait(false);
-        executionContext.SetTypedResult(moduleResult);
-        return moduleResult;
     }
 
     private static void DisposeCancellationTokenSources(
@@ -722,15 +706,42 @@ internal class ModuleExecutionPipeline(
         Module<T> module,
         IModuleContext moduleContext,
         ModuleResult<T> moduleResult,
+        ModuleExecutionContext<T> executionContext,
         CancellationToken cancellationToken)
     {
         var previousProvisionalResult = module.SetProvisionalResult(moduleResult);
         try
         {
-            return await _directHookInvoker
-                       .InvokeAfterExecuteAsync(module, moduleContext, moduleResult, cancellationToken)
-                       .ConfigureAwait(false)
-                   ?? moduleResult;
+            var replacement = await _directHookInvoker
+                .InvokeAfterExecuteAsync(module, moduleContext, moduleResult, cancellationToken)
+                .ConfigureAwait(false);
+            if (replacement is null)
+            {
+                return moduleResult;
+            }
+
+            var status = replacement switch
+            {
+                ModuleResult<T>.Success => ModuleStatus.Succeeded,
+                ModuleResult<T>.Skipped => ModuleStatus.Skipped,
+                ModuleResult<T>.Failure when moduleResult is ModuleResult<T>.Failure => moduleResult.Status,
+                _ => ModuleStatus.Failed,
+            };
+            var normalized = replacement with
+            {
+                Name = moduleResult.Name,
+                TypeName = moduleResult.TypeName,
+                ModuleType = moduleResult.ModuleType,
+                WorkerId = moduleResult.WorkerId,
+                StartTime = moduleResult.StartTime,
+                EndTime = moduleResult.EndTime,
+                Duration = moduleResult.Duration,
+                Status = status,
+            };
+            executionContext.Status = normalized.Status;
+            executionContext.Exception = normalized.ExceptionOrDefault;
+            executionContext.SkipResult = normalized.SkipDecisionOrDefault ?? SkipDecision.DoNotSkip;
+            return normalized;
         }
         catch (Exception afterHookException)
         {
@@ -750,7 +761,7 @@ internal class ModuleExecutionPipeline(
         IModuleContext moduleContext,
         Exception exception,
         ILogger logger,
-        Action<ModuleResult<T>> preserveResult,
+        bool invokeAfterHook,
         bool completeModule = true)
     {
         logger.LogError(exception, "Module failed after {Duration}", executionContext.Duration.ToDisplayString());
@@ -783,42 +794,43 @@ internal class ModuleExecutionPipeline(
             {
                 logger.LogDebug("Ignoring failures in this module and continuing...");
                 executionContext.Status = ModuleStatus.FailureIgnored;
-
-                var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-                preserveResult(ignoredResult);
-                executionContext.SetTypedResult(ignoredResult);
-
-                await SaveResults(
-                        module,
-                        ignoredResult,
-                        moduleContext,
-                        executionContext.ModuleCancellationTokenSource.Token)
-                    .ConfigureAwait(false);
-                return ignoredResult;
             }
         }
 
-        if (executionContext.Status == ModuleStatus.Canceled)
+        ModuleResult<T> result = ModuleResult<T>.CreateFailure(exception, executionContext);
+        if (invokeAfterHook)
         {
-            logger.LogInformation("Pipeline has been canceled");
-
-            var canceledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-            preserveResult(canceledResult);
-            executionContext.SetTypedResult(canceledResult);
-            return canceledResult;
+            // Let recovery finish before publishing a failure or canceling dependent modules.
+            result = await InvokeAfterExecuteAsync(
+                    module,
+                    moduleContext,
+                    result,
+                    executionContext,
+                    CancellationToken.None)
+                .ConfigureAwait(false);
         }
 
-        // Create a failed result before cancelling and throwing
-        ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-        preserveResult(failedResult);
-        executionContext.SetTypedResult(failedResult);
+        if (result.Status == ModuleStatus.Canceled)
+        {
+            logger.LogInformation("Pipeline has been canceled");
+            return result;
+        }
+
+        if (result is not ModuleResult<T>.Failure failure
+            || result.Status == ModuleStatus.FailureIgnored)
+        {
+            return result;
+        }
+
+        // Publish the final failure before cancelling and throwing.
+        executionContext.SetTypedResult(result);
         if (completeModule)
         {
-            module.CompletionSource.TrySetResult(failedResult);
+            module.CompletionSource.TrySetResult(result);
         }
 
         // Cancel the pipeline and propagate
-        CancelPipelineAndThrow(executionContext, moduleContext, exception, logger);
+        CancelPipelineAndThrow(executionContext, moduleContext, failure.Exception, logger);
 
         // This won't be reached, but compiler needs it
         throw exception;

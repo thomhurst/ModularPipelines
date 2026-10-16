@@ -10,6 +10,51 @@ namespace ModularPipelines.UnitTests.Modules;
 public class ModuleResultContractTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task OutcomeConversions_PreserveMetadata_AndReplacePayload(bool skipped)
+    {
+        var original = (skipped ? CreateSkipped("original skip") : CreateFailure()) with
+        {
+            ModuleType = typeof(IntModule),
+            TypeName = typeof(IntModule).FullName,
+            WorkerId = new WorkerId("worker-1"),
+            Duration = TimeSpan.FromSeconds(2),
+        };
+        var success = original.ToSuccess(42);
+        var exception = new InvalidOperationException("replacement failure");
+        var failure = success.ToFailure(exception);
+
+        foreach (var result in new ModuleResult<int>[] { success, failure })
+        {
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.Name).IsEqualTo(original.Name);
+                await Assert.That(result.TypeName).IsEqualTo(original.TypeName);
+                await Assert.That(result.ModuleType).IsEqualTo(original.ModuleType);
+                await Assert.That(result.WorkerId).IsEqualTo(original.WorkerId);
+                await Assert.That(result.StartTime).IsEqualTo(original.StartTime);
+                await Assert.That(result.EndTime).IsEqualTo(original.EndTime);
+                await Assert.That(result.Duration).IsEqualTo(original.Duration);
+            }
+        }
+
+        await Assert.That(success.Value).IsEqualTo(42);
+        await Assert.That(success.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(success.ExceptionOrDefault).IsNull();
+        await Assert.That(success.SkipDecisionOrDefault).IsNull();
+        await Assert.That(failure.Exception).IsSameReferenceAs(exception);
+        await Assert.That(failure.Status).IsEqualTo(ModuleStatus.Failed);
+        await Assert.That(failure.TryGetValue(out _)).IsFalse();
+    }
+
+    [Test]
+    public void ToFailure_RejectsNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => CreateSuccess(42).ToFailure(null!));
+    }
+
+    [Test]
     public async Task MetadataSurface_UsesConciseNames()
     {
         var propertyNames = typeof(IModuleResult)

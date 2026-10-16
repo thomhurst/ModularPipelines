@@ -210,6 +210,13 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     /// if the module failed.
     /// </para>
     /// <para>
+    /// A replacement keeps the original module identity, worker and execution timing. Its variant
+    /// determines its status; a failure replacement retains the original failure classification
+    /// when replacing a failure. Use <see cref="ModuleResult{T}.ToSuccess"/> or
+    /// <see cref="ModuleResult{T}.ToFailure"/> to change outcomes while preserving metadata.
+    /// Recovery runs before failure publication and pipeline cancellation.
+    /// </para>
+    /// <para>
     /// Artifact upload runs after this hook so it can include files produced here. If upload fails,
     /// <see cref="OnFailedAsync"/> runs afterward; this hook is not called a second time. End handlers
     /// observe successful completion only after artifact upload succeeds.
