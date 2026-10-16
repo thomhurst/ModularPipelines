@@ -34,11 +34,12 @@ public class AnalyzerMetadataTests
             RepeatedSkipWhenAnalyzer.Rule,
             MissingDependsOnAttributeAnalyzer.OptionalDependencyAccessorRule,
             MissingDependsOnAttributeAnalyzer.RequiredDependencyAccessorRule,
+            NonGenericModuleResultAnalyzer.Rule,
         };
 
         Assert.AreSequenceEqual(
             Enumerable.Range(1, 10)
-                .Concat(Enumerable.Range(13, 10))
+                .Concat(Enumerable.Range(13, 11))
                 .Select(index => $"MP{index:0000}"),
             rules.Select(rule => rule.Id));
 
