@@ -9,6 +9,7 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 internal static class HubMethodNames
 {
     public const string RegisterWorker = "RegisterWorker";
+    public const string ReconcileHeartbeat = "ReconcileHeartbeat";
     public const string Heartbeat = "Heartbeat";
     public const string DequeueModule = "DequeueModule";
     public const string PublishResult = "PublishResult";

@@ -336,6 +336,19 @@ public class RedisDistributedCoordinatorContractTests
             readySignalCount: 1,
             workerTimeout: null);
 
+    [Test]
+    public Task Lease_Reconciliation_Before_Expiry() =>
+        RunAsync((coordinator, _, _) =>
+            ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectBeforeExpiryAsync(coordinator, coordinator));
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Lease_Reconciliation_After_Reassignment(bool sameWorker) =>
+        RunAsync((coordinator, _, _) =>
+            ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
+                coordinator, () => Task.Delay(DistributedCoordinatorContract.LeaseTimeout * 3), sameWorker));
+
     private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
         WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
 

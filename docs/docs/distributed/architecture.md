@@ -41,8 +41,8 @@ and advanced users.
 3. The worker builds its capability set from configured capabilities and the
    auto-detected operating-system capability.
 4. The worker registers its identity, run ID, capabilities and maximum parallelism via
-   `RegisterWorkerAsync`. Periodic `SendHeartbeatAsync` calls carry `WorkerStatus` with the
-   modules the worker is executing, which renews their leases. During run-report finalization,
+   `RegisterWorkerAsync`. Periodic `ReconcileHeartbeatAsync` calls carry `WorkerStatus` and exact
+   lease tokens to renew owned assignments and cancel lost ones. During run-report finalization,
    a final status (`IsFinal`) adds command metrics without replacing the registration.
 5. The worker starts a bounded execution pool. It acquires an execution slot before it claims
    an assignment, so it never holds a claimed lease it cannot start.
@@ -192,7 +192,7 @@ and distributed-worker backend selection.
 
 ## Coordinator Contract
 
-`IDistributedWorkerCoordinator` defines the six operations available to workers.
+`IDistributedWorkerCoordinator` defines the operations available to workers.
 `IDistributedMasterCoordinator` inherits that contract and adds the master operations,
 so the master can also execute modules locally. Every built-in backend runs the shared
 `DistributedCoordinatorContract` tests, and custom coordinators should satisfy the same behaviour.
@@ -203,9 +203,10 @@ so the master can also execute modules locally. Every built-in backend runs the 
 |--------|----------|
 | `RegisterWorkerAsync` | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`. |
 | `DequeueModuleAsync` | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when canceled. |
-| `PublishResultAsync` | Stores a result and releases its lease. The first result for a module is final; later ones are ignored. |
+| `PublishResultAsync` | For a result produced under a lease, accepts the result and releases its lease only while the exact worker and lease identifiers match an unexpired lease. Results from expired or reassigned leases are rejected. The master can publish without a lease. The first accepted result is final; later results are ignored. |
 | `WaitForResultAsync` | Waits for a module's final result; workers use it to load dependency results. |
-| `SendHeartbeatAsync` | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker. |
+| `SendHeartbeatAsync` | Legacy heartbeat. Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker. |
+| `ReconcileHeartbeatAsync` | Records `WorkerStatus`, atomically renews matching, unexpired worker and lease identifiers, and returns lost lease identifiers. The default implementation calls `SendHeartbeatAsync` and cannot detect revocation. |
 | `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`. |
 
 ### Additional Master Operations
@@ -245,10 +246,11 @@ multi-step operation as one Lua script:
 |--------|-----------------|
 | `EnqueueModuleAsync` | `ZADD` to the queue, refresh key expiry, `PUBLISH` work-available |
 | `DequeueModuleAsync` | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims. |
-| `PublishResultAsync` | `HSETNX` the result and `HDEL` the lease in one script, refresh expiry, `PUBLISH` the result channel |
+| `PublishResultAsync` | Script: validate exact worker and lease identifiers and expiry before `HSETNX` the result and `HDEL` the lease, refresh expiry, `PUBLISH` the result channel |
 | `WaitForResultAsync` | `HGET`, then subscribe and re-read the hash after every notification or two-second poll |
 | `RegisterWorkerAsync` | Script: reject a live duplicate session, store registration, status and heartbeat |
-| `SendHeartbeatAsync` | Store status, then a script refreshes the heartbeat and extends the worker's own leases |
+| `SendHeartbeatAsync` | Legacy heartbeat. Store status, then a script refreshes the heartbeat and extends the worker's own leases |
+| `ReconcileHeartbeatAsync` | Script: store status and heartbeat, renew only matching, unexpired worker and lease identifiers, and return lost lease identifiers |
 | `WithdrawAssignmentAsync` | Script: `ZREM` queued copies of the module |
 | `RequeueExpiredLeasesAsync` | Script: remove expired leases and `ZADD` their assignments unless a result exists, then refresh key expiry |
 | `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `PUBLISH` |
@@ -259,10 +261,11 @@ with `WaitAsync` and later commands are not issued.
 ## SignalR Implementation Details
 
 The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub
-methods for every operation: `RegisterWorker`, `Heartbeat`, `DequeueModule`, `PublishResult`,
+methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`,
 `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects
-re-registers its session and retries its interrupted invocations; its heartbeats renew the leases it still
-holds, and leases of a worker that does not come back expire and are requeued. When the connection closes for
+re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation
+renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not
+come back expire and are requeued. When the connection closes for
 good, `DequeueModuleAsync` returns `null` and the worker stops.
 
 Security: when the master is reachable beyond the machine, connections must present the access token as a
@@ -383,6 +386,25 @@ command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the mast
 with `GetWorkerStatusesAsync`. A status with `IsFinal` carries the worker's final command metrics and keeps its
 registration visible after its heartbeat expires, so the master can collect metrics from workers that have
 already stopped. Custom coordinators must keep heartbeat timing separate from the registration timestamp.
+
+## Lease Loss and Network Partitions
+
+Workers renew exact lease tokens through `ReconcileHeartbeatAsync`. The in-memory, SignalR and Redis
+coordinators return lost lease identifiers, so workers cancel those assignments. SignalR also reconciles
+in-flight leases after re-registration, before resuming queued invocations. Coordinators atomically reject
+results from expired or reassigned leases, even when an old execution ignores cancellation and finishes
+before its replacement. Custom coordinators should implement reconciliation; its default interface method
+only sends the legacy heartbeat and cannot detect revocation.
+
+Each local assignment also has a `WorkerTimeout` deadline. A successful heartbeat renews that deadline
+from the request's send time, so connection attempts and delayed replies consume the lease budget.
+SignalR bounds reconnect recovery, including connection attempts and re-registration, to
+`WorkerTimeout - WorkerHeartbeatInterval - PeerTimeout` (or stops immediately when no budget remains).
+`MaxReconnectAttempts` remains an upper limit, not a guarantee that every attempt will run.
+
+Cancellation is cooperative. It cannot undo an external side effect, stop a module that ignores its token,
+or guarantee exactly-once execution during a network partition. Make operations such as package pushes
+and deployments idempotent, or use destination-side fencing or deduplication when duplicate effects matter.
 
 ## Cancellation and Completion
 

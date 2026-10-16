@@ -232,6 +232,28 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    // ARGV: time to live, worker identifier, worker timeout, status JSON, lease tokens JSON.
+    public const string ReconcileHeartbeat = ServerTimeLua + RefreshLua + """
+        redis.call('HSET', KEYS[8], ARGV[2], ARGV[4])
+        redis.call('HSET', KEYS[7], ARGV[2], string.format('%d', now))
+        redis.call('HPEXPIRE', KEYS[7], ARGV[3], 'FIELDS', 1, ARGV[2])
+        local lost = {}
+        for _, token in ipairs(cjson.decode(ARGV[5])) do
+            local raw = redis.call('HGET', KEYS[4], token['ModuleId'])
+            local lease = raw and cjson.decode(raw)
+            if lease and lease['WorkerId'] == ARGV[2]
+                and token['WorkerId'] == ARGV[2] and lease['LeaseId'] == token['LeaseId']
+                and tonumber(lease['ExpiresAt']) >= now then
+                lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[3]))
+                redis.call('HSET', KEYS[4], token['ModuleId'], cjson.encode(lease))
+            else
+                table.insert(lost, token['LeaseId'])
+            end
+        end
+        refresh(ARGV[1])
+        return lost
+        """;
+
     // ARGV: heartbeat time to live. The heartbeat is KEYS[12] and the durable started marker KEYS[11].
     public const string MasterHeartbeat = ServerTimeLua + """
         redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
@@ -293,9 +315,16 @@ internal static class RedisCoordinationScripts
         return 'ok'
         """;
 
-    // ARGV: time to live, module identifier, result JSON. HSETNX keeps the first result final; the lease
-    // is released either way.
-    public const string PublishResult = RefreshLua + """
+    // ARGV: time to live, module identifier, result JSON, lease identifier (empty for master), worker identifier.
+    public const string PublishResult = ServerTimeLua + RefreshLua + """
+        if ARGV[4] ~= '' then
+            local raw = redis.call('HGET', KEYS[4], ARGV[2])
+            local lease = raw and cjson.decode(raw)
+            if not lease or lease['LeaseId'] ~= ARGV[4] or lease['WorkerId'] ~= ARGV[5]
+                or tonumber(lease['ExpiresAt']) < now then
+                return 0
+            end
+        end
         local stored = redis.call('HSETNX', KEYS[5], ARGV[2], ARGV[3])
         redis.call('HDEL', KEYS[4], ARGV[2])
         refresh(ARGV[1])

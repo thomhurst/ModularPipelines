@@ -61,6 +61,12 @@ internal sealed class SignalRMasterCoordinator(
     public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
         coordinator.SendHeartbeatAsync(status, cancellationToken);
 
+    public Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken) =>
+        coordinator.ReconcileHeartbeatAsync(status, leases, cancellationToken);
+
     public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         coordinator.WaitForCancellationAsync(cancellationToken);
 

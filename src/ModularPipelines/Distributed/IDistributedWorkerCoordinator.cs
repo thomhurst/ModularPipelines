@@ -59,8 +59,9 @@ public interface IDistributedWorkerCoordinator
     /// Publishes a module result and releases the lease under which it was produced.
     /// </summary>
     /// <remarks>
-    /// The first result published for a module is final. Later results for the same module, for
-    /// example from a lease that expired and was executed again, are ignored.
+    /// A result under a lease is accepted only while that exact lease still belongs to the worker.
+    /// Expired or reassigned leases cannot publish or release another worker's claim. The first
+    /// accepted result is final; later results for the same module are ignored.
     /// </remarks>
     /// <param name="result">The result to publish.</param>
     /// <param name="lease">The lease the result completes, or <see langword="null"/> for a result the master publishes without a claim.</param>
@@ -81,6 +82,23 @@ public interface IDistributedWorkerCoordinator
     /// Reports that a worker is alive and renews the leases on its <see cref="WorkerStatus.InFlightModules"/>.
     /// </summary>
     Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reports worker liveness, renews matching lease tokens, and returns the identifiers of lost leases.
+    /// </summary>
+    /// <remarks>
+    /// Workers must cancel lost assignments and suppress their results. Implementations must compare
+    /// both worker and lease identifiers atomically with renewal. The default preserves compatibility
+    /// with existing coordinators but cannot detect revoked leases.
+    /// </remarks>
+    async Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken)
+    {
+        await SendHeartbeatAsync(status, cancellationToken).ConfigureAwait(false);
+        return [];
+    }
 
     /// <summary>
     /// Waits until the master broadcasts distributed cancellation.

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
@@ -27,6 +28,8 @@ public class WorkerFailureHandlingTests
 
     public sealed class Gate
     {
+        public TaskCompletionSource LeaseCanceled { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
         public TaskCompletionSource NormalStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public TaskCompletionSource AlwaysRunStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -54,6 +57,82 @@ public class WorkerFailureHandlingTests
             await gate.ReleaseAlwaysRun.Task.WaitAsync(cancellationToken);
             return 2;
         }
+    }
+
+    private sealed class LeaseModule(Gate gate) : Module<int>
+    {
+        protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            gate.NormalStarted.TrySetResult();
+            try
+            {
+                await gate.ReleaseAlwaysRun.Task.WaitAsync(cancellationToken);
+                return 1;
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                gate.LeaseCanceled.TrySetResult();
+                throw;
+            }
+        }
+    }
+
+    private sealed class IgnoringLeaseModule(Gate gate) : Module<int>
+    {
+        protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            using var registration = cancellationToken.Register(() => gate.LeaseCanceled.TrySetResult());
+            gate.NormalStarted.TrySetResult();
+            await gate.ReleaseAlwaysRun.Task;
+            return 1;
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Lease_Loss_Cancels_Execution_Without_Publishing(bool ignoresCancellation)
+    {
+        var clock = new FakeTimeProvider();
+        var coordinator = new InMemoryDistributedCoordinator(
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }), clock);
+        var gate = new Gate();
+        await using var harness = await Harness.CreateAsync(builder =>
+        {
+            builder.Services.AddSingleton(gate);
+            if (ignoresCancellation)
+            {
+                builder.AddModule<IgnoringLeaseModule>();
+            }
+            else
+            {
+                builder.AddModule<LeaseModule>();
+            }
+        }, coordinator: coordinator);
+        if (ignoresCancellation)
+        {
+            await harness.EnqueueAsync<IgnoringLeaseModule>();
+        }
+        else
+        {
+            await harness.EnqueueAsync<LeaseModule>();
+        }
+
+        var run = harness.RunWorkerAsync();
+        await gate.NormalStarted.Task.WaitAsync(TestTimeout);
+        var old = (await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single();
+        clock.Advance(TimeSpan.FromSeconds(11));
+        await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
+        var replacement = await coordinator.DequeueModuleAsync(
+            new WorkerId("replacement"), new HashSet<Capability>(), CancellationToken.None);
+        await gate.LeaseCanceled.Task.WaitAsync(TestTimeout);
+        gate.ReleaseAlwaysRun.TrySetResult();
+        await coordinator.SignalCompletionAsync(CancellationToken.None);
+        await run.WaitAsync(TestTimeout);
+
+        await Assert.That(coordinator.WaitForResultAsync(old.Assignment.ModuleId, CancellationToken.None).IsCompleted).IsFalse();
+        await Assert.That((await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single().LeaseId)
+            .IsEqualTo(replacement!.LeaseId);
     }
 
     [ProducesArtifact("package", "does-not-exist/*.nupkg")]
@@ -226,7 +305,8 @@ public class WorkerFailureHandlingTests
             Action<PipelineBuilder> configure,
             int maxParallelism = 1,
             IDistributedArtifactStore? artifactStore = null,
-            string? workingDirectory = null)
+            string? workingDirectory = null,
+            InMemoryDistributedCoordinator? coordinator = null)
         {
             var builder = TestPipelineBuilder.Create();
             configure(builder);
@@ -238,7 +318,7 @@ public class WorkerFailureHandlingTests
                 typeRegistry.Register(module.GetType());
             }
 
-            var coordinator = new InMemoryDistributedCoordinator();
+            coordinator ??= new InMemoryDistributedCoordinator();
             var artifacts = artifactStore is null
                 ? null
                 : new ArtifactLifecycleManager(
@@ -256,7 +336,12 @@ public class WorkerFailureHandlingTests
                 pipeline.Services.GetRequiredService<IModuleResultRegistry>(),
                 pipeline.Services.GetRequiredService<IModuleDependencyRegistry>(),
                 pipeline.Services.GetRequiredService<IModuleMetadataRegistry>(),
-                MsOptions.Create(new DistributedOptions { InstanceIndex = 1, MaxParallelism = maxParallelism }),
+                MsOptions.Create(new DistributedOptions
+                {
+                    InstanceIndex = 1,
+                    MaxParallelism = maxParallelism,
+                    WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(20),
+                }),
                 pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
                 pipeline.Services.GetRequiredService<IServiceScopeFactory>(),
                 artifacts,

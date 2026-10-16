@@ -110,6 +110,7 @@ public class SignalRWorkerCoordinatorTests
 
         await worker.OnReconnectingAsync(null);
         await worker.OnReconnectedAsync("rejected").WaitAsync(Timeout);
+        await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None)).IsEqualTo(DistributedMasterState.Lost);
         var lease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout);
 
