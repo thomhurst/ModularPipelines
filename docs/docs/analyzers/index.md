@@ -25,11 +25,13 @@ sidebar_position: 1
 | [`MP0013`](./MP0013.md) | Usage | Warning | Public analyzer package | Module is not registered with the pipeline. |
 | [`MP0014`](./MP0014.md) | Usage | Warning | Public analyzer package | Async void method in a module. |
 | [`MP0015`](./MP0015.md) | Usage | Warning | Public analyzer package | Blocking call in ExecuteAsync. |
-| [`MP0016`](./MP0016.md) | Usage | Warning | Public analyzer package | ExecuteAsync cancellation token is not flowed. |
+| [`MP0016`](./MP0016.md) | Usage | Warning | Public analyzer package | Cancellation token is not flowed in ExecuteAsync, lifecycle hooks, or token-bearing async module configuration callbacks. |
 | [`MP0017`](./MP0017.md) | Usage | Warning | Public analyzer package | Thread.Sleep in ExecuteAsync. |
 | [`MP0018`](./MP0018.md) | Usage | Warning | Public analyzer package | Module class is not public. |
 | [`MP0019`](./MP0019.md) | Usage | Warning | Public analyzer package | Duplicate DependsOn declaration. |
 | [`MP0020`](./MP0020.md) | Usage | Warning | Public analyzer package | Repeated WithSkipWhen calls on one module configuration builder are OR-ed. |
+| [`MP0021`](./MP0021.md) | Usage | Warning | Public analyzer package | Optional dependency accessed with GetModule instead of GetModuleIfRegistered. |
+| [`MP0022`](./MP0022.md) | Usage | Info | Public analyzer package | Required dependency accessed with GetModuleIfRegistered instead of GetModule. |
 | [`MPCLI001`](./MPCLI001.md) | Usage | Error | Public analyzer package | CliFlag property must be bool? or int? |
 | [`MPCLI002`](./MPCLI002.md) | Usage | Error | Public analyzer package | Value-less bool? CliOption should use CliFlag. |
 | [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |
