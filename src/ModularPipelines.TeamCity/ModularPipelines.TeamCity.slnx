@@ -6,4 +6,5 @@
   </Configurations>
   <Project Path="../ModularPipelines/ModularPipelines.csproj" />
   <Project Path="ModularPipelines.TeamCity.csproj" />
+  <Project Path="../../test/ModularPipelines.TeamCity.UnitTests/ModularPipelines.TeamCity.UnitTests.csproj" />
 </Solution>
