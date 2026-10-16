@@ -118,8 +118,38 @@ internal class AlwaysRunHandler(
             .. remainingModules.Where(module =>
             {
                 var moduleState = scheduler.GetModuleState(module.GetType());
-                return moduleState == null ||
-                       moduleState.Dependencies.Keys.All(dependencyType => !remainingModuleTypes.Contains(dependencyType));
+                if (moduleState == null)
+                {
+                    return true;
+                }
+
+                // Normal dependencies may never finish after cancellation, but their
+                // transitive AlwaysRun dependencies must still finish before this module.
+                var dependencies = new Stack<Type>(moduleState.Dependencies.Keys);
+                var visited = new HashSet<Type>();
+                while (dependencies.TryPop(out var dependencyType))
+                {
+                    if (remainingModuleTypes.Contains(dependencyType))
+                    {
+                        return false;
+                    }
+
+                    if (!visited.Add(dependencyType))
+                    {
+                        continue;
+                    }
+
+                    var dependencyState = scheduler.GetModuleState(dependencyType);
+                    if (dependencyState != null)
+                    {
+                        foreach (var transitiveDependencyType in dependencyState.Dependencies.Keys)
+                        {
+                            dependencies.Push(transitiveDependencyType);
+                        }
+                    }
+                }
+
+                return true;
             }),
         ];
     }
