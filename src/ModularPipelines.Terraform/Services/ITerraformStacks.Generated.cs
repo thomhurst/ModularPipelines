@@ -22,22 +22,22 @@ namespace ModularPipelines.Terraform.Services;
 public interface ITerraformStacks
 {
     /// <summary>
-    /// terraform configuration sub-commands.
+    /// terraform stacks configuration sub-commands.
     /// </summary>
     TerraformStacksConfiguration Configuration { get; }
 
     /// <summary>
-    /// terraform deployment-group sub-commands.
+    /// terraform stacks deployment-group sub-commands.
     /// </summary>
     TerraformStacksDeploymentGroup DeploymentGroup { get; }
 
     /// <summary>
-    /// terraform deployment-run sub-commands.
+    /// terraform stacks deployment-run sub-commands.
     /// </summary>
     TerraformStacksDeploymentRun DeploymentRun { get; }
 
     /// <summary>
-    /// terraform deployment-step sub-commands.
+    /// terraform stacks deployment-step sub-commands.
     /// </summary>
     TerraformStacksDeploymentStep DeploymentStep { get; }
 

@@ -57,4 +57,13 @@ public interface ITerraformWorkspace
     /// <returns>The command result.</returns>
     public Task<CommandResult> SelectAsync(TerraformWorkspaceSelectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Show the name of the current workspace.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ShowAsync(TerraformWorkspaceShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
 }

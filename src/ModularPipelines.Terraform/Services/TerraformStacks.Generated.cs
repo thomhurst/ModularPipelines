@@ -36,22 +36,22 @@ public class TerraformStacks : ITerraformStacks
     #region Sub-command Groups
 
     /// <summary>
-    /// terraform configuration sub-commands.
+    /// terraform stacks configuration sub-commands.
     /// </summary>
     public TerraformStacksConfiguration Configuration => _configuration ??= new TerraformStacksConfiguration(_command);
 
     /// <summary>
-    /// terraform deployment-group sub-commands.
+    /// terraform stacks deployment-group sub-commands.
     /// </summary>
     public TerraformStacksDeploymentGroup DeploymentGroup => _deploymentGroup ??= new TerraformStacksDeploymentGroup(_command);
 
     /// <summary>
-    /// terraform deployment-run sub-commands.
+    /// terraform stacks deployment-run sub-commands.
     /// </summary>
     public TerraformStacksDeploymentRun DeploymentRun => _deploymentRun ??= new TerraformStacksDeploymentRun(_command);
 
     /// <summary>
-    /// terraform deployment-step sub-commands.
+    /// terraform stacks deployment-step sub-commands.
     /// </summary>
     public TerraformStacksDeploymentStep DeploymentStep => _deploymentStep ??= new TerraformStacksDeploymentStep(_command);
 
