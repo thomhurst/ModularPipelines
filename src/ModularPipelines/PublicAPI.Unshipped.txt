@@ -2321,7 +2321,7 @@ ModularPipelines.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<M
 ModularPipelines.ModuleConfigurationBuilder.WithNotInParallel() -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithNotInParallel(params string![]! constraintKeys) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithPriority(ModularPipelines.ModulePriority priority) -> ModularPipelines.ModuleConfigurationBuilder!
-ModularPipelines.ModuleConfigurationBuilder.WithRetry(int count, System.TimeSpan? baseDelay = null, System.Func<System.Exception!, bool>? shouldRetry = null) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.ModuleConfigurationBuilder.WithRetry(int count, System.TimeSpan? baseDelay = null, System.Func<System.Exception!, bool>? shouldRetry = null, System.TimeSpan? maxDelay = null) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithRunIf(ModularPipelines.IRunCondition! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithRunIf<TCondition>() -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithShield(Kevlar.Shield! shield) -> ModularPipelines.ModuleConfigurationBuilder!

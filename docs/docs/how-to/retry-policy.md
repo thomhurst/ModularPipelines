@@ -28,17 +28,21 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-The default base delay is 100 milliseconds. Each retry uses equal jitter between half and all of
-its exponential-backoff ceiling. You can set a different base delay and limit retries to selected
-exceptions:
+The default base delay is 100 milliseconds, and the default maximum delay is 30 seconds. Each retry
+uses equal jitter between half and all of its exponential-backoff ceiling, capped at the maximum
+delay before jitter is applied. You can set different delays and limit retries to selected exceptions:
 
 ```csharp
 protected override void Configure(ModuleConfigurationBuilder module) => module
     .WithRetry(
         count: 5,
         baseDelay: TimeSpan.FromSeconds(1),
-        shouldRetry: exception => exception is HttpRequestException);
+        shouldRetry: exception => exception is HttpRequestException,
+        maxDelay: TimeSpan.FromSeconds(10));
 ```
+
+Both delays must be non-negative. A maximum delay of zero disables backoff. A maximum delay below
+the base delay also caps the first retry.
 
 ### Custom Resilience Shield
 
@@ -117,3 +121,4 @@ await builder.RunAsync();
 ```
 
 This applies to all modules that don't override their retry configuration. Modules can override this default by configuring retries in `Configure(ModuleConfigurationBuilder)`.
+The default retries use the same 100 millisecond base delay, 30 second maximum delay, and equal jitter.

@@ -74,6 +74,12 @@ public class RetryTests : TestBase
     {
     }
 
+    private sealed class FailedModuleWithZeroMaximumDelay : FailedModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithRetry(DefaultRetryCount, TimeSpan.MaxValue, maxDelay: TimeSpan.Zero);
+    }
+
     private class FailedModuleWithFilteredRetries : Module<bool>
     {
         internal int ExecutionCount;
@@ -220,6 +226,19 @@ public class RetryTests : TestBase
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
             await Assert.That(result.ExceptionOrDefault).IsNull();
         }
+    }
+
+    [Test]
+    public async Task When_Maximum_Delay_Is_Zero_Then_Retry_Without_Backoff()
+    {
+        await using var host = await TestPipelineBuilder.Create()
+            .AddModule<FailedModuleWithZeroMaximumDelay>()
+            .BuildAsync();
+
+        await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+        var module = host.Services.GetServices<IModule>().OfType<FailedModuleWithZeroMaximumDelay>().Single();
+        await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
     }
 
     [Test]

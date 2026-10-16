@@ -648,6 +648,7 @@ internal class ModuleExecutionPipeline(
             return ModuleRetryShieldFactory.Create(new ModuleRetryConfiguration(
                 defaultRetryCount,
                 ModuleRetryConfiguration.DefaultBaseDelay,
+                ModuleRetryConfiguration.DefaultMaxDelay,
                 ShouldRetry: null));
         }
 
