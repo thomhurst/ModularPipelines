@@ -40,6 +40,7 @@ public class ShutdownProcessTests
     private static async Task RunShutdownAsync(string mode)
     {
         var directory = Directory.CreateTempSubdirectory("modular-pipelines-shutdown-").FullName;
+        await File.WriteAllTextAsync(Path.Combine(directory, "events.log"), string.Empty);
         var testAssembly = typeof(ShutdownProcessTests).Assembly.Location;
         using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(45));
         var startInfo = new ProcessStartInfo("dotnet")
@@ -98,10 +99,14 @@ public class ShutdownProcessTests
 
             if (mode is "pipeline-sigterm-before-run" or "pipeline-sigterm-after-run")
             {
-                // Default SIGTERM termination is platform-specific. Disposal still runs via ProcessExit.
+                // Since .NET 10, default SIGTERM termination does not raise ProcessExit.
+                // Idle hosts must terminate rather than swallowing the signal and waiting forever.
+                await Assert.That(process.ExitCode).IsEqualTo(128 + 15);
                 var idleEvents = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), deadline.Token);
-                var expected = mode == "pipeline-sigterm-before-run" ? "disposed-before-report" : "cleanup,end,disposed-after-report";
+                var expected = mode == "pipeline-sigterm-before-run" ? string.Empty : "cleanup,end";
                 await Assert.That(string.Join(",", idleEvents)).IsEqualTo(expected);
+                await Assert.That(File.Exists(Path.Combine(directory, "report.json")))
+                    .IsEqualTo(mode == "pipeline-sigterm-after-run");
                 return;
             }
 
