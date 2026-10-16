@@ -56,7 +56,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         sb.AppendLine("{");
 
         // Sub-domain properties (like Docker's DockerNetwork, DockerContainer, etc.)
-        var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();
+        var subDomains = tool.SubDomainGroups.OrderBy(s => s, StringComparer.Ordinal).ToList();
         if (subDomains.Count > 0)
         {
             sb.AppendLine("    #region Sub-domain Services");
@@ -88,7 +88,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
             sb.AppendLine("    #region Commands");
             sb.AppendLine();
 
-            foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName))
+            foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName, StringComparer.Ordinal))
             {
                 var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
                 GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);

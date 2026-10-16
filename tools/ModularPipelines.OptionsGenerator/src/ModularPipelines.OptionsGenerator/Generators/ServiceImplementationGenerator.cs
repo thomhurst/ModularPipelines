@@ -78,7 +78,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine($"    public {className}(");
 
             var constructorParams = new List<string>();
-            foreach (var subDomain in subDomains.OrderBy(s => s))
+            foreach (var subDomain in subDomains.OrderBy(s => s, StringComparer.Ordinal))
             {
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
@@ -92,7 +92,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine("    {");
 
             // Assign sub-domains
-            foreach (var subDomain in subDomains.OrderBy(s => s))
+            foreach (var subDomain in subDomains.OrderBy(s => s, StringComparer.Ordinal))
             {
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
@@ -122,7 +122,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine("    #region Sub-domain Services");
             sb.AppendLine();
 
-            foreach (var subDomain in subDomains.OrderBy(s => s))
+            foreach (var subDomain in subDomains.OrderBy(s => s, StringComparer.Ordinal))
             {
                 var subDomainClassName = $"{tool.NamespacePrefix}{subDomain}";
                 sb.AppendLine($"    /// <inheritdoc />");
@@ -143,7 +143,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
             sb.AppendLine("    #region Commands");
             sb.AppendLine();
 
-            foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName))
+            foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName, StringComparer.Ordinal))
             {
                 var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
                 GeneratorUtils.GenerateServiceMethod(sb, methodName, command, includeXmlDoc: false);

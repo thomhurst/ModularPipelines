@@ -128,7 +128,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
         // Recursively generate files for children
         // Pass colliding command as parentCommand so it becomes ExecuteAsync() on the child
-        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
+        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment, StringComparer.Ordinal))
         {
             collidingCommands.TryGetValue(child.Segment, out var childParentCommand);
             GenerateFilesFromTree(
@@ -168,7 +168,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"public interface I{node.ClassName}");
         sb.AppendLine("{");
 
-        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment))
+        foreach (var child in node.Children.Values.OrderBy(child => child.PascalSegment, StringComparer.Ordinal))
         {
             sb.AppendLine("    /// <summary>");
             sb.AppendLine($"    /// {commandPath} {child.Segment} sub-commands.");
@@ -189,7 +189,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        foreach (var command in commands.OrderBy(command => command.ClassName))
+        foreach (var command in commands.OrderBy(command => command.ClassName, StringComparer.Ordinal))
         {
             var methodName = GeneratorUtils.GenerateSubDomainMethodName(
                 command,
@@ -249,7 +249,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    private readonly ICommandContext _command;");
 
         // Child fields are populated on first property access. Generated files enable nullable analysis.
-        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
+        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment, StringComparer.Ordinal))
         {
             sb.AppendLine($"    private {child.ClassName}? {GetSafeFieldName(child.PascalSegment)};");
         }
@@ -275,7 +275,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    #region Sub-command Groups");
         sb.AppendLine();
 
-        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
+        foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment, StringComparer.Ordinal))
         {
             var fieldName = GetSafeFieldName(child.PascalSegment);
             sb.AppendLine("    /// <summary>");
@@ -315,7 +315,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             sb.AppendLine();
         }
 
-        foreach (var command in commands.OrderBy(c => c.ClassName))
+        foreach (var command in commands.OrderBy(c => c.ClassName, StringComparer.Ordinal))
         {
             var methodName = GeneratorUtils.GenerateSubDomainMethodName(
                 command,

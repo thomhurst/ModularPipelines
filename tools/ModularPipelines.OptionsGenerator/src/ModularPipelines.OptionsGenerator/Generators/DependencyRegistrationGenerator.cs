@@ -80,7 +80,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         }
 
         // Register sub-domain services
-        var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();
+        var subDomains = tool.SubDomainGroups.OrderBy(s => s, StringComparer.Ordinal).ToList();
         foreach (var subDomain in subDomains)
         {
             var subDomainIdentifier = GeneratorUtils.GetSubDomainIdentifier(tool, subDomain);
