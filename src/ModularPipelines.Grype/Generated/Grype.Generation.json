@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "grype",
-  "toolVersion": "grype 0.120.1",
+  "toolVersion": "0.120.1",
   "commandTreeSha256": "75b085c02ed92c381beb614d5e9fd53f48e5d8f5e3a26337fd536aeb49bbfaae",
-  "generatorSourceSha256": "c72167e7067922ec8d3b31f7ab5823afda6ad0e949f6537252c2b60d37de04a4"
+  "generatorSourceSha256": "9430921e18a4a09bf582ab06778313ff72f20c4d65068336593637f47713f9fd"
 }

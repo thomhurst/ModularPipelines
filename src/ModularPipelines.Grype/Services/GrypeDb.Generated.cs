@@ -33,7 +33,7 @@ public class GrypeDb : IGrypeDb
     #region Sub-command Groups
 
     /// <summary>
-    /// grype search sub-commands.
+    /// grype db search sub-commands.
     /// </summary>
     public GrypeDbSearch Search => _search ??= new GrypeDbSearch(_command);
 
