@@ -863,6 +863,7 @@ public class HttpTests : TestBase
         {
             Content = new ByteArrayContent([1, 2, 3]),
         };
+        request.Options.Set(HttpResilienceOptions.RetryEnabled, true);
         request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         request.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
         {
