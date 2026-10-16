@@ -372,6 +372,10 @@ public class FolderPath : IEquatable<FolderPath>
                 }
             }
             CopyMetadata(filePath, newPath, preserveTimestamps);
+            if (!OperatingSystem.IsWindows() && ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+            {
+                File.SetUnixFileMode(newPath, File.GetUnixFileMode(filePath));
+            }
         }
 
         // Creating child entries changes directory timestamps, so restore metadata after all writes.

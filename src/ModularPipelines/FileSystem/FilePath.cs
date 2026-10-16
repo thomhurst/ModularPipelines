@@ -376,6 +376,11 @@ public class FilePath : IEquatable<FilePath>
             }
         }
 
+        if (!OperatingSystem.IsWindows() && ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+        {
+            File.SetUnixFileMode(path, File.GetUnixFileMode(Path));
+        }
+
         return new FilePath(path, _provider);
     }
 
