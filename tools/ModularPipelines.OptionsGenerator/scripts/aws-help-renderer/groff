@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# AWS runs groff -m man -T ascii. Keep command names and identifiers intact.
+# Set MODULARPIPELINES_REAL_GROFF before prepending this directory to PATH.
+exec "${MODULARPIPELINES_REAL_GROFF:?Set the real groff path before enabling the AWS help renderer}" -rHY=0 -rLL=10000n "$@"

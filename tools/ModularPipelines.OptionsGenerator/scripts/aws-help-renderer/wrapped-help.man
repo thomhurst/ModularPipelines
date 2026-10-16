@@ -1,0 +1,9 @@
+.TH AWS 1
+.SH AVAILABLE COMMANDS
+.IP \(bu 2
+describe-local-gateway-route-table-virtual-interface-group-associations
+.IP \(bu 2
+describe-local-gateway-route-table-virtual-interface-group-associations-with-extra-command-tokens
+.SH DESCRIPTION
+.PP
+Overrides compatibility settings with automatic associations and direct-ConnectGatewayId.
