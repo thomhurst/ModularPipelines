@@ -136,6 +136,40 @@ public class InstallersContextTests : TestBase
     }
 
     [Test]
+    public async Task PrecancelledInstallerDoesNotChangePermissionsOrExecuteCommand()
+    {
+        var path = Path.GetTempFileName();
+        var mode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead;
+        var command = new Mock<ICommandContext>(MockBehavior.Strict);
+        var installer = new InstallersContext(
+            command.Object, Mock.Of<IDownloaderContext>(), new PipelineWorkingDirectory(Environment.CurrentDirectory));
+        using var cancellation = new CancellationTokenSource();
+        cancellation.Cancel();
+
+        try
+        {
+            if (!OperatingSystem.IsWindows())
+            {
+                File.SetUnixFileMode(path, mode);
+            }
+
+            var exception = await Assert.ThrowsAsync<OperationCanceledException>(() =>
+                installer.InstallAsync(new InstallerOptions(path), cancellation.Token));
+
+            await Assert.That(exception!.CancellationToken).IsEqualTo(cancellation.Token);
+            command.VerifyNoOtherCalls();
+            if (!OperatingSystem.IsWindows())
+            {
+                await Assert.That(File.GetUnixFileMode(path)).IsEqualTo(mode);
+            }
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Test]
     [UnixOnlyTest]
     [Arguments(false)]
     [Arguments(true)]

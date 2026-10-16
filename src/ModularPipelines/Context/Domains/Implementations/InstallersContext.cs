@@ -25,6 +25,8 @@ internal class InstallersContext(
         InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var path = _workingDirectory.ResolvePath(options.Path);
         if (!OperatingSystem.IsWindows())
         {
