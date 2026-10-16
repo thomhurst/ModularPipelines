@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi delivery commands.
+/// pulumi env webhook delivery commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiEnvWebhookDelivery

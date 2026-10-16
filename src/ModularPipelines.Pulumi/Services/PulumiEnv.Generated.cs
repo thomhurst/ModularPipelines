@@ -40,42 +40,42 @@ public class PulumiEnv : IPulumiEnv
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi provider sub-commands.
+    /// pulumi env provider sub-commands.
     /// </summary>
     public PulumiEnvProvider Provider => _provider ??= new PulumiEnvProvider(_command);
 
     /// <summary>
-    /// pulumi referrer sub-commands.
+    /// pulumi env referrer sub-commands.
     /// </summary>
     public PulumiEnvReferrer Referrer => _referrer ??= new PulumiEnvReferrer(_command);
 
     /// <summary>
-    /// pulumi schedule sub-commands.
+    /// pulumi env schedule sub-commands.
     /// </summary>
     public PulumiEnvSchedule Schedule => _schedule ??= new PulumiEnvSchedule(_command);
 
     /// <summary>
-    /// pulumi settings sub-commands.
+    /// pulumi env settings sub-commands.
     /// </summary>
     public PulumiEnvSettings Settings => _settings ??= new PulumiEnvSettings(_command);
 
     /// <summary>
-    /// pulumi setup sub-commands.
+    /// pulumi env setup sub-commands.
     /// </summary>
     public PulumiEnvSetup Setup => _setup ??= new PulumiEnvSetup(_command);
 
     /// <summary>
-    /// pulumi tag sub-commands.
+    /// pulumi env tag sub-commands.
     /// </summary>
     public PulumiEnvTag Tag => _tag ??= new PulumiEnvTag(_command);
 
     /// <summary>
-    /// pulumi version sub-commands.
+    /// pulumi env version sub-commands.
     /// </summary>
     public PulumiEnvVersion Version => _version ??= new PulumiEnvVersion(_command);
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi env webhook sub-commands.
     /// </summary>
     public PulumiEnvWebhook Webhook => _webhook ??= new PulumiEnvWebhook(_command);
 

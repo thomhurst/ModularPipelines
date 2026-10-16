@@ -22,42 +22,42 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiEnv
 {
     /// <summary>
-    /// pulumi provider sub-commands.
+    /// pulumi env provider sub-commands.
     /// </summary>
     PulumiEnvProvider Provider { get; }
 
     /// <summary>
-    /// pulumi referrer sub-commands.
+    /// pulumi env referrer sub-commands.
     /// </summary>
     PulumiEnvReferrer Referrer { get; }
 
     /// <summary>
-    /// pulumi schedule sub-commands.
+    /// pulumi env schedule sub-commands.
     /// </summary>
     PulumiEnvSchedule Schedule { get; }
 
     /// <summary>
-    /// pulumi settings sub-commands.
+    /// pulumi env settings sub-commands.
     /// </summary>
     PulumiEnvSettings Settings { get; }
 
     /// <summary>
-    /// pulumi setup sub-commands.
+    /// pulumi env setup sub-commands.
     /// </summary>
     PulumiEnvSetup Setup { get; }
 
     /// <summary>
-    /// pulumi tag sub-commands.
+    /// pulumi env tag sub-commands.
     /// </summary>
     PulumiEnvTag Tag { get; }
 
     /// <summary>
-    /// pulumi version sub-commands.
+    /// pulumi env version sub-commands.
     /// </summary>
     PulumiEnvVersion Version { get; }
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi env webhook sub-commands.
     /// </summary>
     PulumiEnvWebhook Webhook { get; }
 

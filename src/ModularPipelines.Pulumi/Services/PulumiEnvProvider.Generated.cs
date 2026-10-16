@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi provider commands.
+/// pulumi env provider commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiEnvProvider
@@ -35,17 +35,17 @@ public class PulumiEnvProvider
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi aws-login sub-commands.
+    /// pulumi env provider aws-login sub-commands.
     /// </summary>
     public PulumiEnvProviderAwsLogin AwsLogin => _awsLogin ??= new PulumiEnvProviderAwsLogin(_command);
 
     /// <summary>
-    /// pulumi azure-login sub-commands.
+    /// pulumi env provider azure-login sub-commands.
     /// </summary>
     public PulumiEnvProviderAzureLogin AzureLogin => _azureLogin ??= new PulumiEnvProviderAzureLogin(_command);
 
     /// <summary>
-    /// pulumi gcp-login sub-commands.
+    /// pulumi env provider gcp-login sub-commands.
     /// </summary>
     public PulumiEnvProviderGcpLogin GcpLogin => _gcpLogin ??= new PulumiEnvProviderGcpLogin(_command);
 

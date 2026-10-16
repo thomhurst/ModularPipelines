@@ -22,12 +22,12 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiInsights
 {
     /// <summary>
-    /// pulumi account sub-commands.
+    /// pulumi insights account sub-commands.
     /// </summary>
     PulumiInsightsAccount Account { get; }
 
     /// <summary>
-    /// pulumi resource sub-commands.
+    /// pulumi insights resource sub-commands.
     /// </summary>
     PulumiInsightsResource Resource { get; }
 

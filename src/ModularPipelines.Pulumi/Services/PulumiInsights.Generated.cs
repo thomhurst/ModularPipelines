@@ -34,12 +34,12 @@ public class PulumiInsights : IPulumiInsights
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi account sub-commands.
+    /// pulumi insights account sub-commands.
     /// </summary>
     public PulumiInsightsAccount Account => _account ??= new PulumiInsightsAccount(_command);
 
     /// <summary>
-    /// pulumi resource sub-commands.
+    /// pulumi insights resource sub-commands.
     /// </summary>
     public PulumiInsightsResource Resource => _resource ??= new PulumiInsightsResource(_command);
 

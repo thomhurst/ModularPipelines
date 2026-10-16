@@ -22,17 +22,17 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiPolicy
 {
     /// <summary>
-    /// pulumi compliance sub-commands.
+    /// pulumi policy compliance sub-commands.
     /// </summary>
     PulumiPolicyCompliance Compliance { get; }
 
     /// <summary>
-    /// pulumi group sub-commands.
+    /// pulumi policy group sub-commands.
     /// </summary>
     PulumiPolicyGroup Group { get; }
 
     /// <summary>
-    /// pulumi issue sub-commands.
+    /// pulumi policy issue sub-commands.
     /// </summary>
     PulumiPolicyIssue Issue { get; }
 

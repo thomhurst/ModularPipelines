@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi webhook commands.
+/// pulumi env webhook commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiEnvWebhook
@@ -33,7 +33,7 @@ public class PulumiEnvWebhook
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi delivery sub-commands.
+    /// pulumi env webhook delivery sub-commands.
     /// </summary>
     public PulumiEnvWebhookDelivery Delivery => _delivery ??= new PulumiEnvWebhookDelivery(_command);
 

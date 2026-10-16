@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "pulumi",
-  "toolVersion": "v3.268.0",
+  "toolVersion": "3.268.0",
   "commandTreeSha256": "cdb4b237184535fb57e1dc444a9b555dd5cdd215b72a6eef3bf9c1f70940cde6",
-  "generatorSourceSha256": "ddc2bc399304fd9bc16c855f691ebb842ea9d4137bee20a6a6dd605bcf996765"
+  "generatorSourceSha256": "052fe29716e82fbeda26b1ca43306936826e9c66c3d0219689a298ffc084d0de"
 }
