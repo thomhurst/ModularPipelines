@@ -8,6 +8,8 @@ namespace ModularPipelines.Options;
 /// </summary>
 public record CommandExecutionOptions
 {
+    private IReadOnlyCollection<int> _successExitCodes = [0];
+
     internal static TimeSpan DefaultExecutionTimeout { get; } = TimeSpan.FromMinutes(30);
 
     internal const int DefaultMaxCapturedOutputLength = 1024 * 1024;
@@ -85,7 +87,11 @@ public record CommandExecutionOptions
     /// These codes also determine success in command logs and telemetry, even when
     /// <see cref="ThrowOnNonZeroExitCode"/> is false.
     /// </summary>
-    public IReadOnlyCollection<int> SuccessExitCodes { get; init; } = [0];
+    public IReadOnlyCollection<int> SuccessExitCodes
+    {
+        get => _successExitCodes;
+        init => _successExitCodes = value ?? throw new ArgumentNullException(nameof(SuccessExitCodes));
+    }
 
     /// <summary>
     /// Gets the maximum time allowed for the command to complete.

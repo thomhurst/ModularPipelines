@@ -66,6 +66,11 @@ public static class Host
             return await RunPipelineHostAsync(args);
         }
 
+        return await RunProcessRoleAsync(args);
+    }
+
+    private static async Task<int> RunProcessRoleAsync(string[] args)
+    {
         System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         var role = args[0];
         var directory = args[1];

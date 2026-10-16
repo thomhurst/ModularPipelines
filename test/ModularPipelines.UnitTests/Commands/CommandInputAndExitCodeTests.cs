@@ -15,6 +15,14 @@ namespace ModularPipelines.UnitTests.Commands;
 public class CommandInputAndExitCodeTests : TestBase
 {
     [Test]
+    public async Task Rejects_Null_Success_Exit_Codes_At_Initialization()
+    {
+        var exception = Assert.Throws<ArgumentNullException>(() => new CommandExecutionOptions { SuccessExitCodes = null! });
+
+        await Assert.That(exception!.ParamName).IsEqualTo(nameof(CommandExecutionOptions.SuccessExitCodes));
+    }
+
+    [Test]
     [Arguments(null)]
     [Arguments("")]
     [Arguments("café 東京 🚀\nsecond line\n")]
