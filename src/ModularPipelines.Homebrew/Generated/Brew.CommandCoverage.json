@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "brew",
-  "toolVersion": "Homebrew 7.0.7",
+  "toolVersion": "7.0.9",
   "commandCount": 126,
   "commandTreeSha256": "b97ddd8650aaeae4adfa6c751d8bcd12bb50a54fcf686b06fbb19682c1287d8b",
   "commands": [
