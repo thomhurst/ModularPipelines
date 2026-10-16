@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -92,7 +92,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
         }
 
         if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
-            && uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
+            && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp)
             && !string.IsNullOrEmpty(uri.UserInfo))
         {
             remoteUrl = new UriBuilder(uri)

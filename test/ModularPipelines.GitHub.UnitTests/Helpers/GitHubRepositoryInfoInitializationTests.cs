@@ -39,6 +39,31 @@ public class GitHubRepositoryInfoInitializationTests
     }
 
     [Test]
+    [Arguments("https://user:secret@github.example.com/owner/repository.git", "https://github.example.com", null, "https://github.example.com/owner/repository.git")]
+    [Arguments("http://user:secret@github.example.com/owner/repository.git", "http://github.example.com", null, "http://github.example.com/owner/repository.git")]
+    [Arguments("", "https://user:secret@github.example.com", "owner/repository", "https://github.example.com/owner/repository")]
+    [Arguments("", "http://user:secret@github.example.com", "owner/repository", "http://github.example.com/owner/repository")]
+    public async Task Enterprise_And_Environment_Urls_Do_Not_Expose_Credentials(
+        string remoteUrl, string serverUrl, string? repository, string expectedUrl)
+    {
+        var remotes = new Mock<IGitRemoteCommands>();
+        remotes.Setup(x => x.RemoteAsync(It.IsAny<GitRemoteOptions>(), It.IsAny<CommandExecutionOptions?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(CommandResult.Ok(remoteUrl));
+        await using var services = CreateServices(remotes.Object, serverUrl, repository);
+        var info = new GitHubRepositoryInfo(services, NullLogger<GitHubRepositoryInfo>.Instance);
+
+        await info.InitializeAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(info.IsInitialized).IsTrue();
+            await Assert.That(info.Url).IsEqualTo(expectedUrl);
+            await Assert.That(info.Owner).IsEqualTo("owner");
+            await Assert.That(info.RepositoryName).IsEqualTo("repository");
+        }
+    }
+
+    [Test]
     public async Task Initialization_Failure_Is_Logged_As_A_Warning()
     {
         var exception = new InvalidOperationException("git unavailable");
@@ -59,13 +84,16 @@ public class GitHubRepositoryInfoInitializationTests
         await Assert.That(logger.Entries[0].Message).IsEqualTo("Error when detecting GitHub git repository");
     }
 
-    private static ServiceProvider CreateServices(IGitRemoteCommands remotes)
+    private static ServiceProvider CreateServices(IGitRemoteCommands remotes, string? serverUrl = null, string? repository = null)
     {
         var git = Mock.Of<IGit>(x => x.Commands.Remotes == remotes);
+        var environment = new Mock<IGitHubEnvironmentVariables>();
+        environment.SetupGet(x => x.ServerUrl).Returns(serverUrl);
+        environment.SetupGet(x => x.Repository).Returns(repository);
         return new ServiceCollection()
             .AddLogging()
             .AddSingleton(git)
-            .AddSingleton(Mock.Of<IGitHubEnvironmentVariables>())
+            .AddSingleton(environment.Object)
             .BuildServiceProvider();
     }
 
