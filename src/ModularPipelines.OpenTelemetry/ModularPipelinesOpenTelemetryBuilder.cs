@@ -44,6 +44,7 @@ public sealed class ModularPipelinesOpenTelemetryBuilder
     /// <remarks>
     /// For HTTP/protobuf, the endpoint is a base URL; signal-specific paths are appended automatically.
     /// Signal-specific OTEL_EXPORTER_OTLP_* environment variables take precedence over these common options.
+    /// A replacement without a custom HTTP client factory retains the existing factory.
     /// </remarks>
     public ModularPipelinesOpenTelemetryBuilder AddOtlpExporter(Func<OtlpExporterOptions, OtlpExporterOptions> configure)
     {
@@ -71,7 +72,14 @@ public sealed class ModularPipelinesOpenTelemetryBuilder
             options.UserAgentProductIdentifier = configured.UserAgentProductIdentifier;
             options.ExportProcessorType = configured.ExportProcessorType;
             options.BatchExportProcessorOptions = configured.BatchExportProcessorOptions;
-            options.HttpClientFactory = configured.HttpClientFactory;
+            var httpClientFactory = configured.HttpClientFactory;
+            // The default factory captures its owning options. Copy only custom factories,
+            // preserving the live factory and OpenTelemetry's signal-specific defaults.
+            if (!ReferenceEquals(httpClientFactory.Target, configured)
+                || httpClientFactory.Method != new OtlpExporterOptions().HttpClientFactory.Method)
+            {
+                options.HttpClientFactory = httpClientFactory;
+            }
         });
         return this;
     }

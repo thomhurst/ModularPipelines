@@ -214,6 +214,67 @@ public class OpenTelemetryRegistrationTests
         await Assert.That(options.Headers).IsEqualTo("before,transform,after,post");
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddOtlpExporter_Default_HttpClient_Factory_Uses_PostConfigured_Options(bool replaceOptions)
+    {
+        var builder = TestPipelineBuilder.Create();
+        Func<HttpClient>? liveFactory = null;
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(options =>
+        {
+            liveFactory = options.HttpClientFactory;
+            var configured = replaceOptions ? new OtlpExporterOptions() : options;
+            configured.TimeoutMilliseconds = 1234;
+            configured.MaxResponseSizeBytes = 1024;
+            return configured;
+        }));
+        builder.Services.PostConfigure<OtlpExporterOptions>(options =>
+        {
+            options.TimeoutMilliseconds = 5678;
+            options.MaxResponseSizeBytes = 8192;
+        });
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        using var client = options.HttpClientFactory();
+
+        await Assert.That((object) options.HttpClientFactory).IsSameReferenceAs(liveFactory);
+        await Assert.That(client.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(5678));
+        await Assert.That(client.MaxResponseContentBufferSize).IsEqualTo(8192L);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AddOtlpExporter_Preserves_Custom_HttpClient_Factory(bool configureFactoryBefore)
+    {
+        using var client = new HttpClient();
+        Func<HttpClient> factory = () => client;
+        var builder = TestPipelineBuilder.Create();
+        if (configureFactoryBefore)
+        {
+            builder.Services.Configure<OtlpExporterOptions>(options => options.HttpClientFactory = factory);
+        }
+
+        builder.AddOpenTelemetry(telemetry => telemetry.AddOtlpExporter(_ =>
+        {
+            var configured = new OtlpExporterOptions();
+            if (!configureFactoryBefore)
+            {
+                configured.HttpClientFactory = factory;
+            }
+
+            return configured;
+        }));
+        builder.Services.PostConfigure<OtlpExporterOptions>(options => options.TimeoutMilliseconds = 5678);
+        using var services = builder.Services.BuildServiceProvider();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        await Assert.That((object) options.HttpClientFactory).IsSameReferenceAs(factory);
+        await Assert.That(options.HttpClientFactory()).IsSameReferenceAs(client);
+    }
+
     private sealed class RecordingHttpMessageHandler : HttpMessageHandler
     {
         public ConcurrentBag<(Uri Uri, string? Token)> Requests { get; } = [];
