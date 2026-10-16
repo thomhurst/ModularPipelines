@@ -1004,13 +1004,11 @@ jobs:
           & .github/scripts/Get-GenerationTool.ps1 -Tool winget -Destination $bundle
           & .github/scripts/Get-GenerationTool.ps1 -Tool winget-dependencies -Destination $dependencies
           Expand-Archive -LiteralPath $dependencies -DestinationPath $dependencyRoot
-          $dependencyPaths = @(Get-ChildItem -LiteralPath (Join-Path $dependencyRoot 'x64') -File |
-            Where-Object Extension -in '.appx', '.msix' | ForEach-Object FullName)
-          if ($dependencyPaths.Count -eq 0) {
-            throw 'No x64 WinGet dependencies found in the verified archive.'
-          }
-          Import-Module Appx -UseWindowsPowerShell
-          Add-AppxPackage -Path $bundle -DependencyPath $dependencyPaths -ForceUpdateFromAnyVersion
+          # Appx must bind dependency arrays inside Windows PowerShell, without its compatibility proxy.
+          powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .github/scripts/Test-GenerationWinGet.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'WinGet registration tests failed.' }
+          powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .github/scripts/Install-GenerationWinGet.ps1 -Bundle $bundle -DependencyRoot $dependencyRoot
+          if ($LASTEXITCODE -ne 0) { throw 'WinGet package registration failed.' }
           $windowsApps = Join-Path $env:LOCALAPPDATA 'Microsoft/WindowsApps'
           $windowsApps | Out-File -FilePath $env:GITHUB_PATH -Append
           $env:PATH = "$windowsApps;$env:PATH"
