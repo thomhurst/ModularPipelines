@@ -33,7 +33,7 @@ public class InstallersContextTests : TestBase
                 It.Is<DownloadFileOptions>(options => options.DownloadUri == uri), token))
             .ReturnsAsync(downloadedFile);
         var installer = new Mock<InstallersContext>(
-            Mock.Of<ICommandContext>(), downloader.Object)
+            Mock.Of<ICommandContext>(), downloader.Object, new PipelineWorkingDirectory(Environment.CurrentDirectory))
         {
             CallBase = true,
         };
@@ -85,9 +85,11 @@ public class InstallersContextTests : TestBase
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task InstallExecutesFileDirectlyWithArgumentsAndCancellation(bool withArguments)
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task InstallExecutesFileDirectlyWithArgumentsAndCancellation(bool withArguments, bool relativePath)
     {
         var directory = Directory.CreateTempSubdirectory("installer test's ");
         var path = Path.Combine(directory.FullName, "installer");
@@ -103,7 +105,7 @@ public class InstallersContextTests : TestBase
                 null, cancellation.Token))
             .ReturnsAsync(result);
         var installer = new InstallersContext(
-            command.Object, Mock.Of<IDownloaderContext>());
+            command.Object, Mock.Of<IDownloaderContext>(), new PipelineWorkingDirectory(directory.FullName));
 
         try
         {
@@ -112,7 +114,7 @@ public class InstallersContextTests : TestBase
                 File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead);
             }
 
-            var actual = await installer.InstallAsync(new InstallerOptions(path)
+            var actual = await installer.InstallAsync(new InstallerOptions(relativePath ? "./installer" : path)
             {
                 Arguments = arguments,
             }, cancellation.Token);

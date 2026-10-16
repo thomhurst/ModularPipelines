@@ -10,24 +10,28 @@ namespace ModularPipelines.Context.Domains.Implementations;
 /// </remarks>
 /// <param name="command">The command context.</param>
 /// <param name="downloader">The downloader context.</param>
+/// <param name="workingDirectory">The pipeline working directory.</param>
 internal class InstallersContext(
     ICommandContext command,
-    IDownloaderContext downloader) : IInstallersContext
+    IDownloaderContext downloader,
+    PipelineWorkingDirectory workingDirectory) : IInstallersContext
 {
     private readonly ICommandContext _command = command;
     private readonly IDownloaderContext _downloader = downloader;
+    private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> InstallAsync(
         InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
+        var path = _workingDirectory.ResolvePath(options.Path);
         if (!OperatingSystem.IsWindows())
         {
-            File.SetUnixFileMode(options.Path, File.GetUnixFileMode(options.Path) | UnixFileMode.UserExecute);
+            File.SetUnixFileMode(path, File.GetUnixFileMode(path) | UnixFileMode.UserExecute);
         }
 
-        return await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(options.Path)
+        return await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(path)
         {
             Arguments = options.Arguments ?? [],
         }, null, cancellationToken).ConfigureAwait(false);
