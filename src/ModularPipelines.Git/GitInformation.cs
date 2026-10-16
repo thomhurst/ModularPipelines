@@ -166,7 +166,7 @@ internal class GitInformation : IGitInformation
 
         return new GitRepositoryInfo(new FolderPath(root))
         {
-            BranchName = NullIfEmpty(await branchName.ConfigureAwait(false)),
+            BranchName = ResolveBranchName(await branchName.ConfigureAwait(false), scope.ServiceProvider, logger),
             DefaultBranchName = NullIfEmpty(await defaultBranchName.ConfigureAwait(false)),
             LastCommitSha = NullIfEmpty(await lastCommitSha.ConfigureAwait(false)),
             LastCommitShortSha = NullIfEmpty(await lastCommitShortSha.ConfigureAwait(false)),
@@ -175,6 +175,46 @@ internal class GitInformation : IGitInformation
             LastCommitDateTime = ParseTimestamp(await lastCommitTimestamp.ConfigureAwait(false)),
             PreviousCommit = await previousCommit.ConfigureAwait(false),
         };
+    }
+
+    private static string? ResolveBranchName(string? branchName, IServiceProvider services, ILogger logger)
+    {
+        if (!string.IsNullOrWhiteSpace(branchName))
+        {
+            return branchName;
+        }
+
+        var buildSystem = services.GetRequiredService<IBuildSystemContext>().Current;
+        var environment = services.GetRequiredService<IEnvironmentVariablesContext>();
+        string? Read(string name) => NullIfEmpty(environment.Get(name));
+
+        var ciBranch = buildSystem switch
+        {
+            BuildSystem.AzurePipelines => Read("SYSTEM_PULLREQUEST_SOURCEBRANCH") ?? Read("BUILD_SOURCEBRANCH"),
+            BuildSystem.GitHubActions when Read("GITHUB_REF_TYPE") != "tag" =>
+                Read("GITHUB_HEAD_REF") ?? Read("GITHUB_REF_NAME"),
+            BuildSystem.GitLab when Read("CI_COMMIT_TAG") is null =>
+                Read("CI_MERGE_REQUEST_SOURCE_BRANCH_NAME") ?? Read("CI_COMMIT_REF_NAME"),
+            BuildSystem.Jenkins when Read("TAG_NAME") is null => Read("CHANGE_BRANCH") ?? Read("BRANCH_NAME"),
+            _ => null,
+        };
+
+        const string branchPrefix = "refs/heads/";
+        if (ciBranch?.StartsWith(branchPrefix, StringComparison.Ordinal) == true)
+        {
+            ciBranch = NullIfEmpty(ciBranch[branchPrefix.Length..]);
+        }
+        else if (ciBranch?.StartsWith("refs/", StringComparison.Ordinal) == true)
+        {
+            ciBranch = null;
+        }
+
+        if (ciBranch is null)
+        {
+            logger.LogWarning("Git branch is unknown for detached HEAD; no branch was supplied by build system {BuildSystem}.", buildSystem);
+        }
+
+        return ciBranch;
     }
 
     private static async Task<string?> GetDefaultBranchName(
