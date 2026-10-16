@@ -81,7 +81,12 @@ public class CiDetectionTests
                 .Returns("true");
         }
 
-        var buildSystem = new BuildSystemContext(new BuildSystemDetector(variables.Object));
+        var obfuscator = Mock.Of<ModularPipelines.Secrets.ISecretObfuscator>();
+        var files = ModularPipelines.FileSystem.SystemFileSystemProvider.Instance;
+        var buildSystem = new BuildSystemContext(new BuildSystemDetector(variables.Object), variables.Object,
+            Mock.Of<ModularPipelines.Engine.IBuildSystemCommandWriter>(),
+            Mock.Of<ModularPipelines.Engine.IBuildSystemFormatterProvider>(),
+            obfuscator, new ModularPipelines.Engine.BuildSystemFileWriter(files, obfuscator), files);
         var environment = new Mock<IEnvironmentContext>();
         environment.SetupGet(x => x.BuildSystem).Returns(buildSystem);
         environment.SetupGet(x => x.Variables).Returns(variables.Object);

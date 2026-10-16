@@ -1,3 +1,5 @@
+using ModularPipelines.Context;
+
 namespace ModularPipelines.Engine.BuildSystemFormatters;
 
 /// <summary>
@@ -27,6 +29,22 @@ internal class GitHubActionsFormatter : IBuildSystemFormatter
     public string GetEndBlockCommand(string name) => "::endgroup::";
 
     public string GetMaskSecretCommand(string secret) => $"::add-mask::{EscapeCommandData(secret)}";
+
+    public string GetAnnotationCommand(BuildAnnotationLevel level, string message, string? file, int? line)
+    {
+        var command = level.ToString().ToLowerInvariant();
+        var location = file is null ? string.Empty : $" file={EscapeCommandProperty(file)}";
+        if (line is not null)
+        {
+            location += $",line={line.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+        }
+
+        return $"::{command}{location}::{EscapeCommandData(message)}";
+    }
+
+    private static string EscapeCommandProperty(string value) => EscapeCommandData(value)
+        .Replace(":", "%3A", StringComparison.Ordinal)
+        .Replace(",", "%2C", StringComparison.Ordinal);
 
     private static string EscapeCommandData(string value)
     {

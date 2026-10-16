@@ -163,6 +163,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IFilesContext, FilesContext>()
             .AddSingleton<IDataContext, DataContext>()
             .AddSingleton<IBuildSystemContext, BuildSystemContext>()
+            .AddSingleton<BuildSystemFileWriter>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<IInstallersContext, InstallersContext>()
             .AddScoped<INetworkContext, NetworkContext>()
