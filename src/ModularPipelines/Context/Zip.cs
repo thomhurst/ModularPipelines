@@ -9,6 +9,8 @@ internal partial class Zip(
     IFileSystemProvider fileSystemProvider,
     PipelineWorkingDirectory workingDirectory) : IZipContext
 {
+    private const int UnixFileTypeRegular = 0x8000;
+    private const int UnixPermissionMask = 0xFFF;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
@@ -17,33 +19,38 @@ internal partial class Zip(
         var (directories, files) = SnapshotSourceEntries(folder.Path);
         outputPath = PrepareOutputPath(outputPath);
 
-        using (var output = _fileSystemProvider.Open(
-                   outputPath,
-                   FileMode.CreateNew,
-                   FileAccess.ReadWrite))
-        using (var archive = new ZipArchive(output, ZipArchiveMode.Create))
+        var temporaryPath = GetTemporaryArchivePath(outputPath);
+        var output = _fileSystemProvider.Open(temporaryPath, FileMode.CreateNew, FileAccess.ReadWrite);
+        try
         {
-            foreach (var directory in directories)
+            using (output)
+            using (var archive = new ZipArchive(output, ZipArchiveMode.Create))
             {
-                var entryName = NormalizeEntryName(
-                    _fileSystemProvider.GetRelativePath(folder.Path, directory)) + "/";
-                archive.CreateEntry(entryName);
-            }
-
-            foreach (var file in files)
-            {
-                var entryName = NormalizeEntryName(
-                    _fileSystemProvider.GetRelativePath(folder.Path, file));
-                var entry = archive.CreateEntry(entryName, compressionLevel);
-                if (_fileSystemProvider is SystemFileSystemProvider)
+                foreach (var directory in directories)
                 {
-                    entry.LastWriteTime = System.IO.File.GetLastWriteTime(file);
+                    var entryName = NormalizeEntryName(
+                        _fileSystemProvider.GetRelativePath(folder.Path, directory)) + "/";
+                    archive.CreateEntry(entryName);
                 }
 
-                using var source = _fileSystemProvider.OpenRead(file);
-                using var destination = entry.Open();
-                source.CopyTo(destination);
+                foreach (var file in files)
+                {
+                    var entryName = NormalizeEntryName(
+                        _fileSystemProvider.GetRelativePath(folder.Path, file));
+                    var entry = archive.CreateEntry(entryName, compressionLevel);
+                    StoreFileMetadata(entry, file);
+
+                    using var source = _fileSystemProvider.OpenRead(file);
+                    using var destination = entry.Open();
+                    source.CopyTo(destination);
+                }
             }
+
+            _fileSystemProvider.MoveFile(temporaryPath, outputPath);
+        }
+        finally
+        {
+            _fileSystemProvider.DeleteFile(temporaryPath);
         }
 
         if (!_fileSystemProvider.FileExists(outputPath))
@@ -82,7 +89,7 @@ internal partial class Zip(
         {
             throw new InvalidDataException($"Failed to extract zip file '{zipPath}': The archive may be corrupt or not a valid zip file.", ex);
         }
-        catch (IOException ex) when (!overwriteFiles && ex.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase))
+        catch (DestinationFileExistsException ex)
         {
             throw new IOException($"Failed to extract zip file '{zipPath}': A file already exists in the destination. Set overwriteFiles to true to overwrite existing files.", ex);
         }
@@ -112,27 +119,69 @@ internal partial class Zip(
             _fileSystemProvider.CreateDirectory(parentDirectory);
         }
 
-        if (_fileSystemProvider.FileExists(destinationPath) && !overwriteFiles)
-        {
-            throw new IOException($"The file '{destinationPath}' already exists.");
-        }
-
         using (var source = entry.Open())
-        using (var destination = _fileSystemProvider.Open(
-                   destinationPath,
-                   overwriteFiles ? FileMode.Create : FileMode.CreateNew,
-                   FileAccess.Write))
+        using (var destination = OpenExtractionDestination(destinationPath, overwriteFiles))
         {
             source.CopyTo(destination);
         }
 
+        RestoreFileMetadata(entry, destinationPath);
+    }
+
+    private void StoreFileMetadata(ZipArchiveEntry entry, string path)
+    {
+        if (_fileSystemProvider is SystemFileSystemProvider)
+        {
+            entry.LastWriteTime = System.IO.File.GetLastWriteTime(path);
+            if (!OperatingSystem.IsWindows())
+            {
+                entry.ExternalAttributes = (UnixFileTypeRegular | (int) System.IO.File.GetUnixFileMode(path)) << 16;
+            }
+        }
+    }
+
+    private void RestoreFileMetadata(ZipArchiveEntry entry, string destinationPath)
+    {
         if (_fileSystemProvider is SystemFileSystemProvider)
         {
             System.IO.File.SetLastWriteTime(
                 destinationPath,
                 entry.LastWriteTime.LocalDateTime);
+            if (!OperatingSystem.IsWindows())
+            {
+                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+                if (unixAttributes != 0)
+                {
+                    var permissions = unixAttributes & UnixPermissionMask;
+                    System.IO.File.SetUnixFileMode(destinationPath, (UnixFileMode) permissions);
+                }
+            }
         }
     }
+
+    private Stream OpenExtractionDestination(string path, bool overwriteFiles)
+    {
+        if (!overwriteFiles && _fileSystemProvider.FileExists(path))
+        {
+            throw new DestinationFileExistsException(path);
+        }
+
+        try
+        {
+            return _fileSystemProvider.Open(path, overwriteFiles ? FileMode.Create : FileMode.CreateNew, FileAccess.Write);
+        }
+        catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(path))
+        {
+            // A competing writer may create the file after the existence check.
+            throw new DestinationFileExistsException(path, ex);
+        }
+    }
+
+    private sealed class DestinationFileExistsException(string path, Exception? innerException = null)
+        : IOException($"The file '{path}' already exists.", innerException);
+
+    private static string GetTemporaryArchivePath(string outputPath) =>
+        Path.Combine(Path.GetDirectoryName(outputPath)!, $"{Guid.NewGuid():N}.tmp");
 
     private string GetValidatedDestinationPath(
         ZipArchiveEntry entry,

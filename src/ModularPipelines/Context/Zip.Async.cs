@@ -16,42 +16,49 @@ internal partial class Zip
         outputPath = PrepareOutputPath(outputPath);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var output = _fileSystemProvider.Open(outputPath, FileMode.CreateNew, FileAccess.ReadWrite);
-        await using (output.ConfigureAwait(false))
+        var temporaryPath = GetTemporaryArchivePath(outputPath);
+        var output = _fileSystemProvider.Open(temporaryPath, FileMode.CreateNew, FileAccess.ReadWrite);
+        try
         {
-            var archive = await ZipArchive.CreateAsync(output, ZipArchiveMode.Create, leaveOpen: true,
-                entryNameEncoding: null, cancellationToken).ConfigureAwait(false);
-            await using (archive.ConfigureAwait(false))
+            await using (output.ConfigureAwait(false))
             {
-                foreach (var directory in directories)
+                var archive = await ZipArchive.CreateAsync(output, ZipArchiveMode.Create, leaveOpen: true,
+                    entryNameEncoding: null, cancellationToken).ConfigureAwait(false);
+                await using (archive.ConfigureAwait(false))
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    archive.CreateEntry(NormalizeEntryName(_fileSystemProvider.GetRelativePath(folder.Path, directory)) + "/");
-                }
-
-                foreach (var file in files)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    var entry = archive.CreateEntry(NormalizeEntryName(_fileSystemProvider.GetRelativePath(folder.Path, file)), compressionLevel);
-                    if (_fileSystemProvider is SystemFileSystemProvider)
+                    foreach (var directory in directories)
                     {
-                        entry.LastWriteTime = System.IO.File.GetLastWriteTime(file);
+                        cancellationToken.ThrowIfCancellationRequested();
+                        archive.CreateEntry(NormalizeEntryName(_fileSystemProvider.GetRelativePath(folder.Path, directory)) + "/");
                     }
 
-                    var source = _fileSystemProvider.OpenRead(file);
-                    await using (source.ConfigureAwait(false))
+                    foreach (var file in files)
                     {
-                        var destination = await entry.OpenAsync(cancellationToken).ConfigureAwait(false);
-                        await using (destination.ConfigureAwait(false))
+                        cancellationToken.ThrowIfCancellationRequested();
+                        var entry = archive.CreateEntry(NormalizeEntryName(_fileSystemProvider.GetRelativePath(folder.Path, file)), compressionLevel);
+                        StoreFileMetadata(entry, file);
+
+                        var source = _fileSystemProvider.OpenRead(file);
+                        await using (source.ConfigureAwait(false))
                         {
-                            await source.CopyToAsync(destination, cancellationToken).ConfigureAwait(false);
+                            var destination = await entry.OpenAsync(cancellationToken).ConfigureAwait(false);
+                            await using (destination.ConfigureAwait(false))
+                            {
+                                await source.CopyToAsync(destination, cancellationToken).ConfigureAwait(false);
+                            }
                         }
                     }
                 }
             }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            _fileSystemProvider.MoveFile(temporaryPath, outputPath);
+        }
+        finally
+        {
+            _fileSystemProvider.DeleteFile(temporaryPath);
         }
 
-        cancellationToken.ThrowIfCancellationRequested();
         if (!_fileSystemProvider.FileExists(outputPath))
         {
             throw new InvalidOperationException($"Failed to create zip file at '{outputPath}'.");
@@ -101,7 +108,7 @@ internal partial class Zip
         {
             throw new InvalidDataException($"Failed to extract zip file '{zipPath}': The archive may be corrupt or not a valid zip file.", ex);
         }
-        catch (IOException ex) when (!overwriteFiles && ex.Message.Contains("already exists", StringComparison.OrdinalIgnoreCase))
+        catch (DestinationFileExistsException ex)
         {
             throw new IOException($"Failed to extract zip file '{zipPath}': A file already exists in the destination. Set overwriteFiles to true to overwrite existing files.", ex);
         }
@@ -129,24 +136,16 @@ internal partial class Zip
             _fileSystemProvider.CreateDirectory(parentDirectory);
         }
 
-        if (_fileSystemProvider.FileExists(destinationPath) && !overwriteFiles)
-        {
-            throw new IOException($"The file '{destinationPath}' already exists.");
-        }
-
         var source = await entry.OpenAsync(cancellationToken).ConfigureAwait(false);
         await using (source.ConfigureAwait(false))
         {
-            var destination = _fileSystemProvider.Open(destinationPath, overwriteFiles ? FileMode.Create : FileMode.CreateNew, FileAccess.Write);
+            var destination = OpenExtractionDestination(destinationPath, overwriteFiles);
             await using (destination.ConfigureAwait(false))
             {
                 await source.CopyToAsync(destination, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        if (_fileSystemProvider is SystemFileSystemProvider)
-        {
-            System.IO.File.SetLastWriteTime(destinationPath, entry.LastWriteTime.LocalDateTime);
-        }
+        RestoreFileMetadata(entry, destinationPath);
     }
 }
