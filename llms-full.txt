@@ -9457,9 +9457,7 @@ An invalid method has `[ModularPipelinesIntegration]`. The method and its contai
 
 ## MPG0002[​](#mpg0002 "Direct link to MPG0002")
 
-Two module types produce the same generated accessor name. Rename one module so stripping the `Module` suffix produces a unique name.
-
-**Severity:** Error
+Retired in V4. Convenience module accessors are no longer generated, so module types may share a name across namespaces and libraries. Use explicit `context.GetModule<TModule>()` or `context.GetModuleIfRegistered<TModule>()` calls; see the [V4 migration guide](/ModularPipelines/docs/migrating-to-v4.md#generated-module-accessors-removed).
 
 ## MPG0003[​](#mpg0003 "Direct link to MPG0003")
 
@@ -12708,6 +12706,8 @@ The comparison baseline is released **V3.2.8**. V4 is still under development; t
 * <!-- -->
   Rewrite `Configure()`, `DeclareDependencies()`, metadata overrides, retries, and fluent lifecycle hooks.
 * <!-- -->
+  Replace generated `GetXModule()` / `GetXModuleIfRegistered()` helpers with explicit generic module lookups.
+* <!-- -->
   Make module result nullability explicit; update result metadata, status checks, and summary consumers.
 * <!-- -->
   Migrate hook interfaces, plugins, requirements, run conditions, build-system checks, and sub-modules.
@@ -13025,6 +13025,32 @@ Collections such as category filters are now read-only contracts. Assign replace
 To inspect a failed pipeline's returned summary, use **both** `ContinueOnFailure` and `ThrowOnPipelineFailure = false`. `FailFast` rethrows the module failure.
 
 ## Module Configuration and Dependencies[​](#module-configuration-and-dependencies "Direct link to Module Configuration and Dependencies")
+
+### Generated module accessors removed[​](#generated-module-accessors-removed "Direct link to Generated module accessors removed")
+
+V4 no longer generates assembly-specific extension classes in `ModularPipelines.Generated` with `GetXModule()` and `GetXModuleIfRegistered()` convenience methods. Replace calls with the existing generic APIs, using the actual module type:
+
+```
+// Before: generated convenience methods
+
+var build = context.GetBuildModule();
+
+var optionalBuild = context.GetBuildModuleIfRegistered();
+
+
+
+// After: explicit module types
+
+var build = context.GetModule<BuildModule>();
+
+var optionalBuild = context.GetModuleIfRegistered<BuildModule>();
+```
+
+The required lookup still returns an awaitable module; the optional lookup still returns `null` when the module is not registered. Keep dependency declarations, including `Optional = true` for optional dependencies. The dependency analyzer and its code fix support both generic APIs.
+
+Use a namespace-qualified type or a type alias when referenced libraries contain modules with the same name, for example `context.GetModule<Shared.BuildModule>()`. Remove static calls to generated extension classes. Remove `using ModularPipelines.Generated;` only if your code no longer needs other generator-facing types from that namespace. Generated registration, command, secret, and event metadata remain available.
+
+### Module configuration overrides[​](#module-configuration-overrides "Direct link to Module configuration overrides")
 
 `Configure()` no longer returns a `ModuleConfiguration`. V4 supplies the builder to a `void` override. There is no `ModuleConfiguration.Create()`, `.Default`, or final `.Build()` to call.
 

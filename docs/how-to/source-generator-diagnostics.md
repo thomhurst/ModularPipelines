@@ -10,9 +10,7 @@ An invalid method has `[ModularPipelinesIntegration]`. The method and its contai
 
 ## MPG0002[​](#mpg0002 "Direct link to MPG0002")
 
-Two module types produce the same generated accessor name. Rename one module so stripping the `Module` suffix produces a unique name.
-
-**Severity:** Error
+Retired in V4. Convenience module accessors are no longer generated, so module types may share a name across namespaces and libraries. Use explicit `context.GetModule<TModule>()` or `context.GetModuleIfRegistered<TModule>()` calls; see the [V4 migration guide](/ModularPipelines/docs/migrating-to-v4.md#generated-module-accessors-removed).
 
 ## MPG0003[​](#mpg0003 "Direct link to MPG0003")
 
