@@ -70,11 +70,13 @@ internal static class DependencyResultApplicator
         ILogger logger,
         DistributedModuleExecutionTimer? executionTimer = null,
         TimeProvider? timeProvider = null,
-        AcceptedArtifactRegistry? acceptedArtifacts = null)
+        AcceptedArtifactRegistry? acceptedArtifacts = null,
+        CancellationToken cancellationToken = default)
     {
         var clock = timeProvider ?? TimeProvider.System;
         foreach (var reference in dependencyResultReferences)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (!reference.IsAvailable)
             {
                 continue;
@@ -111,7 +113,7 @@ internal static class DependencyResultApplicator
             SerializedModuleResult serializedResult;
             try
             {
-                serializedResult = await resultCache.GetAsync(reference.ModuleId)
+                serializedResult = await resultCache.GetAsync(reference.ModuleId, cancellationToken)
                     .ConfigureAwait(false);
             }
             finally
@@ -119,6 +121,7 @@ internal static class DependencyResultApplicator
                 executionTimer?.DependencyResultTransferDuration += clock.GetElapsedTime(transferStartedAt);
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
             acceptedArtifacts?.Record(serializedResult);
             var processingStartedAt = clock.GetTimestamp();
             try

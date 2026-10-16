@@ -86,6 +86,7 @@ internal sealed class DistributedAssignmentExecutor(
             acceptedArtifacts?.RecordConsumed(assignment.ConsumedArtifacts);
             if (assignment.DependencyResultReferences.Count > 0)
             {
+                using var dependencyCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, leaseLostToken);
                 await DependencyResultApplicator.FetchAndApplyAsync(
                         assignment.DependencyResultReferences,
                         dependencyResultCache,
@@ -94,7 +95,8 @@ internal sealed class DistributedAssignmentExecutor(
                         resultRegistry,
                         logger,
                         executionTimer,
-                        acceptedArtifacts: acceptedArtifacts)
+                        acceptedArtifacts: acceptedArtifacts,
+                        cancellationToken: dependencyCts.Token)
                     .ConfigureAwait(false);
             }
 
@@ -104,7 +106,10 @@ internal sealed class DistributedAssignmentExecutor(
         {
             if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
             {
-                logger.LogDebug(exception, "Distributed module {Module} was canceled", assignment.ModuleId);
+                if (logger.IsEnabled(LogLevel.Debug))
+                {
+                    logger.LogDebug(exception, "Distributed module {Module} was canceled", assignment.ModuleId);
+                }
             }
             else
             {
