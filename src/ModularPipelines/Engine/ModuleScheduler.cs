@@ -338,7 +338,7 @@ internal class ModuleScheduler : IModuleScheduler
             ExecutionHint.IoBound => _options.MaxIoIntensiveModules,
             _ => null,
         };
-        state.ParallelLimiter = moduleType.GetCustomAttributes<ParallelLimiterAttribute>().FirstOrDefault();
+        state.ParallelLimiter = configuration.ParallelLimiter;
         if (state.ParallelLimiter is { Limit: <= 0 } limiter)
         {
             throw new ArgumentException(

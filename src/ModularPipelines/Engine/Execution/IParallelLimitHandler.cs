@@ -1,19 +1,21 @@
+using ModularPipelines.Modules;
+
 namespace ModularPipelines.Engine.Execution;
 
 /// <summary>
 /// Responsible for managing parallel execution limits.
-/// Handles both custom parallel limiters (via ParallelLimiterAttribute) and
+/// Handles both custom parallel limiters (via fluent configuration or ParallelLimiterAttribute) and
 /// execution hint limits (CPU-bound, I/O-bound).
 /// </summary>
 internal interface IParallelLimitHandler
 {
     /// <summary>
-    /// Acquires a parallel limit semaphore for the specified module type.
+    /// Acquires a parallel limit semaphore for the specified module.
     /// </summary>
-    /// <param name="moduleType">The type of the module.</param>
+    /// <param name="module">The module containing the effective parallel limiter configuration.</param>
     /// <param name="cancellationToken">The token that cancels waiting for a slot.</param>
     /// <returns>A disposable that releases the semaphore when disposed.</returns>
-    Task<IDisposable> AcquireParallelLimitAsync(Type moduleType, CancellationToken cancellationToken);
+    Task<IDisposable> AcquireParallelLimitAsync(IModule module, CancellationToken cancellationToken);
 
     /// <summary>
     /// Acquires an execution hint limit semaphore for the specified module state.

@@ -547,10 +547,7 @@ internal sealed class PipelinePlanner
 
     private static ParallelLimiterProfile? GetParallelLimiter(IModule module)
     {
-        var attribute = module.GetType()
-            .GetCustomAttributes(typeof(ParallelLimiterAttribute), inherit: true)
-            .Cast<ParallelLimiterAttribute>()
-            .FirstOrDefault();
+        var attribute = module.Configuration.ParallelLimiter;
         if (attribute is null)
         {
             return null;

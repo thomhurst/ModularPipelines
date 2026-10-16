@@ -439,6 +439,15 @@ V3 applied the module timeout to all attempts combined. V4 applies it **per atte
 backoff outside that timeout.
 See [Retries and Resilience Shields](./how-to/retry-policy.md).
 
+### Parallel limiter targets
+
+`ParallelLimiterAttribute<TParallelLimit>` now permits class targets only. Remove assembly-level
+and method-level applications, which previously compiled but did not limit module execution.
+Apply `[ParallelLimiter<MyParallelLimit>]` to each affected module class, or configure it with
+`module.WithParallelLimiter<MyParallelLimit>()` inside `Configure`. Fluent configuration overrides
+an inherited or directly applied limiter attribute. Modules using the same limit type share its
+limit regardless of configuration style; both planning and execution honor that limit.
+
 ## Module Results and Pipeline Summaries
 
 ### Explicit nullability
