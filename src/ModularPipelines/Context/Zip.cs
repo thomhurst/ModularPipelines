@@ -11,6 +11,7 @@ internal partial class Zip(
 {
     private const int UnixFileTypeRegular = 0x8000;
     private const int UnixPermissionMask = 0x1FF;
+    private const int UnixHostPlatform = 3;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
@@ -186,7 +187,7 @@ internal partial class Zip(
                     Share = FileShare.None,
                 };
                 var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if (unixAttributes != 0)
+                if ((entry.VersionMadeBy >> 8) == UnixHostPlatform && unixAttributes != 0)
                 {
                     // Only ordinary permissions are trusted; creation lets the OS apply umask.
                     var permissions = unixAttributes & UnixPermissionMask;

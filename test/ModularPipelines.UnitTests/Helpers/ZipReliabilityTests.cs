@@ -54,17 +54,25 @@ public class ZipReliabilityTests
     public async Task ExtractsOnlyOrdinaryUnixPermissionsThroughUmask(
         [Matrix(false, true)] bool asynchronous,
         [Matrix(0, 0x8000, 0x81ED, 0x01ED, 0x8FED, 0x81FF, 0x8E00)] int unixAttributes,
+        [Matrix(0, 3, 10)] int hostPlatform,
         [Matrix(false, true)] bool overwriteExisting)
     {
         var root = Directory.CreateTempSubdirectory("zip-external-permissions-");
         try
         {
-            using (var archive = ZipFile.Open(Path.Combine(root.FullName, "archive.zip"), ZipArchiveMode.Create))
+            var archivePath = Path.Combine(root.FullName, "archive.zip");
+            using (var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("input.txt");
                 entry.ExternalAttributes = unixAttributes << 16;
                 using var writer = new StreamWriter(entry.Open());
                 writer.Write("contents");
+            }
+
+            SetArchiveHostPlatform(archivePath, hostPlatform);
+            using (var archive = ZipFile.OpenRead(archivePath))
+            {
+                await Assert.That(archive.GetEntry("input.txt")!.VersionMadeBy >> 8).IsEqualTo(hostPlatform);
             }
 
             var destination = Directory.CreateDirectory(Path.Combine(root.FullName, "destination"));
@@ -91,7 +99,7 @@ public class ZipReliabilityTests
                 {
                     Access = FileAccess.Write,
                     Mode = FileMode.CreateNew,
-                    UnixCreateMode = unixAttributes == 0 ? null : permissions,
+                    UnixCreateMode = hostPlatform == 3 && unixAttributes != 0 ? permissions : null,
                 }))
                 {
                 }
@@ -108,6 +116,19 @@ public class ZipReliabilityTests
         {
             root.Delete(recursive: true);
         }
+    }
+
+    private static void SetArchiveHostPlatform(string archivePath, int hostPlatform)
+    {
+        using var stream = File.Open(archivePath, FileMode.Open, FileAccess.ReadWrite);
+        using var reader = new BinaryReader(stream);
+        // These single-entry archives have no comment. The final six bytes contain
+        // the central-directory offset followed by the two-byte comment length.
+        stream.Seek(-6, SeekOrigin.End);
+        var centralDirectoryOffset = reader.ReadUInt32();
+        // The host byte follows the four-byte signature and one-byte ZIP version.
+        stream.Position = centralDirectoryOffset + 5;
+        stream.WriteByte((byte) hostPlatform);
     }
 
     [Test]
