@@ -23,7 +23,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     private const string OptionalModuleAccessorSuffix = "ModuleIfRegistered";
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -53,9 +53,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var methodSymbol = context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken).Symbol as IMethodSymbol;
-
-        if (methodSymbol is null ||
+        if (context.SemanticModel.GetSymbolInfo(invocationExpressionSyntax, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol ||
             !TryGetModuleType(context.Compilation, methodSymbol, invokedName, out var namedTypeSymbol))
         {
             return;
@@ -79,7 +77,9 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
         var attributes = classSymbol.GetAllAttributesIncludingBaseAndInterfaces();
 
-        if (!attributes.Any(x => x.IsDependsOnAttributeFor(context.Compilation, namedTypeSymbol)))
+        if (!attributes.Any(x => x.IsDependsOnAttributeFor(context.Compilation, namedTypeSymbol))
+            && !ConfiguredDependencies.GetDependencies(classSymbol, context.Compilation, context.CancellationToken)
+                .Any(dependency => SymbolEqualityComparer.Default.Equals(dependency, namedTypeSymbol)))
         {
             var properties = new Dictionary<string, string?>
             {
