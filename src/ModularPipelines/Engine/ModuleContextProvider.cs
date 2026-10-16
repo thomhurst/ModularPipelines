@@ -21,22 +21,21 @@ internal class ModuleContextProvider(IServiceProvider serviceProvider) : IPipeli
 
     public IPipelineContext GetModuleContext(object? scopeKey = null)
     {
-        ContextScope contextScope;
         lock (_disposeLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
 
             scopeKey ??= this;
-            if (!_scopes.TryGetValue(scopeKey, out contextScope!))
+            if (!_scopes.TryGetValue(scopeKey, out var contextScope))
             {
                 var scope = _serviceProvider.CreateAsyncScope();
                 contextScope = new ContextScope(scope,
                     new Lazy<IPipelineContext>(() => scope.ServiceProvider.GetRequiredService<IPipelineContext>()));
                 _scopes.Add(scopeKey, contextScope);
             }
-        }
 
-        return contextScope.Context.Value;
+            return contextScope.Context.Value;
+        }
     }
 
     public IEnumerable<IServiceScope> GetScopes()

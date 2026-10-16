@@ -122,6 +122,65 @@ public class ModuleContextProviderTests
         Assert.Throws<ObjectDisposedException>(() => provider.GetModuleContext(new object()));
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Disposal_Waits_For_Context_Resolution(bool asynchronously)
+    {
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var disposalStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var release = new ManualResetEventSlim();
+        var context = Mock.Of<IPipelineContext>();
+        var scopedServices = new Mock<IServiceProvider>();
+        var scope = new RecordingScope(serviceProvider: scopedServices.Object);
+        scopedServices.Setup(value => value.GetService(typeof(IPipelineContext))).Returns(() =>
+        {
+            entered.SetResult();
+            if (!release.Wait(TimeSpan.FromSeconds(10)))
+            {
+                throw new TimeoutException("Context resolution was not released.");
+            }
+
+            ObjectDisposedException.ThrowIf(scope.AsyncDisposals + scope.SyncDisposals > 0, scope);
+            return context;
+        });
+        var provider = CreateProvider([scope]);
+        var resolution = Task.Run(() => provider.GetModuleContext(new object()));
+        Task disposal = Task.CompletedTask;
+        try
+        {
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            disposal = Task.Run(async () =>
+            {
+                disposalStarted.SetResult();
+                if (asynchronously)
+                {
+                    await provider.DisposeAsync();
+                }
+                else
+                {
+                    ((IDisposable) provider).Dispose();
+                }
+            });
+            await disposalStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await Task.WhenAny(disposal, Task.Delay(TimeSpan.FromMilliseconds(250)));
+
+            await Assert.That(disposal.IsCompleted).IsFalse();
+            await Assert.That(scope.AsyncDisposals + scope.SyncDisposals).IsEqualTo(0);
+        }
+        finally
+        {
+            release.Set();
+            await Task.WhenAll(resolution, disposal).WaitAsync(TimeSpan.FromSeconds(10));
+            await provider.DisposeAsync();
+        }
+
+        await Assert.That(await resolution).IsSameReferenceAs(context);
+        await Assert.That(scope.AsyncDisposals).IsEqualTo(asynchronously ? 1 : 0);
+        await Assert.That(scope.SyncDisposals).IsEqualTo(asynchronously ? 0 : 1);
+        Assert.Throws<ObjectDisposedException>(() => provider.GetModuleContext());
+    }
+
     private static ModuleContextProvider CreateProvider(IEnumerable<RecordingScope> scopes)
     {
         var remaining = new Queue<RecordingScope>(scopes);
@@ -133,9 +192,9 @@ public class ModuleContextProviderTests
 
     private sealed record ScopeOwner(int Value);
 
-    private sealed class RecordingScope(Exception? failure = null) : IServiceScope, IAsyncDisposable
+    private sealed class RecordingScope(Exception? failure = null, IServiceProvider? serviceProvider = null) : IServiceScope, IAsyncDisposable
     {
-        public IServiceProvider ServiceProvider { get; } = Mock.Of<IServiceProvider>(value =>
+        public IServiceProvider ServiceProvider { get; } = serviceProvider ?? Mock.Of<IServiceProvider>(value =>
             value.GetService(typeof(IPipelineContext)) == Mock.Of<IPipelineContext>());
 
         public int AsyncDisposals { get; private set; }
