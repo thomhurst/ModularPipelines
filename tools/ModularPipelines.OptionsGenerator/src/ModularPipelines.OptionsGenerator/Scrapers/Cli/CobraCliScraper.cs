@@ -262,6 +262,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     {
         var lines = helpText.Split('\n');
         var insideUsageSection = false;
+        var description = new List<string>();
 
         // Skip empty lines and look for the first non-usage, non-section line
         foreach (var line in lines)
@@ -270,12 +271,22 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
             if (string.IsNullOrEmpty(trimmed))
             {
+                if (description.Count > 0)
+                {
+                    break;
+                }
+
                 insideUsageSection = false;
                 continue;
             }
 
             if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
             {
+                if (description.Count > 0)
+                {
+                    break;
+                }
+
                 insideUsageSection = true;
                 continue;
             }
@@ -287,12 +298,17 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
             if (DescriptionSectionHeaderPattern().IsMatch(trimmed))
             {
-                return null;
+                break;
             }
 
             // Skip section headers
             if (trimmed.EndsWith(':'))
             {
+                if (description.Count > 0)
+                {
+                    break;
+                }
+
                 continue;
             }
 
@@ -305,11 +321,10 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
                 continue;
             }
 
-            // Found a description line
-            return trimmed;
+            description.Add(trimmed);
         }
 
-        return null;
+        return description.Count == 0 ? null : string.Join(" ", description);
     }
     /// <summary>
     /// Parses options from Cobra-style help text.
