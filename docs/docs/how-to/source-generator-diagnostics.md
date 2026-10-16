@@ -23,10 +23,10 @@ type must be accessible and non-generic. The method must be static, accept one
 
 ## MPG0002
 
-Two module types produce the same generated accessor name. Rename one module so
-stripping the `Module` suffix produces a unique name.
-
-**Severity:** Error
+Retired in V4. Convenience module accessors are no longer generated, so module
+types may share a name across namespaces and libraries. Use explicit
+`context.GetModule<TModule>()` or `context.GetModuleIfRegistered<TModule>()` calls;
+see the [V4 migration guide](../migrating-to-v4.md#generated-module-accessors-removed).
 
 ## MPG0003
 

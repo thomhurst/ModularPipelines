@@ -1,5 +1,14 @@
 # ModularPipelines V4 Release Notes
 
+## Generated module accessors removed
+
+The source generator no longer emits assembly-specific `ModuleContextExtensions`
+classes or `GetXModule()` / `GetXModuleIfRegistered()` convenience methods. Use
+`context.GetModule<TModule>()` and `context.GetModuleIfRegistered<TModule>()` with
+explicit module types instead. Qualify module types when shared libraries use
+the same names. Registration and other metadata generation are unchanged.
+See the [migration guide](docs/docs/migrating-to-v4.md#generated-module-accessors-removed).
+
 ## Redis packages use Respire
 
 `ModularPipelines.Distributed.Redis` and `ModularPipelines.Distributed.Discovery.Redis` now use the

@@ -30,6 +30,7 @@ the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/R
 - [ ] Replace `Build()` / `ExecutePipelineAsync()` with `BuildAsync()` / `RunAsync()` and dispose explicitly built pipelines.
 - [ ] Replace mutable pipeline options with `ConfigureOptions` and the grouped console, command, and HTTP settings.
 - [ ] Rewrite `Configure()`, `DeclareDependencies()`, metadata overrides, retries, and fluent lifecycle hooks.
+- [ ] Replace generated `GetXModule()` / `GetXModuleIfRegistered()` helpers with explicit generic module lookups.
 - [ ] Make module result nullability explicit; update result metadata, status checks, and summary consumers.
 - [ ] Migrate hook interfaces, plugins, requirements, run conditions, build-system checks, and sub-modules.
 - [ ] Update tool access, command method names, named cancellation parameters, logging options, and generated arguments.
@@ -372,6 +373,35 @@ To inspect a failed pipeline's returned summary, use **both** `ContinueOnFailure
 `ThrowOnPipelineFailure = false`. `FailFast` rethrows the module failure.
 
 ## Module Configuration and Dependencies
+
+### Generated module accessors removed
+
+V4 no longer generates assembly-specific extension classes in `ModularPipelines.Generated`
+with `GetXModule()` and `GetXModuleIfRegistered()` convenience methods. Replace calls with
+the existing generic APIs, using the actual module type:
+
+```csharp
+// Before: generated convenience methods
+var build = context.GetBuildModule();
+var optionalBuild = context.GetBuildModuleIfRegistered();
+
+// After: explicit module types
+var build = context.GetModule<BuildModule>();
+var optionalBuild = context.GetModuleIfRegistered<BuildModule>();
+```
+
+The required lookup still returns an awaitable module; the optional lookup still returns
+`null` when the module is not registered. Keep dependency declarations, including
+`Optional = true` for optional dependencies. The dependency analyzer and its code fix
+support both generic APIs.
+
+Use a namespace-qualified type or a type alias when referenced libraries contain modules
+with the same name, for example `context.GetModule<Shared.BuildModule>()`. Remove static
+calls to generated extension classes. Remove `using ModularPipelines.Generated;` only if
+your code no longer needs other generator-facing types from that namespace. Generated
+registration, command, secret, and event metadata remain available.
+
+### Module configuration overrides
 
 `Configure()` no longer returns a `ModuleConfiguration`. V4 supplies the builder to a `void`
 override. There is no `ModuleConfiguration.Create()`, `.Default`, or final `.Build()` to call.

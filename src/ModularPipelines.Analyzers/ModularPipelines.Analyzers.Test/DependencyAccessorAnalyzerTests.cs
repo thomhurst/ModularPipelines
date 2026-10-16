@@ -144,39 +144,6 @@ public class DependencyAccessorAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
-    [TestMethod]
-    [DataRow(true, false)]
-    [DataRow(true, true)]
-    [DataRow(false, false)]
-    [DataRow(false, true)]
-    public async Task Reports_Generated_Accessor_Mismatch(bool optional, bool staticCall)
-    {
-        var method = optional ? "GetDependencyModule" : "GetDependencyModuleIfRegistered";
-        var access = staticCall ? $"ModularPipelines.Generated.TestModuleContextExtensions.{method}(context)" : $"context.{method}()";
-        var source = Source($"[DependsOn<Dependency>(Optional = {optional.ToString().ToLowerInvariant()})]", "", $"{{|#0:{access}|}}")
-            .Replace("using ModularPipelines;", "using ModularPipelines;\nusing ModularPipelines.Generated;")
-            .Replace("namespace ModularPipelines.Examples.Modules;", "namespace ModularPipelines.Examples.Modules {")
-            + """
-
-              }
-              namespace ModularPipelines.Generated
-              {
-                  [System.CodeDom.Compiler.GeneratedCode("ModularPipelines.SourceGenerator", "1.0")]
-                  public static class TestModuleContextExtensions
-                  {
-                      public static ModularPipelines.Examples.Modules.Dependency GetDependencyModule(this IModuleContext context)
-                          => context.GetModule<ModularPipelines.Examples.Modules.Dependency>();
-                      public static ModularPipelines.Examples.Modules.Dependency? GetDependencyModuleIfRegistered(this IModuleContext context)
-                          => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Dependency>();
-                  }
-              }
-              """;
-
-        await VerifyCS.VerifyAnalyzerAsync(source, new DiagnosticResult(optional ? "MP0021" : "MP0022",
-                optional ? DiagnosticSeverity.Warning : DiagnosticSeverity.Info)
-            .WithLocation(0).WithArguments("Dependency"));
-    }
-
     private static string Source(string attributes, string configure, string access) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
 
