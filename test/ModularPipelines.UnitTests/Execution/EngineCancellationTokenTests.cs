@@ -378,6 +378,35 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task Sigterm_Without_Active_Run_Passes_Through()
+    {
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+
+        await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
+        await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
+    }
+
+    [Test]
+    public async Task Sigterm_Only_Swallows_First_Signal_During_Active_Run()
+    {
+        var active = false;
+        using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer())
+        {
+            IsRunActive = () => active,
+        };
+
+        await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
+        active = true;
+        await Assert.That(engineCancellationToken.HandleSigterm()).IsTrue();
+        await Assert.That(engineCancellationToken.Token.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
+        await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
+        active = false;
+        await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
+    }
+
+    [Test]
     public async Task First_CancelKeyPress_Cancels_Gracefully_And_Second_Passes_Through()
     {
         using var engineCancellationToken =

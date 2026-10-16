@@ -11,6 +11,22 @@ public class ShutdownProcessTests
     public Task ProcessExit_Waits_For_Cleanup_Hooks_Report_And_Disposal() => RunShutdownAsync("pipeline-exit");
 
     [Test]
+    public Task ProcessExit_Bounds_Blocking_Cancellation_Callback() => RunShutdownAsync("pipeline-exit-blocked-cancellation");
+
+    [Test]
+    [Arguments("pipeline-sigterm-before-run")]
+    [Arguments("pipeline-sigterm-after-run")]
+    public async Task Sigterm_Without_Active_Run_Allows_Process_Exit(string mode)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        await RunShutdownAsync(mode);
+    }
+
+    [Test]
     public async Task Sigterm_Completes_Cleanup_Hooks_Report_And_Disposal()
     {
         if (OperatingSystem.IsWindows())
@@ -58,7 +74,7 @@ public class ShutdownProcessTests
                 await Task.Delay(20, deadline.Token);
             }
 
-            if (mode == "pipeline-exit")
+            if (mode.StartsWith("pipeline-exit", StringComparison.Ordinal))
             {
                 await File.WriteAllTextAsync(Path.Combine(directory, "exit.trigger"), string.Empty, deadline.Token);
             }
@@ -74,6 +90,21 @@ public class ShutdownProcessTests
             }
 
             await process.WaitForExitAsync(deadline.Token);
+            if (mode == "pipeline-exit-blocked-cancellation")
+            {
+                await Assert.That(process.ExitCode).IsEqualTo(0);
+                return;
+            }
+
+            if (mode is "pipeline-sigterm-before-run" or "pipeline-sigterm-after-run")
+            {
+                // Default SIGTERM termination is platform-specific. Disposal still runs via ProcessExit.
+                var idleEvents = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), deadline.Token);
+                var expected = mode == "pipeline-sigterm-before-run" ? "disposed-before-report" : "cleanup,end,disposed-after-report";
+                await Assert.That(string.Join(",", idleEvents)).IsEqualTo(expected);
+                return;
+            }
+
             await Assert.That(process.ExitCode).IsEqualTo(0);
             var events = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), deadline.Token);
             await Assert.That(string.Join(",", events)).IsEqualTo("cleanup,end,disposed-after-report");

@@ -21,7 +21,8 @@ public static class Host
             return 0;
         }
 
-        if (args[0] is "pipeline-sigterm" or "pipeline-exit")
+        if (args[0] is "pipeline-sigterm" or "pipeline-exit" or "pipeline-exit-blocked-cancellation"
+            or "pipeline-sigterm-before-run" or "pipeline-sigterm-after-run")
         {
             return await ShutdownPipeline.RunAsync(args[0], args[1]);
         }

@@ -13,7 +13,7 @@ internal static class ShutdownPipeline
     public static async Task<int> RunAsync(string mode, string directory)
     {
         var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings { WorkingDirectory = directory });
-        builder.Services.AddSingleton(new ShutdownState(directory));
+        builder.Services.AddSingleton(new ShutdownState(directory, mode));
         builder.Services.AddSingleton<DisposalMarker>();
         builder.AddModule<WaitingModule>()
             .AddModule<CleanupModule>()
@@ -33,7 +33,13 @@ internal static class ShutdownPipeline
         await using var pipeline = await builder.BuildAsync();
         // Activate the container-owned marker before shutdown begins.
         _ = pipeline.Services.GetRequiredService<DisposalMarker>();
-        if (mode == "pipeline-exit")
+        if (mode == "pipeline-sigterm-before-run")
+        {
+            await File.WriteAllTextAsync(Path.Combine(directory, "ready"), string.Empty);
+            await Task.Delay(Timeout.Infinite);
+        }
+
+        if (mode.StartsWith("pipeline-exit", StringComparison.Ordinal))
         {
             _ = Task.Run(async () =>
             {
@@ -55,10 +61,16 @@ internal static class ShutdownPipeline
             // Cancellation is the expected outcome of this fixture.
         }
 
+        if (mode == "pipeline-sigterm-after-run")
+        {
+            await File.WriteAllTextAsync(Path.Combine(directory, "ready"), string.Empty);
+            await Task.Delay(Timeout.Infinite);
+        }
+
         return 0;
     }
 
-    internal sealed record ShutdownState(string Directory)
+    internal sealed record ShutdownState(string Directory, string Mode)
     {
         public void Record(string name) => File.AppendAllText(Path.Combine(Directory, "events.log"), name + Environment.NewLine);
     }
@@ -78,6 +90,14 @@ internal static class ShutdownPipeline
     {
         protected override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            if (state.Mode == "pipeline-sigterm-after-run")
+            {
+                return true;
+            }
+
+            using var registration = state.Mode == "pipeline-exit-blocked-cancellation"
+                ? cancellationToken.Register(() => Thread.Sleep(Timeout.Infinite))
+                : default;
             await File.WriteAllTextAsync(Path.Combine(state.Directory, "ready"), string.Empty, cancellationToken);
             await Task.Delay(Timeout.Infinite, cancellationToken);
             return true;

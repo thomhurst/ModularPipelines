@@ -63,6 +63,9 @@ internal sealed class PipelineImpl : IPipeline
 
         try
         {
+            services.GetRequiredService<EngineCancellationToken>().IsRunActive =
+                () => Volatile.Read(ref pipeline._activeRuns) > 0;
+
             var consoleCoordinator = services.GetRequiredService<IConsoleCoordinator>();
             consoleCoordinator.Install();
             consoleCoordinator.EnableOutputBuffering();

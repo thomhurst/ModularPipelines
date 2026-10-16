@@ -70,6 +70,8 @@ internal class EngineCancellationToken : IDisposable
 
     private bool _disposed;
 
+    internal Func<bool>? IsRunActive { private get; set; }
+
     [ExcludeFromCodeCoverage]
     public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
     {
@@ -84,11 +86,10 @@ internal class EngineCancellationToken : IDisposable
         {
             _sigtermRegistration = PosixSignalRegistration.Create(
                 PosixSignal.SIGTERM,
-                context => context.Cancel = HandleCancelKeyPress());
+                context => context.Cancel = HandleSigterm());
         }
 
         System.Console.CancelKeyPress += OnCancelKeyPress;
-        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
     }
 
     public void CancelWithReason(string? reason)
@@ -164,7 +165,6 @@ internal class EngineCancellationToken : IDisposable
         if (disposing)
         {
             System.Console.CancelKeyPress -= OnCancelKeyPress;
-            AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
             _sigtermRegistration?.Dispose();
             if (disposeCancellationTokenSources)
             {
@@ -178,7 +178,7 @@ internal class EngineCancellationToken : IDisposable
         args.Cancel = HandleCancelKeyPress();
     }
 
-    private void OnProcessExit(object? sender, EventArgs args) => RequestShutdown();
+    internal bool HandleSigterm() => IsRunActive?.Invoke() == true && HandleCancelKeyPress();
 
     internal bool HandleCancelKeyPress()
     {
