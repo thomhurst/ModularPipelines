@@ -35,17 +35,17 @@ public class KustomizeEdit : IKustomizeEdit
     #region Sub-command Groups
 
     /// <summary>
-    /// kustomize add sub-commands.
+    /// kustomize edit add sub-commands.
     /// </summary>
     public KustomizeEditAdd Add => _add ??= new KustomizeEditAdd(_command);
 
     /// <summary>
-    /// kustomize remove sub-commands.
+    /// kustomize edit remove sub-commands.
     /// </summary>
     public KustomizeEditRemove Remove => _remove ??= new KustomizeEditRemove(_command);
 
     /// <summary>
-    /// kustomize set sub-commands.
+    /// kustomize edit set sub-commands.
     /// </summary>
     public KustomizeEditSet Set => _set ??= new KustomizeEditSet(_command);
 

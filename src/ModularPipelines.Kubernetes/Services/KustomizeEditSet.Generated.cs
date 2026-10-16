@@ -14,7 +14,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Services;
 
 /// <summary>
-/// kustomize set commands.
+/// kustomize edit set commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KustomizeEditSet
