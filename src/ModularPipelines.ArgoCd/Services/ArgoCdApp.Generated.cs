@@ -33,7 +33,7 @@ public class ArgoCdApp : IArgoCdApp
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd actions sub-commands.
+    /// argocd app actions sub-commands.
     /// </summary>
     public ArgoCdAppActions Actions => _actions ??= new ArgoCdAppActions(_command);
 

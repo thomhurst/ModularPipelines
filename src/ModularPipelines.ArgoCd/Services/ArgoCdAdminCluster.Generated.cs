@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd cluster commands.
+/// argocd admin cluster commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdAdminCluster
@@ -33,7 +33,7 @@ public class ArgoCdAdminCluster
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd namespaces sub-commands.
+    /// argocd admin cluster namespaces sub-commands.
     /// </summary>
     public ArgoCdAdminClusterNamespaces Namespaces => _namespaces ??= new ArgoCdAdminClusterNamespaces(_command);
 

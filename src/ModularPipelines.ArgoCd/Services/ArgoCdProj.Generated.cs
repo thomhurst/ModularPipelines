@@ -35,17 +35,17 @@ public class ArgoCdProj : IArgoCdProj
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd role sub-commands.
+    /// argocd proj role sub-commands.
     /// </summary>
     public ArgoCdProjRole Role => _role ??= new ArgoCdProjRole(_command);
 
     /// <summary>
-    /// argocd source-integrity sub-commands.
+    /// argocd proj source-integrity sub-commands.
     /// </summary>
     public ArgoCdProjSourceIntegrity SourceIntegrity => _sourceIntegrity ??= new ArgoCdProjSourceIntegrity(_command);
 
     /// <summary>
-    /// argocd windows sub-commands.
+    /// argocd proj windows sub-commands.
     /// </summary>
     public ArgoCdProjWindows Windows => _windows ??= new ArgoCdProjWindows(_command);
 

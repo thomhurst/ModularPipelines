@@ -22,17 +22,17 @@ namespace ModularPipelines.ArgoCd.Services;
 public interface IArgoCdProj
 {
     /// <summary>
-    /// argocd role sub-commands.
+    /// argocd proj role sub-commands.
     /// </summary>
     ArgoCdProjRole Role { get; }
 
     /// <summary>
-    /// argocd source-integrity sub-commands.
+    /// argocd proj source-integrity sub-commands.
     /// </summary>
     ArgoCdProjSourceIntegrity SourceIntegrity { get; }
 
     /// <summary>
-    /// argocd windows sub-commands.
+    /// argocd proj windows sub-commands.
     /// </summary>
     ArgoCdProjWindows Windows { get; }
 
