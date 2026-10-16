@@ -273,7 +273,7 @@ variant. Use `Value`, `Exception`, and `SkipDecision` for concise safe access.
 
 The `ModularPipelines.Testing` package ships
 `ModularPipelines.Testing.Distributed.DistributedCoordinatorContract`. It contains
-the same 19 checks used for the in-memory, Redis, and SignalR coordinator backends.
+the shared behavioral checks used for the in-memory, Redis, and SignalR coordinator backends.
 Call these asynchronous methods from any test framework; violations throw
 `InvalidOperationException`, and timed-out waits fail with `TimeoutException`.
 

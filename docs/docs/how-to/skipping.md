@@ -86,19 +86,31 @@ public class MyModule : Module<CommandResult>
 
 ### Async Skip Conditions
 
-For conditions that require async operations:
+For conditions that require async operations, reuse an `HttpClient` instance and dispose
+of each response:
 
 ```csharp
-public class MyModule : Module<CommandResult>
+using System.Net.Http;
+using ModularPipelines;
+
+public class MyModule : Module
 {
+    private static readonly HttpClient Client = new();
+
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(async (_, cancellationToken) =>
         {
-            var response = await HttpClient.GetAsync(
+            using var response = await Client.GetAsync(
                 "https://api.example.com/should-run",
                 cancellationToken);
             return !response.IsSuccessStatusCode;
         }, "The remote service is unavailable");
+
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Perform the work that requires the remote service here.
+        return Task.CompletedTask;
+    }
 }
 ```
 

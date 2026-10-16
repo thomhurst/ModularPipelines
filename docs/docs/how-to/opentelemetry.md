@@ -65,6 +65,11 @@ stack traces are not exported. Ignored failures include the same sanitized event
 counter. Pipeline and module status attributes use lowercase
 snake case, such as `succeeded`, `failed`, `timed_out`, and `restored_from_cache`.
 
+Module spans include `modular_pipelines.module.cache`: `hit` when the result is
+restored from the fingerprint cache, `miss` when a lookup finds no usable result,
+and `disabled` when module caching is disabled or no cache store is configured.
+Skipped modules do not perform a cache lookup.
+
 ## Metrics
 
 The `ModularPipelines` meter publishes:
@@ -72,8 +77,13 @@ The `ModularPipelines` meter publishes:
 - `modular_pipelines.module.duration` — module duration in seconds
 - `modular_pipelines.module.failed` — failed module count
 - `modular_pipelines.module.retries` — module retry count
+- `modular_pipelines.module.cache_hits` — fingerprint cache hit count
+- `modular_pipelines.module.cache_misses` — fingerprint cache miss count
 
-Module metrics include module type and status attributes.
+Module metrics include `modular_pipelines.module.type` and
+`modular_pipelines.module.type_full` attributes. Duration and failed-module metrics
+also include `modular_pipelines.module.status`. Cache counters increment once per
+lookup outcome; disabled caching does not increment either counter.
 
 ## Resource attributes
 
