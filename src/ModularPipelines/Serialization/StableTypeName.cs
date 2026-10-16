@@ -43,7 +43,7 @@ internal static class StableTypeName
         // Factories see immutable options during serialization. Freeze before caching
         // their selected converter, and keep fingerprints separate for each options instance.
         options.MakeReadOnly(populateMissingResolver: true);
-        return BuildFingerprints.GetValue(options, static _ => new()).GetValue(type, value =>
+        return BuildFingerprints.GetValue(options, static _ => []).GetValue(type, value =>
             Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(GetBuildIdentity(value, [], [], options: options)))));
     }
 
@@ -423,7 +423,7 @@ internal static class StableTypeName
         // own context cannot resolve the type; never replace an incompatible local build.
         var candidates = AssemblyLoadContext.All
             .Where(context => context != loadContext)
-            .Select(context => ResolveInContext(typeName, context))
+            .Select(context => ResolveInFallbackContext(typeName, context))
             .OfType<Type>()
             .Distinct()
             .Where(type => string.Equals(GetBuildFingerprint(type, options), buildFingerprint, StringComparison.Ordinal))
@@ -435,6 +435,20 @@ internal static class StableTypeName
             1 => candidates[0],
             _ => throw new JsonException($"Module result value type '{typeName}' is ambiguous across loaded contexts."),
         };
+    }
+
+    private static Type? ResolveInFallbackContext(string typeName, AssemblyLoadContext loadContext)
+    {
+        try
+        {
+            return ResolveInContext(typeName, loadContext);
+        }
+        catch (FileLoadException)
+        {
+            // A failing unrelated context must not prevent discovery in the other contexts.
+            // Load failures in the explicitly requested context still propagate to the caller.
+            return null;
+        }
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Runtime module result value types are explicitly unsupported in trimmed applications.")]

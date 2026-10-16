@@ -1,5 +1,7 @@
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Coordination;
+using Moq;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 
@@ -9,6 +11,70 @@ namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 /// </summary>
 public class RedisDistributedCoordinatorTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Master_Heartbeats_Continue_During_Artifact_Renewal_And_Stop_On_Disposal(bool failFirstScan)
+    {
+        var scanStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var heartbeatsContinued = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var scanStopped = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var scanCount = 0;
+        var heartbeatCount = 0;
+        var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+        scripts.Setup(commands => commands.ExecuteIntegerAsync(
+                It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(() =>
+            {
+                if (scanStarted.Task.IsCompleted && Interlocked.Increment(ref heartbeatCount) >= 3)
+                {
+                    heartbeatsContinued.TrySetResult();
+                }
+
+                return 1L;
+            });
+        var sets = new Mock<IRespireSetCommands>(MockBehavior.Strict);
+        sets.Setup(commands => commands.ScanAsync(It.IsAny<RespireKey>(), It.IsAny<string?>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .Returns((RespireKey _, string? _, int _, CancellationToken token) => BlockScanAsync(token));
+        var client = new Mock<IRespireClient>(MockBehavior.Strict);
+        client.SetupGet(connection => connection.Scripts).Returns(scripts.Object);
+        client.SetupGet(connection => connection.Sets).Returns(sets.Object);
+        client.Setup(connection => connection.ExpireAsync(
+                It.IsAny<RespireKey>(), It.IsAny<RespireExpiry>(), It.IsAny<RespireExpireWhen>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+        await using var coordinator = new RedisDistributedCoordinator(
+            client.Object, new RedisKeyBuilder("modpipe", "heartbeat-renewal"), new RedisOptions());
+
+        coordinator.StartMasterHeartbeat(TimeSpan.FromMilliseconds(10));
+        await scanStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await heartbeatsContinued.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await coordinator.DisposeAsync();
+
+        await Assert.That(scanStopped.Task.IsCompletedSuccessfully).IsTrue();
+        await Assert.That(scanCount).IsEqualTo(failFirstScan ? 2 : 1);
+
+        async IAsyncEnumerable<string> BlockScanAsync(
+            [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken token)
+        {
+            if (Interlocked.Increment(ref scanCount) == 1 && failFirstScan)
+            {
+                throw new IOException("Artifact registry scan failed");
+            }
+
+            scanStarted.TrySetResult();
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+            }
+            finally
+            {
+                scanStopped.TrySetResult();
+            }
+
+            yield break;
+        }
+    }
+
     [Test]
     public async Task QueueOrder_Prefers_UserPriority_Then_CriticalPathWeight()
     {

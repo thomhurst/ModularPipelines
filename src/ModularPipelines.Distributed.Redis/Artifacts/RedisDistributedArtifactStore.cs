@@ -16,6 +16,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 {
     private const int ChunkDeleteBatchSize = 256;
     private const int MetadataReadBatchSize = 250;
+    private const int ExpiryBatchSize = 256;
 
     private readonly IRespireClient _redis;
     private readonly RedisKeyBuilder _keys;
@@ -89,8 +90,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             UploadedAt = DateTimeOffset.UtcNow,
         };
 
-        var metaJson = JsonSerializer.Serialize(reference);
-        await _redis.SetAsync(_keys.ArtifactMeta(artifactId), (RespireValue) metaJson, _timeToLive, cancellationToken: cancellationToken)
+        await SetValueAsync(_keys.ArtifactMeta(artifactId), JsonSerializer.SerializeToUtf8Bytes(reference), cancellationToken)
             .ConfigureAwait(false);
 
         // Index again: reading a slow source can outlast the TTL of the index written before the content.
@@ -111,13 +111,16 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         var indexExpiry = transaction.Expire(indexKey, _timeToLive);
         var moduleIndexed = transaction.Sets.Add(_keys.ArtifactModules, [moduleId.Value]);
         var moduleExpiry = transaction.Expire(_keys.ArtifactModules, _timeToLive);
+        var tracked = transaction.Sets.Add(_keys.ArtifactKeys, [indexKey, _keys.ArtifactModules]);
+        var trackingExpiry = transaction.Expire(_keys.ArtifactKeys, _timeToLive);
         await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
 
         // EXEC succeeds even when a queued command fails, for example on a wrong key type or an ACL denial.
         // Reading each result rethrows that command's error, so an unindexed upload is never reported as stored.
         _ = indexed.Result;
         _ = moduleIndexed.Result;
-        if (!indexExpiry.Result || !moduleExpiry.Result)
+        _ = tracked.Result;
+        if (!indexExpiry.Result || !moduleExpiry.Result || !trackingExpiry.Result)
         {
             throw new IOException($"Redis could not set the expiry of the artifact index for '{artifactId}'.");
         }
@@ -223,8 +226,40 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
                 .ConfigureAwait(false);
         }
 
-        await _redis.Keys.UnlinkAsync([_keys.ArtifactModules], cancellationToken)
+        await _redis.Keys.UnlinkAsync([_keys.ArtifactModules, _keys.ArtifactKeys], cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    // Track actual keys rather than deriving chunks from metadata: an upload can still be in progress,
+    // and its first chunks must survive even when reading the source takes longer than the TTL.
+    internal static async Task RefreshTimeToLiveAsync(
+        IRespireClient redis,
+        RedisKeyBuilder keys,
+        TimeSpan timeToLive,
+        CancellationToken cancellationToken)
+    {
+        if (!await redis.ExpireAsync(keys.ArtifactKeys, timeToLive, cancellationToken: cancellationToken).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        // SSCAN and bounded transactions avoid loading all keys or blocking Redis with one large script.
+        // Explicit keys retain Redis Cluster routing; expired or deleted keys are never recreated.
+        await foreach (var batch in redis.Sets.ScanAsync(keys.ArtifactKeys, cancellationToken: cancellationToken)
+                           .Chunk(ExpiryBatchSize).ConfigureAwait(false))
+        {
+            var transaction = redis.CreateTransaction();
+            await using var transactionLifetime = transaction.ConfigureAwait(false);
+            var expirations = batch.Select(key => transaction.Expire(key, timeToLive)).ToArray();
+            var trackingExpiry = transaction.Expire(keys.ArtifactKeys, timeToLive);
+            await transaction.CommitAsync(cancellationToken).ConfigureAwait(false);
+            foreach (var expiration in expirations)
+            {
+                _ = expiration.Result;
+            }
+
+            _ = trackingExpiry.Result;
+        }
     }
 
     private async Task<HashSet<string>> ReadSetAsync(string key, CancellationToken cancellationToken)
@@ -306,7 +341,24 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
     // never reused; every retry writes the same bytes.
     private ValueTask<bool> SetValueAsync(string key, byte[] value, CancellationToken cancellationToken) =>
         _transientRetry.ExecuteAsync(
-            async token => await _redis.SetAsync(key, (RespireValue) value, _timeToLive, cancellationToken: token).ConfigureAwait(false),
+            async token =>
+            {
+                // Registration and content commit together, so the master can renew each key as soon as
+                // it exists. Retrying an ambiguous commit rewrites the same bytes and set member.
+                var transaction = _redis.CreateTransaction();
+                await using var transactionLifetime = transaction.ConfigureAwait(false);
+                var stored = transaction.Set(key, (RespireValue) value, _timeToLive);
+                var tracked = transaction.Sets.Add(_keys.ArtifactKeys, [key]);
+                var trackingExpiry = transaction.Expire(_keys.ArtifactKeys, _timeToLive);
+                await transaction.CommitAsync(token).ConfigureAwait(false);
+                _ = tracked.Result;
+                if (!trackingExpiry.Result)
+                {
+                    throw new IOException($"Redis could not set the expiry of the artifact key registry for '{key}'.");
+                }
+
+                return stored.Result;
+            },
             cancellationToken);
 
     private static void ThrowIfSizeMismatch(ArtifactReference reference, long actualBytes)

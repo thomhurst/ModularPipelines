@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Redis;
+using ModularPipelines.Distributed.Redis.Artifacts;
 using Respire;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
@@ -467,10 +468,17 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     /// <summary>
     /// Records a master heartbeat now and then every <paramref name="interval"/> until this
-    /// coordinator is disposed.
+    /// coordinator is disposed. Artifact renewal runs independently so a large registry cannot
+    /// delay subsequent heartbeats. Disposal and run cleanup cancel and await both loops.
     /// </summary>
     internal void StartMasterHeartbeat(TimeSpan interval) =>
-        _masterHeartbeatTask = SendMasterHeartbeatsAsync(interval, _masterHeartbeatCts.Token);
+        _masterHeartbeatTask = Task.WhenAll(
+            RunMasterMaintenanceAsync(SendMasterHeartbeatAsync, "Could not record the distributed master heartbeat; retrying", interval, _masterHeartbeatCts.Token),
+            RunMasterMaintenanceAsync(
+                token => RedisDistributedArtifactStore.RefreshTimeToLiveAsync(_redis, _keys, _keyExpiration, token),
+                "Could not renew distributed artifact expiration; retrying",
+                interval,
+                _masterHeartbeatCts.Token));
 
     internal async Task SendMasterHeartbeatAsync(CancellationToken cancellationToken)
     {
@@ -519,13 +527,17 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         await _masterHeartbeatTask.ConfigureAwait(false);
     }
 
-    private async Task SendMasterHeartbeatsAsync(TimeSpan interval, CancellationToken cancellationToken)
+    private async Task RunMasterMaintenanceAsync(
+        Func<CancellationToken, Task> action,
+        string failureMessage,
+        TimeSpan interval,
+        CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
-                await SendMasterHeartbeatAsync(cancellationToken).ConfigureAwait(false);
+                await action(cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -533,8 +545,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             }
             catch (Exception exception)
             {
-                // Workers tolerate missed heartbeats for MasterTimeout; retry on the next interval.
-                _logger?.LogWarning(exception, "Could not record the distributed master heartbeat; retrying");
+                _logger?.LogWarning(exception, "{MaintenanceFailure}", failureMessage);
             }
 
             try
