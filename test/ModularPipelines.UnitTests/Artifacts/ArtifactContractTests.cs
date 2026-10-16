@@ -2297,16 +2297,46 @@ public class ArtifactContractTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task IndependentArtifactUploadCancellationStillFailsProducer(bool customBackend)
+    [Arguments(false, false, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, true, false)]
+    [Arguments(false, false, true)]
+    [Arguments(true, false, true)]
+    [Arguments(false, true, true)]
+    [Arguments(true, true, true)]
+    public async Task IndependentArtifactUploadCancellationStillFailsProducer(
+        bool customBackend,
+        bool cancelPipeline,
+        bool tokenlessException)
     {
         DeleteLocalArtifacts();
-        var cancellation = new OperationCanceledException("independent artifact store cancellation");
+        using var storeCancellation = new CancellationTokenSource();
+        storeCancellation.Cancel();
+        var cancellation = new OperationCanceledException(
+            "independent artifact store cancellation",
+            tokenlessException ? CancellationToken.None : storeCancellation.Token);
+        var signal = new ArtifactUploadSignal();
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(x => x.UploadAsync(
                 It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(cancellation);
+            .Returns(async (ArtifactDescriptor _, Stream _, CancellationToken token) =>
+            {
+                if (cancelPipeline)
+                {
+                    signal.Started.TrySetResult();
+                    try
+                    {
+                        await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                    }
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        // The independent store failure occurs after pipeline cancellation is observable.
+                    }
+                }
+
+                throw cancellation;
+            });
 
         try
         {
@@ -2315,20 +2345,43 @@ public class ArtifactContractTests
             {
                 builder.AddExecutionBackend<InProcessExecutionBackend>();
             }
+            if (cancelPipeline)
+            {
+                builder.ConfigureOptions(options => options with
+                {
+                    FailureMode = FailureMode.FailFast,
+                    Concurrency = options.Concurrency with { MaxParallelism = 2 },
+                });
+                builder.Services.AddSingleton(signal);
+                builder.AddModule<FailDuringArtifactUploadModule>();
+            }
             builder.Services.AddSingleton(store.Object);
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
             await using var pipeline = await builder.BuildAsync();
 
-            var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
+            if (cancelPipeline && !customBackend)
+            {
+                var aggregate = await Assert.ThrowsAsync<AggregateException>(
+                    () => pipeline.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+                var failures = aggregate!.Flatten().InnerExceptions.OfType<ModuleFailedException>().ToArray();
+                await Assert.That(failures.Length).IsEqualTo(2);
+                await Assert.That(failures.Any(failure => failure.ModuleType == typeof(LocalProducerModule))).IsTrue();
+            }
+            else
+            {
+                var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+                    () => pipeline.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
+                await Assert.That(exception!.ModuleType).IsEqualTo(
+                    cancelPipeline ? typeof(FailDuringArtifactUploadModule) : typeof(LocalProducerModule));
+            }
             var producerResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
                 .GetResult(typeof(LocalProducerModule));
 
             using (Assert.Multiple())
             {
-                await Assert.That(exception!.ModuleType).IsEqualTo(typeof(LocalProducerModule));
-                await Assert.That(exception.InnerException).IsSameReferenceAs(cancellation);
                 await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+                await Assert.That(producerResult.ExceptionOrDefault!.GetBaseException()).IsSameReferenceAs(cancellation);
             }
         }
         finally

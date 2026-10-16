@@ -1257,7 +1257,8 @@ internal class ModuleRunner : IModuleRunner
                 await UploadProducedArtifactsAsync(moduleState.ModuleType, scheduler, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            catch (OperationCanceledException exception) when (
+                WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
             {
                 executionContext.Status = ModuleStatus.Canceled;
                 throw;
