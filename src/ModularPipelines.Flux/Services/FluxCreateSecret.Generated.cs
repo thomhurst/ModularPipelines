@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Services;
 
 /// <summary>
-/// flux secret commands.
+/// flux create secret commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxCreateSecret
@@ -47,21 +47,6 @@ public class FluxCreateSecret
     }
 
     /// <summary>
-    /// The create secret githubapp command generates a Kubernetes secret that can be used for GitRepository authentication with github app
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GithubappAsync(
-        FluxCreateSecretGithubappOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateSecretGithubappOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// The create secret git command generates a Kubernetes secret with Git credentials.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -74,6 +59,21 @@ public class FluxCreateSecret
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateSecretGitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// The create secret githubapp command generates a Kubernetes secret that can be used for GitRepository authentication with github app
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GithubappAsync(
+        FluxCreateSecretGithubappOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateSecretGithubappOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -22,17 +22,17 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxExport
 {
     /// <summary>
-    /// flux artifact sub-commands.
+    /// flux export artifact sub-commands.
     /// </summary>
     FluxExportArtifact Artifact { get; }
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux export image sub-commands.
     /// </summary>
     FluxExportImage Image { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux export source sub-commands.
     /// </summary>
     FluxExportSource Source { get; }
 

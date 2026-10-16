@@ -34,12 +34,12 @@ public class FluxResume : IFluxResume
     #region Sub-command Groups
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux resume image sub-commands.
     /// </summary>
     public FluxResumeImage Image => _image ??= new FluxResumeImage(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux resume source sub-commands.
     /// </summary>
     public FluxResumeSource Source => _source ??= new FluxResumeSource(_command);
 

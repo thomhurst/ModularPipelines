@@ -22,17 +22,17 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxGet
 {
     /// <summary>
-    /// flux artifacts sub-commands.
+    /// flux get artifacts sub-commands.
     /// </summary>
     FluxGetArtifacts Artifacts { get; }
 
     /// <summary>
-    /// flux images sub-commands.
+    /// flux get images sub-commands.
     /// </summary>
     FluxGetImages Images { get; }
 
     /// <summary>
-    /// flux sources sub-commands.
+    /// flux get sources sub-commands.
     /// </summary>
     FluxGetSources Sources { get; }
 
