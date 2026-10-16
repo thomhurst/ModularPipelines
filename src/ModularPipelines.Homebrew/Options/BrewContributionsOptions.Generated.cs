@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewContributionsOptions : BrewOptions
 {
     /// <summary>
-    /// Specify a comma-separated list of GitHub usernames or email addresses to find contributions from. Omitting this flag searches Homebrew maintainers and requires access to the Homebrew/maintainers team. With --maintainer-report-csv, only matching quarter-end Maintainers are included.
+    /// Specify a comma-separated list of GitHub usernames or email addresses to find contributions from. Omitting this flag searches Homebrew maintainers and requires access to the Homebrew/maintainers team. With --maintainer-report-csv, only matching period-end Maintainers are included.
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
     public string? User { get; set; }
@@ -69,7 +69,7 @@ public record BrewContributionsOptions : BrewOptions
     public bool? Csv { get; set; }
 
     /// <summary>
-    /// Print a CSV of Maintainer and Lead Maintainer activity criteria using fetched Git histories and GitHub's existing approved-review search for the Homebrew governance quarter, for example --maintainer-report-csv=2026-2. Also write it in the current directory as brew-contributions-FROM-to-TO.csv, or brew-contributions-FROM-to-TO-USER.csv when filtered with --user. Only Maintainers listed at the end of that quarter are included. Review searches return at most 100 results and other counts are capped at 500 per repository and contribution type. Repository-scoped follow-up searches ensure role activity checks remain accurate when a count is capped. Completed-period GitHub searches are cached in Homebrew's cache and removed by normal cache pruning. YEAR-1 is December of the previous year through February, YEAR-2 is March through May, YEAR-3 is June through August and YEAR-4 is September through November.
+    /// Print a CSV of Maintainer and Lead Maintainer activity criteria using fetched Git histories and GitHub's existing approved-review search for the Homebrew governance quarter, for example --maintainer-report-csv=2026-2. Alternatively, omit the value and set --from and --to for any reporting period. Also write it in the current directory as brew-contributions-FROM-to-TO.csv, or brew-contributions-FROM-to-TO-USER.csv when filtered with --user. Only Maintainers listed at the end of that period are included. Activity checks use the latest completed governance quarter; role recommendations use up to four full quarters of reports. Review searches return at most 100 results and other counts are capped at 500 per repository and contribution type. Repository-scoped follow-up searches ensure role activity checks remain accurate when a count is capped. Completed-period GitHub searches are cached in Homebrew's cache and removed by normal cache pruning. YEAR-1 is December of the previous year through February, YEAR-2 is March through May, YEAR-3 is June through August and YEAR-4 is September through November.
     /// </summary>
     [CliOption("--maintainer-report-csv", Format = OptionFormat.EqualsSeparated)]
     public string? MaintainerReportCsv { get; set; }

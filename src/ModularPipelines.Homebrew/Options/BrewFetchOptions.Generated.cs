@@ -97,6 +97,12 @@ public record BrewFetchOptions : BrewOptions
     public bool? Deps { get; set; }
 
     /// <summary>
+    /// Also download test resources and their patches for each formula.
+    /// </summary>
+    [CliFlag("--test")]
+    public bool? Test { get; set; }
+
+    /// <summary>
     /// Download source packages rather than a bottle.
     /// </summary>
     [CliFlag("--build-from-source", ShortForm = "-s")]

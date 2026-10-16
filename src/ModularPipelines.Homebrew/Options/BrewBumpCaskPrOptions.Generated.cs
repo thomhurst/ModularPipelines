@@ -86,16 +86,28 @@ public record BrewBumpCaskPrOptions : BrewOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Specify the new cask version for the ARM architecture.
+    /// Specify the new cask version for macOS on ARM.
     /// </summary>
     [CliOption("--version-arm", Format = OptionFormat.EqualsSeparated)]
     public string? VersionArm { get; set; }
 
     /// <summary>
-    /// Specify the new cask version for the Intel architecture.
+    /// Specify the new cask version for macOS on Intel.
     /// </summary>
     [CliOption("--version-intel", Format = OptionFormat.EqualsSeparated)]
     public string? VersionIntel { get; set; }
+
+    /// <summary>
+    /// Specify the new cask version for Linux on ARM.
+    /// </summary>
+    [CliOption("--version-linux-arm", Format = OptionFormat.EqualsSeparated)]
+    public string? VersionLinuxArm { get; set; }
+
+    /// <summary>
+    /// Specify the new cask version for Linux on Intel.
+    /// </summary>
+    [CliOption("--version-linux-intel", Format = OptionFormat.EqualsSeparated)]
+    public string? VersionLinuxIntel { get; set; }
 
     /// <summary>
     /// Prepend message to the default pull request message.
