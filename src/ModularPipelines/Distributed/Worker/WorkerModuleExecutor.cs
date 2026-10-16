@@ -39,6 +39,7 @@ internal class WorkerModuleExecutor(
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
     private readonly IReadOnlyList<IModule> _registeredModules = [.. registeredModules.Distinct<IModule>(ReferenceEqualityComparer.Instance)];
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
@@ -222,6 +223,27 @@ internal class WorkerModuleExecutor(
         if (masterState == DistributedMasterState.Lost)
         {
             throw new DistributedMasterLostException(workerId);
+        }
+
+        if (masterState == DistributedMasterState.Completed)
+        {
+            // All final results exist before completion. Reconcile even leaf modules whose local
+            // attempts lost their leases, without holding an execution slot while a retry runs.
+            using var resultCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            resultCts.CancelAfter(options.MasterTimeout);
+            await DependencyResultApplicator.FetchAndApplyAsync(
+                    [.. executedModules.Select(module => new DependencyResultReference
+                    {
+                        ModuleId = ModuleId.FromType(module.GetType()),
+                        IsAvailable = true,
+                    })],
+                    new DependencyResultCache(_coordinator, resultCts.Token),
+                    moduleLookup,
+                    _serializer,
+                    _resultRegistry,
+                    _logger,
+                    acceptedArtifacts: acceptedArtifacts)
+                .ConfigureAwait(false);
         }
 
         return _resultRegistry.GetCompletedResults(executedModules);

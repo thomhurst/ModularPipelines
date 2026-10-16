@@ -143,6 +143,9 @@ internal interface IModuleResultRegistry
     /// <param name="moduleType">The module type.</param>
     /// <param name="result">The module result.</param>
     void RegisterResult(Type moduleType, IModuleResult result);
+
+    /// <summary>Registers a coordinator-confirmed result that later local writes cannot replace.</summary>
+    void RegisterAcceptedResult(Type moduleType, IModuleResult result);
 }
 
 /// <summary>
@@ -162,7 +165,7 @@ internal interface IModuleResultRegistry
 /// <threadsafety static="true" instance="true"/>
 internal class ModuleResultRegistry : IModuleResultRegistry
 {
-    private readonly ConcurrentDictionary<Type, object> _results = new();
+    private readonly ConcurrentDictionary<Type, RegisteredResult> _results = new();
     private readonly ConcurrentDictionary<Type, TaskCompletionSource<object?>> _completionSources = new();
 
     /// <inheritdoc />
@@ -177,34 +180,11 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     /// <inheritdoc />
     /// <remarks>
-    /// <para>
-    /// This method is thread-safe. Uses explicit memory barriers to ensure result visibility
-    /// before signaling completion.
-    /// </para>
-    /// <para>
-    /// The sequence is:
-    /// 1. Store result in dictionary
-    /// 2. Memory barrier ensures the write is visible to other threads
-    /// 3. Signal completion via TCS.
-    /// </para>
+    /// Atomically stores the result before signaling completion. Once the coordinator's final
+    /// result is registered, later local writes cannot replace it.
     /// </remarks>
-    public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
-    {
-        // Get or create TCS first - this ensures it exists before we store the result
-        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
-        // happens-before ordering when awaiters check _results after TCS completion
-        var tcs = _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
-
-        // Store result
-        _results[moduleType] = result;
-
-        // Explicit memory barrier to ensure the result write is visible
-        // to all threads before we signal completion
-        Thread.MemoryBarrier();
-
-        // Now signal completion - awaiters are guaranteed to see the result
-        tcs.TrySetResult(result);
-    }
+    public void RegisterResult<T>(Type moduleType, ModuleResult<T> result) =>
+        RegisterResult(moduleType, result, isAccepted: false);
 
     /// <inheritdoc />
     /// <remarks>
@@ -239,7 +219,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
             return ModuleResultLookup<T>.NotFound();
         }
 
-        if (result is ModuleResult<T> typedResult)
+        if (result.Result is ModuleResult<T> typedResult)
         {
             return ModuleResultLookup<T>.Found(typedResult);
         }
@@ -255,7 +235,7 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     {
         if (_results.TryGetValue(moduleType, out var result))
         {
-            return result as IModuleResult;
+            return result.Result;
         }
 
         return null;
@@ -285,34 +265,28 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     /// <inheritdoc />
     /// <remarks>
-    /// <para>
-    /// This method is thread-safe. Uses explicit memory barriers to ensure result visibility
-    /// before signaling completion.
-    /// </para>
-    /// <para>
-    /// The sequence is:
-    /// 1. Store result in dictionary
-    /// 2. Memory barrier ensures the write is visible to other threads
-    /// 3. Signal completion via TCS.
-    /// </para>
+    /// Atomically stores the result before signaling completion. Once the coordinator's final
+    /// result is registered, later local writes cannot replace it.
     /// </remarks>
-    public void RegisterResult(Type moduleType, IModuleResult result)
+    public void RegisterResult(Type moduleType, IModuleResult result) =>
+        RegisterResult(moduleType, result, isAccepted: false);
+
+    /// <inheritdoc />
+    public void RegisterAcceptedResult(Type moduleType, IModuleResult result) =>
+        RegisterResult(moduleType, result, isAccepted: true);
+
+    private void RegisterResult(Type moduleType, IModuleResult result, bool isAccepted)
     {
-        // Get or create TCS first - this ensures it exists before we store the result
-        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
-        // happens-before ordering when awaiters check _results after TCS completion
         var tcs = _completionSources.GetOrAdd(moduleType, CreateCompletionSource);
-
-        // Store result
-        _results[moduleType] = result;
-
-        // Explicit memory barrier to ensure the result write is visible
-        // to all threads before we signal completion
-        Thread.MemoryBarrier();
-
-        // Now signal completion - awaiters are guaranteed to see the result
-        tcs.TrySetResult(result);
+        var registered = _results.AddOrUpdate(
+            moduleType,
+            static (_, candidate) => candidate,
+            static (_, current, candidate) => current.IsAccepted ? current : candidate,
+            new RegisteredResult(result, isAccepted));
+        tcs.TrySetResult(registered.Result);
     }
+
+    private readonly record struct RegisteredResult(IModuleResult Result, bool IsAccepted);
 
     private static TaskCompletionSource<object?> CreateCompletionSource(Type moduleType) =>
         new(TaskCreationOptions.RunContinuationsAsynchronously);
