@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -65,7 +65,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             };
 
             var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions).ConfigureAwait(false);
-            remoteUrl = remote.StandardOutput;
+            remoteUrl = remote.StandardOutput?.Trim();
 
             if (string.IsNullOrEmpty(remoteUrl))
             {
@@ -89,6 +89,16 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             {
                 return;
             }
+        }
+
+        if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
+            && !string.IsNullOrEmpty(uri.UserInfo))
+        {
+            remoteUrl = new UriBuilder(uri)
+            {
+                UserName = string.Empty,
+                Password = string.Empty,
+            }.Uri.AbsoluteUri;
         }
 
         Url = remoteUrl;

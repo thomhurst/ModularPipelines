@@ -12,7 +12,7 @@ public interface IGitHubRepositoryInfo
     bool IsInitialized { get; }
 
     /// <summary>
-    /// Gets the URL of a GitHub repository.
+    /// Gets the trimmed URL of a GitHub repository without HTTPS credentials.
     /// </summary>
     string? Url { get; }
 
