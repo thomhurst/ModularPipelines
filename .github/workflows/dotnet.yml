@@ -21,7 +21,7 @@ on:
         description: Alpha version?
         type: boolean
         required: true
-        default: true
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
@@ -120,6 +120,9 @@ jobs:
       - name: Test publication artifact boundary
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: node --test .github/scripts/generation-artifact.test.mjs
+      - name: Test release inputs
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        run: node --test .github/scripts/release-inputs.test.mjs
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -691,7 +694,8 @@ jobs:
           GitHub__StandardToken: ${{ matrix.instance == 0 && github.ref == 'refs/heads/main' && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
-          Publish__IsAlpha: ${{ github.event.inputs.is-alpha || true }}
+          # Only a publishing dispatch may select stable versions; validation runs keep alpha tags.
+          Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
           CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}
           EMAIL_PASSWORD: ${{ matrix.instance == 0 && secrets.EMAIL_PASSWORD || '' }}

@@ -12,6 +12,8 @@
     <PackageReference Include="Moq" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Exercise release upload behavior without referencing or running the build executable. -->
+    <Compile Include="../../src/ModularPipelines.Build/Helpers/NugetUploadHelper.cs" Link="Build/NugetUploadHelper.cs" />
     <None Update="Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
