@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "ansible",
-  "toolVersion": "ansible [core 2.21.4]   config file = None   configured module search path = ['/home/runner/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']   ansible python module location = /opt/pipx/venvs/ansible-core/lib/python3.12/site-packages/ansible   ansible collection location = /home/runner/.ansible/collections:/usr/share/ansible/collections   executable location = /opt/pipx_bin/ansible   python version = 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0] (/opt/pipx/venvs/ansible-core/",
+  "toolVersion": "2.21.5",
   "commandTreeSha256": "0cb87f727f31e5f5a59cca8a10c8f9b55622be05305d4e7e92c334f5911e1034",
-  "generatorSourceSha256": "0dc6974508af52eb162a3153b12a9941a93f6dbab6228e80dc1432e7fcefa1b7"
+  "generatorSourceSha256": "1bc9484782c2191568cb8688a61fe09570cbaf3751d5e1cb5364f8cb74f4646c"
 }
