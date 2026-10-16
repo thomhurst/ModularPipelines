@@ -50,21 +50,15 @@ public class ZipReliabilityTests
     }
 
     [Test]
-    [Arguments(false, 0)]
-    [Arguments(true, 0)]
-    [Arguments(false, 0x8000)]
-    [Arguments(true, 0x8000)]
-    [Arguments(false, 0x81ED)]
-    [Arguments(true, 0x81ED)]
-    [Arguments(false, 0x01ED)]
-    [Arguments(true, 0x01ED)]
-    public async Task ExtractsExternalUnixPermissionsWhenPresent(bool asynchronous, int unixAttributes)
+    [MatrixDataSource]
+    public async Task ExtractsOnlyOrdinaryUnixPermissionsThroughUmask(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(0, 0x8000, 0x81ED, 0x01ED, 0x8FED, 0x81FF, 0x8E00)] int unixAttributes,
+        [Matrix(false, true)] bool overwriteExisting)
     {
         var root = Directory.CreateTempSubdirectory("zip-external-permissions-");
         try
         {
-            var reference = Path.Combine(root.FullName, "reference.txt");
-            await File.WriteAllTextAsync(reference, "reference");
             using (var archive = ZipFile.Open(Path.Combine(root.FullName, "archive.zip"), ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("input.txt");
@@ -73,19 +67,99 @@ public class ZipReliabilityTests
                 writer.Write("contents");
             }
 
+            var destination = Directory.CreateDirectory(Path.Combine(root.FullName, "destination"));
+            var extracted = Path.Combine(destination.FullName, "input.txt");
+            if (overwriteExisting)
+            {
+                await File.WriteAllTextAsync(extracted, "old contents");
+                if (!OperatingSystem.IsWindows())
+                {
+                    File.SetUnixFileMode(extracted, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                }
+            }
+
             IZipContext zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root.FullName));
-            await Extract(zip, asynchronous);
-            var extracted = Path.Combine(root.FullName, "destination", "input.txt");
+            await Extract(zip, asynchronous, overwriteExisting);
             await Assert.That(File.Exists(extracted)).IsTrue();
             if (!OperatingSystem.IsWindows())
             {
-                var permissions = unixAttributes & 0xFFF;
-                var expectedMode = unixAttributes == 0 ? File.GetUnixFileMode(reference) : (UnixFileMode) permissions;
-                await Assert.That(File.GetUnixFileMode(extracted)).IsEqualTo(expectedMode);
+                // Let the OS apply the process umask without changing process-global state.
+                var reference = Path.Combine(root.FullName, "reference.txt");
+                var permissionBits = unixAttributes & 0x1FF;
+                var permissions = (UnixFileMode) permissionBits;
+                using (var stream = new FileStream(reference, new FileStreamOptions
+                {
+                    Access = FileAccess.Write,
+                    Mode = FileMode.CreateNew,
+                    UnixCreateMode = unixAttributes == 0 ? null : permissions,
+                }))
+                {
+                }
+
+                await Assert.That(File.GetUnixFileMode(extracted)).IsEqualTo(File.GetUnixFileMode(reference));
+                // Zero-mode entries are unreadable until the owner grants read permission.
+                File.SetUnixFileMode(extracted, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+            }
+
+            await Assert.That(await File.ReadAllTextAsync(extracted)).IsEqualTo("contents");
+            await Assert.That(Directory.GetFiles(destination.FullName)).IsEquivalentTo([extracted]);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task FailedUnixExtractionRemovesTemporaryFileAndPreservesExistingDestination(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(false, true)] bool overwriteExisting)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            Skip.Test("Unix extraction uses a temporary file to apply permissions.");
+            return;
+        }
+
+        var root = Directory.CreateTempSubdirectory("zip-extraction-failure-");
+        try
+        {
+            var archivePath = Path.Combine(root.FullName, "archive.zip");
+            using (var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create))
+            {
+                using var writer = new StreamWriter(archive.CreateEntry("input.txt", CompressionLevel.Optimal).Open());
+                writer.Write("contents");
+            }
+
+            // Keep ZIP headers intact and replace the first DEFLATE block with invalid block type 3.
+            using (var stream = File.Open(archivePath, FileMode.Open, FileAccess.ReadWrite))
+            using (var reader = new BinaryReader(stream))
+            {
+                stream.Position = 26;
+                var nameLength = reader.ReadUInt16();
+                var extraLength = reader.ReadUInt16();
+                stream.Position = 30 + nameLength + extraLength;
+                stream.WriteByte(0x07);
+            }
+
+            var destination = Directory.CreateDirectory(Path.Combine(root.FullName, "destination"));
+            var extracted = Path.Combine(destination.FullName, "input.txt");
+            if (overwriteExisting)
+            {
+                await File.WriteAllTextAsync(extracted, "old contents");
+            }
+
+            IZipContext zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root.FullName));
+            await Assert.ThrowsAsync<InvalidDataException>(() => Extract(zip, asynchronous, overwriteExisting));
+            if (overwriteExisting)
+            {
+                await Assert.That(await File.ReadAllTextAsync(extracted)).IsEqualTo("old contents");
+                await Assert.That(Directory.GetFiles(destination.FullName)).IsEquivalentTo([extracted]);
             }
             else
             {
-                await Assert.That(await File.ReadAllTextAsync(extracted)).IsEqualTo("contents");
+                await Assert.That(Directory.GetFiles(destination.FullName)).IsEmpty();
             }
         }
         finally
@@ -256,15 +330,15 @@ public class ZipReliabilityTests
         }
     }
 
-    private static async Task Extract(IZipContext zip, bool asynchronous)
+    private static async Task Extract(IZipContext zip, bool asynchronous, bool overwriteFiles = false)
     {
         if (asynchronous)
         {
-            await zip.ExtractToDirectoryAsync("archive.zip", "destination", overwriteFiles: false);
+            await zip.ExtractToDirectoryAsync("archive.zip", "destination", overwriteFiles);
         }
         else
         {
-            zip.ExtractToDirectory("archive.zip", "destination", overwriteFiles: false);
+            zip.ExtractToDirectory("archive.zip", "destination", overwriteFiles);
         }
     }
 }

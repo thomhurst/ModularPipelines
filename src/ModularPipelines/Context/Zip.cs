@@ -10,7 +10,7 @@ internal partial class Zip(
     PipelineWorkingDirectory workingDirectory) : IZipContext
 {
     private const int UnixFileTypeRegular = 0x8000;
-    private const int UnixPermissionMask = 0xFFF;
+    private const int UnixPermissionMask = 0x1FF;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
@@ -119,13 +119,25 @@ internal partial class Zip(
             _fileSystemProvider.CreateDirectory(parentDirectory);
         }
 
-        using (var source = entry.Open())
-        using (var destination = OpenExtractionDestination(destinationPath, overwriteFiles))
+        var extractionPath = GetExtractionPath(destinationPath);
+        using var source = entry.Open();
+        var destination = OpenExtractionDestination(entry, destinationPath, extractionPath, overwriteFiles);
+        try
         {
-            source.CopyTo(destination);
-        }
+            using (destination)
+            {
+                source.CopyTo(destination);
+            }
 
-        RestoreFileMetadata(entry, destinationPath);
+            CompleteExtraction(entry, extractionPath, destinationPath, overwriteFiles);
+        }
+        finally
+        {
+            if (extractionPath != destinationPath)
+            {
+                _fileSystemProvider.DeleteFile(extractionPath);
+            }
+        }
     }
 
     private void StoreFileMetadata(ZipArchiveEntry entry, string path)
@@ -147,33 +159,66 @@ internal partial class Zip(
             System.IO.File.SetLastWriteTime(
                 destinationPath,
                 entry.LastWriteTime.LocalDateTime);
-            if (!OperatingSystem.IsWindows())
-            {
-                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if (unixAttributes != 0)
-                {
-                    var permissions = unixAttributes & UnixPermissionMask;
-                    System.IO.File.SetUnixFileMode(destinationPath, (UnixFileMode) permissions);
-                }
-            }
         }
     }
 
-    private Stream OpenExtractionDestination(string path, bool overwriteFiles)
+    private string GetExtractionPath(string destinationPath) =>
+        _fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows()
+            ? Path.Combine(Path.GetDirectoryName(destinationPath)!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp")
+            : destinationPath;
+
+    private Stream OpenExtractionDestination(
+        ZipArchiveEntry entry, string destinationPath, string extractionPath, bool overwriteFiles)
     {
-        if (!overwriteFiles && _fileSystemProvider.FileExists(path))
+        if (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
         {
-            throw new DestinationFileExistsException(path);
+            throw new DestinationFileExistsException(destinationPath);
         }
 
         try
         {
-            return _fileSystemProvider.Open(path, overwriteFiles ? FileMode.Create : FileMode.CreateNew, FileAccess.Write);
+            if (_fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
+            {
+                var options = new FileStreamOptions
+                {
+                    Access = FileAccess.Write,
+                    Mode = FileMode.CreateNew,
+                    Share = FileShare.None,
+                };
+                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+                if (unixAttributes != 0)
+                {
+                    // Only ordinary permissions are trusted; creation lets the OS apply umask.
+                    var permissions = unixAttributes & UnixPermissionMask;
+                    options.UnixCreateMode = (UnixFileMode) permissions;
+                }
+
+                return new FileStream(extractionPath, options);
+            }
+
+            return _fileSystemProvider.Open(extractionPath, overwriteFiles ? FileMode.Create : FileMode.CreateNew, FileAccess.Write);
         }
-        catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(path))
+        catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
         {
             // A competing writer may create the file after the existence check.
-            throw new DestinationFileExistsException(path, ex);
+            throw new DestinationFileExistsException(destinationPath, ex);
+        }
+    }
+
+    private void CompleteExtraction(ZipArchiveEntry entry, string extractionPath, string destinationPath, bool overwriteFiles)
+    {
+        RestoreFileMetadata(entry, extractionPath);
+        if (extractionPath != destinationPath)
+        {
+            try
+            {
+                // Replacing the inode preserves the creation mode and umask when overwriting.
+                _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
+            }
+            catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
+            {
+                throw new DestinationFileExistsException(destinationPath, ex);
+            }
         }
     }
 

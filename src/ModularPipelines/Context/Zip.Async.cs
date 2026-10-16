@@ -136,16 +136,28 @@ internal partial class Zip
             _fileSystemProvider.CreateDirectory(parentDirectory);
         }
 
+        var extractionPath = GetExtractionPath(destinationPath);
         var source = await entry.OpenAsync(cancellationToken).ConfigureAwait(false);
         await using (source.ConfigureAwait(false))
         {
-            var destination = OpenExtractionDestination(destinationPath, overwriteFiles);
-            await using (destination.ConfigureAwait(false))
+            var destination = OpenExtractionDestination(entry, destinationPath, extractionPath, overwriteFiles);
+            try
             {
-                await source.CopyToAsync(destination, cancellationToken).ConfigureAwait(false);
+                await using (destination.ConfigureAwait(false))
+                {
+                    await source.CopyToAsync(destination, cancellationToken).ConfigureAwait(false);
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                CompleteExtraction(entry, extractionPath, destinationPath, overwriteFiles);
+            }
+            finally
+            {
+                if (extractionPath != destinationPath)
+                {
+                    _fileSystemProvider.DeleteFile(extractionPath);
+                }
             }
         }
-
-        RestoreFileMetadata(entry, destinationPath);
     }
 }
