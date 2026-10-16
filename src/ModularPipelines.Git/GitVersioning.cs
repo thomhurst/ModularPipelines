@@ -1,8 +1,10 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
@@ -17,40 +19,32 @@ namespace ModularPipelines.Git;
 /// method can be called concurrently from multiple threads without external synchronization.
 /// </para>
 /// <para>
-/// <b>Synchronization Strategy:</b> Uses a static <see cref="SemaphoreSlim"/> with count 1 as an
-/// async mutex. This is required because the operation involves async I/O (tool installation and
-/// execution) and regular locks cannot be held across await points. The static semaphore ensures
-/// that only one GitVersion tool installation/execution occurs across all instances, preventing
-/// race conditions when multiple modules request version information simultaneously.
+/// <b>Synchronization Strategy:</b> An instance <see cref="SemaphoreSlim"/> serializes tool
+/// installation and execution until a result is cached. Separate instances have independent
+/// results and temporary tool folders, so pipelines for different repositories do not share versions.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class GitVersioning : IGitVersioning
+internal class GitVersioning(
+    IGitInformation gitInformation,
+    ICommandContext command,
+    IModuleLoggerAccessor moduleLoggerAccessor,
+    IFileSystemProvider fileSystemProvider,
+    IOptions<GitVersioningOptions> options) : IGitVersioning
 {
-    private readonly IGitInformation _gitInformation;
-    private readonly ICommandContext _command;
-    private readonly IModuleLoggerAccessor _moduleLoggerAccessor;
+    private readonly IGitInformation _gitInformation = gitInformation;
+    private readonly ICommandContext _command = command;
+    private readonly IModuleLoggerAccessor _moduleLoggerAccessor = moduleLoggerAccessor;
 
-    private readonly IFileSystemProvider _fileSystemProvider;
+    private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
+    private readonly string _toolVersion = options.Value.ToolVersion;
 
     /// <summary>
     /// Async mutex to ensure single-threaded access to GitVersion tool installation and execution.
-    /// Static because the cached result and tool installation are shared across all instances.
+    /// Each instance owns its cached result and temporary tool installation.
     /// </summary>
-    private static readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
-    private static GitVersionInformation? _prefetchedGitVersionInformation;
-
-    public GitVersioning(
-        IGitInformation gitInformation,
-        ICommandContext command,
-        IModuleLoggerAccessor moduleLoggerAccessor,
-        IFileSystemProvider fileSystemProvider)
-    {
-        _gitInformation = gitInformation;
-        _command = command;
-        _moduleLoggerAccessor = moduleLoggerAccessor;
-        _fileSystemProvider = fileSystemProvider;
-    }
+    private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+    private GitVersionInformation? _prefetchedGitVersionInformation;
 
     public async Task<GitVersionInformation> GetVersioningInformationAsync(
         CancellationToken cancellationToken = default)
@@ -101,19 +95,28 @@ internal class GitVersioning : IGitVersioning
                 "install",
                 "--tool-path", temporaryFolder.Path,
                 "GitVersion.Tool",
-                "--version", "6.*"
+                "--version", _toolVersion
             ],
         }, cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        await TryWriteConfigurationFileAsync(repositoryRoot, cancellationToken).ConfigureAwait(false);
+        var arguments = new List<string> { "/output", "json", "/nocache" };
+        if (!HasRepositoryConfiguration(repositoryRoot))
+        {
+            var configuration = temporaryFolder.GetFile("GitVersion.yml");
+            await configuration.WriteAsync(
+                """
+                mode: ContinuousDeployment
+                strategies:
+                  - Mainline
+                """,
+                cancellationToken).ConfigureAwait(false);
+            arguments.AddRange(["/config", configuration.Path]);
+        }
 
         var gitVersionOutput = await _command.ExecuteCommandLineToolAsync(
             new CommandLineToolOptions(Path.Combine(temporaryFolder, "dotnet-gitversion"))
             {
-                Arguments =
-                [
-                    "/output", "json"
-                ],
+                Arguments = arguments,
             },
             new CommandExecutionOptions
             {
@@ -132,33 +135,22 @@ internal class GitVersioning : IGitVersioning
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {
-            _moduleLoggerAccessor.Logger.LogDebug(
-                exception,
-                "Could not delete GitVersion tool folder {Path}",
-                temporaryFolder.Path);
+            var logger = _moduleLoggerAccessor.Logger;
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug(
+                    exception,
+                    "Could not delete GitVersion tool folder {Path}",
+                    temporaryFolder.Path);
+            }
         }
     }
 
-    private async Task TryWriteConfigurationFileAsync(FolderPath root, CancellationToken cancellationToken)
+    private bool HasRepositoryConfiguration(FolderPath root)
     {
-        try
-        {
-            var file = new FilePath(Path.Combine(root.Path, "GitVersion.yml"));
-
-            if (!file.Exists)
-            {
-                await file.WriteAsync(
-                    """
-                    mode: ContinuousDeployment
-                    strategies:
-                      - Mainline
-                    """,
-                    cancellationToken).ConfigureAwait(false);
-            }
-        }
-        catch (Exception e) when (e is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
-        {
-            _moduleLoggerAccessor.Logger.LogWarning(e, "Error defining GitVersion.yml configuration");
-        }
+        // Match GitVersion's case-insensitive discovery, including on case-sensitive file systems.
+        string[] configurationNames = ["GitVersion.yml", "GitVersion.yaml", ".GitVersion.yml", ".GitVersion.yaml"];
+        return _fileSystemProvider.EnumerateFiles(root.Path, "*", SearchOption.TopDirectoryOnly)
+            .Any(path => configurationNames.Contains(Path.GetFileName(path), StringComparer.OrdinalIgnoreCase));
     }
 }
