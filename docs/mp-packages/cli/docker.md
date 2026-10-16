@@ -100,6 +100,8 @@ Global options are rendered before the selected subcommand.
 | `docker buildx policy eval`                    | `DockerBuildxPolicyEvalOptions`                   |
 | `docker buildx policy test`                    | `DockerBuildxPolicyTestOptions`                   |
 | `docker buildx prune`                          | `DockerBuildxPruneOptions`                        |
+| `docker buildx replay`                         | `DockerBuildxReplayOptions`                       |
+| `docker buildx replay build`                   | `DockerBuildxReplayBuildOptions`                  |
 | `docker buildx rm`                             | `DockerBuildxRmOptions`                           |
 | `docker buildx stop`                           | `DockerBuildxStopOptions`                         |
 | `docker buildx use`                            | `DockerBuildxUseOptions`                          |
@@ -178,6 +180,7 @@ Global options are rendered before the selected subcommand.
 | `docker context inspect`                       | `DockerContextInspectOptions`                     |
 | `docker context ls`                            | `DockerContextLsOptions`                          |
 | `docker context rm`                            | `DockerContextRmOptions`                          |
+| `docker context show`                          | `DockerContextShowOptions`                        |
 | `docker context update`                        | `DockerContextUpdateOptions`                      |
 | `docker context use`                           | `DockerContextUseOptions`                         |
 | `docker cp`                                    | `DockerCpOptions`                                 |
