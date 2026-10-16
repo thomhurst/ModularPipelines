@@ -56,6 +56,9 @@ public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache
 
     public override string OutputDirectory => "src/ModularPipelines.Homebrew";
 
+    protected override string? ParseVersionOutput(CliCommandResult result) =>
+        CliVersionParser.Parse(result, @"Homebrew\s+");
+
     // Homebrew selects the command from the first argument; these shared switches
     // belong to the selected command parser, not before the command name.
     protected override bool GlobalOptionsBeforeSubcommands => false;

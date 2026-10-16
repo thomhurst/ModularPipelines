@@ -33,6 +33,9 @@ public partial class HadolintCliScraper(ICliCommandExecutor executor, IHelpTextC
 
     public override string OutputDirectory => "src/ModularPipelines.Hadolint";
 
+    protected override string? ParseVersionOutput(CliCommandResult result) =>
+        CliVersionParser.Parse(result, @"Haskell\s+Dockerfile\s+Linter\s+");
+
     /// <summary>
     /// Hadolint doesn't have subcommands.
     /// </summary>

@@ -234,13 +234,11 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected virtual string? ParseVersionOutput(CliCommandResult result)
     {
-        var version = result.CombinedOutput.ReplaceLineEndings(" ").Trim();
-        return version.Length switch
-        {
-            0 => null,
-            > 500 => version[..500],
-            _ => version,
-        };
+        var name = $"(?:{Regex.Escape(ToolName)}|{Regex.Escape(NamespacePrefix)})";
+        // Recognize a version header, not an arbitrary version token inside a warning or path.
+        var header = $@"{name}(?:-cli)?(?:\s+\(https?://[^\s)]+\))?(?:\s+(?:version|cli))?[\s:/-]+(?:\[core\s+|{name})?"
+                     + @"|(?:client\s+)?version:\s*";
+        return CliVersionParser.Parse(result, header);
     }
 
     /// <summary>
