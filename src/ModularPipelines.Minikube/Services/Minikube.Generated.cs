@@ -244,6 +244,15 @@ internal partial class Minikube : IMinikube
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> UpdateContextAsync(
+        MinikubeUpdateContextOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeUpdateContextOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> VersionAsync(
         MinikubeVersionOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
