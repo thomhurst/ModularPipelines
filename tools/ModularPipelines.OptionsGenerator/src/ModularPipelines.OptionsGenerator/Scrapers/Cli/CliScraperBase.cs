@@ -2524,7 +2524,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
         + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?)\s+"
-        + @"(?:multiple\s+times|more\s+than\s+once|"
+        + @"(?:(?:(?:this|the)\s+(?:option|flag|argument)\s+)?(?:multiple\s+times|more\s+than\s+once)|"
         + RepeatableItemCountPattern
         + @"|multiple\s+[\w-]+)"
         + @"|(?:an?\s+)?array\s+of\s+[\w-]+)\b";

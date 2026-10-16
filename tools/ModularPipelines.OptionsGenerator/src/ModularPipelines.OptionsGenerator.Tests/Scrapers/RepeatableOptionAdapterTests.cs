@@ -49,6 +49,27 @@ public class RepeatableOptionAdapterTests
     }
 
     [Test]
+    [Arguments("apply", "-var-file", "Load variable values from the given file. Use this option more than once to include more than one variables file.")]
+    [Arguments("providers mirror", "-platform", "Choose which target platform to build a mirror for. Use this flag multiple times to include packages for multiple target systems.")]
+    [Arguments("test", "-filter", "If specified, Terraform will only execute the test files specified by this flag. You can use this option multiple times to execute more than one test file.")]
+    public async Task Terraform_Recognizes_Repeatability_With_An_Option_Noun(
+        string subcommand,
+        string switchName,
+        string description)
+    {
+        var helpText = $"""
+            Usage: terraform {subcommand} [options]
+
+            Options:
+              {switchName}=path  {description}
+            """;
+        string[] commandPath = ["terraform", .. subcommand.Split(' ')];
+        var command = await new TestTerraformCliScraper().Parse(commandPath, helpText);
+
+        await AssertRepeatable(command, switchName);
+    }
+
+    [Test]
     public async Task Pip_Recognizes_Multiline_Multiple_Times_Prose()
     {
         const string helpText = """
@@ -147,6 +168,23 @@ public class RepeatableOptionAdapterTests
     [Arguments("This option can be specified one or more times.", true)]
     [Arguments("May be provided zero or more times.", true)]
     [Arguments("This option should be used more than once.", true)]
+    [Arguments("Use this option more than once.", true)]
+    [Arguments("Use the option more than once.", true)]
+    [Arguments("Supply this flag more than once.", true)]
+    [Arguments("Supply the flag more than once.", true)]
+    [Arguments("Provide this argument more than once.", true)]
+    [Arguments("Provide the argument more than once.", true)]
+    [Arguments("Specify this option multiple times.", true)]
+    [Arguments("Specify the option multiple times.", true)]
+    [Arguments("Pass this flag multiple times.", true)]
+    [Arguments("Pass the flag multiple times.", true)]
+    [Arguments("Give this argument multiple times.", true)]
+    [Arguments("Give the argument multiple times.", true)]
+    [Arguments("Use this\n                    option more than once.", true)]
+    [Arguments("Use this operation more than once.", false)]
+    [Arguments("Use the connection multiple times.", false)]
+    [Arguments("Use this option to retry multiple times.", false)]
+    [Arguments("Use this option for multiple retries.", false)]
     [Arguments("Supports multiple values.", true)]
     [Arguments("Takes multiple values.", true)]
     [Arguments("Value can contain multiple values.", false)]
