@@ -434,6 +434,10 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
 
 Review filters, delays, and wrapped policies instead of replacing the Polly type name. Standard `WithRetry` uses exponential backoff with jitter; its default base delay is 100 ms. V3's `WithRetryCount` waited `attempt² × 100 ms` without jitter, so `WithRetry(n)` does not reproduce the old delays exactly; pass `baseDelay` or a shield when timing matters. V3 applied the module timeout to all attempts combined. V4 applies it **per attempt**, with backoff outside that timeout. See [Retries and Resilience Shields](/ModularPipelines/docs/how-to/retry-policy.md).
 
+### Parallel limiter targets[​](#parallel-limiter-targets "Direct link to Parallel limiter targets")
+
+`ParallelLimiterAttribute<TParallelLimit>` now permits class targets only. Remove assembly-level and method-level applications, which previously compiled but did not limit module execution. Apply `[ParallelLimiter<MyParallelLimit>]` to each affected module class, or configure it with `module.WithParallelLimiter<MyParallelLimit>()` inside `Configure`. Fluent configuration overrides an inherited or directly applied limiter attribute. Modules using the same limit type share its limit regardless of configuration style; both planning and execution honor that limit.
+
 ## Module Results and Pipeline Summaries[​](#module-results-and-pipeline-summaries "Direct link to Module Results and Pipeline Summaries")
 
 ### Explicit nullability[​](#explicit-nullability "Direct link to Explicit nullability")

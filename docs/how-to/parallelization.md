@@ -116,7 +116,17 @@ public class BuildProjectModule : Module
 
 Use `[ParallelLimiter<TParallelLimit>]` to cap the number of modules that can run at the same time with a shared limit type. The type must implement `IParallelLimit`, which declares `static abstract int Limit { get; }`. Implement it with a public static `int Limit` property that returns a positive limit. No instance or public parameterless constructor is required.
 
-The limit is shared by modules using the same limit type within a pipeline. Modules without this attribute and modules using a different limit type can run alongside them, subject to their own constraints and the pipeline's concurrency limits.
+The limit is shared by modules using the same limit type within a pipeline. Modules without a limiter and modules using a different limit type can run alongside them, subject to their own constraints and the pipeline's concurrency limits.
+
+The attribute applies only to module classes and is inherited by derived module classes. You can configure the same limit fluently:
+
+```
+protected override void Configure(ModuleConfigurationBuilder module) => module
+
+    .WithParallelLimiter<MyParallelLimit>();
+```
+
+Fluent configuration overrides a limiter attribute, including an inherited attribute. Repeated `WithParallelLimiter<TParallelLimit>()` calls use the last limit type. Attribute and fluent configuration share the same semaphore for the same limit type, and planning uses that same limit. The effective type is available through `IModule.Configuration.ParallelLimiterType`.
 
 ## Example[​](#example-2 "Direct link to Example")
 
