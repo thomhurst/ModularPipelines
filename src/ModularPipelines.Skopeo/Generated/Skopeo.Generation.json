@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "skopeo",
-  "toolVersion": "skopeo version 1.13.3",
+  "toolVersion": "1.13.3",
   "commandTreeSha256": "71df545926b8f3395c60d1ed9e037569395c16b401bff0417eacdfb16d3d7908",
-  "generatorSourceSha256": "aa558027efe748e7c0bfd9951f57e152c21f8e93ed4a44a21ddf863ce7fd20a3"
+  "generatorSourceSha256": "4a06f69aeab45b6c2616ab8aa9fc03680cac4ee35cf292c7aebfd4f95c93f271"
 }

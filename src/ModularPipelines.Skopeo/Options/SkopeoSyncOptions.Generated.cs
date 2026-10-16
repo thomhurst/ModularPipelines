@@ -26,24 +26,46 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// <summary>
     /// Copy all the images from a SOURCE to a DESTINATION.
     /// </summary>
+    /// <param name="Dest">DESTINATION transport type</param>
+    /// <param name="Src">SOURCE transport type</param>
     /// <param name="Source">The SOURCE operand.</param>
     /// <param name="Destination">The DESTINATION operand.</param>
     public SkopeoSyncOptions(
+        string Dest,
+        string Src,
         string Source,
         string Destination
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(Dest);
+        this.Dest = Dest;
+        global::System.ArgumentNullException.ThrowIfNull(Src);
+        this.Src = Src;
         global::System.ArgumentNullException.ThrowIfNull(Source);
         this.Source = Source;
         global::System.ArgumentNullException.ThrowIfNull(Destination);
         this.Destination = Destination;
     }
 
-    public void Deconstruct(out string Source, out string Destination)
+    public void Deconstruct(out string Dest, out string Src, out string Source, out string Destination)
     {
+        Dest = this.Dest;
+        Src = this.Src;
         Source = this.Source;
         Destination = this.Destination;
     }
+
+    /// <summary>
+    /// DESTINATION transport type
+    /// </summary>
+    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
+    public string Dest { get; private init; }
+
+    /// <summary>
+    /// SOURCE transport type
+    /// </summary>
+    [CliOption("--src", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string Src { get; private init; }
 
     /// <summary>
     /// Copy all images if SOURCE-IMAGE is a list
@@ -62,12 +84,6 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// </summary>
     [CliOption("--authfile", Format = OptionFormat.EqualsSeparated)]
     public string? Authfile { get; set; }
-
-    /// <summary>
-    /// DESTINATION transport type
-    /// </summary>
-    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Dest { get; set; }
 
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
@@ -186,12 +202,6 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// </summary>
     [CliOption("--sign-passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? SignPassphraseFile { get; set; }
-
-    /// <summary>
-    /// SOURCE transport type
-    /// </summary>
-    [CliOption("--src", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Src { get; set; }
 
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
