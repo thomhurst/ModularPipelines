@@ -35,17 +35,17 @@ public class PulumiPolicy : IPulumiPolicy
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi compliance sub-commands.
+    /// pulumi policy compliance sub-commands.
     /// </summary>
     public PulumiPolicyCompliance Compliance => _compliance ??= new PulumiPolicyCompliance(_command);
 
     /// <summary>
-    /// pulumi group sub-commands.
+    /// pulumi policy group sub-commands.
     /// </summary>
     public PulumiPolicyGroup Group => _group ??= new PulumiPolicyGroup(_command);
 
     /// <summary>
-    /// pulumi issue sub-commands.
+    /// pulumi policy issue sub-commands.
     /// </summary>
     public PulumiPolicyIssue Issue => _issue ??= new PulumiPolicyIssue(_command);
 

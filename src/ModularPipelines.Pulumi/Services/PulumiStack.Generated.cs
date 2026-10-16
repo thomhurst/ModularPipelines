@@ -37,27 +37,27 @@ public class PulumiStack : IPulumiStack
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi drift sub-commands.
+    /// pulumi stack drift sub-commands.
     /// </summary>
     public PulumiStackDrift Drift => _drift ??= new PulumiStackDrift(_command);
 
     /// <summary>
-    /// pulumi history sub-commands.
+    /// pulumi stack history sub-commands.
     /// </summary>
     public PulumiStackHistory History => _history ??= new PulumiStackHistory(_command);
 
     /// <summary>
-    /// pulumi schedule sub-commands.
+    /// pulumi stack schedule sub-commands.
     /// </summary>
     public PulumiStackSchedule Schedule => _schedule ??= new PulumiStackSchedule(_command);
 
     /// <summary>
-    /// pulumi tag sub-commands.
+    /// pulumi stack tag sub-commands.
     /// </summary>
     public PulumiStackTag Tag => _tag ??= new PulumiStackTag(_command);
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi stack webhook sub-commands.
     /// </summary>
     public PulumiStackWebhook Webhook => _webhook ??= new PulumiStackWebhook(_command);
 

@@ -22,27 +22,27 @@ namespace ModularPipelines.Pulumi.Services;
 public interface IPulumiStack
 {
     /// <summary>
-    /// pulumi drift sub-commands.
+    /// pulumi stack drift sub-commands.
     /// </summary>
     PulumiStackDrift Drift { get; }
 
     /// <summary>
-    /// pulumi history sub-commands.
+    /// pulumi stack history sub-commands.
     /// </summary>
     PulumiStackHistory History { get; }
 
     /// <summary>
-    /// pulumi schedule sub-commands.
+    /// pulumi stack schedule sub-commands.
     /// </summary>
     PulumiStackSchedule Schedule { get; }
 
     /// <summary>
-    /// pulumi tag sub-commands.
+    /// pulumi stack tag sub-commands.
     /// </summary>
     PulumiStackTag Tag { get; }
 
     /// <summary>
-    /// pulumi webhook sub-commands.
+    /// pulumi stack webhook sub-commands.
     /// </summary>
     PulumiStackWebhook Webhook { get; }
 

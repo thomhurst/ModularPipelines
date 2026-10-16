@@ -33,7 +33,7 @@ public class PulumiDeployment : IPulumiDeployment
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi settings sub-commands.
+    /// pulumi deployment settings sub-commands.
     /// </summary>
     public PulumiDeploymentSettings Settings => _settings ??= new PulumiDeploymentSettings(_command);
 

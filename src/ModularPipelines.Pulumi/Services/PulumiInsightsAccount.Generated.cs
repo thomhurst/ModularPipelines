@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi account commands.
+/// pulumi insights account commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiInsightsAccount
@@ -33,7 +33,7 @@ public class PulumiInsightsAccount
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi scan sub-commands.
+    /// pulumi insights account scan sub-commands.
     /// </summary>
     public PulumiInsightsAccountScan Scan => _scan ??= new PulumiInsightsAccountScan(_command);
 

@@ -33,7 +33,7 @@ public class PulumiConfig : IPulumiConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi env sub-commands.
+    /// pulumi config env sub-commands.
     /// </summary>
     public PulumiConfigEnv Env => _env ??= new PulumiConfigEnv(_command);
 

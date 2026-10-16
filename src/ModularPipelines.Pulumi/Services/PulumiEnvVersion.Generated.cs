@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Services;
 
 /// <summary>
-/// pulumi version commands.
+/// pulumi env version commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiEnvVersion
@@ -33,7 +33,7 @@ public class PulumiEnvVersion
     #region Sub-command Groups
 
     /// <summary>
-    /// pulumi tag sub-commands.
+    /// pulumi env version tag sub-commands.
     /// </summary>
     public PulumiEnvVersionTag Tag => _tag ??= new PulumiEnvVersionTag(_command);
 
