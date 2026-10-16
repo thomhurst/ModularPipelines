@@ -229,7 +229,7 @@ internal class ExecutionOrchestrator(
 
         try
         {
-            await InvokePipelineEndHandlersAsync(summary, caughtException is not null || summary.Status == ModuleStatus.Failed)
+            await InvokePipelineEndHandlersAsync(summary, caughtException is not null)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -244,14 +244,16 @@ internal class ExecutionOrchestrator(
     /// Runs end handlers after startup or execution, without replacing an existing pipeline failure.
     /// </summary>
     /// <remarks>
-    /// The timeout bounds asynchronous handler work. Synchronous work before a handler returns its task is not bounded.
+    /// The timeout starts when shutdown is requested and bounds asynchronous handler work.
+    /// Synchronous work before a handler returns its task is not bounded.
     /// </remarks>
-    private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool executionFailed)
+    private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool hasExecutionException)
     {
         // Shutdown must leave cleanup time, while explicit pipeline cancellation still stops handlers.
         using var timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(
             _engineCancellationToken.ExplicitCancellationToken);
-        timeoutSource.CancelAfter(_endHandlerTimeout);
+        using var shutdownRegistration = _engineCancellationToken.NonFailureCancellationToken.Register(
+            () => timeoutSource.CancelAfter(_endHandlerTimeout));
         var cancellationToken = timeoutSource.Token;
         try
         {
@@ -259,11 +261,12 @@ internal class ExecutionOrchestrator(
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (executionFailed && cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException) when (
+            (hasExecutionException || summary.Status == ModuleStatus.Failed) && cancellationToken.IsCancellationRequested)
         {
             _logger.LogDebug("Pipeline end handlers were canceled");
         }
-        catch (Exception exception) when (executionFailed)
+        catch (Exception exception) when (hasExecutionException)
         {
             // The handler invoker has already logged the individual handler failures.
             _secondaryExceptionContainer.RegisterException(exception);

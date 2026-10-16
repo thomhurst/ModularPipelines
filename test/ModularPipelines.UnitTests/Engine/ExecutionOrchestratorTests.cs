@@ -16,6 +16,52 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
+    public async Task EndHandlers_NormalCompletionHasNoShutdownDeadline()
+    {
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var handlerCompleted = false;
+        var orchestrator = CreateEndHandlerOrchestrator(engineCancellation, async token =>
+        {
+            await Task.Delay(200, token);
+            handlerCompleted = true;
+        }, endHandlerTimeout: TimeSpan.FromMilliseconds(50));
+
+        await orchestrator.ExecuteAsync();
+
+        await Assert.That(handlerCompleted).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task EndHandlers_ShutdownDuringCleanupStartsDeadline(bool honorsCancellation)
+    {
+        using var engineCancellation = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var handlerCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var handlerToken = CancellationToken.None;
+        var orchestrator = CreateEndHandlerOrchestrator(engineCancellation, async token =>
+        {
+            handlerToken = token;
+            await Task.Delay(200, token);
+            engineCancellation.RequestShutdown();
+            await (honorsCancellation ? Task.Delay(Timeout.InfiniteTimeSpan, token) : handlerCompletion.Task);
+        }, endHandlerTimeout: TimeSpan.FromMilliseconds(50));
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => orchestrator.ExecuteAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+
+            await Assert.That(engineCancellation.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+            await Assert.That(handlerToken.IsCancellationRequested).IsTrue();
+        }
+        finally
+        {
+            handlerCompletion.TrySetResult();
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task EndHandlers_ShutdownAllowsAsyncCleanup(bool executionFails)
@@ -111,6 +157,7 @@ public class ExecutionOrchestratorTests
         var handlerCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var orchestrator = CreateEndHandlerOrchestrator(engineCancellation,
             token => honorsCancellation ? Task.Delay(Timeout.InfiniteTimeSpan, token) : handlerCompletion.Task,
+            onExecute: () => engineCancellation.RequestShutdown(),
             endHandlerTimeout: TimeSpan.FromMilliseconds(50), executionSummary: summary,
             throwOnPipelineFailure: throwOnFailure);
 
