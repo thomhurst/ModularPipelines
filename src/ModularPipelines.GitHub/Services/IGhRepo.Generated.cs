@@ -22,22 +22,22 @@ namespace ModularPipelines.GitHub.Services;
 public interface IGhRepo
 {
     /// <summary>
-    /// gh autolink sub-commands.
+    /// gh repo autolink sub-commands.
     /// </summary>
     GhRepoAutolink Autolink { get; }
 
     /// <summary>
-    /// gh deploy-key sub-commands.
+    /// gh repo deploy-key sub-commands.
     /// </summary>
     GhRepoDeployKey DeployKey { get; }
 
     /// <summary>
-    /// gh gitignore sub-commands.
+    /// gh repo gitignore sub-commands.
     /// </summary>
     GhRepoGitignore Gitignore { get; }
 
     /// <summary>
-    /// gh license sub-commands.
+    /// gh repo license sub-commands.
     /// </summary>
     GhRepoLicense License { get; }
 
