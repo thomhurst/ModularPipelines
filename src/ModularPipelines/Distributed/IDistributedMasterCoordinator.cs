@@ -28,6 +28,9 @@ public interface IDistributedMasterCoordinator : IDistributedWorkerCoordinator
     /// <summary>
     /// Returns assignments whose leases expired without a published result to the queue.
     /// A lease expires when its worker has not renewed it for <see cref="DistributedOptions.WorkerTimeout"/>.
+    /// After <see cref="DistributedOptions.MaxModuleLeaseExpirations"/> expirations for a module,
+    /// publishes a terminal failure identifying the module and lost workers instead of requeuing it.
+    /// Counting, failure publication and withdrawal must be atomic with respect to claims and other scans.
     /// </summary>
     /// <returns>The modules that were queued again.</returns>
     Task<IReadOnlyList<ModuleId>> RequeueExpiredLeasesAsync(CancellationToken cancellationToken);

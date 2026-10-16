@@ -17,9 +17,10 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <item>completion flag</item>
 /// <item>cancellation flag</item>
 /// <item>master started marker</item>
+/// <item>lease expiration workers, keyed by module identifier</item>
 /// <item>master heartbeat</item>
 /// </list>
-/// Keys 1 to 11 are the run's coordination keys; scripts that change run state renew their expiry.
+/// Keys 1 to 12 are the run's coordination keys; scripts that change run state renew their expiry.
 /// </summary>
 internal static class RedisCoordinationScripts
 {
@@ -31,7 +32,7 @@ internal static class RedisCoordinationScripts
 
     private const string RefreshLua = """
         local function refresh(ttl)
-            for i = 1, 11 do
+            for i = 1, 12 do
                 redis.call('PEXPIRE', KEYS[i], ttl)
             end
         end
@@ -228,7 +229,7 @@ internal static class RedisCoordinationScripts
             return 0
         end
         redis.call('SET', KEYS[11], '1', 'PX', ARGV[1])
-        redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
+        redis.call('SET', KEYS[13], string.format('%d', now), 'PX', ARGV[1])
         return 1
         """;
 
@@ -254,9 +255,9 @@ internal static class RedisCoordinationScripts
         return lost
         """;
 
-    // ARGV: heartbeat time to live. The heartbeat is KEYS[12] and the durable started marker KEYS[11].
+    // ARGV: heartbeat time to live. The heartbeat is KEYS[13] and the durable started marker KEYS[11].
     public const string MasterHeartbeat = ServerTimeLua + """
-        redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
+        redis.call('SET', KEYS[13], string.format('%d', now), 'PX', ARGV[1])
         redis.call('SET', KEYS[11], '1', 'PX', ARGV[1])
         return 1
         """;
@@ -268,7 +269,7 @@ internal static class RedisCoordinationScripts
         if redis.call('EXISTS', KEYS[9]) == 1 then
             return 1
         end
-        local heartbeat = redis.call('GET', KEYS[12])
+        local heartbeat = redis.call('GET', KEYS[13])
         if not heartbeat then
             if redis.call('EXISTS', KEYS[11]) == 1 then
                 return 2
@@ -327,27 +328,51 @@ internal static class RedisCoordinationScripts
         end
         local stored = redis.call('HSETNX', KEYS[5], ARGV[2], ARGV[3])
         redis.call('HDEL', KEYS[4], ARGV[2])
+        redis.call('HDEL', KEYS[12], ARGV[2])
         refresh(ARGV[1])
         return stored
         """;
 
-    // ARGV: time to live. Returns the module identifiers whose expired leases were requeued.
+    // ARGV: time to live, expiration budget, completion timestamp.
+    // Returns requeued identifiers and failed identifiers separately, for waiter notifications.
     public const string RequeueExpiredLeases = ServerTimeLua + RefreshLua + QueueIndexLua + """
         local requeued = {}
+        local failed = {}
         local entries = redis.call('HGETALL', KEYS[4])
         for i = 1, #entries, 2 do
             local lease = cjson.decode(entries[i + 1])
             if tonumber(lease['ExpiresAt']) < now then
                 redis.call('HDEL', KEYS[4], entries[i])
                 if redis.call('HEXISTS', KEYS[5], entries[i]) == 0 then
-                    redis.call('ZADD', KEYS[1], 0, lease['Member'])
-                    index_add(entries[i], lease['Member'])
-                    table.insert(requeued, entries[i])
+                    local history = redis.call('HGET', KEYS[12], entries[i])
+                    local workers = history and cjson.decode(history) or {}
+                    table.insert(workers, lease['WorkerId'])
+                    if #workers >= tonumber(ARGV[2]) then
+                        redis.call('HSET', KEYS[5], entries[i], cjson.encode({
+                            ModuleId = entries[i],
+                            LeaseExpirationWorkers = workers,
+                            CompletedAt = ARGV[3],
+                        }))
+                        redis.call('HDEL', KEYS[12], entries[i])
+                        local queued = redis.call('HGET', KEYS[3], entries[i])
+                        if queued then
+                            for member in string.gmatch(queued, '[^\n]+') do
+                                redis.call('ZREM', KEYS[1], member)
+                            end
+                            redis.call('HDEL', KEYS[3], entries[i])
+                        end
+                        table.insert(failed, entries[i])
+                    else
+                        redis.call('HSET', KEYS[12], entries[i], cjson.encode(workers))
+                        redis.call('ZADD', KEYS[1], 0, lease['Member'])
+                        index_add(entries[i], lease['Member'])
+                        table.insert(requeued, entries[i])
+                    end
                 end
             end
         end
         refresh(ARGV[1])
-        return requeued
+        return { requeued, failed }
         """;
 
     // ARGV: module identifier. Returns how many queued copies were removed.

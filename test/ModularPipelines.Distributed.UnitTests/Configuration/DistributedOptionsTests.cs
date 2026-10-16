@@ -18,6 +18,20 @@ namespace ModularPipelines.Distributed.UnitTests.Configuration;
 public class DistributedOptionsTests
 {
     [Test]
+    [Arguments(-1, false)]
+    [Arguments(0, false)]
+    [Arguments(1, true)]
+    [Arguments(3, true)]
+    public async Task Lease_Expiration_Budget_Must_Be_Positive(int budget, bool valid)
+    {
+        var options = new DistributedOptions { MaxModuleLeaseExpirations = budget }.EnableForTest();
+        var failures = DistributedOptionsValidator.Validate(options);
+        await Assert.That(failures.Any(failure => failure.Contains(nameof(DistributedOptions.MaxModuleLeaseExpirations))))
+            .IsEqualTo(!valid);
+        await Assert.That(new DistributedOptions().MaxModuleLeaseExpirations).IsEqualTo(2);
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Invalid_Artifact_Compression_Is_Rejected_In_Local_And_Distributed_Mode(bool distributed)

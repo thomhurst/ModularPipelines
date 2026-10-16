@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using Respire;
@@ -50,6 +51,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private readonly long _keyExpirationMilliseconds;
     private readonly long _workerTimeoutMilliseconds;
     private readonly TimeSpan _workerTimeout;
+    private readonly int _maxModuleLeaseExpirations;
     private readonly TimeSpan _masterTimeout;
     private readonly CancellationTokenSource _masterHeartbeatCts = new();
     private int _disposed;
@@ -72,6 +74,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _keyExpiration = options.TimeToLive;
         _keyExpirationMilliseconds = (long) options.TimeToLive.TotalMilliseconds;
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
+        _maxModuleLeaseExpirations = distributedOptions?.MaxModuleLeaseExpirations ?? 2;
         _workerTimeoutMilliseconds = (long) _workerTimeout.TotalMilliseconds;
         _masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
         _onWaitReady = onWaitReady;
@@ -341,20 +344,27 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         cancellationToken.ThrowIfCancellationRequested();
         ModuleId[] requeued;
+        ModuleId[] failed;
         using (var result = await _redis.Scripts.ExecuteAsync(
                        RequeueExpiredLeasesScript,
                        _scriptKeys,
-                       [_keyExpirationMilliseconds],
+                       [_keyExpirationMilliseconds, _maxModuleLeaseExpirations, DateTimeOffset.UtcNow.ToString("O")],
                        cancellationToken)
                    .ConfigureAwait(false))
         {
-            requeued = [.. result.Select(static item => new ModuleId(item.AsString()))];
+            requeued = [.. result[0].Select(static item => new ModuleId(item.AsString()))];
+            failed = [.. result[1].Select(static item => new ModuleId(item.AsString()))];
         }
 
         // The master calls this periodically, so the script also keeps the run's keys alive.
         if (requeued.Length > 0)
         {
             await NotifyAsync(_keys.WorkAvailableChannel, cancellationToken).ConfigureAwait(false);
+        }
+
+        foreach (var moduleId in failed)
+        {
+            await NotifyAsync(_keys.ResultChannel(moduleId), cancellationToken).ConfigureAwait(false);
         }
 
         return requeued;
@@ -595,9 +605,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         var existing = await _redis.Hashes.GetStringAsync(_keys.Results, moduleId.Value, cancellationToken)
             .ConfigureAwait(false);
-        return string.IsNullOrEmpty(existing)
-            ? null
-            : JsonSerializer.Deserialize<SerializedModuleResult>(existing)!;
+        if (string.IsNullOrEmpty(existing))
+        {
+            return null;
+        }
+
+        using var document = JsonDocument.Parse(existing);
+        return document.RootElement.TryGetProperty(nameof(LeaseExpirationFailure.LeaseExpirationWorkers), out _)
+            ? document.RootElement.Deserialize<LeaseExpirationFailure>()!.ToResult()
+            : document.RootElement.Deserialize<SerializedModuleResult>()!;
     }
 
     private async Task<DistributedCancellationReason?> TryGetCancellationReasonAsync(CancellationToken cancellationToken)
