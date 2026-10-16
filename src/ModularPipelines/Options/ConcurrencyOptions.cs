@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Constants;
 
@@ -9,6 +10,47 @@ namespace ModularPipelines.Options;
 [ExcludeFromCodeCoverage]
 public sealed record ConcurrencyOptions
 {
+    private readonly FrozenDictionary<string, int> _limits = [];
+
+    /// <summary>
+    /// Gets named parallel limits selected by <see cref="ModuleConfigurationBuilder.WithParallelLimit"/>.
+    /// Keys are case-sensitive and capacities must be positive. Configure before building the pipeline;
+    /// changing capacities while a pipeline is running is not supported.
+    /// Named limits are independent of typed limiters and <see cref="NotInParallelAttribute"/> constraint keys.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// builder.ConfigureConcurrency(options => options with
+    /// {
+    ///     Limits = new Dictionary&lt;string, int&gt; { ["docker"] = isCI ? 2 : 8 },
+    /// });
+    /// </code>
+    /// </example>
+    public IReadOnlyDictionary<string, int> Limits
+    {
+        get => _limits;
+        init
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            _limits = value.ToFrozenDictionary(StringComparer.Ordinal);
+        }
+    }
+
+    internal int GetLimit(string key)
+    {
+        if (!Limits.TryGetValue(key, out var limit))
+        {
+            throw new ArgumentException($"No parallel limit is configured for key '{key}'. Configure Concurrency.Limits before building the pipeline.");
+        }
+
+        if (limit <= 0)
+        {
+            throw new ArgumentException($"Parallel limit for key '{key}' must be a positive integer, but was {limit}.");
+        }
+
+        return limit;
+    }
+
     /// <summary>
     /// Gets the maximum number of modules that can execute in parallel.
     /// Default: <c>Environment.ProcessorCount * 4</c> for aggressive parallelism.

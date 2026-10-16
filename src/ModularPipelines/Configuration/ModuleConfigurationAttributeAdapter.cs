@@ -18,8 +18,9 @@ internal static class ModuleConfigurationAttributeAdapter
         var tags = MergeTags(moduleType, configured.Tags);
         var dependencies = MergeDependencies(moduleType, configured.Dependencies);
         var notInParallel = moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true);
-        var parallelLimiter = configured.ParallelLimiter
-            ?? moduleType.GetCustomAttributes<ParallelLimiterAttribute>(inherit: true).FirstOrDefault();
+        var parallelLimiter = configured.ParallelLimitKey is not null
+            ? null
+            : configured.ParallelLimiter ?? moduleType.GetCustomAttributes<ParallelLimiterAttribute>(inherit: true).FirstOrDefault();
         var priority = moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true);
         var executionHint = moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true);
         var cacheInputPatterns = moduleType
@@ -48,6 +49,7 @@ internal static class ModuleConfigurationAttributeAdapter
             ParallelConstraintKeys = configured.ParallelConstraintKeys
                 ?? notInParallel?.ConstraintKeys.ToArray(),
             ParallelLimiter = parallelLimiter,
+            ParallelLimitKey = configured.ParallelLimitKey,
             Priority = configured.Priority ?? priority?.Priority,
             ExecutionHint = configured.ExecutionHint ?? executionHint?.ExecutionHint,
             Tags = tags,

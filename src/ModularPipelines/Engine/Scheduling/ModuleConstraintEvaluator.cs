@@ -74,7 +74,7 @@ internal class ModuleConstraintEvaluator(ILogger<ModuleConstraintEvaluator> logg
                 continue;
             }
 
-            if (limiter is not null && active.ParallelLimiter?.Type == limiter.Type
+            if (limiter is not null && Equals(active.ParallelLimiter?.Key, limiter.Key)
                 && ++limiterCount >= limiter.Limit)
             {
                 return false;

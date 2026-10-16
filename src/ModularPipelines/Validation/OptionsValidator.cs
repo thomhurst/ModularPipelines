@@ -127,6 +127,16 @@ internal class OptionsValidator : IOptionsValidator
         ConcurrencyOptions options,
         ValidationResult result)
     {
+        foreach (var (key, limit) in options.Limits)
+        {
+            if (string.IsNullOrWhiteSpace(key) || limit <= 0)
+            {
+                result.AddError(new ValidationError(
+                    ValidationErrorCategory.Options,
+                    $"Concurrency.Limits requires non-blank keys and positive capacities. Key: '{key}', value: {limit}"));
+            }
+        }
+
         if (options.MaxParallelism < 1)
         {
             result.AddError(new ValidationError(

@@ -3590,3 +3590,7 @@ ModularPipelines.Reporting.ModuleRunReport.ResultEndTime.init -> void
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.ReconcileHeartbeatAsync(ModularPipelines.Distributed.WorkerStatus! status, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ModuleLease!>! leases, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
 ModularPipelines.Distributed.DistributedOptions.MaxModuleLeaseExpirations.get -> int
 ModularPipelines.Distributed.DistributedOptions.MaxModuleLeaseExpirations.init -> void
+ModularPipelines.Configuration.ModuleConfiguration.ParallelLimitKey.get -> string?
+ModularPipelines.ModuleConfigurationBuilder.WithParallelLimit(string! key) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.Options.ConcurrencyOptions.Limits.get -> System.Collections.Generic.IReadOnlyDictionary<string!, int>!
+ModularPipelines.Options.ConcurrencyOptions.Limits.init -> void

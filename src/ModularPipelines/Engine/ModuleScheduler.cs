@@ -344,12 +344,7 @@ internal class ModuleScheduler : IModuleScheduler
             ExecutionHint.IoBound => _options.MaxIoIntensiveModules,
             _ => null,
         };
-        state.ParallelLimiter = configuration.ParallelLimiter;
-        if (state.ParallelLimiter is { Limit: <= 0 } limiter)
-        {
-            throw new ArgumentException(
-                $"Parallel limit for type '{limiter.Type.FullName}' must be a positive integer, but was {limiter.Limit}.");
-        }
+        state.ParallelLimiter = ParallelLimitConfiguration.Resolve(configuration, _options);
 
         _hasSchedulingConstraints |= state.ExecutionHintLimit.HasValue || state.ParallelLimiter is not null;
     }

@@ -26,6 +26,14 @@ internal class ParallelLimitHandler : IParallelLimitHandler
         IModule module,
         CancellationToken cancellationToken)
     {
+        if (module.Configuration.ParallelLimitKey is { } key)
+        {
+            _logger.LogDebug("Module {ModuleName} acquiring parallel limit for {LimitKey}", module.GetType().Name, key);
+            var keyedSemaphore = _parallelLimitProvider.GetLock(key);
+            await keyedSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+            return new SemaphoreReleaser(keyedSemaphore);
+        }
+
         var parallelLimiterAttribute = module.Configuration.ParallelLimiter;
 
         if (parallelLimiterAttribute != null)
