@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "yarn",
   "toolVersion": "4.18.1",
-  "commandTreeSha256": "e257eecd91b494ea27b85879a1fe8297c96a2747f7308e7455a4d7479c2a0132",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "commandTreeSha256": "ea001788b3240dc3b592b9a3300eef2d8f25d98f5f24080bbf6dc1620256c99e",
+  "generatorSourceSha256": "d2f343a0b0fd5725518135d28482bd169d969e9f34389638e6e498ce6cc32042"
 }

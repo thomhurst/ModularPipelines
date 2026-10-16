@@ -21,9 +21,32 @@ namespace ModularPipelines.Yarn.Options;
 public record YarnConstraintsQueryOptions : YarnOptions
 {
     /// <summary>
+    /// This command will output all matches to the given prolog query.
+    /// </summary>
+    /// <param name="Query">The &lt;query&gt; operand.</param>
+    public YarnConstraintsQueryOptions(
+        string Query
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Query);
+        this.Query = Query;
+    }
+
+    public void Deconstruct(out string Query)
+    {
+        Query = this.Query;
+    }
+
+    /// <summary>
     /// Format the output as an NDJSON stream
     /// </summary>
     [CliFlag("--json")]
     public bool? Json { get; set; }
+
+    /// <summary>
+    /// The &lt;query&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Query { get; private init; }
 
 }
