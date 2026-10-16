@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudDesignCenterSpaces
 {
     private readonly ICommandContext _command;
-    private GcloudDesignCenterSpacesApplications? _applications;
     private GcloudDesignCenterSpacesApplicationTemplates? _applicationTemplates;
+    private GcloudDesignCenterSpacesApplications? _applications;
     private GcloudDesignCenterSpacesCatalogs? _catalogs;
     private GcloudDesignCenterSpacesSharedTemplates? _sharedTemplates;
 
@@ -36,14 +36,14 @@ public class GcloudDesignCenterSpaces
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud design-center spaces applications sub-commands.
-    /// </summary>
-    public GcloudDesignCenterSpacesApplications Applications => _applications ??= new GcloudDesignCenterSpacesApplications(_command);
-
-    /// <summary>
     /// gcloud design-center spaces application-templates sub-commands.
     /// </summary>
     public GcloudDesignCenterSpacesApplicationTemplates ApplicationTemplates => _applicationTemplates ??= new GcloudDesignCenterSpacesApplicationTemplates(_command);
+
+    /// <summary>
+    /// gcloud design-center spaces applications sub-commands.
+    /// </summary>
+    public GcloudDesignCenterSpacesApplications Applications => _applications ??= new GcloudDesignCenterSpacesApplications(_command);
 
     /// <summary>
     /// gcloud design-center spaces catalogs sub-commands.

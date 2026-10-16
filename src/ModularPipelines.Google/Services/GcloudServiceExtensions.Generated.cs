@@ -24,8 +24,8 @@ public class GcloudServiceExtensions : IGcloudServiceExtensions
     private GcloudServiceExtensionsLbEdgeExtensions? _lbEdgeExtensions;
     private GcloudServiceExtensionsLbRouteExtensions? _lbRouteExtensions;
     private GcloudServiceExtensionsLbTrafficExtensions? _lbTrafficExtensions;
-    private GcloudServiceExtensionsWasmPlugins? _wasmPlugins;
     private GcloudServiceExtensionsWasmPluginVersions? _wasmPluginVersions;
+    private GcloudServiceExtensionsWasmPlugins? _wasmPlugins;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServiceExtensions"/> class.
@@ -58,14 +58,14 @@ public class GcloudServiceExtensions : IGcloudServiceExtensions
     public GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions => _lbTrafficExtensions ??= new GcloudServiceExtensionsLbTrafficExtensions(_command);
 
     /// <summary>
-    /// gcloud service-extensions wasm-plugins sub-commands.
-    /// </summary>
-    public GcloudServiceExtensionsWasmPlugins WasmPlugins => _wasmPlugins ??= new GcloudServiceExtensionsWasmPlugins(_command);
-
-    /// <summary>
     /// gcloud service-extensions wasm-plugin-versions sub-commands.
     /// </summary>
     public GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions => _wasmPluginVersions ??= new GcloudServiceExtensionsWasmPluginVersions(_command);
+
+    /// <summary>
+    /// gcloud service-extensions wasm-plugins sub-commands.
+    /// </summary>
+    public GcloudServiceExtensionsWasmPlugins WasmPlugins => _wasmPlugins ??= new GcloudServiceExtensionsWasmPlugins(_command);
 
     #endregion
 

@@ -27,14 +27,14 @@ public interface IGcloudColab
     GcloudColabExecutions Executions { get; }
 
     /// <summary>
-    /// gcloud colab runtimes sub-commands.
-    /// </summary>
-    GcloudColabRuntimes Runtimes { get; }
-
-    /// <summary>
     /// gcloud colab runtime-templates sub-commands.
     /// </summary>
     GcloudColabRuntimeTemplates RuntimeTemplates { get; }
+
+    /// <summary>
+    /// gcloud colab runtimes sub-commands.
+    /// </summary>
+    GcloudColabRuntimes Runtimes { get; }
 
     /// <summary>
     /// gcloud colab schedules sub-commands.

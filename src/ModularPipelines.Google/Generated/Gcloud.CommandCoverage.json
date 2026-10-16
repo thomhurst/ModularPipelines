@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "gcloud",
-  "toolVersion": "Google Cloud SDK 589.0.0 alpha 2026.10.09 beta 2026.10.09 bq 2.1.40 bundled-python3-unix 3.14.8 core 2026.10.09 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.10.09",
+  "toolVersion": "589.0.0",
   "commandCount": 8055,
   "commandTreeSha256": "079bbdca7d4bf50be31bc48a88e110a5aedd7f4ac661fe6fac38418917eca479",
   "commands": [

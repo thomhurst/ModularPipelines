@@ -22,8 +22,8 @@ public class GcloudDataCatalog : IGcloudDataCatalog
     private readonly ICommandContext _command;
     private GcloudDataCatalogEntries? _entries;
     private GcloudDataCatalogEntryGroups? _entryGroups;
-    private GcloudDataCatalogTags? _tags;
     private GcloudDataCatalogTagTemplates? _tagTemplates;
+    private GcloudDataCatalogTags? _tags;
     private GcloudDataCatalogTaxonomies? _taxonomies;
 
     /// <summary>
@@ -47,14 +47,14 @@ public class GcloudDataCatalog : IGcloudDataCatalog
     public GcloudDataCatalogEntryGroups EntryGroups => _entryGroups ??= new GcloudDataCatalogEntryGroups(_command);
 
     /// <summary>
-    /// gcloud data-catalog tags sub-commands.
-    /// </summary>
-    public GcloudDataCatalogTags Tags => _tags ??= new GcloudDataCatalogTags(_command);
-
-    /// <summary>
     /// gcloud data-catalog tag-templates sub-commands.
     /// </summary>
     public GcloudDataCatalogTagTemplates TagTemplates => _tagTemplates ??= new GcloudDataCatalogTagTemplates(_command);
+
+    /// <summary>
+    /// gcloud data-catalog tags sub-commands.
+    /// </summary>
+    public GcloudDataCatalogTags Tags => _tags ??= new GcloudDataCatalogTags(_command);
 
     /// <summary>
     /// gcloud data-catalog taxonomies sub-commands.

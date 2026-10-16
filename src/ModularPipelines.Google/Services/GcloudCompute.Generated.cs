@@ -28,8 +28,8 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeCommitments? _commitments;
     private GcloudComputeCompositeHealthChecks? _compositeHealthChecks;
     private GcloudComputeDiagnose? _diagnose;
-    private GcloudComputeDisks? _disks;
     private GcloudComputeDiskTypes? _diskTypes;
+    private GcloudComputeDisks? _disks;
     private GcloudComputeExternalVpnGateways? _externalVpnGateways;
     private GcloudComputeFirewallPolicies? _firewallPolicies;
     private GcloudComputeFirewallRules? _firewallRules;
@@ -42,11 +42,11 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeHosts? _hosts;
     private GcloudComputeHttpHealthChecks? _httpHealthChecks;
     private GcloudComputeHttpsHealthChecks? _httpsHealthChecks;
-    private GcloudComputeImages? _images;
     private GcloudComputeImageViews? _imageViews;
+    private GcloudComputeImages? _images;
     private GcloudComputeInstanceGroups? _instanceGroups;
-    private GcloudComputeInstances? _instances;
     private GcloudComputeInstanceTemplates? _instanceTemplates;
+    private GcloudComputeInstances? _instances;
     private GcloudComputeInstantSnapshotGroups? _instantSnapshotGroups;
     private GcloudComputeInstantSnapshots? _instantSnapshots;
     private GcloudComputeInterconnects? _interconnects;
@@ -81,13 +81,13 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeSecurityPolicies? _securityPolicies;
     private GcloudComputeServiceAttachments? _serviceAttachments;
     private GcloudComputeSharedVpc? _sharedVpc;
-    private GcloudComputeSnapshots? _snapshots;
     private GcloudComputeSnapshotSettings? _snapshotSettings;
+    private GcloudComputeSnapshots? _snapshots;
     private GcloudComputeSoleTenancy? _soleTenancy;
     private GcloudComputeSslCertificates? _sslCertificates;
     private GcloudComputeSslPolicies? _sslPolicies;
-    private GcloudComputeStoragePools? _storagePools;
     private GcloudComputeStoragePoolTypes? _storagePoolTypes;
+    private GcloudComputeStoragePools? _storagePools;
     private GcloudComputeTargetGrpcProxies? _targetGrpcProxies;
     private GcloudComputeTargetHttpProxies? _targetHttpProxies;
     private GcloudComputeTargetHttpsProxies? _targetHttpsProxies;
@@ -100,8 +100,8 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeUrlMaps? _urlMaps;
     private GcloudComputeVpnGateways? _vpnGateways;
     private GcloudComputeVpnTunnels? _vpnTunnels;
-    private GcloudComputeZones? _zones;
     private GcloudComputeZoneVmExtensionPolicies? _zoneVmExtensionPolicies;
+    private GcloudComputeZones? _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCompute"/> class.
@@ -154,14 +154,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeDiagnose Diagnose => _diagnose ??= new GcloudComputeDiagnose(_command);
 
     /// <summary>
-    /// gcloud compute disks sub-commands.
-    /// </summary>
-    public GcloudComputeDisks Disks => _disks ??= new GcloudComputeDisks(_command);
-
-    /// <summary>
     /// gcloud compute disk-types sub-commands.
     /// </summary>
     public GcloudComputeDiskTypes DiskTypes => _diskTypes ??= new GcloudComputeDiskTypes(_command);
+
+    /// <summary>
+    /// gcloud compute disks sub-commands.
+    /// </summary>
+    public GcloudComputeDisks Disks => _disks ??= new GcloudComputeDisks(_command);
 
     /// <summary>
     /// gcloud compute external-vpn-gateways sub-commands.
@@ -224,14 +224,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeHttpsHealthChecks HttpsHealthChecks => _httpsHealthChecks ??= new GcloudComputeHttpsHealthChecks(_command);
 
     /// <summary>
-    /// gcloud compute images sub-commands.
-    /// </summary>
-    public GcloudComputeImages Images => _images ??= new GcloudComputeImages(_command);
-
-    /// <summary>
     /// gcloud compute image-views sub-commands.
     /// </summary>
     public GcloudComputeImageViews ImageViews => _imageViews ??= new GcloudComputeImageViews(_command);
+
+    /// <summary>
+    /// gcloud compute images sub-commands.
+    /// </summary>
+    public GcloudComputeImages Images => _images ??= new GcloudComputeImages(_command);
 
     /// <summary>
     /// gcloud compute instance-groups sub-commands.
@@ -239,14 +239,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeInstanceGroups InstanceGroups => _instanceGroups ??= new GcloudComputeInstanceGroups(_command);
 
     /// <summary>
-    /// gcloud compute instances sub-commands.
-    /// </summary>
-    public GcloudComputeInstances Instances => _instances ??= new GcloudComputeInstances(_command);
-
-    /// <summary>
     /// gcloud compute instance-templates sub-commands.
     /// </summary>
     public GcloudComputeInstanceTemplates InstanceTemplates => _instanceTemplates ??= new GcloudComputeInstanceTemplates(_command);
+
+    /// <summary>
+    /// gcloud compute instances sub-commands.
+    /// </summary>
+    public GcloudComputeInstances Instances => _instances ??= new GcloudComputeInstances(_command);
 
     /// <summary>
     /// gcloud compute instant-snapshot-groups sub-commands.
@@ -419,14 +419,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeSharedVpc SharedVpc => _sharedVpc ??= new GcloudComputeSharedVpc(_command);
 
     /// <summary>
-    /// gcloud compute snapshots sub-commands.
-    /// </summary>
-    public GcloudComputeSnapshots Snapshots => _snapshots ??= new GcloudComputeSnapshots(_command);
-
-    /// <summary>
     /// gcloud compute snapshot-settings sub-commands.
     /// </summary>
     public GcloudComputeSnapshotSettings SnapshotSettings => _snapshotSettings ??= new GcloudComputeSnapshotSettings(_command);
+
+    /// <summary>
+    /// gcloud compute snapshots sub-commands.
+    /// </summary>
+    public GcloudComputeSnapshots Snapshots => _snapshots ??= new GcloudComputeSnapshots(_command);
 
     /// <summary>
     /// gcloud compute sole-tenancy sub-commands.
@@ -444,14 +444,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeSslPolicies SslPolicies => _sslPolicies ??= new GcloudComputeSslPolicies(_command);
 
     /// <summary>
-    /// gcloud compute storage-pools sub-commands.
-    /// </summary>
-    public GcloudComputeStoragePools StoragePools => _storagePools ??= new GcloudComputeStoragePools(_command);
-
-    /// <summary>
     /// gcloud compute storage-pool-types sub-commands.
     /// </summary>
     public GcloudComputeStoragePoolTypes StoragePoolTypes => _storagePoolTypes ??= new GcloudComputeStoragePoolTypes(_command);
+
+    /// <summary>
+    /// gcloud compute storage-pools sub-commands.
+    /// </summary>
+    public GcloudComputeStoragePools StoragePools => _storagePools ??= new GcloudComputeStoragePools(_command);
 
     /// <summary>
     /// gcloud compute target-grpc-proxies sub-commands.
@@ -514,14 +514,14 @@ public class GcloudCompute : IGcloudCompute
     public GcloudComputeVpnTunnels VpnTunnels => _vpnTunnels ??= new GcloudComputeVpnTunnels(_command);
 
     /// <summary>
-    /// gcloud compute zones sub-commands.
-    /// </summary>
-    public GcloudComputeZones Zones => _zones ??= new GcloudComputeZones(_command);
-
-    /// <summary>
     /// gcloud compute zone-vm-extension-policies sub-commands.
     /// </summary>
     public GcloudComputeZoneVmExtensionPolicies ZoneVmExtensionPolicies => _zoneVmExtensionPolicies ??= new GcloudComputeZoneVmExtensionPolicies(_command);
+
+    /// <summary>
+    /// gcloud compute zones sub-commands.
+    /// </summary>
+    public GcloudComputeZones Zones => _zones ??= new GcloudComputeZones(_command);
 
     #endregion
 

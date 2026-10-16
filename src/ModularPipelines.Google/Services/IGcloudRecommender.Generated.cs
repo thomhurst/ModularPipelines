@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudRecommender
 {
     /// <summary>
-    /// gcloud recommender insights sub-commands.
-    /// </summary>
-    GcloudRecommenderInsights Insights { get; }
-
-    /// <summary>
     /// gcloud recommender insight-type-config sub-commands.
     /// </summary>
     GcloudRecommenderInsightTypeConfig InsightTypeConfig { get; }
+
+    /// <summary>
+    /// gcloud recommender insights sub-commands.
+    /// </summary>
+    GcloudRecommenderInsights Insights { get; }
 
     /// <summary>
     /// gcloud recommender recommendations sub-commands.

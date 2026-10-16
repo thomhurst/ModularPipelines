@@ -28,8 +28,8 @@ public class GcloudPreviewCompute
     private GcloudPreviewComputeBackendServices? _backendServices;
     private GcloudPreviewComputeCommitments? _commitments;
     private GcloudPreviewComputeDiagnose? _diagnose;
-    private GcloudPreviewComputeDisks? _disks;
     private GcloudPreviewComputeDiskTypes? _diskTypes;
+    private GcloudPreviewComputeDisks? _disks;
     private GcloudPreviewComputeExternalVpnGateways? _externalVpnGateways;
     private GcloudPreviewComputeFirewallPolicies? _firewallPolicies;
     private GcloudPreviewComputeFirewallRules? _firewallRules;
@@ -40,8 +40,8 @@ public class GcloudPreviewCompute
     private GcloudPreviewComputeHttpsHealthChecks? _httpsHealthChecks;
     private GcloudPreviewComputeImages? _images;
     private GcloudPreviewComputeInstanceGroups? _instanceGroups;
-    private GcloudPreviewComputeInstances? _instances;
     private GcloudPreviewComputeInstanceTemplates? _instanceTemplates;
+    private GcloudPreviewComputeInstances? _instances;
     private GcloudPreviewComputeInstantSnapshots? _instantSnapshots;
     private GcloudPreviewComputeInterconnects? _interconnects;
     private GcloudPreviewComputeMachineImages? _machineImages;
@@ -68,13 +68,13 @@ public class GcloudPreviewCompute
     private GcloudPreviewComputeSecurityPolicies? _securityPolicies;
     private GcloudPreviewComputeServiceAttachments? _serviceAttachments;
     private GcloudPreviewComputeSharedVpc? _sharedVpc;
-    private GcloudPreviewComputeSnapshots? _snapshots;
     private GcloudPreviewComputeSnapshotSettings? _snapshotSettings;
+    private GcloudPreviewComputeSnapshots? _snapshots;
     private GcloudPreviewComputeSoleTenancy? _soleTenancy;
     private GcloudPreviewComputeSslCertificates? _sslCertificates;
     private GcloudPreviewComputeSslPolicies? _sslPolicies;
-    private GcloudPreviewComputeStoragePools? _storagePools;
     private GcloudPreviewComputeStoragePoolTypes? _storagePoolTypes;
+    private GcloudPreviewComputeStoragePools? _storagePools;
     private GcloudPreviewComputeTargetGrpcProxies? _targetGrpcProxies;
     private GcloudPreviewComputeTargetHttpProxies? _targetHttpProxies;
     private GcloudPreviewComputeTargetHttpsProxies? _targetHttpsProxies;
@@ -139,14 +139,14 @@ public class GcloudPreviewCompute
     public GcloudPreviewComputeDiagnose Diagnose => _diagnose ??= new GcloudPreviewComputeDiagnose(_command);
 
     /// <summary>
-    /// gcloud preview compute disks sub-commands.
-    /// </summary>
-    public GcloudPreviewComputeDisks Disks => _disks ??= new GcloudPreviewComputeDisks(_command);
-
-    /// <summary>
     /// gcloud preview compute disk-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeDiskTypes DiskTypes => _diskTypes ??= new GcloudPreviewComputeDiskTypes(_command);
+
+    /// <summary>
+    /// gcloud preview compute disks sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeDisks Disks => _disks ??= new GcloudPreviewComputeDisks(_command);
 
     /// <summary>
     /// gcloud preview compute external-vpn-gateways sub-commands.
@@ -199,14 +199,14 @@ public class GcloudPreviewCompute
     public GcloudPreviewComputeInstanceGroups InstanceGroups => _instanceGroups ??= new GcloudPreviewComputeInstanceGroups(_command);
 
     /// <summary>
-    /// gcloud preview compute instances sub-commands.
-    /// </summary>
-    public GcloudPreviewComputeInstances Instances => _instances ??= new GcloudPreviewComputeInstances(_command);
-
-    /// <summary>
     /// gcloud preview compute instance-templates sub-commands.
     /// </summary>
     public GcloudPreviewComputeInstanceTemplates InstanceTemplates => _instanceTemplates ??= new GcloudPreviewComputeInstanceTemplates(_command);
+
+    /// <summary>
+    /// gcloud preview compute instances sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeInstances Instances => _instances ??= new GcloudPreviewComputeInstances(_command);
 
     /// <summary>
     /// gcloud preview compute instant-snapshots sub-commands.
@@ -339,14 +339,14 @@ public class GcloudPreviewCompute
     public GcloudPreviewComputeSharedVpc SharedVpc => _sharedVpc ??= new GcloudPreviewComputeSharedVpc(_command);
 
     /// <summary>
-    /// gcloud preview compute snapshots sub-commands.
-    /// </summary>
-    public GcloudPreviewComputeSnapshots Snapshots => _snapshots ??= new GcloudPreviewComputeSnapshots(_command);
-
-    /// <summary>
     /// gcloud preview compute snapshot-settings sub-commands.
     /// </summary>
     public GcloudPreviewComputeSnapshotSettings SnapshotSettings => _snapshotSettings ??= new GcloudPreviewComputeSnapshotSettings(_command);
+
+    /// <summary>
+    /// gcloud preview compute snapshots sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeSnapshots Snapshots => _snapshots ??= new GcloudPreviewComputeSnapshots(_command);
 
     /// <summary>
     /// gcloud preview compute sole-tenancy sub-commands.
@@ -364,14 +364,14 @@ public class GcloudPreviewCompute
     public GcloudPreviewComputeSslPolicies SslPolicies => _sslPolicies ??= new GcloudPreviewComputeSslPolicies(_command);
 
     /// <summary>
-    /// gcloud preview compute storage-pools sub-commands.
-    /// </summary>
-    public GcloudPreviewComputeStoragePools StoragePools => _storagePools ??= new GcloudPreviewComputeStoragePools(_command);
-
-    /// <summary>
     /// gcloud preview compute storage-pool-types sub-commands.
     /// </summary>
     public GcloudPreviewComputeStoragePoolTypes StoragePoolTypes => _storagePoolTypes ??= new GcloudPreviewComputeStoragePoolTypes(_command);
+
+    /// <summary>
+    /// gcloud preview compute storage-pools sub-commands.
+    /// </summary>
+    public GcloudPreviewComputeStoragePools StoragePools => _storagePools ??= new GcloudPreviewComputeStoragePools(_command);
 
     /// <summary>
     /// gcloud preview compute target-grpc-proxies sub-commands.

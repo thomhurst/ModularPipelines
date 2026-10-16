@@ -23,8 +23,8 @@ public class GcloudBackupDr : IGcloudBackupDr
     private GcloudBackupDrBackupPlanAssociations? _backupPlanAssociations;
     private GcloudBackupDrBackupPlanRevisions? _backupPlanRevisions;
     private GcloudBackupDrBackupPlans? _backupPlans;
-    private GcloudBackupDrBackups? _backups;
     private GcloudBackupDrBackupVaults? _backupVaults;
+    private GcloudBackupDrBackups? _backups;
     private GcloudBackupDrDataSourceReferences? _dataSourceReferences;
     private GcloudBackupDrDataSources? _dataSources;
     private GcloudBackupDrLocations? _locations;
@@ -59,14 +59,14 @@ public class GcloudBackupDr : IGcloudBackupDr
     public GcloudBackupDrBackupPlans BackupPlans => _backupPlans ??= new GcloudBackupDrBackupPlans(_command);
 
     /// <summary>
-    /// gcloud backup-dr backups sub-commands.
-    /// </summary>
-    public GcloudBackupDrBackups Backups => _backups ??= new GcloudBackupDrBackups(_command);
-
-    /// <summary>
     /// gcloud backup-dr backup-vaults sub-commands.
     /// </summary>
     public GcloudBackupDrBackupVaults BackupVaults => _backupVaults ??= new GcloudBackupDrBackupVaults(_command);
+
+    /// <summary>
+    /// gcloud backup-dr backups sub-commands.
+    /// </summary>
+    public GcloudBackupDrBackups Backups => _backups ??= new GcloudBackupDrBackups(_command);
 
     /// <summary>
     /// gcloud backup-dr data-source-references sub-commands.

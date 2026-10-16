@@ -67,14 +67,14 @@ public interface IGcloudOracleDatabase
     GcloudOracleDatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes { get; }
 
     /// <summary>
-    /// gcloud oracle-database db-systems sub-commands.
-    /// </summary>
-    GcloudOracleDatabaseDbSystems DbSystems { get; }
-
-    /// <summary>
     /// gcloud oracle-database db-system-shapes sub-commands.
     /// </summary>
     GcloudOracleDatabaseDbSystemShapes DbSystemShapes { get; }
+
+    /// <summary>
+    /// gcloud oracle-database db-systems sub-commands.
+    /// </summary>
+    GcloudOracleDatabaseDbSystems DbSystems { get; }
 
     /// <summary>
     /// gcloud oracle-database db-versions sub-commands.
@@ -107,24 +107,19 @@ public interface IGcloudOracleDatabase
     GcloudOracleDatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments { get; }
 
     /// <summary>
-    /// gcloud oracle-database goldengate-connections sub-commands.
-    /// </summary>
-    GcloudOracleDatabaseGoldengateConnections GoldengateConnections { get; }
-
-    /// <summary>
     /// gcloud oracle-database goldengate-connection-types sub-commands.
     /// </summary>
     GcloudOracleDatabaseGoldengateConnectionTypes GoldengateConnectionTypes { get; }
 
     /// <summary>
+    /// gcloud oracle-database goldengate-connections sub-commands.
+    /// </summary>
+    GcloudOracleDatabaseGoldengateConnections GoldengateConnections { get; }
+
+    /// <summary>
     /// gcloud oracle-database goldengate-deployment-environments sub-commands.
     /// </summary>
     GcloudOracleDatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments { get; }
-
-    /// <summary>
-    /// gcloud oracle-database goldengate-deployments sub-commands.
-    /// </summary>
-    GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments { get; }
 
     /// <summary>
     /// gcloud oracle-database goldengate-deployment-types sub-commands.
@@ -135,6 +130,11 @@ public interface IGcloudOracleDatabase
     /// gcloud oracle-database goldengate-deployment-versions sub-commands.
     /// </summary>
     GcloudOracleDatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions { get; }
+
+    /// <summary>
+    /// gcloud oracle-database goldengate-deployments sub-commands.
+    /// </summary>
+    GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments { get; }
 
     /// <summary>
     /// gcloud oracle-database odb-networks sub-commands.

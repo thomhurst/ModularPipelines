@@ -21,8 +21,8 @@ public class GcloudColab : IGcloudColab
 {
     private readonly ICommandContext _command;
     private GcloudColabExecutions? _executions;
-    private GcloudColabRuntimes? _runtimes;
     private GcloudColabRuntimeTemplates? _runtimeTemplates;
+    private GcloudColabRuntimes? _runtimes;
     private GcloudColabSchedules? _schedules;
 
     /// <summary>
@@ -41,14 +41,14 @@ public class GcloudColab : IGcloudColab
     public GcloudColabExecutions Executions => _executions ??= new GcloudColabExecutions(_command);
 
     /// <summary>
-    /// gcloud colab runtimes sub-commands.
-    /// </summary>
-    public GcloudColabRuntimes Runtimes => _runtimes ??= new GcloudColabRuntimes(_command);
-
-    /// <summary>
     /// gcloud colab runtime-templates sub-commands.
     /// </summary>
     public GcloudColabRuntimeTemplates RuntimeTemplates => _runtimeTemplates ??= new GcloudColabRuntimeTemplates(_command);
+
+    /// <summary>
+    /// gcloud colab runtimes sub-commands.
+    /// </summary>
+    public GcloudColabRuntimes Runtimes => _runtimes ??= new GcloudColabRuntimes(_command);
 
     /// <summary>
     /// gcloud colab schedules sub-commands.

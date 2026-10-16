@@ -22,11 +22,11 @@ public class GcloudContainerAiProfiles
     private readonly ICommandContext _command;
     private GcloudContainerAiProfilesBenchmarks? _benchmarks;
     private GcloudContainerAiProfilesManifests? _manifests;
-    private GcloudContainerAiProfilesModels? _models;
-    private GcloudContainerAiProfilesModelServers? _modelServers;
     private GcloudContainerAiProfilesModelServerVersions? _modelServerVersions;
-    private GcloudContainerAiProfilesServingStacks? _servingStacks;
+    private GcloudContainerAiProfilesModelServers? _modelServers;
+    private GcloudContainerAiProfilesModels? _models;
     private GcloudContainerAiProfilesServingStackVersions? _servingStackVersions;
+    private GcloudContainerAiProfilesServingStacks? _servingStacks;
     private GcloudContainerAiProfilesUseCase? _useCase;
 
     /// <summary>
@@ -50,9 +50,9 @@ public class GcloudContainerAiProfiles
     public GcloudContainerAiProfilesManifests Manifests => _manifests ??= new GcloudContainerAiProfilesManifests(_command);
 
     /// <summary>
-    /// gcloud container ai profiles models sub-commands.
+    /// gcloud container ai profiles model-server-versions sub-commands.
     /// </summary>
-    public GcloudContainerAiProfilesModels Models => _models ??= new GcloudContainerAiProfilesModels(_command);
+    public GcloudContainerAiProfilesModelServerVersions ModelServerVersions => _modelServerVersions ??= new GcloudContainerAiProfilesModelServerVersions(_command);
 
     /// <summary>
     /// gcloud container ai profiles model-servers sub-commands.
@@ -60,19 +60,19 @@ public class GcloudContainerAiProfiles
     public GcloudContainerAiProfilesModelServers ModelServers => _modelServers ??= new GcloudContainerAiProfilesModelServers(_command);
 
     /// <summary>
-    /// gcloud container ai profiles model-server-versions sub-commands.
+    /// gcloud container ai profiles models sub-commands.
     /// </summary>
-    public GcloudContainerAiProfilesModelServerVersions ModelServerVersions => _modelServerVersions ??= new GcloudContainerAiProfilesModelServerVersions(_command);
-
-    /// <summary>
-    /// gcloud container ai profiles serving-stacks sub-commands.
-    /// </summary>
-    public GcloudContainerAiProfilesServingStacks ServingStacks => _servingStacks ??= new GcloudContainerAiProfilesServingStacks(_command);
+    public GcloudContainerAiProfilesModels Models => _models ??= new GcloudContainerAiProfilesModels(_command);
 
     /// <summary>
     /// gcloud container ai profiles serving-stack-versions sub-commands.
     /// </summary>
     public GcloudContainerAiProfilesServingStackVersions ServingStackVersions => _servingStackVersions ??= new GcloudContainerAiProfilesServingStackVersions(_command);
+
+    /// <summary>
+    /// gcloud container ai profiles serving-stacks sub-commands.
+    /// </summary>
+    public GcloudContainerAiProfilesServingStacks ServingStacks => _servingStacks ??= new GcloudContainerAiProfilesServingStacks(_command);
 
     /// <summary>
     /// gcloud container ai profiles use-case sub-commands.
