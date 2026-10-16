@@ -11,5 +11,5 @@ internal interface IRegistrationEventExecutor
     /// Invokes registration event handlers for all modules.
     /// This should be called before dependency resolution.
     /// </summary>
-    Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules);
+    Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules, CancellationToken cancellationToken = default);
 }

@@ -376,7 +376,7 @@ public class ModuleTestBuilder<TModule>
 
         try
         {
-            return await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
+            return await builder.BuildAsync((services, token) => SeedFilesAsync(services, token), cancellationToken).ConfigureAwait(false);
         }
         catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
             && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))

@@ -321,21 +321,32 @@ public sealed class PipelineBuilder
     /// <summary>
     /// Builds the pipeline and validates configuration.
     /// </summary>
+    /// <param name="cancellationToken">A token that cancels pipeline startup.</param>
     /// <returns>A validated pipeline ready for execution.</returns>
+    /// <remarks>
+    /// Initializers implementing <see cref="ICancellableInitializer"/> receive this token.
+    /// Legacy parameterless initializers cannot be interrupted. Startup awaits all started
+    /// initializers before reporting cancellation and disposing pipeline resources.
+    /// </remarks>
     /// <exception cref="PipelineValidationException">Thrown when validation fails.</exception>
-    public Task<IPipeline> BuildAsync() => BuildAsync(beforeInitialization: null);
+    /// <exception cref="OperationCanceledException">Startup was canceled.</exception>
+    public Task<IPipeline> BuildAsync(CancellationToken cancellationToken = default) =>
+        BuildAsync(beforeInitialization: null, cancellationToken);
 
     // The isolated test harness seeds inputs after DI is built, before any initializer runs.
-    internal async Task<IPipeline> BuildAsync(Func<IServiceProvider, Task>? beforeInitialization)
+    internal async Task<IPipeline> BuildAsync(
+        Func<IServiceProvider, CancellationToken, Task>? beforeInitialization,
+        CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         if (_commandLineOptions.Command == PipelineCommand.ExportGraph)
         {
-            return await BuildForDependencyGraphExportAsync().ConfigureAwait(false);
+            return await BuildForDependencyGraphExportAsync(cancellationToken).ConfigureAwait(false);
         }
 
         var validatePipeline = _commandLineOptions.Command != PipelineCommand.Help;
         var (pipeline, validationResult, validationException) =
-            await BuildAndValidatePipelineAsync(validatePipeline, beforeInitialization).ConfigureAwait(false);
+            await BuildAndValidatePipelineAsync(validatePipeline, beforeInitialization, cancellationToken).ConfigureAwait(false);
 
         if (validationResult.HasErrors)
         {
@@ -350,17 +361,23 @@ public sealed class PipelineBuilder
         return pipeline!;
     }
 
-    internal Task<IPipeline> BuildForDependencyGraphExportAsync() =>
-        BuildPipelineAsync(initializePipeline: false);
+    internal Task<IPipeline> BuildForDependencyGraphExportAsync(CancellationToken cancellationToken = default) =>
+        BuildPipelineAsync(initializePipeline: false, cancellationToken: cancellationToken);
 
     /// <summary>
     /// Validates the pipeline configuration without executing it.
     /// </summary>
+    /// <param name="cancellationToken">A token that cancels startup and validation.</param>
     /// <returns>A validation result containing any errors found.</returns>
-    public async Task<ValidationResult> ValidateAsync()
+    /// <remarks>
+    /// Uses the same initialization and cancellation behavior as <see cref="BuildAsync(CancellationToken)"/>.
+    /// Started legacy initializers finish before resources are disposed, even after cancellation.
+    /// </remarks>
+    /// <exception cref="OperationCanceledException">Startup or validation was canceled.</exception>
+    public async Task<ValidationResult> ValidateAsync(CancellationToken cancellationToken = default)
     {
         var (pipeline, validationResult, _) =
-            await BuildAndValidatePipelineAsync(validatePipeline: true).ConfigureAwait(false);
+            await BuildAndValidatePipelineAsync(validatePipeline: true, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         try
         {
@@ -376,16 +393,20 @@ public sealed class PipelineBuilder
     }
 
     private async Task<(IPipeline? Pipeline, ValidationResult ValidationResult, Exception? ValidationException)>
-        BuildAndValidatePipelineAsync(bool validatePipeline, Func<IServiceProvider, Task>? beforeInitialization = null)
+        BuildAndValidatePipelineAsync(
+            bool validatePipeline,
+            Func<IServiceProvider, CancellationToken, Task>? beforeInitialization = null,
+            CancellationToken cancellationToken = default)
     {
         IPipeline? pipeline = null;
 
         try
         {
-            pipeline = await BuildPipelineAsync(initializePipeline: validatePipeline, beforeInitialization).ConfigureAwait(false);
+            pipeline = await BuildPipelineAsync(initializePipeline: validatePipeline, beforeInitialization, cancellationToken).ConfigureAwait(false);
             var validationResult = validatePipeline
-                ? await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false)
+                ? await ValidatePipelineAsync(pipeline.Services, cancellationToken).ConfigureAwait(false)
                 : ValidationResult.Success();
+            cancellationToken.ThrowIfCancellationRequested();
             return (pipeline, validationResult, null);
         }
         catch (NoModulesRegisteredException ex)
@@ -421,10 +442,11 @@ public sealed class PipelineBuilder
             exception.Message));
     }
 
-    private static Task<ValidationResult> ValidatePipelineAsync(IServiceProvider services)
+    private static Task<ValidationResult> ValidatePipelineAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var validationService = services.GetService<IPipelineValidationService>();
-        return validationService?.ValidateAsync(services, CancellationToken.None)
+        return validationService?.ValidateAsync(services, cancellationToken)
                ?? Task.FromResult(ValidationResult.Success());
     }
 
@@ -486,8 +508,12 @@ public sealed class PipelineBuilder
     private static IReadOnlyList<string>? NullIfEmpty(IReadOnlyList<string> values) =>
         values.Count == 0 ? null : values;
 
-    private async Task<IPipeline> BuildPipelineAsync(bool initializePipeline, Func<IServiceProvider, Task>? beforeInitialization = null)
+    private async Task<IPipeline> BuildPipelineAsync(
+        bool initializePipeline,
+        Func<IServiceProvider, CancellationToken, Task>? beforeInitialization = null,
+        CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LoadModularPipelinesAssembliesIfNotLoadedYet();
 
         // Configure the host with our collected configuration
@@ -575,7 +601,7 @@ public sealed class PipelineBuilder
             }
         });
 
-        return await PipelineImpl.CreateAsync(_hostBuilder, _resources, initializePipeline, beforeInitialization).ConfigureAwait(false);
+        return await PipelineImpl.CreateAsync(_hostBuilder, _resources, initializePipeline, beforeInitialization, cancellationToken).ConfigureAwait(false);
     }
 
     private void LoadModularPipelinesAssembliesIfNotLoadedYet()

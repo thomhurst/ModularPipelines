@@ -233,6 +233,27 @@ The `ExecutePipelineAsync()` extensions on the builder and on `IPipeline` are al
 Use `await builder.ValidateAsync()` to inspect errors without executing modules.
 `RunAsync()` on the builder builds, runs, and disposes the pipeline for you.
 
+`BuildAsync(CancellationToken cancellationToken = default)` and
+`ValidateAsync(CancellationToken cancellationToken = default)` accept startup cancellation.
+Parameterless calls still compile, but the signature change is binary-breaking: recompile callers
+when upgrading. The builder's `RunAsync(cancellationToken)` passes the token through startup,
+validation, and execution.
+
+```csharp
+await using var pipeline = await builder.BuildAsync(cancellationToken);
+var summary = await pipeline.RunAsync(cancellationToken);
+```
+
+For cooperative service initialization, implement
+`ModularPipelines.DependencyInjection.ICancellableInitializer.InitializeAsync(CancellationToken)`
+and register the service as a singleton. This interface extends
+`Initialization.Microsoft.Extensions.DependencyInjection.IInitializer` and preserves initializer
+ordering and parallel batches. Its inherited parameterless method forwards with the default token.
+Legacy `IInitializer.InitializeAsync()` implementations receive no token and cannot be interrupted.
+Startup awaits all started initialization work before reporting cancellation and disposing resources,
+so cancellation can wait for a legacy initializer to finish. A pre-canceled token prevents startup
+initialization and validation from starting.
+
 | V3 registration | V4 registration |
 | --- | --- |
 | `builder.Services.AddModule<T>()` | `builder.AddModule<T>()` |

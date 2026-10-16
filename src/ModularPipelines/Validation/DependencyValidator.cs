@@ -25,7 +25,7 @@ internal class DependencyValidator : IDependencyValidator
         }
 
         var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-            .GetRunnableModulesForValidation()
+            .GetRunnableModulesForValidation(cancellationToken)
             .ConfigureAwait(false);
         return ValidateDependencies(services, runnableModules);
     }

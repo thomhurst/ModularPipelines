@@ -76,9 +76,11 @@ internal class ModuleRetriever
         return (modules.RunnableModules, modules.IgnoredModules);
     }
 
-    internal async Task ValidateSelectionAsync()
+    internal async Task ValidateSelectionAsync(CancellationToken cancellationToken = default)
     {
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules, cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
         _ = ModuleSelection.Create(
             _modules,
             _dependencyChainProvider,
@@ -95,7 +97,8 @@ internal class ModuleRetriever
         }
 
         // Dynamic dependencies and metadata must be registered before conditions and cascade skipping are evaluated.
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules, cancellationToken).ConfigureAwait(false);
         var moduleSelection = ModuleSelection.Create(
             _modules,
             _dependencyChainProvider,
