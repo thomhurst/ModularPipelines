@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Git.Extensions;
@@ -23,6 +24,7 @@ public static class GitExtensions
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterGitContext(this IServiceCollection services)
     {
+        services.AddOptions<GitVersioningOptions>();
         services.TryAddScoped<IGit, Git>();
         services.TryAddScoped<IGitCommands, GitCommands>();
         services.TryAddSingleton<IGitChanges, GitChanges>();
@@ -33,5 +35,19 @@ public static class GitExtensions
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<IRunReportEnricher, GitRunReportEnricher>());
         return services;
+    }
+
+    /// <summary>
+    /// Registers Git services and configures the GitVersion.Tool package used for version calculation.
+    /// </summary>
+    /// <param name="services">The service collection to add the Git services to.</param>
+    /// <param name="configureVersioning">Configures version calculation, including the tool package version.</param>
+    /// <returns>The service collection for method chaining.</returns>
+    public static IServiceCollection RegisterGitContext(
+        this IServiceCollection services,
+        Action<GitVersioningOptions> configureVersioning)
+    {
+        services.Configure(configureVersioning);
+        return services.RegisterGitContext();
     }
 }
