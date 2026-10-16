@@ -33,6 +33,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly RespireScript EnqueueScript = RespireScript.Create(RedisCoordinationScripts.Enqueue);
     private static readonly RespireScript ClaimScript = RespireScript.Create(RedisCoordinationScripts.Claim);
     private static readonly RespireScript HeartbeatScript = RespireScript.Create(RedisCoordinationScripts.Heartbeat);
+    private static readonly RespireScript ReserveMasterRunScript = RespireScript.Create(RedisCoordinationScripts.ReserveMasterRun);
     private static readonly RespireScript MasterHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.MasterHeartbeat);
     private static readonly RespireScript GetMasterStateScript = RespireScript.Create(RedisCoordinationScripts.GetMasterState);
     private static readonly RespireScript RegisterWorkerScript = RespireScript.Create(RedisCoordinationScripts.RegisterWorker);
@@ -441,6 +442,27 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 cancellationToken)
             .ConfigureAwait(false);
         return (DistributedMasterState) state;
+    }
+
+    /// <summary>
+    /// Atomically reserves a fresh run and records its first heartbeat. Recording both together keeps
+    /// workers that registered first from seeing a started master with no heartbeat as lost.
+    /// </summary>
+    internal async Task ReserveMasterRunAsync(string runId, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var reserved = await _redis.Scripts.ExecuteIntegerAsync(
+                ReserveMasterRunScript,
+                _scriptKeys,
+                [_keyExpirationMilliseconds],
+                cancellationToken)
+            .ConfigureAwait(false);
+        if (reserved == 0)
+        {
+            throw new InvalidOperationException(
+                $"RunId already used: '{runId}'. Redis contains state from a started or completed run. "
+                + "Choose a unique RunId for each pipeline run.");
+        }
     }
 
     /// <summary>

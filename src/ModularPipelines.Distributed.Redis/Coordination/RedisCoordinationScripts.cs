@@ -221,6 +221,17 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    // ARGV: time to live. Reserve before heartbeats or dispatch, without changing a rejected run.
+    // Workers may already have registered, so their state does not make a run used.
+    public const string ReserveMasterRun = ServerTimeLua + """
+        if redis.call('EXISTS', KEYS[11], KEYS[9], KEYS[5]) > 0 then
+            return 0
+        end
+        redis.call('SET', KEYS[11], '1', 'PX', ARGV[1])
+        redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
+        return 1
+        """;
+
     // ARGV: heartbeat time to live. The heartbeat is KEYS[12] and the durable started marker KEYS[11].
     public const string MasterHeartbeat = ServerTimeLua + """
         redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
