@@ -38,32 +38,32 @@ public class ArgoCdAdmin : IArgoCdAdmin
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd app sub-commands.
+    /// argocd admin app sub-commands.
     /// </summary>
     public ArgoCdAdminApp App => _app ??= new ArgoCdAdminApp(_command);
 
     /// <summary>
-    /// argocd cluster sub-commands.
+    /// argocd admin cluster sub-commands.
     /// </summary>
     public ArgoCdAdminCluster Cluster => _cluster ??= new ArgoCdAdminCluster(_command);
 
     /// <summary>
-    /// argocd notifications sub-commands.
+    /// argocd admin notifications sub-commands.
     /// </summary>
     public ArgoCdAdminNotifications Notifications => _notifications ??= new ArgoCdAdminNotifications(_command);
 
     /// <summary>
-    /// argocd proj sub-commands.
+    /// argocd admin proj sub-commands.
     /// </summary>
     public ArgoCdAdminProj Proj => _proj ??= new ArgoCdAdminProj(_command);
 
     /// <summary>
-    /// argocd repo sub-commands.
+    /// argocd admin repo sub-commands.
     /// </summary>
     public ArgoCdAdminRepo Repo => _repo ??= new ArgoCdAdminRepo(_command);
 
     /// <summary>
-    /// argocd settings sub-commands.
+    /// argocd admin settings sub-commands.
     /// </summary>
     public ArgoCdAdminSettings Settings => _settings ??= new ArgoCdAdminSettings(_command);
 

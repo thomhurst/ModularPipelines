@@ -21,10 +21,32 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdCertAddSshOptions : ArgoCdOptions
 {
     /// <summary>
+    /// Add SSH known host entries for repository servers
+    /// </summary>
+    /// <param name="Batch">Perform batch processing by reading in SSH known hosts data (mandatory flag)</param>
+    public ArgoCdCertAddSshOptions(
+        bool Batch
+    )
+    {
+        if (!Batch)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Batch));
+        }
+        this.Batch = Batch;
+    }
+
+    public void Deconstruct(out bool Batch)
+    {
+        Batch = this.Batch;
+    }
+
+    /// <summary>
     /// Perform batch processing by reading in SSH known hosts data (mandatory flag)
     /// </summary>
     [CliFlag("--batch")]
-    public bool? Batch { get; set; }
+    public bool Batch { get; private init; }
 
     /// <summary>
     /// Read SSH known hosts data from file (default is to read from stdin)
