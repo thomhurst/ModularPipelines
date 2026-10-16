@@ -36,7 +36,9 @@ Register exactly one backend; building the pipeline fails when several are regis
 
 ### Leases
 
-A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. Workers cancel assignments when reconciliation reports a lost lease. Coordinators reject results from expired or reassigned leases; the first accepted result is final. Cancellation is cooperative and cannot undo external side effects or guarantee exactly-once execution during a network partition.
+A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire. The master requeues each module until `DistributedOptions.MaxModuleLeaseExpirations` is reached, then fails it permanently. The default is `2`: one recovery is allowed, and the second expiration fails the module. The value must be at least `1`; the budget applies per module across all workers, independently of module retries.
+
+Workers cancel assignments when reconciliation reports a lost lease. Coordinators reject results from expired or reassigned leases; the first accepted result is final. Cancellation is cooperative and cannot undo external side effects or guarantee exactly-once execution during a network partition.
 
 Workers also watch the master. Once the master finishes, whether it succeeded or failed, nothing collects further results, so each worker cancels any modules it is still running, including AlwaysRun modules. When the master exits or crashes without signalling completion, or a worker cannot reach it for `MasterTimeout`, the worker also fails. SignalR workers notice a lost master when their connection closes for good, and a master that finished waits briefly for its workers to acknowledge completion before it shuts down, so a normal shutdown is never reported as a lost master; Redis workers notice when the master's heartbeat is older than `MasterTimeout` or has expired. Modules that ignore cancellation are abandoned after 30 seconds, so they cannot keep a worker alive.
 
@@ -74,7 +76,7 @@ Every instance automatically advertises its operating system through the matchin
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
 2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
-4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues modules whose leases expire.
+4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues expired leases until `MaxModuleLeaseExpirations` is reached, then fails the module.
 5. When a module fails, the master immediately broadcasts a `PipelineFailed` cancellation: workers cancel non-AlwaysRun modules and only claim AlwaysRun work, and the master withdraws queued non-AlwaysRun assignments. A user stop broadcasts `Stopped`, which cancels everything.
 
 ## Packages
