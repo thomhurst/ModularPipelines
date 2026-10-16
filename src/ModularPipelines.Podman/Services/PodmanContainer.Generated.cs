@@ -422,21 +422,6 @@ public class PodmanContainer : IPodmanContainer
     }
 
     /// <summary>
-    /// Execute the command described by an image label
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RunlabelAsync(
-        PodmanContainerRunlabelOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Run a command in a new container
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -445,6 +430,21 @@ public class PodmanContainer : IPodmanContainer
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RunAsync(
         PodmanContainerRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Execute the command described by an image label
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RunlabelAsync(
+        PodmanContainerRunlabelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

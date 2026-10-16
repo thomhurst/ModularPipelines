@@ -33,7 +33,7 @@ public class PodmanCompose : IPodmanCompose
     #region Sub-command Groups
 
     /// <summary>
-    /// podman bridge sub-commands.
+    /// podman compose bridge sub-commands.
     /// </summary>
     public PodmanComposeBridge Bridge => _bridge ??= new PodmanComposeBridge(_command);
 

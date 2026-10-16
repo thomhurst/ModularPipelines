@@ -22,7 +22,7 @@ namespace ModularPipelines.Podman.Services;
 public interface IPodmanImage
 {
     /// <summary>
-    /// podman trust sub-commands.
+    /// podman image trust sub-commands.
     /// </summary>
     PodmanImageTrust Trust { get; }
 
