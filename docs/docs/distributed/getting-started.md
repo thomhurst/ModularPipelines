@@ -23,9 +23,11 @@ Add the `ModularPipelines.Distributed.Redis` NuGet package to your pipeline proj
 dotnet add package ModularPipelines.Distributed.Redis
 ```
 
-This brings in `ModularPipelines.Distributed` (core distributed abstractions) and the [Respire](https://thomhurst.github.io/Respire/) Redis client automatically.
+This brings in `ModularPipelines` (which contains the core distributed abstractions) and the [Respire](https://thomhurst.github.io/Respire/) Redis client automatically.
 
 ## 2. Configure the Pipeline
+
+Set `MODULARPIPELINES_RUN_ID` to an identifier unique to this pipeline invocation and share it with every process. Redis requires this even when running only one instance. See [Run Locally](#3-run-locally) for commands.
 
 In your `Program.cs`, enable distributed mode and register the Redis coordinator:
 
@@ -87,11 +89,12 @@ Every Redis key is prefixed with a run identifier so concurrent or repeated pipe
 
 1. Explicit `DistributedOptions.RunId` configuration
 2. The `MODULARPIPELINES_RUN_ID` environment variable
-3. A generated GUID when neither is configured and `TotalInstances` is `1`
+
+Use the same invocation-specific value on every process. Redis and SignalR coordinators, Redis discovery, and S3 artifact stores require an explicit shared identifier even when `TotalInstances` is `1`. The generated GUID fallback applies only to single-instance configurations that do not require an explicit run ID; it never applies to these backends.
 
 Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
-Multi-process runs fail fast when no shared identifier is configured. For local or CI runs, export
-one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every process:
+These backends and all multi-process runs fail fast when no shared identifier is configured. For local or CI runs, set
+one invocation-specific `MODULARPIPELINES_RUN_ID` value for every process before starting the pipeline. `AddDistributedMode()` reads it automatically:
 
 ```csharp
 builder.AddDistributedMode();
@@ -104,7 +107,13 @@ builder.AddRedisDistributedCoordinator(o => o with
 
 ## Minimal Complete Example
 
-Here is a self-contained pipeline with three modules:
+Here is a self-contained pipeline with three modules. For a single-instance run, generate the run ID when launching it:
+
+```bash
+MODULARPIPELINES_RUN_ID="$(uuidgen)" REDIS_URL=localhost:6379 dotnet run
+```
+
+For multiple instances, generate the ID once and reuse it in every process as shown in [Run Locally](#3-run-locally). Do not generate a separate ID per process.
 
 ```csharp
 using ModularPipelines;
