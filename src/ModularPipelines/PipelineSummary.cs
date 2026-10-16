@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using ModularPipelines.Enums;
 using ModularPipelines.Modules;
@@ -25,6 +26,64 @@ public sealed record PipelineSummary
     /// </remarks>
     [JsonIgnore]
     public IReadOnlyList<IModuleResult> Results { get; private init; }
+
+    /// <summary>
+    /// Gets the completed result for the specified module type, including failed and skipped results.
+    /// </summary>
+    /// <typeparam name="TModule">The exact module type to look up.</typeparam>
+    /// <typeparam name="TResult">The value type produced by the module.</typeparam>
+    /// <returns>The typed module result.</returns>
+    /// <exception cref="InvalidOperationException">No completed result exists for the module type.</exception>
+    /// <remarks>
+    /// Summaries deserialized from JSON have no results because <see cref="Results"/> is excluded from serialization.
+    /// </remarks>
+    public ModuleResult<TResult> GetResult<TModule, TResult>()
+        where TModule : Module<TResult>
+    {
+        return TryGetResult<TModule, TResult>(out var result)
+            ? result
+            : throw new InvalidOperationException($"No completed result exists for module '{typeof(TModule).FullName}'.");
+    }
+
+    /// <summary>
+    /// Attempts to get the completed result for the specified module type, including failed and skipped results.
+    /// </summary>
+    /// <typeparam name="TModule">The exact module type to look up.</typeparam>
+    /// <typeparam name="TResult">The value type produced by the module.</typeparam>
+    /// <param name="result">The typed result when found; otherwise, <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> when a completed result exists; otherwise, <see langword="false"/>.</returns>
+    /// <remarks>
+    /// Lookup uses the runtime module type, or the fully qualified <see cref="IModuleResult.TypeName"/>
+    /// when the runtime type is unavailable. Display names are never used.
+    /// Summaries deserialized from JSON have no results because <see cref="Results"/> is excluded from serialization.
+    /// </remarks>
+    public bool TryGetResult<TModule, TResult>([NotNullWhen(true)] out ModuleResult<TResult>? result)
+        where TModule : Module<TResult>
+    {
+        var moduleType = typeof(TModule);
+        foreach (var candidate in Results)
+        {
+            var matches = candidate is ModuleResult { ModuleType: { } runtimeType }
+                ? runtimeType == moduleType
+                : string.Equals(candidate.TypeName, moduleType.FullName, StringComparison.Ordinal);
+            if (!matches)
+            {
+                continue;
+            }
+
+            result = candidate switch
+            {
+                ModuleResult<TResult> typed => typed,
+                ModuleResult.Failure failure => failure,
+                ModuleResult.Skipped skipped => skipped,
+                _ => null,
+            };
+            return result is not null;
+        }
+
+        result = null;
+        return false;
+    }
 
     /// <summary>
     /// Gets how long the pipeline took to run.

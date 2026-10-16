@@ -1,4 +1,6 @@
 #nullable enable
+ModularPipelines.PipelineSummary.GetResult<TModule, TResult>() -> ModularPipelines.ModuleResult<TResult>!
+ModularPipelines.PipelineSummary.TryGetResult<TModule, TResult>(out ModularPipelines.ModuleResult<TResult>? result) -> bool
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.get -> System.Text.Encoding!
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.init -> void
 ModularPipelines.Options.PipelineOptions.ModuleCancellationGracePeriod.get -> System.TimeSpan
