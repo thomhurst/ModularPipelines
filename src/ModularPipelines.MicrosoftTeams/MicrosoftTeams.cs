@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Http;
@@ -21,10 +22,10 @@ internal class MicrosoftTeams : IMicrosoftTeams
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         });
 
-        var cardsRequest = new HttpRequestMessage
+        using var cardsRequest = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            Content = new StringContent(serializedCard),
+            Content = new StringContent(serializedCard, Encoding.UTF8, "application/json"),
             RequestUri = options.WebHookUri,
         };
 
