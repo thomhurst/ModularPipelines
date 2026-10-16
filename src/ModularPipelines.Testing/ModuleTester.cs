@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using Mediator;
 using System.Text;
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 using ModularPipelines.Generated;
+using ModularPipelines.Http;
 
 namespace ModularPipelines.Testing;
 
@@ -61,6 +63,7 @@ public class ModuleTestBuilder<TModule>
     private readonly Dictionary<(Type ProducerModule, string ArtifactName), byte[]> _artifactSeeds = [];
     private readonly Dictionary<string, byte[]> _fileSeeds = [with(StringComparer.Ordinal)];
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>>? _commandHandler;
+    private Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>>? _httpHandler;
 
     /// <summary>Configures the pipeline after harness defaults and before building it.</summary>
     /// <param name="configure">The callback, invoked for each execution in registration order.</param>
@@ -216,6 +219,20 @@ public class ModuleTestBuilder<TModule>
     }
 
     /// <summary>
+    /// Intercepts requests sent through the framework's default HTTP client, including downloads.
+    /// </summary>
+    /// <param name="handler">The asynchronous handler, which receives the request and its effective cancellation token.</param>
+    /// <returns>This builder.</returns>
+    /// <remarks>Explicitly supplied HTTP clients and other named clients are not intercepted.</remarks>
+    public ModuleTestBuilder<TModule> InterceptHttp(
+        Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>> handler)
+    {
+        ArgumentNullException.ThrowIfNull(handler);
+        _httpHandler = handler;
+        return this;
+    }
+
+    /// <summary>
     /// Executes the module in an isolated test pipeline.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -223,64 +240,20 @@ public class ModuleTestBuilder<TModule>
     public async Task<ModuleTestRun> ExecuteAsync(CancellationToken cancellationToken = default)
     {
         var execution = await ExecuteCoreAsync(cancellationToken).ConfigureAwait(false);
-        return new ModuleTestRun(execution.Result, execution.Commands, execution.FileSystem);
+        return new ModuleTestRun(execution.Result, execution.Commands, execution.HttpRequests, execution.FileSystem);
     }
 
     internal async Task<ExecutionOutcome> ExecuteCoreAsync(CancellationToken cancellationToken)
     {
         var fileSystem = new InMemoryFileSystemProvider();
+        var httpRequests = new ConcurrentQueue<HttpRequestMessage>();
         var recorder = new RecordingCommandInterceptor();
         if (_commandHandler is not null)
         {
             recorder.SetHandler(_commandHandler);
         }
 
-        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
-        {
-            EnableCommandLineOptions = false,
-        });
-
-        builder.ConfigureOptions(options => options with
-        {
-            Console = options.Console with
-            {
-                ShowProgress = false,
-                PrintResults = false,
-                PrintLogo = false,
-                PrintDependencyChains = false,
-            },
-            ThrowOnPipelineFailure = false,
-        });
-        builder.Logging.ClearProviders();
-        builder.Services.Replace(ServiceDescriptor.Singleton<IFileSystemProvider>(fileSystem));
-        builder.Services.AddSingleton(recorder);
-        builder.Services.AddSingleton<ICommandInterceptor>(recorder);
-        builder.Services.AddSingleton<IConsoleCoordinator>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IModuleOutputExcerptProvider>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IOutputCoordinator>(NoOpConsoleServices.Instance);
-        builder.Services.AddSingleton<IProgressDisplay>(NoOpConsoleServices.Instance);
-        builder.AddModule<TModule>();
-
-        foreach (var registration in _registrations)
-        {
-            registration(builder);
-        }
-
-        IPipeline pipeline;
-        try
-        {
-            pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
-        }
-        catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
-            && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))
-        {
-            throw new InvalidOperationException(
-                $"Cannot construct the test pipeline for {typeof(TModule).Name}. "
-                + "Seeding dependency results skips execution, but dependency modules and their transitive dependencies "
-                + "must still be constructed. Register the missing service with WithService<TService>(service). "
-                + exception.Message,
-                exception);
-        }
+        var pipeline = await BuildPipelineAsync(fileSystem, recorder, httpRequests, cancellationToken).ConfigureAwait(false);
         await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
@@ -299,7 +272,7 @@ public class ModuleTestBuilder<TModule>
         if (dependencyFailure is not null)
         {
             executionContext.ModuleCancellationTokenSource.Dispose();
-            return new ExecutionOutcome(dependencyFailure, recorder.Commands, effectiveFileSystem);
+            return new ExecutionOutcome(dependencyFailure, recorder.Commands, [.. httpRequests], effectiveFileSystem);
         }
 
         if (cancellationToken.CanBeCanceled)
@@ -355,7 +328,66 @@ public class ModuleTestBuilder<TModule>
         pipeline.Services.GetRequiredService<IModuleResultRegistry>()
             .RegisterResult(typeof(TModule), result);
 
-        return new ExecutionOutcome(result, recorder.Commands, effectiveFileSystem);
+        return new ExecutionOutcome(result, recorder.Commands, [.. httpRequests], effectiveFileSystem);
+    }
+
+    private async Task<IPipeline> BuildPipelineAsync(
+        IFileSystemProvider fileSystem,
+        RecordingCommandInterceptor recorder,
+        ConcurrentQueue<HttpRequestMessage> httpRequests,
+        CancellationToken cancellationToken)
+    {
+        var builder = Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
+        {
+            EnableCommandLineOptions = false,
+        });
+
+        builder.ConfigureOptions(options => options with
+        {
+            Console = options.Console with
+            {
+                ShowProgress = false,
+                PrintResults = false,
+                PrintLogo = false,
+                PrintDependencyChains = false,
+            },
+            ThrowOnPipelineFailure = false,
+        });
+        builder.Logging.ClearProviders();
+        builder.Services.Replace(ServiceDescriptor.Singleton<IFileSystemProvider>(fileSystem));
+        builder.Services.AddSingleton(recorder);
+        builder.Services.AddSingleton<ICommandInterceptor>(recorder);
+        builder.Services.AddSingleton<IConsoleCoordinator>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IModuleOutputExcerptProvider>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IOutputCoordinator>(NoOpConsoleServices.Instance);
+        builder.Services.AddSingleton<IProgressDisplay>(NoOpConsoleServices.Instance);
+        builder.AddModule<TModule>();
+
+        foreach (var registration in _registrations)
+        {
+            registration(builder);
+        }
+
+        if (_httpHandler is { } httpHandler)
+        {
+            builder.Services.AddHttpClient(HttpClientNames.Default)
+                .ConfigurePrimaryHttpMessageHandler(() => new RecordingHttpHandler(httpRequests, httpHandler));
+        }
+
+        try
+        {
+            return await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
+        }
+        catch (InvalidOperationException exception) when (_dependencySeeds.Count > 0
+            && exception.Message.StartsWith("Unable to resolve service for type '", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Cannot construct the test pipeline for {typeof(TModule).Name}. "
+                + "Seeding dependency results skips execution, but dependency modules and their transitive dependencies "
+                + "must still be constructed. Register the missing service with WithService<TService>(service). "
+                + exception.Message,
+                exception);
+        }
     }
 
     private async Task SeedFilesAsync(IServiceProvider services, CancellationToken cancellationToken)
@@ -512,6 +544,7 @@ public class ModuleTestBuilder<TModule>
     internal sealed record ExecutionOutcome(
         IModuleResult Result,
         IReadOnlyList<RecordedCommand> Commands,
+        IReadOnlyList<HttpRequestMessage> HttpRequests,
         IFileSystemProvider FileSystem);
 
     private interface IDependencySeed
@@ -645,6 +678,14 @@ public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TMod
         return this;
     }
 
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.InterceptHttp"/>
+    public new ModuleTestBuilder<TModule, TResult> InterceptHttp(
+        Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>> handler)
+    {
+        base.InterceptHttp(handler);
+        return this;
+    }
+
     /// <summary>
     /// Executes the module in an isolated test pipeline.
     /// </summary>
@@ -657,6 +698,7 @@ public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TMod
         return new ModuleTestRun<TResult>(
             (ModuleResult<TResult>) execution.Result,
             execution.Commands,
+            execution.HttpRequests,
             execution.FileSystem);
     }
 }
