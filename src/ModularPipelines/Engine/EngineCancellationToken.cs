@@ -175,7 +175,10 @@ internal class EngineCancellationToken : IDisposable
 
     private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs args)
     {
-        args.Cancel = HandleCancelKeyPress();
+        if (IsRunActive?.Invoke() == true && HandleCancelKeyPress())
+        {
+            args.Cancel = true;
+        }
     }
 
     internal bool HandleSigterm() => IsRunActive?.Invoke() == true && HandleCancelKeyPress();
