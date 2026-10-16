@@ -92,6 +92,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
         }
 
         if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
+            && uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
             && !string.IsNullOrEmpty(uri.UserInfo))
         {
             remoteUrl = new UriBuilder(uri)

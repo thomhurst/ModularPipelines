@@ -18,6 +18,7 @@ public class GitHubRepositoryInfoInitializationTests
     [Arguments("  https://github.com/owner/repository.git\n", "https://github.com/owner/repository.git")]
     [Arguments("https://github.com/owner/repository", "https://github.com/owner/repository")]
     [Arguments("  git@github.com:owner/repository.git\r\n", "git@github.com:owner/repository.git")]
+    [Arguments("ssh://git@github.com/owner/repository.git", "ssh://git@github.com/owner/repository.git")]
     public async Task Url_Is_Trimmed_And_Does_Not_Expose_Https_Credentials(string remoteUrl, string expectedUrl)
     {
         var remotes = new Mock<IGitRemoteCommands>();
@@ -64,6 +65,7 @@ public class GitHubRepositoryInfoInitializationTests
         return new ServiceCollection()
             .AddLogging()
             .AddSingleton(git)
+            .AddSingleton(Mock.Of<IGitHubEnvironmentVariables>())
             .BuildServiceProvider();
     }
 
