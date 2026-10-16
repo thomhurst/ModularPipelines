@@ -65,7 +65,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             };
 
             var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions).ConfigureAwait(false);
-            remoteUrl = remote.StandardOutput;
+            remoteUrl = remote.StandardOutput?.Trim();
 
             if (string.IsNullOrEmpty(remoteUrl))
             {
@@ -91,10 +91,26 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             }
         }
 
-        Url = remoteUrl;
+        Url = SanitizeRepositoryUrl(remoteUrl);
         Endpoint = "github";
         Owner = owner;
         RepositoryName = repositoryName;
         IsInitialized = true;
+    }
+
+    private static string? SanitizeRepositoryUrl(string? remoteUrl)
+    {
+        if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
+            && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp)
+            && !string.IsNullOrEmpty(uri.UserInfo))
+        {
+            return new UriBuilder(uri)
+            {
+                UserName = string.Empty,
+                Password = string.Empty,
+            }.Uri.AbsoluteUri;
+        }
+
+        return remoteUrl;
     }
 }
