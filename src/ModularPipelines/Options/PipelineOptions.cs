@@ -51,6 +51,8 @@ public sealed record PipelineOptions
 {
     private IReadOnlyList<string>? _runOnlyCategories;
     private IReadOnlyList<string>? _ignoreCategories;
+    private IReadOnlyList<string>? _runOnlyTags;
+    private IReadOnlyList<string>? _ignoreTags;
     private IReadOnlyList<string>? _targetModules;
     private IReadOnlyList<string>? _skippedModules;
 
@@ -143,6 +145,31 @@ public sealed record PipelineOptions
     {
         get => _ignoreCategories;
         init => _ignoreCategories = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets tags to run exclusively, matched case-insensitively against attribute and fluent tags.
+    /// A module must match at least one tag. Null or empty lists do not restrict execution.
+    /// Category and module filters still apply; required dependents of filtered modules are skipped.
+    /// </summary>
+    public IReadOnlyList<string>? RunOnlyTags
+    {
+        get => _runOnlyTags;
+        init => _runOnlyTags = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets tags to exclude, matched case-insensitively. A module matching any excluded tag is skipped,
+    /// even when another tag matches <see cref="RunOnlyTags"/>. Null or empty lists exclude no modules.
+    /// </summary>
+    public IReadOnlyList<string>? IgnoreTags
+    {
+        get => _ignoreTags;
+        init => _ignoreTags = value is null
             ? null
             : Array.AsReadOnly(value.ToArray());
     }

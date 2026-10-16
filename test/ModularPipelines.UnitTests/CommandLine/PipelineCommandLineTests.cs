@@ -219,6 +219,7 @@ public class PipelineCommandLineTests
     }
 
     [ModuleCategory("selected")]
+    [ModuleTag("selected-tag")]
     private sealed class SelectedCategoryModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -734,6 +735,57 @@ public class PipelineCommandLineTests
             await Assert.That(_categoryExecutions).IsEqualTo(1);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task TagsOptionFiltersExecution()
+    {
+        var builder = Pipeline.CreateBuilder(["--tags", "SELECTED-TAG"]);
+        builder.AddModule<SelectedCategoryModule>();
+        builder.AddModule<UnrelatedModule>();
+
+        await builder.RunAsync();
+
+        await Assert.That(_categoryExecutions).IsEqualTo(1);
+        await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task IgnoreTagsOptionFiltersExecution()
+    {
+        var builder = Pipeline.CreateBuilder(["--ignore-tags=SELECTED-TAG"]);
+        builder.AddModule<SelectedCategoryModule>();
+        builder.AddModule<UnrelatedModule>();
+
+        await builder.RunAsync();
+
+        await Assert.That(_categoryExecutions).IsEqualTo(0);
+        await Assert.That(_unrelatedExecutions).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task TagOptionsAcceptRepeatedCommaSeparatedAndEqualsValues()
+    {
+        var builder = Pipeline.CreateBuilder(
+        [
+            "--tags", "fast, remote", "--tags=FAST,local",
+            "--ignore-tags=slow, database", "--ignore-tags", "SLOW,network",
+        ]);
+
+        await Assert.That(builder.Options.RunOnlyTags).IsEquivalentTo(["fast", "remote", "local"]);
+        await Assert.That(builder.Options.IgnoreTags).IsEquivalentTo(["slow", "database", "network"]);
+        await Assert.That(builder.Configuration["tags"]).IsNull();
+        await Assert.That(builder.Configuration["ignore-tags"]).IsNull();
+    }
+
+    [Test]
+    [Arguments("--tags")]
+    [Arguments("--ignore-tags")]
+    [Arguments("--tags=")]
+    [Arguments("--ignore-tags=, ")]
+    public async Task TagOptionsRejectMissingOrEmptyValues(string option)
+    {
+        await Assert.That(() => Pipeline.CreateBuilder([option])).Throws<ArgumentException>();
     }
 
     [Test]

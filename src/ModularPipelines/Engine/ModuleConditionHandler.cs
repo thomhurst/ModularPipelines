@@ -64,7 +64,7 @@ internal class ModuleConditionHandler(
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var result = EvaluateCategoryConditions(module, metadataRegistry);
+        var result = EvaluateMetadataFilters(module, metadataRegistry);
         if (!result.ShouldIgnore
             && _executionLocationContext.ShouldDeferCapabilityConditions
             && CapabilityConditions.HasImpossibleCombination(module.GetType()))
@@ -243,12 +243,12 @@ internal class ModuleConditionHandler(
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var categoryResult = EvaluateCategoryConditions(module, metadataRegistry);
-        if (categoryResult.ShouldIgnore)
+        var filterResult = EvaluateMetadataFilters(module, metadataRegistry);
+        if (filterResult.ShouldIgnore)
         {
             return new PlanningConditionResult(
                 true,
-                categoryResult.SkipDecision,
+                filterResult.SkipDecision,
                 IsResolved: true);
         }
 
@@ -271,10 +271,10 @@ internal class ModuleConditionHandler(
         bool useFreshAttributes = false,
         IModuleMetadataRegistry? metadataRegistry = null)
     {
-        var categoryResult = EvaluateCategoryConditions(module, metadataRegistry ?? _metadataRegistry);
-        if (categoryResult.ShouldIgnore)
+        var filterResult = EvaluateMetadataFilters(module, metadataRegistry ?? _metadataRegistry);
+        if (filterResult.ShouldIgnore)
         {
-            return categoryResult;
+            return filterResult;
         }
 
         if (await EvaluateCapabilityRequirement(module, cancellationToken).ConfigureAwait(false) is { } capabilitySkip)
@@ -291,9 +291,6 @@ internal class ModuleConditionHandler(
             ? (false, null)
             : (true, conditionResult.SkipDecision);
     }
-
-    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(IModule module)
-        => EvaluateCategoryConditions(module, _metadataRegistry);
 
     /// <summary>
     /// Skips a module whose declared capability requirement this process cannot satisfy.
@@ -326,7 +323,7 @@ internal class ModuleConditionHandler(
             "Declare capabilities with AddCapabilities(...) or register an ICapabilityProvider.");
     }
 
-    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(
+    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateMetadataFilters(
         IModule module,
         IModuleMetadataRegistry metadataRegistry)
     {
@@ -342,6 +339,19 @@ internal class ModuleConditionHandler(
         if (!IsRunnableCategory(category))
         {
             return (true, SkipDecision.Skip("The module was not in a runnable category"));
+        }
+
+        var tags = metadataRegistry.GetTags(moduleType);
+        if (_pipelineOptions.Value.IgnoreTags is { Count: > 0 } ignoreTags
+            && ignoreTags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase)))
+        {
+            return (true, SkipDecision.Skip("A tag of this module has been ignored"));
+        }
+
+        if (_pipelineOptions.Value.RunOnlyTags is { Count: > 0 } runOnlyTags
+            && !runOnlyTags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase)))
+        {
+            return (true, SkipDecision.Skip("The module did not match a runnable tag"));
         }
 
         return (false, null);

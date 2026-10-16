@@ -16,6 +16,8 @@ internal static class PipelineCommandLineParser
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
     private const string IgnoreCategoriesOption = "--ignore-categories";
+    private const string TagsOption = "--tags";
+    private const string IgnoreTagsOption = "--ignore-tags";
     private const string GraphOption = "--graph";
     private const string GraphPathOption = "--graph-path";
 
@@ -31,6 +33,8 @@ internal static class PipelineCommandLineParser
         SkipModuleOption,
         CategoriesOption,
         IgnoreCategoriesOption,
+        TagsOption,
+        IgnoreTagsOption,
         GraphOption,
         GraphPathOption,
     ];
@@ -84,6 +88,8 @@ internal static class PipelineCommandLineParser
             Distinct(state.SkippedModules),
             Distinct(state.RunOnlyCategories),
             Distinct(state.IgnoreCategories),
+            Distinct(state.RunOnlyTags),
+            Distinct(state.IgnoreTags),
             state.GraphFormat,
             state.GraphPath,
             state.RerunFailed);
@@ -143,7 +149,9 @@ internal static class PipelineCommandLineParser
         if (TryReadValues(arguments, ref index, ModuleOption, state.TargetModules)
             || TryReadValues(arguments, ref index, SkipModuleOption, state.SkippedModules)
             || TryReadValues(arguments, ref index, CategoriesOption, state.RunOnlyCategories)
-            || TryReadValues(arguments, ref index, IgnoreCategoriesOption, state.IgnoreCategories))
+            || TryReadValues(arguments, ref index, IgnoreCategoriesOption, state.IgnoreCategories)
+            || TryReadValues(arguments, ref index, TagsOption, state.RunOnlyTags)
+            || TryReadValues(arguments, ref index, IgnoreTagsOption, state.IgnoreTags))
         {
             return;
         }
@@ -394,6 +402,10 @@ internal static class PipelineCommandLineParser
         public List<string> RunOnlyCategories { get; } = [];
 
         public List<string> IgnoreCategories { get; } = [];
+
+        public List<string> RunOnlyTags { get; } = [];
+
+        public List<string> IgnoreTags { get; } = [];
 
         public DependencyGraphFormat? GraphFormat { get; set; }
 

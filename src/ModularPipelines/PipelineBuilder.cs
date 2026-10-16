@@ -94,6 +94,8 @@ public sealed class PipelineBuilder
             SkippedModules = NullIfEmpty(_commandLineOptions.SkippedModules),
             RunOnlyCategories = NullIfEmpty(_commandLineOptions.RunOnlyCategories),
             IgnoreCategories = NullIfEmpty(_commandLineOptions.IgnoreCategories),
+            RunOnlyTags = NullIfEmpty(_commandLineOptions.RunOnlyTags),
+            IgnoreTags = NullIfEmpty(_commandLineOptions.IgnoreTags),
         };
 
         _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args);
@@ -167,6 +169,30 @@ public sealed class PipelineBuilder
         _options = configureOptions(_options)
             ?? throw new InvalidOperationException("The pipeline options configuration returned null.");
         return this;
+    }
+
+    /// <summary>
+    /// Selects modules matching any of the specified tags, case-insensitively.
+    /// Category and module filters still apply. An empty list clears the tag selection.
+    /// </summary>
+    /// <param name="tags">Tags to include.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder RunOnlyTags(params string[] tags)
+    {
+        ArgumentNullException.ThrowIfNull(tags);
+        return ConfigureOptions(options => options with { RunOnlyTags = tags });
+    }
+
+    /// <summary>
+    /// Excludes modules matching any of the specified tags, case-insensitively.
+    /// Exclusions take precedence over tag selection. An empty list clears the tag exclusions.
+    /// </summary>
+    /// <param name="tags">Tags to exclude.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder IgnoreTags(params string[] tags)
+    {
+        ArgumentNullException.ThrowIfNull(tags);
+        return ConfigureOptions(options => options with { IgnoreTags = tags });
     }
 
     /// <summary>
