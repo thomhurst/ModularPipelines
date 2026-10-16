@@ -334,6 +334,70 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
+    [Arguments(1, false)]
+    [Arguments(2, false)]
+    [Arguments(1, true)]
+    [Arguments(2, true)]
+    public async Task WaitForAlwaysRunModulesAsync_PreservesTransitiveAlwaysRunDependencyOrder(
+        int normalModuleCount,
+        bool optional)
+    {
+        var prerequisite = new FirstAlwaysRunModule();
+        var dependent = new SecondAlwaysRunModule();
+        var prerequisiteState = new ModuleState(prerequisite, prerequisite.GetType());
+        var dependentState = new ModuleState(dependent, dependent.GetType());
+        var firstNormal = new FirstBlockingModule();
+        var secondNormal = new SecondBlockingModule();
+        var normalStates = new[]
+        {
+            new ModuleState(firstNormal, firstNormal.GetType()),
+            new ModuleState(secondNormal, secondNormal.GetType()),
+        }.Take(normalModuleCount).ToArray();
+        dependentState.RecordDependency(normalStates[0].ModuleType, optional);
+        for (var index = 0; index < normalStates.Length; index++)
+        {
+            normalStates[index].RecordDependency(
+                index + 1 < normalStates.Length ? normalStates[index + 1].ModuleType : prerequisiteState.ModuleType,
+                optional);
+        }
+
+        var scheduler = CreateScheduler([dependentState, .. normalStates, prerequisiteState]);
+        var moduleRunner = new Mock<IModuleRunner>();
+        ModuleExecutionState? prerequisiteStateWhenDependentStarted = null;
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(It.IsAny<ModuleState>(), CancellationToken.None))
+            .Returns((ModuleState state, CancellationToken _) =>
+            {
+                if (state == dependentState)
+                {
+                    prerequisiteStateWhenDependentStarted = prerequisiteState.State;
+                }
+
+                state.State = ModuleExecutionState.Completed;
+                state.CompletionSource.TrySetResult(state.Module);
+                return Task.CompletedTask;
+            });
+
+        // A single worker and dependent-first input make incorrect batching fail deterministically.
+        var handler = CreateHandler(moduleRunner.Object, maximumParallelism: 1);
+        await handler.WaitForAlwaysRunModulesAsync(
+            scheduler.Object,
+            [dependent, .. normalStates.Select(state => state.Module), prerequisite]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(prerequisiteStateWhenDependentStarted).IsEqualTo(ModuleExecutionState.Completed);
+            foreach (var normalState in normalStates)
+            {
+                await Assert.That(normalState.State).IsEqualTo(ModuleExecutionState.Pending);
+                moduleRunner.Verify(
+                    x => x.ExecuteWithoutDependencyWaitAsync(normalState, CancellationToken.None),
+                    Times.Never());
+            }
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task WaitForAlwaysRunModulesAsync_UsesDedicatedProgressTimeoutWhenModuleTimeoutsAreDisabled(bool disableWatchdog)
@@ -486,12 +550,13 @@ public class AlwaysRunHandlerTests
     private static AlwaysRunHandler CreateHandler(
         IModuleRunner moduleRunner,
         PipelineOptions? pipelineOptions = null,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        int maximumParallelism = 2)
     {
         var parallelLimitProvider = new Mock<IParallelLimitProvider>();
         parallelLimitProvider
             .Setup(x => x.GetMaxDegreeOfParallelism())
-            .Returns(2);
+            .Returns(maximumParallelism);
 
         return new AlwaysRunHandler(
             moduleRunner,
