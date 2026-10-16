@@ -6,6 +6,7 @@ public record AzureResourceIdentifier
 (
     string SubscriptionId,
     string ResourceGroupName,
+    string ResourceType,
     string ResourceName
 ) : AzureResourceGroupIdentifier(SubscriptionId, ResourceGroupName)
 {
@@ -13,6 +14,7 @@ public record AzureResourceIdentifier
         new(
             resourceIdentifier.SubscriptionId!,
             resourceIdentifier.ResourceGroupName!,
+            resourceIdentifier.ResourceType.ToString(),
             resourceIdentifier.Name
         );
 }

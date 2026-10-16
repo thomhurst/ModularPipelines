@@ -9,7 +9,7 @@ public record AzureSubscriptionIdentifier
 {
     public AzureResourceGroupIdentifier GetResourceGroupIdentifier(string resourceGroupName) => new(SubscriptionId, resourceGroupName);
 
-    public AzureResourceIdentifier GetResourceIdentifier(string resourceGroupName, string resourceName) => new(SubscriptionId, resourceGroupName, resourceName);
+    public AzureResourceIdentifier GetResourceIdentifier(string resourceGroupName, string resourceType, string resourceName) => new(SubscriptionId, resourceGroupName, resourceType, resourceName);
 
     public ResourceIdentifier ToSubscriptionIdentifier() => new($"/subscriptions/{SubscriptionId}");
 
