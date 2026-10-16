@@ -2,27 +2,34 @@ namespace ModularPipelines.GitHub;
 
 internal static class GitHubRepositoryUrlParser
 {
-    private const string GitHubHost = "github.com";
-    private const string SshPrefix = "git@github.com:";
-
     public static bool TryParse(
-        string remoteUrl,
+        string? remoteUrl,
         out string owner,
-        out string repositoryName)
+        out string repositoryName,
+        string? serverUrl = null)
     {
         owner = string.Empty;
         repositoryName = string.Empty;
 
+        if (string.IsNullOrWhiteSpace(remoteUrl)
+            || !Uri.TryCreate(serverUrl ?? "https://github.com", UriKind.Absolute, out var server)
+            || (server.Scheme != Uri.UriSchemeHttps && server.Scheme != Uri.UriSchemeHttp))
+        {
+            return false;
+        }
+
         var normalizedUrl = remoteUrl.Trim();
+        var sshPrefix = $"git@{server.Host}:";
         string repositoryPath;
 
-        if (normalizedUrl.StartsWith(SshPrefix, StringComparison.OrdinalIgnoreCase))
+        if (normalizedUrl.StartsWith(sshPrefix, StringComparison.OrdinalIgnoreCase))
         {
-            repositoryPath = normalizedUrl[SshPrefix.Length..];
+            repositoryPath = normalizedUrl[sshPrefix.Length..];
         }
         else if (Uri.TryCreate(normalizedUrl, UriKind.Absolute, out var uri)
-                 && uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
-                 && uri.Host.Equals(GitHubHost, StringComparison.OrdinalIgnoreCase))
+                 && uri.Host.Equals(server.Host, StringComparison.OrdinalIgnoreCase)
+                 && ((uri.Scheme == server.Scheme && uri.Port == server.Port)
+                     || uri.Scheme == "ssh"))
         {
             repositoryPath = uri.AbsolutePath;
         }

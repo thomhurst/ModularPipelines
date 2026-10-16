@@ -60,15 +60,14 @@ internal class GitHub : IGitHub
                     ?? EnvironmentVariables.Token
                     ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
 
-        var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
-          new HttpClientAdapter(() => _httpMessageHandlerFactory.CreateHandler(GitHubHttpClientServiceCollectionExtensions.GitHubClientName)));
+        var connection = new Connection(
+            new ProductHeaderValue("ModularPipelines"),
+            new Uri($"{(EnvironmentVariables.ApiUrl ?? "https://api.github.com").TrimEnd('/')}/"),
+            new InMemoryCredentialStore(new Credentials(token)),
+            new HttpClientAdapter(() => _httpMessageHandlerFactory.CreateHandler(GitHubHttpClientServiceCollectionExtensions.GitHubClientName)),
+            new SimpleJsonSerializer());
 
-        var client = new GitHubClient(connection)
-        {
-            Credentials = new Credentials(token),
-        };
-
-        return client;
+        return new GitHubClient(connection);
     }
 
     private sealed class OutputSection : IDisposable
