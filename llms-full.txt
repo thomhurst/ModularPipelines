@@ -23,11 +23,13 @@
 - [MP0013](/docs/analyzers/MP0013.md): Module is not registered with the pipeline.
 - [MP0014](/docs/analyzers/MP0014.md): Async void method in a module.
 - [MP0015](/docs/analyzers/MP0015.md): Blocking call in ExecuteAsync.
-- [MP0016](/docs/analyzers/MP0016.md): ExecuteAsync cancellation token is not flowed.
+- [MP0016](/docs/analyzers/MP0016.md): Cancellation token is not flowed in ExecuteAsync, lifecycle hooks, or token-bearing async module configuration callbacks.
 - [MP0017](/docs/analyzers/MP0017.md): Thread.Sleep in ExecuteAsync.
 - [MP0018](/docs/analyzers/MP0018.md): Module class is not public.
 - [MP0019](/docs/analyzers/MP0019.md): Duplicate DependsOn declaration.
 - [MP0020](/docs/analyzers/MP0020.md): Repeated WithSkipWhen calls on one module configuration builder are OR-ed.
+- [MP0021](/docs/analyzers/MP0021.md): Optional dependency accessed with GetModule instead of GetModuleIfRegistered.
+- [MP0022](/docs/analyzers/MP0022.md): Required dependency accessed with GetModuleIfRegistered instead of GetModule.
 - [MPCLI001](/docs/analyzers/MPCLI001.md): CliFlag property must be bool? or int?
 - [MPCLI002](/docs/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.
@@ -293,34 +295,36 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 
 # Analyzer rules
 
-| Rule                                                       | Category | Default severity | Availability                | Description                                                                     |
-| ---------------------------------------------------------- | -------- | ---------------- | --------------------------- | ------------------------------------------------------------------------------- |
-| [`MP0001`](/ModularPipelines/docs/analyzers/MP0001.md)     | Usage    | Error            | Public analyzer package     | Accesses a module result without declaring the dependency.                      |
-| [`MP0002`](/ModularPipelines/docs/analyzers/MP0002.md)     | Usage    | Error            | Public analyzer package     | Uses IEnumerable as a module result instead of a concrete collection.           |
-| [`MP0003`](/ModularPipelines/docs/analyzers/MP0003.md)     | Usage    | Error            | Public analyzer package     | Injects a logger into a module constructor instead of using the module context. |
-| [`MP0004`](/ModularPipelines/docs/analyzers/MP0004.md)     | Usage    | Error            | Public analyzer package     | Writes directly to System.Console instead of using pipeline logging.            |
-| [`MP0005`](/ModularPipelines/docs/analyzers/MP0005.md)     | Usage    | Error            | Public analyzer package     | Creates a circular dependency between modules.                                  |
-| [`MP0006`](/ModularPipelines/docs/analyzers/MP0006.md)     | Usage    | Error            | Public analyzer package     | Implements ExecuteAsync without the async modifier.                             |
-| [`MP0007`](/ModularPipelines/docs/analyzers/MP0007.md)     | Usage    | Error            | Public analyzer package     | Awaits the current module instance.                                             |
-| [`MP0008`](/ModularPipelines/docs/analyzers/MP0008.md)     | Design   | Warning          | Public analyzer package     | Declares mutable instance state that can leak between module executions.        |
-| [`MP0009`](/ModularPipelines/docs/analyzers/MP0009.md)     | Usage    | Error            | Public analyzer package     | References a dependency type that does not implement IModule.                   |
-| [`MP0010`](/ModularPipelines/docs/analyzers/MP0010.md)     | Usage    | Error            | Public analyzer package     | Declares a module dependency on itself.                                         |
-| [`MP0011`](/ModularPipelines/docs/analyzers/MP0011.md)     | Usage    | Warning          | Repository development only | Requires generated CLI option properties to be virtual.                         |
-| [`MP0012`](/ModularPipelines/docs/analyzers/MP0012.md)     | Usage    | Warning          | Repository development only | Requires generated CLI command methods to be virtual.                           |
-| [`MP0013`](/ModularPipelines/docs/analyzers/MP0013.md)     | Usage    | Warning          | Public analyzer package     | Module is not registered with the pipeline.                                     |
-| [`MP0014`](/ModularPipelines/docs/analyzers/MP0014.md)     | Usage    | Warning          | Public analyzer package     | Async void method in a module.                                                  |
-| [`MP0015`](/ModularPipelines/docs/analyzers/MP0015.md)     | Usage    | Warning          | Public analyzer package     | Blocking call in ExecuteAsync.                                                  |
-| [`MP0016`](/ModularPipelines/docs/analyzers/MP0016.md)     | Usage    | Warning          | Public analyzer package     | ExecuteAsync cancellation token is not flowed.                                  |
-| [`MP0017`](/ModularPipelines/docs/analyzers/MP0017.md)     | Usage    | Warning          | Public analyzer package     | Thread.Sleep in ExecuteAsync.                                                   |
-| [`MP0018`](/ModularPipelines/docs/analyzers/MP0018.md)     | Usage    | Warning          | Public analyzer package     | Module class is not public.                                                     |
-| [`MP0019`](/ModularPipelines/docs/analyzers/MP0019.md)     | Usage    | Warning          | Public analyzer package     | Duplicate DependsOn declaration.                                                |
-| [`MP0020`](/ModularPipelines/docs/analyzers/MP0020.md)     | Usage    | Warning          | Public analyzer package     | Repeated WithSkipWhen calls on one module configuration builder are OR-ed.      |
-| [`MPCLI001`](/ModularPipelines/docs/analyzers/MPCLI001.md) | Usage    | Error            | Public analyzer package     | CliFlag property must be bool? or int?                                          |
-| [`MPCLI002`](/ModularPipelines/docs/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                  |
-| [`MPCLI003`](/ModularPipelines/docs/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                |
-| [`MPCLI004`](/ModularPipelines/docs/analyzers/MPCLI004.md) | Usage    | Error            | Public analyzer package     | Duplicate CLI switch in an options hierarchy.                                   |
-| [`MPCLI005`](/ModularPipelines/docs/analyzers/MPCLI005.md) | Usage    | Error            | Public analyzer package     | Negated CLI flag applied to a non-nullable-Boolean or counted property.         |
-| [`MPCLI006`](/ModularPipelines/docs/analyzers/MPCLI006.md) | Usage    | Error            | Public analyzer package     | CLI attributes used outside CommandLineToolOptions.                             |
+| Rule                                                       | Category | Default severity | Availability                | Description                                                                                                               |
+| ---------------------------------------------------------- | -------- | ---------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| [`MP0001`](/ModularPipelines/docs/analyzers/MP0001.md)     | Usage    | Error            | Public analyzer package     | Accesses a module result without declaring the dependency.                                                                |
+| [`MP0002`](/ModularPipelines/docs/analyzers/MP0002.md)     | Usage    | Error            | Public analyzer package     | Uses IEnumerable as a module result instead of a concrete collection.                                                     |
+| [`MP0003`](/ModularPipelines/docs/analyzers/MP0003.md)     | Usage    | Error            | Public analyzer package     | Injects a logger into a module constructor instead of using the module context.                                           |
+| [`MP0004`](/ModularPipelines/docs/analyzers/MP0004.md)     | Usage    | Error            | Public analyzer package     | Writes directly to System.Console instead of using pipeline logging.                                                      |
+| [`MP0005`](/ModularPipelines/docs/analyzers/MP0005.md)     | Usage    | Error            | Public analyzer package     | Creates a circular dependency between modules.                                                                            |
+| [`MP0006`](/ModularPipelines/docs/analyzers/MP0006.md)     | Usage    | Error            | Public analyzer package     | Implements ExecuteAsync without the async modifier.                                                                       |
+| [`MP0007`](/ModularPipelines/docs/analyzers/MP0007.md)     | Usage    | Error            | Public analyzer package     | Awaits the current module instance.                                                                                       |
+| [`MP0008`](/ModularPipelines/docs/analyzers/MP0008.md)     | Design   | Warning          | Public analyzer package     | Declares mutable instance state that can leak between module executions.                                                  |
+| [`MP0009`](/ModularPipelines/docs/analyzers/MP0009.md)     | Usage    | Error            | Public analyzer package     | References a dependency type that does not implement IModule.                                                             |
+| [`MP0010`](/ModularPipelines/docs/analyzers/MP0010.md)     | Usage    | Error            | Public analyzer package     | Declares a module dependency on itself.                                                                                   |
+| [`MP0011`](/ModularPipelines/docs/analyzers/MP0011.md)     | Usage    | Warning          | Repository development only | Requires generated CLI option properties to be virtual.                                                                   |
+| [`MP0012`](/ModularPipelines/docs/analyzers/MP0012.md)     | Usage    | Warning          | Repository development only | Requires generated CLI command methods to be virtual.                                                                     |
+| [`MP0013`](/ModularPipelines/docs/analyzers/MP0013.md)     | Usage    | Warning          | Public analyzer package     | Module is not registered with the pipeline.                                                                               |
+| [`MP0014`](/ModularPipelines/docs/analyzers/MP0014.md)     | Usage    | Warning          | Public analyzer package     | Async void method in a module.                                                                                            |
+| [`MP0015`](/ModularPipelines/docs/analyzers/MP0015.md)     | Usage    | Warning          | Public analyzer package     | Blocking call in ExecuteAsync.                                                                                            |
+| [`MP0016`](/ModularPipelines/docs/analyzers/MP0016.md)     | Usage    | Warning          | Public analyzer package     | Cancellation token is not flowed in ExecuteAsync, lifecycle hooks, or token-bearing async module configuration callbacks. |
+| [`MP0017`](/ModularPipelines/docs/analyzers/MP0017.md)     | Usage    | Warning          | Public analyzer package     | Thread.Sleep in ExecuteAsync.                                                                                             |
+| [`MP0018`](/ModularPipelines/docs/analyzers/MP0018.md)     | Usage    | Warning          | Public analyzer package     | Module class is not public.                                                                                               |
+| [`MP0019`](/ModularPipelines/docs/analyzers/MP0019.md)     | Usage    | Warning          | Public analyzer package     | Duplicate DependsOn declaration.                                                                                          |
+| [`MP0020`](/ModularPipelines/docs/analyzers/MP0020.md)     | Usage    | Warning          | Public analyzer package     | Repeated WithSkipWhen calls on one module configuration builder are OR-ed.                                                |
+| [`MP0021`](/ModularPipelines/docs/analyzers/MP0021.md)     | Usage    | Warning          | Public analyzer package     | Optional dependency accessed with GetModule instead of GetModuleIfRegistered.                                             |
+| [`MP0022`](/ModularPipelines/docs/analyzers/MP0022.md)     | Usage    | Info             | Public analyzer package     | Required dependency accessed with GetModuleIfRegistered instead of GetModule.                                             |
+| [`MPCLI001`](/ModularPipelines/docs/analyzers/MPCLI001.md) | Usage    | Error            | Public analyzer package     | CliFlag property must be bool? or int?                                                                                    |
+| [`MPCLI002`](/ModularPipelines/docs/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                                                            |
+| [`MPCLI003`](/ModularPipelines/docs/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                                                          |
+| [`MPCLI004`](/ModularPipelines/docs/analyzers/MPCLI004.md) | Usage    | Error            | Public analyzer package     | Duplicate CLI switch in an options hierarchy.                                                                             |
+| [`MPCLI005`](/ModularPipelines/docs/analyzers/MPCLI005.md) | Usage    | Error            | Public analyzer package     | Negated CLI flag applied to a non-nullable-Boolean or counted property.                                                   |
+| [`MPCLI006`](/ModularPipelines/docs/analyzers/MPCLI006.md) | Usage    | Error            | Public analyzer package     | CLI attributes used outside CommandLineToolOptions.                                                                       |
 
 
 ---
@@ -822,7 +826,7 @@ Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error`
 
 # MP0016
 
-ExecuteAsync cancellation token is not flowed.
+Cancellation token is not flowed in ExecuteAsync, lifecycle hooks, or token-bearing async module configuration callbacks.
 
 | Property         | Value                   |
 | ---------------- | ----------------------- |
@@ -980,6 +984,72 @@ Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error`
 // Code that intentionally violates MP0020.
 
 #pragma warning restore MP0020
+```
+
+
+---
+
+# MP0021
+
+Optional dependency accessed with GetModule instead of GetModuleIfRegistered.
+
+| Property         | Value                   |
+| ---------------- | ----------------------- |
+| Category         | Usage                   |
+| Default severity | Warning                 |
+| Availability     | Public analyzer package |
+
+## Configure severity[​](#configure-severity "Direct link to Configure severity")
+
+.editorconfig
+
+```
+dotnet_diagnostic.MP0021.severity = warning
+```
+
+Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.
+
+## Suppress a specific occurrence[​](#suppress-a-specific-occurrence "Direct link to Suppress a specific occurrence")
+
+```
+#pragma warning disable MP0021
+
+// Code that intentionally violates MP0021.
+
+#pragma warning restore MP0021
+```
+
+
+---
+
+# MP0022
+
+Required dependency accessed with GetModuleIfRegistered instead of GetModule.
+
+| Property         | Value                   |
+| ---------------- | ----------------------- |
+| Category         | Usage                   |
+| Default severity | Info                    |
+| Availability     | Public analyzer package |
+
+## Configure severity[​](#configure-severity "Direct link to Configure severity")
+
+.editorconfig
+
+```
+dotnet_diagnostic.MP0022.severity = suggestion
+```
+
+Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.
+
+## Suppress a specific occurrence[​](#suppress-a-specific-occurrence "Direct link to Suppress a specific occurrence")
+
+```
+#pragma warning disable MP0022
+
+// Code that intentionally violates MP0022.
+
+#pragma warning restore MP0022
 ```
 
 
@@ -4512,6 +4582,28 @@ Common scenarios for `WithAlwaysRun()`:
 Modular Pipelines includes Roslyn analyzers that catch pipeline authoring mistakes at compile time. Each rule uses the `MP####` ID family, so it can be configured with standard .NET analyzer settings.
 
 See the [complete analyzer rule reference](/ModularPipelines/docs/analyzers.md) for every rule, its category, default severity, and suppression examples.
+
+## Dependency access and cancellation[​](#dependency-access-and-cancellation "Direct link to Dependency access and cancellation")
+
+[`MP0021`](/ModularPipelines/docs/analyzers/MP0021.md) warns when an optional dependency is accessed with `GetModule<T>()`. Use `GetModuleIfRegistered<T>()` and handle an absent module. [`MP0022`](/ModularPipelines/docs/analyzers/MP0022.md) is informational: a required dependency can use `GetModule<T>()` instead of an unnecessary nullable lookup. Both rules also recognize generated module accessors. Declarations include inherited `DependsOn` attributes and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required declaration wins when the same dependency is declared more than once. Conditional fluent declarations with an unknown condition do not produce accessor mismatch diagnostics.
+
+[`MP0016`](/ModularPipelines/docs/analyzers/MP0016.md) checks cancellation forwarding in `ExecuteAsync`, its reachable helpers, and lifecycle overrides: `OnBeforeExecuteAsync`, `OnAfterExecuteAsync`, `OnSkippedAsync`, `OnCachedResultAsync`, and `OnFailedAsync`. It also checks asynchronous module configuration callbacks that receive a `CancellationToken`, including `WithSkipWhen`, `WithSkipWhenAll`, and `WithIgnoreFailuresWhen`. Pass the available token to asynchronous operations:
+
+```
+protected override void Configure(ModuleConfigurationBuilder module) =>
+
+    module.WithSkipWhen(async (context, cancellationToken) =>
+
+    {
+
+        await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+        return false;
+
+    });
+```
+
+Unrelated methods with the same names and callbacks without an available token are excluded.
 
 ## Configure a rule[​](#configure-a-rule "Direct link to Configure a rule")
 
