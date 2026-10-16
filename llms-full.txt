@@ -55419,6 +55419,22 @@ var commit = repository.LastCommitSha;
 
 Properties such as `BranchName` and `LastCommitSha` remain nullable, for example on a detached HEAD or in a repository without commits. Use `GetInfoAsync` when the pipeline must handle running outside a repository; it returns `null` instead of throwing.
 
+## Version calculation[​](#version-calculation "Direct link to Version calculation")
+
+Use `context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken)` to calculate the repository version with GitVersion.Tool. The integration installs version `6.8.2` in a temporary folder. A .NET SDK and access to the package feed are required when the version is first requested. To select another exact tool version, configure the integration during service registration:
+
+```
+using ModularPipelines.Git.Extensions;
+
+
+
+builder.Services.RegisterGitContext(options => options.ToolVersion = "6.8.2");
+```
+
+GitVersion uses an existing `GitVersion.yml`, `GitVersion.yaml`, `.GitVersion.yml`, or `.GitVersion.yaml` in the repository root. When none exists, the integration passes a temporary configuration with `mode: ContinuousDeployment` and the `Mainline` strategy. It does not create or modify repository configuration, and disables GitVersion's disk cache. The temporary tool and fallback configuration are deleted after calculation, including when calculation fails or is canceled.
+
+Results are cached per integration instance (the pipeline's dependency injection scope). Concurrent requests on that instance share one calculation. Separate instances calculate independently and never reuse another repository's result.
+
 ## Run only when paths change[​](#run-only-when-paths-change "Direct link to Run only when paths change")
 
 Use `RunIfChangedAttribute` to run a module when at least one repository-relative glob matches a path changed since the merge base with `origin/main`:
