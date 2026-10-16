@@ -210,6 +210,11 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     /// if the module failed.
     /// </para>
     /// <para>
+    /// Artifact upload runs after this hook so it can include files produced here. If upload fails,
+    /// <see cref="OnFailedAsync"/> runs afterward; this hook is not called a second time. End handlers
+    /// observe successful completion only after artifact upload succeeds.
+    /// </para>
+    /// <para>
     /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
     /// <see cref="OnAfterExecuteAsync"/> will NOT be called because the module execution never started.
     /// </para>

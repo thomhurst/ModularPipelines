@@ -1243,6 +1243,23 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
+        // After-execute hooks may produce artifacts. Validate and upload those artifacts before
+        // saving successful timings or notifying End observers, which cannot change the outcome.
+        if (ManageArtifactsLocally(scheduler)
+            && executionContext.Status is
+                ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache)
+        {
+            try
+            {
+                await UploadProducedArtifactsAsync(moduleState.ModuleType, scheduler, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception) when (exception is not ModuleFailedException)
+            {
+                throw new ModuleFailedException(moduleState.ModuleType, exception);
+            }
+        }
+
         if (executionContext.Status is ModuleStatus.Succeeded or ModuleStatus.FailureIgnored)
         {
             // Best-effort: the safe provider logs storage failures instead of failing the module.
@@ -1265,23 +1282,6 @@ internal class ModuleRunner : IModuleRunner
                 () => _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, result, observerToken),
                 observerToken)
             .ConfigureAwait(false);
-
-        if (!ManageArtifactsLocally(scheduler)
-            || executionContext.Status is not (
-                ModuleStatus.Succeeded or ModuleStatus.RestoredFromHistory or ModuleStatus.RestoredFromCache))
-        {
-            return;
-        }
-
-        try
-        {
-            await UploadProducedArtifactsAsync(moduleState.ModuleType, scheduler, cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (Exception exception) when (exception is not ModuleFailedException)
-        {
-            throw new ModuleFailedException(moduleState.ModuleType, exception);
-        }
     }
 
     /// <summary>

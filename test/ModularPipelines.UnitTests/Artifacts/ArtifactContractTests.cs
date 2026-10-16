@@ -82,11 +82,29 @@ public class ArtifactContractTests
             builder.AddExecutionBackend<InProcessExecutionBackend>();
         }
         builder.Services.AddLogging(logging => logging.AddProvider(loggerProvider));
+        builder.AddModuleEventHandler<ArtifactFailureObserver>();
         builder.AddModule<AmbientArtifactLoggingProducerModule>();
         builder.AddModule<AmbientArtifactLoggingConsumerModule>();
 
-        await Assert.That(async () => await builder.RunAsync())
+        await using var pipeline = await builder.BuildAsync();
+        await Assert.That(async () => await pipeline.RunAsync())
             .Throws<ModuleFailedException>();
+        var producer = pipeline.Services.GetServices<IModule>()
+            .OfType<AmbientArtifactLoggingProducerModule>().Single();
+        var observer = pipeline.Services.GetServices<IModuleEventHandler>()
+            .OfType<ArtifactFailureObserver>().Single();
+        var result = await producer;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(producer.FailureCount).IsEqualTo(1);
+            await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+            await Assert.That(observer.EndStatuses).IsEmpty();
+            await Assert.That(observer.FailureCount).IsEqualTo(1);
+            await Assert.That(loggerProvider.Entries).DoesNotContain(entry =>
+                entry.Category.Contains(nameof(AmbientArtifactLoggingProducerModule), StringComparison.Ordinal)
+                && entry.Message.Contains("completed successfully", StringComparison.Ordinal));
+        }
 
         await Assert.That(loggerProvider.Entries).Contains(entry =>
             entry.Category.Contains(nameof(AmbientArtifactLoggingProducerModule), StringComparison.Ordinal)
@@ -196,6 +214,17 @@ public class ArtifactContractTests
     [ProducesArtifact("ambient-logging-output", ".modular-pipelines-ambient-logging/missing.txt")]
     private sealed class AmbientArtifactLoggingProducerModule : Module<string>
     {
+        public int FailureCount { get; private set; }
+
+        protected override Task OnFailedAsync(
+            IModuleContext context,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            FailureCount++;
+            return Task.CompletedTask;
+        }
+
         protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
@@ -366,6 +395,17 @@ public class ArtifactContractTests
     [ProducesArtifact("local-output", ProducedFile)]
     private sealed class LocalProducerModule : Module<string>
     {
+        public int FailureCount { get; private set; }
+
+        protected override Task OnFailedAsync(
+            IModuleContext context,
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            FailureCount++;
+            return Task.CompletedTask;
+        }
+
         public static bool IsReady { get; set; }
 
         protected override void Configure(ModuleConfigurationBuilder module) => module
@@ -475,6 +515,37 @@ public class ArtifactContractTests
             context.ModuleType == typeof(AfterHookArtifactProducerModule)
                 ? File.WriteAllTextAsync(AfterHookProducedFile, "end-hook")
                 : Task.CompletedTask;
+    }
+
+    private sealed class ArtifactFailureObserver : IModuleEventHandler
+    {
+        public List<ModularPipelines.ModuleStatus> EndStatuses { get; } = [];
+
+        public int FailureCount { get; private set; }
+
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
+        {
+            if (IsProducer(context))
+            {
+                EndStatuses.Add(result.Status);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken)
+        {
+            if (IsProducer(context))
+            {
+                FailureCount++;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private static bool IsProducer(IModuleHookContext context) =>
+            context.ModuleType == typeof(LocalProducerModule)
+            || context.ModuleType == typeof(AmbientArtifactLoggingProducerModule);
     }
 
     private sealed class AwaitingEndHookHandler : IModuleEventHandler
@@ -1819,7 +1890,7 @@ public class ArtifactContractTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndHandler(bool customBackend)
+    public async Task StandaloneExecutionUploadsArtifactsBeforeModuleEndHandler(bool customBackend)
     {
         DeleteLocalArtifacts();
 
@@ -1839,7 +1910,8 @@ public class ArtifactContractTests
                 .OfType<AfterHookArtifactConsumerModule>()
                 .Single();
 
-            await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("end-hook");
+            await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("after-hook");
+            await Assert.That(await File.ReadAllTextAsync(AfterHookProducedFile)).IsEqualTo("end-hook");
         }
         finally
         {
@@ -2078,14 +2150,29 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionFailsProducerWhenRequiredArtifactUploadFails()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task StandaloneExecutionFailsProducerWhenRequiredArtifactUploadFails(bool customBackend)
     {
         DeleteLocalArtifacts();
         LocalConsumerModule.ConsumedContent = null;
+        AwaitingEndHookHandler.ObservedStatus = null;
+        RecordingResultRepository.SaveCount = 0;
 
         try
         {
+            var estimates = new Mock<IModuleEstimatedTimeProvider>();
+            estimates.Setup(provider => provider.GetModuleEstimatedTimeAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(TimeSpan.Zero);
+            var loggerProvider = new RecordingLoggerProvider();
             var builder = Pipeline.CreateBuilder();
+            if (customBackend)
+            {
+                builder.AddExecutionBackend<InProcessExecutionBackend>();
+            }
+            builder.Services.AddSingleton(estimates.Object);
+            builder.Services.AddLogging(logging => logging.AddProvider(loggerProvider));
+            builder.AddModuleEventHandler<ArtifactFailureObserver>();
             builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
             builder.AddResultsRepository<RecordingResultRepository>();
             builder.AddModuleEventHandler<AwaitingEndHookHandler>();
@@ -2103,6 +2190,8 @@ public class ArtifactContractTests
                 .GetRequiredService<IModuleResultRegistry>()
                 .GetResult(typeof(LocalProducerModule));
             var awaitedProducerResult = await producer;
+            var observer = pipeline.Services.GetServices<IModuleEventHandler>()
+                .OfType<ArtifactFailureObserver>().Single();
 
             using (Assert.Multiple())
             {
@@ -2110,11 +2199,20 @@ public class ArtifactContractTests
                 await Assert.That(producerResult).IsNotNull();
                 await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
                 await Assert.That(awaitedProducerResult.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+                await Assert.That(producer.FailureCount).IsEqualTo(1);
+                await Assert.That(observer.EndStatuses).IsEmpty();
+                await Assert.That(observer.FailureCount).IsEqualTo(1);
+                await Assert.That(loggerProvider.Entries).DoesNotContain(entry =>
+                    entry.Category.Contains(nameof(LocalProducerModule), StringComparison.Ordinal)
+                    && entry.Message.Contains("completed successfully", StringComparison.Ordinal));
                 await Assert.That(RecordingResultRepository.SaveCount).IsEqualTo(0);
                 await Assert.That(AwaitingEndHookHandler.ObservedStatus)
-                    .IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
+                    .IsNull();
                 await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
             }
+
+            estimates.Verify(provider => provider.SaveModuleTimeAsync(
+                typeof(LocalProducerModule), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()), Times.Never);
         }
         finally
         {
