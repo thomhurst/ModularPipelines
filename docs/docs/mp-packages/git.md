@@ -139,7 +139,22 @@ combined with untracked, non-ignored files once per pipeline run. The comparison
 committed, staged, unstaged, and new files. A pattern without `*` or `?` matches both that exact path
 and paths beneath it, so `src/MyService` can be used instead of `src/MyService/**`. If the base
 revision is unavailable (for example, in a shallow checkout without `origin/main`), the condition
-logs a warning and conservatively runs the module.
+logs a warning and conservatively runs the module. The same fallback applies when the merge base
+is HEAD, including push builds where `origin/main` already points at the checked-out commit or
+HEAD is an ancestor of the base. There is no earlier comparison point in that case, so every guarded
+module runs. Comparing only the previous commit could miss changes from a multi-commit push.
+
+For pull requests in GitHub Actions, fetch the base branch and enough history to include the common
+ancestor. The default shallow checkout may not contain either. Fetching all history provides both:
+
+```yaml
+- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0
+```
+
+A shallow checkout is safe, but an unavailable merge base makes the condition run every guarded
+module instead of filtering by paths.
 
 ### Custom command runners
 

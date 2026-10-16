@@ -40,6 +40,7 @@ public sealed class RunIfChangedAttribute : RunConditionAttribute
 
     /// <summary>
     /// Gets or sets the revision whose merge base with HEAD starts the comparison.
+    /// If the merge base or HEAD is unavailable, or the merge base equals HEAD, the module runs.
     /// </summary>
     public string Base { get; set; } = "origin/main";
 
