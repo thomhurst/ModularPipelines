@@ -56,6 +56,11 @@ internal interface IModuleScheduler : IDisposable
     ModuleState? GetModuleState(Type moduleType);
 
     /// <summary>
+    /// Records a runtime result wait and rejects waits that close a dependency cycle.
+    /// </summary>
+    void RegisterResultWait(IModule module, IModule dependency, Task resultTask);
+
+    /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing).
     /// AlwaysRun modules are excluded and are allowed to complete.
     /// This cancels only the scheduler's internal completion sources. Call
