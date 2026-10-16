@@ -36,22 +36,22 @@ public class GhRepo : IGhRepo
     #region Sub-command Groups
 
     /// <summary>
-    /// gh autolink sub-commands.
+    /// gh repo autolink sub-commands.
     /// </summary>
     public GhRepoAutolink Autolink => _autolink ??= new GhRepoAutolink(_command);
 
     /// <summary>
-    /// gh deploy-key sub-commands.
+    /// gh repo deploy-key sub-commands.
     /// </summary>
     public GhRepoDeployKey DeployKey => _deployKey ??= new GhRepoDeployKey(_command);
 
     /// <summary>
-    /// gh gitignore sub-commands.
+    /// gh repo gitignore sub-commands.
     /// </summary>
     public GhRepoGitignore Gitignore => _gitignore ??= new GhRepoGitignore(_command);
 
     /// <summary>
-    /// gh license sub-commands.
+    /// gh repo license sub-commands.
     /// </summary>
     public GhRepoLicense License => _license ??= new GhRepoLicense(_command);
 

@@ -14,7 +14,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Services;
 
 /// <summary>
-/// gh agenttask commands.
+/// gh agent-task commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class GhAgentTask : IGhAgentTask

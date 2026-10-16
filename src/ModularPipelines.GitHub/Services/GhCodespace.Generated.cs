@@ -33,7 +33,7 @@ public class GhCodespace : IGhCodespace
     #region Sub-command Groups
 
     /// <summary>
-    /// gh ports sub-commands.
+    /// gh codespace ports sub-commands.
     /// </summary>
     public GhCodespacePorts Ports => _ports ??= new GhCodespacePorts(_command);
 
