@@ -47,6 +47,7 @@ $corePaths = @(
     'ModularPipelines.Tests.slnf',
     # Changes to the suite itself must exercise the suite.
     'BuildSolutions.txt',
+    'PackProjects.txt',
     'src/ModularPipelines.Build/*',
     '.github/workflows/dotnet.yml',
     '.github/actions/run-pipeline/*',

@@ -2,8 +2,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Extensions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
@@ -14,50 +12,15 @@ public class FindProjectsModule : Module<IReadOnlyList<FilePath>>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithAlwaysRun();
 
-    protected override Task<IReadOnlyList<FilePath>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IReadOnlyList<FilePath>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return Task.FromResult<IReadOnlyList<FilePath>>(
-        [
-            Sourcy.DotNet.Projects.ModularPipelines,
-            Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
-            Sourcy.DotNet.Projects.ModularPipelines_Ansible,
-            Sourcy.DotNet.Projects.ModularPipelines_ArgoCd,
-            Sourcy.DotNet.Projects.ModularPipelines_Azure,
-            Sourcy.DotNet.Projects.ModularPipelines_Azure_Pipelines,
-            Sourcy.DotNet.Projects.ModularPipelines_Chocolatey,
-            Sourcy.DotNet.Projects.ModularPipelines_Cmd,
-            Sourcy.DotNet.Projects.ModularPipelines_Cosign,
-            Sourcy.DotNet.Projects.ModularPipelines_Docker,
-            Sourcy.DotNet.Projects.ModularPipelines_DotNet,
-            Sourcy.DotNet.Projects.ModularPipelines_Eksctl,
-            Sourcy.DotNet.Projects.ModularPipelines_Email,
-            Sourcy.DotNet.Projects.ModularPipelines_Ftp,
-            Sourcy.DotNet.Projects.ModularPipelines_Yarn,
-            Sourcy.DotNet.Projects.ModularPipelines_Node,
-            Sourcy.DotNet.Projects.ModularPipelines_OptionsGenerator,
-            Sourcy.DotNet.Projects.ModularPipelines_OpenTelemetry,
-            Sourcy.DotNet.Projects.ModularPipelines_Git,
-            Sourcy.DotNet.Projects.ModularPipelines_GitHub,
-            Sourcy.DotNet.Projects.ModularPipelines_Google,
-            Sourcy.DotNet.Projects.ModularPipelines_Hadolint,
-            Sourcy.DotNet.Projects.ModularPipelines_Helm,
-            Sourcy.DotNet.Projects.ModularPipelines_Java,
-            Sourcy.DotNet.Projects.ModularPipelines_Jq,
-            Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
-            Sourcy.DotNet.Projects.ModularPipelines_Liquibase,
-            Sourcy.DotNet.Projects.ModularPipelines_NerdbankGitVersioning,
-            Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
-            Sourcy.DotNet.Projects.ModularPipelines_Shellcheck,
-            Sourcy.DotNet.Projects.ModularPipelines_Slack,
-            Sourcy.DotNet.Projects.ModularPipelines_Snyk,
-            Sourcy.DotNet.Projects.ModularPipelines_SonarScanner,
-            Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
-            Sourcy.DotNet.Projects.ModularPipelines_Templates,
-            Sourcy.DotNet.Projects.ModularPipelines_Testing,
-            Sourcy.DotNet.Projects.ModularPipelines_Terraform,
-            Sourcy.DotNet.Projects.ModularPipelines_Trivy,
-            Sourcy.DotNet.Projects.ModularPipelines_WinGet,
-            Sourcy.DotNet.Projects.ModularPipelines_Distributed_Redis
-        ]);
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var gitRoot = repositoryInfo.Root.Path;
+
+        return [.. File.ReadLines(Path.Combine(gitRoot, "PackProjects.txt"))
+            .Select(line => line.Trim())
+            .Where(line => !string.IsNullOrEmpty(line) && !line.StartsWith('#'))
+            .Select(project => new FilePath(Path.Combine(gitRoot, project)))];
     }
 }
