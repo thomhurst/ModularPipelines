@@ -12,6 +12,9 @@ using ModularPipelines.Homebrew.Options;
 
 namespace ModularPipelines.Homebrew.Options;
 
+/// <summary>
+/// Show install options specific to formula.
+/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("options")]
@@ -28,5 +31,11 @@ public record BrewOptionsOptions : BrewOptions
     /// </summary>
     [CliFlag("--installed")]
     public bool? Installed { get; set; }
+
+    /// <summary>
+    /// The formula operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public IEnumerable<string>? Formula { get; set; }
 
 }

@@ -79,7 +79,7 @@ public record BrewReinstallOptions : BrewOptions
     public bool? BuildFromSource { get; set; }
 
     /// <summary>
-    /// Download and patch formula, then open a shell. This allows the user to run ./configure --help and otherwise determine how to turn the software package into a Homebrew package.
+    /// Download and patch formula, then open a shell. This allows the user to run ./configure --help and otherwise determine how to turn the software package into a Homebrew package. If formula has a fetch block, first open a shell with network access after it runs.
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }

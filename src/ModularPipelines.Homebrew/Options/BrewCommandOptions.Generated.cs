@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Options for brew command.
+/// Display the path to the file being used when invoking brew cmd.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewCommandOptions : BrewOptions
 {
     /// <summary>
-    /// Options for brew command.
+    /// Display the path to the file being used when invoking brew cmd.
     /// </summary>
     /// <param name="Cmd">The cmd operand.</param>
     public BrewCommandOptions(
