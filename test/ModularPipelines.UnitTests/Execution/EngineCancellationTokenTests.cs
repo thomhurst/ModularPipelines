@@ -1,6 +1,7 @@
 using ModularPipelines.Events;
 using ModularPipelines.Context;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
@@ -404,6 +405,61 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
         active = false;
         await Assert.That(engineCancellationToken.HandleSigterm()).IsFalse();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CancelKeyPress_Before_Run_Does_Not_Cancel_Or_Consume_First_Interrupt(bool hasRunState)
+    {
+        var active = false;
+        using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer())
+        {
+            IsRunActive = hasRunState ? () => active : null,
+        };
+
+        await Assert.That(InvokeCancelKeyPress(engineCancellationToken).Cancel).IsFalse();
+        await Assert.That(engineCancellationToken.IsCanceled).IsFalse();
+        await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsFalse();
+
+        active = true;
+        engineCancellationToken.IsRunActive = () => active;
+
+        await Assert.That(InvokeCancelKeyPress(engineCancellationToken).Cancel).IsTrue();
+        await Assert.That(engineCancellationToken.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
+        await Assert.That(InvokeCancelKeyPress(engineCancellationToken).Cancel).IsFalse();
+    }
+
+    [Test]
+    public async Task CancelKeyPress_After_Run_Passes_Through_Without_Cancellation()
+    {
+        var active = true;
+        using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer())
+        {
+            IsRunActive = () => active,
+        };
+
+        active = false;
+
+        await Assert.That(InvokeCancelKeyPress(engineCancellationToken).Cancel).IsFalse();
+        await Assert.That(engineCancellationToken.IsCanceled).IsFalse();
+        await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsFalse();
+    }
+
+    private static ConsoleCancelEventArgs InvokeCancelKeyPress(PipelineEngineCancellationToken engineCancellationToken)
+    {
+        var args = (ConsoleCancelEventArgs) Activator.CreateInstance(
+            typeof(ConsoleCancelEventArgs),
+            BindingFlags.Instance | BindingFlags.NonPublic,
+            binder: null,
+            args: [ConsoleSpecialKey.ControlC],
+            culture: null)!;
+        typeof(PipelineEngineCancellationToken)
+            .GetMethod("OnCancelKeyPress", BindingFlags.Instance | BindingFlags.NonPublic)!
+            .Invoke(engineCancellationToken, [null, args]);
+        return args;
     }
 
     [Test]
