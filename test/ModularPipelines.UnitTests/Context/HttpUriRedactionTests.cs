@@ -21,6 +21,18 @@ public class HttpUriRedactionTests
     [Arguments("token")]
     [Arguments("access_token")]
     [Arguments("code")]
+    [Arguments("key")]
+    [Arguments("api_key")]
+    [Arguments("apikey")]
+    [Arguments("client_secret")]
+    [Arguments("password")]
+    [Arguments("refresh_token")]
+    [Arguments("id_token")]
+    [Arguments("private_token")]
+    [Arguments("signature")]
+    [Arguments("auth")]
+    [Arguments("KEY")]
+    [Arguments("%61pi_key")]
     [Arguments("%74oken")]
     public async Task Display_Redacts_Sensitive_Query_Values(string name)
     {
@@ -83,13 +95,13 @@ public class HttpUriRedactionTests
     }
 
     [Test]
-    [Arguments("https://example.test/file?api_key=custom-secret")]
-    [Arguments("/file?API_KEY=custom-secret")]
+    [Arguments("https://example.test/file?custom_credential=custom-secret")]
+    [Arguments("/file?CUSTOM_CREDENTIAL=custom-secret")]
     public async Task Formatter_Uses_Custom_Query_Names_Without_Changing_Request(string url)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url, UriKind.RelativeOrAbsolute));
         var original = request.RequestUri!.OriginalString;
-        var names = new List<string>(HttpLoggingOptions.Default.SensitiveQueryParameterNames) { "api_key" };
+        var names = new List<string>(HttpLoggingOptions.Default.SensitiveQueryParameterNames) { "custom_credential" };
         var options = new HttpLoggingOptions { SensitiveQueryParameterNames = names };
         names.Clear();
 
@@ -134,10 +146,10 @@ public class HttpUriRedactionTests
     [Arguments(true)]
     public async Task Http_Failure_Uses_Effective_Query_Names(bool perRequest)
     {
-        var uri = new Uri("https://example.test/failure?api_key=custom-secret&token=default-secret");
+        var uri = new Uri("https://example.test/failure?custom_credential=custom-secret&token=default-secret");
         var logging = HttpLoggingOptions.Silent with
         {
-            SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "api_key"],
+            SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "custom_credential"],
         };
         var pipelineOptions = new PipelineOptions
         {
@@ -157,7 +169,7 @@ public class HttpUriRedactionTests
 
         await Assert.That(exception!.Message).DoesNotContain("custom-secret");
         await Assert.That(exception.Message).DoesNotContain("default-secret");
-        await Assert.That(exception.Message).Contains($"api_key={LoggingConstants.SecretMask}");
+        await Assert.That(exception.Message).Contains($"custom_credential={LoggingConstants.SecretMask}");
         await Assert.That(exception.RequestUri).IsSameReferenceAs(uri);
         await Assert.That(request.RequestUri).IsSameReferenceAs(uri);
     }

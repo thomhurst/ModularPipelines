@@ -107,6 +107,16 @@ public record HttpLoggingOptions
         "token",
         "access_token",
         "code",
+        "key",
+        "api_key",
+        "apikey",
+        "client_secret",
+        "password",
+        "refresh_token",
+        "id_token",
+        "private_token",
+        "signature",
+        "auth",
     ]);
 
     /// <summary>
