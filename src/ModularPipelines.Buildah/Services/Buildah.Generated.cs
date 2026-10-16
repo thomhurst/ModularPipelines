@@ -201,21 +201,21 @@ internal partial class Buildah : IBuildah
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RmiAsync(
-        BuildahRmiOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new BuildahRmiOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> RmAsync(
         BuildahRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new BuildahRmOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> RmiAsync(
+        BuildahRmiOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BuildahRmiOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
