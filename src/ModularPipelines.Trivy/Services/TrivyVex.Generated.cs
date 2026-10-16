@@ -33,7 +33,7 @@ public class TrivyVex : ITrivyVex
     #region Sub-command Groups
 
     /// <summary>
-    /// trivy repo sub-commands.
+    /// trivy vex repo sub-commands.
     /// </summary>
     public TrivyVexRepo Repo => _repo ??= new TrivyVexRepo(_command);
 

@@ -22,7 +22,7 @@ namespace ModularPipelines.Trivy.Services;
 public interface ITrivyVex
 {
     /// <summary>
-    /// trivy repo sub-commands.
+    /// trivy vex repo sub-commands.
     /// </summary>
     TrivyVexRepo Repo { get; }
 
