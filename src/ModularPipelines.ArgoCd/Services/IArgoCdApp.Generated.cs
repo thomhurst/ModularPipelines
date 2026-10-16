@@ -22,7 +22,7 @@ namespace ModularPipelines.ArgoCd.Services;
 public interface IArgoCdApp
 {
     /// <summary>
-    /// argocd actions sub-commands.
+    /// argocd app actions sub-commands.
     /// </summary>
     ArgoCdAppActions Actions { get; }
 

@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd git commands.
+/// argocd proj source-integrity git commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdProjSourceIntegrityGit
@@ -33,7 +33,7 @@ public class ArgoCdProjSourceIntegrityGit
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd policies sub-commands.
+    /// argocd proj source-integrity git policies sub-commands.
     /// </summary>
     public ArgoCdProjSourceIntegrityGitPolicies Policies => _policies ??= new ArgoCdProjSourceIntegrityGitPolicies(_command);
 

@@ -13,7 +13,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd applicationset commands.
+/// argocd appset commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.

@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd applicationset commands.
+/// argocd appset commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdApplicationSet : IArgoCdApplicationSet

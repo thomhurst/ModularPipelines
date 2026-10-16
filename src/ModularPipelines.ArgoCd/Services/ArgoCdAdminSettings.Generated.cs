@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd settings commands.
+/// argocd admin settings commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdAdminSettings
@@ -34,12 +34,12 @@ public class ArgoCdAdminSettings
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd rbac sub-commands.
+    /// argocd admin settings rbac sub-commands.
     /// </summary>
     public ArgoCdAdminSettingsRbac Rbac => _rbac ??= new ArgoCdAdminSettingsRbac(_command);
 
     /// <summary>
-    /// argocd resource-overrides sub-commands.
+    /// argocd admin settings resource-overrides sub-commands.
     /// </summary>
     public ArgoCdAdminSettingsResourceOverrides ResourceOverrides => _resourceOverrides ??= new ArgoCdAdminSettingsResourceOverrides(_command);
 

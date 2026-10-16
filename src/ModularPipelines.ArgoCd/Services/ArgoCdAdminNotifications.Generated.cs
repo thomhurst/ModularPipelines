@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Services;
 
 /// <summary>
-/// argocd notifications commands.
+/// argocd admin notifications commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class ArgoCdAdminNotifications
@@ -34,12 +34,12 @@ public class ArgoCdAdminNotifications
     #region Sub-command Groups
 
     /// <summary>
-    /// argocd template sub-commands.
+    /// argocd admin notifications template sub-commands.
     /// </summary>
     public ArgoCdAdminNotificationsTemplate Template => _template ??= new ArgoCdAdminNotificationsTemplate(_command);
 
     /// <summary>
-    /// argocd trigger sub-commands.
+    /// argocd admin notifications trigger sub-commands.
     /// </summary>
     public ArgoCdAdminNotificationsTrigger Trigger => _trigger ??= new ArgoCdAdminNotificationsTrigger(_command);
 

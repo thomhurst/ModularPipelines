@@ -22,32 +22,32 @@ namespace ModularPipelines.ArgoCd.Services;
 public interface IArgoCdAdmin
 {
     /// <summary>
-    /// argocd app sub-commands.
+    /// argocd admin app sub-commands.
     /// </summary>
     ArgoCdAdminApp App { get; }
 
     /// <summary>
-    /// argocd cluster sub-commands.
+    /// argocd admin cluster sub-commands.
     /// </summary>
     ArgoCdAdminCluster Cluster { get; }
 
     /// <summary>
-    /// argocd notifications sub-commands.
+    /// argocd admin notifications sub-commands.
     /// </summary>
     ArgoCdAdminNotifications Notifications { get; }
 
     /// <summary>
-    /// argocd proj sub-commands.
+    /// argocd admin proj sub-commands.
     /// </summary>
     ArgoCdAdminProj Proj { get; }
 
     /// <summary>
-    /// argocd repo sub-commands.
+    /// argocd admin repo sub-commands.
     /// </summary>
     ArgoCdAdminRepo Repo { get; }
 
     /// <summary>
-    /// argocd settings sub-commands.
+    /// argocd admin settings sub-commands.
     /// </summary>
     ArgoCdAdminSettings Settings { get; }
 
