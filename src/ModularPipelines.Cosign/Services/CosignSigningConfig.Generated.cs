@@ -14,7 +14,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Services;
 
 /// <summary>
-/// cosign signingconfig commands.
+/// cosign signing-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class CosignSigningConfig : ICosignSigningConfig
