@@ -2,31 +2,23 @@ namespace ModularPipelines.GitHub;
 
 internal static class GitHubRepositoryUrlParser
 {
-    private const string GitHubHost = "github.com";
-    private const string SshPrefix = "git@github.com:";
-
     public static bool TryParse(
-        string remoteUrl,
+        string? remoteUrl,
         out string owner,
-        out string repositoryName)
+        out string repositoryName,
+        string? serverUrl = null)
     {
         owner = string.Empty;
         repositoryName = string.Empty;
 
-        var normalizedUrl = remoteUrl.Trim();
-        string repositoryPath;
+        if (string.IsNullOrWhiteSpace(remoteUrl)
+            || !Uri.TryCreate(serverUrl ?? "https://github.com", UriKind.Absolute, out var server)
+            || (server.Scheme != Uri.UriSchemeHttps && server.Scheme != Uri.UriSchemeHttp))
+        {
+            return false;
+        }
 
-        if (normalizedUrl.StartsWith(SshPrefix, StringComparison.OrdinalIgnoreCase))
-        {
-            repositoryPath = normalizedUrl[SshPrefix.Length..];
-        }
-        else if (Uri.TryCreate(normalizedUrl, UriKind.Absolute, out var uri)
-                 && uri.Scheme.Equals(Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
-                 && uri.Host.Equals(GitHubHost, StringComparison.OrdinalIgnoreCase))
-        {
-            repositoryPath = uri.AbsolutePath;
-        }
-        else
+        if (!TryGetRepositoryPath(remoteUrl.Trim(), server, out var repositoryPath))
         {
             return false;
         }
@@ -54,6 +46,28 @@ internal static class GitHubRepositoryUrlParser
 
         owner = string.Empty;
         repositoryName = string.Empty;
+        return false;
+    }
+
+    private static bool TryGetRepositoryPath(string remoteUrl, Uri server, out string repositoryPath)
+    {
+        var sshPrefix = $"git@{server.Host}:";
+        if (remoteUrl.StartsWith(sshPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            repositoryPath = remoteUrl[sshPrefix.Length..];
+            return true;
+        }
+
+        if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
+            && uri.Host.Equals(server.Host, StringComparison.OrdinalIgnoreCase)
+            && ((uri.Scheme == server.Scheme && uri.Port == server.Port)
+                || uri.Scheme == "ssh"))
+        {
+            repositoryPath = uri.AbsolutePath;
+            return true;
+        }
+
+        repositoryPath = string.Empty;
         return false;
     }
 }

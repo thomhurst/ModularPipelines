@@ -39,10 +39,13 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             return;
         }
 
+        var scope = _serviceProvider.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
+        var environment = scope.ServiceProvider.GetRequiredService<IGitHubEnvironmentVariables>();
+        string? remoteUrl = null;
+
         try
         {
-            var scope = _serviceProvider.CreateAsyncScope();
-            await using var scopeLifetime = scope.ConfigureAwait(false);
             var git = scope.ServiceProvider.GetRequiredService<IGit>();
 
             var options = new GitRemoteOptions
@@ -62,36 +65,36 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             };
 
             var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions).ConfigureAwait(false);
-            var remoteUrl = remote.StandardOutput;
+            remoteUrl = remote.StandardOutput;
 
             if (string.IsNullOrEmpty(remoteUrl))
             {
                 _logger.LogWarning("Error when detecting GitHub git repository: {Error}", remote.StandardError);
-
-                // Will not initialize as git repo is not setup
-                return;
             }
-
-            var endpoint = "github";
-            if (!GitHubRepositoryUrlParser.TryParse(
-                    remoteUrl,
-                    out var owner,
-                    out var repositoryName))
-            {
-                // Will not initialize as git repo is not setup
-                return;
-            }
-
-            Url = remoteUrl;
-            Endpoint = endpoint;
-            Owner = owner;
-            RepositoryName = repositoryName;
-
-            IsInitialized = true;
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            System.Console.WriteLine(e);
+            _logger.LogWarning(e, "Error when detecting GitHub git repository");
         }
+
+        if (!GitHubRepositoryUrlParser.TryParse(remoteUrl, out var owner, out var repositoryName, environment.ServerUrl))
+        {
+            if (string.IsNullOrWhiteSpace(environment.Repository))
+            {
+                return;
+            }
+
+            remoteUrl = $"{(environment.ServerUrl ?? "https://github.com").TrimEnd('/')}/{environment.Repository}";
+            if (!GitHubRepositoryUrlParser.TryParse(remoteUrl, out owner, out repositoryName, environment.ServerUrl))
+            {
+                return;
+            }
+        }
+
+        Url = remoteUrl;
+        Endpoint = "github";
+        Owner = owner;
+        RepositoryName = repositoryName;
+        IsInitialized = true;
     }
 }

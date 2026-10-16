@@ -11,7 +11,7 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
 
     public string? RunId { get; } = Get("RUN_ID");
 
-    public int RunNumber => int.Parse(Get("RUN_NUMBER"));
+    public int? RunNumber => int.TryParse(Get("RUN_NUMBER"), out var runNumber) ? runNumber : null;
 
     public string? Action { get; } = Get("ACTION");
 
@@ -23,7 +23,7 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
 
     public string? EventName { get; } = Get("EVENT_NAME");
 
-    public string? EventPath { get; } = Get("EVENTPATH");
+    public string? EventPath { get; } = Get("EVENT_PATH");
 
     public string? Workspace { get; } = Get("WORKSPACE");
 
@@ -71,5 +71,5 @@ internal class GitHubEnvironmentVariables : IGitHubEnvironmentVariables
 
     public string? WorkflowRef { get; } = Get("WORKFLOW_REF");
 
-    private static string Get(string name) => Environment.GetEnvironmentVariable($"GITHUB_{name}")!;
+    private static string? Get(string name) => Environment.GetEnvironmentVariable($"GITHUB_{name}");
 }

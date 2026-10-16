@@ -6,8 +6,8 @@ public interface IGitHubRepositoryInfo
     /// Gets a value indicating whether <see cref="IGitHubRepositoryInfo"/> has been initialized.
     /// </summary>
     /// <remarks>
-    /// If (remote) github repository hasn't been set, the repository info will not be initialized.
-    /// In that case, one can check if that's the case.
+    /// If neither the origin remote nor the GitHub Actions environment identifies a repository,
+    /// the repository information remains uninitialized.
     /// </remarks>
     bool IsInitialized { get; }
 

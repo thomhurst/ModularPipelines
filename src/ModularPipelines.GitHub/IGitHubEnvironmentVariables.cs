@@ -8,7 +8,10 @@ public interface IGitHubEnvironmentVariables
 
     string? RunId { get; }
 
-    int RunNumber { get; }
+    /// <summary>
+    /// Gets the workflow run number, or null when GITHUB_RUN_NUMBER is missing or invalid.
+    /// </summary>
+    int? RunNumber { get; }
 
     string? Action { get; }
 
