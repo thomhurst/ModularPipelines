@@ -7704,6 +7704,50 @@ Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to i
 
 `summary.Failures` contains the results that failed the pipeline. Results whose failures were ignored, for example through `WithIgnoreFailuresWhen`, are in `summary.IgnoredFailures` instead.
 
+Retrieve a module's typed result with both its module type and result type:
+
+```
+ModuleResult<string> result = summary.GetResult<MyModule, string>();
+
+switch (result)
+
+{
+
+    case ModuleResult<string>.Success { Value: var value }:
+
+        Console.WriteLine(value);
+
+        break;
+
+    case ModuleResult<string>.Failure { Exception: var exception }:
+
+        Console.Error.WriteLine(exception.Message);
+
+        break;
+
+    case ModuleResult<string>.Skipped { Decision: var decision }:
+
+        Console.WriteLine(decision.Reason);
+
+        break;
+
+}
+
+
+
+if (summary.TryGetResult<MyModule, string>(out var optionalResult))
+
+{
+
+    Console.WriteLine(optionalResult.Status);
+
+}
+```
+
+`MyModule` must derive from `Module<string>` in this example. The generic constraint checks the module and result types at compile time. Lookup uses module type identity, so modules with the same simple name or result type remain distinct. When runtime type metadata is unavailable, lookup uses the fully qualified `TypeName`; it never uses display names.
+
+Failed and skipped modules return typed `Failure` and `Skipped` results. A missing result makes `GetResult` throw `InvalidOperationException`; `TryGetResult` returns `false` with `null`. Summaries deserialized from JSON have no results, because `Results` is excluded from serialization, so these methods report missing results on deserialized summaries.
+
 `BuildAsync()` always validates the pipeline configuration before returning:
 
 ```
