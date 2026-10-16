@@ -285,6 +285,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/aws-installer"
           unzip -q "$RUNNER_TEMP/awscliv2.zip" -d "$RUNNER_TEMP/aws-installer"
           "$RUNNER_TEMP/aws-installer/aws/install" --install-dir "$CLI_TOOLS_ROOT/aws-cli" --bin-dir "$CLI_TOOLS_ROOT/bin"
+          bash tools/ModularPipelines.OptionsGenerator/scripts/aws-help-renderer/Test-AwsHelpRenderer.sh
 
       - name: Install Kustomize
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kustomize'
@@ -633,6 +634,10 @@ jobs:
           if [[ "${{ matrix.tool }}" == "aws" ]]; then
             # Large QuickSight/WAF help pages exceed 30 seconds even without network access.
             COMMAND_TIMEOUT_SECONDS=180
+            # AWS invokes groff directly; MANWIDTH/MANOPT do not affect this renderer.
+            export MODULARPIPELINES_REAL_GROFF="$(command -v groff)"
+            export PATH="$GITHUB_WORKSPACE/tools/ModularPipelines.OptionsGenerator/scripts/aws-help-renderer:$PATH"
+            chmod +x "$GITHUB_WORKSPACE/tools/ModularPipelines.OptionsGenerator/scripts/aws-help-renderer/groff"
           fi
 
           dotnet run \

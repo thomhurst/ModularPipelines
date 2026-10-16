@@ -314,6 +314,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         foreach (Match match in matches)
         {
             var name = match.Groups["name"].Value.Trim();
+            ValidateCommandName(name);
             if (!string.IsNullOrEmpty(name) && seenCommands.Add(name))
             {
                 subcommands.Add(name);
@@ -328,6 +329,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             foreach (Match match in fallbackMatches)
             {
                 var name = match.Groups["name"].Value.Trim();
+                ValidateCommandName(name);
                 if (!string.IsNullOrEmpty(name) && seenCommands.Add(name))
                 {
                     subcommands.Add(name);
@@ -346,6 +348,22 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         return subcommands;
     }
 
+    private static void ValidateCommandName(string name)
+    {
+        // A rendered man page cannot distinguish inserted hyphens from real ones.
+        // Fail rather than publish a command guessed from a wrapped token.
+        if (name.EndsWith('-'))
+        {
+            throw new InvalidOperationException(
+                $"AWS help contains a wrapped or incomplete command '{name}'. "
+                + "Use the AWS help renderer in tools/ModularPipelines.OptionsGenerator/scripts/aws-help-renderer "
+                + "to disable groff hyphenation and widen its output before regenerating.");
+        }
+    }
+
+    private static string NormalizeDescription(string description) =>
+        WhitespacePattern().Replace(AwsDescriptionBulletPattern().Replace(description, "\u2022 ").Trim(), " ");
+
     private static string? ExtractDescription(string helpText)
     {
         // NAME section: "command-name -"
@@ -355,7 +373,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         {
             var desc = descMatch.Groups[1].Value.Trim();
             // Clean up whitespace
-            desc = WhitespacePattern().Replace(desc, " ");
+            desc = NormalizeDescription(desc);
             // Truncate if too long
             if (desc.Length > 500)
             {
@@ -440,7 +458,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 : optionsSection.Length;
             var rawDescription = GetOptionDescription(optionsSection, match, nextOptionStart, globalOptions);
             var description = rawDescription is not null
-                ? WhitespacePattern().Replace(rawDescription.Trim(), " ")
+                ? NormalizeDescription(rawDescription)
                 : null;
 
             var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
@@ -889,6 +907,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     [GeneratedRegex(@"\A" + EnumValueToken + @"\z")]
     private static partial Regex EnumValuePattern();
+
+    [GeneratedRegex(@"^[ \t]*(?:o|\*)[ \t]+", RegexOptions.Multiline)]
+    private static partial Regex AwsDescriptionBulletPattern();
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex WhitespacePattern();
