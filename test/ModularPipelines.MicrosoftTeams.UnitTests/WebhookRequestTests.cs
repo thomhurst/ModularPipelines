@@ -13,13 +13,17 @@ public class WebhookRequestTests : TestBase
     public async Task PostsExpectedPayloadToWebhook()
     {
         string? payload = null;
+        string? mediaType = null;
+        string? charset = null;
         HttpMethod? method = null;
         Uri? uri = null;
         using var client = new HttpClient(new RequestHandler(async (request, token) =>
         {
             method = request.Method;
             uri = request.RequestUri;
-            payload = await request.Content!.ReadAsStringAsync(token);
+            mediaType = request.Content!.Headers.ContentType?.MediaType;
+            charset = request.Content.Headers.ContentType?.CharSet;
+            payload = await request.Content.ReadAsStringAsync(token);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }));
         var service = await GetService<IMicrosoftTeams>(services =>
@@ -32,11 +36,53 @@ public class WebhookRequestTests : TestBase
 
         await Assert.That(method).IsEqualTo(HttpMethod.Post);
         await Assert.That(uri).IsEqualTo(WebhookUri);
+        await Assert.That(mediaType).IsEqualTo("application/json");
+        await Assert.That(charset).IsEqualTo("utf-8");
         using var body = JsonDocument.Parse(payload!);
         await Assert.That(body.RootElement.GetProperty("type").GetString()).IsEqualTo("message");
         var attachment = body.RootElement.GetProperty("attachments")[0];
         await Assert.That(attachment.GetProperty("contentType").GetString()).IsEqualTo("application/vnd.microsoft.card.adaptive");
         await Assert.That(attachment.GetProperty("content").GetProperty("msTeams").GetProperty("width").GetString()).IsEqualTo("Full");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DisposesRequestContentAfterSend(bool sendFails)
+    {
+        HttpContent? requestContent = null;
+        using var client = new HttpClient(new RequestHandler((request, _) =>
+        {
+            requestContent = request.Content;
+            if (sendFails)
+            {
+                throw new InvalidOperationException("Send failed.");
+            }
+
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("accepted"),
+            });
+        }));
+        var service = await GetService<IMicrosoftTeams>(services =>
+        {
+            services.RegisterMicrosoftTeamsContext();
+            services.AddSingleton<IHttpClientFactory>(new ClientFactory(client));
+        });
+        var options = new MicrosoftTeamsWebHookCardOptions(new MicrosoftTeamsAdaptiveCard(), WebhookUri);
+
+        if (sendFails)
+        {
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.T.PostCardAsync(options));
+        }
+        else
+        {
+            using var response = await service.T.PostCardAsync(options);
+            await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("accepted");
+        }
+
+        await Assert.That(requestContent).IsNotNull();
+        await Assert.ThrowsAsync<ObjectDisposedException>(() => requestContent!.ReadAsStringAsync());
     }
 
     [Test]
