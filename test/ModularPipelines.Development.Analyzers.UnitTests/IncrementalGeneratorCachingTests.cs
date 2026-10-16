@@ -9,24 +9,6 @@ namespace ModularPipelines.Development.Analyzers.UnitTests;
 public class IncrementalGeneratorCachingTests
 {
     [Test]
-    public async Task Module_Extensions_Are_Cached_After_Trivia_Changes()
-    {
-        const string source = """
-                              namespace ModularPipelines
-                              {
-                                  public abstract class Module<T>;
-                              }
-
-                              namespace Consumer
-                              {
-                                  public class CacheTarget : ModularPipelines.Module<string>;
-                              }
-                              """;
-
-        await AssertOutputIsCachedAfterTriviaChange(new ModuleExtensionsGenerator(), source);
-    }
-
-    [Test]
     public async Task Command_Metadata_Is_Cached_After_Trivia_Changes()
     {
         const string source = """

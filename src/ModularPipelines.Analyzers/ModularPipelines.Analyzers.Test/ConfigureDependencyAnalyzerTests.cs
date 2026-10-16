@@ -220,37 +220,4 @@ public class ConfigureDependencyAnalyzerTests
     {
         await Cycles.VerifyAnalyzerAsync(CreateSource("protected override void Configure(ModuleConfigurationBuilder module) => module.WithTags(\"test\").DependsOn<Dependency>();"));
     }
-
-    [TestMethod]
-    public async Task Builder_Dependency_Satisfies_Generated_Accessors()
-    {
-        var source = CreateSource("protected override void Configure(ModuleConfigurationBuilder module) => module.DependsOn<Dependency>();")
-            .Replace("context.GetModule<Dependency>()", "ModularPipelines.Generated.TestModuleContextExtensions.GetDependencyModule(context)")
-            .Replace("context.GetModuleIfRegistered<Dependency>()", "{|#0:ModularPipelines.Generated.TestModuleContextExtensions.GetDependencyModuleIfRegistered(context)|}");
-        const string generatedAccessors = """
-            #nullable enable
-            using ModularPipelines;
-            using ModularPipelines.Examples.Modules;
-            namespace ModularPipelines.Generated;
-
-            [System.CodeDom.Compiler.GeneratedCode("ModularPipelines.SourceGenerator", "1.0.0")]
-            public static class TestModuleContextExtensions
-            {
-                public static Dependency GetDependencyModule(this IModuleContext context) => context.GetModule<Dependency>();
-                public static Dependency? GetDependencyModuleIfRegistered(this IModuleContext context) => context.GetModuleIfRegistered<Dependency>();
-            }
-            """;
-        var test = new Missing.Test
-        {
-            TestCode = source,
-            ReferenceAssemblies = Net.Net110,
-            TestState =
-            {
-                Sources = { generatedAccessors },
-                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
-            },
-        };
-        test.ExpectedDiagnostics.Add(Missing.Diagnostic("MP0022").WithLocation(0).WithArguments("Dependency"));
-        await test.RunAsync(CancellationToken.None);
-    }
 }

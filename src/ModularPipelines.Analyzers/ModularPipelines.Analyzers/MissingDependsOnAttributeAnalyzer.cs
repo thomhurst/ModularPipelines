@@ -39,8 +39,6 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat),
         nameof(Resources.MissingDependsOnAttributeAnalyzerDescription));
 
-    private const string OptionalModuleAccessorSuffix = "ModuleIfRegistered";
-
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule, OptionalDependencyAccessorRule, RequiredDependencyAccessorRule];
 
@@ -111,9 +109,11 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             _ => null,
         };
 
-        if (invokedName is null || !CouldBeModuleAccessor(invokedName)
+        if (invokedName is not GenericNameSyntax
+            || (invokedName.Identifier.ValueText != AnalyzerConstants.MethodNames.GetModule
+                && invokedName.Identifier.ValueText != AnalyzerConstants.MethodNames.GetModuleIfRegistered)
             || context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol method
-            || !TryGetModuleType(context.Compilation, method, invokedName, out moduleType))
+            || !TryGetModuleType(context.Compilation, method, out moduleType))
         {
             return false;
         }
@@ -151,50 +151,15 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static bool CouldBeModuleAccessor(SimpleNameSyntax invokedName)
-    {
-        var methodName = invokedName.Identifier.ValueText;
-
-        return methodName.StartsWith("Get", StringComparison.Ordinal)
-               && (methodName.EndsWith("Module", StringComparison.Ordinal)
-                   || methodName.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal));
-    }
-
     private static bool TryGetModuleType(
         Compilation compilation,
         IMethodSymbol methodSymbol,
-        SimpleNameSyntax invokedName,
         out INamedTypeSymbol moduleType)
     {
         moduleType = null!;
         var moduleContextType = compilation.GetTypeByMetadataName("ModularPipelines.IModuleContext");
 
-        if (moduleContextType is null)
-        {
-            return false;
-        }
-
-        if (TryGetDirectModuleType(
-                methodSymbol,
-                invokedName,
-                moduleContextType,
-                out moduleType))
-        {
-            return true;
-        }
-
-        return TryGetGeneratedModuleType(methodSymbol, moduleContextType, out moduleType);
-    }
-
-    private static bool TryGetDirectModuleType(
-        IMethodSymbol methodSymbol,
-        SimpleNameSyntax invokedName,
-        INamedTypeSymbol moduleContextType,
-        out INamedTypeSymbol moduleType)
-    {
-        moduleType = null!;
-
-        if (invokedName is not GenericNameSyntax
+        if (moduleContextType is null
             || (methodSymbol.Name != AnalyzerConstants.MethodNames.GetModule
                 && methodSymbol.Name != AnalyzerConstants.MethodNames.GetModuleIfRegistered)
             || methodSymbol.TypeArguments.Length != 1
@@ -210,48 +175,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         return true;
     }
 
-    private static bool TryGetGeneratedModuleType(
-        IMethodSymbol methodSymbol,
-        INamedTypeSymbol moduleContextType,
-        out INamedTypeSymbol moduleType)
-    {
-        moduleType = null!;
-        var extensionMethod = methodSymbol.ReducedFrom ?? methodSymbol;
-
-        if (!extensionMethod.IsExtensionMethod ||
-            !extensionMethod.Name.StartsWith("Get", StringComparison.Ordinal) ||
-            (!extensionMethod.Name.EndsWith("Module", StringComparison.Ordinal) &&
-             !extensionMethod.Name.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal)) ||
-            extensionMethod.Parameters.Length == 0 ||
-            !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
-            !IsGeneratedModuleAccessor(extensionMethod.ContainingType))
-        {
-            return false;
-        }
-
-        if (methodSymbol.ReturnType is not INamedTypeSymbol returnType)
-        {
-            return false;
-        }
-
-        moduleType = (INamedTypeSymbol) returnType
-            .WithNullableAnnotation(NullableAnnotation.NotAnnotated);
-        return true;
-    }
-
-    private static bool IsGeneratedModuleAccessor(INamedTypeSymbol containingType)
-    {
-        return containingType.Name.EndsWith("ModuleContextExtensions", StringComparison.Ordinal)
-            && containingType.ContainingNamespace.ToDisplayString() == "ModularPipelines.Generated"
-            && containingType.GetAttributes().Any(attribute =>
-            attribute.AttributeClass?.ToDisplayString() == "System.CodeDom.Compiler.GeneratedCodeAttribute" &&
-            attribute.ConstructorArguments.Length > 0 &&
-            attribute.ConstructorArguments[0].Value is "ModularPipelines.SourceGenerator");
-    }
-
     private static bool IsOptionalAccessor(IMethodSymbol methodSymbol)
-        => (methodSymbol.ReducedFrom ?? methodSymbol).Name
-            .EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal);
+        => methodSymbol.Name == AnalyzerConstants.MethodNames.GetModuleIfRegistered;
 
     private static TypeDeclarationSyntax? GetModuleDeclarationSyntax(
         SyntaxNodeAnalysisContext context,

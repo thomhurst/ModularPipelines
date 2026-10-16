@@ -16,12 +16,6 @@ internal static class GeneratorDiagnostics
         + "one by-value IServiceCollection parameter and return void or IServiceCollection",
         DiagnosticSeverity.Error);
 
-    public static DiagnosticDescriptor DuplicateModuleAccessor { get; } = Create(
-        "MPG0002",
-        "Duplicate generated module accessor",
-        "Generated module accessor '{0}' conflicts for module types: {1}",
-        DiagnosticSeverity.Error);
-
     public static DiagnosticDescriptor IncompleteCommandMetadata { get; } = Create(
         "MPG0003",
         "Incomplete command metadata",
