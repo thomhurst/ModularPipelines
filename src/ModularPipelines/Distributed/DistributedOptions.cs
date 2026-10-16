@@ -79,10 +79,17 @@ public sealed record DistributedOptions
 
     /// <summary>
     /// Gets how long a worker registration and its module leases remain valid without a
-    /// heartbeat. When a lease expires the master returns its module to the queue. Must exceed
+    /// heartbeat. Expired leases are requeued until <see cref="MaxModuleLeaseExpirations"/> is reached. Must exceed
     /// <see cref="WorkerHeartbeatInterval"/>. Defaults to 30 seconds.
     /// </summary>
     public TimeSpan WorkerTimeout { get; init; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// Gets the number of lease expirations that fail a module permanently. Must be at least 1.
+    /// Defaults to 2, allowing one recovery after a worker is lost. This budget is per module
+    /// across all workers and is independent of the module's retry policy.
+    /// </summary>
+    public int MaxModuleLeaseExpirations { get; init; } = 2;
 
     /// <summary>
     /// Gets how long workers keep running without a sign of life from a master that has not

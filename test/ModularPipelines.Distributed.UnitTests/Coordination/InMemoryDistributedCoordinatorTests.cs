@@ -7,11 +7,23 @@ namespace ModularPipelines.Distributed.UnitTests.Coordination;
 
 public class InMemoryDistributedCoordinatorTests
 {
-    private static InMemoryDistributedCoordinator Create(TimeSpan? workerTimeout = null) =>
+    private static InMemoryDistributedCoordinator Create(TimeSpan? workerTimeout = null, int budget = 2) =>
         new(MsOptions.Create(new DistributedOptions
         {
             WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
+            MaxModuleLeaseExpirations = budget,
         }));
+
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(3)]
+    public Task Lease_Expiration_Budget_Fails_Module(int budget) =>
+        DistributedCoordinatorContract.LeaseExpirationBudgetFailsModuleAsync(Create(budget: budget), budget);
+
+    [Test]
+    public Task Lease_Expiration_Recovery_Succeeds() =>
+        DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(Create());
 
     [Test]
     public async Task Concurrent_Dequeue_Retries_Claim_Only_One_Module()

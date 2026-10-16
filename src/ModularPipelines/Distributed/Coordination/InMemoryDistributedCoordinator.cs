@@ -14,6 +14,7 @@ internal class InMemoryDistributedCoordinator(
     private readonly Lock _lock = new();
     private readonly PriorityQueue<ModuleAssignment, AssignmentQueuePriority> _workQueue = new();
     private readonly Dictionary<ModuleId, LeaseEntry> _leases = [];
+    private readonly Dictionary<ModuleId, List<WorkerId>> _expiredLeaseWorkers = [];
     private readonly Dictionary<(WorkerId WorkerId, Guid ClaimId), ModuleId> _claims = [];
     private readonly Dictionary<WorkerId, WorkerRegistration> _workers = [];
     private readonly Dictionary<WorkerId, WorkerStatus> _workerStatuses = [];
@@ -22,6 +23,7 @@ internal class InMemoryDistributedCoordinator(
     private readonly TaskCompletionSource<DistributedCancellationReason> _cancellation = new(
         TaskCreationOptions.RunContinuationsAsynchronously);
     private readonly TimeSpan _workerTimeout = options?.Value.WorkerTimeout ?? TimeSpan.FromSeconds(30);
+    private readonly int _maxModuleLeaseExpirations = options?.Value.MaxModuleLeaseExpirations ?? 2;
     private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
     private TaskCompletionSource _stateChanged = NewSignal();
     private SchedulingWorker[] _priorityWorkerSnapshot = [];
@@ -117,6 +119,7 @@ internal class InMemoryDistributedCoordinator(
             GetResultSource(result.ModuleId).TrySetResult(result);
             RemoveLeaseLocked(result.ModuleId);
             RemoveQueuedLocked(result.ModuleId);
+            _expiredLeaseWorkers.Remove(result.ModuleId);
             SignalStateChangedLocked();
         }
 
@@ -261,6 +264,22 @@ internal class InMemoryDistributedCoordinator(
                 RemoveLeaseLocked(assignment.ModuleId);
                 if (HasResult(assignment.ModuleId))
                 {
+                    continue;
+                }
+
+                if (!_expiredLeaseWorkers.TryGetValue(assignment.ModuleId, out var lostWorkers))
+                {
+                    lostWorkers = [];
+                    _expiredLeaseWorkers.Add(assignment.ModuleId, lostWorkers);
+                }
+
+                lostWorkers.Add(entry.Lease.WorkerId);
+                if (lostWorkers.Count >= _maxModuleLeaseExpirations)
+                {
+                    GetResultSource(assignment.ModuleId).TrySetResult(
+                        new LeaseExpirationFailure(assignment.ModuleId, lostWorkers, now).ToResult());
+                    RemoveQueuedLocked(assignment.ModuleId);
+                    _expiredLeaseWorkers.Remove(assignment.ModuleId);
                     continue;
                 }
 

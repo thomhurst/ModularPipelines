@@ -15,6 +15,18 @@ public class RedisDistributedCoordinatorContractTests
     private const string ConnectionStringVariable = "MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING";
 
     [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(3)]
+    public Task Lease_Expiration_Budget_Fails_Module(int budget) =>
+        RunAsync((coordinator, _, _, _) => DistributedCoordinatorContract.LeaseExpirationBudgetFailsModuleAsync(coordinator, budget),
+            1, null, budget: budget);
+
+    [Test]
+    public Task Lease_Expiration_Recovery_Succeeds() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(coordinator));
+
+    [Test]
     public Task Reads_All_Pages_Of_Leases_Workers_And_Statuses() =>
         RunAsync(async (coordinator, client, keys) =>
         {
@@ -374,7 +386,8 @@ public class RedisDistributedCoordinatorContractTests
         Func<IDistributedMasterCoordinator, IRespireClient, RedisKeyBuilder, Task, Task> test,
         int readySignalCount,
         TimeSpan? workerTimeout,
-        TimeSpan? masterTimeout = null)
+        TimeSpan? masterTimeout = null,
+        int budget = 2)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -409,6 +422,7 @@ public class RedisDistributedCoordinatorContractTests
             new DistributedOptions
             {
                 WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
+                MaxModuleLeaseExpirations = budget,
                 ModuleResultTimeout = TimeSpan.FromSeconds(30),
                 MasterTimeout = masterTimeout ?? TimeSpan.FromSeconds(30),
             });

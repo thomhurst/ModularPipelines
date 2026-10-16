@@ -52,6 +52,11 @@ internal static class DistributedOptionsValidator
 
         ValidateTimeoutOptions(options, failures);
 
+        if (options.MaxModuleLeaseExpirations < 1)
+        {
+            failures.Add("Distributed.MaxModuleLeaseExpirations must be at least 1.");
+        }
+
         if (!Enum.IsDefined(options.RunCleanup))
         {
             failures.Add("Distributed.RunCleanup must be a defined DistributedRunCleanupPolicy value.");

@@ -10,11 +10,23 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 /// </summary>
 public class SignalRMasterCoordinatorContractTests
 {
-    private static SignalRMasterCoordinator Create(TimeSpan? workerTimeout = null) =>
+    private static SignalRMasterCoordinator Create(TimeSpan? workerTimeout = null, int budget = 2) =>
         new(new InMemoryDistributedCoordinator(MsOptions.Create(new DistributedOptions
         {
             WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
+            MaxModuleLeaseExpirations = budget,
         })));
+
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(3)]
+    public Task Lease_Expiration_Budget_Fails_Module(int budget) =>
+        DistributedCoordinatorContract.LeaseExpirationBudgetFailsModuleAsync(Create(budget: budget), budget);
+
+    [Test]
+    public Task Lease_Expiration_Recovery_Succeeds() =>
+        DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(Create());
 
     [Test]
     public Task Enqueue_And_Dequeue_RoundTrips() =>

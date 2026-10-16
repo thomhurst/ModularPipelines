@@ -92,6 +92,7 @@ public class RedisKeyBuilderTests
                 builder.CompletionFlag,
                 builder.CancellationFlag,
                 builder.MasterStarted,
+                builder.LeaseExpirationWorkers,
                 builder.MasterHeartbeat,
             ],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
@@ -167,6 +168,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.CoordinationKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(11);
+        await Assert.That(allKeys).Count().IsEqualTo(12);
     }
 }

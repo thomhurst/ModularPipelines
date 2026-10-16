@@ -101,8 +101,17 @@ internal class ModuleResultSerializer(
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Distributed result serialization is unsupported in Native AOT.")]
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Distributed result serialization is unsupported in trimmed applications.")]
     public SerializedModuleResult SerializeFailure(ModuleId moduleId, Exception exception, WorkerId workerId)
+        => CreateFailure(moduleId, exception, workerId, DateTimeOffset.UtcNow, _options);
+
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Distributed result serialization is unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Distributed result serialization is unsupported in trimmed applications.")]
+    internal static SerializedModuleResult CreateFailure(
+        ModuleId moduleId,
+        Exception exception,
+        WorkerId workerId,
+        DateTimeOffset now,
+        JsonSerializerOptions? options = null)
     {
-        var now = DateTimeOffset.UtcNow;
         ModuleResult failure = new ModuleResult.Failure(exception)
         {
             Name = moduleId.Value,
@@ -116,7 +125,7 @@ internal class ModuleResultSerializer(
         {
             ModuleId = moduleId,
             WorkerId = workerId,
-            Payload = JsonSerializer.Serialize(failure, _options),
+            Payload = JsonSerializer.Serialize(failure, options ?? CreateOptions()),
             CompletedAt = now,
         };
     }

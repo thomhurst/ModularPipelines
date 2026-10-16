@@ -252,6 +252,96 @@ public static class DistributedCoordinatorContract
         Check(!Equals(secondClaim.LeaseId, firstClaim.LeaseId));
     }
 
+    /// <summary>Verifies that concurrent expiry scans enforce a per-module budget across workers.</summary>
+    /// <param name="coordinator">A fresh coordinator with <see cref="LeaseTimeout"/> configured.</param>
+    /// <param name="budget">The configured maximum number of lease expirations.</param>
+    /// <returns>The asynchronous contract check.</returns>
+    public static async Task LeaseExpirationBudgetFailsModuleAsync(IDistributedMasterCoordinator coordinator, int budget = 2)
+    {
+        using var timeout = new CancellationTokenSource(Timeout);
+        var token = timeout.Token;
+        var assignment = CreateAssignment("Contract.Poison");
+        var lostWorkers = new List<WorkerId>();
+        var resultTask = coordinator.WaitForResultAsync(assignment.ModuleId, token);
+        await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
+        for (var attempt = 0; attempt < budget; attempt++)
+        {
+            var worker = new WorkerId($"lost-worker-{attempt}");
+            lostWorkers.Add(worker);
+            var lease = await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), token).ConfigureAwait(false);
+            Check(lease is not null);
+            Check(lease.Assignment.ModuleId == assignment.ModuleId);
+            // Stale queued copies must also be withdrawn when the budget is exhausted.
+            await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
+            await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);
+            var scans = await Task.WhenAll(Enumerable.Range(0, 8).Select(_ => Task.Run(
+                () => coordinator.RequeueExpiredLeasesAsync(token), token))).ConfigureAwait(false);
+            Check(scans.Sum(scan => scan.Count) == (attempt < budget - 1 ? 1 : 0));
+            if (attempt < budget - 1)
+            {
+                Check(!resultTask.IsCompleted);
+            }
+        }
+
+        var failure = await resultTask.ConfigureAwait(false);
+        using var payload = JsonDocument.Parse(failure.Payload);
+        Check(payload.RootElement.GetProperty("$type").GetString() == "Failure");
+        var message = payload.RootElement.GetProperty("Exception").GetProperty("Message").GetString()!;
+        Check(message.Contains(assignment.ModuleId.Value, StringComparison.Ordinal));
+        foreach (var worker in lostWorkers)
+        {
+            Check(message.Contains(worker.Value, StringComparison.Ordinal));
+        }
+
+        Check(failure.WorkerId == lostWorkers[^1]);
+        Check((await coordinator.GetActiveLeasesAsync(token).ConfigureAwait(false)).Count == 0);
+        Check(!await coordinator.WithdrawAssignmentAsync(assignment.ModuleId, token).ConfigureAwait(false));
+
+        // A late worker result cannot replace the terminal failure.
+        await coordinator.PublishResultAsync(CreateResult(assignment.ModuleId.Value, "late success"), null, token).ConfigureAwait(false);
+        Check((await coordinator.WaitForResultAsync(assignment.ModuleId, token).ConfigureAwait(false)).Payload == failure.Payload);
+        foreach (var worker in new[] { Worker, WorkerId.FromInstanceIndex(0) })
+        {
+            await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
+            var healthy = CreateAssignment($"Contract.Healthy-{worker}");
+            await coordinator.EnqueueModuleAsync(healthy, token).ConfigureAwait(false);
+            var lease = await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), token).ConfigureAwait(false);
+            Check(lease is not null);
+            Check(lease.Assignment.ModuleId == healthy.ModuleId);
+            await coordinator.PublishResultAsync(CreateResult(healthy.ModuleId.Value, "ok"), lease, token).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>Verifies independent module recovery and final results through later expiry scans.</summary>
+    /// <param name="coordinator">A fresh coordinator with the default expiration budget and <see cref="LeaseTimeout"/>.</param>
+    /// <returns>The asynchronous contract check.</returns>
+    public static async Task LeaseExpirationRecoverySucceedsAsync(IDistributedMasterCoordinator coordinator)
+    {
+        using var timeout = new CancellationTokenSource(Timeout);
+        var token = timeout.Token;
+        var successes = new List<SerializedModuleResult>();
+        foreach (var name in new[] { "Contract.Recovery", "Contract.IndependentRecovery" })
+        {
+            var assignment = CreateAssignment(name);
+            await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
+            Check(await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), token).ConfigureAwait(false) is not null);
+            await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);
+            Check((await coordinator.RequeueExpiredLeasesAsync(token).ConfigureAwait(false)).Contains(assignment.ModuleId));
+            var recovered = await coordinator.DequeueModuleAsync(OtherWorker, new HashSet<Capability>(), token).ConfigureAwait(false);
+            Check(recovered is not null);
+            var success = CreateResult(assignment.ModuleId.Value, "recovered");
+            await coordinator.PublishResultAsync(success, recovered, token).ConfigureAwait(false);
+            successes.Add(success);
+        }
+
+        await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);
+        Check((await coordinator.RequeueExpiredLeasesAsync(token).ConfigureAwait(false)).Count == 0);
+        foreach (var success in successes)
+        {
+            Check((await coordinator.WaitForResultAsync(success.ModuleId, token).ConfigureAwait(false)).Payload == success.Payload);
+        }
+    }
+
     /// <summary>Verifies that heartbeat renews lease.</summary>
     /// <param name="coordinator">A fresh coordinator dedicated to this check.</param>
     /// <returns>The asynchronous contract check.</returns>

@@ -3586,3 +3586,5 @@ ModularPipelines.Reporting.ModuleRunReport.ResultStartTime.init -> void
 ModularPipelines.Reporting.ModuleRunReport.ResultEndTime.get -> System.DateTimeOffset?
 ModularPipelines.Reporting.ModuleRunReport.ResultEndTime.init -> void
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.ReconcileHeartbeatAsync(ModularPipelines.Distributed.WorkerStatus! status, System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ModuleLease!>! leases, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
+ModularPipelines.Distributed.DistributedOptions.MaxModuleLeaseExpirations.get -> int
+ModularPipelines.Distributed.DistributedOptions.MaxModuleLeaseExpirations.init -> void
