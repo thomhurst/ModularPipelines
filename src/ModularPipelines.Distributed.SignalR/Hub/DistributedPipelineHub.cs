@@ -71,6 +71,19 @@ internal sealed class DistributedPipelineHub(
         return masterState.Coordinator.SendHeartbeatAsync(status, Context.ConnectionAborted);
     }
 
+    public Task<IReadOnlyList<string>> ReconcileHeartbeat(WorkerStatus status, IReadOnlyList<ModuleLease> leases)
+    {
+        var registration = GetRegistration();
+        if (status.WorkerId != registration.WorkerId
+            || !string.Equals(status.RunId, masterState.RunId, StringComparison.Ordinal)
+            || leases.Any(lease => lease.WorkerId != registration.WorkerId))
+        {
+            throw new HubException("Heartbeat rejected because it does not belong to this connection's worker and run.");
+        }
+
+        return masterState.Coordinator.ReconcileHeartbeatAsync(status, leases, Context.ConnectionAborted);
+    }
+
     public Task<ModuleLease?> DequeueModule(Guid claimId)
     {
         var registration = GetRegistration();

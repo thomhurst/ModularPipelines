@@ -161,7 +161,7 @@ internal class WorkerModuleExecutor(
         var capabilities = registration.Capabilities.ToHashSet();
         var maxConcurrency = registration.MaxParallelism;
 
-        var inFlightLeases = new InFlightLeases();
+        var inFlightLeases = new InFlightLeases(options.WorkerTimeout, _timeProvider);
         var heartbeatTask = SendHeartbeatsAsync(
             workerId,
             options.RunId,
@@ -187,10 +187,12 @@ internal class WorkerModuleExecutor(
             }
             var poolTask = DistributedWorkerPool.RunAsync(
                 token => _coordinator.DequeueModuleAsync(workerId, capabilities, token),
-                async (lease, claimedAt, _) =>
+                async (lease, claimedAt, leaseToken) =>
                 {
-                    var executionToken = lease.Assignment.AlwaysRun ? workerToken : pipelineCts.Token;
-                    var module = await ExecuteLeaseAsync(lease, claimedAt, moduleLookup, dependencyResultCache, executionToken)
+                    using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(
+                        leaseToken, lease.Assignment.AlwaysRun ? workerToken : pipelineCts.Token);
+                    var module = await ExecuteLeaseAsync(lease, claimedAt, moduleLookup, dependencyResultCache,
+                            executionCts.Token, inFlightLeases.GetLossToken(lease))
                         .ConfigureAwait(false);
 
                     // A claimed module belongs in this worker's summary whether it succeeds or fails.
@@ -249,15 +251,19 @@ internal class WorkerModuleExecutor(
             try
             {
                 await Task.Delay(interval, cancellationToken).ConfigureAwait(false);
-                await _coordinator.SendHeartbeatAsync(
+                var leases = inFlightLeases.GetLeases();
+                var sentAt = inFlightLeases.GetTimestamp();
+                var lost = await _coordinator.ReconcileHeartbeatAsync(
                         new WorkerStatus
                         {
                             WorkerId = workerId,
                             RunId = runIdentifier,
-                            InFlightModules = inFlightLeases.GetModuleIds(),
+                            InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
                         },
+                        leases,
                         cancellationToken)
                     .ConfigureAwait(false);
+                await inFlightLeases.ReconcileAsync(leases, lost, sentAt).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -401,7 +407,8 @@ internal class WorkerModuleExecutor(
         DateTimeOffset claimedAt,
         Dictionary<ModuleId, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        CancellationToken leaseLostToken)
     {
         if (_logger.IsEnabled(LogLevel.Debug))
         {
@@ -416,7 +423,8 @@ internal class WorkerModuleExecutor(
             claimedAt,
             moduleLookup,
             dependencyResultCache,
-            cancellationToken);
+            cancellationToken,
+            leaseLostToken);
     }
 
     /// <summary>

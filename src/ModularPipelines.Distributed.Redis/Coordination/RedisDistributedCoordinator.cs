@@ -35,6 +35,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly RespireScript ClaimScript = RespireScript.Create(RedisCoordinationScripts.Claim);
     private static readonly RespireScript HeartbeatScript = RespireScript.Create(RedisCoordinationScripts.Heartbeat);
     private static readonly RespireScript ReserveMasterRunScript = RespireScript.Create(RedisCoordinationScripts.ReserveMasterRun);
+    private static readonly RespireScript ReconcileHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.ReconcileHeartbeat);
     private static readonly RespireScript MasterHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.MasterHeartbeat);
     private static readonly RespireScript GetMasterStateScript = RespireScript.Create(RedisCoordinationScripts.GetMasterState);
     private static readonly RespireScript RegisterWorkerScript = RespireScript.Create(RedisCoordinationScripts.RegisterWorker);
@@ -188,13 +189,19 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        if (lease is not null
+            && (lease.Assignment.ModuleId != result.ModuleId || string.IsNullOrEmpty(lease.LeaseId)))
+        {
+            return;
+        }
+
         var json = JsonSerializer.Serialize(result);
 
-        // HSETNX keeps the first result final; the lease is released either way.
+        // Validate the lease atomically with accepting the result and releasing ownership.
         await _redis.Scripts.ExecuteIntegerAsync(
                 PublishResultScript,
                 _scriptKeys,
-                [_keyExpirationMilliseconds, result.ModuleId.Value, json],
+                [_keyExpirationMilliseconds, result.ModuleId.Value, json, lease?.LeaseId ?? string.Empty, lease?.WorkerId.Value ?? string.Empty],
                 cancellationToken)
             .ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
@@ -288,6 +295,27 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 ],
                 cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    public async Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken)
+    {
+        var tokens = leases.Select(static lease => new
+        {
+            ModuleId = lease.Assignment.ModuleId.Value,
+            WorkerId = lease.WorkerId.Value,
+            lease.LeaseId,
+        });
+        using var result = await _redis.Scripts.ExecuteAsync(
+                ReconcileHeartbeatScript,
+                _scriptKeys,
+                [_keyExpirationMilliseconds, status.WorkerId.Value, _workerTimeoutMilliseconds,
+                    JsonSerializer.Serialize(status), JsonSerializer.Serialize(tokens)],
+                cancellationToken)
+            .ConfigureAwait(false);
+        return [.. result.Select(static item => item.AsString())];
     }
 
     public async Task<bool> WithdrawAssignmentAsync(ModuleId moduleId, CancellationToken cancellationToken)

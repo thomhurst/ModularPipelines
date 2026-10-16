@@ -120,10 +120,11 @@ internal static class DistributedWorkerPool
         InFlightLeases? inFlightLeases,
         CancellationToken cancellationToken)
     {
-        inFlightLeases?.Add(lease);
+        var leaseLostToken = inFlightLeases?.Add(lease) ?? CancellationToken.None;
+        using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, leaseLostToken);
         try
         {
-            await executeAsync(lease, claimedAt, cancellationToken).ConfigureAwait(false);
+            await executeAsync(lease, claimedAt, executionCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
             when (cancellationToken.IsCancellationRequested ||
@@ -145,14 +146,104 @@ internal static class DistributedWorkerPool
 /// <summary>
 /// Tracks the leases a process is executing so its heartbeats can renew them.
 /// </summary>
-internal sealed class InFlightLeases
+internal sealed class InFlightLeases(TimeSpan? leaseTimeout = null, TimeProvider? timeProvider = null)
 {
-    private readonly ConcurrentDictionary<string, ModuleLease> _leases = new(StringComparer.Ordinal);
+    private readonly ConcurrentDictionary<string, Entry> _leases = new(StringComparer.Ordinal);
+    private readonly TimeProvider _clock = timeProvider ?? TimeProvider.System;
 
-    public void Add(ModuleLease lease) => _leases[lease.LeaseId] = lease;
+    public CancellationToken Add(ModuleLease lease)
+    {
+        var entry = new Entry(lease, leaseTimeout, _clock);
+        _leases[lease.LeaseId] = entry;
+        return entry.Token;
+    }
 
-    public void Remove(ModuleLease lease) => _leases.TryRemove(lease.LeaseId, out _);
+    public void Remove(ModuleLease lease)
+    {
+        if (_leases.TryRemove(lease.LeaseId, out var entry))
+        {
+            entry.Dispose();
+        }
+    }
+
+    public CancellationToken GetLossToken(ModuleLease lease) =>
+        _leases.TryGetValue(lease.LeaseId, out var entry) ? entry.Token : CancellationToken.None;
+
+    public IReadOnlyList<ModuleLease> GetLeases() =>
+        [.. _leases.Values.Where(static entry => !entry.Token.IsCancellationRequested).Select(static entry => entry.Lease)];
 
     public IReadOnlyList<ModuleId> GetModuleIds() =>
-        [.. _leases.Values.Select(static lease => lease.Assignment.ModuleId).Distinct()];
+        [.. GetLeases().Select(static lease => lease.Assignment.ModuleId).Distinct()];
+
+    public long GetTimestamp() => _clock.GetTimestamp();
+
+    public async Task ReconcileAsync(IReadOnlyList<ModuleLease> sentLeases, IReadOnlyList<string> lost, long sentAt)
+    {
+        var lostIds = lost.ToHashSet(StringComparer.Ordinal);
+        foreach (var lease in sentLeases)
+        {
+            if (_leases.TryGetValue(lease.LeaseId, out var entry))
+            {
+                await entry.ReconcileAsync(lostIds.Contains(lease.LeaseId), _clock.GetElapsedTime(sentAt))
+                    .ConfigureAwait(false);
+            }
+        }
+    }
+
+    private sealed class Entry : IDisposable
+    {
+        private readonly Lock _lock = new();
+        private readonly CancellationTokenSource _lost = new();
+        private readonly ITimer? _timer;
+        private readonly TimeSpan? _timeout;
+        private bool _disposed;
+
+        public Entry(ModuleLease lease, TimeSpan? timeout, TimeProvider clock)
+        {
+            Lease = lease;
+            Token = _lost.Token;
+            _timeout = timeout;
+            if (timeout is { } duration)
+            {
+                _timer = clock.CreateTimer(_ => _ = ReconcileAsync(true, TimeSpan.Zero), null, duration, Timeout.InfiniteTimeSpan);
+            }
+        }
+
+        public ModuleLease Lease { get; }
+        public CancellationToken Token { get; }
+
+        public Task ReconcileAsync(bool lost, TimeSpan elapsed)
+        {
+            lock (_lock)
+            {
+                if (_disposed || Token.IsCancellationRequested)
+                {
+                    return Task.CompletedTask;
+                }
+
+                if (lost || (_timeout is { } timeout && elapsed >= timeout))
+                {
+                    return _lost.CancelAsync();
+                }
+
+                if (_timeout is { } duration)
+                {
+                    // Count the request and reply time: a delayed reply cannot extend local ownership.
+                    _timer?.Change(duration - elapsed, Timeout.InfiniteTimeSpan);
+                }
+
+                return Task.CompletedTask;
+            }
+        }
+
+        public void Dispose()
+        {
+            lock (_lock)
+            {
+                _disposed = true;
+                _timer?.Dispose();
+                _lost.Dispose();
+            }
+        }
+    }
 }

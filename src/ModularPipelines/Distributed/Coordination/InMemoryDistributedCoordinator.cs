@@ -101,10 +101,20 @@ internal class InMemoryDistributedCoordinator(
         ArgumentNullException.ThrowIfNull(result);
         cancellationToken.ThrowIfCancellationRequested();
 
-        // The first published result is final.
-        GetResultSource(result.ModuleId).TrySetResult(result);
         lock (_lock)
         {
+            if (lease is not null
+                && (!_leases.TryGetValue(result.ModuleId, out var current)
+                    || current.Lease.LeaseId != lease.LeaseId
+                    || current.Lease.WorkerId != lease.WorkerId
+                    || lease.Assignment.ModuleId != result.ModuleId
+                    || current.ExpiresAt < _timeProvider.GetUtcNow()))
+            {
+                return Task.CompletedTask;
+            }
+
+            // Ownership validation and result acceptance must be atomic with reassignment.
+            GetResultSource(result.ModuleId).TrySetResult(result);
             RemoveLeaseLocked(result.ModuleId);
             RemoveQueuedLocked(result.ModuleId);
             SignalStateChangedLocked();
@@ -175,6 +185,38 @@ internal class InMemoryDistributedCoordinator(
         }
 
         return Task.CompletedTask;
+    }
+
+    public Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        lock (_lock)
+        {
+            var now = _timeProvider.GetUtcNow();
+            _workerStatuses[status.WorkerId] = status;
+            _heartbeats[status.WorkerId] = now;
+            var lost = new List<string>();
+            foreach (var lease in leases)
+            {
+                if (lease.WorkerId == status.WorkerId
+                    && _leases.TryGetValue(lease.Assignment.ModuleId, out var current)
+                    && current.Lease.LeaseId == lease.LeaseId
+                    && current.Lease.WorkerId == status.WorkerId
+                    && current.ExpiresAt >= now)
+                {
+                    _leases[lease.Assignment.ModuleId] = current with { ExpiresAt = now + _workerTimeout };
+                }
+                else
+                {
+                    lost.Add(lease.LeaseId);
+                }
+            }
+
+            return Task.FromResult<IReadOnlyList<string>>(lost);
+        }
     }
 
     public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>

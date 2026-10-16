@@ -191,7 +191,7 @@ internal class DistributedModuleExecutor(
 
             // The master participates as a worker, claiming leases from the same queue as external
             // workers, and maintains leases for the whole run.
-            var inFlightLeases = new InFlightLeases();
+            var inFlightLeases = new InFlightLeases(_options.Value.WorkerTimeout);
             var masterWorkerTask = RunMasterWorkerLoopAsync(
                 modules,
                 moduleLookup,
@@ -713,16 +713,18 @@ internal class DistributedModuleExecutor(
 
         await DistributedWorkerPool.RunAsync(
             DequeueForMasterAsync,
-            (lease, claimedAt, _) =>
+            async (lease, claimedAt, leaseToken) =>
             {
+                using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(pipelineCancellationToken, leaseToken);
                 ArmResultDeadline(lease.Assignment.ModuleId);
-                return ExecuteMasterAssignmentAsync(
+                await ExecuteMasterAssignmentAsync(
                     lease,
                     claimedAt,
                     moduleLookup,
                     dependencyResultCache,
-                    pipelineCancellationToken,
-                    workerCancellationToken);
+                    executionCts.Token,
+                    leaseToken,
+                    inFlightLeases.GetLossToken(lease)).ConfigureAwait(false);
             },
             maxConcurrency,
             exception => _logger.LogError(exception, "Coordinator worker loop encountered an error"),
@@ -773,7 +775,8 @@ internal class DistributedModuleExecutor(
         Dictionary<ModuleId, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
         CancellationToken pipelineCancellationToken,
-        CancellationToken workerCancellationToken)
+        CancellationToken workerCancellationToken,
+        CancellationToken leaseLostToken)
     {
         var assignment = lease.Assignment;
         var executionCancellationToken = assignment.AlwaysRun
@@ -795,7 +798,8 @@ internal class DistributedModuleExecutor(
                     claimedAt,
                     moduleLookup,
                     dependencyResultCache,
-                    executionCancellationToken)
+                    executionCancellationToken,
+                    leaseLostToken)
                 .ConfigureAwait(false);
             return;
         }
@@ -811,7 +815,8 @@ internal class DistributedModuleExecutor(
                     claimedAt,
                     moduleLookup,
                     dependencyResultCache,
-                    executionCancellationToken)
+                    executionCancellationToken,
+                    leaseLostToken)
                 .ConfigureAwait(false);
         }
         finally
@@ -833,15 +838,19 @@ internal class DistributedModuleExecutor(
             try
             {
                 await Task.Delay(options.WorkerHeartbeatInterval, cancellationToken).ConfigureAwait(false);
-                await _masterCoordinator.SendHeartbeatAsync(
+                var leases = inFlightLeases.GetLeases();
+                var sentAt = inFlightLeases.GetTimestamp();
+                var lost = await _masterCoordinator.ReconcileHeartbeatAsync(
                         new WorkerStatus
                         {
                             WorkerId = MasterWorkerId,
                             RunId = options.RunId,
-                            InFlightModules = inFlightLeases.GetModuleIds(),
+                            InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
                         },
+                        leases,
                         cancellationToken)
                     .ConfigureAwait(false);
+                await inFlightLeases.ReconcileAsync(leases, lost, sentAt).ConfigureAwait(false);
 
                 foreach (var moduleId in await _masterCoordinator.RequeueExpiredLeasesAsync(cancellationToken)
                              .ConfigureAwait(false))

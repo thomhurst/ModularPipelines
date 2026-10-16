@@ -41,8 +41,8 @@ and advanced users.
 3. The worker builds its capability set from configured capabilities and the
    auto-detected operating-system capability.
 4. The worker registers its identity, run ID, capabilities and maximum parallelism via
-   `RegisterWorkerAsync`. Periodic `SendHeartbeatAsync` calls carry `WorkerStatus` with the
-   modules the worker is executing, which renews their leases. During run-report finalization,
+   `RegisterWorkerAsync`. Periodic `ReconcileHeartbeatAsync` calls carry `WorkerStatus` and exact
+   lease tokens to renew owned assignments and cancel lost ones. During run-report finalization,
    a final status (`IsFinal`) adds command metrics without replacing the registration.
 5. The worker starts a bounded execution pool. It acquires an execution slot before it claims
    an assignment, so it never holds a claimed lease it cannot start.
@@ -383,6 +383,25 @@ command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the mast
 with `GetWorkerStatusesAsync`. A status with `IsFinal` carries the worker's final command metrics and keeps its
 registration visible after its heartbeat expires, so the master can collect metrics from workers that have
 already stopped. Custom coordinators must keep heartbeat timing separate from the registration timestamp.
+
+## Lease Loss and Network Partitions
+
+Workers renew exact lease tokens through `ReconcileHeartbeatAsync`. The in-memory, SignalR and Redis
+coordinators return lost lease identifiers, so workers cancel those assignments. SignalR also reconciles
+in-flight leases after re-registration, before resuming queued invocations. Coordinators atomically reject
+results from expired or reassigned leases, even when an old execution ignores cancellation and finishes
+before its replacement. Custom coordinators should implement reconciliation; its default interface method
+only sends the legacy heartbeat and cannot detect revocation.
+
+Each local assignment also has a `WorkerTimeout` deadline. A successful heartbeat renews that deadline
+from the request's send time, so connection attempts and delayed replies consume the lease budget.
+SignalR bounds reconnect recovery, including connection attempts and re-registration, to
+`WorkerTimeout - WorkerHeartbeatInterval - PeerTimeout` (or stops immediately when no budget remains).
+`MaxReconnectAttempts` remains an upper limit, not a guarantee that every attempt will run.
+
+Cancellation is cooperative. It cannot undo an external side effect, stop a module that ignores its token,
+or guarantee exactly-once execution during a network partition. Make operations such as package pushes
+and deployments idempotent, or use destination-side fencing or deduplication when duplicate effects matter.
 
 ## Cancellation and Completion
 

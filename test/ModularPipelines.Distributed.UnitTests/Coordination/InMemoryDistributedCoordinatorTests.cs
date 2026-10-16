@@ -256,7 +256,7 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task Late_Result_For_Requeued_Lease_Drops_The_Requeued_Copy()
+    public async Task Late_Result_For_Requeued_Lease_Preserves_The_Requeued_Copy()
     {
         var clock = new FakeTimeProvider();
         var coordinator = new InMemoryDistributedCoordinator(
@@ -269,12 +269,29 @@ public class InMemoryDistributedCoordinatorTests
         clock.Advance(TimeSpan.FromSeconds(11));
         await Assert.That(await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None)).Contains(moduleId);
         await coordinator.PublishResultAsync(DistributedTestData.Result(moduleId), lease, CancellationToken.None);
-        using var noMoreWork = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
-
-        await Assert.That(async () => await coordinator.DequeueModuleAsync(
-                new WorkerId("other"),
-                new HashSet<Capability>(),
-                noMoreWork.Token))
-            .Throws<OperationCanceledException>();
+        var replacement = await coordinator.DequeueModuleAsync(
+                new WorkerId("other"), new HashSet<Capability>(), CancellationToken.None)
+            .WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(replacement!.Assignment.ModuleId).IsEqualTo(moduleId);
+        await Assert.That(replacement.LeaseId).IsNotEqualTo(lease!.LeaseId);
     }
+    [Test]
+    public Task Lease_Reconciliation_Before_Expiry()
+    {
+        var coordinator = Create();
+        return ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectBeforeExpiryAsync(coordinator, coordinator);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Lease_Reconciliation_After_Reassignment(bool sameWorker)
+    {
+        var clock = new FakeTimeProvider();
+        var coordinator = new InMemoryDistributedCoordinator(
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }), clock);
+        return ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
+            coordinator, () => { clock.Advance(TimeSpan.FromSeconds(11)); return Task.CompletedTask; }, sameWorker);
+    }
+
 }

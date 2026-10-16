@@ -91,6 +91,13 @@ internal sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory f
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .SendHeartbeatAsync(status, cancellationToken).ConfigureAwait(false);
 
+    public async Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken) =>
+        await (await GetAsync(cancellationToken).ConfigureAwait(false))
+            .ReconcileHeartbeatAsync(status, leases, cancellationToken).ConfigureAwait(false);
+
     public async Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .WaitForCancellationAsync(cancellationToken).ConfigureAwait(false);
@@ -132,6 +139,13 @@ internal sealed class DeferredWorkerCoordinator(IDistributedCoordinatorFactory f
     public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .SendHeartbeatAsync(status, cancellationToken).ConfigureAwait(false);
+
+    public async Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken) =>
+        await (await GetAsync(cancellationToken).ConfigureAwait(false))
+            .ReconcileHeartbeatAsync(status, leases, cancellationToken).ConfigureAwait(false);
 
     public async Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))

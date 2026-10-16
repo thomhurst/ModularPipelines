@@ -320,7 +320,7 @@ touch several keys atomically. With the defaults, keys look like:
 |-----|-----------|---------|
 | `modpipe:{run}:work:queue` | Sorted set | Queued assignments, scored by priority and critical-path weight |
 | `modpipe:{run}:work:leases` | Hash | Active leases (field = module ID; the value holds the lease ID, worker ID and expiry) |
-| `modpipe:{run}:results` | Hash | Final module results (field = module ID), written with `HSETNX` so the first result wins |
+| `modpipe:{run}:results` | Hash | Final module results (field = module ID), written with `HSETNX` after lease validation so the first accepted result wins |
 | `modpipe:{run}:workers` | Hash | Worker registrations (field = worker ID) and `heartbeat:{worker ID}` timestamps |
 | `modpipe:{run}:workers:status` | Hash | Latest `WorkerStatus` per worker |
 | `modpipe:{run}:completion` | String | Set when the master signals completion |
@@ -381,7 +381,7 @@ builder.AddSignalRDistributedCoordinator(options => options with
 | `HubPath` | `string` | `/pipeline-hub` | Hub path, starting with `/`. |
 | `AccessToken` | `string?` | `null` | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel or a non-loopback `ListenUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
 | `ConnectionTimeout` | `TimeSpan` | `00:02:00` | How long a worker keeps trying to connect. |
-| `MaxReconnectAttempts` | `int` | `5` | Automatic reconnect attempts with exponential backoff; `0` disables reconnecting. A worker that stays disconnected for longer than `WorkerTimeout` loses its leases. |
+| `MaxReconnectAttempts` | `int` | `5` | Maximum automatic reconnect attempts with exponential backoff; `0` disables reconnecting. Recovery, including attempts and re-registration, is bounded by `WorkerTimeout - WorkerHeartbeatInterval - PeerTimeout` (zero when no budget remains). |
 | `KeepAliveInterval` | `TimeSpan` | `00:00:05` | Ping interval on both sides. |
 | `PeerTimeout` | `TimeSpan` | `00:00:15` | Silence after which a side considers its peer gone; at least twice `KeepAliveInterval`. |
 | `MaxMessageSizeBytes` | `long` | `1048576` | Largest SignalR message, such as a module result. |

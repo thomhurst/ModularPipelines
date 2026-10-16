@@ -12,6 +12,72 @@ public class SignalRHubTests
     private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(10);
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Reconnect_Reconciles_Leases_Before_Resuming_Invocations(bool reassign)
+    {
+        await using var test = await SignalRTestMaster.StartAsync(
+            options => options with { KeepAliveInterval = TimeSpan.FromSeconds(1), PeerTimeout = TimeSpan.FromSeconds(2) },
+            workerTimeout: TimeSpan.FromSeconds(5), heartbeatInterval: TimeSpan.FromMilliseconds(100));
+        var worker = await test.ConnectWorkerAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+        await test.Master.EnqueueModuleAsync(Assignment("Reconnect.Module"), CancellationToken.None);
+        var old = (await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None))!;
+        ModuleLease? current = null;
+        if (reassign)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5.1));
+            await test.Master.RequeueExpiredLeasesAsync(CancellationToken.None);
+            current = await test.Master.DequeueModuleAsync(new WorkerId("replacement"), new HashSet<Capability>(), CancellationToken.None);
+        }
+
+        await worker.OnReconnectingAsync(null);
+        var pending = worker.ReconcileHeartbeatAsync(new WorkerStatus
+        {
+            WorkerId = registration.WorkerId,
+            RunId = registration.RunId,
+            InFlightModules = [old.Assignment.ModuleId],
+        }, [old], CancellationToken.None);
+        await Assert.That(pending.IsCompleted).IsFalse();
+        await worker.OnReconnectedAsync("reconnected").WaitAsync(Timeout);
+        await Assert.That(await pending.WaitAsync(Timeout)).IsEquivalentTo(reassign ? [old.LeaseId] : Array.Empty<string>());
+        await worker.PublishResultAsync(Result("Reconnect.Module", registration.WorkerId), old, CancellationToken.None);
+        if (reassign)
+        {
+            await Assert.That((await test.Master.GetActiveLeasesAsync(CancellationToken.None)).Single().LeaseId)
+                .IsEqualTo(current!.LeaseId);
+            await Assert.That(test.Master.WaitForResultAsync(old.Assignment.ModuleId, CancellationToken.None).IsCompleted).IsFalse();
+        }
+        else
+        {
+            await Assert.That((await test.Master.WaitForResultAsync(old.Assignment.ModuleId, CancellationToken.None)).WorkerId)
+                .IsEqualTo(registration.WorkerId);
+        }
+    }
+
+    [Test]
+    public async Task Lease_Reconciliation_Before_Expiry()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        await ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectBeforeExpiryAsync(
+            test.Master, worker, SignalRTestMaster.RunId);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Lease_Reconciliation_After_Reassignment(bool sameWorker)
+    {
+        await using var test = await SignalRTestMaster.StartAsync(workerTimeout: TimeSpan.FromMilliseconds(500));
+        var worker = await test.ConnectWorkerAsync();
+        var replacement = sameWorker ? worker : await test.ConnectWorkerAsync();
+        await ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
+            test.Master, () => Task.Delay(1500), sameWorker, worker, replacement, SignalRTestMaster.RunId);
+    }
+
+    [Test]
     public async Task Worker_Claims_Lease_And_Master_Receives_Result()
     {
         await using var test = await SignalRTestMaster.StartAsync();

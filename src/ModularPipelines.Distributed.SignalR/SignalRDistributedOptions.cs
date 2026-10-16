@@ -42,9 +42,11 @@ public sealed record SignalRDistributedOptions
 
     /// <summary>
     /// Gets how many times a worker reconnects after losing its connection, with exponential
-    /// backoff. Zero disables reconnecting. A worker that stays disconnected for longer than
-    /// <see cref="DistributedOptions.WorkerTimeout"/> loses its leases, and the master requeues its
-    /// in-flight modules. Default: 5.
+    /// backoff. Zero disables reconnecting. Recovery, including connection attempts and worker
+    /// registration, is also bounded by <see cref="DistributedOptions.WorkerTimeout"/> minus
+    /// <see cref="PeerTimeout"/> and <see cref="DistributedOptions.WorkerHeartbeatInterval"/>.
+    /// Reconnecting is disabled when those reservations leave no time. A worker whose leases
+    /// expire loses them, and the master requeues its in-flight modules. Default: 5.
     /// </summary>
     public int MaxReconnectAttempts { get; init; } = 5;
 

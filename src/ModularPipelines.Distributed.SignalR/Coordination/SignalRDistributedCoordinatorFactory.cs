@@ -84,7 +84,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
             {
                 await connection.StartAsync(timeoutCts.Token).ConfigureAwait(false);
                 logger.LogInformation("Connected to the distributed master");
-                return new SignalRWorkerCoordinator(connection, logger);
+                return new SignalRWorkerCoordinator(connection, logger, GetReconnectTimeout(_options, _distributedOptions));
             }
             catch (Exception ex) when (!timeoutCts.IsCancellationRequested)
             {
@@ -167,9 +167,10 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 new JsonHubProtocol(services.GetRequiredService<IOptions<JsonHubProtocolOptions>>()),
                 _options.MaxMessageSizeBytes)));
 
-        if (_options.MaxReconnectAttempts > 0)
+        var reconnectTimeout = GetReconnectTimeout(_options, _distributedOptions);
+        if (_options.MaxReconnectAttempts > 0 && reconnectTimeout > TimeSpan.Zero)
         {
-            builder.WithAutomaticReconnect(new RetryPolicy(_options.MaxReconnectAttempts));
+            builder.WithAutomaticReconnect(new RetryPolicy(_options.MaxReconnectAttempts, reconnectTimeout));
         }
 
         var connection = builder.Build();
@@ -181,21 +182,33 @@ internal sealed class SignalRDistributedCoordinatorFactory(
         return connection;
     }
 
+    internal static TimeSpan GetReconnectTimeout(SignalRDistributedOptions options, DistributedOptions distributedOptions)
+    {
+        // A failure can happen just before the next heartbeat, and the transport may take the
+        // full peer timeout to detect it. Reserve both before spending any lease lifetime on recovery.
+        var timeout = distributedOptions.WorkerTimeout - options.PeerTimeout;
+        return timeout <= distributedOptions.WorkerHeartbeatInterval
+            ? TimeSpan.Zero
+            : timeout - distributedOptions.WorkerHeartbeatInterval;
+    }
+
     /// <summary>
-    /// Retry policy with configurable max attempts.
+    /// Retry policy with configurable max attempts and a budget bounded by the lease lifetime.
     /// </summary>
-    private sealed class RetryPolicy(int maxAttempts) : IRetryPolicy
+    internal sealed class RetryPolicy(int maxAttempts, TimeSpan timeout) : IRetryPolicy
     {
         public TimeSpan? NextRetryDelay(RetryContext retryContext)
         {
-            if (retryContext.PreviousRetryCount >= maxAttempts)
+            if (retryContext.PreviousRetryCount >= maxAttempts || retryContext.ElapsedTime >= timeout)
             {
                 return null; // Stop retrying
             }
 
             // Exponential backoff: 1s, 2s, 4s, 8s, 16s...
-            var delay = TimeSpan.FromSeconds(Math.Pow(2, retryContext.PreviousRetryCount));
-            return delay.TotalSeconds > 30 ? TimeSpan.FromSeconds(30) : delay;
+            var delay = retryContext.PreviousRetryCount >= 5
+                ? TimeSpan.FromSeconds(30)
+                : TimeSpan.FromSeconds(Math.Pow(2, retryContext.PreviousRetryCount));
+            return delay < timeout - retryContext.ElapsedTime ? delay : null;
         }
     }
 }

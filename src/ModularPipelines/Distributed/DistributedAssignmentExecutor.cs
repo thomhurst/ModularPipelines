@@ -42,7 +42,8 @@ internal sealed class DistributedAssignmentExecutor(
         DateTimeOffset claimedAt,
         Dictionary<ModuleId, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        CancellationToken leaseLostToken = default)
     {
         var assignment = lease.Assignment;
         var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
@@ -110,8 +111,11 @@ internal sealed class DistributedAssignmentExecutor(
                 logger.LogError(exception, "Distributed module {Module} failed", assignment.ModuleId);
             }
 
-            await PublishFailureAsync(lease, resolved.Value.ResultType, module, exception, executionTimer)
-                .ConfigureAwait(false);
+            if (!leaseLostToken.IsCancellationRequested)
+            {
+                await PublishFailureAsync(lease, resolved.Value.ResultType, module, exception, executionTimer)
+                    .ConfigureAwait(false);
+            }
         }
 
         return module;
@@ -173,6 +177,7 @@ internal sealed class DistributedAssignmentExecutor(
                 executionTimer.FinishExecution();
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
             IReadOnlyList<ArtifactReference> artifacts;
             var uploadStartedAt = Stopwatch.GetTimestamp();
             try

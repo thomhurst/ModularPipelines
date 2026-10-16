@@ -1,9 +1,26 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.Coordination;
 
 namespace ModularPipelines.Distributed.UnitTests.Coordination;
 
 public class DeferredCoordinatorTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Deferred_Coordinators_Preserve_Lease_Reconciliation(bool masterWrapper)
+    {
+        var clock = new FakeTimeProvider();
+        var inner = new DisposableCoordinator(clock);
+        var factory = new Factory(inner);
+        IDistributedWorkerCoordinator worker = masterWrapper
+            ? new DeferredMasterCoordinator(factory)
+            : new DeferredWorkerCoordinator(factory);
+        await ModularPipelines.TestHelpers.LeaseReconciliationChecks.ReconnectAfterReassignmentAsync(
+            inner, () => { clock.Advance(TimeSpan.FromSeconds(31)); return Task.CompletedTask; }, worker: worker);
+        await ((IAsyncDisposable) worker).DisposeAsync();
+    }
+
     [Test]
     public async Task Master_Wrapper_Forwards_Calls_And_Disposes_The_Created_Coordinator()
     {
@@ -91,7 +108,8 @@ public class DeferredCoordinatorTests
             throw new NotSupportedException();
     }
 
-    private sealed class DisposableCoordinator() : InMemoryDistributedCoordinator, IAsyncDisposable
+    private sealed class DisposableCoordinator(TimeProvider? clock = null)
+        : InMemoryDistributedCoordinator(timeProvider: clock), IAsyncDisposable
     {
         private volatile bool _disposed;
 

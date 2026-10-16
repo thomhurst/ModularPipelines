@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using Microsoft.AspNetCore.SignalR;
@@ -16,8 +17,8 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 /// records and acknowledges; the master pushes it again when a worker registers after completing and
 /// waits for acknowledgements before it stops, so a normal shutdown is never mistaken for a lost
 /// master. After an automatic reconnect the worker registers again under the
-/// same session and retries interrupted invocations; its heartbeats then renew the leases it still
-/// holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
+/// same session, reconciles its lease tokens, and retries interrupted invocations. Heartbeats renew
+/// only leases it still holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
 /// <see langword="null"/> so the worker stops, other operations fail, and
 /// <see cref="GetMasterStateAsync"/> reports the master as lost unless it had signalled completion.
 /// </remarks>
@@ -26,6 +27,9 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
     private readonly IDisposable _masterCompletedSubscription;
+    private readonly ConcurrentDictionary<string, ModuleLease> _leases = new(StringComparer.Ordinal);
+    private readonly SignalRReconnectDeadline? _reconnectDeadline;
+    private CancellationToken _registrationToken;
 
     private readonly Lock _stateLock = new();
     private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
@@ -35,15 +39,21 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     private bool _masterCompleted;
     private bool _connectionClosed;
 
-    public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
+    public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger,
+        TimeSpan? reconnectTimeout = null)
     {
         _connection = connection;
         _logger = logger;
+        if (reconnectTimeout is { } timeout)
+        {
+            _reconnectDeadline = new SignalRReconnectDeadline(timeout, StopAfterReconnectDeadlineAsync, logger);
+        }
+
         _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
         _masterCompletedSubscription = _connection.On(HubMethodNames.MasterCompleted, OnMasterCompletedAsync);
-        RegisterAgainAsync = registration => RegisterOnConnectionAsync(registration, CancellationToken.None);
+        RegisterAgainAsync = registration => RegisterOnConnectionAsync(registration, _registrationToken);
     }
 
     /// <summary>
@@ -81,6 +91,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
                 Volatile.Write(ref _masterCompleted, true);
             }
 
+            if (lease is not null)
+            {
+                _leases[lease.LeaseId] = lease;
+            }
+
             return lease;
         }
         catch (MasterConnectionClosedException)
@@ -91,10 +106,17 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         }
     }
 
-    public Task PublishResultAsync(SerializedModuleResult result, ModuleLease? lease, CancellationToken cancellationToken) =>
-        InvokeAsync(
-            token => _connection.InvokeAsync(HubMethodNames.PublishResult, result, lease, token),
-            cancellationToken);
+    public async Task PublishResultAsync(SerializedModuleResult result, ModuleLease? lease, CancellationToken cancellationToken)
+    {
+        await InvokeAsync(
+                token => _connection.InvokeAsync(HubMethodNames.PublishResult, result, lease, token),
+                cancellationToken)
+            .ConfigureAwait(false);
+        if (lease is not null)
+        {
+            _leases.TryRemove(lease.LeaseId, out _);
+        }
+    }
 
     public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
         InvokeAsync(
@@ -105,6 +127,43 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         InvokeAsync(
             token => _connection.InvokeAsync(HubMethodNames.Heartbeat, status, token),
             cancellationToken);
+
+    public Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
+        WorkerStatus status,
+        IReadOnlyList<ModuleLease> leases,
+        CancellationToken cancellationToken)
+    {
+        // The worker's snapshot also drops executions canceled locally without a publication.
+        var activeIds = leases.Select(static lease => lease.LeaseId).ToHashSet(StringComparer.Ordinal);
+        foreach (var leaseId in _leases.Keys)
+        {
+            if (!activeIds.Contains(leaseId))
+            {
+                _leases.TryRemove(leaseId, out _);
+            }
+        }
+
+        foreach (var lease in leases)
+        {
+            _leases[lease.LeaseId] = lease;
+        }
+
+        return InvokeAsync<IReadOnlyList<string>>(
+            token => ReconcileOnConnectionAsync(status, leases, token), cancellationToken);
+    }
+
+    private async Task<IReadOnlyList<string>> ReconcileOnConnectionAsync(
+        WorkerStatus status, IReadOnlyList<ModuleLease> leases, CancellationToken cancellationToken)
+    {
+        var lost = await _connection.InvokeAsync<string[]>(HubMethodNames.ReconcileHeartbeat, status, leases, cancellationToken)
+            .ConfigureAwait(false);
+        foreach (var leaseId in lost)
+        {
+            _leases.TryRemove(leaseId, out _);
+        }
+
+        return lost;
+    }
 
     public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         InvokeAsync(
@@ -119,6 +178,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 
     public async ValueTask DisposeAsync()
     {
+        _reconnectDeadline?.Dispose();
         _connection.Reconnecting -= OnReconnectingAsync;
         _connection.Reconnected -= OnReconnectedAsync;
         _connection.Closed -= OnClosedAsync;
@@ -293,6 +353,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
         }
 
+        _reconnectDeadline?.Start();
         _logger.LogWarning(exception, "Lost the connection to the master; reconnecting");
         return Task.CompletedTask;
     }
@@ -305,6 +366,8 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             generation = _generation;
         }
 
+        var recoveryToken = _reconnectDeadline?.Start() ?? CancellationToken.None;
+        _registrationToken = recoveryToken;
         var registration = Volatile.Read(ref _registration);
         var registered = true;
         if (registration is not null)
@@ -312,7 +375,17 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             try
             {
                 // Same registration, same session: the master treats it as a reconnect.
-                await RegisterAgainAsync(registration).ConfigureAwait(false);
+                await RegisterAgainAsync(registration).WaitAsync(recoveryToken).ConfigureAwait(false);
+                var leases = _leases.Values.ToArray();
+                if (leases.Length > 0)
+                {
+                    await ReconcileOnConnectionAsync(new WorkerStatus
+                    {
+                        WorkerId = registration.WorkerId,
+                        RunId = registration.RunId,
+                        InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
+                    }, leases, recoveryToken).ConfigureAwait(false);
+                }
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
@@ -320,8 +393,21 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
             catch (Exception exception)
             {
-                if (exception is not (HubException or DistributedRunCompletedException)
-                    && await ConnectionChangesSinceAsync(generation, exception, CancellationToken.None).ConfigureAwait(false))
+                var connectionChanged = false;
+                try
+                {
+                    if (!recoveryToken.IsCancellationRequested
+                        && exception is not (HubException or DistributedRunCompletedException))
+                    {
+                        connectionChanged = await ConnectionChangesSinceAsync(generation, exception, recoveryToken).ConfigureAwait(false);
+                    }
+                }
+                catch (OperationCanceledException) when (recoveryToken.IsCancellationRequested)
+                {
+                    // The recovery deadline expired while waiting for the transport callback.
+                }
+
+                if (connectionChanged)
                 {
                     // The connection dropped again while registering. The next Reconnected or Closed
                     // callback settles readiness; stopping here would abandon the remaining reconnect attempts.
@@ -339,6 +425,13 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 
         lock (_stateLock)
         {
+            if (generation != _generation)
+            {
+                // A newer drop or closure owns readiness and the existing recovery deadline.
+                return;
+            }
+
+            registered = registered && (_reconnectDeadline?.TryComplete() ?? true);
             SignalConnectionChanged();
             _ready.TrySetResult(registered);
         }
@@ -347,6 +440,19 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         {
             await _connection.StopAsync().ConfigureAwait(false);
         }
+    }
+
+    private async Task StopAfterReconnectDeadlineAsync()
+    {
+        Volatile.Write(ref _connectionClosed, true);
+        lock (_stateLock)
+        {
+            SignalConnectionChanged();
+            _ready.TrySetResult(false);
+        }
+
+        _logger.LogWarning("Worker reconnect deadline expired before its leases could expire");
+        await _connection.StopAsync().ConfigureAwait(false);
     }
 
     internal async Task OnMasterCompletedAsync()
