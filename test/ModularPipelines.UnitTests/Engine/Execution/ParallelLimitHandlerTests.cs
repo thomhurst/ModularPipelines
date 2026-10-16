@@ -38,7 +38,7 @@ public class ParallelLimitHandlerTests
 
         Task<IDisposable> AcquireAsync() => useExecutionHint
             ? handler.AcquireExecutionHintLimitAsync(state, cancellation.Token)
-            : handler.AcquireParallelLimitAsync(typeof(ParallelLimitedModule), cancellation.Token);
+            : handler.AcquireParallelLimitAsync(new ParallelLimitedModule(), cancellation.Token);
 
         using var firstSlot = await AcquireAsync();
         var secondWait = AcquireAsync();
@@ -59,19 +59,19 @@ public class ParallelLimitHandlerTests
     {
         var handler = CreateHandler(new PipelineOptions());
         using var heldSlot = await handler.AcquireParallelLimitAsync(
-            typeof(ParallelLimitedModule),
+            new ParallelLimitedModule(),
             CancellationToken.None);
         using var cancellationTokenSource = new CancellationTokenSource();
 
         var waitingTask = handler.AcquireParallelLimitAsync(
-            typeof(ParallelLimitedModule),
+            new ParallelLimitedModule(),
             cancellationTokenSource.Token);
         cancellationTokenSource.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => waitingTask);
 
         using var nextCancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
-        var nextWait = handler.AcquireParallelLimitAsync(typeof(ParallelLimitedModule), nextCancellation.Token);
+        var nextWait = handler.AcquireParallelLimitAsync(new ParallelLimitedModule(), nextCancellation.Token);
         await Assert.That(nextWait.IsCompleted).IsFalse();
         heldSlot.Dispose();
         using var nextSlot = await nextWait;
@@ -122,7 +122,7 @@ public class ParallelLimitHandlerTests
         var releaseLimitWait = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
-            .Setup(x => x.AcquireParallelLimitAsync(typeof(ReadyTestModule), It.IsAny<CancellationToken>()))
+            .Setup(x => x.AcquireParallelLimitAsync(It.IsAny<ReadyTestModule>(), It.IsAny<CancellationToken>()))
             .Callback(() => limitWaitObserved.TrySetResult())
             .Returns(releaseLimitWait.Task);
         parallelLimitHandler
@@ -201,9 +201,9 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(AlwaysRunTestModule),
+                It.IsAny<AlwaysRunTestModule>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<Type, CancellationToken>((_, token) => observedTokens.Add(token))
+            .Callback<IModule, CancellationToken>((_, token) => observedTokens.Add(token))
             .ReturnsAsync(Mock.Of<IDisposable>());
         parallelLimitHandler
             .Setup(x => x.AcquireExecutionHintLimitAsync(
@@ -245,7 +245,7 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(TestModule),
+                It.IsAny<TestModule>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.FromException<IDisposable>(new OperationCanceledException()));
 
@@ -283,9 +283,9 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(TestModule),
+                It.IsAny<TestModule>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<Type, CancellationToken>(async (_, token) =>
+            .Returns<IModule, CancellationToken>(async (_, token) =>
             {
                 limiterWaitStarted.TrySetResult();
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);
@@ -336,9 +336,9 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(AlwaysRunTestModule),
+                It.IsAny<AlwaysRunTestModule>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<Type, CancellationToken>(async (_, token) =>
+            .Returns<IModule, CancellationToken>(async (_, token) =>
             {
                 limiterWaitStarted.TrySetResult();
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);
@@ -377,9 +377,9 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(TestModule),
+                It.IsAny<TestModule>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<Type, CancellationToken>(async (_, token) =>
+            .Returns<IModule, CancellationToken>(async (_, token) =>
             {
                 limiterWaitStarted.TrySetResult();
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);
@@ -523,7 +523,7 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .SetupSequence(x => x.AcquireParallelLimitAsync(
-                typeof(TestModule),
+                It.IsAny<TestModule>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(Mock.Of<IDisposable>())
             .ThrowsAsync(new InvalidOperationException("Limiter failure"));
@@ -575,9 +575,9 @@ public class ParallelLimitHandlerTests
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
         parallelLimitHandler
             .Setup(x => x.AcquireParallelLimitAsync(
-                typeof(TestModule),
+                It.IsAny<TestModule>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<Type, CancellationToken>(async (_, token) =>
+            .Returns<IModule, CancellationToken>(async (_, token) =>
             {
                 limiterWaitStarted.TrySetResult();
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);

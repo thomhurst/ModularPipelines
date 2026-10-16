@@ -3567,3 +3567,5 @@ ModularPipelines.CommandResult.OutputMayBeIncomplete.get -> bool
 ModularPipelines.CommandResult.OutputMayBeIncomplete.init -> void
 ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.get -> System.TimeSpan
 ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.init -> void
+ModularPipelines.ModuleConfigurationBuilder.WithParallelLimiter<TParallelLimit>() -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.Configuration.ModuleConfiguration.ParallelLimiterType.get -> System.Type?

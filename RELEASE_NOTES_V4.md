@@ -1179,3 +1179,12 @@ that omit options must be updated.
 Supply the resource source through `Filename`, `Kustomize`, or `Type` (`TypeArgument`
 for patch), including when adding manual `Arguments`; typed validation does not infer
 required values from those manual tokens.
+
+## Parallel limiter targets and fluent configuration
+
+`ParallelLimiterAttribute<TParallelLimit>` and its base attribute now allow class targets only.
+Assembly and method applications previously had no effect; move them to module classes or use
+`module.WithParallelLimiter<TParallelLimit>()` in `Configure`. Fluent configuration overrides
+attributes, including inherited attributes, and the last fluent call wins. Planning and execution
+use the same effective limiter; modules sharing a limit type share its semaphore within a pipeline.
+`IModule.Configuration.ParallelLimiterType` exposes the effective type.

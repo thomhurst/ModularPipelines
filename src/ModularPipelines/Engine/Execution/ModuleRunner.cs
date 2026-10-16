@@ -200,7 +200,7 @@ internal class ModuleRunner : IModuleRunner
                     limiterCancellationToken = limiterCancellationTokenSource?.Token
                         ?? _engineCancellationToken.NonFailureCancellationToken;
                     using var semaphoreHandle = await _parallelLimitHandler
-                        .AcquireParallelLimitAsync(moduleType, limiterCancellationToken)
+                        .AcquireParallelLimitAsync(module, limiterCancellationToken)
                         .ConfigureAwait(false);
                     using var executionHintHandle = await _parallelLimitHandler
                         .AcquireExecutionHintLimitAsync(moduleState, limiterCancellationToken)

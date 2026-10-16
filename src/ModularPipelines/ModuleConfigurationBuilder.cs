@@ -1,9 +1,11 @@
 using Kevlar;
+using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -49,6 +51,7 @@ public sealed class ModuleConfigurationBuilder
     private bool _alwaysRun;
     private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
+    private ParallelLimiterAttribute? _parallelLimiter;
     private ModulePriority? _priority;
     private ExecutionHint? _executionHint;
     private string? _category;
@@ -332,6 +335,22 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
+    /// Sets a shared parallel execution limit for this module.
+    /// </summary>
+    /// <typeparam name="TParallelLimit">The limit type shared by modules in this pipeline.</typeparam>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Fluent configuration overrides an inherited or directly applied parallel limiter attribute.
+    /// Repeated calls use the last limit type. The limit must be a positive integer.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithParallelLimiter<TParallelLimit>()
+        where TParallelLimit : IParallelLimit
+    {
+        _parallelLimiter = new ParallelLimiterAttribute<TParallelLimit>();
+        return this;
+    }
+
+    /// <summary>
     /// Sets the module scheduling priority.
     /// </summary>
     /// <returns>This builder instance for method chaining.</returns>
@@ -605,6 +624,7 @@ public sealed class ModuleConfigurationBuilder
             IgnoreFailuresCondition = _ignoreFailuresCondition,
             AlwaysRun = _alwaysRun,
             ParallelConstraintKeys = _parallelConstraintKeys,
+            ParallelLimiter = _parallelLimiter,
             Priority = _priority,
             ExecutionHint = _executionHint,
             Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),

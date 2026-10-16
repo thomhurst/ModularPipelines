@@ -46,6 +46,41 @@ public class ModuleSchedulerConfigurationTests
             ExecutionHint.IoBound), Times.Once);
     }
 
+    private sealed class SingleLimit : IParallelLimit
+    {
+        public static int Limit => 1;
+    }
+
+    [ModularPipelines.Attributes.ParallelLimiter<SingleLimit>]
+    private sealed class AttributedLimitedModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(string.Empty);
+    }
+
+    private sealed class FluentLimitedModule : Module<string>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithParallelLimiter<SingleLimit>();
+
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(string.Empty);
+    }
+
+    [Test]
+    public async Task InitializeModules_UsesSharedFluentAndAttributeLimiterForQueueConstraints()
+    {
+        var scheduler = CreateScheduler(Mock.Of<IMetricsCollector>());
+        scheduler.InitializeModules([new AttributedLimitedModule(), new FluentLimitedModule()]);
+        var attributeState = scheduler.GetModuleState(typeof(AttributedLimitedModule))!;
+        var fluentState = scheduler.GetModuleState(typeof(FluentLimitedModule))!;
+        var evaluator = new ModuleConstraintEvaluator(NullLogger<ModuleConstraintEvaluator>.Instance);
+
+        await Assert.That(fluentState.ParallelLimiter!.Type).IsEqualTo(typeof(SingleLimit));
+        await Assert.That(evaluator.CanQueue(fluentState, [attributeState])).IsFalse();
+        await Assert.That(evaluator.CanQueue(attributeState, [fluentState])).IsFalse();
+        await Assert.That(evaluator.CanQueue(fluentState, [])).IsTrue();
+    }
+
     private static ModuleScheduler CreateScheduler(IMetricsCollector metricsCollector)
     {
         return new ModuleScheduler(

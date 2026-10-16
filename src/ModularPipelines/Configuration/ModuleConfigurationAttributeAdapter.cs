@@ -18,6 +18,8 @@ internal static class ModuleConfigurationAttributeAdapter
         var tags = MergeTags(moduleType, configured.Tags);
         var dependencies = MergeDependencies(moduleType, configured.Dependencies);
         var notInParallel = moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true);
+        var parallelLimiter = configured.ParallelLimiter
+            ?? moduleType.GetCustomAttributes<ParallelLimiterAttribute>(inherit: true).FirstOrDefault();
         var priority = moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true);
         var executionHint = moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true);
         var cacheInputPatterns = moduleType
@@ -28,7 +30,7 @@ internal static class ModuleConfigurationAttributeAdapter
             .ToArray();
         var category = configured.Category
             ?? moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
-        if (IsUnchanged(configured, notInParallel, priority, executionHint, tags, category, cacheInputPatterns, dependencies))
+        if (IsUnchanged(configured, notInParallel, parallelLimiter, priority, executionHint, tags, category, cacheInputPatterns, dependencies))
         {
             return configured;
         }
@@ -45,6 +47,7 @@ internal static class ModuleConfigurationAttributeAdapter
             AlwaysRun = configured.AlwaysRun,
             ParallelConstraintKeys = configured.ParallelConstraintKeys
                 ?? notInParallel?.ConstraintKeys.ToArray(),
+            ParallelLimiter = parallelLimiter,
             Priority = configured.Priority ?? priority?.Priority,
             ExecutionHint = configured.ExecutionHint ?? executionHint?.ExecutionHint,
             Tags = tags,
@@ -93,6 +96,7 @@ internal static class ModuleConfigurationAttributeAdapter
     private static bool IsUnchanged(
         ModuleConfiguration configured,
         NotInParallelAttribute? notInParallel,
+        ParallelLimiterAttribute? parallelLimiter,
         PriorityAttribute? priority,
         ExecutionHintAttribute? executionHint,
         IReadOnlySet<string> tags,
@@ -102,6 +106,7 @@ internal static class ModuleConfigurationAttributeAdapter
     {
         return configured.ParallelConstraintKeys is null
                && notInParallel is null
+               && parallelLimiter is null
                && configured.Priority is null
                && priority is null
                && configured.ExecutionHint is null

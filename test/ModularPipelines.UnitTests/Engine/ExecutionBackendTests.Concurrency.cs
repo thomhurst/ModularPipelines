@@ -37,8 +37,8 @@ public partial class ExecutionBackendTests
             return releaseLimiter.Task.WaitAsync(token);
         }
 
-        limiter.Setup(x => x.AcquireParallelLimitAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()))
-            .Returns((Type _, CancellationToken token) => AcquireAsync(false, token));
+        limiter.Setup(x => x.AcquireParallelLimitAsync(It.IsAny<IModule>(), It.IsAny<CancellationToken>()))
+            .Returns((IModule _, CancellationToken token) => AcquireAsync(false, token));
         limiter.Setup(x => x.AcquireExecutionHintLimitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
             .Returns((ModuleState _, CancellationToken token) => AcquireAsync(true, token));
         var backend = new CallbackBackend(async (modules, context, _) =>
@@ -130,9 +130,9 @@ public partial class ExecutionBackendTests
             .AddExecutionBackend<InProcessExecutionBackend>();
         builder.Services.AddSingleton(probe);
         await using var pipeline = await builder.ConfigureOptions(options => options with
-            {
-                Concurrency = options.Concurrency with { MaxParallelism = limit },
-            })
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = limit },
+        })
             .BuildAsync();
 
         await pipeline.RunAsync(cancellationToken);
@@ -156,9 +156,9 @@ public partial class ExecutionBackendTests
             .AddModule<OrderingDependentModule>();
         builder.Services.AddSingleton<IExecutionBackend>(backend);
         await using var pipeline = await builder.ConfigureOptions(options => options with
-            {
-                Concurrency = options.Concurrency with { MaxParallelism = 1 },
-            })
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
+        })
             .BuildAsync();
 
         await pipeline.RunAsync(cancellationToken);
@@ -203,10 +203,10 @@ public partial class ExecutionBackendTests
             .AddModule<AlwaysRunBackendCleanup>();
         builder.Services.AddSingleton<IExecutionBackend>(backend);
         await using var pipeline = await builder.ConfigureOptions(options => options with
-            {
-                FailureMode = FailureMode.FailFast,
-                Concurrency = options.Concurrency with { MaxParallelism = 1 },
-            })
+        {
+            FailureMode = FailureMode.FailFast,
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
+        })
             .BuildAsync();
 
         await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync(cancellationToken));

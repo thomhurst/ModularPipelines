@@ -1,5 +1,6 @@
 using System.Collections.Frozen;
 using Kevlar;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -87,6 +88,14 @@ public sealed class ModuleConfiguration
     /// Gets the scheduling priority, or <see langword="null"/> to use normal priority.
     /// </summary>
     public ModulePriority? Priority { get; internal init; }
+
+    /// <summary>
+    /// Gets the shared parallel limit type, or <see langword="null"/> when no limiter is configured.
+    /// </summary>
+    public Type? ParallelLimiterType => ParallelLimiter?.Type;
+
+    // Retain the typed attribute bridge so both configuration paths use static interface dispatch.
+    internal ParallelLimiterAttribute? ParallelLimiter { get; init; }
 
     /// <summary>
     /// Gets the resource-usage hint, or <see langword="null"/> to use the default execution hint.

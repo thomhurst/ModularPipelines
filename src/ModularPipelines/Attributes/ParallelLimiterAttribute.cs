@@ -7,7 +7,7 @@ namespace ModularPipelines.Attributes;
 /// Specifies a parallel execution limit for a module using a strongly-typed limit class.
 /// </summary>
 /// <typeparam name="TParallelLimit">The type implementing <see cref="IParallelLimit"/>.</typeparam>
-[AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Class)]
 public sealed class ParallelLimiterAttribute<TParallelLimit> : ParallelLimiterAttribute
     where TParallelLimit : IParallelLimit
 {
@@ -27,6 +27,7 @@ public sealed class ParallelLimiterAttribute<TParallelLimit> : ParallelLimiterAt
 /// <summary>
 /// Base attribute for specifying parallel execution limits.
 /// </summary>
+[AttributeUsage(AttributeTargets.Class)]
 public abstract class ParallelLimiterAttribute : Attribute
 {
     /// <summary>
