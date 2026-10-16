@@ -15,6 +15,7 @@ internal class PipelineValidationService : IPipelineValidationService
     /// <returns>A validation result containing all errors found.</returns>
     public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var result = new ValidationResult();
 
         // Get all registered validators and run them in order
@@ -24,7 +25,9 @@ internal class PipelineValidationService : IPipelineValidationService
 
         foreach (var validator in validators)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var validatorResult = await validator.ValidateAsync(services, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             result.Merge(validatorResult);
         }
 

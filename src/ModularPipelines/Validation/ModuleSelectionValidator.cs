@@ -21,7 +21,7 @@ internal sealed class ModuleSelectionValidator(IOptions<PipelineOptions> options
         try
         {
             await services.GetRequiredService<ModuleRetriever>()
-                .ValidateSelectionAsync()
+                .ValidateSelectionAsync(cancellationToken)
                 .ConfigureAwait(false);
             return ValidationResult.Success();
         }

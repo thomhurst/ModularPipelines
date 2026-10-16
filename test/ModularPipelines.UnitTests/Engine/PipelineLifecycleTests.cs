@@ -380,7 +380,7 @@ public class PipelineLifecycleTests
         builder.AddModule<LifecycleModule>();
         builder.Services.AddScoped<DisposalTracker>();
 
-        var exception = await Assert.ThrowsAsync<IOException>(() => builder.BuildAsync(services =>
+        var exception = await Assert.ThrowsAsync<IOException>(() => builder.BuildAsync((services, _) =>
         {
             disposalTracker = services.GetRequiredService<DisposalTracker>();
             return Task.FromException(failure);

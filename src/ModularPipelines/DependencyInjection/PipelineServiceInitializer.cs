@@ -14,23 +14,27 @@ namespace ModularPipelines.DependencyInjection;
 /// Mirrors <c>Initialization.Microsoft.Extensions.DependencyInjection</c>'s <c>InitializeAsync</c>
 /// step for step: instance and type initializers are resolved first, then each factory registration
 /// is checked against the currently loaded types and resolved before the next one is checked.
-/// The only difference is that each assembly's <see cref="IInitializer"/> types are cached, so a
+/// Each assembly's <see cref="IInitializer"/> types are cached, so a
 /// factory check no longer enumerates every loaded type. The library's per-factory scan made every
 /// pipeline build CPU-bound in proportion to (factory registrations x loaded types).
+/// Token-aware initializers receive startup cancellation; all started work is awaited before
+/// cancellation is reported, including legacy initializers that cannot receive a token.
 /// </remarks>
 internal static class PipelineServiceInitializer
 {
     private static readonly LoadedInitializerTypes SharedLoadedInitializerTypes = new(FindInitializerTypes);
 
-    public static Task InitializeAsync(IServiceProvider serviceProvider) =>
-        InitializeAsync(serviceProvider, SharedLoadedInitializerTypes);
+    public static Task InitializeAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken = default) =>
+        InitializeAsync(serviceProvider, SharedLoadedInitializerTypes, cancellationToken);
 
     internal static async Task InitializeAsync(
         IServiceProvider serviceProvider,
-        LoadedInitializerTypes loadedInitializerTypes)
+        LoadedInitializerTypes loadedInitializerTypes,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
         ArgumentNullException.ThrowIfNull(loadedInitializerTypes);
+        cancellationToken.ThrowIfCancellationRequested();
 
         // Keyed descriptors throw on ImplementationType access and can never be resolved by
         // service type alone, so they cannot be initializers here.
@@ -44,7 +48,7 @@ internal static class PipelineServiceInitializer
             .Where(descriptor => descriptor.ImplementationInstance is IInitializer)
             .Concat(descriptors.Where(descriptor => descriptor.ImplementationType is { } implementationType
                                                     && IsInitializer(implementationType)))
-            .Select(descriptor => GetService(serviceProvider, descriptor))
+            .Select(descriptor => GetService(serviceProvider, descriptor, cancellationToken))
             .OfType<IInitializer>()
             .ToList();
 
@@ -53,13 +57,14 @@ internal static class PipelineServiceInitializer
         var dynamicAssemblyTypes = new Dictionary<Assembly, Type[]>();
         foreach (var descriptor in descriptors)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (descriptor.ImplementationFactory is not { } factory
                 || !CanProduceInitializer(descriptor.ServiceType, factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
             {
                 continue;
             }
 
-            var service = GetService(serviceProvider, descriptor);
+            var service = GetService(serviceProvider, descriptor, cancellationToken);
 
             // Resolving runs user code, which can emit new types into dynamic assemblies.
             dynamicAssemblyTypes.Clear();
@@ -76,14 +81,18 @@ internal static class PipelineServiceInitializer
 
         foreach (var batch in distinctInitializers.GroupBy(initializer => initializer.Order).OrderBy(batch => batch.Key))
         {
-            // Start every initializer in the batch before awaiting, so a synchronous throw
-            // cannot leave already-started initializers running unobserved.
-            await Task.WhenAll([.. batch.Select(StartInitializer)]).ConfigureAwait(false);
+            // Capture synchronous throws so already-started initializers are always observed
+            // before cleanup, including when cancellation prevents later initializers from starting.
+            await Task.WhenAll([.. batch.Select(initializer => StartInitializer(initializer, cancellationToken))]).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
         }
+
+        cancellationToken.ThrowIfCancellationRequested();
     }
 
-    private static object? GetService(IServiceProvider serviceProvider, ServiceDescriptor descriptor)
+    private static object? GetService(IServiceProvider serviceProvider, ServiceDescriptor descriptor, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         if (descriptor.Lifetime != ServiceLifetime.Singleton)
         {
             var implementationType = descriptor.ImplementationType
@@ -96,11 +105,14 @@ internal static class PipelineServiceInitializer
         return serviceProvider.GetService(descriptor.ServiceType);
     }
 
-    private static Task StartInitializer(IInitializer initializer)
+    private static Task StartInitializer(IInitializer initializer, CancellationToken cancellationToken)
     {
         try
         {
-            return initializer.InitializeAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+            return initializer is ICancellableInitializer cancellableInitializer
+                ? cancellableInitializer.InitializeAsync(cancellationToken)
+                : initializer.InitializeAsync();
         }
         catch (Exception exception)
         {

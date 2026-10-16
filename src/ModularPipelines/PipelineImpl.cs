@@ -56,19 +56,23 @@ internal sealed class PipelineImpl : IPipeline
         IHostBuilder hostBuilder,
         PipelineBuilderResources builderResources,
         bool initializePipeline,
-        Func<IServiceProvider, Task>? beforeInitialization = null)
+        Func<IServiceProvider, CancellationToken, Task>? beforeInitialization = null,
+        CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var pipeline = new PipelineImpl(hostBuilder.Build(), builderResources);
         var services = pipeline._host.Services;
 
         try
         {
+            cancellationToken.ThrowIfCancellationRequested();
             services.GetRequiredService<EngineCancellationToken>().IsRunActive =
                 () => Volatile.Read(ref pipeline._activeRuns) > 0;
 
             var consoleCoordinator = services.GetRequiredService<IConsoleCoordinator>();
             consoleCoordinator.Install();
             consoleCoordinator.EnableOutputBuffering();
+            cancellationToken.ThrowIfCancellationRequested();
 
             if (!initializePipeline)
             {
@@ -77,10 +81,12 @@ internal sealed class PipelineImpl : IPipeline
 
             if (beforeInitialization is not null)
             {
-                await beforeInitialization(pipeline.Services).ConfigureAwait(false);
+                await beforeInitialization(pipeline.Services, cancellationToken).ConfigureAwait(false);
             }
 
-            await ValidateOptionsOnStartAsync(services).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            await ValidateOptionsOnStartAsync(services, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             var modules = services.GetServices<IModule>().ToArray();
             ValidateModuleIds(modules);
 
@@ -92,15 +98,16 @@ internal sealed class PipelineImpl : IPipeline
                 or ModuleSelfDependencyException
                 or DependencyCollisionException)
             {
-                await PipelineServiceInitializer.InitializeAsync(services).ConfigureAwait(false);
+                await PipelineServiceInitializer.InitializeAsync(services, cancellationToken).ConfigureAwait(false);
                 var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-                    .GetRunnableModulesForValidation()
+                    .GetRunnableModulesForValidation(cancellationToken)
                     .ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
                 ValidateModuleDependencies(services, runnableModules);
                 return pipeline;
             }
 
-            await PipelineServiceInitializer.InitializeAsync(services).ConfigureAwait(false);
+            await PipelineServiceInitializer.InitializeAsync(services, cancellationToken).ConfigureAwait(false);
             return pipeline;
         }
         catch (Exception startupException)
@@ -378,8 +385,9 @@ internal sealed class PipelineImpl : IPipeline
     /// a sync-only <see cref="IStartupValidator"/> replacement takes precedence for compatibility;
     /// otherwise every <see cref="IAsyncStartupValidator"/> runs and failures are aggregated.
     /// </summary>
-    private static async Task ValidateOptionsOnStartAsync(IServiceProvider services)
+    private static async Task ValidateOptionsOnStartAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
 #pragma warning disable SYSLIB0066 // IStartupValidator is obsolete but consumers may still replace it.
         var startupValidator = services.GetService<IStartupValidator>();
 #pragma warning restore SYSLIB0066
@@ -390,6 +398,7 @@ internal sealed class PipelineImpl : IPipeline
         if (startupValidator is not null
             && !asyncValidators.Any(asyncValidator => ReferenceEquals(asyncValidator, startupValidator)))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             startupValidator.Validate();
             return;
         }
@@ -397,9 +406,14 @@ internal sealed class PipelineImpl : IPipeline
         List<Exception> failures = [];
         foreach (var asyncValidator in asyncValidators)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             try
             {
-                await asyncValidator.ValidateAsync(CancellationToken.None).ConfigureAwait(false);
+                await asyncValidator.ValidateAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
             }
             catch (OptionsValidationException exception)
             {

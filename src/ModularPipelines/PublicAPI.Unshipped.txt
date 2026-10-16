@@ -1,6 +1,12 @@
 #nullable enable
 ModularPipelines.PipelineSummary.GetResult<TModule, TResult>() -> ModularPipelines.ModuleResult<TResult>!
 ModularPipelines.PipelineSummary.TryGetResult<TModule, TResult>(out ModularPipelines.ModuleResult<TResult>? result) -> bool
+*REMOVED*ModularPipelines.PipelineBuilder.BuildAsync() -> System.Threading.Tasks.Task<ModularPipelines.IPipeline!>!
+*REMOVED*ModularPipelines.PipelineBuilder.ValidateAsync() -> System.Threading.Tasks.Task<ModularPipelines.Validation.ValidationResult!>!
+ModularPipelines.PipelineBuilder.BuildAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.IPipeline!>!
+ModularPipelines.PipelineBuilder.ValidateAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Validation.ValidationResult!>!
+ModularPipelines.DependencyInjection.ICancellableInitializer
+ModularPipelines.DependencyInjection.ICancellableInitializer.InitializeAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.get -> System.Text.Encoding!
 ModularPipelines.Options.CommandExecutionOptions.OutputEncoding.init -> void
 ModularPipelines.Options.PipelineOptions.ModuleCancellationGracePeriod.get -> System.TimeSpan

@@ -25,16 +25,17 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             return result;
         }
 
-        var modules = await GetRunnableModulesForArtifactValidationAsync(services)
+        var modules = await GetRunnableModulesForArtifactValidationAsync(services, cancellationToken)
             .ConfigureAwait(false);
         return ValidateModules(services, modules.AvailableModules, modules.RunnableConsumerTypes);
     }
 
     private static async Task<ArtifactValidationModules> GetRunnableModulesForArtifactValidationAsync(
-        IServiceProvider services)
+        IServiceProvider services,
+        CancellationToken cancellationToken)
     {
         var discoveredModules = await services.GetRequiredService<ModuleRetriever>()
-            .GetUncascadedModulesForValidation()
+            .GetUncascadedModulesForValidation(cancellationToken)
             .ConfigureAwait(false);
         var runnableModules = discoveredModules.RunnableModules.ToList();
         var ignoredModules = discoveredModules.IgnoredModules.ToList();
@@ -54,6 +55,7 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
         var pipelineContext = services.GetRequiredService<IPipelineContextProvider>().GetModuleContext();
         foreach (var ignoredModule in ignoredModules)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (await resultHistoryProvider
                     .TryGetAsync(ignoredModule.Module, pipelineContext)
                     .ConfigureAwait(false) is not null)
@@ -69,7 +71,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 moduleTypesWithHistory,
                 dependencyRegistry,
                 metadataRegistry,
-                skipEvaluator)
+                skipEvaluator,
+                cancellationToken)
             .ConfigureAwait(false);
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
                 modules,
@@ -79,7 +82,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 metadataRegistry,
                 _ => Task.CompletedTask,
                 moduleType => !moduleTypesWithHistory.Contains(moduleType)
-                              || consumedArtifactProducerTypes.Contains(moduleType))
+                              || consumedArtifactProducerTypes.Contains(moduleType),
+                cancellationToken)
             .ConfigureAwait(false);
         var availableModules = cascadeResult.RunnableModules
             .Concat(cascadeResult.IgnoredModules
@@ -101,7 +105,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
         IReadOnlySet<Type> moduleTypesWithHistory,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
-        ModulePlanningSkipEvaluator skipEvaluator)
+        ModulePlanningSkipEvaluator skipEvaluator,
+        CancellationToken cancellationToken)
     {
         var modulesByType = allModules
             .GroupBy(module => module.GetType())
@@ -112,12 +117,14 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             .ToHashSet();
         return await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var nextConsumedArtifactProducerTypes = new HashSet<Type>();
             var unrecoverableModuleTypes = moduleTypesWithoutHistory
                 .Concat(currentDemand)
                 .ToHashSet();
             foreach (var module in runnableModules)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var consumedProducerTypes = module.GetType()
                     .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
                     .Cast<ConsumesArtifactAttribute>()
@@ -143,7 +150,7 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 }
 
                 var skipDecision = await skipEvaluator
-                    .EvaluateAsync(module, CancellationToken.None)
+                    .EvaluateAsync(module, cancellationToken)
                     .ConfigureAwait(false);
                 if (skipDecision?.ShouldSkip != true)
                 {

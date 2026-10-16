@@ -64,7 +64,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         _cancellationToken = cancellationToken;
     }
 
-    public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
+    public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules, CancellationToken cancellationToken = default)
     {
         var moduleArray = modules.ToArray();
 
@@ -92,12 +92,17 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
             _registeredModuleTypes = moduleArray
                 .Select(module => module.GetType())
                 .ToHashSet();
-            return _invocationTask = InvokeRegistrationEventsInternalAsync(moduleArray);
+            return _invocationTask = InvokeRegistrationEventsInternalAsync(moduleArray, cancellationToken);
         }
     }
 
-    private async Task InvokeRegistrationEventsInternalAsync(IReadOnlyList<IModule> modules)
+    private async Task InvokeRegistrationEventsInternalAsync(IReadOnlyList<IModule> modules, CancellationToken cancellationToken)
     {
+        using var linkedCancellation = cancellationToken.CanBeCanceled
+            ? CancellationTokenSource.CreateLinkedTokenSource(_cancellationToken, cancellationToken)
+            : null;
+        var registrationToken = linkedCancellation?.Token ?? _cancellationToken;
+        registrationToken.ThrowIfCancellationRequested();
         var registeredModuleTypes = modules.Select(module => module.GetType()).ToArray();
 
         foreach (var module in modules)
@@ -121,9 +126,9 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
                 _dependencyRegistry,
                 _metadataRegistry);
 
-            _cancellationToken.ThrowIfCancellationRequested();
+            registrationToken.ThrowIfCancellationRequested();
             await _eventHandlerInvoker
-                .InvokeRegistrationHandlersAsync(handlers, context, _cancellationToken)
+                .InvokeRegistrationHandlersAsync(handlers, context, registrationToken)
                 .ConfigureAwait(false);
         }
     }
