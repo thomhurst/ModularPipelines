@@ -62,6 +62,21 @@ public class FluxBootstrap : IFluxBootstrap
     }
 
     /// <summary>
+    /// The bootstrap git command commits the Flux manifests to the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GitAsync(
+        FluxBootstrapGitOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxBootstrapGitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// The bootstrap gitea command creates the Gitea repository if it doesn't exists and
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -104,21 +119,6 @@ public class FluxBootstrap : IFluxBootstrap
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new FluxBootstrapGitlabOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// The bootstrap git command commits the Flux manifests to the
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GitAsync(
-        FluxBootstrapGitOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxBootstrapGitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

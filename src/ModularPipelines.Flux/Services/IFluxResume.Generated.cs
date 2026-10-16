@@ -22,12 +22,12 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxResume
 {
     /// <summary>
-    /// flux image sub-commands.
+    /// flux resume image sub-commands.
     /// </summary>
     FluxResumeImage Image { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux resume source sub-commands.
     /// </summary>
     FluxResumeSource Source { get; }
 

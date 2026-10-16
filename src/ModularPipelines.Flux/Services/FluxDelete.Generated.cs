@@ -34,12 +34,12 @@ public class FluxDelete : IFluxDelete
     #region Sub-command Groups
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux delete image sub-commands.
     /// </summary>
     public FluxDeleteImage Image => _image ??= new FluxDeleteImage(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux delete source sub-commands.
     /// </summary>
     public FluxDeleteSource Source => _source ??= new FluxDeleteSource(_command);
 

@@ -33,7 +33,7 @@ public class FluxTree : IFluxTree
     #region Sub-command Groups
 
     /// <summary>
-    /// flux artifact sub-commands.
+    /// flux tree artifact sub-commands.
     /// </summary>
     public FluxTreeArtifact Artifact => _artifact ??= new FluxTreeArtifact(_command);
 

@@ -35,17 +35,17 @@ public class FluxCreate : IFluxCreate
     #region Sub-command Groups
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux create image sub-commands.
     /// </summary>
     public FluxCreateImage Image => _image ??= new FluxCreateImage(_command);
 
     /// <summary>
-    /// flux secret sub-commands.
+    /// flux create secret sub-commands.
     /// </summary>
     public FluxCreateSecret Secret => _secret ??= new FluxCreateSecret(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux create source sub-commands.
     /// </summary>
     public FluxCreateSource Source => _source ??= new FluxCreateSource(_command);
 

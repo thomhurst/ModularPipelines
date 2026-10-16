@@ -22,12 +22,12 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxDelete
 {
     /// <summary>
-    /// flux image sub-commands.
+    /// flux delete image sub-commands.
     /// </summary>
     FluxDeleteImage Image { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux delete source sub-commands.
     /// </summary>
     FluxDeleteSource Source { get; }
 

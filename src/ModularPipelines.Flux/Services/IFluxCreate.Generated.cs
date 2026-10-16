@@ -22,17 +22,17 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxCreate
 {
     /// <summary>
-    /// flux image sub-commands.
+    /// flux create image sub-commands.
     /// </summary>
     FluxCreateImage Image { get; }
 
     /// <summary>
-    /// flux secret sub-commands.
+    /// flux create secret sub-commands.
     /// </summary>
     FluxCreateSecret Secret { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux create source sub-commands.
     /// </summary>
     FluxCreateSource Source { get; }
 

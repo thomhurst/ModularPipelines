@@ -35,17 +35,17 @@ public class FluxGet : IFluxGet
     #region Sub-command Groups
 
     /// <summary>
-    /// flux artifacts sub-commands.
+    /// flux get artifacts sub-commands.
     /// </summary>
     public FluxGetArtifacts Artifacts => _artifacts ??= new FluxGetArtifacts(_command);
 
     /// <summary>
-    /// flux images sub-commands.
+    /// flux get images sub-commands.
     /// </summary>
     public FluxGetImages Images => _images ??= new FluxGetImages(_command);
 
     /// <summary>
-    /// flux sources sub-commands.
+    /// flux get sources sub-commands.
     /// </summary>
     public FluxGetSources Sources => _sources ??= new FluxGetSources(_command);
 
