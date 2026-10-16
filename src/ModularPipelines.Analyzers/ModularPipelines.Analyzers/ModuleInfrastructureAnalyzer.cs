@@ -82,7 +82,7 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
                 {
                     operationContext.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, creation.Syntax.GetLocation()));
                 }
-                else if (SymbolEqualityComparer.Default.Equals(creation.Type, httpClientType))
+                else if (creation.Type.InheritsFrom(httpClientType))
                 {
                     operationContext.ReportDiagnostic(Diagnostic.Create(DirectHttpClientRule, creation.Syntax.GetLocation()));
                 }

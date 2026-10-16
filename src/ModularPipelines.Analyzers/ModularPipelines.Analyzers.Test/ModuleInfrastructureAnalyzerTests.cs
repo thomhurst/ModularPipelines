@@ -53,6 +53,21 @@ public class ModuleInfrastructureAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = {|#0:new CustomClient()|};")]
+    [DataRow("CustomClient client = {|#0:new()|};")]
+    [DataRow("_ = {|#0:new DerivedClient()|};")]
+    public async Task Reports_HttpClient_Subclass_Construction(string statement)
+    {
+        var source = ModuleSource(statement) + """
+
+            public class CustomClient : HttpClient { }
+            public class DerivedClient : CustomClient { }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectHttpClientId).WithLocation(0));
+    }
+
+    [TestMethod]
     public async Task Reports_Initializers_Constructors_And_Nested_Callbacks_In_Inherited_Module()
     {
         var source = $$"""
@@ -125,6 +140,7 @@ public class ModuleInfrastructureAnalyzerTests
         var source = $$"""
             {{Header}}
             public abstract class Dependency : Module<int> { }
+            public class CustomClient : HttpClient { }
             public class Helper(Dependency dependency)
             {
                 public Dependency Dependency => dependency;
@@ -133,11 +149,12 @@ public class ModuleInfrastructureAnalyzerTests
                     _ = Process.Start("tool");
                     _ = new ProcessStartInfo();
                     _ = new HttpClient();
+                    _ = new CustomClient();
                 }
             }
             public abstract class BuildModule : Module<int>
             {
-                protected BuildModule(HttpClient client, Helper service) { }
+                protected BuildModule(HttpClient client, CustomClient customClient, Helper service) { }
                 private void AcceptModule(Dependency dependency) { }
                 private void Run()
                 {
