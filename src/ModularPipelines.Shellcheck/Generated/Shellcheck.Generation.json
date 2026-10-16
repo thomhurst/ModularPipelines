@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "shellcheck",
-  "toolVersion": "ShellCheck - shell script analysis tool version: 0.11.0 license: GNU General Public License, version 3 website: https://www.shellcheck.net",
+  "toolVersion": "0.11.0",
   "commandTreeSha256": "e0feeff705f2c41109aa86a93c5d59e3b3bcad2e39dc7621ab911897e22c7bc4",
-  "generatorSourceSha256": "2fac61d420173d0bed05365feba13bcecbb616b86c3651abaa460af71c1df0fe"
+  "generatorSourceSha256": "ba49499d978456412d8ceeb0eb6583b21c1d9be02f2432fe717596c40a16e65a"
 }
