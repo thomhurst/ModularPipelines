@@ -472,19 +472,21 @@ public class ModuleConfigurationTests
             await Assert.That(config.RetryConfiguration).IsNotNull();
             await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(3);
             await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(TimeSpan.FromMilliseconds(100));
+            await Assert.That(config.RetryConfiguration.MaxDelay).IsEqualTo(TimeSpan.FromSeconds(30));
             await Assert.That(config.RetryConfiguration.ShouldRetry).IsNull();
             await Assert.That(config.ResilienceShieldFactory).IsNull();
         }
     }
 
     [Test]
-    public async Task WithRetry_StoresBaseDelayAndExceptionFilter()
+    public async Task WithRetry_StoresBaseDelayMaxDelayAndExceptionFilter()
     {
         var baseDelay = TimeSpan.FromSeconds(2);
+        var maxDelay = TimeSpan.FromSeconds(10);
         Func<Exception, bool> shouldRetry = exception => exception is TimeoutException;
 
         var config = new ModuleConfigurationBuilder()
-            .WithRetry(5, baseDelay, shouldRetry)
+            .WithRetry(5, baseDelay, shouldRetry, maxDelay)
             .Build();
 
         using (Assert.Multiple())
@@ -492,6 +494,7 @@ public class ModuleConfigurationTests
             await Assert.That(config.RetryConfiguration).IsNotNull();
             await Assert.That(config.RetryConfiguration!.Count).IsEqualTo(5);
             await Assert.That(config.RetryConfiguration.BaseDelay).IsEqualTo(baseDelay);
+            await Assert.That(config.RetryConfiguration.MaxDelay).IsEqualTo(maxDelay);
             await Assert.That(config.RetryConfiguration.ShouldRetry).IsSameReferenceAs(shouldRetry);
         }
     }
@@ -503,11 +506,14 @@ public class ModuleConfigurationTests
             () => new ModuleConfigurationBuilder().WithRetry(-1));
         var delayException = Assert.Throws<ArgumentOutOfRangeException>(
             () => new ModuleConfigurationBuilder().WithRetry(1, TimeSpan.FromMilliseconds(-1)));
+        var maxDelayException = Assert.Throws<ArgumentOutOfRangeException>(
+            () => new ModuleConfigurationBuilder().WithRetry(1, maxDelay: TimeSpan.FromTicks(-1)));
 
         using (Assert.Multiple())
         {
             await Assert.That(countException.ParamName).IsEqualTo("count");
             await Assert.That(delayException.ParamName).IsEqualTo("baseDelay");
+            await Assert.That(maxDelayException.ParamName).IsEqualTo("maxDelay");
         }
     }
 
@@ -570,6 +576,7 @@ public class ModuleConfigurationTests
         var delay = ModuleRetryShieldFactory.CalculateDelay(
             retryAttempt: 2,
             baseDelay: TimeSpan.FromMilliseconds(100),
+            maxDelay: TimeSpan.FromSeconds(30),
             jitterFactor);
 
         await Assert.That(delay).IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
@@ -581,6 +588,7 @@ public class ModuleConfigurationTests
         var delay = ModuleRetryShieldFactory.CalculateDelay(
             retryAttempt: int.MaxValue,
             baseDelay: TimeSpan.Zero,
+            maxDelay: TimeSpan.FromSeconds(30),
             jitterFactor: 0.5);
 
         await Assert.That(delay).IsEqualTo(TimeSpan.Zero);
@@ -592,9 +600,58 @@ public class ModuleConfigurationTests
         var delay = ModuleRetryShieldFactory.CalculateDelay(
             retryAttempt: 2,
             baseDelay: TimeSpan.MaxValue,
+            maxDelay: TimeSpan.MaxValue,
             jitterFactor: 1);
 
         await Assert.That(delay).IsEqualTo(TimeSpan.MaxValue);
+    }
+
+    [Test]
+    [Arguments(1, 0, 15000)]
+    [Arguments(1, 1, 30000)]
+    [Arguments(27, 0.5, 22500)]
+    [Arguments(int.MaxValue, 1, 30000)]
+    public async Task RetryDelayCalculator_CapsCeilingBeforeJitter(int retryAttempt, double jitterFactor, int expectedMilliseconds)
+    {
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
+            retryAttempt,
+            baseDelay: TimeSpan.MaxValue,
+            maxDelay: TimeSpan.FromSeconds(30),
+            jitterFactor);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
+    }
+
+    [Test]
+    [Arguments(9, 25600)]
+    [Arguments(10, 30000)]
+    [Arguments(27, 30000)]
+    [Arguments(int.MaxValue, 30000)]
+    public async Task RetryDelayCalculator_ExponentialGrowthStopsAtMaximumDelay(int retryAttempt, int expectedMilliseconds)
+    {
+        var config = new ModuleConfigurationBuilder().WithRetry(3).Build();
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
+            retryAttempt,
+            config.RetryConfiguration!.BaseDelay,
+            config.RetryConfiguration.MaxDelay,
+            jitterFactor: 1);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
+    }
+
+    [Test]
+    public async Task RetryDelayCalculator_ZeroMaximumDelay_DisablesBackoff()
+    {
+        var config = new ModuleConfigurationBuilder()
+            .WithRetry(3, maxDelay: TimeSpan.Zero)
+            .Build();
+        var delay = ModuleRetryShieldFactory.CalculateDelay(
+            retryAttempt: int.MaxValue,
+            config.RetryConfiguration!.BaseDelay,
+            config.RetryConfiguration.MaxDelay,
+            jitterFactor: 0.5);
+
+        await Assert.That(delay).IsEqualTo(TimeSpan.Zero);
     }
 
     #endregion

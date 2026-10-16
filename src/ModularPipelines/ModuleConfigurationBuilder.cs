@@ -495,17 +495,21 @@ public sealed class ModuleConfigurationBuilder
     /// <param name="count">The number of retry attempts after the initial execution.</param>
     /// <param name="baseDelay">The first exponential-backoff ceiling. Defaults to 100 milliseconds.</param>
     /// <param name="shouldRetry">An optional predicate that selects retryable exceptions.</param>
+    /// <param name="maxDelay">The maximum exponential-backoff ceiling. Defaults to 30 seconds. Zero disables backoff.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
-    /// Each delay uses equal jitter between half and all of its exponential-backoff ceiling.
+    /// Each delay uses equal jitter between half and all of its exponential-backoff ceiling,
+    /// capped by <paramref name="maxDelay"/> before jitter.
     /// A null <paramref name="shouldRetry"/> retries every exception handled by the retry engine.
     /// A configured module timeout applies separately to each attempt and does not include these delays.
     /// </remarks>
+    /// <exception cref="ArgumentOutOfRangeException">The retry count, base delay, or maximum delay is negative.</exception>
     /// <exception cref="InvalidOperationException">A custom shield is already configured with WithShield.</exception>
     public ModuleConfigurationBuilder WithRetry(
         int count,
         TimeSpan? baseDelay = null,
-        Func<Exception, bool>? shouldRetry = null)
+        Func<Exception, bool>? shouldRetry = null,
+        TimeSpan? maxDelay = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(count);
 
@@ -515,12 +519,18 @@ public sealed class ModuleConfigurationBuilder
             throw new ArgumentOutOfRangeException(nameof(baseDelay), baseDelay, "The retry base delay cannot be negative.");
         }
 
+        var retryMaxDelay = maxDelay ?? ModuleRetryConfiguration.DefaultMaxDelay;
+        if (retryMaxDelay < TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maxDelay), maxDelay, "The retry maximum delay cannot be negative.");
+        }
+
         if (_resilienceShieldFactory is not null)
         {
             throw new InvalidOperationException("WithRetry cannot be combined with WithShield. Configure retries in the custom shield instead.");
         }
 
-        _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, shouldRetry);
+        _retryConfiguration = new ModuleRetryConfiguration(count, retryBaseDelay, retryMaxDelay, shouldRetry);
         return this;
     }
 
