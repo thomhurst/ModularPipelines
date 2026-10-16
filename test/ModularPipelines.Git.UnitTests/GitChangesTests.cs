@@ -28,12 +28,14 @@ public class GitChangesTests
 
         await Assert.That(sourceChanged).IsTrue();
         await Assert.That(testsChanged).IsFalse();
-        await Assert.That(runner.Commands).Count().IsEqualTo(3);
+        await Assert.That(runner.Commands).Count().IsEqualTo(4);
         await Assert.That(runner.Commands[0].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/main", "HEAD"]);
-        await Assert.That(runner.Commands[1].OfType<string>()).IsEquivalentTo(
-            ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "--"]);
+        await Assert.That(runner.Commands[1].OfType<string>())
+            .IsEquivalentTo(["rev-parse", "--verify", "HEAD"]);
         await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
+            ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "--"]);
+        await Assert.That(runner.Commands[3].OfType<string>()).IsEquivalentTo(
             [
                 "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
             ]);
@@ -53,8 +55,8 @@ public class GitChangesTests
         await changes.HasChangesAsync(["src/**"]);
         await changes.HasChangesAsync(["src/**"], "origin/release");
 
-        await Assert.That(runner.Commands).Count().IsEqualTo(5);
-        await Assert.That(runner.Commands[3].OfType<string>())
+        await Assert.That(runner.Commands).Count().IsEqualTo(7);
+        await Assert.That(runner.Commands[4].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/release", "HEAD"]);
         await Assert.That(runner.Commands.Count(command => command[0] is "ls-files")).IsEqualTo(1);
     }
@@ -84,7 +86,7 @@ public class GitChangesTests
         var hasChanges = await changes.HasChangesAsync(["src/MyService/**"]);
 
         await Assert.That(hasChanges).IsTrue();
-        await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
+        await Assert.That(runner.Commands[3].OfType<string>()).IsEquivalentTo(
             [
                 "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
             ]);
@@ -168,8 +170,8 @@ public class GitChangesTests
 
         await changes.HasChangesAsync(["src/**"]);
 
-        await Assert.That(runner.ExecutionOptions[1]?.MaxCapturedOutputLength).IsEqualTo(0);
         await Assert.That(runner.ExecutionOptions[2]?.MaxCapturedOutputLength).IsEqualTo(0);
+        await Assert.That(runner.ExecutionOptions[3]?.MaxCapturedOutputLength).IsEqualTo(0);
     }
 
     [Test]
@@ -183,7 +185,7 @@ public class GitChangesTests
         var sourceChanged = await changes.HasChangesAsync(["src/A/**"]);
 
         await Assert.That(sourceChanged).IsTrue();
-        await Assert.That(runner.Commands[1].OfType<string>()).Contains("--no-renames");
+        await Assert.That(runner.Commands[2].OfType<string>()).Contains("--no-renames");
     }
 
     [Test]
@@ -201,7 +203,7 @@ public class GitChangesTests
         {
             await Assert.That(stagedChanged).IsTrue();
             await Assert.That(unstagedChanged).IsTrue();
-            await Assert.That(runner.Commands[1].OfType<string>()).DoesNotContain("HEAD");
+            await Assert.That(runner.Commands[2].OfType<string>()).DoesNotContain("HEAD");
         }
     }
 
@@ -223,6 +225,46 @@ public class GitChangesTests
             await Assert.That(logger.Messages).Count().IsEqualTo(1);
             await Assert.That(logger.Messages[0]).Contains("origin/main");
         }
+    }
+
+    [Test]
+    [Arguments("origin/main")]
+    [Arguments("HEAD")]
+    [Arguments("origin/release")]
+    public async Task Merge_Base_At_Head_Conservatively_Reports_Changes_And_Is_Cached(string baseReference)
+    {
+        var runner = new RecordingGitCommandRunner("head-commit");
+        var logger = new RecordingLogger<GitChanges>();
+        var changes = CreateChanges(runner, logger);
+
+        var firstCheck = await changes.HasChangesAsync(["src/**"], baseReference);
+        var secondCheck = await changes.HasChangesAsync(["docs/**"], baseReference);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(firstCheck).IsTrue();
+            await Assert.That(secondCheck).IsTrue();
+            await Assert.That(runner.Commands).Count().IsEqualTo(2);
+            await Assert.That(runner.RawCommands).IsEmpty();
+            await Assert.That(logger.Messages).Count().IsEqualTo(1);
+            await Assert.That(logger.Messages[0]).Contains(baseReference);
+        }
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("")]
+    public async Task Unavailable_Head_Conservatively_Reports_Changes(string? headOutput)
+    {
+        var runner = new RecordingGitCommandRunner("merge-base") { HeadOutput = headOutput };
+        var logger = new RecordingLogger<GitChanges>();
+        var changes = CreateChanges(runner, logger);
+
+        var hasChanges = await changes.HasChangesAsync(["src/**"]);
+
+        await Assert.That(hasChanges).IsTrue();
+        await Assert.That(runner.RawCommands).IsEmpty();
+        await Assert.That(logger.Messages).Count().IsEqualTo(1);
     }
 
     [Test]
@@ -248,7 +290,7 @@ public class GitChangesTests
                 .HasChangesAsync(["docs/**"]);
         }
 
-        await Assert.That(runner.Commands).Count().IsEqualTo(3);
+        await Assert.That(runner.Commands).Count().IsEqualTo(4);
     }
 
     [Test]
@@ -299,6 +341,8 @@ public class GitChangesTests
 
         public bool FailCommandsOrNull { get; init; }
 
+        public string? HeadOutput { get; init; } = "head-commit";
+
         public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             Commands.Add(commands);
@@ -324,6 +368,11 @@ public class GitChangesTests
         {
             Commands.Add(commands);
             ExecutionOptions.Add(commandEnvironmentOptions);
+            if (commands.SequenceEqual(["rev-parse", "--verify", "HEAD"]))
+            {
+                return Task.FromResult(HeadOutput);
+            }
+
             return Task.FromResult<string?>(FailCommandsOrNull ? null : NextOutput().Trim());
         }
 

@@ -88,6 +88,23 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 return cacheEntry.Snapshot;
             }
 
+            var head = await gitCommandRunner.RunCommandsOrNull(
+                    null,
+                    cancellationToken,
+                    "rev-parse",
+                    "--verify",
+                    "HEAD")
+                .ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(head) || string.Equals(mergeBase, head, StringComparison.Ordinal))
+            {
+                _logger.LogWarning(
+                    "Could not establish a Git comparison before HEAD for base '{BaseReference}'. "
+                    + "RunIfChanged will conservatively report changes.",
+                    baseReference);
+                cacheEntry.Snapshot = ChangedPathSnapshot.Unknown;
+                return cacheEntry.Snapshot;
+            }
+
             var executionOptions = new CommandExecutionOptions { MaxCapturedOutputLength = 0 };
             var diffOutputTask = RunCommandsUntrimmed(
                 gitCommandRunner,
