@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">CI Example: GitHub Actions | Modular Pipelines</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://thomhurst.github.io/ModularPipelines/docs/distributed/github-actions"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="CI Example: GitHub Actions | Modular Pipelines"><meta data-rh="true" name="description" content="This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination."><meta data-rh="true" property="og:description" content="This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination."><link data-rh="true" rel="icon" href="/ModularPipelines/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://thomhurst.github.io/ModularPipelines/docs/distributed/github-actions"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/distributed/github-actions" hreflang="en"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/distributed/github-actions" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Distributed Mode","item":"https://thomhurst.github.io/ModularPipelines/docs/category/distributed-mode"},{"@type":"ListItem","position":2,"name":"CI Example: GitHub Actions","item":"https://thomhurst.github.io/ModularPipelines/docs/distributed/github-actions"}]}</script><link rel="stylesheet" href="/ModularPipelines/assets/css/styles.8ba60810.css">
-<script src="/ModularPipelines/assets/js/runtime~main.34030d15.js" defer="defer"></script>
+<script src="/ModularPipelines/assets/js/runtime~main.147ec9a7.js" defer="defer"></script>
 <script src="/ModularPipelines/assets/js/main.948a5cf1.js" defer="defer"></script>
 </head>
 <body>
@@ -15,28 +15,30 @@
 <p>This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="this-repositorys-ci">This repository&#x27;s CI<a href="#this-repositorys-ci" class="hash-link" aria-label="Direct link to This repository&#x27;s CI" title="Direct link to This repository&#x27;s CI" translate="no">​</a></h2>
 <p>The <a href="https://github.com/thomhurst/ModularPipelines/blob/main/.github/workflows/dotnet.yml" target="_blank" rel="noopener noreferrer" class="">.NET workflow</a>
-runs the actual <code>ModularPipelines.Build</code> pipeline using the Redis coordinator and Redis artifact
-store. It selects distributed execution only when both <code>REDIS_ENDPOINT</code> and <code>REDIS_KEY</code> secrets
-are available and the event is trusted. Fork and Dependabot pull requests use a standalone Linux
-pipeline, with separate Windows and macOS compilation jobs. Manual dispatch can also select
-<code>distributed: false</code> to exercise this fallback without removing secrets.</p>
+runs the actual <code>ModularPipelines.Build</code> pipeline using Redis for coordination and GitHub Actions
+artifacts for build outputs. It selects distributed execution only when both <code>REDIS_ENDPOINT</code> and
+<code>REDIS_KEY</code> secrets are available and the event is trusted. Fork and Dependabot pull requests use
+a standalone Linux pipeline, with separate Windows and macOS core build and test jobs. Manual
+dispatch can also select <code>distributed: false</code> to exercise this fallback without removing secrets.</p>
 <p>The distributed matrix uses these indices:</p>
-<table><thead><tr><th>Index</th><th>Runner</th><th>Responsibility</th></tr></thead><tbody><tr><td>0</td><td>Ubuntu</td><td>Master, Linux build, packaging, publishing, and eligible tests</td></tr><tr><td>1</td><td>Ubuntu</td><td>Linux test worker</td></tr><tr><td>2</td><td>Windows</td><td>Windows compilation of every solution in <code>BuildSolutions.txt</code></td></tr><tr><td>3</td><td>macOS</td><td>macOS compilation of every solution in <code>BuildSolutions.txt</code></td></tr></tbody></table>
+<table><thead><tr><th>Index</th><th>Runner</th><th>Responsibility</th></tr></thead><tbody><tr><td>0</td><td>Ubuntu</td><td>Master, Linux build, packaging, publishing, and eligible tests</td></tr><tr><td>1</td><td>Ubuntu</td><td>Linux test worker</td></tr><tr><td>2</td><td>Windows</td><td>Core build and unit tests</td></tr><tr><td>3</td><td>macOS</td><td>Core build and unit tests</td></tr><tr><td>4</td><td>Ubuntu</td><td>Linux test worker</td></tr><tr><td>5</td><td>Ubuntu</td><td>Linux test worker</td></tr></tbody></table>
 <p>Every runner downloads the same framework-dependent pipeline host. Keeping this host outside
 the checkout allows Windows to rebuild the build project without locking its output, and keeps
 module and serialization schema identities identical across runners. Each runner restores its
 own dependencies. The master publishes the registered test projects&#x27; Linux build output through
-Redis. A compressed TAR stores duplicate dependency contents once; workers materialize independent
-files so coverage instrumentation cannot modify another test project&#x27;s assemblies. Linux tests
-restore that output once per process. Publishing and repository mutations require the master&#x27;s
-<code>ci-master</code> capability, and publishing credentials are supplied only to instance 0. The master
-job alone has repository-write and identity-token permissions; worker jobs have read-only
-repository access. Both jobs reuse the same execution steps.</p>
+GitHub Actions artifacts. When the GitHub transport is not enabled, build outputs use the Redis
+artifact store instead. A compressed TAR stores duplicate dependency contents once; workers
+materialize independent files so coverage instrumentation cannot modify another test project&#x27;s
+assemblies. Linux tests restore that output once per process. Publishing and repository mutations
+require the master&#x27;s <code>ci-master</code> capability, and publishing credentials are supplied only to
+instance 0. The master job alone has repository-write and identity-token permissions; worker
+jobs have read-only repository access. Both jobs reuse the same execution steps.</p>
 <p><code>MODULARPIPELINES_RUN_ID</code> combines <code>GITHUB_RUN_ID</code> and <code>GITHUB_RUN_ATTEMPT</code>. Use <strong>Re-run all
 jobs</strong> for a distributed retry: partial retries are rejected because they cannot recreate the
-cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform compilation to
-75 minutes, the default module result wait to 80 minutes, and each runner job to 90 minutes.
-Redis coordination keys and artifacts expire
+cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform builds and
+core tests to 75 minutes, and each runner job to 90 minutes. After a worker claims a module,
+the master adds 15 minutes of result slack (<code>ModuleResultTimeout</code>) to the module&#x27;s own timeout
+budget, including configured retries. Redis coordination keys and fallback artifacts expire
 after two hours. A failed or lost worker fails the run within these limits; it does not silently
 rerun publishing or test work on another runner.</p>
 <p>The master uploads <code>pipeline-report-0-ubuntu-latest-&lt;run_attempt&gt;</code>, containing <code>artifacts/run-report.json</code>.
