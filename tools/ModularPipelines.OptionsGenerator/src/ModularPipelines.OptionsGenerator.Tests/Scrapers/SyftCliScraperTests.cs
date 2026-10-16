@@ -100,12 +100,11 @@ public class SyftCliScraperTests
     }
 
     [Test]
-    public async Task Version_Metadata_Remains_Available_Alongside_A_Version_Command()
+    public async Task Release_Version_Remains_Available_Alongside_A_Version_Command()
     {
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new SyftCliScraper(new FixtureExecutor(), cache, NullLogger<SyftCliScraper>.Instance);
-        var expected = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Syft", "1.54.0", "version.txt"));
-        await Assert.That(await scraper.GetVersionAsync()).IsEqualTo(expected.ReplaceLineEndings(" ").Trim());
+        await Assert.That(await scraper.GetVersionAsync()).IsEqualTo("1.54.0");
     }
 
     [Test]

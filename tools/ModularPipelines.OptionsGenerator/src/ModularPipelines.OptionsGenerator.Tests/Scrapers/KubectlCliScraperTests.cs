@@ -65,7 +65,7 @@ public class KubectlCliScraperTests
         var version = await scraper.GetVersionAsync();
 
         await Assert.That(isAvailable).IsTrue();
-        await Assert.That(version).IsEqualTo("Client Version: v1.35.0");
+        await Assert.That(version).IsEqualTo("1.35.0");
         await Assert.That(executor.AvailabilityArguments).IsEquivalentTo(["version --client"]);
         await Assert.That(executor.Arguments).IsEquivalentTo(["version --client"]);
     }

@@ -20,7 +20,7 @@ public class HelmCliScraperTests
         var version = await scraper.GetVersionAsync();
 
         await Assert.That(isAvailable).IsTrue();
-        await Assert.That(version).IsEqualTo("version.BuildInfo{Version:\"v4.0.0\"}");
+        await Assert.That(version).IsEqualTo("4.0.0");
         await Assert.That(executor.AvailabilityArguments).IsEquivalentTo(["version"]);
         await Assert.That(executor.Arguments).IsEquivalentTo(["version"]);
     }
