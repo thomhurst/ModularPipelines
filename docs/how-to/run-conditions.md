@@ -13,7 +13,7 @@ public class ServiceIsAvailable : IRunCondition
 
     {
 
-        var response = await context.Http.SendAsync(
+        using var response = await context.Network.Http.SendAsync(
 
             new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.example.com/ping")),
 

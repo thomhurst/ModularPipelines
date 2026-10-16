@@ -15,7 +15,7 @@ public class MyModule : Module<FilePath>
 
     {
 
-        return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
+        return await context.Network.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
 
     }
 
