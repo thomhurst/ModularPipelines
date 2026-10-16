@@ -14,7 +14,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Services;
 
 /// <summary>
-/// kustomize remove commands.
+/// kustomize edit remove commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class KustomizeEditRemove
