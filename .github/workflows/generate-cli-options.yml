@@ -39,6 +39,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Test generation download verification
+        shell: pwsh
+        run: .github/scripts/Test-GenerationToolDownloads.ps1
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
@@ -239,14 +242,13 @@ jobs:
       - name: Install Helm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'helm'
         run: |
-          cd "$RUNNER_TEMP"
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool helm -Destination "$RUNNER_TEMP/helm.tar.gz"
+          tar -xzf "$RUNNER_TEMP/helm.tar.gz" -C "$CLI_TOOLS_ROOT/bin" --strip-components=1 linux-amd64/helm
 
       - name: Install kubectl
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kubectl'
         run: |
-          curl -fL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
-            -o "$CLI_TOOLS_ROOT/bin/kubectl"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool kubectl -Destination "$CLI_TOOLS_ROOT/bin/kubectl"
           chmod +x "$CLI_TOOLS_ROOT/bin/kubectl"
 
       - name: Install Azure CLI
@@ -256,9 +258,12 @@ jobs:
           AZURE_EXTENSION_DIR: ${{ runner.temp }}/modularpipelines-azure-extensions
           AZURE_EXTENSION_USE_DYNAMIC_INSTALL: 'no'
         run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          # Generate core plus the explicitly installed DevOps extension, independent of runner state.
-          az extension add --name azure-devops --only-show-errors
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool az -Destination "$RUNNER_TEMP/azure-cli.deb"
+          sudo apt-get update
+          sudo apt-get install -y --allow-downgrades "$RUNNER_TEMP/azure-cli.deb"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool azure-devops -Destination "$RUNNER_TEMP/azure_devops-1.0.9-py2.py3-none-any.whl"
+          # Only install the verified DevOps extension, independent of runner state.
+          az extension add --source "$RUNNER_TEMP/azure_devops-1.0.9-py2.py3-none-any.whl" --only-show-errors
           {
             echo "AZURE_CONFIG_DIR=$AZURE_CONFIG_DIR"
             echo "AZURE_EXTENSION_DIR=$AZURE_EXTENSION_DIR"
@@ -269,27 +274,26 @@ jobs:
       - name: Install Google Cloud CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gcloud'
         run: |
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-          sudo apt-get update && sudo apt-get install -y google-cloud-cli
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool gcloud -Destination "$RUNNER_TEMP/google-cloud-cli.deb"
+          sudo apt-get update
+          sudo apt-get install -y --allow-downgrades "$RUNNER_TEMP/google-cloud-cli.deb"
 
       - name: Install Terraform
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'terraform'
         run: |
-          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt-get update && sudo apt-get install -y terraform
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool terraform -Destination "$RUNNER_TEMP/terraform.zip"
+          unzip -qo "$RUNNER_TEMP/terraform.zip" terraform -d "$CLI_TOOLS_ROOT/bin"
 
       - name: Install Yarn
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'yarn'
         run: |
-          corepack enable
-          corepack prepare yarn@stable --activate
-          # Create a minimal project context for Yarn Berry (required for help output)
-          mkdir -p /tmp/yarn-context && cd /tmp/yarn-context
-          echo '{"name":"temp","packageManager":"yarn@4.0.0"}' > package.json
-          # Verify yarn works in the project context
-          yarn --version
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool yarn -Destination "$RUNNER_TEMP/yarn.tgz"
+          npm install --global --prefix "$CLI_TOOLS_ROOT" --ignore-scripts "$RUNNER_TEMP/yarn.tgz"
+          # Yarn Berry needs a project context for help output.
+          mkdir -p "$RUNNER_TEMP/yarn-context"
+          echo '{"name":"temp"}' > "$RUNNER_TEMP/yarn-context/package.json"
+          cd "$RUNNER_TEMP/yarn-context"
+          "$CLI_TOOLS_ROOT/bin/yarn" --version
         env:
           # Set default Yarn context for subsequent commands
           YARN_IGNORE_CWD: "true"
@@ -297,20 +301,16 @@ jobs:
       - name: Install AWS CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'aws'
         run: |
-          # AWS CLI may be pre-installed on ubuntu-latest, use --update flag
-          # Install in /tmp to avoid committing installation files
-          cd /tmp
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip -q awscliv2.zip
-          sudo ./aws/install --update
-          cd -
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool aws -Destination "$RUNNER_TEMP/awscliv2.zip"
+          mkdir -p "$RUNNER_TEMP/aws-installer"
+          unzip -q "$RUNNER_TEMP/awscliv2.zip" -d "$RUNNER_TEMP/aws-installer"
+          "$RUNNER_TEMP/aws-installer/aws/install" --install-dir "$CLI_TOOLS_ROOT/aws-cli" --bin-dir "$CLI_TOOLS_ROOT/bin"
 
       - name: Install Kustomize
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kustomize'
         run: |
-          cd "$RUNNER_TEMP"
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-          install -m 0755 kustomize "$CLI_TOOLS_ROOT/bin/kustomize"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool kustomize -Destination "$RUNNER_TEMP/kustomize.tar.gz"
+          tar -xzf "$RUNNER_TEMP/kustomize.tar.gz" -C "$CLI_TOOLS_ROOT/bin" kustomize
 
       - name: Install Trivy
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'trivy'
@@ -324,7 +324,7 @@ jobs:
       - name: Install Hadolint
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'hadolint'
         run: |
-          wget -O "$CLI_TOOLS_ROOT/bin/hadolint" https://github.com/hadolint/hadolint/releases/latest/download/hadolint-linux-x86_64
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool hadolint -Destination "$CLI_TOOLS_ROOT/bin/hadolint"
           chmod +x "$CLI_TOOLS_ROOT/bin/hadolint"
 
       - name: Install Flyway
@@ -342,7 +342,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'go'
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          go-version: 'stable'
+          go-version: '1.27.2'
 
       - name: Install Maven
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'mvn'
@@ -381,8 +381,8 @@ jobs:
       - name: Install pnpm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
         run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool pnpm -Destination "$RUNNER_TEMP/pnpm.tgz"
+          npm install --global --prefix "$CLI_TOOLS_ROOT" --ignore-scripts "$RUNNER_TEMP/pnpm.tgz"
 
       - name: Install GitHub CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gh'
@@ -403,8 +403,8 @@ jobs:
       - name: Install Snyk
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'snyk'
         run: |
-          test "$(npm view snyk@1.1306.1 dist.integrity)" = "sha512-Ywt01xrkDjh5ZWRFJTL+2OXifGu3sUyD+BZ0QBTnVLgendrwt34iupgVAYcfdImmZYJRmeAwkicV5lTDrI8cLw=="
-          npm install -g snyk@1.1306.1
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool snyk -Destination "$CLI_TOOLS_ROOT/bin/snyk"
+          chmod +x "$CLI_TOOLS_ROOT/bin/snyk"
 
       - name: Install nbgv
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'nbgv'
@@ -426,7 +426,7 @@ jobs:
       - name: Install yq
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'yq'
         run: |
-          wget -qO "$CLI_TOOLS_ROOT/bin/yq" https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool yq -Destination "$CLI_TOOLS_ROOT/bin/yq"
           chmod +x "$CLI_TOOLS_ROOT/bin/yq"
 
       # Container tools (Docker alternatives)
@@ -465,22 +465,21 @@ jobs:
       - name: Install Pulumi
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pulumi'
         run: |
-          curl -fsSL https://get.pulumi.com | sh
-          echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool pulumi -Destination "$RUNNER_TEMP/pulumi.tar.gz"
+          tar -xzf "$RUNNER_TEMP/pulumi.tar.gz" -C "$CLI_TOOLS_ROOT" pulumi
+          echo "$CLI_TOOLS_ROOT/pulumi" >> "$GITHUB_PATH"
 
       - name: Install Packer
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'packer'
         run: |
-          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt-get update && sudo apt-get install -y packer
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool packer -Destination "$RUNNER_TEMP/packer.zip"
+          unzip -qo "$RUNNER_TEMP/packer.zip" packer -d "$CLI_TOOLS_ROOT/bin"
 
       - name: Install Vault
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'vault'
         run: |
-          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt-get update && sudo apt-get install -y vault
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool vault -Destination "$RUNNER_TEMP/vault.zip"
+          unzip -qo "$RUNNER_TEMP/vault.zip" vault -d "$CLI_TOOLS_ROOT/bin"
 
       - name: Install Ansible
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'ansible'
@@ -518,31 +517,28 @@ jobs:
       - name: Install Cargo
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cargo'
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool cargo -Destination "$RUNNER_TEMP/cargo.tar.xz"
+          tar -xJf "$RUNNER_TEMP/cargo.tar.xz" -C "$CLI_TOOLS_ROOT/bin" --strip-components=3 \
+            --wildcards 'cargo-*/cargo/bin/cargo'
 
       # Kubernetes/GitOps tools
       - name: Install eksctl
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'eksctl'
         run: |
-          ARCH=amd64
-          PLATFORM=$(uname -s)_$ARCH
-          EKSCTL_ARCHIVE="$RUNNER_TEMP/eksctl_$PLATFORM.tar.gz"
-          curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz" \
-            -o "$EKSCTL_ARCHIVE"
-          tar -xzf "$EKSCTL_ARCHIVE" -C "$CLI_TOOLS_ROOT/bin"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool eksctl -Destination "$RUNNER_TEMP/eksctl.tar.gz"
+          tar -xzf "$RUNNER_TEMP/eksctl.tar.gz" -C "$CLI_TOOLS_ROOT/bin" eksctl
 
       - name: Install ArgoCD CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'argocd'
         run: |
-          curl -sSL -o "$CLI_TOOLS_ROOT/bin/argocd" https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool argocd -Destination "$CLI_TOOLS_ROOT/bin/argocd"
           chmod +x "$CLI_TOOLS_ROOT/bin/argocd"
 
       - name: Install Flux CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flux'
         run: |
-          cd "$RUNNER_TEMP"
-          curl -s https://fluxcd.io/install.sh | sudo bash
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool flux -Destination "$RUNNER_TEMP/flux.tar.gz"
+          tar -xzf "$RUNNER_TEMP/flux.tar.gz" -C "$CLI_TOOLS_ROOT/bin" flux
 
       # Local Kubernetes tools
       - name: Install Kind
@@ -555,30 +551,28 @@ jobs:
       - name: Install Minikube
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'minikube'
         run: |
-          curl -fLo "$CLI_TOOLS_ROOT/bin/minikube" https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool minikube -Destination "$CLI_TOOLS_ROOT/bin/minikube"
           chmod +x "$CLI_TOOLS_ROOT/bin/minikube"
 
       # Supply chain security tools
       - name: Install Cosign
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cosign'
         run: |
-          curl -fLo "$CLI_TOOLS_ROOT/bin/cosign" https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool cosign -Destination "$CLI_TOOLS_ROOT/bin/cosign"
           chmod +x "$CLI_TOOLS_ROOT/bin/cosign"
-          cosign version
+          "$CLI_TOOLS_ROOT/bin/cosign" version
 
       - name: Install Syft
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'syft'
         run: |
-          cd "$RUNNER_TEMP"
-          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh |
-            sh -s -- -b "$CLI_TOOLS_ROOT/bin"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool syft -Destination "$RUNNER_TEMP/syft.tar.gz"
+          tar -xzf "$RUNNER_TEMP/syft.tar.gz" -C "$CLI_TOOLS_ROOT/bin" syft
 
       - name: Install Grype
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'grype'
         run: |
-          cd "$RUNNER_TEMP"
-          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh |
-            sh -s -- -b "$CLI_TOOLS_ROOT/bin"
+          pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool grype -Destination "$RUNNER_TEMP/grype.tar.gz"
+          tar -xzf "$RUNNER_TEMP/grype.tar.gz" -C "$CLI_TOOLS_ROOT/bin" grype
 
       # Code quality tools
       - name: Install ShellCheck
@@ -1003,12 +997,21 @@ jobs:
       - name: Install WinGet
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'winget'
         shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          Install-Module Microsoft.WinGet.Client -Repository PSGallery -Scope CurrentUser -Force
-          Import-Module Microsoft.WinGet.Client -Force
-          Repair-WinGetPackageManager -Latest -Force
+          $bundle = Join-Path $env:RUNNER_TEMP 'Microsoft.DesktopAppInstaller.msixbundle'
+          $dependencies = Join-Path $env:RUNNER_TEMP 'winget-dependencies.zip'
+          $dependencyRoot = Join-Path $env:RUNNER_TEMP 'winget-dependencies'
+          & .github/scripts/Get-GenerationTool.ps1 -Tool winget -Destination $bundle
+          & .github/scripts/Get-GenerationTool.ps1 -Tool winget-dependencies -Destination $dependencies
+          Expand-Archive -LiteralPath $dependencies -DestinationPath $dependencyRoot
+          # Appx must bind dependency arrays inside Windows PowerShell, without its compatibility proxy.
+          powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .github/scripts/Test-GenerationWinGet.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'WinGet registration tests failed.' }
+          powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File .github/scripts/Install-GenerationWinGet.ps1 -Bundle $bundle -DependencyRoot $dependencyRoot
+          if ($LASTEXITCODE -ne 0) { throw 'WinGet package registration failed.' }
+          $windowsApps = Join-Path $env:LOCALAPPDATA 'Microsoft/WindowsApps'
+          $windowsApps | Out-File -FilePath $env:GITHUB_PATH -Append
+          $env:PATH = "$windowsApps;$env:PATH"
           winget --version
 
       - name: Pin resolved executable for scraper
