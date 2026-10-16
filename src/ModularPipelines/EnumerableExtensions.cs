@@ -5,7 +5,7 @@ namespace ModularPipelines;
 /// <summary>
 /// Extensions for enumerables.
 /// </summary>
-public static class EnumerableExtensions
+internal static class EnumerableExtensions
 {
     /// <summary>
     /// Gets the specified module from the collection of modules.

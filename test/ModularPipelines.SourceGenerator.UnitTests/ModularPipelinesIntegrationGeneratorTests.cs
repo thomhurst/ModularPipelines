@@ -116,6 +116,12 @@ public class ModularPipelinesIntegrationGeneratorTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource)
+                .Contains($"""
+                    [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+                    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ModularPipelines.SourceGenerator", "{typeof(ModularPipelinesIntegrationGenerator).Assembly.GetName().Version}")]
+                    public static class
+                    """);
+            await Assert.That(generatedSource)
                 .Contains("public global::IGit Git => tools.Get<global::IGit>();");
             await Assert.That(generatedSource)
                 .Contains("\"ModularPipelines.ToolProperty:Git\", \"global::IGit\"");
