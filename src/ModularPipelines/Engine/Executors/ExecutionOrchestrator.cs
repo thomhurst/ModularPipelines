@@ -49,7 +49,8 @@ internal class ExecutionOrchestrator(
     RerunFailedPlan? rerunFailedPlan = null,
     TimeSpan? endHandlerTimeout = null) : IExecutionOrchestrator
 {
-    private readonly TimeSpan _endHandlerTimeout = endHandlerTimeout ?? TimeSpan.FromSeconds(30);
+    // Leave time for reports and disposal within the 30-second process-exit budget.
+    private readonly TimeSpan _endHandlerTimeout = endHandlerTimeout ?? TimeSpan.FromSeconds(5);
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
     private readonly IPipelineOutputCoordinator _outputCoordinator = outputCoordinator;
@@ -228,7 +229,8 @@ internal class ExecutionOrchestrator(
 
         try
         {
-            await InvokePipelineEndHandlersAsync(summary, caughtException is not null).ConfigureAwait(false);
+            await InvokePipelineEndHandlersAsync(summary, caughtException is not null || summary.Status == ModuleStatus.Failed)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -241,6 +243,9 @@ internal class ExecutionOrchestrator(
     /// <summary>
     /// Runs end handlers after startup or execution, without replacing an existing pipeline failure.
     /// </summary>
+    /// <remarks>
+    /// The timeout bounds asynchronous handler work. Synchronous work before a handler returns its task is not bounded.
+    /// </remarks>
     private async Task InvokePipelineEndHandlersAsync(PipelineSummary summary, bool executionFailed)
     {
         // Shutdown must leave cleanup time, while explicit pipeline cancellation still stops handlers.
