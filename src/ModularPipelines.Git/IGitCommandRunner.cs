@@ -15,7 +15,7 @@ public interface IGitCommandRunner
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command.</returns>
     /// <exception cref="Exception">Thrown when the git command fails.</exception>
-    Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
+    Task<string> RunCommandsAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
 
     /// <summary>
     /// Executes git commands and returns the trimmed standard output.
@@ -24,13 +24,13 @@ public interface IGitCommandRunner
     /// <param name="cancellationToken">The token used to cancel command execution.</param>
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command.</returns>
-    Task<string> RunCommands(
+    Task<string> RunCommandsAsync(
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken,
         params string?[] commands)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return RunCommands(commandEnvironmentOptions, commands);
+        return RunCommandsAsync(commandEnvironmentOptions, commands);
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public interface IGitCommandRunner
     /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command, or null if the command failed.</returns>
-    Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
+    Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
 
     /// <summary>
     /// Executes git commands and returns the trimmed standard output, or null if the command fails.
@@ -48,13 +48,13 @@ public interface IGitCommandRunner
     /// <param name="cancellationToken">The token used to cancel command execution.</param>
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command, or null if the command failed.</returns>
-    Task<string?> RunCommandsOrNull(
+    Task<string?> RunCommandsOrNullAsync(
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken,
         params string?[] commands)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return RunCommandsOrNull(commandEnvironmentOptions, commands);
+        return RunCommandsOrNullAsync(commandEnvironmentOptions, commands);
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public interface IGitCommandRunner
     /// The default implementation renders the shared settings before command parts and delegates
     /// to the configured low-level runner. Runners may override this method for typed execution.
     /// </remarks>
-    async Task<string?> RunCommandsOrNull(
+    async Task<string?> RunCommandsOrNullAsync(
         GitOptions options,
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken)
@@ -76,7 +76,7 @@ public interface IGitCommandRunner
         cancellationToken.ThrowIfCancellationRequested();
         try
         {
-            return await RunCommandsOrNull(
+            return await RunCommandsOrNullAsync(
                 GitCommandArguments.WithSecrets(options, commandEnvironmentOptions),
                 cancellationToken,
                 GitCommandArguments.Build(options)).ConfigureAwait(false);

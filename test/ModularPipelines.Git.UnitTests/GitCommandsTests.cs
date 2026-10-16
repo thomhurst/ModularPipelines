@@ -38,12 +38,12 @@ public class GitCommandsTests
     {
         public string?[]? Commands { get; private set; }
 
-        public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             throw new NotSupportedException();
         }
 
-        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+        public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             Commands = commands;
             return Task.FromResult<string?>(output);

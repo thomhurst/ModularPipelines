@@ -12,13 +12,13 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
     private readonly ILogger<GitCommandRunner> _logger = logger;
 
     /// <inheritdoc />
-    public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    public Task<string> RunCommandsAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
     {
-        return RunCommands(commandEnvironmentOptions, default, commands);
+        return RunCommandsAsync(commandEnvironmentOptions, default, commands);
     }
 
     /// <inheritdoc />
-    public async Task<string> RunCommands(
+    public async Task<string> RunCommandsAsync(
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken,
         params string?[] commands)
@@ -62,13 +62,13 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
     }
 
     /// <inheritdoc />
-    public Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
     {
-        return RunCommandsOrNull(commandEnvironmentOptions, default, commands);
+        return RunCommandsOrNullAsync(commandEnvironmentOptions, default, commands);
     }
 
     /// <inheritdoc />
-    public async Task<string?> RunCommandsOrNull(
+    public async Task<string?> RunCommandsOrNullAsync(
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken,
         params string?[] commands)
@@ -79,7 +79,7 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
             {
                 ThrowOnNonZeroExitCode = true,
             };
-            return await RunCommands(
+            return await RunCommandsAsync(
                 failureDetectingOptions,
                 cancellationToken,
                 commands).ConfigureAwait(false);
@@ -92,7 +92,7 @@ public class GitCommandRunner(IPipelineContext context, ILogger<GitCommandRunner
     }
 
     /// <inheritdoc />
-    public async Task<string?> RunCommandsOrNull(
+    public async Task<string?> RunCommandsOrNullAsync(
         GitOptions options,
         CommandExecutionOptions? commandEnvironmentOptions,
         CancellationToken cancellationToken)

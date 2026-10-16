@@ -68,7 +68,7 @@ internal static class GitCommitPager
     {
         if (options is null)
         {
-            return await gitCommandRunner.RunCommandsOrNull(
+            return await gitCommandRunner.RunCommandsOrNullAsync(
                 executionOptions, cancellationToken, ["log", .. arguments]).ConfigureAwait(false);
         }
 
@@ -77,7 +77,7 @@ internal static class GitCommitPager
             CommandParts = ["log"],
             Arguments = [.. arguments.OfType<string>()],
         };
-        return await gitCommandRunner.RunCommandsOrNull(
+        return await gitCommandRunner.RunCommandsOrNullAsync(
             pageOptions, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
