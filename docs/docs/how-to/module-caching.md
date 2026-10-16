@@ -112,14 +112,14 @@ Declare a produced file and consume it through a required dependency:
 
 ```csharp
 [ProducesArtifact("application", "artifacts/publish.zip")]
-public sealed class BuildModule : Module<Unit>
+public sealed class BuildModule : Module
 {
     // Create artifacts/publish.zip.
 }
 
 [DependsOn<BuildModule>]
 [ConsumesArtifact(typeof(BuildModule), "application", RestorePath = "deploy")]
-public sealed class DeployModule : Module<Unit>
+public sealed class DeployModule : Module
 {
     // Read deploy/application.
 }
@@ -167,7 +167,7 @@ Redis. Large S3 cache entries are uploaded with multipart uploads, so they are n
 
 - Declare all file inputs. An undeclared input cannot invalidate a cache entry.
 - Add key parts for arguments, configuration objects, external service versions, and other non-file inputs.
-- Return dependency values that change whenever relevant upstream state changes. Only direct dependency results are fingerprinted, so constant or `Unit` results do not propagate transitive invalidation.
+- Return dependency values that change whenever relevant upstream state changes. Only direct dependency results are fingerprinted, so constant results or no-value results (`None`, used by non-generic `Module`) do not propagate transitive invalidation.
 - Declare environment variables individually; the framework does not fingerprint the entire process environment.
 - Input files are content-hashed on every fingerprint calculation. File size and timestamps are not treated as proof that content is unchanged.
 - Use `ProducesArtifact` for files a cache hit must recreate.
