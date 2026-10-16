@@ -17,6 +17,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.UnitTests.FileSystem;
 using Moq;
 using OptionsFactory = Microsoft.Extensions.Options.Options;
 
@@ -3038,16 +3039,17 @@ public class ModuleCacheTests
             $"ModularPipelines-cache-linked-target-{Guid.NewGuid():N}");
         var externalDirectory = $"{temporaryDirectory}-external";
         var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
-        Directory.CreateDirectory(temporaryDirectory);
-        Directory.CreateDirectory(externalDirectory);
-        Directory.CreateSymbolicLink(
-            Path.Combine(temporaryDirectory, "linked-target"),
-            externalDirectory);
-        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
-        VaryingArtifactSetModule.ExecutionCount = 0;
 
         try
         {
+            Directory.CreateDirectory(temporaryDirectory);
+            Directory.CreateDirectory(externalDirectory);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
+                Path.Combine(temporaryDirectory, "linked-target"),
+                externalDirectory));
+            VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+            VaryingArtifactSetModule.ExecutionCount = 0;
+
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "set-input.txt"),
                 "a");
@@ -3075,8 +3077,15 @@ public class ModuleCacheTests
         }
         finally
         {
-            Directory.Delete(temporaryDirectory, recursive: true);
-            Directory.Delete(externalDirectory, recursive: true);
+            if (Directory.Exists(temporaryDirectory))
+            {
+                Directory.Delete(temporaryDirectory, recursive: true);
+            }
+
+            if (Directory.Exists(externalDirectory))
+            {
+                Directory.Delete(externalDirectory, recursive: true);
+            }
         }
     }
 
