@@ -1782,6 +1782,7 @@ ModularPipelines.Context.IEnvironmentContext.UserName.get -> string!
 ModularPipelines.Context.IEnvironmentContext.Variables.get -> ModularPipelines.Context.IEnvironmentVariablesContext!
 ModularPipelines.Context.IEnvironmentContext.WorkingDirectory.get -> ModularPipelines.FileSystem.FolderPath!
 ModularPipelines.Context.IEnvironmentVariablesContext
+ModularPipelines.Context.IEnvironmentVariablesContext.AddToPath(string! pathToAdd, bool prepend, System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> void
 ModularPipelines.Context.IEnvironmentVariablesContext.AddToPath(string! pathToAdd, System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> void
 ModularPipelines.Context.IEnvironmentVariablesContext.Get(string! name, System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> string?
 ModularPipelines.Context.IEnvironmentVariablesContext.GetAll(System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> System.Collections.Generic.IReadOnlyDictionary<string!, string?>!

@@ -686,6 +686,37 @@ public class CommandTests : TestBase
     public Task Successful_Command_Preserves_Unix_Environment_Name_Casing() =>
         AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: false);
 
+    [Test]
+    [WindowsOnlyTest]
+    [RequiresTool("pwsh")]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Command_Uses_Last_Windows_Environment_Name_Variant(bool dryRun)
+    {
+        var command = await GetService<ICommandContext>();
+        var result = await command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", "[Console]::Write($env:MP_TEST_CASE)"],
+            },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = dryRun,
+                EnvironmentVariables = new Dictionary<string, string?>(StringComparer.Ordinal)
+                {
+                    ["MP_TEST_CASE"] = "first",
+                    ["mp_test_case"] = "last",
+                },
+            });
+
+        await Assert.That(result.EnvironmentVariables.Count).IsEqualTo(1);
+        await Assert.That(result.EnvironmentVariables["MP_TEST_CASE"]).IsEqualTo("last");
+        if (!dryRun)
+        {
+            await Assert.That(result.StandardOutput).IsEqualTo("last");
+        }
+    }
+
     private async Task AssertCommandPreservesUnixEnvironmentNameCasing(bool dryRun)
     {
         if (OperatingSystem.IsWindows())

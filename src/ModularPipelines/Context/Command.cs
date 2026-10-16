@@ -896,14 +896,20 @@ internal sealed class Command(
 
     private static Dictionary<string, string?> GetRawEnvironmentVariables(ProcessCommand command)
     {
-        return command.EnvironmentVariables
-            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-            .ToDictionary(
-                pair => pair.Key,
-                pair => pair.Value,
-                OperatingSystem.IsWindows()
-                    ? StringComparer.OrdinalIgnoreCase
-                    : StringComparer.Ordinal);
+        var variables = new Dictionary<string, string?>(OperatingSystem.IsWindows()
+            ? StringComparer.OrdinalIgnoreCase
+            : StringComparer.Ordinal);
+
+        foreach (var pair in command.EnvironmentVariables)
+        {
+            if (!CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+            {
+                // Match ProcessCommand.CreateStartInfo: the last value for a name wins.
+                variables[pair.Key] = pair.Value;
+            }
+        }
+
+        return variables;
     }
 
     private Dictionary<string, string?> ObfuscateEnvironmentVariables(

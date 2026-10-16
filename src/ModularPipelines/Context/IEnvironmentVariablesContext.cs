@@ -31,6 +31,7 @@ public interface IEnvironmentVariablesContext
     /// <returns>
     /// A dictionary containing all environment variable names and their values
     /// for the specified target scope.
+    /// Names are compared case-insensitively on Windows and ordinally on other platforms.
     /// </returns>
     IReadOnlyDictionary<string, string?> GetAll(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
@@ -56,7 +57,7 @@ public interface IEnvironmentVariablesContext
     /// </param>
     /// <returns>
     /// A read-only list of paths from the PATH environment variable.
-    /// Returns an empty list if the PATH variable is not set.
+    /// Empty entries are excluded. Returns an empty list if the PATH variable is not set.
     /// </returns>
     IReadOnlyList<string> GetPath(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
@@ -64,6 +65,7 @@ public interface IEnvironmentVariablesContext
     /// Adds a path to the PATH environment variable.
     /// The path is appended using the platform-appropriate delimiter
     /// (semicolon on Windows, colon on Unix-like systems).
+    /// Empty entries and duplicates are removed using platform-appropriate case comparison.
     /// </summary>
     /// <param name="pathToAdd">The path to add to the PATH environment variable.</param>
     /// <param name="target">
@@ -71,4 +73,17 @@ public interface IEnvironmentVariablesContext
     /// Defaults to <see cref="EnvironmentVariableTarget.Process"/>.
     /// </param>
     void AddToPath(string pathToAdd, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+
+    /// <summary>
+    /// Adds a path to the beginning or end of the PATH environment variable.
+    /// Empty entries and duplicates are removed using platform-appropriate case comparison.
+    /// Prepending an existing path moves it to the beginning so it takes precedence.
+    /// </summary>
+    /// <param name="pathToAdd">The path to add to the PATH environment variable.</param>
+    /// <param name="prepend">Whether to prepend the path instead of appending it.</param>
+    /// <param name="target">
+    /// The target scope in which to modify the PATH variable.
+    /// Defaults to <see cref="EnvironmentVariableTarget.Process"/>.
+    /// </param>
+    void AddToPath(string pathToAdd, bool prepend, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 }
