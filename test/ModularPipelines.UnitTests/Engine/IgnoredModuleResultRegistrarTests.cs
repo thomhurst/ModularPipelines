@@ -39,7 +39,7 @@ public class IgnoredModuleResultRegistrarTests
                 [new IgnoredModule(dependency, SkipDecision.Skip("Unavailable on this worker"))]);
             var contextProvider = new Mock<IPipelineContextProvider>();
             contextProvider
-                .Setup(provider => provider.GetModuleContext())
+                .Setup(provider => provider.GetModuleContext(It.IsAny<object?>()))
                 .Returns(Mock.Of<IPipelineContext>());
             var resultRegistry = new ModuleResultRegistry();
             var registrar = CreateRegistrar(options, contextProvider.Object, resultRegistry);

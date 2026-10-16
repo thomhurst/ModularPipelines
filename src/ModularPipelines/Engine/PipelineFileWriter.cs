@@ -9,7 +9,7 @@ internal class PipelineFileWriter : IPipelineFileWriter, IScopeDisposer
     private readonly IServiceProvider _serviceProvider;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IEnumerable<IBuildSystemPipelineFileWriter> _writers;
-    private readonly List<IServiceScope> _scopes = new();
+    private readonly List<IServiceScope> _scopes = [];
 
     public PipelineFileWriter(IServiceProvider serviceProvider, IPipelineContextProvider pipelineContextProvider)
     {
@@ -24,7 +24,7 @@ internal class PipelineFileWriter : IPipelineFileWriter, IScopeDisposer
     {
         await _writers
             .ForEachAsync(x =>
-                x.WriteAsync(_pipelineContextProvider.GetModuleContext())
+                x.WriteAsync(_pipelineContextProvider.GetModuleContext(x))
             )
             .ProcessInParallel();
     }

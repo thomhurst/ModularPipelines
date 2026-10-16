@@ -884,7 +884,7 @@ public class ModuleConditionHandlerTests
     {
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
-            .Setup(x => x.GetModuleContext())
+            .Setup(x => x.GetModuleContext(It.IsAny<object?>()))
             .Returns(pipelineContext ?? Mock.Of<IPipelineContext>());
 
         // A bare mock reports no category (GetCategory returns null) and a no-op

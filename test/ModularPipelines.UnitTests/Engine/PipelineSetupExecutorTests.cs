@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -107,12 +108,43 @@ public class PipelineSetupExecutorTests
     }
 
     [Test]
+    public async Task Module_Hooks_Reuse_Their_Module_Scope_And_Keep_Modules_Isolated()
+    {
+        await using var services = new ServiceCollection()
+            .AddScoped<IPipelineContext>(_ => Mock.Of<IPipelineContext>())
+            .BuildServiceProvider();
+        await using var provider = new ModuleContextProvider(services);
+        var executor = new PipelineSetupExecutor(
+            [],
+            [Mock.Of<IModuleEventHandler>()],
+            new EventHandlerInvoker(Mock.Of<ILogger<EventHandlerInvoker>>()),
+            provider,
+            Mock.Of<IModuleMetadataRegistry>(),
+            new ModuleAttributeEventService());
+        var first = new TestModule();
+        var second = new TestModule();
+        var firstState = new ModuleState(first, first.GetType());
+        var secondState = new ModuleState(second, second.GetType());
+        var consoleWriter = Mock.Of<IConsoleWriter>();
+
+        await executor.OnModuleReadyAsync(firstState, consoleWriter, CancellationToken.None);
+        await executor.OnModuleStartAsync(firstState, consoleWriter, CancellationToken.None);
+        await executor.OnModuleFailureAsync(firstState, new Exception("test"), consoleWriter, CancellationToken.None);
+        await executor.OnModuleReadyAsync(secondState, consoleWriter, CancellationToken.None);
+
+        await Assert.That(provider.GetScopes().Count()).IsEqualTo(2);
+        var firstContext = provider.GetModuleContext(first);
+        await Assert.That(provider.GetScopes().Count()).IsEqualTo(2);
+        await Assert.That(provider.GetModuleContext(second)).IsNotSameReferenceAs(firstContext);
+    }
+
+    [Test]
     public async Task EventHandlers_Run_In_Ascending_Order()
     {
         var calls = new List<string>();
         var pipelineContext = Mock.Of<IPipelineContext>();
         var contextProvider = new Mock<IPipelineContextProvider>();
-        contextProvider.Setup(x => x.GetModuleContext()).Returns(pipelineContext);
+        contextProvider.Setup(x => x.GetModuleContext(It.IsAny<object?>())).Returns(pipelineContext);
         var executor = new PipelineSetupExecutor(
             [
                 new OrderedPipelineHandler(20, "pipeline-20", calls),

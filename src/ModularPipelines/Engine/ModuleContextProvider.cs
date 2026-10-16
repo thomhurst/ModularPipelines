@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
@@ -6,115 +5,107 @@ using ModularPipelines.Interfaces;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Provides scoped pipeline contexts for module execution.
+/// Provides one scoped pipeline context per module or pipeline operation owner.
 /// </summary>
 /// <remarks>
-/// <para>
-/// <b>Thread Safety:</b> This class is thread-safe. The <see cref="GetModuleContext"/>
-/// method can be called concurrently from multiple threads without external synchronization.
-/// </para>
-/// <para>
-/// <b>Synchronization Strategy:</b> Uses a lock (<c>_disposeLock</c>) to coordinate between
-/// context creation and disposal. The lock ensures that:
-/// - No new scopes are created after disposal begins
-/// - All scopes created before disposal are captured for cleanup
-/// ConcurrentBag is used because we only need add (during creation) and enumerate (during disposal),
-/// and it provides efficient lock-free adds while allowing enumeration via snapshot.
-/// </para>
+/// Context creation and disposal are synchronized. Reference identity keeps distinct module
+/// instances isolated, even when they implement value equality. Calls without a key share
+/// the pipeline scope. Contexts remain available until the pipeline is disposed.
 /// </remarks>
-/// <threadsafety static="true" instance="true"/>
-internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer, IAsyncDisposable
+internal class ModuleContextProvider(IServiceProvider serviceProvider) : IPipelineContextProvider, IScopeDisposer, IAsyncDisposable
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ConcurrentBag<IServiceScope> _scopes = new();
-    private readonly object _disposeLock = new();
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly Dictionary<object, ContextScope> _scopes = [with(ReferenceEqualityComparer.Instance)];
+    private readonly Lock _disposeLock = new();
     private bool _disposed;
 
-    public ModuleContextProvider(IServiceProvider serviceProvider)
+    public IPipelineContext GetModuleContext(object? scopeKey = null)
     {
-        _serviceProvider = serviceProvider;
-    }
-
-    public IPipelineContext GetModuleContext()
-    {
-        AsyncServiceScope serviceScope;
-
+        ContextScope contextScope;
         lock (_disposeLock)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            // Create and add scope inside lock to ensure atomicity with disposal.
-            // This prevents a race where disposal could take a snapshot between
-            // the _disposed check and the Add operation, leaving the scope undisposed.
-            serviceScope = _serviceProvider.CreateAsyncScope();
-            _scopes.Add(serviceScope);
+            scopeKey ??= this;
+            if (!_scopes.TryGetValue(scopeKey, out contextScope!))
+            {
+                var scope = _serviceProvider.CreateAsyncScope();
+                contextScope = new ContextScope(scope,
+                    new Lazy<IPipelineContext>(() => scope.ServiceProvider.GetRequiredService<IPipelineContext>()));
+                _scopes.Add(scopeKey, contextScope);
+            }
         }
 
-        return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        return contextScope.Context.Value;
     }
 
     public IEnumerable<IServiceScope> GetScopes()
     {
-        // Return empty if disposed to prevent IScopeDisposer.Dispose from double-disposing
-        if (_disposed)
+        lock (_disposeLock)
         {
-            return [];
+            return [.. _scopes.Values.Select(static entry => (IServiceScope) entry.Scope)];
         }
-
-        return _scopes;
     }
 
     public async ValueTask DisposeAsync()
     {
-        IServiceScope[] scopesToDispose;
-
-        lock (_disposeLock)
+        List<Exception>? exceptions = null;
+        foreach (var scope in TakeScopesForDisposal())
         {
-            if (_disposed)
+            try
             {
-                return;
+                await scope.DisposeAsync().ConfigureAwait(false);
             }
-
-            _disposed = true;
-
-            // Take snapshot inside lock to ensure atomicity.
-            // Any thread that passed the _disposed check in GetModuleContext
-            // before we set it will have already added to _scopes.
-            scopesToDispose = _scopes.ToArray();
-        }
-
-        foreach (var scope in scopesToDispose)
-        {
-            // AsyncServiceScope always implements IAsyncDisposable
-            await ((IAsyncDisposable) scope).DisposeAsync().ConfigureAwait(false);
+            catch (Exception exception)
+            {
+                (exceptions ??= []).Add(exception);
+            }
         }
 
         GC.SuppressFinalize(this);
+        if (exceptions is not null)
+        {
+            throw new AggregateException("Failed to dispose module context scopes.", exceptions);
+        }
     }
 
-    // Explicit implementation to coordinate with DisposeAsync and prevent double disposal
     void IDisposable.Dispose()
     {
-        IServiceScope[] scopesToDispose;
+        List<Exception>? exceptions = null;
+        foreach (var scope in TakeScopesForDisposal())
+        {
+            try
+            {
+                scope.Dispose();
+            }
+            catch (Exception exception)
+            {
+                (exceptions ??= []).Add(exception);
+            }
+        }
 
+        GC.SuppressFinalize(this);
+        if (exceptions is not null)
+        {
+            throw new AggregateException("Failed to dispose module context scopes.", exceptions);
+        }
+    }
+
+    private AsyncServiceScope[] TakeScopesForDisposal()
+    {
         lock (_disposeLock)
         {
             if (_disposed)
             {
-                return;
+                return [];
             }
 
             _disposed = true;
-
-            // Take snapshot inside lock to ensure atomicity
-            scopesToDispose = _scopes.ToArray();
+            var scopes = _scopes.Values.Select(static entry => entry.Scope).ToArray();
+            _scopes.Clear();
+            return scopes;
         }
-
-        foreach (var scope in scopesToDispose)
-        {
-            scope.Dispose();
-        }
-
-        GC.SuppressFinalize(this);
     }
+
+    private sealed record ContextScope(AsyncServiceScope Scope, Lazy<IPipelineContext> Context);
 }
