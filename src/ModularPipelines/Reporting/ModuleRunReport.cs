@@ -20,6 +20,16 @@ public sealed record ModuleRunReport
     public string ModuleTypeName { get; init; } = string.Empty;
 
     /// <summary>
+    /// Gets the original stored result start time, including when this run reused the result.
+    /// </summary>
+    public DateTimeOffset? ResultStartTime { get; init; }
+
+    /// <summary>
+    /// Gets the original stored result end time, including when this run reused the result.
+    /// </summary>
+    public DateTimeOffset? ResultEndTime { get; init; }
+
+    /// <summary>
     /// Gets the final module status.
     /// </summary>
     [JsonConverter(typeof(RunHistoryModuleStatusJsonConverter))]

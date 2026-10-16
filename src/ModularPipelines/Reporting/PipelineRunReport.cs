@@ -12,7 +12,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 5;
+    public const int CurrentSchemaVersion = 6;
 
     /// <summary>
     /// Gets the schema version used by this report.
@@ -28,6 +28,11 @@ public sealed record PipelineRunReport
     /// Gets the stable identity used to partition this pipeline's retained history.
     /// </summary>
     public string? PipelineIdentity { get; init; }
+
+    /// <summary>
+    /// Gets the fingerprint of module types, result types, and dependency edges used for rerun compatibility.
+    /// </summary>
+    public string? GraphFingerprint { get; init; }
 
     /// <summary>
     /// Gets source-control, machine, and CI correlation metadata.

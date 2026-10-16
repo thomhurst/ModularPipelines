@@ -25,7 +25,8 @@ await builder.RunAsync();
 | --- | --- |
 | `--help`, `-h` | Prints built-in pipeline command-line usage without executing modules. |
 | `--dry-run` | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules. |
-| `--no-cache` | Disables module cache reads and writes for this run. |
+| `--no-cache` | Disables module cache reads and writes, and result reuse with `--rerun-failed`. |
+| `--rerun-failed` | Reruns unsuccessful modules and their transitive dependents, reusing compatible stored successful results. |
 | `--list-modules` | Lists registered modules, categories, and direct dependencies without executing modules. |
 | `--module <name>` | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas. |
 | `--skip-module <name>` | Excludes a module. Repeat the option or separate names with commas. |
@@ -73,6 +74,43 @@ not forwarded.
 ```shell
 dotnet run -- -- --dryrun=true
 ```
+
+## Rerun Failed Modules
+
+```shell
+dotnet run -- --rerun-failed
+```
+
+The pipeline selects the newest compatible retained run for the same pipeline
+identity (`RunReport.PipelineIdentity`, or the identity derived from registered
+module types). Compatibility requires the same module types, compiled module
+assemblies, result types, and dependency edges. Reports from older schema versions,
+changed graphs, and corrupt files are not used. If no compatible history exists,
+the selected modules execute normally.
+
+Run reports contain status and telemetry, not typed result values. Configure an
+`IModuleResultRepository` with `AddResultsRepository<TRepository>()` to reuse
+successful results. The repository must return the actual successful typed result,
+including its original module identity and start/end timestamps. Results must match
+the retained report. Missing, stale, failed, disabled, or unreadable results cause
+the module and its transitive dependents to execute. A missing result never becomes
+a default-valued success. The repository remains responsible for validating inputs
+and external state that are not represented in the module graph.
+
+Failed, cancelled, skipped, and unknown modules execute again, along with their
+transitive dependents. Successful modules can be reused across repeated reruns,
+including legitimate null or default result values stored as successful results.
+Module and category selection, explicit skips, and module skip conditions still
+apply, including their existing historical-result behavior. Rerun execution bypasses
+fingerprint cache reads and writes so a failed module or dependent really executes.
+Combine with `--no-cache` to disable successful result reuse by the rerun plan as
+well. Planning commands (`--dry-run`, `--list-modules`, `--validate`, and graph
+export) retain their normal behavior without loading a rerun plan.
+
+This option currently supports in-process pipelines. Distributed master/worker
+execution rejects it with an explicit error.
+
+Set `PipelineOptions.RerunFailed = true` for the same behavior programmatically.
 
 ## Programmatic Selection
 

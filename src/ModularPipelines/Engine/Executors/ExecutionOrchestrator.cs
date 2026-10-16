@@ -45,7 +45,8 @@ internal class ExecutionOrchestrator(
     IPipelineSetupExecutor pipelineSetupExecutor,
     ISecondaryExceptionContainer secondaryExceptionContainer,
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
-    IExecutionBackend? executionBackend = null) : IExecutionOrchestrator
+    IExecutionBackend? executionBackend = null,
+    RerunFailedPlan? rerunFailedPlan = null) : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
@@ -129,6 +130,11 @@ internal class ExecutionOrchestrator(
                     .Initialize(_engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 allModules = organizedModules.AllModules;
+                if (rerunFailedPlan is not null)
+                {
+                    await rerunFailedPlan.InitializeAsync(organizedModules, _engineCancellationToken.Token)
+                        .ConfigureAwait(false);
+                }
 
                 // Resolve ignored modules against history before cascading required dependencies.
                 organizedModules = await _ignoredModuleResultRegistrar

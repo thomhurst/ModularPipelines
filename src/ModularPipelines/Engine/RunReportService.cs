@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
@@ -652,19 +650,9 @@ internal sealed class RunReportService(
 
     private string GetPipelineIdentity(PipelineSummary summary)
     {
-        var configuredIdentity = pipelineOptions.Value.RunReport.PipelineIdentity;
-        if (!string.IsNullOrWhiteSpace(configuredIdentity))
-        {
-            return configuredIdentity;
-        }
-
-        var definition = string.Join(
-            '\n',
-            summary.Modules
-                .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
-                .OrderBy(static name => name, StringComparer.Ordinal));
-        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(definition)))
-            .ToLowerInvariant();
+        return PipelineRunCompatibility.GetPipelineIdentity(
+            pipelineOptions.Value.RunReport.PipelineIdentity,
+            summary.Modules);
     }
 
     private sealed record WorkerMetricsWaitResult(

@@ -9,6 +9,8 @@ internal static class PipelineCommandLineHelp
     public const string Usage = """
         ModularPipelines command-line options:
           --help, -h                     Show this help.
+          --rerun-failed                 Rerun failures and dependents, reusing compatible successful results.
+          --no-cache                     Disable cache and rerun result reuse.
           --dry-run                      Print the execution plan without running modules.
           --list-modules                 List registered modules and dependencies.
           --validate                     Validate the pipeline without running modules.

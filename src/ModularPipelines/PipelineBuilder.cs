@@ -89,6 +89,7 @@ public sealed class PipelineBuilder
         {
             DryRun = _commandLineOptions.Command == PipelineCommand.DryRun,
             DisableModuleCache = _commandLineOptions.DisableModuleCache,
+            RerunFailed = _commandLineOptions.RerunFailed,
             TargetModules = NullIfEmpty(_commandLineOptions.TargetModules),
             SkippedModules = NullIfEmpty(_commandLineOptions.SkippedModules),
             RunOnlyCategories = NullIfEmpty(_commandLineOptions.RunOnlyCategories),

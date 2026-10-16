@@ -11,6 +11,7 @@ internal static class PipelineCommandLineParser
     private const string ValidateOption = "--validate";
     private const string DryRunOption = "--dry-run";
     private const string NoCacheOption = "--no-cache";
+    private const string RerunFailedOption = "--rerun-failed";
     private const string ModuleOption = "--module";
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
@@ -25,6 +26,7 @@ internal static class PipelineCommandLineParser
         ValidateOption,
         DryRunOption,
         NoCacheOption,
+        RerunFailedOption,
         ModuleOption,
         SkipModuleOption,
         CategoriesOption,
@@ -40,6 +42,7 @@ internal static class PipelineCommandLineParser
         ValidateOption,
         DryRunOption,
         NoCacheOption,
+        RerunFailedOption,
     ];
 
     private static readonly IReadOnlyDictionary<string, PipelineCommand> CommandOptions =
@@ -82,7 +85,8 @@ internal static class PipelineCommandLineParser
             Distinct(state.RunOnlyCategories),
             Distinct(state.IgnoreCategories),
             state.GraphFormat,
-            state.GraphPath);
+            state.GraphPath,
+            state.RerunFailed);
     }
 
     private static ParsingState ParseArguments(IReadOnlyList<string> arguments)
@@ -121,6 +125,12 @@ internal static class PipelineCommandLineParser
         if (TryReadGraphPath(arguments, ref index, out var parsedExplicitGraphPath))
         {
             state.GraphPath = SetGraphPath(state.GraphPath, parsedExplicitGraphPath);
+            return;
+        }
+
+        if (argument.Equals(RerunFailedOption, StringComparison.OrdinalIgnoreCase))
+        {
+            state.RerunFailed = true;
             return;
         }
 
@@ -372,6 +382,8 @@ internal static class PipelineCommandLineParser
         public PipelineCommand Command { get; set; } = PipelineCommand.Run;
 
         public bool DisableModuleCache { get; set; }
+
+        public bool RerunFailed { get; set; }
 
         public List<string> HostArguments { get; } = [];
 

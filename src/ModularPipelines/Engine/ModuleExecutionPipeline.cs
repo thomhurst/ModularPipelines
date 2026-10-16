@@ -38,7 +38,8 @@ internal class ModuleExecutionPipeline(
     IModuleConditionHandler moduleConditionHandler,
     IOptions<PipelineOptions> pipelineOptions,
     IModuleCacheResultRepository? cacheResultRepository = null,
-    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null) : IModuleExecutionPipeline
+    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null,
+    RerunFailedPlan? rerunFailedPlan = null) : IModuleExecutionPipeline
 {
     private readonly IModuleResultRepository _resultRepository = resultRepository;
     private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
@@ -112,6 +113,17 @@ internal class ModuleExecutionPipeline(
             {
                 await prepareExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
                     .ConfigureAwait(false);
+            }
+
+            var restoredResult = rerunFailedPlan?.GetResult<T>(module);
+            if (restoredResult is not null)
+            {
+                var historicalResult = UseHistoricalResult(executionContext, restoredResult, SkipDecision.DoNotSkip,
+                    logger, "Reusing successful result from previous compatible run");
+                await finalizer.FinalizeAsync(historicalResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(historicalResult);
+                finalizer.Complete(historicalResult);
+                return historicalResult;
             }
 
             var cachedResult = await TryUseCachedResultAsync(
@@ -306,7 +318,8 @@ internal class ModuleExecutionPipeline(
         IModuleContext moduleContext,
         ILogger logger)
     {
-        if (_pipelineOptions.Value.DisableModuleCache
+        if (_pipelineOptions.Value.RerunFailed
+            || _pipelineOptions.Value.DisableModuleCache
             || !config.CacheEnabled
             || _cacheResultRepository is null)
         {
@@ -671,7 +684,8 @@ internal class ModuleExecutionPipeline(
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        if (_pipelineOptions.Value.DisableModuleCache
+        if (_pipelineOptions.Value.RerunFailed
+            || _pipelineOptions.Value.DisableModuleCache
             || !((IModule) module).Configuration.CacheEnabled
             || _cacheResultRepository is null)
         {

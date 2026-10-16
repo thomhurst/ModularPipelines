@@ -2910,7 +2910,7 @@ const ModularPipelines.Capability.Names.MacOS = "macos" -> string!
 const ModularPipelines.Capability.Names.Windows = "windows" -> string!
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 4 -> int
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion = 2 -> int
-const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 5 -> int
+const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 6 -> int
 const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandInputTag = "process.command_line" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandSourceName = "ModularPipelines.Commands" -> string!
@@ -3571,3 +3571,11 @@ ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.get -> Syste
 ModularPipelines.Options.CommandExecutionOptions.OutputDrainTimeout.init -> void
 ModularPipelines.ModuleConfigurationBuilder.WithParallelLimiter<TParallelLimit>() -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.Configuration.ModuleConfiguration.ParallelLimiterType.get -> System.Type?
+ModularPipelines.Options.PipelineOptions.RerunFailed.get -> bool
+ModularPipelines.Options.PipelineOptions.RerunFailed.init -> void
+ModularPipelines.Reporting.PipelineRunReport.GraphFingerprint.get -> string?
+ModularPipelines.Reporting.PipelineRunReport.GraphFingerprint.init -> void
+ModularPipelines.Reporting.ModuleRunReport.ResultStartTime.get -> System.DateTimeOffset?
+ModularPipelines.Reporting.ModuleRunReport.ResultStartTime.init -> void
+ModularPipelines.Reporting.ModuleRunReport.ResultEndTime.get -> System.DateTimeOffset?
+ModularPipelines.Reporting.ModuleRunReport.ResultEndTime.init -> void

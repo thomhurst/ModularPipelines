@@ -32,6 +32,8 @@ namespace ModularPipelines;
 [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
 public abstract record ModuleResult : IModuleResult
 {
+    internal virtual bool HasSuccessfulValue => false;
+
     // === Metadata (available on all outcomes) ===
 
     /// <inheritdoc />
@@ -231,6 +233,8 @@ public abstract record ModuleResult : IModuleResult
 [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
 public abstract record ModuleResult<T> : ModuleResult
 {
+    internal override bool HasSuccessfulValue => this is Success;
+
     /// <summary>
     /// Gets the successful value.
     /// </summary>
