@@ -42,6 +42,12 @@ public interface IZipContext
     /// <param name="outputFolderPath">The path where the contents will be extracted.</param>
     /// <param name="overwriteFiles">If <c>true</c>, existing files will be overwritten; otherwise, an exception is thrown for conflicts.</param>
     /// <returns>A <see cref="FolderPath"/> representing the extraction destination folder.</returns>
+    /// <remarks>
+    /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
+    /// The caller must prevent concurrent changes to the destination tree during extraction;
+    /// path validation and filesystem writes are not atomic.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">An entry escapes the destination or traverses an existing link below it.</exception>
     FolderPath ExtractToDirectory(string zipPath, string outputFolderPath, bool overwriteFiles);
 
     /// <summary>Asynchronously compresses a folder into a ZIP file.</summary>
@@ -70,7 +76,11 @@ public interface IZipContext
     /// <remarks>
     /// Cancellation or failure can leave files already extracted, including a partial current file.
     /// File metadata and ZIP central-directory enumeration are synchronous; entry contents are copied asynchronously.
+    /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
+    /// The caller must prevent concurrent changes to the destination tree during extraction;
+    /// path validation and filesystem writes are not atomic.
     /// </remarks>
+    /// <exception cref="InvalidOperationException">An entry escapes the destination or traverses an existing link below it.</exception>
     Task<FolderPath> ExtractToDirectoryAsync(
         string zipPath,
         string outputFolderPath,
