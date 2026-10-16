@@ -20,6 +20,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -556,6 +557,7 @@ public class DistributedModuleExecutorTests
         var services = new ServiceCollection();
         services.AddScoped(_ => loggerProvider.Object);
         services.AddScoped(_ => Mock.Of<IPipelineContext>());
+        services.AddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
         return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
     }
 

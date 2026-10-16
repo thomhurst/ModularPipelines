@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Events;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -30,6 +31,31 @@ public class AmbientFileSystemTests
         var result = await summary.Modules.OfType<ProviderModule>().Single();
 
         await Assert.That(result.ValueOrDefault).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadyHandlersUseRegisteredProvider()
+    {
+        var provider = Mock.Of<IFileSystemProvider>();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(provider);
+        builder.AddModule<ReadyProviderModule>();
+        builder.AddModuleEventHandler<ReadyProviderHandler>();
+
+        var summary = await builder.RunAsync();
+        var module = summary.Modules.OfType<ReadyProviderModule>().Single();
+
+        await Assert.That(module.ReadyFiles).Count().IsEqualTo(2);
+        await Assert.That(module.ReadyFolders).Count().IsEqualTo(2);
+        foreach (var file in module.ReadyFiles)
+        {
+            await Assert.That(file.Provider).IsSameReferenceAs(provider);
+        }
+
+        foreach (var folder in module.ReadyFolders)
+        {
+            await Assert.That(folder.Provider).IsSameReferenceAs(provider);
+        }
     }
 
     [Test]
@@ -109,6 +135,40 @@ public class AmbientFileSystemTests
             await Assert.That(folder == otherFolder).IsFalse();
             await Assert.That(folder.GetHashCode()).IsEqualTo(sameFolder.GetHashCode());
             await Assert.That(new HashSet<FolderPath> { folder, sameFolder, otherFolder }).Count().IsEqualTo(2);
+        }
+    }
+
+    [ReadyProvider]
+    private sealed class ReadyProviderModule : Module<bool>
+    {
+        public List<FilePath> ReadyFiles { get; } = [];
+
+        public List<FolderPath> ReadyFolders { get; } = [];
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(true);
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class ReadyProviderAttribute : Attribute, IModuleReadyHandler
+    {
+        public async Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            var module = (ReadyProviderModule) context.Module;
+            module.ReadyFiles.Add(new FilePath("attribute.txt"));
+            module.ReadyFolders.Add(new FolderPath("attribute"));
+        }
+    }
+
+    private sealed class ReadyProviderHandler : IModuleEventHandler
+    {
+        public async Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            var module = (ReadyProviderModule) context.Module;
+            module.ReadyFiles.Add(new FilePath("handler.txt"));
+            module.ReadyFolders.Add(new FolderPath("handler"));
         }
     }
 

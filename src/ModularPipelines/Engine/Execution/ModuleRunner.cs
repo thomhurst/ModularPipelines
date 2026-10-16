@@ -194,6 +194,8 @@ internal class ModuleRunner : IModuleRunner
                             scope.ServiceProvider,
                             cancellationToken);
                         readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
+                        using var readyOutputScope = new ModuleOutputContextScope(
+                            moduleType, readyLogger, scope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
                         await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                     }
 
