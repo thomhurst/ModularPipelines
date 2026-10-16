@@ -7,6 +7,10 @@ public record AzurePipelineVariables
 {
     public AzurePipelineAgentVariables Agent { get; }
 
+    public AzurePipelineBuildVariables Build { get; } = new();
+
+    public AzurePipelineSystemVariables System { get; } = new();
+
     public AzurePipelineVariables(AzurePipelineAgentVariables agent)
     {
         Agent = agent;

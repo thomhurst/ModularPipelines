@@ -6,4 +6,5 @@
   </Configurations>
   <Project Path="../ModularPipelines/ModularPipelines.csproj" />
   <Project Path="ModularPipelines.Azure.Pipelines.csproj" />
+  <Project Path="../../test/ModularPipelines.Azure.Pipelines.UnitTests/ModularPipelines.Azure.Pipelines.UnitTests.csproj" />
 </Solution>
