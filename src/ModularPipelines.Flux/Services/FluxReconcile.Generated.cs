@@ -34,12 +34,12 @@ public class FluxReconcile : IFluxReconcile
     #region Sub-command Groups
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux reconcile image sub-commands.
     /// </summary>
     public FluxReconcileImage Image => _image ??= new FluxReconcileImage(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux reconcile source sub-commands.
     /// </summary>
     public FluxReconcileSource Source => _source ??= new FluxReconcileSource(_command);
 

@@ -34,12 +34,12 @@ public class FluxSuspend : IFluxSuspend
     #region Sub-command Groups
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux suspend image sub-commands.
     /// </summary>
     public FluxSuspendImage Image => _image ??= new FluxSuspendImage(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux suspend source sub-commands.
     /// </summary>
     public FluxSuspendSource Source => _source ??= new FluxSuspendSource(_command);
 

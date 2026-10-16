@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Services;
 
 /// <summary>
-/// flux image commands.
+/// flux resume image commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxResumeImage

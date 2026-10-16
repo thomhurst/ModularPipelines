@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Services;
 
 /// <summary>
-/// flux artifact commands.
+/// flux export artifact commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class FluxExportArtifact

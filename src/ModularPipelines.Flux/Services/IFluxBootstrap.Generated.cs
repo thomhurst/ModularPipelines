@@ -40,6 +40,15 @@ public interface IFluxBootstrap
     public Task<CommandResult> BitbucketServerAsync(FluxBootstrapBitbucketServerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// The bootstrap git command commits the Flux manifests to the
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> GitAsync(FluxBootstrapGitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// The bootstrap gitea command creates the Gitea repository if it doesn't exists and
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -65,14 +74,5 @@ public interface IFluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> GitlabAsync(FluxBootstrapGitlabOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// The bootstrap git command commits the Flux manifests to the
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> GitAsync(FluxBootstrapGitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

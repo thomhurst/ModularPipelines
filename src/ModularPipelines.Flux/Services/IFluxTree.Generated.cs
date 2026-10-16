@@ -22,7 +22,7 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxTree
 {
     /// <summary>
-    /// flux artifact sub-commands.
+    /// flux tree artifact sub-commands.
     /// </summary>
     FluxTreeArtifact Artifact { get; }
 

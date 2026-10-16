@@ -35,17 +35,17 @@ public class FluxExport : IFluxExport
     #region Sub-command Groups
 
     /// <summary>
-    /// flux artifact sub-commands.
+    /// flux export artifact sub-commands.
     /// </summary>
     public FluxExportArtifact Artifact => _artifact ??= new FluxExportArtifact(_command);
 
     /// <summary>
-    /// flux image sub-commands.
+    /// flux export image sub-commands.
     /// </summary>
     public FluxExportImage Image => _image ??= new FluxExportImage(_command);
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux export source sub-commands.
     /// </summary>
     public FluxExportSource Source => _source ??= new FluxExportSource(_command);
 

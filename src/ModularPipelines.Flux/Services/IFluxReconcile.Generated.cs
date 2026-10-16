@@ -22,12 +22,12 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxReconcile
 {
     /// <summary>
-    /// flux image sub-commands.
+    /// flux reconcile image sub-commands.
     /// </summary>
     FluxReconcileImage Image { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux reconcile source sub-commands.
     /// </summary>
     FluxReconcileSource Source { get; }
 

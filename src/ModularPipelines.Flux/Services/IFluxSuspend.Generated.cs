@@ -22,12 +22,12 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxSuspend
 {
     /// <summary>
-    /// flux image sub-commands.
+    /// flux suspend image sub-commands.
     /// </summary>
     FluxSuspendImage Image { get; }
 
     /// <summary>
-    /// flux source sub-commands.
+    /// flux suspend source sub-commands.
     /// </summary>
     FluxSuspendSource Source { get; }
 
