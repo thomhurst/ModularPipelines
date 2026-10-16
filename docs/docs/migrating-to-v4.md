@@ -117,7 +117,7 @@ Most module-authoring types now live directly in `ModularPipelines`:
 
 Start ordinary modules with `using ModularPipelines;`. Keep other imports where you need them,
 such as `ModularPipelines.Options`, `ModularPipelines.Extensions`, `ModularPipelines.FileSystem`,
-and tool option namespaces.
+and generated CLI option namespaces.
 
 Do not replace whole namespaces blindly. Some types did not move:
 
@@ -172,6 +172,32 @@ await context.Shell.RunAsync(
 
 Run package-manager commands with the permissions your environment requires. Translate each old
 `AptGet*Options` value to its CLI argument; there is no `context.Tools.AptGet` property in core.
+
+### Handwritten integration packages
+
+Several handwritten integrations flatten their options, models, attributes, and extension
+methods into the package root namespace. Replace the old imports below; leaving obsolete
+`using` directives in place causes CS0246. Follow each package's migration section for related
+API changes.
+
+| Package migration guide | Old namespaces | V4 namespace |
+| --- | --- | --- |
+| [Email](./mp-packages/email.md#v4-migration) | `ModularPipelines.Email.Options`, `.Extensions` | `ModularPipelines.Email` |
+| [FTP](./mp-packages/ftp.md#v4-migration) | `ModularPipelines.Ftp.Options`, `.Extensions` | `ModularPipelines.Ftp` |
+| [Slack](./mp-packages/slack.md#v4-migration) | `ModularPipelines.Slack.Options`, `.Extensions` | `ModularPipelines.Slack` |
+| [Microsoft Teams](./mp-packages/microsoft-teams.md#v4-migration) | `ModularPipelines.MicrosoftTeams.Options`, `.Models`, `.Extensions` | `ModularPipelines.MicrosoftTeams` |
+| [GitHub](./mp-packages/github.md#v4-migration) | `ModularPipelines.GitHub.Attributes`, `.PipelineWriters`, handwritten `.Options` / `.Extensions` types | `ModularPipelines.GitHub` |
+| [TeamCity](./mp-packages/teamcity.md#v4-migration) | `ModularPipelines.TeamCity.Extensions` | `ModularPipelines.TeamCity` |
+| [Azure Pipelines](./mp-packages/azure-pipelines.md#v4-migration) | `ModularPipelines.Azure.Pipelines.Extensions` | `ModularPipelines.Azure.Pipelines` |
+
+In the GitHub package, rename explicit references to `SkipIfNoGitHubToken` to
+`SkipIfNoGitHubTokenAttribute`. Attribute syntax `[SkipIfNoGitHubToken]` remains valid.
+The generated `gh` CLI options and services keep their generated namespaces.
+
+For [Node.js, npm, and npx](./mp-packages/node.md#npm-and-npx-in-v4), the handwritten
+`ModularPipelines.Node.Models` types are removed. Migrate to the generated options in
+`ModularPipelines.Node.Options` and service interfaces in `ModularPipelines.Node.Services`;
+these do not move to the package root namespace.
 
 ## Entry Point and Registration Changes
 
