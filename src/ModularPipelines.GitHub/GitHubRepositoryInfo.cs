@@ -91,21 +91,26 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             }
         }
 
+        Url = SanitizeRepositoryUrl(remoteUrl);
+        Endpoint = "github";
+        Owner = owner;
+        RepositoryName = repositoryName;
+        IsInitialized = true;
+    }
+
+    private static string? SanitizeRepositoryUrl(string? remoteUrl)
+    {
         if (Uri.TryCreate(remoteUrl, UriKind.Absolute, out var uri)
             && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp)
             && !string.IsNullOrEmpty(uri.UserInfo))
         {
-            remoteUrl = new UriBuilder(uri)
+            return new UriBuilder(uri)
             {
                 UserName = string.Empty,
                 Password = string.Empty,
             }.Uri.AbsoluteUri;
         }
 
-        Url = remoteUrl;
-        Endpoint = "github";
-        Owner = owner;
-        RepositoryName = repositoryName;
-        IsInitialized = true;
+        return remoteUrl;
     }
 }
