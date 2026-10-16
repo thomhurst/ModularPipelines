@@ -5,16 +5,10 @@ using ModularPipelines.Requirements;
 
 namespace ModularPipelines.Engine;
 
-internal class RequirementChecker : IRequirementChecker
+internal class RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IPipelineContextProvider moduleContextProvider) : IRequirementChecker
 {
-    private readonly IPipelineContextProvider _moduleContextProvider;
-    private readonly List<IPipelineRequirement> _requirements;
-
-    public RequirementChecker(IEnumerable<IPipelineRequirement> requirements, IPipelineContextProvider moduleContextProvider)
-    {
-        _moduleContextProvider = moduleContextProvider;
-        _requirements = requirements.ToList();
-    }
+    private readonly IPipelineContextProvider _moduleContextProvider = moduleContextProvider;
+    private readonly List<IPipelineRequirement> _requirements = [.. requirements];
 
     public async Task CheckRequirementsAsync(CancellationToken cancellationToken)
     {
@@ -36,7 +30,7 @@ internal class RequirementChecker : IRequirementChecker
                     try
                     {
                         var requirementDecision = await requirement
-                            .EvaluateAsync(_moduleContextProvider.GetModuleContext(), cancellationToken)
+                            .EvaluateAsync(_moduleContextProvider.GetModuleContext(requirement), cancellationToken)
                             .ConfigureAwait(false);
 
                         if (!requirementDecision.IsSatisfied)

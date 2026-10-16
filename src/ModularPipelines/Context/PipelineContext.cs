@@ -15,107 +15,81 @@ namespace ModularPipelines.Context;
 /// This class is registered as Scoped in the DI container, meaning each module execution
 /// gets its own instance. This ensures proper isolation between concurrent module executions.
 /// </remarks>
-internal class PipelineContext : IPipelineContext, IInternalPipelineContext
+internal class PipelineContext(
+    ModuleLookup moduleLookup,
+    IDependencyCollisionDetector dependencyCollisionDetector,
+    IModuleResultRepository moduleResultRepository,
+    IInternalModuleLoggerAccessor moduleLoggerAccessor,
+    IConsoleWriter consoleWriter,
+    EngineCancellationToken engineCancellationToken,
+    IShellContext shell,
+    IFilesContext files,
+    IDataContext data,
+    IEnvironmentContext environment,
+    IInstallersContext installers,
+    INetworkContext network,
+    ISecurityContext security,
+    IServicesContext services,
+    IArtifactContext artifacts,
+    ISummaryLogger summary) : IPipelineContext, IInternalPipelineContext
 {
-    private readonly IInternalModuleLoggerAccessor _moduleLoggerAccessor;
-    private readonly ModuleLookup _moduleLookup;
+    private readonly IInternalModuleLoggerAccessor _moduleLoggerAccessor = moduleLoggerAccessor;
+    private readonly ModuleLookup _moduleLookup = moduleLookup;
 
     /// <summary>
-    /// Cached logger instance for this context.
+    /// Logger explicitly bound to a module. Ambient loggers must be resolved for the current phase.
     /// </summary>
     private IModuleLogger? _logger;
 
     /// <inheritdoc />
-    public ILogger Logger => _logger ??= _moduleLoggerAccessor.GetLogger();
+    public ILogger Logger => _logger ?? _moduleLoggerAccessor.GetLogger();
 
     /// <inheritdoc />
-    public IConsoleWriter Console { get; }
+    public IConsoleWriter Console { get; } = consoleWriter;
 
     /// <inheritdoc />
-    public IShellContext Shell { get; }
+    public IShellContext Shell { get; } = shell;
 
     /// <inheritdoc />
-    public IFilesContext Files { get; }
+    public IFilesContext Files { get; } = files;
 
     /// <inheritdoc />
-    public IDataContext Data { get; }
+    public IDataContext Data { get; } = data;
 
     /// <inheritdoc />
-    public IEnvironmentContext Environment { get; }
+    public IEnvironmentContext Environment { get; } = environment;
 
     /// <inheritdoc />
-    public IInstallersContext Installers { get; }
+    public IInstallersContext Installers { get; } = installers;
 
     /// <inheritdoc />
-    public INetworkContext Network { get; }
+    public INetworkContext Network { get; } = network;
 
     /// <inheritdoc />
-    public ISecurityContext Security { get; }
+    public ISecurityContext Security { get; } = security;
 
     /// <inheritdoc />
-    public IServicesContext Services { get; }
+    public IServicesContext Services { get; } = services;
 
     /// <inheritdoc />
-    public IToolsContext Tools { get; }
+    public IToolsContext Tools { get; } = new ToolsContext(services);
 
     /// <inheritdoc />
-    public IArtifactContext Artifacts { get; }
+    public IArtifactContext Artifacts { get; } = artifacts;
 
     /// <inheritdoc />
-    public ISummaryLogger Summary { get; }
+    public ISummaryLogger Summary { get; } = summary;
 
     // Internal properties for IInternalPipelineContext
-    public IDependencyCollisionDetector DependencyCollisionDetector { get; }
+    public IDependencyCollisionDetector DependencyCollisionDetector { get; } = dependencyCollisionDetector;
 
-    public IModuleResultRepository ModuleResultRepository { get; }
+    public IModuleResultRepository ModuleResultRepository { get; } = moduleResultRepository;
 
-    public EngineCancellationToken EngineCancellationToken { get; }
+    public EngineCancellationToken EngineCancellationToken { get; } = engineCancellationToken;
 
     public void InitializeLogger(Type getType)
     {
         _logger = _moduleLoggerAccessor.GetLogger(getType);
-    }
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="PipelineContext"/> class.
-    /// </summary>
-    public PipelineContext(
-        ModuleLookup moduleLookup,
-        IDependencyCollisionDetector dependencyCollisionDetector,
-        IModuleResultRepository moduleResultRepository,
-        IInternalModuleLoggerAccessor moduleLoggerAccessor,
-        IConsoleWriter consoleWriter,
-        EngineCancellationToken engineCancellationToken,
-        IShellContext shell,
-        IFilesContext files,
-        IDataContext data,
-        IEnvironmentContext environment,
-        IInstallersContext installers,
-        INetworkContext network,
-        ISecurityContext security,
-        IServicesContext services,
-        IArtifactContext artifacts,
-        ISummaryLogger summary)
-    {
-        _moduleLookup = moduleLookup;
-        _moduleLoggerAccessor = moduleLoggerAccessor;
-        Console = consoleWriter;
-        DependencyCollisionDetector = dependencyCollisionDetector;
-        ModuleResultRepository = moduleResultRepository;
-        EngineCancellationToken = engineCancellationToken;
-
-        // Domain contexts (v2.0)
-        Shell = shell;
-        Files = files;
-        Data = data;
-        Environment = environment;
-        Installers = installers;
-        Network = network;
-        Security = security;
-        Services = services;
-        Tools = new ToolsContext(services);
-        Artifacts = artifacts;
-        Summary = summary;
     }
 
     public TModule? GetModule<TModule>()

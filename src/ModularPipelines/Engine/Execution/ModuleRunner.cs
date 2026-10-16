@@ -899,7 +899,7 @@ internal class ModuleRunner : IModuleRunner
             moduleState.ModuleType,
             _ => new Lazy<Task<bool>>(
                 async () => await _resultHistoryProvider
-                        .TryGetAsync(moduleState.Module, _pipelineContextProvider.GetModuleContext())
+                        .TryGetAsync(moduleState.Module, _pipelineContextProvider.GetModuleContext(moduleState.Module))
                         .ConfigureAwait(false) is not null,
                 LazyThreadSafetyMode.ExecutionAndPublication));
         return await evaluation.Value.ConfigureAwait(false);

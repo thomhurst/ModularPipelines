@@ -21,11 +21,16 @@ public class RequirementCheckerTests
         ];
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
-            .Setup(provider => provider.GetModuleContext())
+            .Setup(provider => provider.GetModuleContext(It.IsAny<object?>()))
             .Returns(Mock.Of<IPipelineContext>());
         var checker = new RequirementChecker(requirements, contextProvider.Object);
 
         await checker.CheckRequirementsAsync(CancellationToken.None);
+
+        foreach (var requirement in requirements)
+        {
+            contextProvider.Verify(provider => provider.GetModuleContext(requirement), Times.Once);
+        }
 
         var actualOrder = executionOrder.ToArray();
         await Assert.That(actualOrder.Length).IsEqualTo(3);
@@ -46,7 +51,7 @@ public class RequirementCheckerTests
         ];
         var contextProvider = new Mock<IPipelineContextProvider>();
         contextProvider
-            .Setup(provider => provider.GetModuleContext())
+            .Setup(provider => provider.GetModuleContext(It.IsAny<object?>()))
             .Returns(Mock.Of<IPipelineContext>());
         var checker = new RequirementChecker(requirements, contextProvider.Object);
 

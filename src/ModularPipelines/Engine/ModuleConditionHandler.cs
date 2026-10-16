@@ -14,29 +14,20 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleConditionHandler : IModuleConditionHandler
+internal class ModuleConditionHandler(
+    IOptions<PipelineOptions> pipelineOptions,
+    IPipelineContextProvider pipelineContextProvider,
+    IModuleMetadataRegistry metadataRegistry,
+    IExecutionLocationContext executionLocationContext,
+    LocalCapabilityRegistry? localCapabilities = null) : IModuleConditionHandler
 {
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly IPipelineContextProvider _pipelineContextProvider;
-    private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly IExecutionLocationContext _executionLocationContext;
-    private readonly LocalCapabilityRegistry? _localCapabilities;
-    private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = new();
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
+    private readonly IPipelineContextProvider _pipelineContextProvider = pipelineContextProvider;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
+    private readonly IExecutionLocationContext _executionLocationContext = executionLocationContext;
+    private readonly LocalCapabilityRegistry? _localCapabilities = localCapabilities;
+    private readonly ConditionalWeakTable<IModule, ConditionEvaluation> _conditionEvaluations = [];
     private readonly ConcurrentDictionary<Type, Lazy<ConditionAttributes>> _conditionAttributes = new();
-
-    public ModuleConditionHandler(
-        IOptions<PipelineOptions> pipelineOptions,
-        IPipelineContextProvider pipelineContextProvider,
-        IModuleMetadataRegistry metadataRegistry,
-        IExecutionLocationContext executionLocationContext,
-        LocalCapabilityRegistry? localCapabilities = null)
-    {
-        _pipelineOptions = pipelineOptions;
-        _pipelineContextProvider = pipelineContextProvider;
-        _metadataRegistry = metadataRegistry;
-        _executionLocationContext = executionLocationContext;
-        _localCapabilities = localCapabilities;
-    }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
     {
@@ -99,7 +90,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         var attributes = GetConditionAttributes(module.GetType());
-        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        var pipelineContext = _pipelineContextProvider.GetModuleContext(module);
         if (!await CanPrepareSkipConditionRoutingAsync(
                     attributes.Skip,
                     pipelineContext,
@@ -268,7 +259,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
         return await EvaluatePlanningConditions(
                 CreatePlanningConditionAttributes(module.GetType()),
-                _pipelineContextProvider.GetModuleContext(),
+                _pipelineContextProvider.GetModuleContext(module),
                 _executionLocationContext.ShouldDeferCapabilityConditions,
                 cancellationToken)
             .ConfigureAwait(false);
@@ -386,7 +377,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         bool useFreshAttributes)
     {
         var moduleType = module.GetType();
-        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        var pipelineContext = _pipelineContextProvider.GetModuleContext(module);
         var attributes = useFreshAttributes
             ? CreateConditionAttributes(moduleType)
             : GetConditionAttributes(moduleType);
@@ -415,7 +406,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static ConditionAttributes CreateConditionAttributes(Type moduleType)
     {
         var attributes = moduleType.GetCustomAttributes(inherit: true);
-        return Partition(attributes.OfType<RunConditionAttribute>().ToArray());
+        return Partition([.. attributes.OfType<RunConditionAttribute>()]);
     }
 
     /// <summary>
@@ -429,9 +420,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         bool hasDeferredAny = false,
         bool hasDeferredGroupedAny = false) =>
         new(
-            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Skip).ToArray(),
-            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && !IsAlternative(attribute)).ToArray(),
-            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && IsAlternative(attribute)).ToArray(),
+            [.. attributes.Where(static attribute => attribute.Intent == ConditionIntent.Skip)],
+            [.. attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && !IsAlternative(attribute))],
+            [.. attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && IsAlternative(attribute))],
             hasDeferredSkip,
             hasDeferredAll,
             hasDeferredAny,

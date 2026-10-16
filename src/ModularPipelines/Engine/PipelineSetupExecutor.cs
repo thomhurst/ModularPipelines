@@ -142,7 +142,7 @@ internal class PipelineSetupExecutor(
             moduleAttributes,
             startTime,
             result,
-            GetPipelineContext(),
+            _moduleContextProvider.GetModuleContext(moduleState.Module),
             _metadataRegistry,
             consoleWriter);
     }
