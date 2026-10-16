@@ -12,9 +12,8 @@ internal partial class Zip
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var (directories, files) = SnapshotSourceEntries(folder.Path, cancellationToken);
         outputPath = PrepareOutputPath(outputPath);
-        var directories = _fileSystemProvider.EnumerateDirectories(folder.Path, "*", SearchOption.AllDirectories).ToArray();
-        var files = _fileSystemProvider.EnumerateFiles(folder.Path, "*", SearchOption.AllDirectories).ToArray();
         cancellationToken.ThrowIfCancellationRequested();
 
         var output = _fileSystemProvider.Open(outputPath, FileMode.CreateNew, FileAccess.ReadWrite);

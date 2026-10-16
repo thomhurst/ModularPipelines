@@ -27,10 +27,15 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.DirectoryExists(archivePath)).Returns(false);
         provider.Setup(fileSystem => fileSystem.FileExists(archivePath)).Returns(() => archiveCreated);
         provider.Setup(fileSystem => fileSystem.CreateDirectory(Root));
-        provider.Setup(fileSystem => fileSystem.EnumerateDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
+        provider.Setup(fileSystem => fileSystem.GetAttributes(sourceDirectory)).Returns(FileAttributes.Directory);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(sourcePath)).Returns(FileAttributes.Normal);
+        provider.Setup(fileSystem => fileSystem.EnumerateDirectories(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
             .Returns([Path.Combine(sourceDirectory, "empty")]);
-        provider.Setup(fileSystem => fileSystem.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories))
+        provider.Setup(fileSystem => fileSystem.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
             .Returns([sourcePath]);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(Path.Combine(sourceDirectory, "empty"))).Returns(FileAttributes.Directory);
+        provider.Setup(fileSystem => fileSystem.EnumerateDirectories(Path.Combine(sourceDirectory, "empty"), "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(fileSystem => fileSystem.EnumerateFiles(Path.Combine(sourceDirectory, "empty"), "*", SearchOption.TopDirectoryOnly)).Returns([]);
         provider.Setup(fileSystem => fileSystem.GetRelativePath(sourceDirectory, It.IsAny<string>()))
             .Returns((string root, string path) => Path.GetRelativePath(root, path));
         provider.Setup(fileSystem => fileSystem.Open(archivePath, FileMode.CreateNew, FileAccess.ReadWrite))
@@ -135,8 +140,10 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.DirectoryExists(archivePath)).Returns(false);
         provider.Setup(fileSystem => fileSystem.FileExists(archivePath)).Returns(false);
         provider.Setup(fileSystem => fileSystem.CreateDirectory(Root));
-        provider.Setup(fileSystem => fileSystem.EnumerateDirectories(sourceDirectory, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(fileSystem => fileSystem.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories)).Returns([sourcePath]);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(sourceDirectory)).Returns(FileAttributes.Directory);
+        provider.Setup(fileSystem => fileSystem.GetAttributes(sourcePath)).Returns(FileAttributes.Normal);
+        provider.Setup(fileSystem => fileSystem.EnumerateDirectories(sourceDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(fileSystem => fileSystem.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([sourcePath]);
         provider.Setup(fileSystem => fileSystem.GetRelativePath(sourceDirectory, sourcePath)).Returns("input.txt");
         provider.Setup(fileSystem => fileSystem.Open(archivePath, FileMode.CreateNew, FileAccess.ReadWrite)).Returns(output);
         provider.Setup(fileSystem => fileSystem.OpenRead(sourcePath)).Returns(input);

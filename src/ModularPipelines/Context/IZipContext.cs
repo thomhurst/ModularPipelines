@@ -14,6 +14,7 @@ public interface IZipContext
     /// <param name="folder">The folder to compress.</param>
     /// <param name="outputPath">The path where the ZIP file will be created.</param>
     /// <returns>A <see cref="FilePath"/> representing the created ZIP file.</returns>
+    /// <exception cref="IOException">The source folder or an entry in its tree is a symbolic link or junction. The archive is not created.</exception>
     FilePath CreateFromDirectory(FolderPath folder, string outputPath) =>
         CreateFromDirectory(folder, outputPath, CompressionLevel.Optimal);
 
@@ -24,6 +25,7 @@ public interface IZipContext
     /// <param name="outputPath">The path where the ZIP file will be created.</param>
     /// <param name="compressionLevel">The level of compression to use.</param>
     /// <returns>A <see cref="FilePath"/> representing the created ZIP file.</returns>
+    /// <exception cref="IOException">The source folder or an entry in its tree is a symbolic link or junction. The archive is not created.</exception>
     FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel);
 
     /// <summary>
@@ -56,6 +58,7 @@ public interface IZipContext
     /// <param name="compressionLevel">The compression level for file entries.</param>
     /// <param name="cancellationToken">A token used to cancel compression and stream copying.</param>
     /// <returns>The created ZIP file.</returns>
+    /// <exception cref="IOException">The source folder or an entry in its tree is a symbolic link or junction. The archive is not created.</exception>
     /// <remarks>
     /// Cancellation or failure can leave a partial archive at the destination.
     /// File metadata and directory enumeration are synchronous. The .NET runtime may also
