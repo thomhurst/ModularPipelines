@@ -29,6 +29,7 @@ internal static class ProcessRunner
     /// <param name="interruptCancellationToken">
     /// Interrupts the process when canceled: SIGINT on Unix. The caller owns forceful termination.
     /// </param>
+    /// <param name="standardInput">Text to write as UTF-8 before closing standard input.</param>
     /// <exception cref="OperationCanceledException">The interrupt token was canceled; thrown once the process exits.</exception>
     public static async Task<ProcessRunResult> RunAsync(
         ProcessCommand command,
@@ -37,7 +38,8 @@ internal static class ProcessRunner
         Encoding outputEncoding,
         TimeSpan outputDrainTimeout,
         Action<Process> onStarted,
-        CancellationToken interruptCancellationToken)
+        CancellationToken interruptCancellationToken,
+        string? standardInput = null)
     {
         if (outputDrainTimeout != Timeout.InfiniteTimeSpan
             && (outputDrainTimeout < TimeSpan.Zero || outputDrainTimeout.TotalMilliseconds > uint.MaxValue - 1))
@@ -51,9 +53,6 @@ internal static class ProcessRunner
         try
         {
             onStarted(process);
-
-            // Commands get no input, so tools that read standard input see its end instead of waiting.
-            CloseStandardInput(process);
         }
         catch
         {
@@ -66,6 +65,9 @@ internal static class ProcessRunner
         var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput, outputEncoding, outputCancellation.Token);
         var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError, outputEncoding, outputCancellation.Token);
 
+        using var inputCancellation = CancellationTokenSource.CreateLinkedTokenSource(interruptCancellationToken);
+        var inputTask = WriteInputAsync(process, standardInput, inputCancellation.Token);
+
         bool outputMayBeIncomplete;
         var interruptRegistration = interruptCancellationToken.Register(
             static state => Interrupt((Process) state!),
@@ -73,10 +75,14 @@ internal static class ProcessRunner
         await using (interruptRegistration.ConfigureAwait(false))
         {
             await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+            // Stop a blocked write even if a descendant still holds the stdin pipe open.
+            inputCancellation.Cancel();
             // A descendant can inherit either pipe and outlive the direct child. Cancel and join the
             // readers before disposing the process or exposing buffers to the caller.
             outputCancellation.CancelAfter(outputDrainTimeout);
-            var outputResults = await Task.WhenAll(outputTask, errorTask).ConfigureAwait(false);
+            var outputResultsTask = Task.WhenAll(outputTask, errorTask);
+            await Task.WhenAll(inputTask, outputResultsTask).ConfigureAwait(false);
+            var outputResults = await outputResultsTask.ConfigureAwait(false);
             outputMayBeIncomplete = outputResults[0] || outputResults[1];
         }
 
@@ -89,6 +95,36 @@ internal static class ProcessRunner
         }
 
         return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete);
+    }
+
+    private static async Task WriteInputAsync(Process process, string? input, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (input is not null)
+            {
+                // Use the pipe directly: StreamWriter disposal can flush buffered data without cancellation.
+                var bytes = Encoding.UTF8.GetBytes(input);
+                await process.StandardInput.BaseStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
+            }
+        }
+        catch (IOException)
+        {
+            // A command may exit without consuming all input. Preserve its exit code and diagnostics.
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // The process exited or execution was canceled. RunAsync reports caller cancellation.
+        }
+        catch
+        {
+            TryKill(process);
+            throw;
+        }
+        finally
+        {
+            CloseStandardInput(process);
+        }
     }
 
     private static void CloseStandardInput(Process process)

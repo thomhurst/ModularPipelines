@@ -283,6 +283,23 @@ public class CommandLoggerOutputFormattingTests
         await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message, @"^\[\d{4}-\d{2}-\d{2}T")).IsTrue();
     }
 
+    [Test]
+    [Arguments(2, true)]
+    [Arguments(0, false)]
+    public async Task Configured_Exit_Codes_Determine_Status_And_Error_Severity(int exitCode, bool succeeds)
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        var options = CreateExecutionOptions() with
+        {
+            SuccessExitCodes = [2],
+            Logging = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed, ShowStandardError = true },
+        };
+        commandLogger.LogCommandCompletion(null, options, "tool run", exitCode, TimeSpan.Zero, string.Empty, "progress", "/repo");
+
+        await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning)).IsEqualTo(!succeeds);
+        await Assert.That(logger.Messages.Any(message => message.Text.Contains(succeeds ? '✓' : '✗'))).IsTrue();
+    }
+
     private static void Log(CommandLogger commandLogger, int exitCode, string standardOutput, string standardError) =>
         commandLogger.LogCommandCompletion(
             null,

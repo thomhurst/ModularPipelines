@@ -28,8 +28,8 @@ public delegate ValueTask<CommandResult> CommandDelegate(
 /// <c>invocation with { CommandLine = ..., ExecutionOptions = ..., WorkingDirectory = ... }</c>;</item>
 /// <item>observe or replace the result returned by <c>next</c>, or handle the exception it throws;</item>
 /// <item>short-circuit by returning a result without calling <c>next</c>. The framework then applies
-/// command metadata, logs the result, and throws <see cref="Exceptions.CommandException"/> for a nonzero
-/// exit code when <see cref="Options.CommandExecutionOptions.ThrowOnNonZeroExitCode"/> is enabled.</item>
+/// command metadata, logs the result, and throws <see cref="Exceptions.CommandException"/> for an exit code outside
+/// <see cref="Options.CommandExecutionOptions.SuccessExitCodes"/> when <see cref="Options.CommandExecutionOptions.ThrowOnNonZeroExitCode"/> is enabled.</item>
 /// </list>
 /// <para>
 /// Only <see cref="CommandInvocation.CommandLine"/>, <see cref="CommandInvocation.ExecutionOptions"/>,

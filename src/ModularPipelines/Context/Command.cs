@@ -110,15 +110,13 @@ internal sealed class Command(
 
         try
         {
-            var result = await ExecuteCommandCoreAsync(
+            return await ExecuteCommandCoreAsync(
                     invocation,
                     activity,
                     linkedCancellationToken.Token,
                     cancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
-            ModuleActivityTracing.RecordCommandResult(activity, result);
-            return result;
         }
         catch (OperationCanceledException exception)
             when (!cancellationToken.IsCancellationRequested
@@ -280,22 +278,20 @@ internal sealed class Command(
         var interceptors = _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors];
         if (interceptors.Length == 0)
         {
-            return await ExecuteInvocationAsync(
+            var result = await ExecuteInvocationAsync(
                     invocation,
                     executionCancellationToken,
                     callerCancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
+            ModuleActivityTracing.RecordCommandResult(activity, result, invocation.ExecutionOptions.SuccessExitCodes.Contains(result.ExitCode));
+            return result;
         }
 
-        return await new InterceptionPipeline(
-                this,
-                invocation,
-                activity,
-                callerCancellationToken,
-                timeoutCancellationToken)
-            .ExecuteAsync(interceptors, executionCancellationToken)
-            .ConfigureAwait(false);
+        var pipeline = new InterceptionPipeline(this, invocation, activity, callerCancellationToken, timeoutCancellationToken);
+        var interceptedResult = await pipeline.ExecuteAsync(interceptors, executionCancellationToken).ConfigureAwait(false);
+        ModuleActivityTracing.RecordCommandResult(activity, interceptedResult, pipeline.ExecutionOptions.SuccessExitCodes.Contains(interceptedResult.ExitCode));
+        return interceptedResult;
     }
 
     private async ValueTask<CommandResult> ExecuteInvocationAsync(
@@ -356,7 +352,7 @@ internal sealed class Command(
             invocation,
             executionOptions);
         LogInterceptedCommand(invocation.ToolOptions, executionOptions, invocation.InputToLog.Value, result);
-        if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
+        if (executionOptions.ShouldThrowForExitCode(result.ExitCode))
         {
             throw CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
                 invocation.Command,
@@ -408,6 +404,8 @@ internal sealed class Command(
         private long _publicSecretVersion = long.MinValue;
         private CancellationToken _executionCancellationToken;
 
+        public CommandExecutionOptions ExecutionOptions { get; private set; } = original.ExecutionOptions;
+
         public ValueTask<CommandResult> ExecuteAsync(
             IReadOnlyList<ICommandInterceptor> interceptors,
             CancellationToken cancellationToken)
@@ -452,18 +450,26 @@ internal sealed class Command(
                              $"Command interceptor '{interceptor.GetType().FullName}' returned a null result.");
             cancellationToken.ThrowIfCancellationRequested();
 
-            return nextCalled ? result : owner.CompleteShortCircuitedResult(result, prepared);
+            if (nextCalled)
+            {
+                return result;
+            }
+
+            ExecutionOptions = prepared.ExecutionOptions;
+            return owner.CompleteShortCircuitedResult(result, prepared);
         }
 
         private async ValueTask<CommandResult> TerminalAsync(
             CommandInvocation invocation,
             CancellationToken cancellationToken)
         {
+            var prepared = Resolve(invocation);
+            ExecutionOptions = prepared.ExecutionOptions;
             // An interceptor may pass its own token, but it cannot drop the caller and timeout cancellation.
             if (!cancellationToken.CanBeCanceled || cancellationToken == _executionCancellationToken)
             {
                 return await owner.ExecuteInvocationAsync(
-                        Resolve(invocation),
+                        prepared,
                         _executionCancellationToken,
                         callerCancellationToken,
                         timeoutCancellationToken)
@@ -474,7 +480,7 @@ internal sealed class Command(
                 _executionCancellationToken,
                 cancellationToken);
             return await owner.ExecuteInvocationAsync(
-                    Resolve(invocation),
+                    prepared,
                     linked.Token,
                     callerCancellationToken,
                     timeoutCancellationToken)
@@ -660,7 +666,8 @@ internal sealed class Command(
                     execOpts.OutputEncoding,
                     execOpts.OutputDrainTimeout,
                     processTreeTerminator.Attach,
-                    executionCancellationToken);
+                    executionCancellationToken,
+                    execOpts.StandardInput);
                 using var descendantCaptureRegistration =
                     executionCancellationToken.Register(processTreeTerminator.BeginGracefulShutdown);
                 result = await executionTask.ConfigureAwait(false);
@@ -980,7 +987,7 @@ internal sealed class Command(
         long standardOutputTruncatedCharacters,
         long standardErrorTruncatedCharacters)
     {
-        return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
+        return execOpts.ShouldThrowForExitCode(result.ExitCode)
             ? CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
                 command,
                 execOpts,

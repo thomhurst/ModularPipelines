@@ -139,10 +139,10 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             execOpts?.OutputLoggingManipulator,
             standardOutput,
             standardError);
-        var isSuccess = exitCode == 0;
+        var isSuccess = exitCode is { } code && (execOpts?.SuccessExitCodes.Contains(code) ?? code == 0);
 
         LogCapturedOutput(effectiveOptions, outputToLog);
-        LogCapturedError(effectiveOptions, errorToLog, exitCode);
+        LogCapturedError(effectiveOptions, errorToLog, isSuccess);
         LogCommandStatus(effectiveOptions, inputToLog, isSuccess, exitCode, runTime);
     }
 
@@ -304,18 +304,18 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     private void LogCapturedError(
         CommandLoggingOptions options,
         string error,
-        int? exitCode)
+        bool isSuccess)
     {
         if (string.IsNullOrWhiteSpace(error)
             || !options.IncludesStandardError
-            || (exitCode == 0 && options.ShowStandardError is null))
+            || (isSuccess && options.ShowStandardError is null))
         {
             return;
         }
 
         // Successful tools often write progress to stderr. Keep it visible without failure annotations.
         var obfuscatedError = _secretObfuscator.Obfuscate(error, null);
-        if (exitCode == 0)
+        if (isSuccess)
         {
             foreach (var line in GetOutputLines(obfuscatedError))
             {

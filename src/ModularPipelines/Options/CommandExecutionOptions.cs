@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
 
@@ -26,6 +27,14 @@ public record CommandExecutionOptions
     /// A byte order mark in either stream takes precedence over this encoding.
     /// </summary>
     public Encoding OutputEncoding { get; init; } = Encoding.UTF8;
+
+    /// <summary>
+    /// Gets text to write to standard input as UTF-8 without a byte order mark or an added newline.
+    /// Standard input closes after the text is written. Null closes it immediately.
+    /// The text is registered as a secret and is never included in the command line.
+    /// </summary>
+    [SecretValue]
+    public string? StandardInput { get; init; }
 
     /// <summary>
     /// Gets the credentials used to start the command-line process.
@@ -65,9 +74,18 @@ public record CommandExecutionOptions
     public bool Sudo { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether to throw an exception on non-zero exit codes.
+    /// Gets a value indicating whether to throw an exception for exit codes outside
+    /// <see cref="SuccessExitCodes"/>. Set to false to disable exit-code exceptions.
     /// </summary>
     public bool ThrowOnNonZeroExitCode { get; init; } = true;
+
+    /// <summary>
+    /// Gets the accepted exit codes. Defaults to only zero. A supplied collection replaces this default;
+    /// include zero explicitly to continue accepting it. An empty collection accepts no exit codes.
+    /// These codes also determine success in command logs and telemetry, even when
+    /// <see cref="ThrowOnNonZeroExitCode"/> is false.
+    /// </summary>
+    public IReadOnlyCollection<int> SuccessExitCodes { get; init; } = [0];
 
     /// <summary>
     /// Gets the maximum time allowed for the command to complete.
@@ -104,4 +122,7 @@ public record CommandExecutionOptions
     internal bool InternalDryRun { get; set; }
 
     internal Task? InternalForcefulCancellationReady { get; init; }
+
+    internal bool ShouldThrowForExitCode(int exitCode) =>
+        ThrowOnNonZeroExitCode && !SuccessExitCodes.Contains(exitCode);
 }

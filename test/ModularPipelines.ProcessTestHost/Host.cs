@@ -12,6 +12,30 @@ public static class Host
 {
     public static async Task<int> Main(string[] args)
     {
+        if (args[0] == "stdin-echo")
+        {
+            System.Console.OutputEncoding = new System.Text.UTF8Encoding(false);
+            var prefix = new string('x', int.Parse(args[1]));
+            await System.Console.Out.WriteAsync(prefix);
+            await System.Console.Error.WriteAsync(prefix);
+            using var reader = new StreamReader(System.Console.OpenStandardInput(), System.Text.Encoding.UTF8);
+            var input = await reader.ReadToEndAsync();
+            await System.Console.Out.WriteAsync(input);
+            await System.Console.Error.WriteAsync(input);
+            return int.Parse(args[2]);
+        }
+
+        if (args[0] == "exit-code")
+        {
+            return int.Parse(args[1]);
+        }
+
+        if (args[0] == "stdin-block")
+        {
+            await Task.Delay(TimeSpan.FromSeconds(30));
+            return 0;
+        }
+
         if (args[0] == "write-bytes")
         {
             using var standardOutput = System.Console.OpenStandardOutput();
