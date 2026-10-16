@@ -45,7 +45,8 @@ internal class ExecutionOrchestrator(
     IPipelineSetupExecutor pipelineSetupExecutor,
     ISecondaryExceptionContainer secondaryExceptionContainer,
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
-    IExecutionBackend? executionBackend = null) : IExecutionOrchestrator
+    IExecutionBackend? executionBackend = null,
+    RerunFailedPlan? rerunFailedPlan = null) : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
     private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
@@ -104,15 +105,12 @@ internal class ExecutionOrchestrator(
         try
         {
             allModules = _pipelineInitializer.RegisteredModules ?? [];
-            if (_executionBackend is WorkerModuleExecutor worker)
+            if (!await RegisterWorkerAsync(_engineCancellationToken.Token).ConfigureAwait(false))
             {
-                if (await worker.RegisterAsync(_engineCancellationToken.Token).ConfigureAwait(false) is null)
-                {
-                    // A rejected session owns no shared data. Skip handlers and final metrics publication.
-                    var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
-                    _outputCoordinator.PrintResults(completedSummary);
-                    return completedSummary;
-                }
+                // A rejected session owns no shared data. Skip handlers and final metrics publication.
+                var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
+                _outputCoordinator.PrintResults(completedSummary);
+                return completedSummary;
             }
 
             using var initializationCts = CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
@@ -129,6 +127,11 @@ internal class ExecutionOrchestrator(
                     .Initialize(_engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 allModules = organizedModules.AllModules;
+                if (rerunFailedPlan is not null)
+                {
+                    await rerunFailedPlan.InitializeAsync(organizedModules, _engineCancellationToken.Token)
+                        .ConfigureAwait(false);
+                }
 
                 // Resolve ignored modules against history before cascading required dependencies.
                 organizedModules = await _ignoredModuleResultRegistrar
@@ -252,6 +255,16 @@ internal class ExecutionOrchestrator(
             // The handler invoker has already logged the individual handler failures.
             _secondaryExceptionContainer.RegisterException(exception);
         }
+    }
+
+    private async Task<bool> RegisterWorkerAsync(CancellationToken cancellationToken)
+    {
+        if (_executionBackend is not WorkerModuleExecutor worker)
+        {
+            return true;
+        }
+
+        return await worker.RegisterAsync(cancellationToken).ConfigureAwait(false) is not null;
     }
 
     private void ThrowIfPipelineFailed(PipelineSummary summary, Exception? caughtException)

@@ -90,6 +90,12 @@ public sealed record PipelineOptions
     public bool DisableModuleCache { get; init; }
 
     /// <summary>
+    /// Gets a value indicating whether to rerun unsuccessful modules and their dependents,
+    /// reusing compatible successful results from the previous run.
+    /// </summary>
+    public bool RerunFailed { get; init; }
+
+    /// <summary>
     /// Gets how the pipeline responds to module failures.
     /// </summary>
     public FailureMode FailureMode { get; init; } = FailureMode.FailFast;

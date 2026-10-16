@@ -12,7 +12,8 @@ internal sealed record PipelineCommandLineOptions(
     IReadOnlyList<string> RunOnlyCategories,
     IReadOnlyList<string> IgnoreCategories,
     DependencyGraphFormat? GraphFormat,
-    string? GraphPath)
+    string? GraphPath,
+    bool RerunFailed = false)
 {
     public static PipelineCommandLineOptions Empty { get; } = new(
         PipelineCommand.Run,

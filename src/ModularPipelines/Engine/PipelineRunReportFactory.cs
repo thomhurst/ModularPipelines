@@ -20,7 +20,8 @@ internal sealed class PipelineRunReportFactory(
     ISecretProvider? secretProvider = null,
     DistributedCacheHitTracker? distributedCacheHitTracker = null,
     DistributedTelemetryTracker? distributedTelemetryTracker = null,
-    IOptions<DistributedOptions>? distributedOptions = null)
+    IOptions<DistributedOptions>? distributedOptions = null,
+    IDependencyChainProvider? dependencyChainProvider = null)
 {
     private static readonly Encoding Utf8 = new UTF8Encoding(
         encoderShouldEmitUTF8Identifier: false,
@@ -88,6 +89,7 @@ internal sealed class PipelineRunReportFactory(
         {
             RunId = runId ?? Guid.NewGuid().ToString("N"),
             PipelineIdentity = pipelineIdentity,
+            GraphFingerprint = GetGraphFingerprint(),
             Status = status,
             Start = summary.StartTime,
             End = summary.EndTime,
@@ -108,6 +110,11 @@ internal sealed class PipelineRunReportFactory(
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
     }
+
+    private string? GetGraphFingerprint() =>
+        dependencyChainProvider is { IsInitialized: true }
+            ? PipelineRunCompatibility.GetGraphFingerprint(dependencyChainProvider.ModuleDependencyModels)
+            : null;
 
     private static TimeSpan? GetPreviousTotalDuration(ModuleStatus status, PipelineRunReport? previousReport) =>
         status == ModuleStatus.Succeeded && previousReport?.Status == ModuleStatus.Succeeded
@@ -171,6 +178,8 @@ internal sealed class PipelineRunReportFactory(
         {
             ModuleName = moduleType.Name,
             ModuleTypeName = typeName,
+            ResultStartTime = result?.StartTime,
+            ResultEndTime = result?.EndTime,
             Status = current.Status,
             Duration = current.Duration,
             DurationMeasured = current.DurationMeasured,

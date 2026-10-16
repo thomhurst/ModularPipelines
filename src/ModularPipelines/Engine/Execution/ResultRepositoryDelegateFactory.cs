@@ -20,7 +20,8 @@ internal static class ResultRepositoryDelegateFactory
     internal delegate Task<IModuleResult?> GetResultDelegate(
         IModuleResultRepository repository,
         IModule module,
-        IPipelineContext context);
+        IPipelineContext context,
+        CancellationToken cancellationToken);
 
     private static readonly ConcurrentDictionary<Type, GetResultDelegate> GetResultCache = new();
 
@@ -49,6 +50,7 @@ internal static class ResultRepositoryDelegateFactory
         var repositoryParam = Expression.Parameter(typeof(IModuleResultRepository), "repository");
         var moduleParam = Expression.Parameter(typeof(IModule), "module");
         var contextParam = Expression.Parameter(typeof(IPipelineContext), "context");
+        var cancellationTokenParam = Expression.Parameter(typeof(CancellationToken), "cancellationToken");
 
         // Get types
         var moduleType = typeof(Module<>).MakeGenericType(resultType);
@@ -61,9 +63,9 @@ internal static class ResultRepositoryDelegateFactory
             resultType,
             MakeGetResultAndCastAsyncMethod);
 
-        var callHelper = Expression.Call(helperMethod, repositoryParam, castModule, contextParam);
+        var callHelper = Expression.Call(helperMethod, repositoryParam, castModule, contextParam, cancellationTokenParam);
 
-        var lambda = Expression.Lambda<GetResultDelegate>(callHelper, repositoryParam, moduleParam, contextParam);
+        var lambda = Expression.Lambda<GetResultDelegate>(callHelper, repositoryParam, moduleParam, contextParam, cancellationTokenParam);
         return lambda.Compile();
     }
 
@@ -83,9 +85,10 @@ internal static class ResultRepositoryDelegateFactory
     private static async Task<IModuleResult?> GetResultAndCastAsync<T>(
         IModuleResultRepository repository,
         Module<T> module,
-        IPipelineContext context)
+        IPipelineContext context,
+        CancellationToken cancellationToken)
     {
-        var result = await repository.GetResultAsync(module, context).ConfigureAwait(false);
+        var result = await repository.GetResultAsync(module, context, cancellationToken).ConfigureAwait(false);
         return result;
     }
 }

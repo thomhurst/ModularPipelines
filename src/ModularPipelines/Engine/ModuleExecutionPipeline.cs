@@ -38,7 +38,8 @@ internal class ModuleExecutionPipeline(
     IModuleConditionHandler moduleConditionHandler,
     IOptions<PipelineOptions> pipelineOptions,
     IModuleCacheResultRepository? cacheResultRepository = null,
-    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null) : IModuleExecutionPipeline
+    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null,
+    RerunFailedPlan? rerunFailedPlan = null) : IModuleExecutionPipeline
 {
     private readonly IModuleResultRepository _resultRepository = resultRepository;
     private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
@@ -114,20 +115,20 @@ internal class ModuleExecutionPipeline(
                     .ConfigureAwait(false);
             }
 
-            var cachedResult = await TryUseCachedResultAsync(
+            var reusableResult = await TryUseReusableResultAsync(
                     module,
                     config,
                     executionContext,
                     moduleContext,
                     logger)
                 .ConfigureAwait(false);
-            if (cachedResult is not null)
+            if (reusableResult is not null)
             {
-                await finalizer.FinalizeAsync(cachedResult).ConfigureAwait(false);
-                executionContext.SetTypedResult(cachedResult);
-                finalizer.Complete(cachedResult);
+                await finalizer.FinalizeAsync(reusableResult).ConfigureAwait(false);
+                executionContext.SetTypedResult(reusableResult);
+                finalizer.Complete(reusableResult);
 
-                return cachedResult;
+                return reusableResult;
             }
 
             // Execute direct before hook first (virtual override)
@@ -299,6 +300,24 @@ internal class ModuleExecutionPipeline(
         return skipDecision;
     }
 
+    private async Task<ModuleResult<T>?> TryUseReusableResultAsync<T>(
+        Module<T> module,
+        ModuleConfiguration config,
+        ModuleExecutionContext<T> executionContext,
+        IModuleContext moduleContext,
+        ILogger logger)
+    {
+        var restoredResult = rerunFailedPlan?.GetResult<T>(module);
+        if (restoredResult is not null)
+        {
+            return UseHistoricalResult(executionContext, restoredResult, SkipDecision.DoNotSkip,
+                logger, "Reusing successful result from previous compatible run");
+        }
+
+        return await TryUseCachedResultAsync(module, config, executionContext, moduleContext, logger)
+            .ConfigureAwait(false);
+    }
+
     private async Task<ModuleResult<T>?> TryUseCachedResultAsync<T>(
         Module<T> module,
         ModuleConfiguration config,
@@ -306,7 +325,8 @@ internal class ModuleExecutionPipeline(
         IModuleContext moduleContext,
         ILogger logger)
     {
-        if (_pipelineOptions.Value.DisableModuleCache
+        if (_pipelineOptions.Value.RerunFailed
+            || _pipelineOptions.Value.DisableModuleCache
             || !config.CacheEnabled
             || _cacheResultRepository is null)
         {
@@ -671,7 +691,8 @@ internal class ModuleExecutionPipeline(
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        if (_pipelineOptions.Value.DisableModuleCache
+        if (_pipelineOptions.Value.RerunFailed
+            || _pipelineOptions.Value.DisableModuleCache
             || !((IModule) module).Configuration.CacheEnabled
             || _cacheResultRepository is null)
         {

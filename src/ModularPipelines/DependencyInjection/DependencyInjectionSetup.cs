@@ -274,6 +274,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
             .AddSingleton<IModuleResultHistoryProvider, ModuleResultHistoryProvider>()
+            .AddSingleton<RerunFailedPlan>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
