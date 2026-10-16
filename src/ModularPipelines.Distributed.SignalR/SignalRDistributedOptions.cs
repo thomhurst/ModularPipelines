@@ -63,7 +63,9 @@ public sealed record SignalRDistributedOptions
 
     /// <summary>
     /// Gets the maximum size in bytes of one SignalR message, such as a module result.
-    /// Default: 1 MiB.
+    /// Includes JSON escaping and invocation overhead. Workers replace oversized results with a
+    /// failure that fits this limit; a limit too small for the failure is rejected locally.
+    /// Configure the same limit on every process. Default: 1 MiB.
     /// </summary>
     public long MaxMessageSizeBytes { get; init; } = 1024 * 1024;
 

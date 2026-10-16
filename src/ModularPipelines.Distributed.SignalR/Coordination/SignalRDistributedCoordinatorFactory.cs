@@ -1,7 +1,10 @@
 using System.Net;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Coordination;
@@ -158,6 +161,11 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
             });
+
+        builder.Services.Replace(ServiceDescriptor.Singleton<IHubProtocol>(services =>
+            new ResultSizeLimitedHubProtocol(
+                new JsonHubProtocol(services.GetRequiredService<IOptions<JsonHubProtocolOptions>>()),
+                _options.MaxMessageSizeBytes)));
 
         if (_options.MaxReconnectAttempts > 0)
         {
