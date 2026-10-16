@@ -103,7 +103,7 @@ public class DependencyAccessorAnalyzerTests
     [TestMethod]
     public async Task Does_Not_Use_Unrelated_Builder_Declaration()
         => await VerifyCS.VerifyAnalyzerAsync(Source("[DependsOn<Dependency>(Optional = true)]",
-            "new ModuleConfigurationBuilder().DependsOn<Dependency>();", "context.GetModuleIfRegistered<Dependency>()"));
+            "ModuleConfigurationBuilder other = null!; other.DependsOn<Dependency>();", "context.GetModuleIfRegistered<Dependency>()"));
 
     [TestMethod]
     [DataRow(false)]
