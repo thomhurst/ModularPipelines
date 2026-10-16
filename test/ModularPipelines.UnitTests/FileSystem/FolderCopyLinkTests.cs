@@ -22,10 +22,10 @@ public class FolderCopyLinkTests
         var source = Directory.CreateDirectory(Path.Combine(root, "source")).FullName;
         var child = Directory.CreateDirectory(Path.Combine(source, "child")).FullName;
         var parentAlias = Path.Combine(root, "parent-alias");
-        Directory.CreateSymbolicLink(parentAlias, root);
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(parentAlias, root));
         var destinationAlias = Path.Combine(root, "destination-alias");
         var linkTarget = linkedTargetParent ? Path.Combine(parentAlias, "source", "child") : child;
-        Directory.CreateSymbolicLink(destinationAlias, Path.GetRelativePath(root, linkTarget));
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(destinationAlias, Path.GetRelativePath(root, linkTarget)));
         var folder = new FolderPath(sourceAlias ? Path.Combine(parentAlias, "source") : source);
         var destination = missingChild ? Path.Combine(destinationAlias, "missing", "nested") : destinationAlias;
 
@@ -46,7 +46,7 @@ public class FolderCopyLinkTests
         var root = temporary.Folder.Path;
         var source = Directory.CreateDirectory(Path.Combine(root, "source")).FullName;
         var alias = Path.Combine(root, "alias");
-        Directory.CreateSymbolicLink(alias, danglingChild ? Path.Combine(source, "missing") : source);
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(alias, danglingChild ? Path.Combine(source, "missing") : source));
 
         await Assert.That(() => new FolderPath(source).ValidateCopyTarget(alias)).Throws<ArgumentException>();
         await Assert.That(Directory.EnumerateFileSystemEntries(source)).IsEmpty();
@@ -61,7 +61,7 @@ public class FolderCopyLinkTests
         var root = temporary.Folder.Path;
         var source = Directory.CreateDirectory(Path.Combine(root, "source")).FullName;
         var alias = Path.Combine(root, "alias");
-        Directory.CreateSymbolicLink(alias, source);
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(alias, source));
         using var cancellation = new CancellationTokenSource();
         cancellation.CancelAfter(TimeSpan.FromSeconds(5));
 
@@ -84,7 +84,7 @@ public class FolderCopyLinkTests
         var source = Directory.CreateDirectory(Path.Combine(root, "source")).FullName;
         var output = Directory.CreateDirectory(Path.Combine(root, "output")).FullName;
         var alias = Path.Combine(root, "alias");
-        Directory.CreateSymbolicLink(alias, output);
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(alias, output));
         await System.IO.File.WriteAllTextAsync(Path.Combine(source, "payload.txt"), "contents");
         var destination = Path.Combine(alias, "missing");
         var folder = new FolderPath(source);
@@ -108,8 +108,8 @@ public class FolderCopyLinkTests
         var root = temporary.Folder.Path;
         var first = Path.Combine(root, "first");
         var second = Path.Combine(root, "second");
-        Directory.CreateSymbolicLink(first, second);
-        Directory.CreateSymbolicLink(second, first);
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(first, second));
+        SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(second, first));
 
         await Assert.That(() => temporary.Folder.ValidateCopyTarget(first)).Throws<IOException>();
     }
