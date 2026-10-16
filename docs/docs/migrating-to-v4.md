@@ -1317,7 +1317,8 @@ configuration or the supported attributes. `ModuleRegistrationOptions`, `Declare
 `DependsOnAttribute` alone misses generic declarations.
 
 `ModuleActivityTracing` is internal; use the `PipelineTelemetry` constants for activity source and tag
-names, which are unchanged. `GitHubPipelineFileWriter` is internal, and
+names, which are unchanged. Status tag values change; see [Runtime Behavior Changes](#runtime-behavior-changes).
+`GitHubPipelineFileWriter` is internal, and
 `GitHubPipelineFileWriterOptions.RunnerOperatingSystem` is removed (use `Runner`).
 
 Custom result repositories and time estimators implement the interfaces in
@@ -1361,9 +1362,16 @@ These changes need behavioral checks even after the code compiles:
 | Canceled commands terminate descendant processes after graceful cancellation | Remove assumptions that child processes survive a canceled pipeline |
 | Always-run cleanup is scheduled after failures/cancellation, with bounded progress waits | Test teardown under failure and cancellation; keep cleanup bounded and idempotent |
 | Category matching and selection are validated more strictly | Check configured category/module selectors instead of silently accepting typos |
+| OpenTelemetry module status tag values use lowercase snake_case: `Successful` becomes `succeeded`, `Failed` becomes `failed`, `Skipped` becomes `skipped`, and `TimedOut` becomes `timed_out` | Update dashboards, alerts, and metric queries that filter `modular_pipelines.module.status`; old case-sensitive filters such as `status == "Failed"` no longer match |
 | Secrets are masked in more output surfaces and transformed forms | Test redaction; do not parse masked diagnostic command input/environment as raw execution data |
 | `Md5File` returns lowercase hex | Compare hashes case-insensitively |
 | `IsBuildServer` becomes `IsCI`; `IsCI`, `OnCI`, and `Require.Ci()` also honor a truthy `CI` variable | Use `IsLocal` for the inverse check; check local runs that set `CI`; the startup log says when `CI` alone decided |
+
+The `modular_pipelines.module.status` tag uses telemetry strings, not the `ModuleStatus` enum names.
+V4 values are `not_started`, `running`, `succeeded`, `failed`, `failure_ignored`, `skipped`,
+`timed_out`, `canceled`, `dependency_failed`, `restored_from_history`, `restored_from_cache`,
+and `unknown`. Account for `failure_ignored` separately from `failed` when updating failure alerts.
+See [OpenTelemetry](./how-to/opentelemetry.md) for the current instrumentation contract.
 
 The output capture limit counts characters, not bytes. When a stream exceeds
 `MaxCapturedOutputLength`, its captured string preserves the beginning and end, inserting
