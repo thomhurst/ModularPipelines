@@ -125,7 +125,7 @@ public class ModuleCancellationGraceTests
             // Allow timer granularity while still rejecting immediate abandonment.
             await Assert.That(stopwatch.Elapsed).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(Math.Max(0, graceMilliseconds - 20)));
             await Assert.That(state.CleanupFinished).IsFalse();
-            await Assert.That(state.ModuleDisposed).IsTrue();
+            await Assert.That(state.ModuleDisposed).IsFalse();
             await Assert.That(state.Resource!.IsDisposed).IsTrue();
             await Assert.That(state.TeardownStarted).IsTrue();
         }
@@ -135,6 +135,9 @@ public class ModuleCancellationGraceTests
             await state.CleanupCompleted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             await execution.WaitAsync(TestHostSettings.DefaultTestTimeout);
         }
+
+        await pipeline.DisposeAsync();
+        await Assert.That(state.ModuleDisposed).IsTrue();
     }
 
     [Test]
@@ -192,11 +195,14 @@ public class ModuleCancellationGraceTests
         }
 
         await Assert.That(state.CleanupUsedLiveResources).IsTrue();
-        await Assert.That(state.ModuleDisposed).IsTrue();
+        await Assert.That(state.ModuleDisposed).IsFalse();
         await Assert.That(state.Resource!.IsDisposed).IsTrue();
         await Assert.That(state.TeardownSawCleanup).IsTrue();
         var result = pipeline.Services.GetRequiredService<IModuleResultRegistry>().GetResult(typeof(CleaningModule));
         await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Canceled);
+
+        await pipeline.DisposeAsync();
+        await Assert.That(state.ModuleDisposed).IsTrue();
     }
 
     public sealed class CleanupState
