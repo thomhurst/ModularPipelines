@@ -44,10 +44,6 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
             var queryableType = startContext.Compilation.GetTypeByMetadataName("System.Linq.Queryable");
             var sequenceType = startContext.Compilation.GetTypeByMetadataName("System.Collections.Generic.IEnumerable`1");
 
-            bool IsErasedResult(ITypeSymbol? type) =>
-                SymbolEqualityComparer.Default.Equals(type, resultType)
-                || SymbolEqualityComparer.Default.Equals(type, resultInterface);
-
             bool IsNonGenericOutcome(ITypeSymbol? type) => type is not null
                 && (SymbolEqualityComparer.Default.Equals(type, failureType)
                     || SymbolEqualityComparer.Default.Equals(type, skippedType));
@@ -56,7 +52,7 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
             {
                 var (inputType, matchedType, syntax) = GetOutcomeTest(operationContext.Operation);
 
-                if (syntax is not null && IsErasedResult(inputType) && IsNonGenericOutcome(matchedType))
+                if (syntax is not null && IsErasedResult(inputType, resultType, resultInterface) && IsNonGenericOutcome(matchedType))
                 {
                     operationContext.ReportDiagnostic(Diagnostic.Create(Rule, syntax.GetLocation()));
                 }
@@ -65,27 +61,8 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
             startContext.RegisterOperationAction(operationContext =>
             {
                 var invocation = (IInvocationOperation) operationContext.Operation;
-                var method = invocation.TargetMethod;
-                if (method.Name != "OfType" || method.TypeArguments.Length != 1
-                    || !IsNonGenericOutcome(method.TypeArguments[0])
-                    || !(SymbolEqualityComparer.Default.Equals(method.ContainingType, enumerableType)
-                        || SymbolEqualityComparer.Default.Equals(method.ContainingType, queryableType))
-                    || invocation.Arguments.Length != 1)
-                {
-                    return;
-                }
-
-                // OfType accepts non-generic IEnumerable. Inspect the source before that implicit conversion.
-                var source = invocation.Arguments[0].Value;
-                while (source is IConversionOperation { IsImplicit: true } conversion)
-                {
-                    source = conversion.Operand;
-                }
-
-                var sourceType = source.Type;
-                if (sourceType is null || !sourceType.AllInterfaces.Concat([sourceType]).OfType<INamedTypeSymbol>()
-                    .Any(type => SymbolEqualityComparer.Default.Equals(type.OriginalDefinition, sequenceType)
-                        && IsErasedResult(type.TypeArguments[0])))
+                if (!IsNonGenericOutcome(GetOfTypeOutcome(invocation, enumerableType, queryableType))
+                    || !IsErasedResultSequence(invocation.Arguments[0].Value, sequenceType, resultType, resultInterface))
                 {
                     return;
                 }
@@ -103,6 +80,39 @@ public sealed class NonGenericModuleResultAnalyzer : DiagnosticAnalyzer
                 }
             }, OperationKind.Invocation);
         });
+    }
+
+    private static bool IsErasedResult(ITypeSymbol? type, INamedTypeSymbol resultType, INamedTypeSymbol resultInterface) =>
+        SymbolEqualityComparer.Default.Equals(type, resultType)
+        || SymbolEqualityComparer.Default.Equals(type, resultInterface);
+
+    private static ITypeSymbol? GetOfTypeOutcome(IInvocationOperation invocation, INamedTypeSymbol? enumerableType,
+        INamedTypeSymbol? queryableType)
+    {
+        var method = invocation.TargetMethod;
+        if (method.Name != "OfType" || method.TypeArguments.Length != 1 || invocation.Arguments.Length != 1
+            || !(SymbolEqualityComparer.Default.Equals(method.ContainingType, enumerableType)
+                || SymbolEqualityComparer.Default.Equals(method.ContainingType, queryableType)))
+        {
+            return null;
+        }
+
+        return method.TypeArguments[0];
+    }
+
+    private static bool IsErasedResultSequence(IOperation source, INamedTypeSymbol? sequenceType,
+        INamedTypeSymbol resultType, INamedTypeSymbol resultInterface)
+    {
+        // OfType accepts non-generic IEnumerable. Inspect the source before that implicit conversion.
+        while (source is IConversionOperation { IsImplicit: true } conversion)
+        {
+            source = conversion.Operand;
+        }
+
+        var sourceType = source.Type;
+        return sourceType is not null && sourceType.AllInterfaces.Concat([sourceType]).OfType<INamedTypeSymbol>()
+            .Any(type => SymbolEqualityComparer.Default.Equals(type.OriginalDefinition, sequenceType)
+                && IsErasedResult(type.TypeArguments[0], resultType, resultInterface));
     }
 
     private static (ITypeSymbol? InputType, ITypeSymbol? MatchedType, SyntaxNode? Syntax) GetOutcomeTest(IOperation operation) =>
