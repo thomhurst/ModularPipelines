@@ -5,7 +5,7 @@ namespace ModularPipelines.Exceptions;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception is thrown during pipeline initialization when the framework detects that
+/// This exception is thrown during pipeline initialization or execution when the framework detects that
 /// modules form a circular dependency chain. For example, if Module A depends on Module B,
 /// and Module B depends on Module A, this creates an unresolvable cycle.
 /// </para>
@@ -13,6 +13,7 @@ namespace ModularPipelines.Exceptions;
 /// <list type="bullet">
 /// <item>During module registration when dependency validation runs</item>
 /// <item>When <c>[DependsOn]</c> attributes or programmatic dependencies form a cycle</item>
+/// <item>When awaiting an undeclared dependency closes a cycle involving declared dependencies or runtime waits</item>
 /// </list>
 /// <para><b>Properties available:</b></para>
 /// <list type="bullet">

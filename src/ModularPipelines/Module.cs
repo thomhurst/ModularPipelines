@@ -351,9 +351,13 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
         PlanningModuleResultAccess.ThrowIfUnavailable(GetType());
-        return _provisionalResult.Value is { } provisionalResult
-            ? Task.FromResult(provisionalResult).GetAwaiter()
-            : CompletionSource.Task.GetAwaiter();
+        if (_provisionalResult.Value is { } provisionalResult)
+        {
+            return Task.FromResult(provisionalResult).GetAwaiter();
+        }
+
+        ModuleWaitScope.RegisterWait(this, CompletionSource.Task);
+        return CompletionSource.Task.GetAwaiter();
     }
 
     private ModuleConfiguration CreateConfiguration()

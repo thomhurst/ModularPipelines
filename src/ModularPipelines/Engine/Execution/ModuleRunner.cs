@@ -148,6 +148,7 @@ internal class ModuleRunner : IModuleRunner
         SemaphoreSlim? executionLimit = null)
     {
         var module = moduleState.Module;
+        using var waitScope = new ModuleWaitScope(module, scheduler);
         moduleState.ExecutionDeferred = false;
         var moduleType = moduleState.ModuleType;
         var moduleName = moduleType.Name;
