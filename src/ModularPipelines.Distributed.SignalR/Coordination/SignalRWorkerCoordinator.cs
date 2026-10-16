@@ -378,21 +378,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
             catch (Exception exception)
             {
-                var connectionChanged = false;
-                try
-                {
-                    if (!recoveryToken.IsCancellationRequested
-                        && exception is not (HubException or DistributedRunCompletedException))
-                    {
-                        connectionChanged = await ConnectionChangesSinceAsync(generation, exception, recoveryToken).ConfigureAwait(false);
-                    }
-                }
-                catch (OperationCanceledException) when (recoveryToken.IsCancellationRequested)
-                {
-                    // The recovery deadline expired while waiting for the transport callback.
-                }
-
-                if (connectionChanged)
+                if (await ConnectionChangedDuringRegistrationAsync(generation, exception, recoveryToken).ConfigureAwait(false))
                 {
                     // The connection dropped again while registering. The next Reconnected or Closed
                     // callback settles readiness; stopping here would abandon the remaining reconnect attempts.
@@ -430,6 +416,26 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         if (!registered)
         {
             await _connection.StopAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task<bool> ConnectionChangedDuringRegistrationAsync(
+        long generation, Exception exception, CancellationToken recoveryToken)
+    {
+        if (recoveryToken.IsCancellationRequested
+            || exception is HubException or DistributedRunCompletedException)
+        {
+            return false;
+        }
+
+        try
+        {
+            return await ConnectionChangesSinceAsync(generation, exception, recoveryToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (recoveryToken.IsCancellationRequested)
+        {
+            // The recovery deadline expired while waiting for the transport callback.
+            return false;
         }
     }
 
