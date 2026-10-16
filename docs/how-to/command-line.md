@@ -33,6 +33,8 @@ await builder.RunAsync();
 | `--categories <name>`        | Runs modules in the specified categories. Repeat the option or separate names with commas.                                                        |
 | `--ignore-categories <name>` | Excludes modules in the specified categories. Repeat the option or separate names with commas.                                                    |
 | `--validate`                 | Validates pipeline configuration without executing modules.                                                                                       |
+| `--graph <format> [path]`    | Exports the dependency graph as `mermaid`, `dot`, or `json` without executing modules.                                                            |
+| `--graph-path <path>`        | Sets the graph output path. Requires `--graph` and cannot be combined with its positional path.                                                   |
 
 Module names are matched case-insensitively. A simple type name, full type name, or assembly-qualified type name can be used. If a simple name matches multiple registered modules, use a full type name.
 
@@ -52,7 +54,15 @@ dotnet run -- --no-cache
 dotnet run -- --list-modules
 
 dotnet run -- --validate
+
+dotnet run -- --graph mermaid
+
+dotnet run -- --graph dot artifacts/pipeline.dot
+
+dotnet run -- --graph=json --graph-path=artifacts/pipeline.json
 ```
+
+Without an explicit path, graph export writes `dependency-graph.mmd`, `dependency-graph.dot`, or `dependency-graph.json` in the current directory, depending on the format. Both graph options accept `--option=value` syntax. Specify the format and output path only once. `--graph` cannot be combined with another pipeline command, such as `--dry-run`, `--validate`, or `--list-modules`.
 
 Explicit skips and category filters still apply to targeted dependency closures. If a required dependency is skipped, the existing dependency skip behavior also skips modules that require it.
 

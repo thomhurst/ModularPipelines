@@ -31,6 +31,21 @@ The skip condition is evaluated before the module-owned before hook. If it retur
 
 `OnBeforeExecuteAsync`, `ExecuteAsync`, and `OnAfterExecuteAsync` do not run.
 
+## Cached results[​](#cached-results "Direct link to Cached results")
+
+Fingerprint cache lookup occurs after the Ready and Start handlers and the skip condition, but before `OnBeforeExecuteAsync`. A skipped module does not read the fingerprint cache.
+
+When a usable cached result is found:
+
+1. The module and result receive `ModuleStatus.RestoredFromCache`.
+2. `Module<T>.OnCachedResultAsync(context, result, cancellationToken)` runs once with the restored result.
+3. Global `IModuleEventHandler.OnModuleEndAsync` handlers run, followed by attribute `IModuleEndHandler` handlers, each family in ascending `Order`.
+4. The restored result is published and dependants become eligible.
+
+`OnBeforeExecuteAsync`, `ExecuteAsync`, and `OnAfterExecuteAsync` do not run on a cache hit, so execution timeout and resilience policies do not run either. Use `OnCachedResultAsync` for module behavior that must occur when reusing a cached result. Exceptions from this hook are logged and do not replace the cached outcome, except for `OutOfMemoryException` and `StackOverflowException`.
+
+A cache miss continues through normal execution. Restoring history for a skipped module is a separate path and does not invoke `OnCachedResultAsync`; see [Storing and retrieving results](/ModularPipelines/docs/how-to/storing-and-retrieving-results.md).
+
 ## Failed modules[​](#failed-modules "Direct link to Failed modules")
 
 When module execution throws:
