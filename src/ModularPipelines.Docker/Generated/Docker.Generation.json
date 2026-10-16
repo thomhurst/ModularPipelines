@@ -1,7 +1,7 @@
 {
-  "formatVersion": 1,
+  "formatVersion": 2,
   "toolName": "docker",
-  "toolVersion": "Docker version 28.0.4, build b8034c0",
-  "commandTreeSha256": "41e94986c6e230fba77ef13346cf21c2cf62018459a95c2f7d0280d5c9f1867a",
-  "generatorSourceSha256": "afccdffa78c2fffb68d3b082c27643e8ad9968078785b7b94d14c7237cfbae48"
+  "toolVersion": "28.0.4",
+  "commandTreeSha256": "2422f404383665cb826206bea6edd0b7db4c93eca9c8ff2e459cd70c79bce54e",
+  "generatorSourceSha256": "4eb4fb17615f44c46efa9cb81fbb3b7df118dec0e676982e746895d2778349ee"
 }

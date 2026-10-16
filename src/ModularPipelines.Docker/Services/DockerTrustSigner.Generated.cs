@@ -14,7 +14,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Services;
 
 /// <summary>
-/// docker signer commands.
+/// docker trust signer commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerTrustSigner

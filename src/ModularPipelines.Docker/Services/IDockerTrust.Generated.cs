@@ -22,14 +22,14 @@ namespace ModularPipelines.Docker.Services;
 public interface IDockerTrust
 {
     /// <summary>
-    /// docker key sub-commands.
+    /// docker trust key sub-commands.
     /// </summary>
-    DockerTrustKey Key => throw new System.NotSupportedException();
+    DockerTrustKey Key { get; }
 
     /// <summary>
-    /// docker signer sub-commands.
+    /// docker trust signer sub-commands.
     /// </summary>
-    DockerTrustSigner Signer => throw new System.NotSupportedException();
+    DockerTrustSigner Signer { get; }
 
     /// <summary>
     /// Manage trust on Docker images
@@ -38,8 +38,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ExecuteAsync(DockerTrustOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ExecuteAsync(DockerTrustOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return low-level information about keys and signatures
@@ -48,8 +47,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InspectAsync(DockerTrustInspectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InspectAsync(DockerTrustInspectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove trust for an image
@@ -58,8 +56,7 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> RevokeAsync(DockerTrustRevokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> RevokeAsync(DockerTrustRevokeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sign an image
@@ -68,7 +65,6 @@ public interface IDockerTrust
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> SignAsync(DockerTrustSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> SignAsync(DockerTrustSignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Services;
 
 /// <summary>
-/// docker history commands.
+/// docker buildx history commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuildxHistory
@@ -33,7 +33,7 @@ public class DockerBuildxHistory
     #region Sub-command Groups
 
     /// <summary>
-    /// docker inspect sub-commands.
+    /// docker buildx history inspect sub-commands.
     /// </summary>
     public DockerBuildxHistoryInspect Inspect => _inspect ??= new DockerBuildxHistoryInspect(_command);
 
