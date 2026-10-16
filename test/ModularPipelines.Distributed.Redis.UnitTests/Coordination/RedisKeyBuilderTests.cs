@@ -46,7 +46,8 @@ public class RedisKeyBuilderTests
             await Assert.That(builder.RunCleanupKeys).DoesNotContain(builder.CompletionFlag);
             await Assert.That(builder.RunCleanupKeys).Contains(builder.MasterHeartbeat);
             await Assert.That(builder.RunCleanupKeys)
-                .IsEquivalentTo(builder.CoordinationKeys.Where(key => key != builder.CompletionFlag).Append(builder.MasterHeartbeat));
+                .IsEquivalentTo(builder.CoordinationKeys.Where(key => key != builder.CompletionFlag)
+                    .Append(builder.MasterHeartbeat).Append(builder.Claims));
             await Assert.That(builder.ArtifactModules).IsEqualTo("modpipe:{abc123}:artifacts:modules");
         }
     }
@@ -94,6 +95,7 @@ public class RedisKeyBuilderTests
                 builder.MasterStarted,
                 builder.LeaseExpirationWorkers,
                 builder.MasterHeartbeat,
+                builder.Claims,
             ],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }

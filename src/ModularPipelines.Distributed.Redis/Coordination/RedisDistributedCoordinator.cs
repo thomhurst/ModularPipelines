@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Kevlar;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Redis;
@@ -23,6 +24,8 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// while the connection reconnects delays a waiter by at most <see cref="PollInterval"/>.
 /// Cancelling a call abandons its wait; Redis may still run a command already sent, and later
 /// commands are not issued.
+/// Claims retry with the same lease token. Only leases renewed by a worker heartbeat count toward
+/// <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so abandoned claim responses cannot exhaust it.
 /// The master's coordinator records a heartbeat every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
 /// until it is disposed or cleans up the run, so workers detect a master that stopped without signalling
 /// completion.
@@ -50,6 +53,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly RespireScript WithdrawScript = RespireScript.Create(RedisCoordinationScripts.Withdraw);
 
     private readonly IRespireClient _redis;
+    private readonly Shield _claimRetry = RedisTransientRetry.Create(RedisTransientRetry.DefaultBaseDelay);
     private readonly RedisKeyBuilder _keys;
     private readonly RespireKey[] _scriptKeys;
     private readonly TimeSpan _keyExpiration;
@@ -636,21 +640,22 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             : DistributedCancellationReason.Stopped;
     }
 
-    private async Task<(bool Closed, ModuleLease? Lease)> TryClaimAsync(
+    internal async Task<(bool Closed, ModuleLease? Lease)> TryClaimAsync(
         WorkerId workerId,
         IReadOnlySet<Capability> workerCapabilities,
         CancellationToken cancellationToken)
     {
+        // The lease token is also the claim ID. An ambiguous command is retried with the same token.
         var leaseId = Guid.NewGuid().ToString("N");
         var capabilities = JsonSerializer.Serialize(RedisCapabilityNames.Normalize(workerCapabilities));
+        RespireValue[] arguments = [capabilities, workerId.Value, leaseId, _workerTimeoutMilliseconds, _keyExpirationMilliseconds];
         string? assignment;
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            assignment = await _redis.Scripts.ExecuteStringAsync(
-                    ClaimScript,
-                    _scriptKeys,
-                    [capabilities, workerId.Value, leaseId, _workerTimeoutMilliseconds, _keyExpirationMilliseconds],
+            assignment = await _claimRetry.ExecuteAsync(
+                    async token => await _redis.Scripts.ExecuteStringAsync(ClaimScript, _scriptKeys, arguments, token)
+                        .ConfigureAwait(false),
                     cancellationToken)
                 .ConfigureAwait(false);
             if (assignment is null || !assignment.StartsWith(NormalizeSentinel, StringComparison.Ordinal))
