@@ -136,7 +136,7 @@ public partial class YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache
             SwitchName = "--cwd",
             PropertyName = "Cwd",
             CSharpType = "string?",
-            Description = "Run Yarn in this directory. Must precede the command path.",
+            Description = "Run Yarn in this directory. Must precede the command path, except that yarn add ... --cwd <path> is also supported.",
             DocumentationUrl = "https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts",
         },
     ];

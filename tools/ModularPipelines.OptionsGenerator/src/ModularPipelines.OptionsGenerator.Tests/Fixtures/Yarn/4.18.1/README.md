@@ -21,7 +21,11 @@ Captured on Windows on 15 October 2026 with Node 24.14.1 and the exact
   succeeds. The installed bundle's `checkCwd` dispatcher consumes leading `--cwd`.
   The [upstream dispatcher](https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/lib.ts)
   and [BaseCommand validation](https://github.com/yarnpkg/berry/blob/master/packages/yarnpkg-cli/sources/tools/BaseCommand.ts)
-  explain why it must precede the command path.
+  explain why it normally precedes the command path. The exact-version
+  [4.18.1 dispatcher](https://github.com/yarnpkg/berry/blob/%40yarnpkg/cli/4.18.1/packages/yarnpkg-cli/sources/lib.ts#L83-L103)
+  also accepts `yarn add ... --cwd <directory>` as a trailing compatibility
+  exception for Create React App. This exception is specific to `add`; generated
+  commands continue to use the leading form for every command.
 - [Official install options](https://yarnpkg.com/cli/install) describe `--immutable`,
   `--json`, and `--mode` on install, not on every Yarn command.
 
@@ -35,4 +39,4 @@ command names containing `requirements` for pip requirements manifests.
 Trailing whitespace on captured help lines is stripped; blank lines are retained.
 
 The matching late-position probe (yarn config get cacheFolder --cwd <directory>)
-exits 1 with an ambiguity error, confirming that placement is semantically required.
+exits 1 with an ambiguity error, confirming that leading placement is required outside the `add` exception.
