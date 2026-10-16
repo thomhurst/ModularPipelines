@@ -770,12 +770,13 @@ internal class ModuleRunner : IModuleRunner
         ModuleState moduleState,
         CancellationToken cancellationToken)
     {
+        // Shared planning must survive FailFast so AlwaysRun modules can reuse it.
         var evaluation = _planningSkipEvaluations.GetOrAdd(
             moduleState.Module.GetType(),
             _ => new Lazy<Task<SkipDecision?>>(
-                () => _modulePlanningSkipEvaluator.EvaluateAsync(moduleState.Module, cancellationToken),
+                () => _modulePlanningSkipEvaluator.EvaluateAsync(moduleState.Module, _engineCancellationToken.NonFailureCancellationToken),
                 LazyThreadSafetyMode.ExecutionAndPublication));
-        return await evaluation.Value.ConfigureAwait(false);
+        return await evaluation.Value.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
