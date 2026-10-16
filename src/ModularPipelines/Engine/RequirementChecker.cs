@@ -59,7 +59,9 @@ internal class RequirementChecker : IRequirementChecker
                             exception));
                     }
                 })
-                .ProcessInParallel();
+                .ProcessInParallel()
+                .WaitAsync()
+                .ConfigureAwait(false);
         }
 
         if (!failures.IsEmpty)

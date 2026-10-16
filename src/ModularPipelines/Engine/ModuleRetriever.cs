@@ -161,7 +161,9 @@ internal class ModuleRetriever
 
                 return new RunnableModule(module, estimatedTime);
             })
-            .ProcessInParallel();
+            .ProcessInParallel()
+            .GetResultsAsync()
+            .ConfigureAwait(false);
 
         return new OrganizedModules(
             RunnableModules: runnableModulesWithEstimatatedDuration,
