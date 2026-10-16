@@ -250,16 +250,16 @@ public abstract record FlywayOptions : CommandLineToolOptions
     public virtual string? PlaceholderReplacement { get; set; }
 
     /// <summary>
-    /// Placeholders to replace in sql migrations
-    /// </summary>
-    [CliOption("-placeholders.", Format = OptionFormat.NoSeparator)]
-    public virtual IReadOnlyList<KeyValue>? Placeholders { get; set; }
-
-    /// <summary>
     /// Suffix of every placeholder
     /// </summary>
     [CliOption("-placeholderSuffix", Format = OptionFormat.EqualsSeparated)]
     public virtual string? PlaceholderSuffix { get; set; }
+
+    /// <summary>
+    /// Placeholders to replace in sql migrations
+    /// </summary>
+    [CliOption("-placeholders.", Format = OptionFormat.NoSeparator)]
+    public virtual IReadOnlyList<KeyValue>? Placeholders { get; set; }
 
     /// <summary>
     /// Suppress all output, except for errors and warnings
