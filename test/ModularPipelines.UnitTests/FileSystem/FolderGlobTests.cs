@@ -26,7 +26,8 @@ public class FolderGlobTests
         // Two matches bound a regression even when the link points back to the root.
         var matches = root.GetFiles("**/*.txt").Take(2).ToArray();
 
-        await Assert.That(matches).IsEquivalentTo(new[] { expected });
+        // Compare path identity, not live metadata on the file and its ancestor folders.
+        await Assert.That(matches).IsEquivalentTo(new[] { expected }).Using(EqualityComparer<FilePath>.Default);
     }
 
     [Test]
@@ -56,7 +57,7 @@ public class FolderGlobTests
 
         var matches = root.GetFiles("**/*.txt").Take(2).ToArray();
 
-        await Assert.That(matches).IsEquivalentTo(new[] { expected });
+        await Assert.That(matches).IsEquivalentTo(new[] { expected }).Using(EqualityComparer<FilePath>.Default);
     }
 
     [Test]
@@ -71,7 +72,7 @@ public class FolderGlobTests
             expected.Attributes |= FileAttributes.Hidden;
         }
 
-        await Assert.That(temporary.Folder.GetFiles("**/*.txt")).IsEquivalentTo(new[] { expected });
+        await Assert.That(temporary.Folder.GetFiles("**/*.txt")).IsEquivalentTo(new[] { expected }).Using(EqualityComparer<FilePath>.Default);
     }
 
     [Test]
@@ -99,6 +100,6 @@ public class FolderGlobTests
         var matches = root.GetFiles("**/*.txt");
         var expected = root.Create().CreateFolder("nested").CreateFile("local.txt");
 
-        await Assert.That(matches).IsEquivalentTo(new[] { expected });
+        await Assert.That(matches).IsEquivalentTo(new[] { expected }).Using(EqualityComparer<FilePath>.Default);
     }
 }
