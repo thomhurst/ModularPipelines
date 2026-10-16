@@ -41,6 +41,7 @@ internal sealed class RedisDistributedCoordinatorFactory(
         var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
         var keys = new RedisKeyBuilder(_options.KeyPrefix, _distributedOptions.RunId);
         await RedisDistributedCoordinator.EnsureServerSupportAsync(connection, keys, cancellationToken).ConfigureAwait(false);
+        await RedisMemoryDiagnostics.CheckMemoryPolicyAsync(connection, _options, _logger, cancellationToken).ConfigureAwait(false);
         return new RedisDistributedCoordinator(
             connection,
             keys,

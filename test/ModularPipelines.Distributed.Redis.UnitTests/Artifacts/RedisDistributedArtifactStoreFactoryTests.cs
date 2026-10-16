@@ -10,10 +10,13 @@ public class RedisDistributedArtifactStoreFactoryTests
     public async Task CreateAsync_Retries_A_Transient_Connection_Failure()
     {
         var attempts = 0;
+        var server = new Mock<IRespireServerCommands>();
+        server.Setup(commands => commands.InfoAsync("memory", It.IsAny<CancellationToken>())).ReturnsAsync("maxmemory:0");
+        var client = Mock.Of<IRespireClient>(connection => connection.Server == server.Object);
         var provider = new RedisConnectionProvider(
             () => Interlocked.Increment(ref attempts) == 1
                 ? Task.FromException<IRespireClient>(new RespireConnectionException("It was not possible to connect"))
-                : Task.FromResult(Mock.Of<IRespireClient>()),
+                : Task.FromResult(client),
             ownsConnection: false);
         var factory = CreateFactory(provider);
 

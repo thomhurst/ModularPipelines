@@ -1,5 +1,6 @@
 using Kevlar;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Redis.Coordination;
 
@@ -15,7 +16,8 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 internal sealed class RedisDistributedArtifactStoreFactory(
     IOptions<RedisOptions> redisOptions,
     IOptions<DistributedOptions> distributedOptions,
-    [FromKeyedServices(RedisDistributedExtensions.ArtifactConnectionKey)] RedisConnectionProvider connections)
+    [FromKeyedServices(RedisDistributedExtensions.ArtifactConnectionKey)] RedisConnectionProvider connections,
+    ILogger<RedisDistributedArtifactStore>? logger = null)
     : IDistributedArtifactStoreFactory
 {
     private static readonly Shield ConnectRetry = RedisTransientRetry.Create(RedisTransientRetry.DefaultBaseDelay);
@@ -29,6 +31,7 @@ internal sealed class RedisDistributedArtifactStoreFactory(
             .ConfigureAwait(false);
         var options = redisOptions.Value;
         var keys = new RedisKeyBuilder(options.KeyPrefix, distributedOptions.Value.RunId);
+        await RedisMemoryDiagnostics.CheckMemoryPolicyAsync(connection, options, logger, cancellationToken).ConfigureAwait(false);
         return new RedisDistributedArtifactStore(connection, keys, options);
     }
 }

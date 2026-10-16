@@ -50,6 +50,15 @@ public sealed record RedisOptions
     /// </summary>
     public int ChunkSizeBytes { get; init; } = 1024 * 1024;
 
+    /// <summary>
+    /// Gets whether coordinator and artifact store startup fails when INFO memory reports a finite
+    /// maxmemory with an evicting policy, or when diagnostics cannot establish the configuration.
+    /// Default: false, which logs a warning and continues. INFO permission is needed for this check.
+    /// The check observes the server answering INFO, not every node in a Redis Cluster, and does not
+    /// guard against configuration changes after startup. Module cache connections are not checked.
+    /// </summary>
+    public bool FailOnUnsafeMemoryPolicy { get; init; }
+
     private bool PrintMembers(StringBuilder builder)
     {
         builder.Append("ConnectionString = <redacted>");
