@@ -48,3 +48,5 @@ static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisMod
 static ModularPipelines.Distributed.Redis.RedisDistributedExtensions.AddRedisModuleCache(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.Redis.RedisOptions!, ModularPipelines.Distributed.Redis.RedisOptions!>! configure, System.Func<ModularPipelines.Caching.ModuleCacheOptions!, ModularPipelines.Caching.ModuleCacheOptions!>? configureCache) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.Redis.RedisOptions.operator !=(ModularPipelines.Distributed.Redis.RedisOptions? left, ModularPipelines.Distributed.Redis.RedisOptions? right) -> bool
 static ModularPipelines.Distributed.Redis.RedisOptions.operator ==(ModularPipelines.Distributed.Redis.RedisOptions? left, ModularPipelines.Distributed.Redis.RedisOptions? right) -> bool
+ModularPipelines.Distributed.Redis.RedisOptions.FailOnUnsafeMemoryPolicy.get -> bool
+ModularPipelines.Distributed.Redis.RedisOptions.FailOnUnsafeMemoryPolicy.init -> void

@@ -128,12 +128,14 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         ArgumentNullException.ThrowIfNull(reference);
         cancellationToken.ThrowIfCancellationRequested();
 
+        var evictionsBefore = await RedisMemoryDiagnostics.ReadEvictionSnapshotAsync(_redis, cancellationToken).ConfigureAwait(false);
+
         var data = await GetValueAsync(_keys.ArtifactData(reference.ArtifactId), cancellationToken)
             .ConfigureAwait(false);
 
         if (data is not null)
         {
-            ThrowIfSizeMismatch(reference, data.Length);
+            await ThrowIfSizeMismatchAsync(reference, data.Length, evictionsBefore, cancellationToken).ConfigureAwait(false);
             return new MemoryStream(data, writable: false);
         }
 
@@ -156,10 +158,11 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
             if (chunkCount == 0)
             {
-                throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis.");
+                throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis."
+                    + await RedisMemoryDiagnostics.DescribeEvictionsAsync(_redis, evictionsBefore, cancellationToken).ConfigureAwait(false));
             }
 
-            ThrowIfSizeMismatch(reference, stream.Length);
+            await ThrowIfSizeMismatchAsync(reference, stream.Length, evictionsBefore, cancellationToken).ConfigureAwait(false);
             stream.Position = 0;
             return stream;
         }
@@ -309,13 +312,18 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             async token => await _redis.SetAsync(key, (RespireValue) value, _timeToLive, cancellationToken: token).ConfigureAwait(false),
             cancellationToken);
 
-    private static void ThrowIfSizeMismatch(ArtifactReference reference, long actualBytes)
+    private async Task ThrowIfSizeMismatchAsync(
+        ArtifactReference reference,
+        long actualBytes,
+        RedisMemoryDiagnostics.EvictionSnapshot? evictionsBefore,
+        CancellationToken cancellationToken)
     {
         if (actualBytes != reference.SizeBytes)
         {
             throw new InvalidOperationException(
                 $"Artifact '{reference.ArtifactId}' size mismatch: expected {reference.SizeBytes} bytes but got {actualBytes} bytes. " +
-                "One or more chunks may have expired or been evicted.");
+                "One or more chunks may have expired or been evicted."
+                + await RedisMemoryDiagnostics.DescribeEvictionsAsync(_redis, evictionsBefore, cancellationToken).ConfigureAwait(false));
         }
     }
 }
