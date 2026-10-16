@@ -61,16 +61,21 @@ public class BashTests : TestBase
 
     [Test]
     [WindowsOnlyTest]
-    [Arguments("C:\\script's $value.sh")]
-    [Arguments("nested dir\\script's $value.sh")]
-    [Arguments("/tmp/script's $value.sh")]
-    public async Task RunFileAsync_Bounds_And_Cancels_Wsl_Path_Conversion(string path)
+    [Arguments("C:\\script's $value.sh", null)]
+    [Arguments("nested dir\\script's $value.sh", null)]
+    [Arguments("nested dir\\script's $value.sh", "work")]
+    [Arguments("/tmp/script's $value.sh", "work")]
+    public async Task RunFileAsync_Bounds_And_Cancels_Wsl_Path_Conversion(string path, string? workingDirectory)
     {
+        var pipelineDirectory = Path.Combine(Path.GetTempPath(), "mp bash pipeline");
+        var expectedDirectory = workingDirectory is null
+            ? pipelineDirectory
+            : Path.GetFullPath(workingDirectory, pipelineDirectory);
         var cancellationToken = new CancellationTokenSource().Token;
         var executionOptions = new CommandExecutionOptions
         {
             ThrowOnNonZeroExitCode = false,
-            WorkingDirectory = Path.GetTempPath(),
+            WorkingDirectory = workingDirectory,
             EnvironmentVariables = new Dictionary<string, string?> { ["WSLENV"] = "TEST_VALUE" },
         };
         var invocations = new List<(CommandLineToolOptions Options, CommandExecutionOptions? ExecutionOptions, CancellationToken CancellationToken)>();
@@ -86,7 +91,7 @@ public class BashTests : TestBase
 
         var bashPath = Path.Combine(Environment.SystemDirectory, "bash.exe");
 
-        await new Bash(command.Object).RunFileAsync(
+        await new Bash(command.Object, new PipelineWorkingDirectory(pipelineDirectory)).RunFileAsync(
             new BashFileOptions(path) { Tool = bashPath },
             executionOptions,
             cancellationToken);
@@ -94,28 +99,31 @@ public class BashTests : TestBase
         await Assert.That(invocations).Count().IsEqualTo(2);
         await Assert.That(invocations[0].Options.Tool).IsEqualTo(Path.Combine(Environment.SystemDirectory, "wsl.exe"));
         await Assert.That(invocations[0].Options.Arguments!.ToArray()).IsEquivalentTo(
-            ["--exec", "wslpath", "-a", path.StartsWith('/') ? path : Path.GetFullPath(path, executionOptions.WorkingDirectory)],
+            ["--exec", "wslpath", "-a", path.StartsWith('/') ? path : Path.GetFullPath(path, expectedDirectory)],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(invocations[0].ExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
-        await Assert.That(invocations[0].ExecutionOptions?.WorkingDirectory).IsEqualTo(executionOptions.WorkingDirectory);
+        await Assert.That(invocations[0].ExecutionOptions?.WorkingDirectory).IsEqualTo(expectedDirectory);
         await Assert.That(invocations[0].ExecutionOptions?.EnvironmentVariables).IsSameReferenceAs(executionOptions.EnvironmentVariables);
         await Assert.That(invocations[0].CancellationToken).IsEqualTo(cancellationToken);
         await Assert.That(((BashFileOptions) invocations[1].Options).FilePath).IsEqualTo("/mnt/c/script.sh");
         await Assert.That(invocations[1].Options.Tool).IsEqualTo(bashPath);
-        await Assert.That(invocations[1].ExecutionOptions).IsSameReferenceAs(executionOptions);
+        await Assert.That(invocations[1].ExecutionOptions).IsEqualTo(executionOptions with { WorkingDirectory = expectedDirectory });
         await Assert.That(invocations[1].CancellationToken).IsEqualTo(cancellationToken);
+        await Assert.That(executionOptions.WorkingDirectory).IsEqualTo(workingDirectory);
     }
 
     [Test]
     [WindowsOnlyTest]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task RunFileAsync_Uses_Native_Bash_Without_Wsl(bool explicitTool)
+    [Arguments(false, null)]
+    [Arguments(false, "work")]
+    [Arguments(true, "work")]
+    public async Task RunFileAsync_Uses_Native_Bash_Without_Wsl(bool explicitTool, string? workingDirectory)
     {
         var directory = Path.Combine(Path.GetTempPath(), $"mp bash tests {Guid.NewGuid():N}");
-        var workingDirectory = Path.Combine(directory, "work");
-        Directory.CreateDirectory(workingDirectory);
-        var bashPath = Path.Combine(directory, "bash.exe");
+        var expectedDirectory = workingDirectory is null ? directory : Path.Combine(directory, workingDirectory);
+        var toolDirectory = Path.Combine(expectedDirectory, "tools");
+        Directory.CreateDirectory(toolDirectory);
+        var bashPath = Path.Combine(toolDirectory, "bash.exe");
 
         try
         {
@@ -125,7 +133,7 @@ public class BashTests : TestBase
                 WorkingDirectory = workingDirectory,
                 EnvironmentVariables = new Dictionary<string, string?>
                 {
-                    ["Path"] = directory,
+                    ["Path"] = "tools",
                     ["PathExt"] = ".EXE",
                 },
             };
@@ -135,19 +143,21 @@ public class BashTests : TestBase
                 Tool = explicitTool ? bashPath : null,
                 Arguments = ["argument's $value"],
             };
+            var expectedExecutionOptions = executionOptions with { WorkingDirectory = expectedDirectory };
             var command = new Mock<ICommandContext>(MockBehavior.Strict);
             command.Setup(context => context.ExecuteCommandLineToolAsync(
                     It.Is<BashFileOptions>(actual => actual.FilePath == "nested dir/script's $value.sh"
                         && actual.Tool == bashPath && actual.Arguments == options.Arguments),
-                    executionOptions,
+                    expectedExecutionOptions,
                     cancellationToken))
                 .ReturnsAsync(CommandResult.Ok());
 
-            await new Bash(command.Object).RunFileAsync(options, executionOptions, cancellationToken);
+            await new Bash(command.Object, new PipelineWorkingDirectory(directory)).RunFileAsync(options, executionOptions, cancellationToken);
 
             command.VerifyAll();
             command.VerifyNoOtherCalls();
             await Assert.That(options.FilePath).IsEqualTo("nested dir\\script's $value.sh");
+            await Assert.That(executionOptions.WorkingDirectory).IsEqualTo(workingDirectory);
         }
         finally
         {
@@ -196,7 +206,7 @@ public class BashTests : TestBase
         command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Bash(command.Object).RunFileAsync(options, executionOptions, cancellationToken);
+        await new Bash(command.Object, new PipelineWorkingDirectory(Environment.CurrentDirectory)).RunFileAsync(options, executionOptions, cancellationToken);
 
         command.VerifyAll();
         command.VerifyNoOtherCalls();
@@ -212,7 +222,7 @@ public class BashTests : TestBase
         command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Bash(command.Object).RunAsync(options, executionOptions, cancellationToken);
+        await new Bash(command.Object, new PipelineWorkingDirectory(Environment.CurrentDirectory)).RunAsync(options, executionOptions, cancellationToken);
 
         command.VerifyAll();
     }
