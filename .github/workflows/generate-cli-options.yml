@@ -33,8 +33,11 @@ permissions:
 
 jobs:
   validate-generation-safety:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -42,6 +45,8 @@ jobs:
       - name: Test generation download verification
         shell: pwsh
         run: .github/scripts/Test-GenerationToolDownloads.ps1
+      - name: Test publication artifact boundary
+        run: node --test .github/scripts/generation-artifact.test.mjs
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
@@ -61,6 +66,7 @@ jobs:
       linux-count: ${{ steps.catalog.outputs.linux-count }}
       windows: ${{ steps.catalog.outputs.windows }}
       windows-count: ${{ steps.catalog.outputs.windows-count }}
+      publication: ${{ steps.catalog.outputs.publication }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -100,6 +106,7 @@ jobs:
                 prefix: .namespacePrefix,
                 outputDirectory: .outputDirectory,
                 generateCommandFacade: .generateCommandFacade,
+                maximumFileSizeBytes: (if .generationPlatform == "windows" then 5242880 else 26214400 end),
                 timeoutMinutes: (if .toolName == "aws" then 150 elif .toolName == "gcloud" then 90 else 60 end)
               }]}' \
               "$RUNNER_TEMP/tool-catalog.json"
@@ -116,10 +123,12 @@ jobs:
             echo "linux-count=$(jq '.include | length' <<< "$LINUX_MATRIX")"
             echo "windows=$WINDOWS_MATRIX"
             echo "windows-count=$(jq '.include | length' <<< "$WINDOWS_MATRIX")"
+            echo "publication=$(jq -cn --argjson linux "$LINUX_MATRIX" --argjson windows "$WINDOWS_MATRIX" '{include: ($linux.include + $windows.include)}')"
           } >> "$GITHUB_OUTPUT"
 
   # Generate options for each tool in parallel (Linux)
   generate:
+    name: Generate ${{ matrix.tool }}
     needs:
       - validate-generation-safety
       - tool-catalog
@@ -127,8 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: ${{ matrix.timeoutMinutes }}
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.linux) }}
@@ -147,35 +155,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
-
-      - name: Resolve generated output branch
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        env:
-          GENERATION_TOOL: ${{ matrix.tool }}
-          GENERATION_SOURCE_REF: ${{ github.ref_name }}
-          GENERATION_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: |
-          $branch = ./scripts/Get-GeneratedOptionsBranch.ps1 `
-            -Tool $env:GENERATION_TOOL `
-            -SourceRef $env:GENERATION_SOURCE_REF `
-            -DefaultBranch $env:GENERATION_DEFAULT_BRANCH
-          "GENERATED_OPTIONS_BRANCH=$branch" | Out-File -FilePath $env:GITHUB_ENV -Append
-
-      - name: Disable inherited auto-merge for push refreshes
-        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
-        run: |
-          pr_number="$(gh pr list --state open --head "$GENERATED_OPTIONS_BRANCH" --json number --jq '.[0].number // empty')"
-          if [ -n "$pr_number" ]; then
-            auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
-            if [ "$auto_merge_enabled" = "true" ]; then
-              gh pr merge "$pr_number" --disable-auto
-            fi
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -669,13 +649,6 @@ jobs:
             exit 1
           fi
 
-          {
-            coverage_delimiter="coverage_$(openssl rand -hex 16)"
-            echo "coverage-report<<$coverage_delimiter"
-            sed -n '/^Command coverage report:/,$p' "$RUNNER_TEMP/generator-output.log"
-            echo "$coverage_delimiter"
-          } >> "$GITHUB_OUTPUT"
-
       - name: Upload scrape failure diagnostics
         if: always() && steps.should-run.outputs.run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -786,8 +759,9 @@ jobs:
           --project test/ModularPipelines.Python.UnitTests/ModularPipelines.Python.UnitTests.csproj
           --framework net11.0 --configuration Release --no-build
 
-      - name: Revalidate generated changes before PR
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+      # Only successful generation and validation may hand data to the trusted publisher.
+      - name: Revalidate generated changes before handoff
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
           tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
@@ -796,54 +770,34 @@ jobs:
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
             -MaximumFileSizeBytes 26214400
 
-      - name: Create Pull Request for ${{ matrix.tool }}
-        id: create-pr
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
-        with:
-          token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          # The immediately preceding revalidation rejects every checkout change outside
-          # the generator manifests before this action commits the validated worktree.
-          commit-message: "chore: Update ${{ matrix.tool }} CLI options"
-          title: "[Automated] Update ${{ matrix.tool }} CLI Options"
-          body: |
-            ## Summary
-            This PR contains automatically generated updates to **${{ matrix.tool }}** CLI options classes.
-
-            The generator scraped the latest CLI help output from the installed tool.
-
-            ## Changes
-            - Updated options classes to reflect latest CLI documentation
-            - Added new commands if any were detected
-            - Updated option types and descriptions
-
-            ## Command coverage
-            ${{ steps.generator.outputs.coverage-report }}
-
-            ## Verification
-            - [x] Solution builds successfully
-
-            ---
-            🤖 Generated with ModularPipelines.OptionsGenerator
-          branch: ${{ env.GENERATED_OPTIONS_BRANCH }}
-          # Keep manual feature-branch regeneration on the commit that produced it.
-          # Rebasing generated renames onto main can map new content onto stale filenames.
-          base: ${{ github.ref_name }}
-          delete-branch: true
-          labels: |
-            automated
-            dependencies
-          author: thomhurst <9139608+thomhurst@users.noreply.github.com>
-          committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
-
-      - name: Enable auto-merge
-        if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
-        run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
+      - name: Export publication data
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          GENERATION_HAS_CHANGES: ${{ steps.changes.outputs.has_changes }}
+          GENERATION_TOOL: ${{ matrix.tool }}
+          GENERATION_PREFIX: ${{ matrix.prefix }}
+          GENERATION_PACKAGE_DIRECTORY: ${{ matrix.outputDirectory }}
+          GENERATION_COMMAND_FACADE: ${{ matrix.generateCommandFacade }}
+          GENERATION_SOURCE_SHA: ${{ github.sha }}
+          GENERATION_MAX_FILE_BYTES: 26214400
+        run: >-
+          node .github/scripts/generation-artifact.mjs export
+          "$env:RUNNER_TEMP/publication-data" "$env:RUNNER_TEMP/generator-output.log"
+
+      - name: Upload publication data
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: generated-${{ matrix.tool }}-publication-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication-data/generated-options.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 7
 
   # Generate options for Windows-only tools
   generate-windows:
+    name: Generate ${{ matrix.tool }}
     needs:
       - validate-generation-safety
       - tool-catalog
@@ -851,8 +805,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 60
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.tool-catalog.outputs.windows) }}
@@ -872,49 +825,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: false
-
-      - name: Resolve generated output branch
-        if: steps.should-run.outputs.run == 'true'
-        shell: pwsh
-        env:
-          GENERATION_TOOL: ${{ matrix.tool }}
-          GENERATION_SOURCE_REF: ${{ github.ref_name }}
-          GENERATION_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: |
-          $branch = ./scripts/Get-GeneratedOptionsBranch.ps1 `
-            -Tool $env:GENERATION_TOOL `
-            -SourceRef $env:GENERATION_SOURCE_REF `
-            -DefaultBranch $env:GENERATION_DEFAULT_BRANCH
-          "GENERATED_OPTIONS_BRANCH=$branch" | Out-File -FilePath $env:GITHUB_ENV -Append
-
-      - name: Disable inherited auto-merge for push refreshes
-        if: steps.should-run.outputs.run == 'true' && github.event_name == 'push'
-        shell: pwsh
-        run: |
-          $prNumber = gh pr list `
-            --state open `
-            --head $env:GENERATED_OPTIONS_BRANCH `
-            --json number `
-            --jq '.[0].number // empty'
-          if ($LASTEXITCODE -ne 0) {
-            exit $LASTEXITCODE
-          }
-          if (-not [string]::IsNullOrWhiteSpace($prNumber)) {
-            $autoMergeEnabled = gh pr view $prNumber --json autoMergeRequest --jq '.autoMergeRequest != null'
-            if ($LASTEXITCODE -ne 0) {
-              exit $LASTEXITCODE
-            }
-            if ($autoMergeEnabled -eq 'true') {
-              gh pr merge $prNumber --disable-auto
-              if ($LASTEXITCODE -ne 0) {
-                exit $LASTEXITCODE
-              }
-            }
-          }
-        env:
-          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Setup .NET
         if: steps.should-run.outputs.run == 'true'
@@ -1057,15 +968,6 @@ jobs:
             throw "Generator produced zero files for ${{ matrix.tool }}"
           }
 
-          $marker = $generatorOutput | Select-String -Pattern '^Command coverage report:' | Select-Object -Last 1
-          $coverageDelimiter = "coverage_$([Guid]::NewGuid().ToString('N'))"
-          "coverage-report<<$coverageDelimiter" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          if ($marker) {
-            $generatorOutput[($marker.LineNumber - 1)..($generatorOutput.Count - 1)] |
-              Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          }
-          $coverageDelimiter | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
       - name: Upload scrape failure diagnostics
         if: always() && steps.should-run.outputs.run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -1099,7 +1001,12 @@ jobs:
 
           # Check for actual content changes (ignore whitespace-only changes)
           git diff --staged --quiet --ignore-all-space --ignore-blank-lines
-          $hasChanges = $LASTEXITCODE -ne 0
+          $diffExitCode = $LASTEXITCODE
+          if ($diffExitCode -gt 1) {
+            throw "git diff failed with exit code $diffExitCode."
+          }
+          $hasChanges = $diffExitCode -eq 1
+          $global:LASTEXITCODE = 0
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             $stagedPaths = @(git diff --staged --name-only)
@@ -1132,8 +1039,9 @@ jobs:
           "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx"
           -c Release
 
-      - name: Revalidate generated changes before PR
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+      # Only successful generation and validation may hand data to the trusted publisher.
+      - name: Revalidate generated changes before handoff
+        if: steps.changes.outputs.has_changes == 'true'
         shell: pwsh
         run: |
           tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
@@ -1142,14 +1050,145 @@ jobs:
             -AllowedPathFile "$env:RUNNER_TEMP/legacy-generated-paths.txt" `
             -MaximumFileSizeBytes 5242880
 
+      - name: Export publication data
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        env:
+          GENERATION_HAS_CHANGES: ${{ steps.changes.outputs.has_changes }}
+          GENERATION_TOOL: ${{ matrix.tool }}
+          GENERATION_PREFIX: ${{ matrix.prefix }}
+          GENERATION_PACKAGE_DIRECTORY: ${{ matrix.outputDirectory }}
+          GENERATION_COMMAND_FACADE: ${{ matrix.generateCommandFacade }}
+          GENERATION_SOURCE_SHA: ${{ github.sha }}
+          GENERATION_MAX_FILE_BYTES: 5242880
+        run: >-
+          node .github/scripts/generation-artifact.mjs export
+          "$env:RUNNER_TEMP/publication-data" "$env:RUNNER_TEMP/generator-output.log"
+
+      - name: Upload publication data
+        if: steps.should-run.outputs.run == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: generated-${{ matrix.tool }}-publication-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication-data/generated-options.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 7
+
+  # Fresh hosted runners execute only checked-in publication helpers and actions.
+  # The PAT is supplied only to PR operations; no downloaded tool, build, or cache runs here.
+  publish:
+    needs: [tool-catalog, generate, generate-windows]
+    if: >-
+      always() && !cancelled() && needs.tool-catalog.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.tool-catalog.outputs.publication) }}
+    concurrency:
+      group: ${{ github.workflow }}-generated-publication-${{ matrix.tool }}
+      cancel-in-progress: false
+      queue: max
+    env:
+      GENERATION_TOOL: ${{ matrix.tool }}
+      GENERATION_PREFIX: ${{ matrix.prefix }}
+      GENERATION_PACKAGE_DIRECTORY: ${{ matrix.outputDirectory }}
+      GENERATION_COMMAND_FACADE: ${{ matrix.generateCommandFacade }}
+      GENERATION_SOURCE_SHA: ${{ github.sha }}
+      GENERATION_MAX_FILE_BYTES: ${{ matrix.maximumFileSizeBytes }}
+
+    steps:
+      - name: Checkout trusted publication code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find successful tool handoff
+        id: artifact
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate --slurp "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/jobs?filter=all&per_page=100" \
+            > "$RUNNER_TEMP/generation-jobs.json"
+          gh api --paginate --slurp "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+            > "$RUNNER_TEMP/generation-artifacts.json"
+          node .github/scripts/generation-artifact.mjs select \
+            "$RUNNER_TEMP/generation-jobs.json" "$RUNNER_TEMP/generation-artifacts.json"
+
+      - name: Download generated data outside checkout
+        if: steps.artifact.outputs.id != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ steps.artifact.outputs.id }}
+          path: ${{ runner.temp }}/publication-data
+          merge-multiple: true
+
+      - name: Validate and import generated data
+        if: steps.artifact.outputs.id != ''
+        id: handoff
+        env:
+          GENERATION_MANIFEST: ${{ runner.temp }}/publication-paths.txt
+          GENERATION_RUN_ATTEMPT: ${{ steps.artifact.outputs.run_attempt }}
+        run: node .github/scripts/generation-artifact.mjs import "$RUNNER_TEMP/publication-data"
+
+      - name: Validate provenance and stage exact generated paths
+        if: steps.handoff.outputs.has_changes == 'true'
+        shell: pwsh
+        env:
+          GENERATION_MANIFEST: ${{ runner.temp }}/publication-paths.txt
+          GENERATION_PACKAGE: ${{ matrix.package }}
+          GENERATION_SOURCE_REF: ${{ github.ref_name }}
+        run: |
+          ./scripts/Assert-GeneratedOptionsFreshness.ps1 `
+            -RepositoryRoot $env:GITHUB_WORKSPACE `
+            -Tool $env:GENERATION_TOOL `
+            -Package $env:GENERATION_PACKAGE `
+            -NamespacePrefix $env:GENERATION_PREFIX `
+            -CurrentBase "origin/$($env:GENERATION_SOURCE_REF)"
+          tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1 `
+            -RepositoryRoot $env:GITHUB_WORKSPACE `
+            -ManifestPath $env:GENERATION_MANIFEST `
+            -MaximumFileSizeBytes $env:GENERATION_MAX_FILE_BYTES
+
+      - name: Resolve generated output branch
+        if: steps.handoff.outputs.has_changes == 'true'
+        shell: pwsh
+        env:
+          GENERATION_SOURCE_REF: ${{ github.ref_name }}
+          GENERATION_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          $branch = ./scripts/Get-GeneratedOptionsBranch.ps1 `
+            -Tool $env:GENERATION_TOOL `
+            -SourceRef $env:GENERATION_SOURCE_REF `
+            -DefaultBranch $env:GENERATION_DEFAULT_BRANCH
+          "GENERATED_OPTIONS_BRANCH=$branch" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Disable inherited auto-merge for push refreshes
+        if: steps.handoff.outputs.has_changes == 'true' && github.event_name == 'push' && github.event.inputs.create-pr != 'false'
+        env:
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+        run: |
+          pr_number="$(gh pr list --state open --head "$GENERATED_OPTIONS_BRANCH" --json number --jq '.[0].number // empty')"
+          if [ -n "$pr_number" ]; then
+            auto_merge_enabled="$(gh pr view "$pr_number" --json autoMergeRequest --jq '.autoMergeRequest != null')"
+            if [ "$auto_merge_enabled" = "true" ]; then
+              gh pr merge "$pr_number" --disable-auto
+            fi
+          fi
+
       - name: Create Pull Request for ${{ matrix.tool }}
         id: create-pr
-        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
+        if: steps.handoff.outputs.has_changes == 'true' && github.event.inputs.create-pr != 'false'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
-          # The immediately preceding revalidation rejects every checkout change outside
-          # the generator manifests before this action commits the validated worktree.
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
@@ -1164,16 +1203,15 @@ jobs:
             - Updated option types and descriptions
 
             ## Command coverage
-            ${{ steps.generator.outputs.coverage-report }}
+            ${{ steps.handoff.outputs.coverage-report }}
 
             ## Verification
-            - [x] Solution builds successfully
+            - [x] Solution builds successfully in the read-only generation job
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
           branch: ${{ env.GENERATED_OPTIONS_BRANCH }}
-          # Keep manual feature-branch regeneration on the commit that produced it.
-          # Rebasing generated renames onto main can map new content onto stale filenames.
+          # Keep feature-branch output on the source ref that produced it.
           base: ${{ github.ref_name }}
           delete-branch: true
           labels: |
@@ -1184,10 +1222,10 @@ jobs:
 
       - name: Enable auto-merge
         if: steps.create-pr.outputs.pull-request-number && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs['enable-auto-merge']))
-        shell: pwsh
-        run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          PR_NUMBER: ${{ steps.create-pr.outputs.pull-request-number }}
+        run: gh pr merge "$PR_NUMBER" --auto --squash
 
   report-scheduled-failure:
     name: Report scheduled failure
@@ -1204,6 +1242,8 @@ jobs:
           || needs.generate.result == 'cancelled'
           || needs.generate-windows.result == 'failure'
           || needs.generate-windows.result == 'cancelled'
+          || needs.publish.result == 'failure'
+          || needs.publish.result == 'cancelled'
         )
       }}
     needs:
@@ -1211,6 +1251,7 @@ jobs:
       - tool-catalog
       - generate
       - generate-windows
+      - publish
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -1227,6 +1268,7 @@ jobs:
           CATALOG_RESULT: ${{ needs.tool-catalog.result }}
           LINUX_RESULT: ${{ needs.generate.result }}
           WINDOWS_RESULT: ${{ needs.generate-windows.result }}
+          PUBLICATION_RESULT: ${{ needs.publish.result }}
         run: |
           issue_body="$(cat <<EOF
           Scheduled CLI option generation failed.
@@ -1236,6 +1278,7 @@ jobs:
           - Tool catalog: $CATALOG_RESULT
           - Linux generation: $LINUX_RESULT
           - Windows generation: $WINDOWS_RESULT
+          - Publication: $PUBLICATION_RESULT
 
           Inspect failed matrix jobs and keep this issue open until a scheduled run succeeds.
           EOF

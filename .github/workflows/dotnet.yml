@@ -117,6 +117,9 @@ jobs:
       - name: Test CI build-output transport
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: node --test .github/actions/run-pipeline/*.test.mjs
+      - name: Test publication artifact boundary
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        run: node --test .github/scripts/generation-artifact.test.mjs
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh

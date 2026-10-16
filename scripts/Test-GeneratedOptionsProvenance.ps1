@@ -104,8 +104,8 @@ try {
         "(?:(?!^      - name:).)*?--json autoMergeRequest" +
         "(?:(?!^      - name:).)*?\.autoMergeRequest != null" +
         "(?:(?!^      - name:).)*?--disable-auto")
-    if ($guardedAutoMergeDisableSteps.Count -ne 2) {
-        throw 'Linux and Windows generation jobs must each guard auto-merge disabling on the current PR state.'
+    if ($guardedAutoMergeDisableSteps.Count -ne 1) {
+        throw 'Publication must guard auto-merge disabling on the current PR state.'
     }
     $linuxJobStart = $normalizedWorkflowContents.IndexOf("  generate:`n", [StringComparison]::Ordinal)
     $windowsJobStart = $normalizedWorkflowContents.IndexOf(
@@ -114,8 +114,9 @@ try {
     $reportJobStart = $normalizedWorkflowContents.IndexOf(
         "  report-scheduled-failure:`n",
         [StringComparison]::Ordinal)
+    $publishJobStart = $normalizedWorkflowContents.IndexOf("  publish:`n", [StringComparison]::Ordinal)
     if ($linuxJobStart -lt 0 -or $windowsJobStart -le $linuxJobStart -or
-        $reportJobStart -le $windowsJobStart) {
+        $publishJobStart -le $windowsJobStart -or $reportJobStart -le $publishJobStart) {
         throw 'Could not resolve generation job boundaries.'
     }
 
@@ -124,25 +125,29 @@ try {
         $windowsJobStart - $linuxJobStart)
     $windowsJob = $normalizedWorkflowContents.Substring(
         $windowsJobStart,
-        $reportJobStart - $windowsJobStart)
-    if ($windowsJob -notmatch "(?ms)gh pr merge \`$prNumber --disable-auto`n\s+if \(\`$LASTEXITCODE -ne 0\)") {
-        throw 'Windows generation must fail when disabling inherited auto-merge fails.'
+        $publishJobStart - $windowsJobStart)
+    $publishJob = $normalizedWorkflowContents.Substring($publishJobStart, $reportJobStart - $publishJobStart)
+    $disableIndex = $publishJob.IndexOf(
+        '- name: Disable inherited auto-merge for push refreshes',
+        [StringComparison]::Ordinal)
+    $createPrIndex = $publishJob.IndexOf('- name: Create Pull Request', [StringComparison]::Ordinal)
+    if ($disableIndex -lt 0 -or $createPrIndex -lt 0 -or $disableIndex -gt $createPrIndex) {
+        throw 'Publication must disable inherited auto-merge before updating a PR.'
+    }
+    if ($linuxJob.Contains('gh pr merge') -or $windowsJob.Contains('gh pr merge')) {
+        throw 'Read-only generation jobs must not change PR auto-merge state.'
     }
     $expectedConcurrencyGroup = "group: `${{ github.workflow }}-generated-refresh-`${{ matrix.tool }}"
     foreach ($job in @($linuxJob, $windowsJob)) {
-        $disableIndex = $job.IndexOf(
-            '- name: Disable inherited auto-merge for push refreshes',
-            [StringComparison]::Ordinal)
-        $buildIndex = $job.IndexOf('- name: Build Generator', [StringComparison]::Ordinal)
-        if ($disableIndex -lt 0 -or $buildIndex -lt 0 -or $disableIndex -gt $buildIndex) {
-            throw 'Push refreshes must disable inherited auto-merge before generator work begins.'
-        }
-
         if (-not $job.Contains($expectedConcurrencyGroup, [StringComparison]::Ordinal) -or
             -not $job.Contains('cancel-in-progress: false', [StringComparison]::Ordinal) -or
             -not $job.Contains('queue: max', [StringComparison]::Ordinal)) {
             throw 'Generated refresh writes must queue and serialize per tool without cancelling active work.'
         }
+    }
+    if (-not $publishJob.Contains("group: `${{ github.workflow }}-generated-publication-`${{ matrix.tool }}") -or
+        -not $publishJob.Contains('cancel-in-progress: false') -or -not $publishJob.Contains('queue: max')) {
+        throw 'Publication writes must queue and serialize per tool without cancelling active work.'
     }
     if ($normalizedWorkflowContents -match '(?m)^concurrency:') {
         throw 'Workflow-level concurrency can evict unrelated pending full-refresh jobs.'
