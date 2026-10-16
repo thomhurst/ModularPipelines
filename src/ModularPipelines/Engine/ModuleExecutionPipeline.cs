@@ -862,9 +862,7 @@ internal class ModuleExecutionPipeline(
             }
         }
 
-        ModuleResult<T> result = replacementFailure is null
-            ? ModuleResult<T>.CreateFailure(exception, executionContext)
-            : replacementFailure with { Status = executionContext.Status };
+        var result = CreateFailureResult(exception, executionContext, replacementFailure);
         if (invokeAfterHook)
         {
             // Let recovery finish before publishing a failure or canceling dependent modules.
@@ -901,6 +899,16 @@ internal class ModuleExecutionPipeline(
 
         // This won't be reached, but compiler needs it
         throw exception;
+    }
+
+    private static ModuleResult<T> CreateFailureResult<T>(
+        Exception exception,
+        ModuleExecutionContext<T> executionContext,
+        ModuleResult<T>.Failure? replacementFailure)
+    {
+        return replacementFailure is null
+            ? ModuleResult<T>.CreateFailure(exception, executionContext)
+            : replacementFailure with { Status = executionContext.Status };
     }
 
     private ModuleStatus ClassifyExecutionException(
