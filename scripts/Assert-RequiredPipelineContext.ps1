@@ -38,7 +38,15 @@ param(
     [string]$CrossPlatformBuildResult = 'skipped',
 
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
-    [string]$ArtifactStorageResult = 'skipped'
+    [string]$ArtifactStorageResult = 'skipped',
+
+    [Parameter(Mandatory)]
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$AnalyzersResult,
+
+    [Parameter(Mandatory)]
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$TrimAotResult
 )
 
 $ErrorActionPreference = 'Stop'
@@ -53,6 +61,14 @@ if ($IsGeneratedIntegration -notin @('true', 'false')) {
 
 if ($RunFullPipeline -notin @('true', 'false')) {
     throw "Full pipeline routing value was '$RunFullPipeline'; required context cannot pass."
+}
+
+$expectedQualityResult = if ($RunFullPipeline -eq 'true') { 'success' } else { 'skipped' }
+if ($AnalyzersResult -ne $expectedQualityResult) {
+    throw "Analyzers result was '$AnalyzersResult'; expected '$expectedQualityResult'."
+}
+if ($TrimAotResult -ne $expectedQualityResult) {
+    throw "Trim/AOT result was '$TrimAotResult'; expected '$expectedQualityResult'."
 }
 
 $expectedArtifactStorageResult = if ($RunFullPipeline -eq 'true') { 'success' } else { 'skipped' }

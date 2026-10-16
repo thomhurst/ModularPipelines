@@ -24,6 +24,7 @@ foreach ($runFull in @('true', 'false', '', 'invalid')) {
                             -FastFailResult $fastResult -FullPipelineResult $fullResult `
                             -GeneratedIntegrationResult $generatedResult -CrossPlatformBuildResult $crossPlatformResult `
                             -ArtifactStorageResult $crossPlatformResult `
+                            -AnalyzersResult $crossPlatformResult -TrimAotResult $crossPlatformResult `
                             -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                     }
                     catch {
@@ -56,6 +57,7 @@ foreach ($runFull in @('true', 'false')) {
                         -Distributed $distributed -WorkerPipelineResult $workerResult `
                         -CrossPlatformBuildResult $crossPlatformResult `
                         -ArtifactStorageResult $fullResult `
+                        -AnalyzersResult $fullResult -TrimAotResult $fullResult `
                         -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                 }
                 catch {
@@ -87,6 +89,8 @@ foreach ($runIntegration in @('true', 'false', '', 'invalid')) {
                     -FastFailResult success -FullPipelineResult $(if ($full) { 'success' } else { 'skipped' }) `
                     -CrossPlatformBuildResult $(if ($full) { 'success' } else { 'skipped' }) `
                     -ArtifactStorageResult $(if ($full) { 'success' } else { 'skipped' }) `
+                    -AnalyzersResult $(if ($full) { 'success' } else { 'skipped' }) `
+                    -TrimAotResult $(if ($full) { 'success' } else { 'skipped' }) `
                     -GeneratedIntegrationResult $(if ($generated) { 'success' } else { 'skipped' }) `
                     -RunIntegrationValidation $runIntegration -IntegrationResult $integrationResult *> $null
             }
@@ -108,6 +112,7 @@ foreach ($runFull in @('true', 'false')) {
             & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration 'false' `
                 -FastFailResult success -FullPipelineResult $expected -GeneratedIntegrationResult skipped `
                 -CrossPlatformBuildResult $expected -ArtifactStorageResult $storageResult `
+                -AnalyzersResult $expected -TrimAotResult $expected `
                 -RunIntegrationValidation false -IntegrationResult skipped *> $null
         }
         catch { $passed = $false }
@@ -116,6 +121,36 @@ foreach ($runFull in @('true', 'false')) {
         }
     }
 }
+
+$qualityCaseCount = 0
+foreach ($route in @('full', 'distributed', 'generated', 'integration', 'fast-only')) {
+    foreach ($analyzersResult in @('success', 'failure', 'cancelled', 'skipped', '', 'invalid')) {
+        foreach ($trimAotResult in @('success', 'failure', 'cancelled', 'skipped', '', 'invalid')) {
+            $runFull = $route -in @('full', 'distributed')
+            $expected = if ($runFull) { 'success' } else { 'skipped' }
+            $passed = $true
+            try {
+                & $assertScript -RunFullPipeline $runFull.ToString().ToLowerInvariant() `
+                    -IsGeneratedIntegration ($route -eq 'generated').ToString().ToLowerInvariant() `
+                    -FastFailResult success -FullPipelineResult $expected `
+                    -Distributed ($route -eq 'distributed').ToString().ToLowerInvariant() `
+                    -WorkerPipelineResult $(if ($route -eq 'distributed') { 'success' } else { 'skipped' }) `
+                    -CrossPlatformBuildResult $(if ($route -eq 'full') { 'success' } else { 'skipped' }) `
+                    -ArtifactStorageResult $expected `
+                    -GeneratedIntegrationResult $(if ($route -eq 'generated') { 'success' } else { 'skipped' }) `
+                    -RunIntegrationValidation ($route -eq 'integration').ToString().ToLowerInvariant() `
+                    -IntegrationResult $(if ($route -eq 'integration') { 'success' } else { 'skipped' }) `
+                    -AnalyzersResult $analyzersResult -TrimAotResult $trimAotResult *> $null
+            }
+            catch { $passed = $false }
+            if ($passed -ne ($analyzersResult -eq $expected -and $trimAotResult -eq $expected)) {
+                throw "Unexpected quality gate: route=$route analyzers=$analyzersResult trimAot=$trimAotResult."
+            }
+            $qualityCaseCount++
+        }
+    }
+}
+Write-Host "Required analyzer and trim/AOT routing: $qualityCaseCount cases passed."
 
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
@@ -127,13 +162,15 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
-             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot]',
              'if: always()',
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
              '-CrossPlatformBuildResult ''${{ needs.cross-platform-build.result }}''',
              '-ArtifactStorageResult ''${{ needs.artifact-storage.result }}''',
+             '-AnalyzersResult ''${{ needs.analyzers.result }}''',
+             '-TrimAotResult ''${{ needs.trim-aot.result }}''',
              '-RunIntegrationValidation ''${{ needs.fast-fail.outputs.run_integration_validation }}''',
              '-IntegrationResult ''${{ needs.changed-integration.result }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'
