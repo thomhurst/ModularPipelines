@@ -343,7 +343,7 @@ public class GitChangesTests
 
         public string? HeadOutput { get; init; } = "head-commit";
 
-        public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             Commands.Add(commands);
             ExecutionOptions.Add(commandEnvironmentOptions);
@@ -362,7 +362,7 @@ public class GitChangesTests
             return Task.FromResult(NextOutput());
         }
 
-        public Task<string?> RunCommandsOrNull(
+        public Task<string?> RunCommandsOrNullAsync(
             CommandExecutionOptions? commandEnvironmentOptions,
             params string?[] commands)
         {

@@ -7,22 +7,16 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
 
-internal sealed class GitChanges : IGitChanges, IDisposable
+internal sealed class GitChanges(
+    IServiceScopeFactory serviceScopeFactory,
+    ILogger<GitChanges>? logger = null) : IGitChanges, IDisposable
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ILogger<GitChanges> _logger;
+    private readonly IServiceScopeFactory _serviceScopeFactory = serviceScopeFactory;
+    private readonly ILogger<GitChanges> _logger = logger ?? NullLogger<GitChanges>.Instance;
     private readonly ConcurrentDictionary<string, ChangeCacheEntry> _changesByBase =
         new(StringComparer.Ordinal);
     private readonly SemaphoreSlim _untrackedPathsGate = new(1, 1);
     private IReadOnlyList<string>? _untrackedPaths;
-
-    public GitChanges(
-        IServiceScopeFactory serviceScopeFactory,
-        ILogger<GitChanges>? logger = null)
-    {
-        _serviceScopeFactory = serviceScopeFactory;
-        _logger = logger ?? NullLogger<GitChanges>.Instance;
-    }
 
     public async Task<bool> HasChangesAsync(
         IEnumerable<string> pathPatterns,
@@ -71,7 +65,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
             var scope = _serviceScopeFactory.CreateAsyncScope();
             await using var scopeLifetime = scope.ConfigureAwait(false);
             var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
-            var mergeBase = await gitCommandRunner.RunCommandsOrNull(
+            var mergeBase = await gitCommandRunner.RunCommandsOrNullAsync(
                     null,
                     cancellationToken,
                     "merge-base",
@@ -88,7 +82,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 return cacheEntry.Snapshot;
             }
 
-            var head = await gitCommandRunner.RunCommandsOrNull(
+            var head = await gitCommandRunner.RunCommandsOrNullAsync(
                     null,
                     cancellationToken,
                     "rev-parse",
@@ -125,10 +119,9 @@ internal sealed class GitChanges : IGitChanges, IDisposable
 
             cacheEntry.Snapshot = new ChangedPathSnapshot(
                 IsKnown: true,
-                SplitPaths(await diffOutputTask.ConfigureAwait(false))
+                [.. SplitPaths(await diffOutputTask.ConfigureAwait(false))
                     .Concat(await untrackedPathsTask.ConfigureAwait(false))
-                    .Distinct(StringComparer.Ordinal)
-                    .ToArray());
+                    .Distinct(StringComparer.Ordinal)]);
             return cacheEntry.Snapshot;
         }
         finally
@@ -163,7 +156,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                     ":(top)")
                 .ConfigureAwait(false);
 
-            _untrackedPaths = SplitPaths(untrackedOutput).ToArray();
+            _untrackedPaths = [.. SplitPaths(untrackedOutput)];
             return _untrackedPaths;
         }
         finally
@@ -209,7 +202,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         params string?[] commands) =>
         gitCommandRunner is IRawGitCommandRunner rawGitCommandRunner
             ? rawGitCommandRunner.RunCommandsUntrimmed(options, cancellationToken, commands)
-            : gitCommandRunner.RunCommands(options, cancellationToken, commands);
+            : gitCommandRunner.RunCommandsAsync(options, cancellationToken, commands);
 
     private sealed class ChangeCacheEntry
     {

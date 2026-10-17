@@ -60,6 +60,21 @@ public class DotNetTestResultsTests : TestBase
     }
 
     [Test]
+    public async Task Trx_Helper_Propagates_Read_Cancellation()
+    {
+        await using var host = await TestPipelineBuilder.Create()
+            .AddModule<TrueModule>()
+            .BuildAsync();
+        await using var scope = host.Services.CreateAsyncScope();
+        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        using var cancellation = new CancellationTokenSource();
+        cancellation.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            context.Tools.Trx.ParseTrxFileAsync(TrxFixture, cancellation.Token));
+    }
+
+    [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
         var host = await TestPipelineBuilder.Create()
@@ -70,7 +85,7 @@ public class DotNetTestResultsTests : TestBase
         // IPipelineContext is a scoped service, so we need to create a scope
         await using var scope = host.Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
-        var parsedResults = await context.Tools.Trx.ParseTrxFile(TrxFixture);
+        var parsedResults = await context.Tools.Trx.ParseTrxFileAsync(TrxFixture);
 
         await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }

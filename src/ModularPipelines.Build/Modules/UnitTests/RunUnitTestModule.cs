@@ -146,7 +146,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
         finally
         {
-            await PrintTestResults(context, trxFile);
+            await PrintTestResults(context, trxFile, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -157,11 +157,11 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             .GetFile(TrxFileName);
     }
 
-    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile)
+    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile, CancellationToken cancellationToken)
     {
         try
         {
-            await PrintTestResultsCore(context, trxFile);
+            await PrintTestResultsCore(context, trxFile, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -172,14 +172,14 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
     }
 
-    private static async Task PrintTestResultsCore(IModuleContext context, FilePath trxFile)
+    private static async Task PrintTestResultsCore(IModuleContext context, FilePath trxFile, CancellationToken cancellationToken)
     {
         if (!trxFile.Exists)
         {
             return;
         }
 
-        var testResults = await context.Tools.Trx.ParseTrxFile(trxFile);
+        var testResults = await context.Tools.Trx.ParseTrxFileAsync(trxFile, cancellationToken).ConfigureAwait(false);
         var consoleWriter = context.Console;
         PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);

@@ -14,6 +14,78 @@ namespace ModularPipelines.Git.UnitTests;
 public class GitCommandRunnerTests : TestBase
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Built_In_Runner_Cancels_Commands_In_Flight(bool returnNullOnFailure)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var observedToken = default(CancellationToken);
+        var shell = new Mock<IShellContext>();
+        shell.Setup(x => x.RunAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                async (_, _, token) =>
+                {
+                    observedToken = token;
+                    started.TrySetResult();
+                    await Task.Delay(Timeout.Infinite, token);
+                    return CommandResult.Ok("unreachable");
+                });
+        var context = new Mock<IPipelineContext>();
+        context.SetupGet(x => x.Shell).Returns(shell.Object);
+        IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+
+        Task command;
+        if (returnNullOnFailure)
+        {
+            command = runner.RunCommandsOrNullAsync(null, cancellation.Token, "status");
+        }
+        else
+        {
+            command = runner.RunCommandsAsync(null, cancellation.Token, "status");
+        }
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        cancellation.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => command);
+        await Assert.That(observedToken).IsEqualTo(cancellation.Token);
+    }
+
+    [Test]
+    public async Task Built_In_Typed_Runner_Cancels_Commands_In_Flight()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var observedToken = default(CancellationToken);
+        var shell = new Mock<IShellContext>();
+        shell.Setup(x => x.RunAsync(
+                It.IsAny<GitOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                async (_, _, token) =>
+                {
+                    observedToken = token;
+                    started.TrySetResult();
+                    await Task.Delay(Timeout.Infinite, token);
+                    return CommandResult.Ok("unreachable");
+                });
+        var context = new Mock<IPipelineContext>();
+        context.SetupGet(x => x.Shell).Returns(shell.Object);
+        IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
+
+        var command = runner.RunCommandsOrNullAsync(new GitOptions { CommandParts = ["status"] }, null, cancellation.Token);
+        await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        cancellation.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => command);
+        await Assert.That(observedToken).IsEqualTo(cancellation.Token);
+    }
+
+    [Test]
     public async Task Built_In_Typed_Runner_Returns_Trimmed_Output()
     {
         var shell = new Mock<IShellContext>();
@@ -26,7 +98,7 @@ public class GitCommandRunnerTests : TestBase
         context.SetupGet(x => x.Shell).Returns(shell.Object);
         IGitCommandRunner runner = new GitCommandRunner(context.Object, Mock.Of<ILogger<GitCommandRunner>>());
 
-        var output = await runner.RunCommandsOrNull(
+        var output = await runner.RunCommandsOrNullAsync(
             new GitOptions { CommandParts = ["rev-parse"], Arguments = ["HEAD"] },
             null,
             CancellationToken.None);
@@ -61,7 +133,7 @@ public class GitCommandRunnerTests : TestBase
             ],
         };
 
-        await runner.RunCommandsOrNull(options, null, CancellationToken.None);
+        await runner.RunCommandsOrNullAsync(options, null, CancellationToken.None);
 
         var expected = new List<string>
         {
@@ -87,7 +159,7 @@ public class GitCommandRunnerTests : TestBase
             AdditionalArguments = [new(value, phase, IsGlobalOption: true)],
         };
 
-        var output = await runner.RunCommandsOrNull(options, null, CancellationToken.None);
+        var output = await runner.RunCommandsOrNullAsync(options, null, CancellationToken.None);
 
         await Assert.That(output).IsNull();
         await Assert.That(recording.Arguments).IsEmpty();
@@ -97,10 +169,10 @@ public class GitCommandRunnerTests : TestBase
     {
         public string?[] Arguments { get; private set; } = [];
 
-        public Task<string> RunCommands(CommandExecutionOptions? execution, params string?[] commands) =>
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? execution, params string?[] commands) =>
             throw new NotSupportedException();
 
-        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? execution, params string?[] commands)
+        public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? execution, params string?[] commands)
         {
             Arguments = commands;
             return Task.FromResult<string?>("output");
@@ -161,7 +233,7 @@ public class GitCommandRunnerTests : TestBase
         };
         var execution = new CommandExecutionOptions { MaxCapturedOutputLength = 0 };
 
-        var output = await runner.RunCommandsOrNull(options, execution, CancellationToken.None);
+        var output = await runner.RunCommandsOrNullAsync(options, execution, CancellationToken.None);
 
         await Assert.That(output).IsNotNull();
         await Assert.That(output!.Length).IsEqualTo(40);
@@ -183,33 +255,33 @@ public class GitCommandRunnerTests : TestBase
         if (cancel)
         {
             await Assert.ThrowsAsync<OperationCanceledException>(() =>
-                runner.RunCommandsOrNull(options, null, CancellationToken.None));
+                runner.RunCommandsOrNullAsync(options, null, CancellationToken.None));
         }
         else
         {
-            await Assert.That(await runner.RunCommandsOrNull(options, null, CancellationToken.None)).IsNull();
+            await Assert.That(await runner.RunCommandsOrNullAsync(options, null, CancellationToken.None)).IsNull();
         }
     }
 
     private sealed class FailingGitCommandRunner(Exception exception) : IGitCommandRunner
     {
-        public Task<string> RunCommands(CommandExecutionOptions? execution, params string?[] commands) =>
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? execution, params string?[] commands) =>
             Task.FromException<string>(exception);
 
-        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? execution, params string?[] commands) =>
+        public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? execution, params string?[] commands) =>
             Task.FromException<string?>(exception);
     }
 
     private sealed class ForwardingGitCommandRunner(IGitCommandRunner runner) : IGitCommandRunner
     {
-        public Task<string> RunCommands(CommandExecutionOptions? execution, params string?[] commands) =>
-            runner.RunCommands(execution, commands);
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? execution, params string?[] commands) =>
+            runner.RunCommandsAsync(execution, commands);
 
-        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? execution, params string?[] commands) =>
-            runner.RunCommandsOrNull(execution, commands);
+        public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? execution, params string?[] commands) =>
+            runner.RunCommandsOrNullAsync(execution, commands);
 
-        public Task<string?> RunCommandsOrNull(
+        public Task<string?> RunCommandsOrNullAsync(
             CommandExecutionOptions? execution, CancellationToken cancellationToken, params string?[] commands) =>
-            runner.RunCommandsOrNull(execution, cancellationToken, commands);
+            runner.RunCommandsOrNullAsync(execution, cancellationToken, commands);
     }
 }

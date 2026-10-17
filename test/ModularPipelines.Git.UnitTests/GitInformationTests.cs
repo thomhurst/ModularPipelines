@@ -60,7 +60,7 @@ public class GitInformationTests : TestBase
             pipelineContext.Object,
             Mock.Of<ILogger<GitCommandRunner>>());
 
-        _ = await runner.RunCommandsOrNull(
+        _ = await runner.RunCommandsOrNullAsync(
             new CommandExecutionOptions { ThrowOnNonZeroExitCode = false },
             "status");
 
@@ -194,7 +194,7 @@ public class GitInformationTests : TestBase
     {
         var observedToken = default(CancellationToken);
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNull(
+        runner.Setup(x => x.RunCommandsOrNullAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -222,7 +222,7 @@ public class GitInformationTests : TestBase
         CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNull(
+        runner.Setup(x => x.RunCommandsOrNullAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -256,7 +256,7 @@ public class GitInformationTests : TestBase
                 .EndsWith("%x00");
         }
 
-        runner.Verify(x => x.RunCommandsOrNull(
+        runner.Verify(x => x.RunCommandsOrNullAsync(
             It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>(),
             It.IsAny<string?[]>()), Times.Once());
@@ -331,13 +331,13 @@ public class GitInformationTests : TestBase
     {
         public List<(CommandExecutionOptions? Execution, CancellationToken Token, string?[] Arguments)> Pages { get; } = [];
 
-        public Task<string> RunCommands(CommandExecutionOptions? executionOptions, params string?[] commands) =>
+        public Task<string> RunCommandsAsync(CommandExecutionOptions? executionOptions, params string?[] commands) =>
             throw new NotSupportedException();
 
-        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? executionOptions, params string?[] commands) =>
-            RunCommandsOrNull(executionOptions, CancellationToken.None, commands);
+        public Task<string?> RunCommandsOrNullAsync(CommandExecutionOptions? executionOptions, params string?[] commands) =>
+            RunCommandsOrNullAsync(executionOptions, CancellationToken.None, commands);
 
-        public Task<string?> RunCommandsOrNull(
+        public Task<string?> RunCommandsOrNullAsync(
             CommandExecutionOptions? executionOptions, CancellationToken cancellationToken, params string?[] commands)
         {
             Pages.Add((executionOptions, cancellationToken, commands));
@@ -469,7 +469,7 @@ public class GitInformationTests : TestBase
             pipelineContext.Object,
             Mock.Of<ILogger<GitCommandRunner>>());
 
-        var output = await runner.RunCommands(
+        var output = await runner.RunCommandsAsync(
             new CommandExecutionOptions { MaxCapturedOutputLength = 0 },
             "status");
 
@@ -485,7 +485,7 @@ public class GitInformationTests : TestBase
     public async Task CommitsAsync_Throws_When_Canceled_Between_Records()
     {
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNull(
+        runner.Setup(x => x.RunCommandsOrNullAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -510,7 +510,7 @@ public class GitInformationTests : TestBase
         string?[]? observedCommands = null;
         var command = CreateRepositoryCommand((_, _) => CommandResult.Ok());
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNull(
+        runner.Setup(x => x.RunCommandsOrNullAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
@@ -559,7 +559,7 @@ public class GitInformationTests : TestBase
         Mock<ICommandContext> command)
     {
         var runner = new Mock<IGitCommandRunner>();
-        runner.Setup(x => x.RunCommandsOrNull(
+        runner.Setup(x => x.RunCommandsOrNullAsync(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))

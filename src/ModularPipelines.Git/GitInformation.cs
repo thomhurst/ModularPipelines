@@ -298,7 +298,7 @@ internal class GitInformation : IGitInformation
         IGitCommandRunner gitCommandRunner,
         CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(
+        var output = await gitCommandRunner.RunCommandsOrNullAsync(
             GitCommitPager.GetCompleteOutputOptions(_commandExecutionOptions),
             cancellationToken,
             "log",
