@@ -19,6 +19,21 @@ provides test-safe defaults:
 - progress, logos, dependency chains, and result printing are disabled;
 - module failures are returned for assertions instead of escaping from the harness.
 
+## Generate a test project
+
+The pipeline template can include a TUnit project that references `ModularPipelines.Testing`:
+
+```bash
+dotnet new modularpipeline -n MyPipeline --tests
+cd MyPipeline
+dotnet run --project Tests/MyPipeline.Tests.csproj
+```
+
+Install `ModularPipelines.Templates` first as shown in [Getting started](../getting-started.md).
+`--tests` defaults to `false`; enable it to generate `Tests/MyPipeline.Tests.csproj` and
+`BuildModuleTests`. The example seeds the restore result, supplies build settings, and inspects
+the recorded build command without running a real build.
+
 ## Execute a module
 
 Specify the module and result types for strongly typed value access:

@@ -26,7 +26,6 @@ Install the .NET 11 SDK, then follow these steps:
     using ModularPipelines;
     using ModularPipelines.Attributes;
     using ModularPipelines.Context;
-    using ModularPipelines.Extensions;
     using ModularPipelines.Models;
     using ModularPipelines.Modules;
 

@@ -253,7 +253,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines;
-using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
 var builder = Pipeline.CreateBuilder(args);

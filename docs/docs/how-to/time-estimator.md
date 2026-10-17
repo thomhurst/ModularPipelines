@@ -58,4 +58,7 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 
 When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent
 measured durations for a module, which a custom provider can average instead of keeping its own
-storage.
+storage. Configure `RunReportOptions.PipelineIdentity` explicitly through `builder.ConfigureOptions`
+before querying the reader. The identity derived automatically when writing reports is not used by
+`IRunHistoryReader`; a missing or blank identity causes `InvalidOperationException`. See
+[Run reports and history](run-reports.md#local-history-and-deltas) for configuration and query examples.

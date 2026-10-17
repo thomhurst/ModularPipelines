@@ -65,7 +65,7 @@ var options = new SomeGeneratedOptions
 
 Within each non-terminal phase, additional tokens retain their declared order and appear
 before generated tokens. The supported phases render as `EarlyOperand`, `Normal`,
-`Passthrough`, then `Terminal`. Use `RunSettings` or a declared marker in `Arguments` for
+`Passthrough`, `LateOperand`, then `Terminal`. Use `RunSettings` or a declared marker in `Arguments` for
 end-of-options pass-through values. Terminal tokens appear after `Arguments` and cannot
 be combined with an end-of-options marker or `RunSettings`.
 
