@@ -26,7 +26,7 @@ await builder.RunAsync();
 | `--help`, `-h` | Prints built-in pipeline command-line usage without executing modules. |
 | `--dry-run` | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules. |
 | `--no-cache` | Disables module cache reads and writes, and result reuse with `--rerun-failed`. |
-| `--rerun-failed` | Reruns unsuccessful modules and their transitive dependents, reusing compatible stored successful results. |
+| `--rerun-failed` | Reruns unsuccessful modules and their transitive dependents, reusing compatible stored successful results when history retention is positive and module caching is enabled. |
 | `--list-modules` | Lists registered modules, categories, and direct dependencies without executing modules. |
 | `--module <name>` | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas. |
 | `--skip-module <name>` | Excludes a module. Repeat the option or separate names with commas. |
@@ -87,6 +87,12 @@ module types). Compatibility requires the same module types, compiled module
 assemblies, result types, and dependency edges. Reports from older schema versions,
 changed graphs, and corrupt files are not used. If no compatible history exists,
 the selected modules execute normally.
+
+Result reuse also requires `RunReport.HistoryRetention > 0` and
+`PipelineOptions.DisableModuleCache` to be `false`. When retention is zero or negative, or
+module caching is disabled (including through `--no-cache`), the selected modules execute
+normally without rerun result reuse, even if older reports and repository results exist.
+Module/category filters and skip conditions still apply.
 
 Run reports contain status and telemetry, not typed result values. Configure an
 `IModuleResultRepository` with `AddResultsRepository<TRepository>()` to reuse

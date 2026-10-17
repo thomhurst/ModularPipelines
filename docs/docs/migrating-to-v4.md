@@ -619,11 +619,27 @@ To reproduce the V3 list, combine both. For the overall outcome, read `summary.S
 completes without unignored failures. Skipped, cached, restored, and ignored-failure results
 permit success; incomplete, failed, and canceled runs do not. The value survives JSON
 round-trips even though module results are not serialized.
-`summary.Modules` and `summary.GetModule<T>()` are removed. Retrieve dependencies inside a
-module, or inspect `summary.Results` after execution. If the old code needs a particular output,
-select the matching typed result. When several modules return the same type, tell them apart by
-`Name`. `IModuleResult.TypeName` is also available, but it can be null. Update custom serialization
-and result repositories for the new metadata.
+`summary.Modules` and `summary.GetModule<T>()` are removed from the public API. Retrieve
+dependencies inside a module. After execution, use `summary.GetResult<TModule, TResult>()`
+to retrieve the completed result for an exact module type, or `TryGetResult` when it may be absent:
+
+```csharp
+var result = summary.GetResult<BuildModule, CommandResult>();
+
+if (summary.TryGetResult<BuildModule, CommandResult>(out var completed)
+    && completed.TryGetValue(out var commandResult))
+{
+    // Use the successful commandResult.
+}
+```
+
+`GetResult` throws `InvalidOperationException` when no completed result exists; `TryGetResult`
+returns `false`. Finding a result does not guarantee success: both methods also return failure
+and skipped variants. Inspect the variant or use `TryGetValue` before reading `.Value`.
+Lookup uses module type identity, so modules returning the same value type remain distinct.
+Keep `summary.Results` for enumeration. Results are excluded from JSON serialization, so
+deserialized summaries have no results to look up. Update custom serialization and result
+repositories for the new metadata.
 
 ## Lifecycle Hooks and Event Handlers
 
@@ -1614,6 +1630,7 @@ public class BuildModule : Module<CommandResult>
 | `ExecuteModuleAsync` / `ExecuteModule` | `ExecuteAsync` / `Execute` | Non-generic module overrides only |
 | Result `IsSuccess` / `IsFailure` / `IsSkipped` | Typed variants or safe accessors | Match the result's actual generic type |
 | `summary.GetModuleResultsAsync()` | `summary.Results` | No live module handles |
+| `summary.GetModule<T>()` | `summary.GetResult<TModule, TResult>()` / `TryGetResult<TModule, TResult>(out var result)` | Returns a completed result; inspect its outcome before reading `.Value` |
 | `IPipelineGlobalHooks` / `IPipelineModuleHooks` | `IPipelineEventHandler` / `IModuleEventHandler` | Update callback signatures |
 | `MustAsync` / `Must` | `EvaluateAsync(context, cancellationToken)` | Return explicit requirement decisions |
 | `context.SubModule(...)` | `context.RunSubModuleAsync(...)` | Forward the body token |
