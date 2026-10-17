@@ -106,6 +106,16 @@ public class LinuxBuildModule : Module<string>
 Mark a module with `[RequiresCapability]` to restrict which workers can execute it. The module will only be assigned to workers that have **all** required capabilities.
 
 ```
+using ModularPipelines;
+
+using ModularPipelines.Attributes;
+
+using ModularPipelines.Context;
+
+using ModularPipelines.Modules;
+
+
+
 [RequiresCapability(Capability.Names.Docker)]
 
 public class DockerBuildModule : Module<string>
@@ -120,7 +130,7 @@ public class DockerBuildModule : Module<string>
 
         // Only executes on workers that advertise "docker"
 
-        await context.Tools.Docker.BuildAsync(new());
+        await context.Tools.Docker.BuildAsync(new("."), cancellationToken: cancellationToken);
 
         return "built";
 

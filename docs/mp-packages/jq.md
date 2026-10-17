@@ -13,6 +13,8 @@ The `jq` executable must be installed and available on `PATH` when the pipeline 
 ## Process JSON[​](#process-json "Direct link to Process JSON")
 
 ```
+using ModularPipelines.Context;
+
 using ModularPipelines.Jq.Options;
 
 using ModularPipelines.Models;
@@ -29,7 +31,7 @@ var result = await context.Tools.Jq.ExecuteAsync(
 
         Indent = 2,
 
-        Arg = [new CliOptionValuePair("environment", "production")],
+        Arg = [new CliValuePair("environment", "production")],
 
         Filter = ".deployments[] | select(.environment == $environment)",
 
@@ -48,4 +50,4 @@ jq --raw-output --indent 2 --arg environment production \
   '.deployments[] | select(.environment == $environment)' deployments.json
 ```
 
-Filter and input values are emitted after options. jq options taking a name/value pair—such as `--arg`, `--argjson`, `--slurpfile`, and `--rawfile`—use `CliOptionValuePair` so both values become separate command-line arguments.
+Filter and input values are emitted after options. jq options taking a name/value pair—such as `--arg`, `--argjson`, `--slurpfile`, and `--rawfile`—use `CliValuePair` so both values become separate command-line arguments.
