@@ -799,13 +799,14 @@ public class OptionsClassGenerator : ICodeGenerator
         var narrowsGlobalReference = option?.GlobalOptionPropertyType == propertyType + "?"
             && CliOptionDefinition.IsKnownReferenceType(propertyType);
         var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType || narrowsGlobalReference;
+        var globalGetter = $"base.{propertyName}{(narrowsGlobalReference ? "!" : "")}";
         // Constructors materialize required collections, but forwarding properties can
         // receive later base assignments. Retain those values for validation and rendering.
         if ((!isRequired || forwardsToGlobal) && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
             && (!forwardsToGlobal || option?.RejectBlankCollectionValues == true)
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
-            GenerateCollectionSnapshotProperty(sb, declaration, propertyType, propertyName, isRequired, option, forwardsToGlobal);
+            GenerateCollectionSnapshotProperty(sb, declaration, propertyType, propertyName, isRequired, option, forwardsToGlobal, globalGetter);
             return;
         }
 
@@ -814,7 +815,7 @@ public class OptionsClassGenerator : ICodeGenerator
             // Keep command-specific metadata separate while base-typed callers use the same value.
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => base.{propertyName}{(narrowsGlobalReference ? "!" : "")};");
+            sb.AppendLine($"        get => {globalGetter};");
             sb.AppendLine($"        {GetPropertyAccessor(isRequired)} => base.{propertyName} = value;");
             sb.AppendLine("    }");
             return;
@@ -824,7 +825,7 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static void GenerateCollectionSnapshotProperty(
-        StringBuilder sb, string declaration, string propertyType, string propertyName, bool isRequired, CliOptionDefinition? option, bool forwardsToGlobal)
+        StringBuilder sb, string declaration, string propertyType, string propertyName, bool isRequired, CliOptionDefinition? option, bool forwardsToGlobal, string globalGetter)
     {
         var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
         var preserveValuePairs = option is not null && option.CollectionSeparator is null;
@@ -843,8 +844,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var storage = forwardsToGlobal ? $"base.{propertyName}" : "field";
         sb.AppendLine(declaration);
         sb.AppendLine("    {");
-        var narrowsGlobalReference = forwardsToGlobal && option?.GlobalOptionPropertyType != propertyType;
-        sb.AppendLine(forwardsToGlobal ? $"        get => {storage}{(narrowsGlobalReference ? "!" : "")};" : "        get;");
+        sb.AppendLine(forwardsToGlobal ? $"        get => {globalGetter};" : "        get;");
         sb.AppendLine(forwardsToGlobal
             ? $"        {GetPropertyAccessor(isRequired)} => {storage} = value;"
             : $"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
