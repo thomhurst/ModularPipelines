@@ -4,6 +4,7 @@ using ModularPipelines.Events;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
+using ModularPipelines.Reporting;
 using ModularPipelines.TestHelpers;
 using Moq;
 
@@ -31,6 +32,41 @@ public class AmbientFileSystemTests
         var result = await summary.Modules.OfType<ProviderModule>().Single();
 
         await Assert.That(result.ValueOrDefault).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RegisteredInstanceConfigurationUsesRegisteredProvider(bool useCustomPlanningCopy)
+    {
+        var provider = Mock.Of<IFileSystemProvider>();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(provider);
+        if (useCustomPlanningCopy)
+        {
+            builder.AddModule(new CustomPlanningConfigurationProviderModule());
+        }
+        else
+        {
+            builder.AddModule(new ConfigurationProviderModule());
+        }
+
+        await using var pipeline = await builder.BuildAsync();
+        if (useCustomPlanningCopy)
+        {
+            await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
+                .RenderAsync(DependencyGraphFormat.Json);
+            await Assert.That(AmbientModuleOutputContext.Current).IsNull();
+        }
+
+        var summary = await pipeline.RunAsync();
+        var module = summary.Modules.OfType<ConfigurationProviderModule>().Single();
+        var result = await module;
+
+        await Assert.That(result.ValueOrDefault).IsTrue();
+        await Assert.That(module.ConfiguredFile.Provider).IsSameReferenceAs(provider);
+        await Assert.That(module.ConfiguredFolder.Provider).IsSameReferenceAs(provider);
+        await Assert.That(AmbientModuleOutputContext.Current).IsNull();
     }
 
     [Test]
@@ -170,6 +206,32 @@ public class AmbientFileSystemTests
             module.ReadyFiles.Add(new FilePath("handler.txt"));
             module.ReadyFolders.Add(new FolderPath("handler"));
         }
+    }
+
+    private class ConfigurationProviderModule : Module<bool>
+    {
+        public FilePath ConfiguredFile { get; private set; } = null!;
+
+        public FolderPath ConfiguredFolder { get; private set; } = null!;
+
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            ConfiguredFile = new FilePath("configured.txt");
+            ConfiguredFolder = new FolderPath("configured");
+        }
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var provider = context.Files.GetFile("file.txt").Provider;
+            return Task.FromResult(ReferenceEquals(ConfiguredFile.Provider, provider)
+                && ReferenceEquals(ConfiguredFolder.Provider, provider));
+        }
+    }
+
+    private sealed class CustomPlanningConfigurationProviderModule : ConfigurationProviderModule
+    {
+        protected override Module<bool> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new CustomPlanningConfigurationProviderModule();
     }
 
     private sealed class ProviderModule : Module<bool>

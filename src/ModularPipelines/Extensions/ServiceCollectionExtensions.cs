@@ -96,7 +96,8 @@ internal static class ServiceCollectionExtensions
 
             services.AddSingleton(new RegisteredModuleInstance(tModule));
             // Factory registration transfers disposal ownership to the pipeline's host.
-            services.AddSingleton<IModule>(_ => tModule);
+            services.AddSingleton<IModule>(serviceProvider =>
+                CreateModuleFromFactory(serviceProvider, _ => tModule));
         }
 
         return services;
