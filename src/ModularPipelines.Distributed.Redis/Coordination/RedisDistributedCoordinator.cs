@@ -24,8 +24,9 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// while the connection reconnects delays a waiter by at most <see cref="PollInterval"/>.
 /// Cancelling a call abandons its wait; Redis may still run a command already sent, and later
 /// commands are not issued.
-/// Claims retry with the same lease token. Only leases renewed by a worker heartbeat count toward
-/// <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so abandoned claim responses cannot exhaust it.
+/// Claims retry with the same lease token until success or cancellation, including after a retry batch fails.
+/// Delivery is acknowledged before returning a lease. Only acknowledged or heartbeat-renewed leases count
+/// toward <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so lost claim responses cannot exhaust it.
 /// The master's coordinator records a heartbeat every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
 /// until it is disposed or cleans up the run, so workers detect a master that stopped without signalling
 /// completion.
@@ -42,6 +43,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly RespireScript EnqueueScript = RespireScript.Create(RedisCoordinationScripts.Enqueue);
     private static readonly RespireScript ClaimScript = RespireScript.Create(RedisCoordinationScripts.Claim);
     private static readonly RespireScript NormalizeCapabilitiesScript = RespireScript.Create(RedisCoordinationScripts.NormalizeCapabilities);
+    private static readonly RespireScript AcknowledgeClaimScript = RespireScript.Create(RedisCoordinationScripts.AcknowledgeClaim);
     private static readonly RespireScript HeartbeatScript = RespireScript.Create(RedisCoordinationScripts.Heartbeat);
     private static readonly RespireScript ReserveMasterRunScript = RespireScript.Create(RedisCoordinationScripts.ReserveMasterRun);
     private static readonly RespireScript ReconcileHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.ReconcileHeartbeat);
@@ -653,11 +655,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            assignment = await _claimRetry.ExecuteAsync(
-                    async token => await _redis.Scripts.ExecuteStringAsync(ClaimScript, _scriptKeys, arguments, token)
-                        .ConfigureAwait(false),
-                    cancellationToken)
-                .ConfigureAwait(false);
+            assignment = await ExecuteClaimCommandAsync(ClaimScript, arguments, cancellationToken).ConfigureAwait(false);
             if (assignment is null || !assignment.StartsWith(NormalizeSentinel, StringComparison.Ordinal))
             {
                 break;
@@ -666,13 +664,16 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             await NormalizeLegacyCapabilitiesAsync(assignment[NormalizeSentinel.Length..], cancellationToken).ConfigureAwait(false);
         }
 
-        if (assignment is null)
+        if (assignment is null || assignment == ClosedSentinel)
         {
-            return (false, null);
+            return (assignment == ClosedSentinel, null);
         }
 
-        return assignment == ClosedSentinel
-            ? (true, null)
+        // Prove delivery before execution starts, without acknowledging a lost claim response.
+        // A late acknowledgement must not return a lease that expired or was reassigned.
+        assignment = await ExecuteClaimCommandAsync(AcknowledgeClaimScript, arguments, cancellationToken).ConfigureAwait(false);
+        return assignment is null
+            ? (false, null)
             : (false, new ModuleLease
             {
                 LeaseId = leaseId,
@@ -708,6 +709,31 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     }
 
     private sealed record CapabilityMetadata(int KeyIndex, string Field, string Value);
+
+    private async Task<string?> ExecuteClaimCommandAsync(
+        RespireScript script,
+        RespireValue[] arguments,
+        CancellationToken cancellationToken)
+    {
+        while (true)
+        {
+            try
+            {
+                return await _claimRetry.ExecuteAsync(
+                        async token => await _redis.Scripts.ExecuteStringAsync(script, _scriptKeys, arguments, token)
+                            .ConfigureAwait(false),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+            {
+                // Surfacing an ambiguous failure lets the worker pool start a new claim for this slot.
+                // Keep this token until Redis confirms the outcome or the caller abandons the wait.
+                _logger?.LogWarning(exception, "Retrying unresolved Redis claim with the same lease token");
+                await Task.Delay(PollInterval, cancellationToken).ConfigureAwait(false);
+            }
+        }
+    }
 
     private static ModuleLease ToLease(LeaseRecord record) => new()
     {

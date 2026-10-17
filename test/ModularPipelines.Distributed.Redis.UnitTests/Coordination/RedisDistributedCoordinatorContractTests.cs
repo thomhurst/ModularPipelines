@@ -17,9 +17,11 @@ public class RedisDistributedCoordinatorContractTests
     private const string ConnectionStringVariable = "MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING";
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public Task Lost_Claim_Response_Retries_With_The_Same_Token_Unless_Cancelled(bool cancel) =>
+    [Arguments(1, false)]
+    [Arguments(5, false)]
+    [Arguments(1, true)]
+    [Arguments(5, true)]
+    public Task Lost_Claim_Response_Retries_With_The_Same_Token_Unless_Cancelled(int lostResponses, bool cancel) =>
         RunAsync(async (coordinator, client, keys) =>
         {
             await coordinator.EnqueueModuleAsync(DistributedCoordinatorContract.CreateAssignment("First"), CancellationToken.None);
@@ -34,9 +36,9 @@ public class RedisDistributedCoordinatorContractTests
                 {
                     claimIds.Add(arguments[2].ToString());
                     var result = await client.Scripts.ExecuteStringAsync(script, scriptKeys, arguments, token);
-                    if (++calls == 1)
+                    if (++calls <= lostResponses)
                     {
-                        if (cancel)
+                        if (cancel && calls == lostResponses)
                         {
                             // Redis committed the claim, but cancellation abandoned the response.
                             cancellation.Cancel();
@@ -57,7 +59,7 @@ public class RedisDistributedCoordinatorContractTests
                 await Assert.That(async () => await claimant.TryClaimAsync(
                         new WorkerId("worker"), new HashSet<Capability>(), cancellation.Token))
                     .Throws<OperationCanceledException>();
-                await Assert.That(calls).IsEqualTo(1);
+                await Assert.That(calls).IsEqualTo(lostResponses);
                 var lease = (await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single();
                 await ExpireLeaseAsync(client, keys, lease.Assignment.ModuleId);
                 await Assert.That(await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None))
@@ -68,11 +70,65 @@ public class RedisDistributedCoordinatorContractTests
             {
                 var (_, lease) = await claimant.TryClaimAsync(new WorkerId("worker"), new HashSet<Capability>(), CancellationToken.None);
                 await Assert.That(lease).IsNotNull();
-                await Assert.That(calls).IsEqualTo(2);
+                await Assert.That(calls).IsGreaterThan(lostResponses);
                 await Assert.That(claimIds.Distinct()).Count().IsEqualTo(1);
                 await Assert.That((await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single().LeaseId)
                     .IsEqualTo(lease!.LeaseId);
             }
+        });
+
+    [Test]
+    public Task Lost_Acknowledgement_Responses_Keep_The_Same_Claim_After_Retry_Exhaustion() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            await coordinator.EnqueueModuleAsync(DistributedCoordinatorContract.CreateAssignment("First"), CancellationToken.None);
+            await coordinator.EnqueueModuleAsync(DistributedCoordinatorContract.CreateAssignment("Second"), CancellationToken.None);
+            var calls = 0;
+            var claimIds = new List<string>();
+            var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+            scripts.Setup(commands => commands.ExecuteStringAsync(
+                    It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+                .Returns(async (RespireScript script, RespireKey[] scriptKeys, RespireValue[] arguments, CancellationToken token) =>
+                {
+                    claimIds.Add(arguments[2].ToString());
+                    var result = await client.Scripts.ExecuteStringAsync(script, scriptKeys, arguments, token);
+                    // Deliver the claim, then lose more acknowledgement responses than one retry batch permits.
+                    if (++calls is >= 2 and <= 6)
+                    {
+                        throw new RespireConnectionException("Acknowledgement response lost after execution");
+                    }
+
+                    return result;
+                });
+            var connection = new Mock<IRespireClient>(MockBehavior.Strict);
+            connection.SetupGet(redis => redis.Scripts).Returns(scripts.Object);
+            await using var claimant = new RedisDistributedCoordinator(connection.Object, keys, new RedisOptions());
+            var (_, lease) = await claimant.TryClaimAsync(new WorkerId("worker"), new HashSet<Capability>(), CancellationToken.None);
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(claimIds.Distinct()).Count().IsEqualTo(1);
+            await Assert.That((await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single().LeaseId)
+                .IsEqualTo(lease!.LeaseId);
+        });
+
+    [Test]
+    public Task Acknowledgement_Rejects_Unknown_Expired_Reassigned_Completed_And_Wrong_Worker_Claims() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            await coordinator.EnqueueModuleAsync(DistributedCoordinatorContract.CreateAssignment("First"), CancellationToken.None);
+            await Assert.That(await AcknowledgeAsync(client, keys, "unknown")).IsNull();
+            var assignment = await ClaimAsync(client, keys, "claim-1");
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-1", "other-worker")).IsNull();
+            var original = (await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single();
+            await ExpireLeaseAsync(client, keys, original.Assignment.ModuleId);
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-1")).IsNull();
+            await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
+            await ClaimAsync(client, keys, "claim-2");
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-1")).IsNull();
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-2")).IsEqualTo(assignment);
+            var replacement = (await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single();
+            await coordinator.PublishResultAsync(
+                DistributedCoordinatorContract.CreateResult(replacement.Assignment.ModuleId.Value, "done"), replacement, CancellationToken.None);
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-2")).IsNull();
         });
 
     [Test]
@@ -130,8 +186,11 @@ public class RedisDistributedCoordinatorContractTests
             for (var attempt = 0; attempt < 5; attempt++)
             {
                 var worker = new WorkerId($"worker-{attempt}");
-                var lease = (await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), CancellationToken.None))!;
-                // Only the first and last leases represent work acknowledged by a heartbeat.
+                await client.Scripts.ExecuteStringAsync(RespireScript.Create(RedisCoordinationScripts.Claim),
+                    [.. keys.ScriptKeys.Select(static key => (RespireKey) key)],
+                    ["[]", worker.Value, $"claim-{attempt}", 30000, 60000]);
+                var lease = (await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single();
+                // Raw claims have no delivery acknowledgement. Heartbeats can acknowledge them too.
                 if (attempt is 0 or 4)
                 {
                     var status = new WorkerStatus { WorkerId = worker, InFlightModules = [assignment.ModuleId] };
@@ -156,6 +215,33 @@ public class RedisDistributedCoordinatorContractTests
             await Assert.That(result.Payload).Contains("worker-0").And.Contains("worker-4");
             await Assert.That(result.Payload).DoesNotContain("worker-1");
         });
+
+    [Test]
+    public Task Delivered_Claims_Count_Toward_The_Budget_Before_The_First_Heartbeat() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("EarlyCrash");
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+            for (var attempt = 0; attempt < 2; attempt++)
+            {
+                var worker = new WorkerId($"worker-{attempt}");
+                var lease = await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), CancellationToken.None);
+                await Assert.That(lease).IsNotNull();
+                // Simulate a crash immediately after delivery, before any periodic heartbeat.
+                await ExpireLeaseAsync(client, keys, assignment.ModuleId);
+                var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
+                await Assert.That(requeued.Count).IsEqualTo(attempt == 0 ? 1 : 0);
+            }
+
+            var result = await coordinator.WaitForResultAsync(assignment.ModuleId, CancellationToken.None);
+            await Assert.That(result.Payload).Contains("worker-0").And.Contains("worker-1");
+        });
+
+    private static ValueTask<string?> AcknowledgeAsync(
+        IRespireClient client, RedisKeyBuilder keys, string claimId, string workerId = "worker") =>
+        client.Scripts.ExecuteStringAsync(RespireScript.Create(RedisCoordinationScripts.AcknowledgeClaim),
+            [.. keys.ScriptKeys.Select(static key => (RespireKey) key)],
+            ["[]", workerId, claimId, 30000, 60000]);
 
     private static ValueTask<string?> ClaimAsync(IRespireClient client, RedisKeyBuilder keys, string claimId) =>
         client.Scripts.ExecuteStringAsync(RespireScript.Create(RedisCoordinationScripts.Claim),

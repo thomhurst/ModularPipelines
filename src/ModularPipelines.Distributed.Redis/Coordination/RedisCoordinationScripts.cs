@@ -250,6 +250,23 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    // Same ARGV as Claim. Acknowledgement proves that a claim response reached its caller, so
+    // a crash before the first periodic heartbeat still counts toward the expiration budget.
+    public const string AcknowledgeClaim = ServerTimeLua + RefreshLua + """
+        local module_id = redis.call('HGET', KEYS[14], ARGV[3])
+        local raw = module_id and redis.call('HGET', KEYS[4], module_id)
+        local lease = raw and cjson.decode(raw)
+        if not lease or lease['LeaseId'] ~= ARGV[3] or lease['WorkerId'] ~= ARGV[2]
+            or tonumber(lease['ExpiresAt']) < now then
+            return false
+        end
+        lease['Renewed'] = true
+        lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[4]))
+        redis.call('HSET', KEYS[4], module_id, cjson.encode(lease))
+        refresh(ARGV[5])
+        return string.sub(lease['Member'], 86)
+        """;
+
     // ARGV: time to live, worker identifier, worker timeout, status JSON, then in-flight module identifiers.
     public const string Heartbeat = ServerTimeLua + RefreshLua + """
         redis.call('HSET', KEYS[8], ARGV[2], ARGV[4])
