@@ -72,6 +72,7 @@ Global options are rendered before the selected subcommand.
 | `terraform login`                                     | `TerraformLoginOptions`                                |
 | `terraform logout`                                    | `TerraformLogoutOptions`                               |
 | `terraform metadata`                                  | `TerraformMetadataOptions`                             |
+| `terraform metadata functions`                        | `TerraformMetadataFunctionsOptions`                    |
 | `terraform modules`                                   | `TerraformModulesOptions`                              |
 | `terraform output`                                    | `TerraformOutputOptions`                               |
 | `terraform plan`                                      | `TerraformPlanOptions`                                 |
@@ -130,3 +131,4 @@ Global options are rendered before the selected subcommand.
 | `terraform workspace list`                            | `TerraformWorkspaceListOptions`                        |
 | `terraform workspace new`                             | `TerraformWorkspaceNewOptions`                         |
 | `terraform workspace select`                          | `TerraformWorkspaceSelectOptions`                      |
+| `terraform workspace show`                            | `TerraformWorkspaceShowOptions`                        |
