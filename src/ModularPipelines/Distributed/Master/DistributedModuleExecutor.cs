@@ -13,7 +13,9 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -478,6 +480,8 @@ internal class DistributedModuleExecutor(
         {
             var scope = _serviceScopeFactory.CreateAsyncScope();
             await using var scopeLifetime = scope.ConfigureAwait(false);
+            using var outputScope = new ModuleOutputContextScope(
+                moduleType, fileSystemProvider: scope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
             var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
             var candidate = await ModuleCacheResultAccessor.GetResultAsync(
                     cacheResultRepository,
@@ -1188,6 +1192,10 @@ internal class DistributedModuleExecutor(
         DistributedPlan plan,
         CancellationToken cancellationToken)
     {
+        var scope = _serviceScopeFactory.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
+        using var outputScope = new ModuleOutputContextScope(
+            moduleType, fileSystemProvider: scope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
         var result = await _resultCollector.WaitForResultAsync(ModuleId.FromType(moduleType), cancellationToken)
             .ConfigureAwait(false);
         if (result is not null)

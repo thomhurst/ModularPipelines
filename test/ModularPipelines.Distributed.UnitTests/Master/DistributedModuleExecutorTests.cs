@@ -91,6 +91,18 @@ public class DistributedModuleExecutorTests
             Task.FromResult("dependent");
     }
 
+    private sealed record PathResult(FilePath File, FolderPath Folder);
+
+    private sealed class CachedPathModule : Module<PathResult>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) =>
+            module.WithCacheKeyPart("paths");
+
+        protected internal override Task<PathResult> ExecuteAsync(
+            IModuleContext context, CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("The coordinator must restore or collect the result.");
+    }
+
     private sealed class AnotherCachedDistributedModule : Module<SimpleResult>
     {
         protected override void Configure(ModuleConfigurationBuilder module) =>
@@ -496,7 +508,8 @@ public class DistributedModuleExecutorTests
         IParallelLimitProvider? parallelLimitProvider = null,
         IEnumerable<IModule>? registeredModules = null,
         CancellationToken applicationStopping = default,
-        IMetricsCollector? metricsCollector = null)
+        IMetricsCollector? metricsCollector = null,
+        IFileSystemProvider? fileSystemProvider = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -539,7 +552,7 @@ public class DistributedModuleExecutorTests
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
             parallelLimitProvider ?? NewParallelLimitProvider(),
-            NewModuleLoggerScopeFactory(moduleLogger),
+            NewModuleLoggerScopeFactory(moduleLogger, fileSystemProvider),
             artifactManager,
             executorLogger ?? NullLogger<DistributedModuleExecutor>.Instance,
             cacheResultRepository,
@@ -549,7 +562,9 @@ public class DistributedModuleExecutorTests
             metricsCollector: metricsCollector);
     }
 
-    private static IServiceScopeFactory NewModuleLoggerScopeFactory(IInternalModuleLogger? moduleLogger = null)
+    private static IServiceScopeFactory NewModuleLoggerScopeFactory(
+        IInternalModuleLogger? moduleLogger = null,
+        IFileSystemProvider? fileSystemProvider = null)
     {
         moduleLogger ??= Mock.Of<IInternalModuleLogger>();
         var loggerProvider = new Mock<IInternalModuleLoggerAccessor>();
@@ -557,8 +572,52 @@ public class DistributedModuleExecutorTests
         var services = new ServiceCollection();
         services.AddScoped(_ => loggerProvider.Object);
         services.AddScoped(_ => Mock.Of<IPipelineContext>());
-        services.AddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
+        services.AddSingleton(fileSystemProvider ?? SystemFileSystemProvider.Instance);
         return services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CoordinatorPathsRetainRegisteredProvider(bool fromCache, CancellationToken cancellationToken)
+    {
+        var provider = Mock.Of<IFileSystemProvider>();
+        var module = new CachedPathModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, module.GetType()));
+        var types = new ModuleTypeRegistry();
+        types.Register(module.GetType());
+        var serializer = new ModuleResultSerializer(types);
+        var serialized = serializer.Serialize(
+            CreateSuccessResult(new PathResult(new FilePath("result.txt"), new FolderPath("result")), module.GetType().Name),
+            ModuleId.FromType(module.GetType()),
+            WorkerId.FromInstanceIndex(1));
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serialized);
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(x => x.GetResultAsync(
+                It.IsAny<Module<PathResult>>(), It.IsAny<IPipelineContext>(), It.IsAny<CancellationToken>()))
+            .Returns(async () =>
+            {
+                await Task.Yield();
+                return (ModuleResult<PathResult>) serializer.Deserialize(serialized)!;
+            });
+        var executor = CreateExecutor(
+            scheduler,
+            coordinator: coordinator.Object,
+            resultCollector: new DistributedResultCollector(coordinator.Object, serializer),
+            cacheResultRepository: fromCache ? cache.Object : null,
+            fileSystemProvider: provider);
+
+        await executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(new ModuleResultRegistry()), cancellationToken);
+
+        var result = await module.AsInternal().ResultTask;
+        await Assert.That(result.Status).IsEqualTo(fromCache ? ModuleStatus.RestoredFromCache : ModuleStatus.Succeeded);
+        var paths = (PathResult) result.ValueOrDefault!;
+        await Assert.That(paths.File.Provider).IsSameReferenceAs(provider);
+        await Assert.That(paths.Folder.Provider).IsSameReferenceAs(provider);
+        await Assert.That(AmbientModuleOutputContext.Current).IsNull();
     }
 
     [Test]
