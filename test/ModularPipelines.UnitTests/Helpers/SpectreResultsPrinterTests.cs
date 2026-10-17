@@ -187,8 +187,29 @@ public class SpectreResultsPrinterTests
         using (Assert.Multiple())
         {
             await Assert.That(line).Contains("Workers idle 40.0% of run");
-            await Assert.That(line).Contains("longest queue wait: 5s 0ms on SlowModule");
+            await Assert.That(line).Contains("longest queue wait: 5s 0ms on Example.SlowModule, Example.Assembly");
         }
+    }
+
+    [Test]
+    [Arguments("build.application", "build.application")]
+    [Arguments("build,release", "build,release")]
+    [Arguments("build.[release],v1.2", "build.[[release]],v1.2")]
+    public async Task DistributedSummaryLine_PreservesAndEscapesModuleId(string moduleId, string expected)
+    {
+        var line = SpectreResultsPrinter.CreateDistributedSummaryLine(new DistributedRunReport
+        {
+            Modules =
+            [
+                new DistributedModuleRunReport
+                {
+                    ModuleId = new ModuleId(moduleId),
+                    QueueWaitDuration = TimeSpan.FromSeconds(5),
+                },
+            ],
+        });
+
+        await Assert.That(line).Contains($"longest queue wait: 5s 0ms on {expected}");
     }
 
     [Test]

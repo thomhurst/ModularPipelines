@@ -118,7 +118,7 @@ internal class SpectreResultsPrinter(
 
         return $"Workers idle {idlePercentage:F1}% of run; longest queue wait: "
                + $"{longestQueueWait.QueueWaitDuration.ToDisplayString()} on "
-               + SpectreMarkupEscaper.Escape(GetModuleName(longestQueueWait.ModuleId.Value));
+               + SpectreMarkupEscaper.Escape(longestQueueWait.ModuleId.Value);
     }
 
     private static void PrintHeader(PipelineSummary pipelineSummary)
@@ -470,13 +470,6 @@ internal class SpectreResultsPrinter(
 
         System.Console.WriteLine();
         AnsiConsole.MarkupLine($"[dim]Distributed:[/] {CreateDistributedSummaryLine(report)}");
-    }
-
-    private static string GetModuleName(string moduleTypeName)
-    {
-        var typeName = moduleTypeName.Split(',')[0];
-        var separator = typeName.LastIndexOf('.');
-        return separator >= 0 ? typeName[(separator + 1)..] : typeName;
     }
 
     private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)

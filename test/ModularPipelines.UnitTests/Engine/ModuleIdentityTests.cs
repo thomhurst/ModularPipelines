@@ -28,6 +28,35 @@ public class ModuleIdentityTests
             Task.FromResult("output");
     }
 
+    private abstract class IdentityModule : Module
+    {
+        protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+    }
+
+    [ModuleId("a\nb")]
+    private sealed class FirstNewlineModule : IdentityModule;
+
+    [ModuleId("c")]
+    private sealed class LastModule : IdentityModule;
+
+    [ModuleId("a")]
+    private sealed class FirstModule : IdentityModule;
+
+    [ModuleId("b\nc")]
+    private sealed class LastNewlineModule : IdentityModule;
+
+    [Test]
+    public async Task DefaultPipelineIdentityDistinguishesNewlinesInsideModuleIds()
+    {
+        var first = PipelineRunCompatibility.GetPipelineIdentity(null, [new FirstNewlineModule(), new LastModule()]);
+        var second = PipelineRunCompatibility.GetPipelineIdentity(null, [new FirstModule(), new LastNewlineModule()]);
+
+        await Assert.That(first).IsNotEqualTo(second);
+        await Assert.That(PipelineRunCompatibility.GetPipelineIdentity(null, [new LastModule(), new FirstNewlineModule()]))
+            .IsEqualTo(first);
+    }
+
     [Test]
     public async Task EnginePassesConfiguredIdentityToEstimateProvider()
     {
