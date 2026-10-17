@@ -286,14 +286,14 @@ public partial interface IAz
     IAzLogicapp Logicapp { get; }
 
     /// <summary>
-    /// Gets the managedapp sub-domain service.
-    /// </summary>
-    IAzManagedapp Managedapp { get; }
-
-    /// <summary>
     /// Gets the managedcassandra sub-domain service.
     /// </summary>
     IAzManagedCassandra ManagedCassandra { get; }
+
+    /// <summary>
+    /// Gets the managedapp sub-domain service.
+    /// </summary>
+    IAzManagedapp Managedapp { get; }
 
     /// <summary>
     /// Gets the managedservices sub-domain service.

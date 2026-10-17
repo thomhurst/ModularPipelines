@@ -47,21 +47,6 @@ public class AzBackupContainer
     }
 
     /// <summary>
-    /// Register a Resource to the given Recovery Services Vault.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RegisterAsync(
-        AzBackupContainerRegisterOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Reset the registration details for a given container.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -70,6 +55,21 @@ public class AzBackupContainer
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReRegisterAsync(
         AzBackupContainerReRegisterOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Register a Resource to the given Recovery Services Vault.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RegisterAsync(
+        AzBackupContainerRegisterOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

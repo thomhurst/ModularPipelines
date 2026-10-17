@@ -29,6 +29,7 @@ public class AzSecurity : IAzSecurity
     private AzSecurityAssessment? _assessment;
     private AzSecurityAssessmentMetadata? _assessmentMetadata;
     private AzSecurityAtp? _atp;
+    private AzSecurityAutoProvisioningSetting? _autoProvisioningSetting;
     private AzSecurityAutomation? _automation;
     private AzSecurityAutomationActionEventHub? _automationActionEventHub;
     private AzSecurityAutomationActionLogicApp? _automationActionLogicApp;
@@ -37,7 +38,6 @@ public class AzSecurity : IAzSecurity
     private AzSecurityAutomationRuleSet? _automationRuleSet;
     private AzSecurityAutomationScope? _automationScope;
     private AzSecurityAutomationSource? _automationSource;
-    private AzSecurityAutoProvisioningSetting? _autoProvisioningSetting;
     private AzSecurityContact? _contact;
     private AzSecurityDiscoveredSecuritySolution? _discoveredSecuritySolution;
     private AzSecurityExternalSecuritySolution? _externalSecuritySolution;
@@ -120,6 +120,11 @@ public class AzSecurity : IAzSecurity
     public AzSecurityAtp Atp => _atp ??= new AzSecurityAtp(_command);
 
     /// <summary>
+    /// az security auto-provisioning-setting sub-commands.
+    /// </summary>
+    public AzSecurityAutoProvisioningSetting AutoProvisioningSetting => _autoProvisioningSetting ??= new AzSecurityAutoProvisioningSetting(_command);
+
+    /// <summary>
     /// az security automation sub-commands.
     /// </summary>
     public AzSecurityAutomation Automation => _automation ??= new AzSecurityAutomation(_command);
@@ -158,11 +163,6 @@ public class AzSecurity : IAzSecurity
     /// az security automation-source sub-commands.
     /// </summary>
     public AzSecurityAutomationSource AutomationSource => _automationSource ??= new AzSecurityAutomationSource(_command);
-
-    /// <summary>
-    /// az security auto-provisioning-setting sub-commands.
-    /// </summary>
-    public AzSecurityAutoProvisioningSetting AutoProvisioningSetting => _autoProvisioningSetting ??= new AzSecurityAutoProvisioningSetting(_command);
 
     /// <summary>
     /// az security contact sub-commands.
