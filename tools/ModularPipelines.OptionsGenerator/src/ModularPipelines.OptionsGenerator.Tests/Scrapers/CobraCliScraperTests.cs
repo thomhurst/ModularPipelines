@@ -290,6 +290,34 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("can be")]
+    [Arguments("may be")]
+    [Arguments("should be")]
+    [Arguments("shall be")]
+    [Arguments("will be")]
+    [Arguments("would be")]
+    [Arguments("could be")]
+    [Arguments("might be")]
+    public async Task Component_Choices_With_Modals_Preserve_Composite_Values_And_Type_Hints(string modal)
+    {
+        var description = $"Reference <kind>/<name>, where kind {modal} one of: Secret, ConfigMap";
+        var bulletDescription = $"Reference <kind>/<name>, where <kind> {modal} allowed values: - Secret - ConfigMap";
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   {description}\n  --bullet string   {bulletDescription}\n  --hint Foo|Bar   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        var reference = command!.Options.Single(option => option.SwitchName == "--reference");
+        await Assert.That(reference.EnumDefinition).IsNull();
+        await Assert.That(reference.CSharpType).IsEqualTo("string?");
+        var bullet = command.Options.Single(option => option.SwitchName == "--bullet");
+        await Assert.That(bullet.EnumDefinition).IsNull();
+        await Assert.That(bullet.CSharpType).IsEqualTo("string?");
+        var hint = command.Options.Single(option => option.SwitchName == "--hint");
+        await Assert.That(hint.EnumDefinition).IsNotNull();
+        await Assert.That(hint.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+    }
+
+    [Test]
     public async Task Type_Hint_Preserves_Long_Choices()
     {
         const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";

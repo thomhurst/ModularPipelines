@@ -16,6 +16,29 @@ public class DescriptionEnumValueParserTests
     }
 
     [Test]
+    [Arguments("can be")]
+    [Arguments("may be")]
+    [Arguments("should be")]
+    [Arguments("shall be")]
+    [Arguments("will be")]
+    [Arguments("would be")]
+    [Arguments("could be")]
+    [Arguments("might be")]
+    [Arguments("must be")]
+    [Arguments("is")]
+    public async Task TryParse_Rejects_Component_Choices_With_Linking_Verbs(string linkingVerb)
+    {
+        await Assert.That(DescriptionEnumValueParser.TryParse(
+            $"Reference <kind>/<name>, where kind {linkingVerb} one of: Secret, ConfigMap")).IsNull();
+        await Assert.That(DescriptionEnumValueParser.TryParse(
+            $"Reference <kind>/<name>, where <kind> {linkingVerb} one of 'Secret' or 'ConfigMap'")).IsNull();
+        var wholeValueChoices = DescriptionEnumValueParser.TryParse(
+            $"Reference <kind>/<name>, where kind {linkingVerb} one of: Secret, ConfigMap. Output can be one of: json, yaml");
+        await Assert.That(wholeValueChoices).IsNotNull();
+        await Assert.That(wholeValueChoices!.Values).IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
     [Arguments("Allowed values: json, yaml; templates use <key>=<value>")]
     [Arguments("Templates use <key>=<value>. Allowed values: json, yaml")]
     [Arguments("Templates use <key>=<value>. Must be 'json' or 'yaml'")]
