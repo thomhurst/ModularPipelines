@@ -98,19 +98,24 @@ internal static class RedisCoordinationScripts
         if reason == 'Stopped' then
             return '__closed__'
         end
+        local always_run_only = reason ~= false
         local claimed_module = redis.call('HGET', KEYS[14], ARGV[3])
         if claimed_module then
             local raw = redis.call('HGET', KEYS[4], claimed_module)
             local lease = raw and cjson.decode(raw)
             if lease and lease['LeaseId'] == ARGV[3] and lease['WorkerId'] == ARGV[2]
                 and tonumber(lease['ExpiresAt']) >= now then
+                local assignment = string.sub(lease['Member'], 86)
+                -- A lost response may be retried after the pipeline fails.
+                if always_run_only and cjson.decode(assignment)['AlwaysRun'] ~= true then
+                    return false
+                end
                 refresh(ARGV[5])
-                return string.sub(lease['Member'], 86)
+                return assignment
             end
             -- Never let a late retry claim different work or resurrect an expired lease.
             return false
         end
-        local always_run_only = reason ~= false
         local caps = cjson.decode(ARGV[1])
         local worker_timeout = tonumber(ARGV[4])
 

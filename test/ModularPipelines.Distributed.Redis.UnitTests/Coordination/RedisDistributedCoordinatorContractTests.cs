@@ -78,6 +78,50 @@ public class RedisDistributedCoordinatorContractTests
         });
 
     [Test]
+    [Arguments(DistributedCancellationReason.PipelineFailed, false)]
+    [Arguments(DistributedCancellationReason.PipelineFailed, true)]
+    [Arguments(DistributedCancellationReason.Stopped, false)]
+    [Arguments(DistributedCancellationReason.Stopped, true)]
+    public Task Lost_Claim_Response_Retry_Observes_Current_Cancellation(
+        DistributedCancellationReason reason, bool alwaysRun) =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("First") with { AlwaysRun = alwaysRun };
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+            var calls = 0;
+            var claimIds = new List<string>();
+            var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+            scripts.Setup(commands => commands.ExecuteStringAsync(
+                    It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+                .Returns(async (RespireScript script, RespireKey[] scriptKeys, RespireValue[] arguments, CancellationToken token) =>
+                {
+                    claimIds.Add(arguments[2].ToString());
+                    var result = await client.Scripts.ExecuteStringAsync(script, scriptKeys, arguments, token);
+                    if (++calls == 1)
+                    {
+                        await Assert.That(result).IsNotNull();
+                        // Failure arrives after Redis claims work but before the worker receives it.
+                        await coordinator.BroadcastCancellationAsync(reason, CancellationToken.None);
+                        throw new RespireConnectionException("Claim response lost after execution");
+                    }
+
+                    return result;
+                });
+            var connection = new Mock<IRespireClient>(MockBehavior.Strict);
+            connection.SetupGet(redis => redis.Scripts).Returns(scripts.Object);
+            await using var claimant = new RedisDistributedCoordinator(connection.Object, keys, new RedisOptions());
+
+            var (closed, lease) = await claimant.TryClaimAsync(new WorkerId("worker"), new HashSet<Capability>(), CancellationToken.None);
+            var shouldDeliver = alwaysRun && reason == DistributedCancellationReason.PipelineFailed;
+            await Assert.That(lease is not null).IsEqualTo(shouldDeliver);
+            await Assert.That(closed).IsEqualTo(reason == DistributedCancellationReason.Stopped);
+            await Assert.That(calls).IsEqualTo(shouldDeliver ? 3 : 2);
+            await Assert.That(claimIds.Distinct()).Count().IsEqualTo(1);
+            await Assert.That((await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single().Assignment.ModuleId)
+                .IsEqualTo(assignment.ModuleId);
+        });
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public Task Lost_Acknowledgement_Response_Returns_The_Received_Assignment(bool executed) =>
