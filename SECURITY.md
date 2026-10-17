@@ -10,7 +10,9 @@ Please upgrade to the latest release before reporting an issue.
 Please do not open a public issue for a security vulnerability.
 
 Report it privately through
-[GitHub private vulnerability reporting](https://github.com/thomhurst/ModularPipelines/security/advisories/new).
+[GitHub private vulnerability reporting](https://github.com/thomhurst/ModularPipelines/security/advisories/new),
+or by email to the project's security contact,
+[oss-security-scanner@tomlonghurst.com](mailto:oss-security-scanner@tomlonghurst.com).
 Include the affected package and version, a description of the impact, and steps or a small pipeline that
 reproduces the issue.
 
