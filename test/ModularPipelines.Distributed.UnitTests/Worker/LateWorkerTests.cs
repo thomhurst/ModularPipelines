@@ -58,7 +58,10 @@ public class LateWorkerTests
 
         await Assert.That(summary.Succeeded).IsTrue();
         await Assert.That(cleanup.RegistrationRejected).IsTrue();
-        await Assert.That(await coordinator.GetWorkerStatusesAsync(CancellationToken.None)).IsEmpty();
+        // The master's execution-start heartbeat is an existing participant, not a late worker.
+        var statuses = await coordinator.GetWorkerStatusesAsync(CancellationToken.None);
+        await Assert.That(statuses.Select(status => status.WorkerId))
+            .IsEquivalentTo([WorkerId.FromInstanceIndex(0)]);
     }
 
     [Test]

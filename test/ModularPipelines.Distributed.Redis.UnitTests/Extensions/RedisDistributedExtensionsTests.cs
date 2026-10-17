@@ -631,7 +631,7 @@ public class RedisDistributedExtensionsTests
 
     private sealed class NoOpModule : Module<int>
     {
-        protected override Task<int> ExecuteAsync(
+        protected internal override Task<int> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(0);

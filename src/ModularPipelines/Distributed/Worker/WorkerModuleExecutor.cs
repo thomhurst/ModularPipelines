@@ -209,7 +209,9 @@ internal class WorkerModuleExecutor(
                     "Worker {WorkerId} encountered an error in execution loop",
                     workerId),
                 workerToken,
-                inFlightLeases: inFlightLeases);
+                inFlightLeases: inFlightLeases,
+                beforeExecuteAsync: token => inFlightLeases.SendHeartbeatAsync(
+                    _coordinator, new WorkerStatus { WorkerId = workerId, RunId = options.RunId }, token));
 
             masterState = await WaitForWorkToEndAsync(poolTask, masterWatchTask, workerCts, options)
                 .ConfigureAwait(false);
@@ -276,19 +278,9 @@ internal class WorkerModuleExecutor(
             try
             {
                 await Task.Delay(interval, cancellationToken).ConfigureAwait(false);
-                var leases = inFlightLeases.GetLeases();
-                var sentAt = inFlightLeases.GetTimestamp();
-                var lost = await _coordinator.ReconcileHeartbeatAsync(
-                        new WorkerStatus
-                        {
-                            WorkerId = workerId,
-                            RunId = runIdentifier,
-                            InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
-                        },
-                        leases,
-                        cancellationToken)
+                await inFlightLeases.SendHeartbeatAsync(
+                        _coordinator, new WorkerStatus { WorkerId = workerId, RunId = runIdentifier }, cancellationToken)
                     .ConfigureAwait(false);
-                await inFlightLeases.ReconcileAsync(leases, lost, sentAt).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {

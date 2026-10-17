@@ -116,6 +116,9 @@ public class RejectedAttemptTests
         var assignment = DistributedTestData.Assignment(module, types);
         using var workerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator.Setup(value => value.ReconcileHeartbeatAsync(
+                It.IsAny<WorkerStatus>(), It.IsAny<IReadOnlyList<ModuleLease>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
         coordinator.SetupSequence(value => value.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(DistributedTestData.Lease(assignment))
             .ReturnsAsync(() =>

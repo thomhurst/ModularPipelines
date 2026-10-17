@@ -26,8 +26,9 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// already sent. Once received, the assignment is returned even after cancellation so it can be finalized.
 /// Claims retry with the same lease token until success or cancellation, including after a retry batch fails.
 /// Delivery acknowledgement is attempted once before returning a lease. An ambiguous acknowledgement failure
-/// returns the received assignment instead of waiting for retries. Only acknowledged or heartbeat-renewed leases
-/// count toward <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so lost claim responses cannot exhaust it.
+/// returns the received assignment instead of waiting for retries. Worker pools confirm the lease with a fenced
+/// heartbeat before executing user code. Only acknowledged or heartbeat-renewed leases count toward
+/// <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so lost claim responses cannot exhaust it.
 /// The master's coordinator records a heartbeat every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
 /// until it is disposed or cleans up the run, so workers detect a master that stopped without signalling
 /// completion.
@@ -686,7 +687,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
         {
             // Redis may have acknowledged delivery. Return the known assignment either way; the normal
-            // worker heartbeat can renew it, and result publication still checks the lease token and expiry.
+            // execution-start heartbeat confirms it before user code runs. Publication still checks ownership.
             _logger?.LogWarning(exception, "Redis claim acknowledgement was ambiguous; returning the received assignment");
         }
 

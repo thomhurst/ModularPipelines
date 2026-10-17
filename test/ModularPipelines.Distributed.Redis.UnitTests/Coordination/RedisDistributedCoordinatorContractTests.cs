@@ -1,6 +1,7 @@
 using System.Text.Json;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Coordination;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Testing.Distributed;
 using Moq;
 using Respire;
@@ -346,6 +347,56 @@ public class RedisDistributedCoordinatorContractTests
                 var lease = await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), CancellationToken.None);
                 await Assert.That(lease).IsNotNull();
                 // Simulate a crash immediately after delivery, before any periodic heartbeat.
+                await ExpireLeaseAsync(client, keys, assignment.ModuleId);
+                var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
+                await Assert.That(requeued.Count).IsEqualTo(attempt == 0 ? 1 : 0);
+            }
+
+            var result = await coordinator.WaitForResultAsync(assignment.ModuleId, CancellationToken.None);
+            await Assert.That(result.Payload).Contains("worker-0").And.Contains("worker-1");
+        });
+
+    [Test]
+    public Task Failed_Acknowledgement_Then_Early_Execution_Crash_Consumes_The_Budget() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("EarlyCrash");
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+            var scripts = new Mock<IRespireScriptCommands>(MockBehavior.Strict);
+            var calls = 0;
+            scripts.Setup(commands => commands.ExecuteStringAsync(
+                    It.IsAny<RespireScript>(), It.IsAny<RespireKey[]>(), It.IsAny<RespireValue[]>(), It.IsAny<CancellationToken>()))
+                .Returns((RespireScript script, RespireKey[] scriptKeys, RespireValue[] arguments, CancellationToken token) =>
+                    ++calls % 2 == 1
+                        ? client.Scripts.ExecuteStringAsync(script, scriptKeys, arguments, token)
+                        : ValueTask.FromException<string?>(new RespireConnectionException("Acknowledgement failed before execution")));
+            var connection = new Mock<IRespireClient>(MockBehavior.Strict);
+            connection.SetupGet(redis => redis.Scripts).Returns(scripts.Object);
+            await using var claimant = new RedisDistributedCoordinator(connection.Object, keys, new RedisOptions());
+
+            for (var attempt = 0; attempt < 2; attempt++)
+            {
+                var worker = new WorkerId($"worker-{attempt}");
+                var inFlight = new InFlightLeases();
+                var claims = 0;
+                var executions = 0;
+                await DistributedWorkerPool.RunAsync(
+                    async _ => ++claims == 1
+                        ? (await claimant.TryClaimAsync(worker, new HashSet<Capability>(), CancellationToken.None)).Lease
+                        : null,
+                    (_, _, _) =>
+                    {
+                        executions++;
+                        // A process crash loses the lease without publishing a terminal result.
+                        throw new InvalidOperationException("Simulated execution crash");
+                    },
+                    maxConcurrency: 1,
+                    _ => { },
+                    CancellationToken.None,
+                    inFlightLeases: inFlight,
+                    beforeExecuteAsync: token => inFlight.SendHeartbeatAsync(
+                        coordinator, new WorkerStatus { WorkerId = worker }, token));
+                await Assert.That(executions).IsEqualTo(1);
                 await ExpireLeaseAsync(client, keys, assignment.ModuleId);
                 var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None);
                 await Assert.That(requeued.Count).IsEqualTo(attempt == 0 ? 1 : 0);
