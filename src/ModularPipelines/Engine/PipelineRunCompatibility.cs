@@ -15,7 +15,7 @@ internal static class PipelineRunCompatibility
         }
 
         return Hash(string.Join('\n', modules
-            .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
+            .Select(static module => ModuleId.FromType(module.GetType()).Value)
             .OrderBy(static name => name, StringComparer.Ordinal)));
     }
 

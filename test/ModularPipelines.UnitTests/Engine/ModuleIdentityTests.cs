@@ -77,6 +77,44 @@ public class ModuleIdentityTests
     }
 
     [Test]
+    public async Task RenamedModuleLoadsPreviousRunUsingDefaultPipelineIdentity()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"module-identity-{Guid.NewGuid():N}");
+        try
+        {
+            var runReportOptions = new RunReportOptions
+            {
+                AutoWriteInCi = false,
+                HistoryDirectory = directory,
+                HistoryRetention = 2,
+            };
+            await using var originalHost = await TestPipelineBuilder.Create()
+                .AddModule<OriginalModule>()
+                .ConfigureOptions(options => options with { RunReport = runReportOptions })
+                .BuildAsync();
+            var original = (await originalHost.RunAsync()).RunReport!;
+
+            await using var renamedHost = await TestPipelineBuilder.Create()
+                .AddModule<RenamedModule>()
+                .ConfigureOptions(options => options with { RunReport = runReportOptions })
+                .BuildAsync();
+            var renamed = (await renamedHost.RunAsync()).RunReport!;
+
+            await Assert.That(renamed.PipelineIdentity).IsEqualTo(original.PipelineIdentity);
+            await Assert.That(renamed.PreviousEnd).IsEqualTo(original.End);
+            await Assert.That(renamed.Modules.Single().PreviousDuration)
+                .IsEqualTo(original.Modules.Single().Duration);
+        }
+        finally
+        {
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, recursive: true);
+            }
+        }
+    }
+
+    [Test]
     public async Task RenamedModuleSharesEstimatesIncludingSubModules()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"module-identity-{Guid.NewGuid():N}");

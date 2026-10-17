@@ -250,7 +250,7 @@ public class ArtifactContextApiTests
         await pipeline.RunAsync();
 
         await Assert.That(store.UploadedDescriptor!.ModuleId)
-            .IsEqualTo(typeof(ReadyArtifactModule).FullName!);
+            .IsEqualTo(ModuleId.FromType(typeof(ReadyArtifactModule)));
     }
 
     [Test]

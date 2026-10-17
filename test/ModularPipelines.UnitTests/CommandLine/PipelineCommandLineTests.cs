@@ -347,7 +347,7 @@ public class PipelineCommandLineTests
 
     private sealed class PlanEstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken) => Task.FromResult(moduleId.Value.Split('+').Last() switch
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken) => Task.FromResult(moduleId.Value.Split(',')[0].Split('+').Last() switch
         {
             nameof(DependencyModule) => TimeSpan.FromMinutes(2),
             nameof(UnrelatedModule) => TimeSpan.FromMinutes(5),
