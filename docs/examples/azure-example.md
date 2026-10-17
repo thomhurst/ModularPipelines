@@ -22,7 +22,7 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 
         var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentityAsync(
 
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.ManagedIdentity/userAssignedIdentities", "MyUserIdentity"),
 
             new UserAssignedIdentityData(AzureLocation.UKSouth),
 
@@ -52,7 +52,7 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 
         var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccountAsync(
 
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.Storage/storageAccounts", "MyStorage"),
 
             new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth),
 
@@ -186,7 +186,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
         var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSiteAsync(
 
-            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "Microsoft.Web/sites", "MyFunction"),
 
             new WebSiteData(AzureLocation.UKSouth)
 

@@ -1941,3 +1941,25 @@ public sealed class PrintVersionModule : Module
 1. Check the linked feature guides and the installed V4 package's signatures for the failing API.
 2. Review the [current examples](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Examples).
 3. Search or open a [GitHub issue](https://github.com/thomhurst/ModularPipelines/issues), including old/new package versions, a minimal module or command example, and the compiler/runtime error.
+
+## Azure resource scopes[​](#azure-resource-scopes "Direct link to Azure resource scopes")
+
+`AzureResourceIdentifier` now requires a resource type before the resource name:
+
+```
+var scope = new AzureResourceIdentifier(
+
+    subscriptionId, resourceGroupName, "Microsoft.Web/sites", siteName);
+```
+
+Update resource scope factories in the same way:
+
+```
+subscription.GetResourceIdentifier(resourceGroupName, "Microsoft.Web/sites", siteName);
+
+resourceGroup.GetResourceIdentifier("Microsoft.Web/sites", siteName);
+```
+
+Converting an Azure SDK `ResourceIdentifier` now retains its resource type. Resource lookup matches both type and name with `OrdinalIgnoreCase`, so resources of different types can share a name safely. A missing resource still throws `AzureResourceNotFoundException`. Subscription, resource-group, and management-group scopes keep their existing resolution.
+
+`ArmClient.GetResourceIdentifierAsync` now accepts an optional final `CancellationToken`. Pass a token to cancel resource enumeration; `AzureSecurityProvisioner.AuthorizationRoleDefinitionAsync` also forwards its token when resolving the scope.
