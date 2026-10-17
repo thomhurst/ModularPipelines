@@ -19,7 +19,7 @@ internal class Xml : IXmlContext
             serializer.Serialize(writer, input);
         }
 
-        return document.ToString();
+        return document.ToString(options);
     }
 
     [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
