@@ -318,6 +318,33 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("the kind value must be")]
+    [Arguments("the <kind> field can be")]
+    [Arguments("kind component may be")]
+    [Arguments("the kind field is")]
+    public async Task Component_Noun_Phrases_Preserve_Composite_Values_And_Type_Hints(string subject)
+    {
+        var description = $"Reference <kind>/<name>, where {subject} one of: Secret, ConfigMap";
+        var bulletDescription = $"Reference <kind>/<name>, where {subject} allowed values: - Secret - ConfigMap";
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   {description}\n  --bullet string   {bulletDescription}\n  --hint Foo|Bar   {description}\n  --output string   {description}. Output format has allowed values: json, yaml\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        foreach (var switchName in new[] { "--reference", "--bullet" })
+        {
+            var option = command!.Options.Single(option => option.SwitchName == switchName);
+            await Assert.That(option.EnumDefinition).IsNull();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+
+        var hint = command!.Options.Single(option => option.SwitchName == "--hint");
+        await Assert.That(hint.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+        var output = command.Options.Single(option => option.SwitchName == "--output");
+        await Assert.That(output.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
     public async Task Type_Hint_Preserves_Long_Choices()
     {
         const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";

@@ -58,7 +58,7 @@ internal static partial class DescriptionEnumValueParser
     [GeneratedRegex(@"(?<component><[\w-]+>)(?:[/.:=](?<component><[\w-]+>))+")]
     private static partial Regex CompositeValuePattern();
 
-    [GeneratedRegex(@"(?<![\w-])<?(?<component>[\w-]+)>?\s+(?:(?:(?:must|can|may|should|shall|will|would|could|might)\s+be|is|are|has|have)\s+)?$", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|[,;.!?\r\n]|\bwhere\s+)\s*(?:where\s+)?(?:the\s+)?<?(?<component>[\w-]+)>?(?:\s+[\w-]+)*\s*$", RegexOptions.IgnoreCase)]
     private static partial Regex ComponentChoiceSubjectPattern();
 
     public static string[]? TryParseValues(string valuesText)
