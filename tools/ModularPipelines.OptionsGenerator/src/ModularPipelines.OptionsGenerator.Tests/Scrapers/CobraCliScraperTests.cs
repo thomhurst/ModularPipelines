@@ -13,12 +13,12 @@ public class CobraCliScraperTests
     [Arguments("int8", "int?")]
     [Arguments("int16", "int?")]
     [Arguments("int32", "int?")]
-    [Arguments("int64", "int?")]
-    [Arguments("uint", "int?")]
-    [Arguments("uint8", "int?")]
-    [Arguments("uint16", "int?")]
-    [Arguments("uint32", "int?")]
-    [Arguments("uint64", "int?")]
+    [Arguments("int64", "long?")]
+    [Arguments("uint", "ulong?")]
+    [Arguments("uint8", "uint?")]
+    [Arguments("uint16", "uint?")]
+    [Arguments("uint32", "uint?")]
+    [Arguments("uint64", "ulong?")]
     [Arguments("float32", "double?")]
     [Arguments("float64", "double?")]
     [Arguments("number", "string?")]
@@ -38,7 +38,7 @@ public class CobraCliScraperTests
         var option = command!.Options.Single();
 
         await Assert.That(option.CSharpType).IsEqualTo(expectedType);
-        await Assert.That(option.IsNumeric).IsEqualTo(expectedType is "int?" or "double?");
+        await Assert.That(option.IsNumeric).IsEqualTo(expectedType is "int?" or "long?" or "uint?" or "ulong?" or "double?");
         await Assert.That(option.AcceptsMultipleValues).IsFalse();
         await Assert.That(option.IsFlag).IsFalse();
     }
@@ -94,7 +94,7 @@ public class CobraCliScraperTests
     [Arguments("Helm/3.22.0/install.txt", "--post-renderer-args", "IEnumerable<string>?", true)]
     [Arguments("Helm/3.22.0/template.txt", "--post-renderer-args", "IEnumerable<string>?", true)]
     [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fd", "IEnumerable<string>?", true)]
-    [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fds", "int?", false)]
+    [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fds", "ulong?", false)]
     [Arguments("Podman/6.1.3/container-run-help.txt", "--ip", "string?", false)]
     [Arguments("Podman/6.1.3/container-run-help.txt", "--cpus", "double?", false)]
     [Arguments("Trivy/0.75.0/image.txt", "--license-confidence-level", "double?", false)]
