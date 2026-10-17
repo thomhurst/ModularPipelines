@@ -67,6 +67,11 @@ public interface IAzSecurity
     AzSecurityAtp Atp { get; }
 
     /// <summary>
+    /// az security auto-provisioning-setting sub-commands.
+    /// </summary>
+    AzSecurityAutoProvisioningSetting AutoProvisioningSetting { get; }
+
+    /// <summary>
     /// az security automation sub-commands.
     /// </summary>
     AzSecurityAutomation Automation { get; }
@@ -105,11 +110,6 @@ public interface IAzSecurity
     /// az security automation-source sub-commands.
     /// </summary>
     AzSecurityAutomationSource AutomationSource { get; }
-
-    /// <summary>
-    /// az security auto-provisioning-setting sub-commands.
-    /// </summary>
-    AzSecurityAutoProvisioningSetting AutoProvisioningSetting { get; }
 
     /// <summary>
     /// az security contact sub-commands.

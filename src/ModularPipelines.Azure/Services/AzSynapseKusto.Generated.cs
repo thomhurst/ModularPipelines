@@ -21,9 +21,9 @@ public class AzSynapseKusto
 {
     private readonly ICommandContext _command;
     private AzSynapseKustoAttachedDatabaseConfiguration? _attachedDatabaseConfiguration;
+    private AzSynapseKustoDataConnection? _dataConnection;
     private AzSynapseKustoDatabase? _database;
     private AzSynapseKustoDatabasePrincipalAssignment? _databasePrincipalAssignment;
-    private AzSynapseKustoDataConnection? _dataConnection;
     private AzSynapseKustoPool? _pool;
     private AzSynapseKustoPoolPrincipalAssignment? _poolPrincipalAssignment;
 
@@ -43,6 +43,11 @@ public class AzSynapseKusto
     public AzSynapseKustoAttachedDatabaseConfiguration AttachedDatabaseConfiguration => _attachedDatabaseConfiguration ??= new AzSynapseKustoAttachedDatabaseConfiguration(_command);
 
     /// <summary>
+    /// az synapse kusto data-connection sub-commands.
+    /// </summary>
+    public AzSynapseKustoDataConnection DataConnection => _dataConnection ??= new AzSynapseKustoDataConnection(_command);
+
+    /// <summary>
     /// az synapse kusto database sub-commands.
     /// </summary>
     public AzSynapseKustoDatabase Database => _database ??= new AzSynapseKustoDatabase(_command);
@@ -51,11 +56,6 @@ public class AzSynapseKusto
     /// az synapse kusto database-principal-assignment sub-commands.
     /// </summary>
     public AzSynapseKustoDatabasePrincipalAssignment DatabasePrincipalAssignment => _databasePrincipalAssignment ??= new AzSynapseKustoDatabasePrincipalAssignment(_command);
-
-    /// <summary>
-    /// az synapse kusto data-connection sub-commands.
-    /// </summary>
-    public AzSynapseKustoDataConnection DataConnection => _dataConnection ??= new AzSynapseKustoDataConnection(_command);
 
     /// <summary>
     /// az synapse kusto pool sub-commands.

@@ -81,8 +81,8 @@ public static class AzExtensions
         services.TryAddScoped<IAzLab, AzLab>();
         services.TryAddScoped<IAzLock, AzLock>();
         services.TryAddScoped<IAzLogicapp, AzLogicapp>();
-        services.TryAddScoped<IAzManagedapp, AzManagedapp>();
         services.TryAddScoped<IAzManagedCassandra, AzManagedCassandra>();
+        services.TryAddScoped<IAzManagedapp, AzManagedapp>();
         services.TryAddScoped<IAzManagedservices, AzManagedservices>();
         services.TryAddScoped<IAzMaps, AzMaps>();
         services.TryAddScoped<IAzMariadb, AzMariadb>();

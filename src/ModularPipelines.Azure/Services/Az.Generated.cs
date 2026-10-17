@@ -78,8 +78,8 @@ internal partial class Az : IAz
         IAzLab lab,
         IAzLock @lock,
         IAzLogicapp logicapp,
-        IAzManagedapp managedapp,
         IAzManagedCassandra managedCassandra,
+        IAzManagedapp managedapp,
         IAzManagedservices managedservices,
         IAzMaps maps,
         IAzMariadb mariadb,
@@ -176,8 +176,8 @@ internal partial class Az : IAz
         Lab = lab;
         Lock = @lock;
         Logicapp = logicapp;
-        Managedapp = managedapp;
         ManagedCassandra = managedCassandra;
+        Managedapp = managedapp;
         Managedservices = managedservices;
         Maps = maps;
         Mariadb = mariadb;
@@ -383,10 +383,10 @@ internal partial class Az : IAz
     public IAzLogicapp Logicapp { get; }
 
     /// <inheritdoc />
-    public IAzManagedapp Managedapp { get; }
+    public IAzManagedCassandra ManagedCassandra { get; }
 
     /// <inheritdoc />
-    public IAzManagedCassandra ManagedCassandra { get; }
+    public IAzManagedapp Managedapp { get; }
 
     /// <inheritdoc />
     public IAzManagedservices Managedservices { get; }
