@@ -1,7 +1,7 @@
 # Build image for the Anthropic OSS Scanner (https://github.com/anthropics/oss-scanner).
 # The scanner builds this file with the repository as the build context, then removes network access,
 # so every SDK, NuGet package and test dependency must be fetched here.
-FROM debian:bookworm
+FROM debian:trixie
 
 ENV DEBIAN_FRONTEND=noninteractive \
     DOTNET_ROOT=/usr/share/dotnet \
