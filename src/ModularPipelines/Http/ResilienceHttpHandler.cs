@@ -11,14 +11,30 @@ namespace ModularPipelines.Http;
 /// A delegating handler that adds retry resilience to HTTP requests using Kevlar.
 /// Handles transient failures including network errors and server errors (5xx).
 /// </summary>
-internal class ResilienceHttpHandler(
-    IModuleLoggerAccessor loggerAccessor,
-    IOptions<PipelineOptions> pipelineOptions) : DelegatingHandler
+internal class ResilienceHttpHandler : DelegatingHandler
 {
     private const int MaximumRetryContentLength = 1024 * 1024;
 
-    private readonly IModuleLoggerAccessor _loggerAccessor = loggerAccessor;
-    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
+    private readonly IModuleLoggerAccessor _loggerAccessor;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly TimeProvider _timeProvider;
+
+    public ResilienceHttpHandler(
+        IModuleLoggerAccessor loggerAccessor,
+        IOptions<PipelineOptions> pipelineOptions)
+        : this(loggerAccessor, pipelineOptions, TimeProvider.System)
+    {
+    }
+
+    internal ResilienceHttpHandler(
+        IModuleLoggerAccessor loggerAccessor,
+        IOptions<PipelineOptions> pipelineOptions,
+        TimeProvider timeProvider)
+    {
+        _loggerAccessor = loggerAccessor;
+        _pipelineOptions = pipelineOptions;
+        _timeProvider = timeProvider;
+    }
 
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -27,7 +43,7 @@ internal class ResilienceHttpHandler(
 
         if (options.MaxRetryAttempts <= 0 || !CanRetry(request))
         {
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            return await SendAttemptAsync(request, options.AttemptTimeout, cancellationToken).ConfigureAwait(false);
         }
 
         // Only byte-backed bodies with small declared lengths reach this point. Never consume upload streams for retries.
@@ -42,16 +58,16 @@ internal class ResilienceHttpHandler(
             }
             catch (HttpRequestException exception) when (exception.HttpRequestError == HttpRequestError.ConfigurationLimitExceeded)
             {
-                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+                return await SendAttemptAsync(request, options.AttemptTimeout, cancellationToken).ConfigureAwait(false);
             }
 
             contentBytes = await retryContent.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        var retryShield = BuildRetryShield(options);
+        var retryShield = BuildRetryShield(options, cancellationToken);
 
         return await retryShield.ExecuteAsync(
-            async ct => await base.SendAsync(CloneRequest(request, contentBytes), ct).ConfigureAwait(false),
+            async ct => await SendAttemptAsync(CloneRequest(request, contentBytes), options.AttemptTimeout, ct).ConfigureAwait(false),
             cancellationToken).ConfigureAwait(false);
     }
 
@@ -88,14 +104,39 @@ internal class ResilienceHttpHandler(
         }
     }
 
-    private Shield<HttpResponseMessage> BuildRetryShield(HttpResilienceOptions options)
+    private async Task<HttpResponseMessage> SendAttemptAsync(
+        HttpRequestMessage request,
+        TimeSpan? attemptTimeout,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (attemptTimeout is null)
+        {
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        using var timeoutCts = new CancellationTokenSource(attemptTimeout.Value, _timeProvider);
+        using var attemptCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+        try
+        {
+            return await base.SendAsync(request, attemptCts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException exception) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+        {
+            // Use the same timeout shape as HttpClient, without cancelling the overall operation.
+            throw new TaskCanceledException("The HTTP attempt timed out.", new TimeoutException("The HTTP attempt timed out.", exception), attemptCts.Token);
+        }
+    }
+
+    private Shield<HttpResponseMessage> BuildRetryShield(HttpResilienceOptions options, CancellationToken cancellationToken)
     {
         return Shield.For<HttpResponseMessage>()
-            .When<HttpRequestException>(_ => options.RetryOnHttpRequestException)
+            .When<HttpRequestException>(_ => !cancellationToken.IsCancellationRequested && options.RetryOnHttpRequestException)
             .Or<TaskCanceledException>(exception =>
+                !cancellationToken.IsCancellationRequested &&
                 options.RetryOnTimeout &&
                 exception.InnerException is TimeoutException)
-            .OrResult(response => ShouldRetryStatusCode(response, options))
+            .OrResult(response => !cancellationToken.IsCancellationRequested && ShouldRetryStatusCode(response, options))
             .Retry(retryOptions =>
             {
                 retryOptions.MaxRetries = options.MaxRetryAttempts;

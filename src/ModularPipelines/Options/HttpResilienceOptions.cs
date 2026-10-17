@@ -32,6 +32,32 @@ namespace ModularPipelines.Options;
 public record HttpResilienceOptions
 {
     private IReadOnlyCollection<HttpStatusCode> _retryableStatusCodes = DefaultRetryableStatusCodes;
+    private TimeSpan? _attemptTimeout;
+
+    /// <summary>
+    /// Gets the timeout for each send attempt, including the initial attempt when retries are disabled.
+    /// The default is null, which adds no per-attempt timeout.
+    /// </summary>
+    /// <remarks>
+    /// The timeout covers sending the request and receiving response headers, not consuming the response body.
+    /// Set a positive duration no greater than 4,294,967,294 milliseconds; use null to disable it.
+    /// An expired attempt can be retried when <see cref="RetryOnTimeout"/> is true.
+    /// Caller cancellation and the overall request timeout still limit the entire operation, including retry delays.
+    /// </remarks>
+    /// <exception cref="ArgumentOutOfRangeException">The value is not a supported positive timeout.</exception>
+    public TimeSpan? AttemptTimeout
+    {
+        get => _attemptTimeout;
+        init
+        {
+            if (value is { } timeout && (timeout <= TimeSpan.Zero || timeout.TotalMilliseconds > uint.MaxValue - 1))
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, "Attempt timeout must be positive and no greater than 4,294,967,294 milliseconds.");
+            }
+
+            _attemptTimeout = value;
+        }
+    }
 
     /// <summary>
     /// Gets the per-request option that enables or disables retries, overriding the HTTP method default.
