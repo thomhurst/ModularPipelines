@@ -102,33 +102,52 @@ public class RejectedAttemptTests
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
     [Timeout(10_000)]
-    public async Task Worker_Summary_Reconciles_Rejected_Leaf_Attempt(CancellationToken cancellationToken)
+    public async Task Worker_Summary_Reconciles_Rejected_Leaf_Attempt_Unless_Canceled(
+        bool usesDefaultMasterState, bool cancelAfterExecution, CancellationToken cancellationToken)
     {
         var module = new Producer();
         var types = new ModuleTypeRegistry();
         types.Register(typeof(Producer));
         var serializer = new ModuleResultSerializer(types);
         var assignment = DistributedTestData.Assignment(module, types);
+        using var workerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator.SetupSequence(value => value.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(DistributedTestData.Lease(assignment))
-            .ReturnsAsync((ModuleLease?) null);
+            .ReturnsAsync(() =>
+            {
+                if (cancelAfterExecution)
+                {
+                    workerCancellation.Cancel();
+                }
+                return (ModuleLease?) null;
+            });
         coordinator.Setup(value => value.WaitForCancellationAsync(It.IsAny<CancellationToken>()))
             .Returns<CancellationToken>(async token =>
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, token);
                 return DistributedCancellationReason.Stopped;
             });
-        coordinator.Setup(value => value.GetMasterStateAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(DistributedMasterState.Completed);
+        if (usesDefaultMasterState)
+        {
+            coordinator.Setup(value => value.GetMasterStateAsync(It.IsAny<CancellationToken>())).CallBase();
+        }
+        else
+        {
+            coordinator.Setup(value => value.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(DistributedMasterState.Completed);
+        }
         coordinator.Setup(value => value.WaitForResultAsync(assignment.ModuleId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(serializer.Serialize(Result("accepted"), assignment.ModuleId, WorkerId.FromInstanceIndex(2)));
+        var registry = new ModuleResultRegistry();
         var runner = new Mock<IModuleRunner>();
         runner.Setup(value => value.ExecuteWithoutDependencyWaitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
-            .Callback(() => ModuleCompletionSourceApplicator.TryApply(module, Result("rejected")))
+            .Callback(() => registry.CompleteAndRegister(module, typeof(Producer), Result("rejected")))
             .Returns(Task.CompletedTask);
-        var registry = new ModuleResultRegistry();
         using var services = Services();
         var executor = new WorkerModuleExecutor(Mock.Of<IHostApplicationLifetime>(), coordinator.Object, [module], types,
             serializer, runner.Object, registry, new ModuleDependencyRegistry(),
@@ -142,10 +161,13 @@ public class RejectedAttemptTests
             Modules = [module],
             EstimatedDurations = new Dictionary<ModuleId, TimeSpan>(),
             Context = new ExecutionBackendContext(registry),
-        }, cancellationToken);
+        }, workerCancellation.Token);
 
-        await Assert.That(((ModuleResult<string>) summary.Single()).Value).IsEqualTo("accepted");
-        await Assert.That((await module).Value).IsEqualTo("accepted");
+        var expected = cancelAfterExecution ? "rejected" : "accepted";
+        await Assert.That(((ModuleResult<string>) summary.Single()).Value).IsEqualTo(expected);
+        await Assert.That((await module).Value).IsEqualTo(expected);
+        coordinator.Verify(value => value.WaitForResultAsync(assignment.ModuleId, It.IsAny<CancellationToken>()),
+            cancelAfterExecution ? Times.Never() : Times.Once());
     }
 
     private static ServiceProvider Services()

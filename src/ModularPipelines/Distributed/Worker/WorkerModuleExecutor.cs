@@ -177,6 +177,7 @@ internal class WorkerModuleExecutor(
 
         var executedModules = new ConcurrentQueue<IModule>();
         var masterState = DistributedMasterState.Running;
+        var claimLoopCompleted = false;
         try
         {
             if (_logger.IsEnabled(LogLevel.Debug))
@@ -212,6 +213,7 @@ internal class WorkerModuleExecutor(
 
             masterState = await WaitForWorkToEndAsync(poolTask, masterWatchTask, workerCts, options)
                 .ConfigureAwait(false);
+            claimLoopCompleted = poolTask.IsCompletedSuccessfully && !workerCts.IsCancellationRequested;
         }
         finally
         {
@@ -225,10 +227,11 @@ internal class WorkerModuleExecutor(
             throw new DistributedMasterLostException(workerId);
         }
 
-        if (masterState == DistributedMasterState.Completed)
+        if (claimLoopCompleted || masterState == DistributedMasterState.Completed)
         {
-            // All final results exist before completion. Reconcile even leaf modules whose local
-            // attempts lost their leases, without holding an execution slot while a retry runs.
+            // A normally completed claim loop also signals completion for coordinators that use
+            // the default Running master state. Reconcile leaf attempts without holding a slot
+            // while a retry runs. Canceled workers must not wait for results that may never exist.
             using var resultCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             resultCts.CancelAfter(options.MasterTimeout);
             await DependencyResultApplicator.FetchAndApplyAsync(
