@@ -1201,20 +1201,19 @@ internal sealed class Command(
             : outputLogger.LogStandardErrorLine;
     }
 
-    private static async Task WaitForForcefulCancellationAsync(
+    internal static async Task WaitForForcefulCancellationAsync(
         ProcessTreeTerminator processTreeTerminator,
         CancellationToken gracefulCancellationToken,
         CancellationToken forcefulCancellationToken)
     {
-        if (!gracefulCancellationToken.IsCancellationRequested ||
-            forcefulCancellationToken.IsCancellationRequested)
+        if (!gracefulCancellationToken.IsCancellationRequested)
         {
             return;
         }
 
         try
         {
-            while (processTreeTerminator.HasRunningProcesses())
+            while (!forcefulCancellationToken.IsCancellationRequested && processTreeTerminator.HasRunningProcesses())
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(10), forcefulCancellationToken).ConfigureAwait(false);
             }
@@ -1223,18 +1222,28 @@ internal sealed class Command(
         {
             // The graceful shutdown window elapsed.
         }
+
+        if (forcefulCancellationToken.IsCancellationRequested)
+        {
+            // Token cancellation precedes callback dispatch. Disposing the registration now
+            // could unregister a pending Kill callback and leave the descendants running.
+            await processTreeTerminator.KillCompleted.ConfigureAwait(false);
+        }
     }
 
-    private sealed class ProcessTreeTerminator(ICommandLogger commandLogger, WindowsJobLifetime windowsJobLifetime) : IDisposable
+    internal sealed class ProcessTreeTerminator(ICommandLogger commandLogger, WindowsJobLifetime windowsJobLifetime) : IDisposable
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
         private readonly Dictionary<int, Process> _descendants = [];
+        private readonly TaskCompletionSource _killCompleted = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private Process? _process;
         private SafeFileHandle? _windowsJob;
         private Timer? _descendantCaptureTimer;
         private bool _disposed;
         private bool _killRequested;
+
+        public Task KillCompleted => _killCompleted.Task;
 
         public void Attach(Process process)
         {
@@ -1306,6 +1315,18 @@ internal sealed class Command(
         }
 
         public void Kill()
+        {
+            try
+            {
+                KillProcesses();
+            }
+            finally
+            {
+                _killCompleted.TrySetResult();
+            }
+        }
+
+        private void KillProcesses()
         {
             Process? process;
             SafeFileHandle? windowsJob;
