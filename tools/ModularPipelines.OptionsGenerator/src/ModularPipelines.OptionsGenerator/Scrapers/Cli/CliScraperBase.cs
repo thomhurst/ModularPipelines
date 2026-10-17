@@ -2523,7 +2523,7 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
-        + @"|(?:\A|[.!?]\s+)(?:you\s+(?:can|may)\s+)?(?:use|specify|supply|provide|pass|set|give)\s+"
+        + @"|(?<!\b(?:not|never|don't|cannot|can't)\s+)(?:use|specify|supply|provide|pass|set|give)\s+"
         + @"(?:this|the)\s+(?:option|flag|argument)\s+(?:multiple\s+times|more\s+than\s+once)"
         + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?)\s+"
         + @"(?:(?:multiple\s+times|more\s+than\s+once)|"
