@@ -42,6 +42,19 @@ public class ModuleInfrastructureAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Func<string, Process?> start = {|#0:Process.Start|}; _ = start(\"tool\");")]
+    [DataRow("Func<string, Process?> start = {|#0:global::System.Diagnostics.Process.Start|};")]
+    [DataRow("Func<string, Process?> start = {|#0:P.Start|};")]
+    [DataRow("Func<string, Process?> start = {|#0:Start|};")]
+    [DataRow("using var process = new Process(); Func<bool> start = {|#0:process.Start|};")]
+    [DataRow("var start = new Func<string, Process?>({|#0:Process.Start|});")]
+    public async Task Reports_Process_Start_Method_Groups(string statement)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(statement),
+            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectProcessId).WithLocation(0));
+    }
+
+    [TestMethod]
     [DataRow("_ = {|#0:new HttpClient()|};")]
     [DataRow("_ = {|#0:new global::System.Net.Http.HttpClient(new HttpClientHandler(), true)|};")]
     [DataRow("_ = {|#0:new H()|};")]
@@ -77,6 +90,7 @@ public class ModuleInfrastructureAnalyzerTests
             {
                 private readonly HttpClient client = {|#0:new()|};
                 protected BuildModule() { _ = {|#1:new ProcessStartInfo()|}; }
+                private readonly Func<string, Process?> start = {|#4:Process.Start|};
             }
             public abstract partial class BuildModule
             {
@@ -93,7 +107,8 @@ public class ModuleInfrastructureAnalyzerTests
             VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectHttpClientId).WithLocation(0),
             VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectProcessId).WithLocation(1),
             VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectProcessId).WithLocation(2),
-            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectHttpClientId).WithLocation(3));
+            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectHttpClientId).WithLocation(3),
+            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.DirectProcessId).WithLocation(4));
     }
 
     [TestMethod]
@@ -198,6 +213,7 @@ public class ModuleInfrastructureAnalyzerTests
                     _ = new ProcessStartInfo();
                     _ = new HttpClient();
                     _ = new CustomClient();
+                    Func<string, Process?> start = Process.Start;
                 }
             }
             public abstract class BuildModule : Module<int>
@@ -209,10 +225,12 @@ public class ModuleInfrastructureAnalyzerTests
                     _ = new Custom.ProcessStartInfo();
                     _ = new Custom.HttpClient();
                     Custom.Process.Start();
+                    Action start = Custom.Process.Start;
                 }
                 private class NestedHelper
                 {
                     private readonly HttpClient client = new();
+                    private readonly Func<string, Process?> start = Process.Start;
                 }
             }
             namespace Custom

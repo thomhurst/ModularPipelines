@@ -63,13 +63,24 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
 
             startContext.RegisterOperationAction(operationContext =>
             {
-                if (operationContext.ContainingSymbol.ContainingType.InheritsFrom(moduleType)
-                    && operationContext.Operation is IInvocationOperation { TargetMethod.Name: "Start" } invocation
-                    && SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, processType))
+                if (!operationContext.ContainingSymbol.ContainingType.InheritsFrom(moduleType))
                 {
-                    operationContext.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, invocation.Syntax.GetLocation()));
+                    return;
                 }
-            }, OperationKind.Invocation);
+
+                var method = operationContext.Operation switch
+                {
+                    IInvocationOperation invocation => invocation.TargetMethod,
+                    IMethodReferenceOperation reference => reference.Method,
+                    _ => null,
+                };
+
+                if (method is { Name: "Start" }
+                    && SymbolEqualityComparer.Default.Equals(method.ContainingType, processType))
+                {
+                    operationContext.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, operationContext.Operation.Syntax.GetLocation()));
+                }
+            }, OperationKind.Invocation, OperationKind.MethodReference);
 
             startContext.RegisterOperationAction(operationContext =>
             {

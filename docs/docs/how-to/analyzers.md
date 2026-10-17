@@ -45,7 +45,7 @@ field initializers, lifecycle methods, helpers, and callbacks. Nested helper typ
 that do not inherit from a module are excluded.
 
 - [`MP0024`](../analyzers/MP0024.md) warns on `System.Diagnostics.Process.Start`
-  (static or instance calls) and `new ProcessStartInfo(...)`. Use
+  (static or instance calls and method-group references) and `new ProcessStartInfo(...)`. Use
   `context.Shell.RunAsync(...)` so commands participate in secret masking,
   cancellation, command interception, and `ModuleTester` command recording.
 - [`MP0025`](../analyzers/MP0025.md) warns on `new HttpClient(...)`, including
