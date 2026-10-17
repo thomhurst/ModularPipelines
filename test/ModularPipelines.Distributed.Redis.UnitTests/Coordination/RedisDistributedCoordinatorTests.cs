@@ -12,6 +12,41 @@ namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 public class RedisDistributedCoordinatorTests
 {
     [Test]
+    [Arguments("GPU-Ä", "gpu-ä")]
+    [Arguments("Σ", "ς")]
+    [Arguments("𐐀", "𐐨")]
+    [Arguments("ſ-Ä", "ſ-ä")]
+    [Arguments("ſ", "S")]
+    [Arguments("ı", "I")]
+    [Arguments("K", "K")]
+    [Arguments("é", "e\u0301")]
+    [Arguments("GPU-Ä", "gpu-ö")]
+    public async Task Capability_Comparison_Keys_Match_OrdinalIgnoreCase(string left, string right)
+    {
+        var normalized = RedisCapabilityNames.Normalize([new Capability(left), new Capability(right)]);
+
+        await Assert.That(StringComparer.Ordinal.Equals(normalized[0], normalized[1]))
+            .IsEqualTo(StringComparer.OrdinalIgnoreCase.Equals(left, right));
+    }
+
+    [Test]
+    public async Task Capability_Comparison_Keys_Reject_Default_Capability()
+    {
+        await Assert.That(() => RedisCapabilityNames.Normalize([default]))
+            .Throws<System.Text.Json.JsonException>();
+    }
+
+    [Test]
+    public async Task Unicode_Capability_Casing_Shares_A_Queue_Class()
+    {
+        var first = CreateAssignment("First") with { RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("GPU-Ä")) };
+        var second = CreateAssignment("Second") with { RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("gpu-ä")) };
+
+        await Assert.That(System.Text.Json.JsonSerializer.Serialize(RedisQueueMember.GetClass(first)))
+            .IsEqualTo(System.Text.Json.JsonSerializer.Serialize(RedisQueueMember.GetClass(second)));
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Master_Heartbeats_Continue_During_Artifact_Renewal_And_Stop_On_Disposal(bool failFirstScan)
