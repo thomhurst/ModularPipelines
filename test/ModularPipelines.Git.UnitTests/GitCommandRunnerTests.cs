@@ -220,7 +220,9 @@ public class GitCommandRunnerTests : TestBase
     }
 
     [Test]
-    public async Task Default_Typed_Runner_Registers_Configuration_Secrets_When_Forwarding()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Default_Typed_Runner_Registers_Configuration_Secrets_When_Forwarding(bool throwOnFailure)
     {
         var services = await GetService<IGitCommandRunner>((Action<IServiceCollection>?) null);
         IGitCommandRunner runner = new ForwardingGitCommandRunner(services.T);
@@ -233,7 +235,9 @@ public class GitCommandRunnerTests : TestBase
         };
         var execution = new CommandExecutionOptions { MaxCapturedOutputLength = 0 };
 
-        var output = await runner.RunCommandsOrNullAsync(options, execution, CancellationToken.None);
+        var output = throwOnFailure
+            ? await runner.RunCommandsAsync(options, execution, CancellationToken.None)
+            : await runner.RunCommandsOrNullAsync(options, execution, CancellationToken.None);
 
         await Assert.That(output).IsNotNull();
         await Assert.That(output!.Length).IsEqualTo(40);
@@ -260,6 +264,27 @@ public class GitCommandRunnerTests : TestBase
         else
         {
             await Assert.That(await runner.RunCommandsOrNullAsync(options, null, CancellationToken.None)).IsNull();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Default_Typed_Throwing_Runner_Propagates_Failures(bool cancel)
+    {
+        IGitCommandRunner runner = new FailingGitCommandRunner(
+            cancel ? new OperationCanceledException() : new InvalidOperationException("git failed"));
+        var options = new GitOptions { CommandParts = ["log"] };
+
+        if (cancel)
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(() =>
+                runner.RunCommandsAsync(options, null, CancellationToken.None));
+        }
+        else
+        {
+            await Assert.ThrowsAsync<InvalidOperationException>(() =>
+                runner.RunCommandsAsync(options, null, CancellationToken.None));
         }
     }
 
