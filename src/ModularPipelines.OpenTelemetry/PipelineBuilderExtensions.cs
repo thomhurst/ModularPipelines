@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Tracing;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -12,15 +13,6 @@ namespace ModularPipelines.OpenTelemetry;
 /// </summary>
 public static class OpenTelemetryPipelineBuilderExtensions
 {
-    private static readonly string[] GitCommitEnvironmentVariables =
-    [
-        "GITHUB_SHA",
-        "CI_COMMIT_SHA",
-        "BUILD_SOURCEVERSION",
-        "BITBUCKET_COMMIT",
-        "CODEBUILD_RESOLVED_SOURCE_VERSION",
-    ];
-
     /// <summary>
     /// Registers Modular Pipelines activities and metrics with OpenTelemetry.
     /// </summary>
@@ -34,7 +26,7 @@ public static class OpenTelemetryPipelineBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         var pipelineName = builder.Environment.ApplicationName;
-        var gitCommitSha = FindGitCommitSha();
+        var gitCommitSha = CiEnvironmentMetadata.FindCommitSha(Environment.GetEnvironmentVariable);
         var openTelemetryBuilder = builder.Services
             .AddOpenTelemetry()
             .ConfigureResource(resourceBuilder =>
@@ -58,12 +50,5 @@ public static class OpenTelemetryPipelineBuilderExtensions
 
         configure?.Invoke(new ModularPipelinesOpenTelemetryBuilder(openTelemetryBuilder));
         return builder;
-    }
-
-    private static string? FindGitCommitSha()
-    {
-        return GitCommitEnvironmentVariables
-            .Select(Environment.GetEnvironmentVariable)
-            .FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
     }
 }

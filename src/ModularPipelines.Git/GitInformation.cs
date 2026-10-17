@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -186,7 +187,7 @@ internal class GitInformation : IGitInformation
 
         var buildSystem = services.GetRequiredService<IBuildSystemContext>().Current;
         var environment = services.GetRequiredService<IEnvironmentVariablesContext>();
-        var ciBranch = GetCiBranchName(buildSystem, environment);
+        var ciBranch = CiEnvironmentMetadata.GetBranchName(buildSystem, name => environment.Get(name));
 
         const string branchPrefix = "refs/heads/";
         if (ciBranch?.StartsWith(branchPrefix, StringComparison.Ordinal) == true)
@@ -204,22 +205,6 @@ internal class GitInformation : IGitInformation
         }
 
         return ciBranch;
-    }
-
-    private static string? GetCiBranchName(BuildSystem buildSystem, IEnvironmentVariablesContext environment)
-    {
-        string? Read(string name) => NullIfEmpty(environment.Get(name));
-
-        return buildSystem switch
-        {
-            BuildSystem.AzurePipelines => Read("SYSTEM_PULLREQUEST_SOURCEBRANCH") ?? Read("BUILD_SOURCEBRANCH"),
-            BuildSystem.GitHubActions when Read("GITHUB_REF_TYPE") != "tag" =>
-                Read("GITHUB_HEAD_REF") ?? Read("GITHUB_REF_NAME"),
-            BuildSystem.GitLab when Read("CI_COMMIT_TAG") is null =>
-                Read("CI_MERGE_REQUEST_SOURCE_BRANCH_NAME") ?? Read("CI_COMMIT_REF_NAME"),
-            BuildSystem.Jenkins when Read("TAG_NAME") is null => Read("CHANGE_BRANCH") ?? Read("BRANCH_NAME"),
-            _ => null,
-        };
     }
 
     private static async Task<string?> GetDefaultBranchName(

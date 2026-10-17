@@ -28,6 +28,10 @@
     - DynamicProxyGenAssembly2: Required by Moq/Castle.Core for creating proxies of internal types
   -->
   <ItemGroup>
+    <!-- OpenTelemetry uses the shared CI metadata fallbacks. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.OpenTelemetry</_Parameter1>
+    </AssemblyAttribute>
     <!-- Git custom runners use the shared command model and argument renderer. -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.Git</_Parameter1>

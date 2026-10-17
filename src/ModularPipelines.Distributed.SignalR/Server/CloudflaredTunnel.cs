@@ -25,6 +25,8 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         ILogger logger,
         CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var startInfo = new ProcessStartInfo
         {
             FileName = options.CloudflaredPath,
@@ -72,22 +74,21 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         _process.BeginErrorReadLine();
         _process.BeginOutputReadLine();
 
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(options.StartupTimeout);
-
-        var registration = timeoutCts.Token.Register(() =>
-            urlTcs.TrySetCanceled(timeoutCts.Token));
-        await using var registrationScope = registration.ConfigureAwait(false);
-
         try
         {
-            PublicUrl = new Uri(await urlTcs.Task.ConfigureAwait(false), UriKind.Absolute);
+            var url = await urlTcs.Task.WaitAsync(options.StartupTimeout, cancellationToken).ConfigureAwait(false);
+            PublicUrl = new Uri(url, UriKind.Absolute);
 
             // The public URL admits anyone who knows it, so keep it out of ordinary logs.
             logger.LogInformation("Cloudflared tunnel established");
             logger.LogDebug("Cloudflared tunnel URL: {TunnelUrl}", PublicUrl);
         }
         catch (OperationCanceledException)
+        {
+            await DisposeAsync().ConfigureAwait(false);
+            throw;
+        }
+        catch (TimeoutException exception)
         {
             logger.LogWarning(
                 "Cloudflared tunnel URL was not detected within {Timeout}. " +
@@ -96,26 +97,34 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
             await DisposeAsync().ConfigureAwait(false);
             throw new TimeoutException(
                 $"Cloudflared did not provide a tunnel URL within {options.StartupTimeout}. " +
-                "Ensure 'cloudflared' is installed and accessible on PATH.");
+                "Ensure 'cloudflared' is installed and accessible on PATH.", exception);
         }
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (_process is { HasExited: false })
+        var process = Interlocked.Exchange(ref _process, null);
+        if (process is null)
         {
-            try
-            {
-                ProcessTree.Kill(_process);
-                await _process.WaitForExitAsync().ConfigureAwait(false);
-            }
-            catch
-            {
-                // Best-effort cleanup
-            }
+            return;
         }
 
-        _process?.Dispose();
+        try
+        {
+            if (!process.HasExited)
+            {
+                ProcessTree.Kill(process);
+                await process.WaitForExitAsync().ConfigureAwait(false);
+            }
+        }
+        catch
+        {
+            // Best-effort cleanup
+        }
+        finally
+        {
+            process.Dispose();
+        }
     }
 
     [GeneratedRegex(@"https://[a-zA-Z0-9\-]+\.trycloudflare\.com")]

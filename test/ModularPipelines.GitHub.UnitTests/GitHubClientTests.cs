@@ -33,6 +33,32 @@ public class GitHubClientTests
         await Assert.That(handler.Authorization).IsEqualTo("Token test-token");
     }
 
+    [Test]
+    [Arguments("configured-token", "environment-token", "configured-token")]
+    [Arguments(null, "environment-token", "environment-token")]
+    [Arguments("", "environment-token", "environment-token")]
+    [Arguments("  ", "environment-token", "environment-token")]
+    public async Task Client_Uses_The_Same_Token_Fallback_As_The_Skip_Condition(
+        string? configuredToken, string environmentToken, string expected)
+    {
+        var environment = new Mock<IGitHubEnvironmentVariables>();
+        environment.SetupGet(x => x.Token).Returns(environmentToken);
+        using var handler = new RecordingHandler();
+        var factory = new Mock<IHttpMessageHandlerFactory>();
+        factory.Setup(x => x.CreateHandler(GitHubHttpClientServiceCollectionExtensions.GitHubClientName)).Returns(handler);
+        var github = new GitHub(
+            Microsoft.Extensions.Options.Options.Create(new GitHubOptions { AccessToken = configuredToken }),
+            environment.Object,
+            Mock.Of<IGitHubRepositoryInfo>(),
+            factory.Object,
+            Mock.Of<IConsoleCoordinator>(),
+            Mock.Of<IBuildSystemFormatterProvider>());
+
+        await github.Client.Repository.Get("owner", "repository");
+
+        await Assert.That(handler.Authorization).IsEqualTo($"Token {expected}");
+    }
+
     private sealed class RecordingHandler : HttpMessageHandler
     {
         public Uri? RequestUri { get; private set; }
