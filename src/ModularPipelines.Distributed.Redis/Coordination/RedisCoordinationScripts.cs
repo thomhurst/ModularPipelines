@@ -260,9 +260,13 @@ internal static class RedisCoordinationScripts
             or tonumber(lease['ExpiresAt']) < now then
             return false
         end
-        lease['Renewed'] = true
-        lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[4]))
-        redis.call('HSET', KEYS[4], module_id, cjson.encode(lease))
+        -- A lost acknowledgement response must not keep unstarted work alive indefinitely.
+        -- Only delivery's first acknowledgement extends the deadline; heartbeats renew execution.
+        if lease['Renewed'] ~= true then
+            lease['Renewed'] = true
+            lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[4]))
+            redis.call('HSET', KEYS[4], module_id, cjson.encode(lease))
+        end
         refresh(ARGV[5])
         return string.sub(lease['Member'], 86)
         """;

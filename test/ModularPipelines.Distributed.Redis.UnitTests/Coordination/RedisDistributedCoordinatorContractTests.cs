@@ -111,6 +111,29 @@ public class RedisDistributedCoordinatorContractTests
         });
 
     [Test]
+    public Task Retried_Acknowledgements_Do_Not_Extend_An_Unstarted_Lease() =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Unstarted");
+            await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
+            var claimed = await ClaimAsync(client, keys, "claim-1");
+            await AcknowledgeAsync(client, keys, "claim-1");
+            var readDeadline = RespireScript.Create("return cjson.decode(redis.call('HGET', KEYS[1], ARGV[1]))['ExpiresAt']");
+            var deadline = await client.Scripts.ExecuteStringAsync(readDeadline, [keys.Leases], [assignment.ModuleId.Value]);
+            for (var attempt = 0; attempt < 3; attempt++)
+            {
+                await Task.Delay(20);
+                await Assert.That(await AcknowledgeAsync(client, keys, "claim-1")).IsEqualTo(claimed);
+                await Assert.That(await client.Scripts.ExecuteStringAsync(readDeadline, [keys.Leases], [assignment.ModuleId.Value]))
+                    .IsEqualTo(deadline);
+            }
+
+            await ExpireLeaseAsync(client, keys, assignment.ModuleId);
+            await Assert.That(await AcknowledgeAsync(client, keys, "claim-1")).IsNull();
+            await Assert.That(await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None)).Contains(assignment.ModuleId);
+        });
+
+    [Test]
     public Task Acknowledgement_Rejects_Unknown_Expired_Reassigned_Completed_And_Wrong_Worker_Claims() =>
         RunAsync(async (coordinator, client, keys) =>
         {
