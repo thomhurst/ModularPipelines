@@ -1985,7 +1985,7 @@ public abstract partial class CliScraperBase : ICliScraper
     [GeneratedRegex(@"[A-Za-z0-9]-$")]
     private static partial Regex WrappedWordPrefixPattern();
 
-    [GeneratedRegex(@"^(?:and|or)(?:\s|$)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:and|or|to|through|versus|vs|nor|but)(?:\s|$)", RegexOptions.IgnoreCase)]
     private static partial Regex SuspendedHyphenContinuationPattern();
 
     /// <summary>

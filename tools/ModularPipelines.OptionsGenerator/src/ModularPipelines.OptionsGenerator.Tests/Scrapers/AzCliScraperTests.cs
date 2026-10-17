@@ -37,8 +37,18 @@ public class AzCliScraperTests
     [Test]
     [Arguments("Use pre-", "and post-migration checks.", "Use pre- and post-migration checks.")]
     [Arguments("Use client-", "or server-side settings.", "Use client- or server-side settings.")]
+    [Arguments("Use short-", "to medium-term settings.", "Use short- to medium-term settings.")]
+    [Arguments("Compare pre-", "versus post-migration checks.", "Compare pre- versus post-migration checks.")]
+    [Arguments("Use read-", "through write-access checks.", "Use read- through write-access checks.")]
+    [Arguments("Compare pre-", "vs post-migration checks.", "Compare pre- vs post-migration checks.")]
+    [Arguments("Use neither pre-", "nor post-migration checks.", "Use neither pre- nor post-migration checks.")]
+    [Arguments("Use pre-", "but not post-migration checks.", "Use pre- but not post-migration checks.")]
+    [Arguments("Use short-", "TO medium-term settings.", "Use short- TO medium-term settings.")]
     [Arguments("A dash -", "separates clauses.", "A dash - separates clauses.")]
     [Arguments("See https://example.com/pre-", "and/post-checks.", "See https://example.com/pre-and/post-checks.")]
+    [Arguments("See https://example.com/short-", "to/medium-term.", "See https://example.com/short-to/medium-term.")]
+    [Arguments("See https://example.com/pre-", "versus/post-checks.", "See https://example.com/pre-versus/post-checks.")]
+    [Arguments("Use pre-", "tokenized input.", "Use pre-tokenized input.")]
     public async Task Wrapped_Hyphens_Distinguish_Prose_From_Url_Paths(string first, string second, string expected)
     {
         var help = $"Arguments\n    --name : {first}\n             {second}\n";
