@@ -286,18 +286,32 @@ public class CommandLoggerOutputFormattingTests
     [Test]
     [Arguments(2, true)]
     [Arguments(0, false)]
-    public async Task Configured_Exit_Codes_Determine_Status_And_Error_Severity(int exitCode, bool succeeds)
+    [Arguments(-1, true)]
+    [Arguments(null, false)]
+    public async Task Configured_Exit_Codes_Determine_Status_And_Error_Severity(int? exitCode, bool succeeds)
     {
         var (commandLogger, logger) = CreateCommandLogger();
         var options = CreateExecutionOptions() with
         {
-            SuccessExitCodes = [2],
+            SuccessExitCodes = [2, -1],
             Logging = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed, ShowStandardError = true },
         };
         commandLogger.LogCommandCompletion(null, options, "tool run", exitCode, TimeSpan.Zero, string.Empty, "progress", "/repo");
 
         await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning)).IsEqualTo(!succeeds);
         await Assert.That(logger.Messages.Any(message => message.Text.Contains(succeeds ? '✓' : '✗'))).IsTrue();
+    }
+
+    [Test]
+    public async Task Missing_Exit_Code_Preserves_Captured_Error_With_Default_Logging()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.LogCommandCompletion(null, new CommandExecutionOptions { SuccessExitCodes = [-1] },
+            "tool run", null, TimeSpan.Zero, string.Empty, "execution failed", "/repo");
+
+        await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning && message.Text.Contains("execution failed", StringComparison.Ordinal))).IsTrue();
+        await Assert.That(logger.Messages.Any(message => message.Text.Contains('✗'))).IsTrue();
+        await Assert.That(logger.Messages.Any(message => message.Text.Contains('✓'))).IsFalse();
     }
 
     private static void Log(CommandLogger commandLogger, int exitCode, string standardOutput, string standardError) =>

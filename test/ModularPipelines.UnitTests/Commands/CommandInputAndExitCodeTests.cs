@@ -16,6 +16,27 @@ namespace ModularPipelines.UnitTests.Commands;
 public class CommandInputAndExitCodeTests : TestBase
 {
     [Test]
+    public async Task Startup_Failure_Is_Not_Logged_As_An_Accepted_Negative_Exit_Code()
+    {
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var executable = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N"));
+        var (command, pipeline) = await GetService<ICommandContext>(services =>
+        {
+            services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            services.AddLogging(builder => builder.AddFile(file));
+        });
+
+        await Assert.ThrowsAsync<ToolNotFoundException>(() => command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions(executable),
+            new CommandExecutionOptions { SuccessExitCodes = [-1] }));
+
+        await pipeline.DisposeAsync();
+        var log = await File.ReadAllTextAsync(file);
+        await Assert.That(log).Contains($"✗ {executable}");
+        await Assert.That(log).DoesNotContain($"✓ {executable}");
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Input_Does_Not_Register_Secrets_By_Default(bool rewriteOptions)
