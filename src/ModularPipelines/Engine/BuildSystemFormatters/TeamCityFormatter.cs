@@ -1,3 +1,5 @@
+using ModularPipelines.Context;
+
 namespace ModularPipelines.Engine.BuildSystemFormatters;
 
 /// <summary>
@@ -27,6 +29,28 @@ internal class TeamCityFormatter : IBuildSystemFormatter
     public string GetEndBlockCommand(string name) => $"##teamcity[blockClosed name='{EscapeValue(name)}']";
 
     public string GetMaskSecretCommand(string secret) => $"##teamcity[setParameter name='system.password.{Guid.NewGuid()}' value='{EscapeValue(secret)}']";
+
+    public string GetOutputCommand(string name, string value) =>
+        $"##teamcity[setParameter name='{EscapeValue(name)}' value='{EscapeValue(value)}']";
+
+    public string GetBuildNumberCommand(string buildNumber) => $"##teamcity[buildNumber '{EscapeValue(buildNumber)}']";
+
+    public string GetAnnotationCommand(BuildAnnotationLevel level, string message, string? file, int? line)
+    {
+        var status = level switch
+        {
+            BuildAnnotationLevel.Error => "ERROR",
+            BuildAnnotationLevel.Warning => "WARNING",
+            _ => "NORMAL",
+        };
+        if (file is not null)
+        {
+            var location = line is null ? file : $"{file}({line.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)})";
+            message = $"{location}: {message}";
+        }
+
+        return $"##teamcity[message text='{EscapeValue(message)}' status='{status}']";
+    }
 
     private static string EscapeValue(string value)
     {

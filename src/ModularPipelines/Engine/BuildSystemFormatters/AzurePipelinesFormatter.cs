@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Engine.BuildSystemFormatters;
 
@@ -31,21 +32,38 @@ internal class AzurePipelinesFormatter : IBuildSystemFormatter
     public string GetMaskSecretCommand(string secret) =>
         $"##vso[task.setvariable variable=secret_{Guid.NewGuid():N};issecret=true]{EscapeLoggingCommandValue(secret)}";
 
-    public string? GetLogIssueCommand(LogLevel logLevel, string message)
+    public string GetOutputCommand(string name, string value) =>
+        $"##vso[task.setvariable variable={EscapeLoggingCommandValue(name)};isOutput=true;]{EscapeLoggingCommandValue(value)}";
+
+    public string GetBuildNumberCommand(string buildNumber) =>
+        $"##vso[build.updatebuildnumber]{EscapeLoggingCommandValue(buildNumber)}";
+
+    public string? GetAnnotationCommand(BuildAnnotationLevel level, string message, string? file, int? line)
     {
-        var issueType = logLevel switch
+        if (level == BuildAnnotationLevel.Notice)
         {
-            LogLevel.Critical or LogLevel.Error => "error",
-            LogLevel.Warning => "warning",
+            return null;
+        }
+
+        var type = level == BuildAnnotationLevel.Error ? "error" : "warning";
+        var location = file is null ? string.Empty : $"sourcepath={EscapeLoggingCommandValue(file)};";
+        if (line is not null)
+        {
+            location += $"linenumber={line.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)};";
+        }
+
+        return $"##vso[task.logissue type={type};{location}]{EscapeLoggingCommandValue(message)}";
+    }
+
+    public string? GetLogIssueCommand(LogLevel logLevel, string message) =>
+        logLevel switch
+        {
+            LogLevel.Critical or LogLevel.Error => GetAnnotationCommand(BuildAnnotationLevel.Error, message, null, null),
+            LogLevel.Warning => GetAnnotationCommand(BuildAnnotationLevel.Warning, message, null, null),
             _ => null,
         };
 
-        return issueType is null
-            ? null
-            : $"##vso[task.logissue type={issueType};]{EscapeLoggingCommandValue(message)}";
-    }
-
-    private static string EscapeLoggingCommandValue(string value)
+    internal static string EscapeLoggingCommandValue(string value)
     {
         return value
             .Replace("%", "%AZP25", StringComparison.Ordinal)

@@ -1,4 +1,3 @@
-using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -7,20 +6,17 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Reporting;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.GitHub;
 
 internal class GitHubMarkdownSummaryGenerator(
     ISummaryLogReader summaryLogReader,
     IDependencyGraphExporter dependencyGraphExporter,
-    ISecretObfuscator secretObfuscator) : IPipelineEventHandler
+    BuildSystemFileWriter fileWriter) : IPipelineEventHandler
 {
-    private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
-
     private readonly ISummaryLogReader _summaryLogReader = summaryLogReader;
     private readonly IDependencyGraphExporter _dependencyGraphExporter = dependencyGraphExporter;
-    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly BuildSystemFileWriter _fileWriter = fileWriter;
 
     public Task OnPipelineStartAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
@@ -45,7 +41,6 @@ internal class GitHubMarkdownSummaryGenerator(
         var exception = GetException(pipelineSummary);
 
         await WriteFile(
-            pipelineContext,
             stepSummaryVariable,
             dependencyGraph,
             mermaid,
@@ -55,7 +50,6 @@ internal class GitHubMarkdownSummaryGenerator(
     }
 
     private async Task WriteFile(
-        IPipelineContext pipelineContext,
         string stepSummaryVariable,
         string dependencyGraph,
         string mermaid,
@@ -63,38 +57,12 @@ internal class GitHubMarkdownSummaryGenerator(
         string exception,
         CancellationToken cancellationToken)
     {
-        var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
-        var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
-        var existingSummary = _secretObfuscator.Obfuscate(
-            $"{mermaid}\n\n{table}\n\n{_summaryLogReader.GetOutput()}{exception}", null);
-        var maskedDependencyGraph = _secretObfuscator.Obfuscate(dependencyGraph, null);
-        var contents = SelectContentsToAppend(currentFileSize, maskedDependencyGraph, existingSummary);
-
-        if (contents is null)
+        var contents = $"{mermaid}\n\n{table}\n\n{_summaryLogReader.GetOutput()}{exception}";
+        if (!await _fileWriter.AppendGitHubSummaryAsync(
+                stepSummaryVariable, contents, cancellationToken, $"{dependencyGraph}\n\n").ConfigureAwait(false))
         {
             System.Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
-            return;
         }
-
-        await pipelineContext.Files.GetFile(stepSummaryVariable)
-            .AppendAsync(contents, cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    private static string? SelectContentsToAppend(
-        long currentFileSize,
-        string dependencyGraph,
-        string existingSummary)
-    {
-        if (currentFileSize + Encoding.UTF8.GetByteCount(existingSummary) > MaxFileSizeInBytes)
-        {
-            return null;
-        }
-
-        var contentsWithGraph = $"{dependencyGraph}\n\n{existingSummary}";
-        return currentFileSize + Encoding.UTF8.GetByteCount(contentsWithGraph) <= MaxFileSizeInBytes
-            ? contentsWithGraph
-            : existingSummary;
     }
 
     private async Task<string> GenerateDependencyGraphAsync(PipelineSummary pipelineSummary)

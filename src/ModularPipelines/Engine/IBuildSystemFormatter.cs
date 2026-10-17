@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
 
 namespace ModularPipelines.Engine;
 
@@ -28,6 +29,15 @@ namespace ModularPipelines.Engine;
 /// </example>
 internal interface IBuildSystemFormatter
 {
+    /// <summary>Gets an output command, or null when unsupported.</summary>
+    string? GetOutputCommand(string name, string value) => null;
+
+    /// <summary>Gets an annotation command, or null when unsupported.</summary>
+    string? GetAnnotationCommand(BuildAnnotationLevel level, string message, string? file, int? line) => null;
+
+    /// <summary>Gets a build-number command, or null when unsupported.</summary>
+    string? GetBuildNumberCommand(string buildNumber) => null;
+
     /// <summary>
     /// Gets a value indicating whether group commands must bypass rich-console rendering.
     /// </summary>

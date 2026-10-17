@@ -58,6 +58,83 @@ public class GitHubMarkdownSummaryGeneratorTests
 
     private const string SummarySecret = "github-summary-secret";
 
+    private sealed class UserSummaryModule : Module<string>
+    {
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            context.Security.Secrets.AddSecret(SummarySecret);
+            await context.Environment.BuildSystem.AppendSummaryAsync($"## User summary\n{SummarySecret}", cancellationToken);
+            return "done";
+        }
+    }
+
+    private sealed class FullUserSummaryModule : Module<string>
+    {
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await context.Environment.BuildSystem.AppendSummaryAsync(new string('u', (1024 * 1024) - 1), cancellationToken);
+            return "done";
+        }
+    }
+
+    [Test]
+    public async Task AutomaticSummaryPreservesUserContentWhenNoSpaceRemains()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-github-full-summary-");
+        var path = Path.Combine(directory.FullName, "summary.md");
+        var previousPath = Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+        var previousActions = Environment.GetEnvironmentVariable("GITHUB_ACTIONS");
+        try
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
+            Environment.SetEnvironmentVariable("GITHUB_ACTIONS", "true");
+            var builder = Pipeline.CreateBuilder();
+            builder.AddModule<FullUserSummaryModule>();
+
+            await builder.RunAsync();
+
+            await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo(new string('u', (1024 * 1024) - 1) + "\n");
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", previousPath);
+            Environment.SetEnvironmentVariable("GITHUB_ACTIONS", previousActions);
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task UserSummaryCoexistsWithMaskedAutomaticSummary()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-github-user-summary-");
+        var path = Path.Combine(directory.FullName, "summary.md");
+        var previousPath = Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+        var previousActions = Environment.GetEnvironmentVariable("GITHUB_ACTIONS");
+        try
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
+            Environment.SetEnvironmentVariable("GITHUB_ACTIONS", "true");
+            var builder = Pipeline.CreateBuilder();
+            builder.AddModule<UserSummaryModule>();
+
+            await builder.RunAsync();
+
+            var summary = await File.ReadAllTextAsync(path);
+            await Assert.That(summary).Contains("## User summary");
+            await Assert.That(summary).Contains("### Run Summary");
+            await Assert.That(summary).Contains("### Dependency Graph");
+            await Assert.That(summary).DoesNotContain(SummarySecret);
+            await Assert.That(summary.IndexOf("## User summary", StringComparison.Ordinal))
+                .IsLessThan(summary.IndexOf("### Run Summary", StringComparison.Ordinal));
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", previousPath);
+            Environment.SetEnvironmentVariable("GITHUB_ACTIONS", previousActions);
+            directory.Delete(recursive: true);
+        }
+    }
+
     private sealed class SecretFailureModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

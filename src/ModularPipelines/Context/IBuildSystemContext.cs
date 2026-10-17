@@ -3,7 +3,7 @@ using ModularPipelines.Enums;
 namespace ModularPipelines.Context;
 
 /// <summary>
-/// Describes the CI/CD build system the pipeline is running on.
+/// Describes the CI/CD build system and publishes build metadata.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -16,9 +16,50 @@ namespace ModularPipelines.Context;
 /// This is the single CI definition used by <see cref="OnCI"/>, <see cref="OnLocal"/>,
 /// <c>Require.Ci</c>, and <c>Require.LocalEnvironment</c>.
 /// </para>
+/// <para>
+/// Publishing operations validate arguments and cancellation, then do nothing locally.
+/// Unsupported operations in CI throw <see cref="NotSupportedException"/>. GitHub supports
+/// outputs, summaries and all annotation levels; Azure supports outputs, summaries,
+/// warning/error annotations and build numbers; TeamCity supports parameters, log annotations
+/// and build numbers. Register secrets before publishing; published content is masked.
+/// </para>
 /// </remarks>
 public interface IBuildSystemContext
 {
+    /// <summary>Sets a named output for subsequent CI steps. Registered secrets are masked.</summary>
+    /// <param name="name">An output name containing only ASCII letters, digits, underscores, hyphens, or periods.</param>
+    /// <param name="value">The output value, which can contain multiple lines.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation.</param>
+    /// <returns>A task that completes when the output is written.</returns>
+    /// <exception cref="NotSupportedException">The CI provider does not support outputs.</exception>
+    Task SetOutputAsync(string name, string value, CancellationToken cancellationToken = default);
+
+    /// <summary>Appends user-supplied Markdown to the CI summary. Registered secrets are masked.</summary>
+    /// <param name="markdown">The Markdown content.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation.</param>
+    /// <returns>A task that completes when the summary is written.</returns>
+    /// <exception cref="NotSupportedException">The CI provider does not support summaries.</exception>
+    /// <exception cref="InvalidOperationException">A GitHub environment file is missing or the summary would exceed 1 MiB.</exception>
+    Task AppendSummaryAsync(string markdown, CancellationToken cancellationToken = default);
+
+    /// <summary>Publishes an annotation. Registered secrets are masked.</summary>
+    /// <param name="level">The annotation severity.</param>
+    /// <param name="message">The annotation text.</param>
+    /// <param name="file">An optional source file. TeamCity includes this location in the log text.</param>
+    /// <param name="line">An optional one-based line number, requiring a file.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation.</param>
+    /// <returns>A task that completes when the annotation is written.</returns>
+    /// <exception cref="NotSupportedException">The CI provider does not support this severity or annotations.</exception>
+    Task AnnotateAsync(BuildAnnotationLevel level, string message, string? file = null, int? line = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Sets the CI build number. Registered secrets are masked.</summary>
+    /// <param name="buildNumber">The new build number.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation.</param>
+    /// <returns>A task that completes when the command is written.</returns>
+    /// <exception cref="NotSupportedException">The CI provider does not support changing build numbers.</exception>
+    Task SetBuildNumberAsync(string buildNumber, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Gets the detected build system, or <see cref="BuildSystem.Unknown"/> when none is recognised.
     /// </summary>

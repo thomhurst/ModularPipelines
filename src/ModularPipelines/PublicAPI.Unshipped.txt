@@ -3611,3 +3611,11 @@ ModularPipelines.Options.CommandExecutionOptions.StandardInputIsSecret.get -> bo
 ModularPipelines.Options.CommandExecutionOptions.StandardInputIsSecret.init -> void
 ModularPipelines.Options.CommandExecutionOptions.SuccessExitCodes.get -> System.Collections.Generic.IReadOnlyCollection<int>!
 ModularPipelines.Options.CommandExecutionOptions.SuccessExitCodes.init -> void
+ModularPipelines.Context.BuildAnnotationLevel
+ModularPipelines.Context.BuildAnnotationLevel.Error = 2 -> ModularPipelines.Context.BuildAnnotationLevel
+ModularPipelines.Context.BuildAnnotationLevel.Notice = 0 -> ModularPipelines.Context.BuildAnnotationLevel
+ModularPipelines.Context.BuildAnnotationLevel.Warning = 1 -> ModularPipelines.Context.BuildAnnotationLevel
+ModularPipelines.Context.IBuildSystemContext.SetOutputAsync(string! name, string! value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Context.IBuildSystemContext.AppendSummaryAsync(string! markdown, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Context.IBuildSystemContext.AnnotateAsync(ModularPipelines.Context.BuildAnnotationLevel level, string! message, string? file = null, int? line = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Context.IBuildSystemContext.SetBuildNumberAsync(string! buildNumber, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
