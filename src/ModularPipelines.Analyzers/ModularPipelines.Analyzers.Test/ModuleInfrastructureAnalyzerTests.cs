@@ -119,6 +119,9 @@ public class ModuleInfrastructureAnalyzerTests
     [DataRow("Dependency<int>", "")]
     [DataRow("T", "where T : Dependency<int>")]
     [DataRow("T", "where T : U where U : Dependency<int>")]
+    [DataRow("IEnumerable<T>", "where T : Dependency<int>")]
+    [DataRow("T", "where T : IEnumerable<Dependency<int>>")]
+    [DataRow("T", "where T : U where U : IEnumerable<Dependency<int>>")]
     public async Task Reports_Primary_Constructor_Injection_And_Generic_Module_Parameter(string parameterType, string constraints)
     {
         var source = $$"""
@@ -135,13 +138,58 @@ public class ModuleInfrastructureAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("IEnumerable<IModule>")]
+    [DataRow("IReadOnlyList<Dependency>")]
+    [DataRow("ICollection<Dependency>")]
+    [DataRow("List<Dependency>")]
+    [DataRow("Dependency[]")]
+    [DataRow("Dependency[,]")]
+    [DataRow("DependencyCollection")]
+    public async Task Reports_Constructor_Injection_Of_Module_Collections(string parameterType)
+    {
+        var source = $$"""
+            {{Header}}
+            public abstract class Dependency : Module<int> { }
+            public class DependencyCollection : List<Dependency> { }
+            public abstract class BuildModule : Module<int>
+            {
+                protected BuildModule({|#0:{{parameterType}} dependencies|}) { }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleInfrastructureAnalyzer.InjectedModuleId).WithLocation(0));
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Unrelated_Collections_Or_Recursive_Constraints()
+    {
+        var source = $$"""
+            {{Header}}
+            public abstract class Dependency : Module<int> { }
+            public class RecursiveCollection : List<RecursiveCollection> { }
+            public class Wrapper<T> { }
+            public abstract class BuildModule<T> : Module<int> where T : IEnumerable<T>
+            {
+                protected BuildModule(IEnumerable<HttpClient> clients, string[] names,
+                    RecursiveCollection recursive, T constrained, Wrapper<Dependency> wrapper,
+                    Custom.IEnumerable<Dependency> lookalike) { }
+            }
+            namespace Custom
+            {
+                public interface IEnumerable<T> { }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Unrelated_Types_Or_Code_Outside_Modules()
     {
         var source = $$"""
             {{Header}}
             public abstract class Dependency : Module<int> { }
             public class CustomClient : HttpClient { }
-            public class Helper(Dependency dependency)
+            public class Helper(Dependency dependency, IEnumerable<Dependency> dependencies)
             {
                 public Dependency Dependency => dependency;
                 public void Run()

@@ -59,6 +59,7 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             var startInfoType = startContext.Compilation.GetTypeByMetadataName("System.Diagnostics.ProcessStartInfo");
             var httpClientType = startContext.Compilation.GetTypeByMetadataName("System.Net.Http.HttpClient");
             var moduleInterface = startContext.Compilation.GetTypeByMetadataName("ModularPipelines.Modules.IModule");
+            var enumerableType = startContext.Compilation.GetTypeByMetadataName(AnalyzerConstants.FullyQualifiedTypeNames.IEnumerable);
 
             startContext.RegisterOperationAction(operationContext =>
             {
@@ -89,12 +90,12 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             }, OperationKind.ObjectCreation);
 
             startContext.RegisterSymbolAction(symbolContext =>
-                AnalyzeConstructors(symbolContext, moduleType, moduleInterface), SymbolKind.NamedType);
+                AnalyzeConstructors(symbolContext, moduleType, moduleInterface, enumerableType), SymbolKind.NamedType);
         });
     }
 
     private static void AnalyzeConstructors(SymbolAnalysisContext context, INamedTypeSymbol moduleType,
-        INamedTypeSymbol? moduleInterface)
+        INamedTypeSymbol? moduleInterface, INamedTypeSymbol? enumerableType)
     {
         if (context.Symbol is not INamedTypeSymbol type || !type.InheritsFrom(moduleType))
         {
@@ -103,7 +104,7 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
 
         foreach (var parameter in type.InstanceConstructors.SelectMany(static constructor => constructor.Parameters))
         {
-            if (!IsModuleParameter(parameter.Type, moduleType, moduleInterface))
+            if (!IsModuleParameter(parameter.Type, moduleType, moduleInterface, enumerableType))
             {
                 continue;
             }
@@ -119,7 +120,7 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
     }
 
     private static bool IsModuleParameter(ITypeSymbol type, INamedTypeSymbol moduleType,
-        INamedTypeSymbol? moduleInterface, HashSet<ITypeSymbol>? visited = null)
+        INamedTypeSymbol? moduleInterface, INamedTypeSymbol? enumerableType, HashSet<ITypeSymbol>? visited = null)
     {
         if (type.InheritsFrom(moduleType)
             || (moduleInterface is not null && type.ImplementsInterface(moduleInterface)))
@@ -127,8 +128,31 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             return true;
         }
 
+        if (!(visited ??= [with(SymbolEqualityComparer.Default)]).Add(type))
+        {
+            return false;
+        }
+
+        if (enumerableType is not null)
+        {
+            // Inspect module-typed elements only; enumerable elements can recursively contain themselves.
+            if (type is IArrayTypeSymbol array
+                && IsModuleParameter(array.ElementType, moduleType, moduleInterface, null, visited))
+            {
+                return true;
+            }
+
+            foreach (var candidate in type.AllInterfaces.Concat([type]).OfType<INamedTypeSymbol>())
+            {
+                if (SymbolEqualityComparer.Default.Equals(candidate.OriginalDefinition, enumerableType)
+                    && IsModuleParameter(candidate.TypeArguments[0], moduleType, moduleInterface, null, visited))
+                {
+                    return true;
+                }
+            }
+        }
+
         return type is ITypeParameterSymbol parameter
-            && (visited ??= [with(SymbolEqualityComparer.Default)]).Add(type)
-            && parameter.ConstraintTypes.Any(constraint => IsModuleParameter(constraint, moduleType, moduleInterface, visited));
+            && parameter.ConstraintTypes.Any(constraint => IsModuleParameter(constraint, moduleType, moduleInterface, enumerableType, visited));
     }
 }
