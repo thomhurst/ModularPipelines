@@ -9,7 +9,7 @@ using ModularPipelines.ProcessTestHost;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
-internal sealed class ProcessTreeFixture : IAsyncDisposable
+internal sealed class ProcessTreeFixture(Func<ProcessIdentity, Process?>? cleanupProcessLookup = null) : IAsyncDisposable
 {
     public string DirectoryPath { get; } = Directory.CreateTempSubdirectory("modular-pipelines-process-tree-").FullName;
     private readonly CancellationTokenSource _cancellation = new();
@@ -221,14 +221,17 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
         {
             try
             {
-                using var currentProcess = TryOpenProcess(identity);
+                using var currentProcess = (cleanupProcessLookup ?? TryOpenProcess)(identity);
                 if (currentProcess is { HasExited: false })
                 {
                     // Every fixture process is tracked here, so kill each one alone: a tree kill
                     // can freeze macOS arm64 runners (dotnet/runtime#131944).
                     currentProcess.Kill();
-                    await currentProcess.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
                 }
+
+                // Cancellation can make the fresh identity lookup fail while the retained
+                // process is still exiting. Observe that handle before reporting cleanup complete.
+                await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (InvalidOperationException) when (process.HasExited)
             {
