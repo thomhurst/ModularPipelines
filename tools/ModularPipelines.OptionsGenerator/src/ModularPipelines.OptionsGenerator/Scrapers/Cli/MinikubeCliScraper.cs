@@ -170,6 +170,11 @@ public partial class MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextC
         return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
     }
 
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts, string switchName, string typeHint, string description) =>
+        // Minikube's value-only template omits this klog flag's uint64 declaration.
+        switchName == "--log_file_max_size" ? "uint64" : typeHint;
+
     private static CliOptionDefinition NormalizePersistentOption(CliOptionDefinition option) =>
         option.SwitchName switch
         {
@@ -179,8 +184,6 @@ public partial class MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextC
                 CSharpType = "string?",
                 IsNumeric = false,
             },
-            // klog registers this value with flag.Uint64Var, despite its small default.
-            "--log_file_max_size" => option with { CSharpType = "ulong?" },
             _ when option.CSharpType == "bool?" => option with
             {
                 IsFlag = false,

@@ -9,6 +9,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class OptionTypeEnhancerTests
 {
     [Test]
+    [Arguments(CliOptionType.Long, "long?")]
+    [Arguments(CliOptionType.UInt, "uint?")]
+    [Arguments(CliOptionType.ULong, "ulong?")]
+    public async Task EnhanceAsync_Preserves_Integer_Range_And_Numeric_Metadata(CliOptionType type, string cSharpType)
+    {
+        var enhancer = new OptionTypeEnhancer(
+            new OptionTypeDetectorPipeline([new FixedDetector(new OptionTypeDetectionResult
+            {
+                Type = type,
+                Confidence = 100,
+                Source = "Fixture",
+            })], NullLogger<OptionTypeDetectorPipeline>.Instance), NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--size",
+            PropertyName = "Size",
+            CSharpType = "string?",
+        });
+
+        var option = (await enhancer.EnhanceAsync(tool)).Commands.Single().Options.Single();
+        await Assert.That(option.CSharpType).IsEqualTo(cSharpType);
+        await Assert.That(option.IsNumeric).IsTrue();
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
     [Arguments(false, false, 1)]
     [Arguments(true, false, 4)]
     [Arguments(true, true, 2)]

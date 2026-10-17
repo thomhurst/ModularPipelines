@@ -27,7 +27,11 @@ public static class CliTypeMapper
             "bool" or "boolean" => CliOptionType.Bool,
 
             // Integer types
-            "int" or "int32" or "int64" or "uint" or "uint32" or "uint64" => CliOptionType.Int,
+            "int" or "int8" or "int16" or "int32" or "integer" or "number" or "count" => CliOptionType.Int,
+            "int64" => CliOptionType.Long,
+            "uint8" or "uint16" or "uint32" => CliOptionType.UInt,
+            // Go's uint can be 64-bit, so retain its full range on either architecture.
+            "uint" or "uint64" => CliOptionType.ULong,
 
             // Float types
             "float" or "float32" or "float64" => CliOptionType.Decimal,
@@ -62,7 +66,10 @@ public static class CliTypeMapper
         {
             "bool" or "boolean" => CliOptionType.Bool,
             "string" => CliOptionType.String,
-            "int" or "integer" => CliOptionType.Int,
+            "int" or "integer" or "int8" or "int16" or "int32" => CliOptionType.Int,
+            "long" or "int64" => CliOptionType.Long,
+            "uint" or "uint8" or "uint16" or "uint32" => CliOptionType.UInt,
+            "ulong" or "uint64" => CliOptionType.ULong,
             "decimal" or "float" or "double" => CliOptionType.Decimal,
             "stringlist" or "list" or "array" => CliOptionType.StringList,
             "keyvalue" or "map" or "dictionary" => CliOptionType.KeyValue,
@@ -80,6 +87,9 @@ public static class CliTypeMapper
         {
             CliOptionType.Bool => "bool?",
             CliOptionType.Int => "int?",
+            CliOptionType.Long => "long?",
+            CliOptionType.UInt => "uint?",
+            CliOptionType.ULong => "ulong?",
             CliOptionType.Decimal => "decimal?",
             CliOptionType.StringList => "string[]?",
             CliOptionType.KeyValue => "IReadOnlyList<KeyValue>?",
@@ -100,6 +110,9 @@ public static class CliTypeMapper
             CliOptionType.Bool => "bool",
             CliOptionType.String => "string",
             CliOptionType.Int => "int",
+            CliOptionType.Long => "long",
+            CliOptionType.UInt => "uint",
+            CliOptionType.ULong => "ulong",
             CliOptionType.Decimal => "decimal",
             CliOptionType.StringList => "stringlist",
             CliOptionType.KeyValue => "keyvalue",
@@ -114,7 +127,8 @@ public static class CliTypeMapper
     public static readonly HashSet<string> KnownCobraTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "string", "int", "int32", "int64", "uint", "uint32", "uint64",
+        "string", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64",
+        "integer", "number", "count",
         "float", "float32", "float64", "bool", "boolean",
         "list", "array", "strings", "stringarray", "stringslice",
         "map", "stringtostring",

@@ -1,4 +1,9 @@
 #nullable enable
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.KubectlCliScraper.NormalizeOptionTypeHint(string![]! commandParts, string! switchName, string! typeHint, string! description) -> string!
+ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType.Long = 8 -> ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType
+ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType.UInt = 9 -> ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType
+ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType.ULong = 10 -> ModularPipelines.OptionsGenerator.TypeDetection.CliOptionType
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.MinikubeCliScraper.NormalizeOptionTypeHint(string![]! commandParts, string! switchName, string! typeHint, string! description) -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.SyftCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.GlobalOptionsBeforeSubcommands.get -> bool

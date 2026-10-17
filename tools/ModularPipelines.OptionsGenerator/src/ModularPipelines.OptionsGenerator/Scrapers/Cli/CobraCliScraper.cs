@@ -469,7 +469,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
                     ? TryDetectEnumFromDescription(propertyName, className, longForm, actualType, description)
                     : null;
 
-                var csharpType = DetermineCSharpType(isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
+                var csharpType = DetermineCSharpType(actualType, isBoolean, isArray, isKeyValue, isInteger, isFloat, isDuration, enumDef);
                 var separator = isFlag ? " " : "=";
 
                 options.Add(new CliOptionDefinition
@@ -530,6 +530,16 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
         if (int.TryParse(typeHint, out _))
         {
             return "int";
+        }
+
+        if (long.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
+        {
+            return "int64";
+        }
+
+        if (ulong.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
+        {
+            return "uint64";
         }
 
         if (double.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
@@ -831,7 +841,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     private static readonly HashSet<string> KnownIntegerTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "int", "int32", "int64", "uint", "uint32", "uint64", "integer", "number", "count"
+        "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "integer", "number", "count"
     ];
 
     /// <summary>
@@ -903,6 +913,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     #endregion
 
     private static string DetermineCSharpType(
+        string typeHint,
         bool isBoolean,
         bool isArray,
         bool isKeyValue,
@@ -933,7 +944,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
         if (isInteger)
         {
-            return "int?";
+            return CliTypeMapper.ToCSharpType(CliTypeMapper.FromCobraTypeHint(typeHint));
         }
 
         if (isFloat)

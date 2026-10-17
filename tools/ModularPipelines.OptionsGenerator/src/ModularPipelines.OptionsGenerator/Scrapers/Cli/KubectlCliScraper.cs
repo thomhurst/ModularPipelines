@@ -85,6 +85,13 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
                 ? option with { IsFlag = true, NegatedSwitchName = option.SwitchName + "=false" }
                 : option)];
 
+    protected override string NormalizeOptionTypeHint(
+        string[] commandParts, string switchName, string typeHint, string description) =>
+        // The value-only template hides the Int64Var declarations in pkg/cmd/logs/logs.go.
+        commandParts is ["logs"] && switchName is "--limit-bytes" or "--tail"
+            ? "int64"
+            : base.NormalizeOptionTypeHint(commandParts, switchName, typeHint, description);
+
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText)
     {
         // v1.37.1 resources help has an unmatched '(' before its optional flags.

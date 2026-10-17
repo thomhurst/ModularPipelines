@@ -43,5 +43,20 @@ public enum CliOptionType
     /// <summary>
     /// Enumeration type with a fixed set of valid values.
     /// </summary>
-    Enum
+    Enum,
+
+    /// <summary>
+    /// Signed 64-bit integer value.
+    /// </summary>
+    Long,
+
+    /// <summary>
+    /// Unsigned 32-bit integer value.
+    /// </summary>
+    UInt,
+
+    /// <summary>
+    /// Unsigned 64-bit integer value.
+    /// </summary>
+    ULong
 }

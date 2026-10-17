@@ -1,0 +1,12 @@
+Usage:
+  kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER] [options]
+
+Options:
+      --limit-bytes=0:
+        Maximum bytes of logs to return. Defaults to no limit.
+
+      --tail=-1:
+        Lines of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
+
+      --max-log-requests=5:
+        Specify maximum number of concurrent logs to follow when using by a selector. Defaults to 5.
