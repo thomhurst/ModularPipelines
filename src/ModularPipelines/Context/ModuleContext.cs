@@ -51,6 +51,8 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         _subModuleEstimations = new Lazy<Task<SubModuleEstimation[]>>(LoadSubModuleEstimationsAsync);
     }
 
+    public int Attempt => _executionContext.Attempt;
+
     #region IModuleContext specific methods
 
     public TModule GetModule<TModule>()

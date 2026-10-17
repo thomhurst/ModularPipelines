@@ -25,28 +25,31 @@ namespace ModularPipelines.Engine;
 /// set by the module executor in a single-writer pattern and read by the framework.
 /// </para>
 /// </remarks>
-internal class ModuleExecutionContext : IModuleExecutionContext
+internal class ModuleExecutionContext(IModule module, Type moduleType) : IModuleExecutionContext
 {
+    private readonly AsyncLocal<int?> _currentAttempt = new();
+    private int _attemptCount;
+
+    internal int Attempt => _currentAttempt.Value ?? AttemptCount;
+
+    internal int AttemptCount => Volatile.Read(ref _attemptCount);
+
+    // Set this in the invocation's execution context so concurrent shield attempts
+    // keep their own number across awaits without changing the aggregate count.
+    internal void RecordAttempt() => _currentAttempt.Value = Interlocked.Increment(ref _attemptCount);
+
     private readonly TaskCompletionSource<IModuleResult> _resultSource =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
-
-    public ModuleExecutionContext(IModule module, Type moduleType)
-    {
-        Module = module;
-        ModuleType = moduleType;
-        Stopwatch = new Stopwatch();
-        ModuleCancellationTokenSource = new CancellationTokenSource();
-    }
 
     /// <summary>
     /// Gets the module being executed.
     /// </summary>
-    public IModule Module { get; }
+    public IModule Module { get; } = module;
 
     /// <summary>
     /// Gets the concrete type of the module.
     /// </summary>
-    public Type ModuleType { get; }
+    public Type ModuleType { get; } = moduleType;
 
     /// <summary>
     /// Gets or sets the current execution status.
@@ -96,7 +99,7 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     /// <summary>
     /// Gets the stopwatch tracking execution time.
     /// </summary>
-    public Stopwatch Stopwatch { get; }
+    public Stopwatch Stopwatch { get; } = new Stopwatch();
 
     /// <summary>
     /// Gets or sets the cancellation token source for this module.
@@ -105,7 +108,7 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     /// This may be replaced with a linked token source during setup
     /// to combine external and engine-level cancellation.
     /// </remarks>
-    public CancellationTokenSource ModuleCancellationTokenSource { get; set; }
+    public CancellationTokenSource ModuleCancellationTokenSource { get; set; } = new CancellationTokenSource();
 
     /// <summary>
     /// Gets the task that completes when the module execution finishes.
@@ -117,7 +120,7 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     /// </summary>
     public bool IsStarted { get; private set; }
 
-    private readonly object _startLock = new();
+    private readonly Lock _startLock = new();
 
     /// <summary>
     /// Sets the module result as successful.
@@ -174,21 +177,15 @@ internal class ModuleExecutionContext : IModuleExecutionContext
 /// <summary>
 /// Typed execution context for modules with a specific result type.
 /// </summary>
-internal class ModuleExecutionContext<T> : ModuleExecutionContext
+internal class ModuleExecutionContext<T>(Module<T> module, Type moduleType) : ModuleExecutionContext(module, moduleType)
 {
     private readonly TaskCompletionSource<ModuleResult<T>> _typedResultSource =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-    public ModuleExecutionContext(Module<T> module, Type moduleType)
-        : base(module, moduleType)
-    {
-        TypedModule = module;
-    }
-
     /// <summary>
     /// Gets the strongly-typed module.
     /// </summary>
-    public Module<T> TypedModule { get; }
+    public Module<T> TypedModule { get; } = module;
 
     /// <summary>
     /// Gets the task that completes with the typed result.

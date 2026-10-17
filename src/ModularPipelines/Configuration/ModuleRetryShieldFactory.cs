@@ -4,10 +4,10 @@ namespace ModularPipelines.Configuration;
 
 internal static class ModuleRetryShieldFactory
 {
-    internal static Shield Create(ModuleRetryConfiguration configuration)
+    internal static Shield Create(ModuleRetryConfiguration configuration, Func<Exception, bool>? shouldRetry = null)
     {
         return Shield
-            .When(configuration.ShouldRetry ?? (static _ => true))
+            .When(shouldRetry ?? configuration.ShouldRetry ?? (static _ => true))
             .Retry(
                 configuration.Count,
                 Backoff.Custom(retryAttempt => CalculateDelay(
