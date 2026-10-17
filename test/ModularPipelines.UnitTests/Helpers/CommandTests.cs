@@ -1518,6 +1518,34 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Waits_For_Retained_Process_When_Cleanup_Lookup_Fails()
+    {
+        await using var ownerFixture = new ProcessTreeFixture();
+        ownerFixture.Start(await GetService<ICommandContext>(), "graceful-exit", TimeSpan.FromMilliseconds(50));
+        var parent = await ownerFixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        var lookupObserved = false;
+        await using var fixture = new ProcessTreeFixture(_ =>
+        {
+            lookupObserved = true;
+            return null;
+        });
+        var identity = ModularPipelines.ProcessTestHost.ProcessIdentity.Capture(parent);
+        await File.WriteAllTextAsync(Path.Combine(fixture.DirectoryPath, "parent.pid"),
+            System.Text.Json.JsonSerializer.Serialize(identity));
+        await fixture.WaitForProcessAsync("parent", TimeSpan.FromSeconds(5));
+
+        // Only the owner can release the live process; the failed lookup must not end cleanup.
+        var cleanup = fixture.DisposeAsync().AsTask();
+        await Assert.That(lookupObserved).IsTrue();
+        await Assert.That(cleanup.IsCompleted).IsFalse();
+
+        await ownerFixture.TriggerAsync("parent-exit");
+        await cleanup.WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(Directory.Exists(fixture.DirectoryPath)).IsFalse();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Cleans_Up_Child_Whose_Parent_Never_Published_It()
     {
         await using var fixture = new ProcessTreeFixture();
