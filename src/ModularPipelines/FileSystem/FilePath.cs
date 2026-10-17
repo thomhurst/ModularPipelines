@@ -373,6 +373,11 @@ public class FilePath : IEquatable<FilePath>
             await using (destStream.ConfigureAwait(false))
             {
                 await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+                if (FileCopyMetadata.UsesUnixPermissions(_provider))
+                {
+                    await destStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                    FileCopyMetadata.CopyUnixPermissions(_provider, sourceStream, destStream);
+                }
             }
         }
 

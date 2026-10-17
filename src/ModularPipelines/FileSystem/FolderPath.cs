@@ -354,6 +354,8 @@ public class FolderPath : IEquatable<FolderPath>
             _provider.CreateDirectory(newPath);
         }
 
+        var copyUnixMetadata = FileCopyMetadata.UsesUnixPermissions(_provider);
+
         // Copy all files using async stream copying
         foreach (var filePath in files)
         {
@@ -369,9 +371,20 @@ public class FolderPath : IEquatable<FolderPath>
                 await using (destStream.ConfigureAwait(false))
                 {
                     await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+                    if (copyUnixMetadata)
+                    {
+                        await destStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                        CopyMetadata((FileStream) sourceStream, (FileStream) destStream, preserveTimestamps);
+                        // Restore permissions last because read-only attributes can change the Unix mode.
+                        FileCopyMetadata.CopyUnixPermissions(_provider, sourceStream, destStream);
+                    }
                 }
             }
-            CopyMetadata(filePath, newPath, preserveTimestamps);
+
+            if (!copyUnixMetadata)
+            {
+                CopyMetadata(filePath, newPath, preserveTimestamps);
+            }
         }
 
         // Creating child entries changes directory timestamps, so restore metadata after all writes.
@@ -744,6 +757,20 @@ public class FolderPath : IEquatable<FolderPath>
         }
 
         return resolvedPath;
+    }
+
+    private static void CopyMetadata(FileStream sourceStream, FileStream destinationStream, bool preserveTimestamps)
+    {
+        var sourceHandle = sourceStream.SafeFileHandle;
+        var destinationHandle = destinationStream.SafeFileHandle;
+        File.SetAttributes(destinationHandle, File.GetAttributes(sourceHandle));
+
+        if (preserveTimestamps)
+        {
+            File.SetCreationTimeUtc(destinationHandle, File.GetCreationTimeUtc(sourceHandle));
+            File.SetLastWriteTimeUtc(destinationHandle, File.GetLastWriteTimeUtc(sourceHandle));
+            File.SetLastAccessTimeUtc(destinationHandle, File.GetLastAccessTimeUtc(sourceHandle));
+        }
     }
 
     private void CopyMetadata(
