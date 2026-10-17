@@ -3605,3 +3605,9 @@ ModularPipelines.PipelineBuilder.RunOnlyTags(params string![]! tags) -> ModularP
 ModularPipelines.PipelineBuilder.IgnoreTags(params string![]! tags) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.IModuleContext.Attempt.get -> int
 ModularPipelines.ModuleConfigurationBuilder.WithRetry(System.Func<ModularPipelines.IModuleContext!, System.Exception!, int, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! shouldRetryAsync, int count, System.TimeSpan? baseDelay = null, System.TimeSpan? maxDelay = null) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.Options.CommandExecutionOptions.StandardInput.get -> string?
+ModularPipelines.Options.CommandExecutionOptions.StandardInput.init -> void
+ModularPipelines.Options.CommandExecutionOptions.StandardInputIsSecret.get -> bool
+ModularPipelines.Options.CommandExecutionOptions.StandardInputIsSecret.init -> void
+ModularPipelines.Options.CommandExecutionOptions.SuccessExitCodes.get -> System.Collections.Generic.IReadOnlyCollection<int>!
+ModularPipelines.Options.CommandExecutionOptions.SuccessExitCodes.init -> void

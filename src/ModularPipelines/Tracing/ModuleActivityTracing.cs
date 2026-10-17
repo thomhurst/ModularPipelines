@@ -150,10 +150,10 @@ internal static class ModuleActivityTracing
         activity?.SetTag(CommandInputTag, obfuscatedCommandInput);
     }
 
-    internal static void RecordCommandResult(Activity? activity, CommandResult result)
+    internal static void RecordCommandResult(Activity? activity, CommandResult result, bool? isSuccess = null)
     {
         activity?.SetTag(CommandExitCodeTag, result.ExitCode);
-        activity?.SetStatus(result.ExitCode == 0 ? ActivityStatusCode.Ok : ActivityStatusCode.Error);
+        activity?.SetStatus((isSuccess ?? result.ExitCode == 0) ? ActivityStatusCode.Ok : ActivityStatusCode.Error);
     }
 
     internal static void RecordCommandFailure(

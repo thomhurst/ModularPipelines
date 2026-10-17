@@ -7,6 +7,8 @@ namespace ModularPipelines.Options;
 /// </summary>
 public record CommandExecutionOptions
 {
+    private IReadOnlyCollection<int> _successExitCodes = [0];
+
     internal static TimeSpan DefaultExecutionTimeout { get; } = TimeSpan.FromMinutes(30);
 
     internal const int DefaultMaxCapturedOutputLength = 1024 * 1024;
@@ -26,6 +28,24 @@ public record CommandExecutionOptions
     /// A byte order mark in either stream takes precedence over this encoding.
     /// </summary>
     public Encoding OutputEncoding { get; init; } = Encoding.UTF8;
+
+    /// <summary>
+    /// Gets text to write to standard input as UTF-8 without a byte order mark or an added newline.
+    /// Standard input closes after the text is written. Null closes it immediately.
+    /// The text is never included in the command line. To mask echoed input in logs and failure diagnostics,
+    /// set <see cref="StandardInputIsSecret"/> or register individual sensitive values with
+    /// <see cref="ModularPipelines.Secrets.ISecretRegistry"/> before execution.
+    /// </summary>
+    public string? StandardInput { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether to register all of <see cref="StandardInput"/> for secret masking.
+    /// Defaults to false so scripts and documents do not expand into pipeline-wide secret patterns.
+    /// Set to true for passwords or other small secret payloads. Registration retains the input and its
+    /// encoded and per-line variants for the pipeline lifetime; for large input, register only sensitive
+    /// values with <see cref="ModularPipelines.Secrets.ISecretRegistry"/> instead.
+    /// </summary>
+    public bool StandardInputIsSecret { get; init; }
 
     /// <summary>
     /// Gets the credentials used to start the command-line process.
@@ -65,9 +85,22 @@ public record CommandExecutionOptions
     public bool Sudo { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether to throw an exception on non-zero exit codes.
+    /// Gets a value indicating whether to throw an exception for exit codes outside
+    /// <see cref="SuccessExitCodes"/>. Set to false to disable exit-code exceptions.
     /// </summary>
     public bool ThrowOnNonZeroExitCode { get; init; } = true;
+
+    /// <summary>
+    /// Gets the accepted exit codes. Defaults to only zero. A supplied collection replaces this default;
+    /// include zero explicitly to continue accepting it. An empty collection accepts no exit codes.
+    /// These codes also determine success in command logs and telemetry, even when
+    /// <see cref="ThrowOnNonZeroExitCode"/> is false.
+    /// </summary>
+    public IReadOnlyCollection<int> SuccessExitCodes
+    {
+        get => _successExitCodes;
+        init => _successExitCodes = value ?? throw new ArgumentNullException(nameof(SuccessExitCodes));
+    }
 
     /// <summary>
     /// Gets the maximum time allowed for the command to complete.
@@ -104,4 +137,7 @@ public record CommandExecutionOptions
     internal bool InternalDryRun { get; set; }
 
     internal Task? InternalForcefulCancellationReady { get; init; }
+
+    internal bool ShouldThrowForExitCode(int exitCode) =>
+        ThrowOnNonZeroExitCode && !SuccessExitCodes.Contains(exitCode);
 }
