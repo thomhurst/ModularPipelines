@@ -64,6 +64,7 @@
 - [Analyzers](/docs/how-to/analyzers.md): Modular Pipelines includes Roslyn analyzers that catch pipeline authoring mistakes at compile time. Each rule uses the MP#### ID family, so it can be configured with standard .NET analyzer settings.
 - [Asynchronous file hashing and ZIP operations](/docs/how-to/async-file-operations.md): Use the async file helpers for cancellable stream copying and hashing. Pass the
 - [Generate build server files](/docs/how-to/build-server-files.md): The ModularPipelines package can create the minimal YAML needed to run a
+- [Publish CI outputs and annotations](/docs/how-to/build-system-context.md): Use context.Environment.BuildSystem from a module or pipeline context. These
 - [Cancellation Tokens](/docs/how-to/cancellation-tokens.md): When you override a Module's ExecuteAsync method, you are provided a CancellationToken by the framework.
 - [Categories](/docs/how-to/categories.md): Sometimes we want to run only certain parts of a pipeline, or we might want to split a pipeline up into different targets. For instance, a test run, and then later on a deploy run. Categories can help achieve that.
 - [Command Line](/docs/how-to/command-line.md): Pass the application's args to Pipeline.CreateBuilder(args) to enable the
