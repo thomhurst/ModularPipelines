@@ -227,8 +227,11 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
                     // Every fixture process is tracked here, so kill each one alone: a tree kill
                     // can freeze macOS arm64 runners (dotnet/runtime#131944).
                     currentProcess.Kill();
-                    await currentProcess.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
                 }
+
+                // Cancellation can make the fresh identity lookup fail while the retained
+                // process is still exiting. Observe that handle before reporting cleanup complete.
+                await process.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (InvalidOperationException) when (process.HasExited)
             {
