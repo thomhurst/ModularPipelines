@@ -1,5 +1,3 @@
-using ModularPipelines.Context;
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context.Domains.Implementations;
@@ -7,49 +5,38 @@ namespace ModularPipelines.Context.Domains.Implementations;
 /// <summary>
 /// Provides generic software installation capabilities.
 /// </summary>
-internal class InstallersContext : IInstallersContext
+/// <remarks>
+/// Initializes a new instance of the <see cref="InstallersContext"/> class.
+/// </remarks>
+/// <param name="command">The command context.</param>
+/// <param name="downloader">The downloader context.</param>
+/// <param name="workingDirectory">The pipeline working directory.</param>
+internal class InstallersContext(
+    ICommandContext command,
+    IDownloaderContext downloader,
+    PipelineWorkingDirectory workingDirectory) : IInstallersContext
 {
-    private readonly ICommandContext _command;
-    private readonly IDownloaderContext _downloader;
-    private readonly IBashContext _bash;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="InstallersContext"/> class.
-    /// </summary>
-    /// <param name="command">The command context.</param>
-    /// <param name="downloader">The downloader context.</param>
-    /// <param name="bash">The Bash context.</param>
-    public InstallersContext(
-        ICommandContext command,
-        IDownloaderContext downloader,
-        IBashContext bash)
-    {
-        _command = command;
-        _downloader = downloader;
-        _bash = bash;
-    }
+    private readonly ICommandContext _command = command;
+    private readonly IDownloaderContext _downloader = downloader;
+    private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> InstallAsync(
         InstallerOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (OperatingSystem.IsWindows())
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var path = _workingDirectory.ResolvePath(options.Path);
+        if (!OperatingSystem.IsWindows())
         {
-            return await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(options.Path)
-            {
-                Arguments = options.Arguments ?? Array.Empty<string>(),
-            }, null, cancellationToken).ConfigureAwait(false);
+            File.SetUnixFileMode(path, File.GetUnixFileMode(path) | UnixFileMode.UserExecute);
         }
 
-        var escapedPath = ShellArgumentEscaper.Escape(options.Path);
-        await _bash.RunAsync(
-            new BashCommandOptions($"chmod u+x {escapedPath}"),
-            cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        return await _bash.RunFileAsync(
-            new BashFileOptions(options.Path),
-            cancellationToken: cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(path)
+        {
+            Arguments = options.Arguments ?? [],
+        }, null, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -61,9 +48,16 @@ internal class InstallersContext : IInstallersContext
             new DownloadFileOptions(options.DownloadUri),
             cancellationToken).ConfigureAwait(false);
 
-        return await InstallAsync(new InstallerOptions(file.Path)
+        try
         {
-            Arguments = options.Arguments,
-        }, cancellationToken).ConfigureAwait(false);
+            return await InstallAsync(new InstallerOptions(file.Path)
+            {
+                Arguments = options.Arguments,
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            file.Delete();
+        }
     }
 }
