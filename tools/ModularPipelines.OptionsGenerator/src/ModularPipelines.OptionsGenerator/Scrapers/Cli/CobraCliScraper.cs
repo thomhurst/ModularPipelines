@@ -699,12 +699,16 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
             return OptionEnumFactory.TryCreate(className, propertyName, switchName, descriptionMatch.Values);
         }
 
-        return TryCreateEnumDefinition(
-                   propertyName,
-                   className,
-                   switchName,
-                   AllowedValuesPattern().Match(description))
-               ?? TryCreateEnumDefinitionFromTypeHint(propertyName, className, switchName, typeHint);
+        foreach (Match match in AllowedValuesPattern().Matches(description))
+        {
+            if (!DescriptionEnumValueParser.DescribesComponentChoices(description, match)
+                && TryCreateEnumDefinition(propertyName, className, switchName, match) is { } definition)
+            {
+                return definition;
+            }
+        }
+
+        return TryCreateEnumDefinitionFromTypeHint(propertyName, className, switchName, typeHint);
     }
 
     private static CliEnumDefinition? TryCreateEnumDefinition(

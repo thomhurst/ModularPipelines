@@ -1853,12 +1853,15 @@ public abstract partial class CliScraperBase : ICliScraper
     /// scraper did not capture one.
     /// </param>
     /// <param name="looksLikeOptionRow">Returns whether a line matches the scraper's option pattern.</param>
+    /// <param name="joinHyphenatedWords">Whether the tool wraps compound words and URLs after hyphens.</param>
     protected internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
-        Func<string, bool> looksLikeOptionRow) =>
-        AccumulateWrappedDescription(lines, ref declarationIndex, inlineDescription, looksLikeOptionRow, null);
+        Func<string, bool> looksLikeOptionRow,
+        bool joinHyphenatedWords = false) =>
+        AccumulateWrappedDescription(lines, ref declarationIndex, inlineDescription, looksLikeOptionRow, null,
+            joinHyphenatedWords: joinHyphenatedWords);
 
     /// <summary>
     /// Accumulates wrapped prose using caller captures to distinguish nested declarations
@@ -1873,13 +1876,15 @@ public abstract partial class CliScraperBase : ICliScraper
     /// for a declaration without prose, or null when the caller grammar does not match.
     /// </param>
     /// <param name="allowParagraphBreaks">Whether aligned prose may continue after blank lines.</param>
+    /// <param name="joinHyphenatedWords">Whether the tool wraps compound words and URLs after hyphens.</param>
     internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
         Func<string, bool> looksLikeOptionRow,
         Func<string, Group?>? captureInlineDescription,
-        bool allowParagraphBreaks = false)
+        bool allowParagraphBreaks = false,
+        bool joinHyphenatedWords = false)
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
@@ -1915,7 +1920,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 break;
             }
 
-            AppendDescriptionContinuation(parts, candidate.Trim());
+            AppendDescriptionContinuation(parts, candidate.Trim(), joinHyphenatedWords);
 
             declarationIndex = candidateIndex;
 
@@ -1954,13 +1959,15 @@ public abstract partial class CliScraperBase : ICliScraper
         return candidateIndex;
     }
 
-    private static void AppendDescriptionContinuation(List<string> parts, string continuation)
+    private static void AppendDescriptionContinuation(List<string> parts, string continuation, bool joinHyphenatedWords)
     {
         // Help formatters can wrap a long option reference at an internal hyphen.
         // Keep ordinary prose hyphens and standalone option terminators unchanged.
         if (parts.Count > 0
             && char.IsAsciiLetterOrDigit(continuation[0])
-            && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
+            && (WrappedLongOptionPrefixPattern().IsMatch(parts[^1])
+                || (joinHyphenatedWords && WrappedWordPrefixPattern().IsMatch(parts[^1])
+                    && !SuspendedHyphenContinuationPattern().IsMatch(continuation))))
         {
             parts[^1] += continuation;
         }
@@ -1972,6 +1979,14 @@ public abstract partial class CliScraperBase : ICliScraper
 
     [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]
     private static partial Regex WrappedLongOptionPrefixPattern();
+
+    // Azure's text wrapper breaks compound words and URLs after real hyphens.
+    // Join only physical continuations, preserving the hyphen and suspended prose.
+    [GeneratedRegex(@"[A-Za-z0-9]-$")]
+    private static partial Regex WrappedWordPrefixPattern();
+
+    [GeneratedRegex(@"^(?:and|or|to|through|versus|vs|nor|but)(?:\s|$)", RegexOptions.IgnoreCase)]
+    private static partial Regex SuspendedHyphenContinuationPattern();
 
     /// <summary>
     /// Creates a typed option from a clap declaration and its parsed help block.

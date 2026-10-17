@@ -103,8 +103,10 @@ public class GcloudGlobalOptionsTests
         var classes = await new OptionsClassGenerator().GenerateAsync(tool);
         await Assert.That(classes.Single(file => file.RelativePath.Contains("GcloudListOptions")).Content)
             .DoesNotContain("public override string? Project");
-        await Assert.That(classes.Single(file => file.RelativePath.Contains("GcloudCreateOptions")).Content)
-            .Contains("public new string Project { get; private init; }");
+        var createClass = classes.Single(file => file.RelativePath.Contains("GcloudCreateOptions")).Content;
+        await Assert.That(createClass).Contains("public new string Project");
+        await Assert.That(createClass).Contains("get => base.Project!;");
+        await Assert.That(createClass).Contains("private init => base.Project = value;");
     }
 
     [Test]

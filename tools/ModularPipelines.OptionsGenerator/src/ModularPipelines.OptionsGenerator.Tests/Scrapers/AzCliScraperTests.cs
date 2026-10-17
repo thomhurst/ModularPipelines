@@ -10,6 +10,53 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class AzCliScraperTests
 {
     [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Wrapped_Hyphenated_Tokens_Preserve_Words_Urls_And_Row_Boundaries(string newline)
+    {
+        // Reduced migration help from #6536 and installed containerapp github-action add help.
+        var help = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Azure", "wrapped-hyphens.txt"))
+            .ReplaceLineEndings(newline);
+        var command = await new TestAzCliScraper().Parse(["az", "devops", "migration", "create"], help);
+        await Assert.That(command!.Options.Select(option => option.SwitchName)).IsEquivalentTo(
+            ["--validate-only", "--token", "--prose", "--suspended", "--terminator", "--boundary", "--next"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--validate-only").Description)
+            .IsEqualTo("Create in validate-only mode (pre-migration checks only).");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--token").Description)
+            .IsEqualTo("A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--prose").Description)
+            .IsEqualTo("Use separate words and platform-specific wheels.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--suspended").Description)
+            .IsEqualTo("Use pre- and post-migration checks.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--terminator").Description)
+            .IsEqualTo("Use -- before operands.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--boundary").Description)
+            .IsEqualTo("Use pre-");
+    }
+
+    [Test]
+    [Arguments("Use pre-", "and post-migration checks.", "Use pre- and post-migration checks.")]
+    [Arguments("Use client-", "or server-side settings.", "Use client- or server-side settings.")]
+    [Arguments("Use short-", "to medium-term settings.", "Use short- to medium-term settings.")]
+    [Arguments("Compare pre-", "versus post-migration checks.", "Compare pre- versus post-migration checks.")]
+    [Arguments("Use read-", "through write-access checks.", "Use read- through write-access checks.")]
+    [Arguments("Compare pre-", "vs post-migration checks.", "Compare pre- vs post-migration checks.")]
+    [Arguments("Use neither pre-", "nor post-migration checks.", "Use neither pre- nor post-migration checks.")]
+    [Arguments("Use pre-", "but not post-migration checks.", "Use pre- but not post-migration checks.")]
+    [Arguments("Use short-", "TO medium-term settings.", "Use short- TO medium-term settings.")]
+    [Arguments("A dash -", "separates clauses.", "A dash - separates clauses.")]
+    [Arguments("See https://example.com/pre-", "and/post-checks.", "See https://example.com/pre-and/post-checks.")]
+    [Arguments("See https://example.com/short-", "to/medium-term.", "See https://example.com/short-to/medium-term.")]
+    [Arguments("See https://example.com/pre-", "versus/post-checks.", "See https://example.com/pre-versus/post-checks.")]
+    [Arguments("Use pre-", "tokenized input.", "Use pre-tokenized input.")]
+    public async Task Wrapped_Hyphens_Distinguish_Prose_From_Url_Paths(string first, string second, string expected)
+    {
+        var help = $"Arguments\n    --name : {first}\n             {second}\n";
+        var command = await new TestAzCliScraper().Parse(["az", "test"], help);
+        await Assert.That(command!.Options.Single().Description).IsEqualTo(expected);
+    }
+
+    [Test]
     [Arguments("--404-document", "Number404Document")]
     [Arguments("--use-32bit-worker-process", "UseNumber32bitWorkerProcess")]
     public async Task Digit_Leading_Option_Segments_Use_Shared_Names_Without_Changing_Switches(

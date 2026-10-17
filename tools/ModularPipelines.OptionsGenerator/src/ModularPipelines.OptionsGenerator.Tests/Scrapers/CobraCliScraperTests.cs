@@ -252,6 +252,101 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("Templates use <key>=<value>")]
+    [Arguments("Reference <kind>/<name>, where kind must be one of: Secret, ConfigMap")]
+    [Arguments("Reference <kind>/<name>, where kind has allowed values: - Secret - ConfigMap")]
+    public async Task Type_Hint_Preserves_Choices_Alongside_Composite_Prose(string description)
+    {
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode Foo|Bar   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNotNull();
+        await Assert.That(command.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+    }
+
+    [Test]
+    [Arguments("Allowed values: json, yaml; templates use <key>=<value>")]
+    [Arguments("Templates use <key>=<value>. Allowed values: json, yaml")]
+    [Arguments("Templates use <key>=<value>. Allowed values: - json - yaml")]
+    public async Task Description_Preserves_Whole_Value_Choices_Alongside_Composite_Prose(string description)
+    {
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode string   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNotNull();
+        await Assert.That(command.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
+    public async Task Description_Rejects_Component_Bullet_Choices()
+    {
+        const string helpText = "Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   Reference <kind>/<name>, where kind has allowed values: - Secret - ConfigMap\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    [Arguments("can be")]
+    [Arguments("may be")]
+    [Arguments("should be")]
+    [Arguments("shall be")]
+    [Arguments("will be")]
+    [Arguments("would be")]
+    [Arguments("could be")]
+    [Arguments("might be")]
+    public async Task Component_Choices_With_Modals_Preserve_Composite_Values_And_Type_Hints(string modal)
+    {
+        var description = $"Reference <kind>/<name>, where kind {modal} one of: Secret, ConfigMap";
+        var bulletDescription = $"Reference <kind>/<name>, where <kind> {modal} allowed values: - Secret - ConfigMap";
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   {description}\n  --bullet string   {bulletDescription}\n  --hint Foo|Bar   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        var reference = command!.Options.Single(option => option.SwitchName == "--reference");
+        await Assert.That(reference.EnumDefinition).IsNull();
+        await Assert.That(reference.CSharpType).IsEqualTo("string?");
+        var bullet = command.Options.Single(option => option.SwitchName == "--bullet");
+        await Assert.That(bullet.EnumDefinition).IsNull();
+        await Assert.That(bullet.CSharpType).IsEqualTo("string?");
+        var hint = command.Options.Single(option => option.SwitchName == "--hint");
+        await Assert.That(hint.EnumDefinition).IsNotNull();
+        await Assert.That(hint.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+    }
+
+    [Test]
+    [Arguments("the kind value must be")]
+    [Arguments("the <kind> field can be")]
+    [Arguments("kind component may be")]
+    [Arguments("the kind field is")]
+    [Arguments("kind must be", ": ")]
+    [Arguments("the <kind> field can be", ": ")]
+    public async Task Component_Noun_Phrases_Preserve_Composite_Values_And_Type_Hints(string subject, string separator = ", where ")
+    {
+        var description = $"Reference <kind>/<name>{separator}{subject} one of: Secret, ConfigMap";
+        var bulletDescription = $"Reference <kind>/<name>{separator}{subject} allowed values: - Secret - ConfigMap";
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   {description}\n  --bullet string   {bulletDescription}\n  --hint Foo|Bar   {description}\n  --output string   {description}. Output format has allowed values: json, yaml\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        foreach (var switchName in new[] { "--reference", "--bullet" })
+        {
+            var option = command!.Options.Single(option => option.SwitchName == switchName);
+            await Assert.That(option.EnumDefinition).IsNull();
+            await Assert.That(option.CSharpType).IsEqualTo("string?");
+        }
+
+        var hint = command!.Options.Single(option => option.SwitchName == "--hint");
+        await Assert.That(hint.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+        var output = command.Options.Single(option => option.SwitchName == "--output");
+        await Assert.That(output.EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
     public async Task Type_Hint_Preserves_Long_Choices()
     {
         const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";

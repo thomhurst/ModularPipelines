@@ -423,7 +423,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                 var propertyName = NormalizePropertyName(name)
                     ?? throw new InvalidOperationException($"Azure CLI positional '{name}' has no valid property name.");
                 var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"],
-                    IsPositionalRow);
+                    IsPositionalRow, joinHyphenatedWords: true);
                 var passthrough = AzPositionalTerminatorPattern().IsMatch(description);
                 var type = shape.IsInteger ? "int" : "string";
                 if (shape.IsCollection)
@@ -484,7 +484,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
-        var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
+        var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow,
+            joinHyphenatedWords: true);
 
         var propertyName = NormalizePropertyName(longFlag);
         if (propertyName is null)

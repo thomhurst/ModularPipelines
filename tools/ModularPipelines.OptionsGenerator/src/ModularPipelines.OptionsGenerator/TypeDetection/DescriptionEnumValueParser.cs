@@ -19,23 +19,47 @@ internal static partial class DescriptionEnumValueParser
             return null;
         }
 
-        var explicitMatch = ExplicitValuesPattern().Match(description);
-        if (explicitMatch.Success)
+        foreach (var match in ExplicitValuesPattern().Matches(description).Cast<Match>()
+                     .Concat(QuotedOneOfValuesPattern().Matches(description).Cast<Match>()))
         {
-            return CreateMatch(explicitMatch, DescriptionEnumMatchKind.Explicit);
+            if (!DescribesComponentChoices(description, match)
+                && CreateMatch(match, DescriptionEnumMatchKind.Explicit) is { } result)
+            {
+                return result;
+            }
         }
 
-        var quotedMatch = QuotedOneOfValuesPattern().Match(description);
-        if (quotedMatch.Success)
+        foreach (Match match in ContextualParenthesizedValuesPattern().Matches(description))
         {
-            return CreateMatch(quotedMatch, DescriptionEnumMatchKind.Explicit);
+            if (!DescribesComponentChoices(description, match)
+                && CreateMatch(match, DescriptionEnumMatchKind.ContextualParenthesized) is { } result)
+            {
+                return result;
+            }
         }
 
-        var parenthesizedMatch = ContextualParenthesizedValuesPattern().Match(description);
-        return parenthesizedMatch.Success
-            ? CreateMatch(parenthesizedMatch, DescriptionEnumMatchKind.ContextualParenthesized)
-            : null;
+        return null;
     }
+
+    internal static bool DescribesComponentChoices(string description, Match choicesMatch)
+    {
+        var subject = ComponentChoiceSubjectPattern().Match(description[..choicesMatch.Index]);
+        if (!subject.Success)
+        {
+            return false;
+        }
+
+        var component = subject.Groups["component"].Value;
+        return CompositeValuePattern().Matches(description).Cast<Match>()
+            .SelectMany(match => match.Groups["component"].Captures.Cast<Capture>())
+            .Any(capture => string.Equals(capture.Value.Trim('<', '>'), component, StringComparison.OrdinalIgnoreCase));
+    }
+
+    [GeneratedRegex(@"(?<component><[\w-]+>)(?:[/.:=](?<component><[\w-]+>))+")]
+    private static partial Regex CompositeValuePattern();
+
+    [GeneratedRegex(@"(?:^|[,;:.!?\r\n]|\bwhere\s+)\s*(?:where\s+)?(?:the\s+)?<?(?<component>[\w-]+)>?(?:\s+[\w-]+)*\s*$", RegexOptions.IgnoreCase)]
+    private static partial Regex ComponentChoiceSubjectPattern();
 
     public static string[]? TryParseValues(string valuesText)
     {
