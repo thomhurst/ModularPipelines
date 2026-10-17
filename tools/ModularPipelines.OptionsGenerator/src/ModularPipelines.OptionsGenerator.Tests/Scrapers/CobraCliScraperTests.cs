@@ -252,6 +252,44 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("Templates use <key>=<value>")]
+    [Arguments("Reference <kind>/<name>, where kind must be one of: Secret, ConfigMap")]
+    [Arguments("Reference <kind>/<name>, where kind has allowed values: - Secret - ConfigMap")]
+    public async Task Type_Hint_Preserves_Choices_Alongside_Composite_Prose(string description)
+    {
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode Foo|Bar   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNotNull();
+        await Assert.That(command.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["Foo", "Bar"]);
+    }
+
+    [Test]
+    [Arguments("Allowed values: json, yaml; templates use <key>=<value>")]
+    [Arguments("Templates use <key>=<value>. Allowed values: json, yaml")]
+    [Arguments("Templates use <key>=<value>. Allowed values: - json - yaml")]
+    public async Task Description_Preserves_Whole_Value_Choices_Alongside_Composite_Prose(string description)
+    {
+        var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --mode string   {description}\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNotNull();
+        await Assert.That(command.Options.Single().EnumDefinition!.Values.Select(value => value.CliValue))
+            .IsEquivalentTo(["json", "yaml"]);
+    }
+
+    [Test]
+    public async Task Description_Rejects_Component_Bullet_Choices()
+    {
+        const string helpText = "Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   Reference <kind>/<name>, where kind has allowed values: - Secret - ConfigMap\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
+
+        await Assert.That(command!.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
     public async Task Type_Hint_Preserves_Long_Choices()
     {
         const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";

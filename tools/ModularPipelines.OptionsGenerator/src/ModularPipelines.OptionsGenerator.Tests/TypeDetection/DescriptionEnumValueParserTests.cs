@@ -7,9 +7,26 @@ public class DescriptionEnumValueParserTests
     [Test]
     [Arguments("Reference in the format '<kind>/<name>', where kind must be one of: (Secret,ConfigMap)")]
     [Arguments("Reference in the format '<kind>/<name>.<namespace>', where kind must be one of: (OCIRepository,HelmChart)")]
+    [Arguments("Reference <kind>/<name>, where <kind> must be one of: Secret, ConfigMap")]
+    [Arguments("Reference <kind>/<name>, where kind must be 'Secret' or 'ConfigMap'")]
+    [Arguments("Reference <kind>/<name>, where kind has allowed values: Secret, ConfigMap")]
     public async Task TryParse_Rejects_Choices_For_Composite_Value_Components(string description)
     {
         await Assert.That(DescriptionEnumValueParser.TryParse(description)).IsNull();
+    }
+
+    [Test]
+    [Arguments("Allowed values: json, yaml; templates use <key>=<value>")]
+    [Arguments("Templates use <key>=<value>. Allowed values: json, yaml")]
+    [Arguments("Templates use <key>=<value>. Must be 'json' or 'yaml'")]
+    [Arguments("Templates use <key>=<value>. Output format (json, yaml)")]
+    [Arguments("Reference <kind>/<name>, where kind must be one of: Secret, ConfigMap. Allowed values: json, yaml")]
+    public async Task TryParse_Preserves_Whole_Value_Choices_Alongside_Composite_Prose(string description)
+    {
+        var result = DescriptionEnumValueParser.TryParse(description);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Values).IsEquivalentTo(["json", "yaml"]);
     }
 
     [Test]
