@@ -75,7 +75,7 @@ internal class Downloader(
 
     public async Task<HttpResponseMessage> DownloadResponseAsync(DownloadOptions options, CancellationToken cancellationToken = default)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, options.DownloadUri);
+        using var request = new HttpRequestMessage(HttpMethod.Get, options.DownloadUri);
 
         options.RequestConfigurator?.Invoke(request);
 
