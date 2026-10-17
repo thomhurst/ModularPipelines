@@ -25,6 +25,14 @@ Modules can retrieve other modules and access information from them.
 Installed tool integrations are available from the discoverable `context.Tools` surface:
 
 ```
+using ModularPipelines;
+
+using ModularPipelines.Context;
+
+using ModularPipelines.DotNet.Options;
+
+
+
 await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 
 {
@@ -34,7 +42,7 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 }, cancellationToken: cancellationToken);
 ```
 
-`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access was removed in v4.
+`context.Tools.DotNet` is the canonical API. Import `ModularPipelines.Context`, where the source generator emits the tool extension properties, and `ModularPipelines.DotNet.Options` for the option types. Extension properties require C# 14 or later. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access was removed in v4.
 
 ## Strong Typing[​](#strong-typing "Direct link to Strong Typing")
 
