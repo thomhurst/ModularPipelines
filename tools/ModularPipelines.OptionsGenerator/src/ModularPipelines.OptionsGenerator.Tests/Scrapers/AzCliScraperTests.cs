@@ -57,6 +57,29 @@ public class AzCliScraperTests
     }
 
     [Test]
+    [Arguments("rwxrw-rw-", "with sticky bit", "rwxrw-rw- with sticky bit")]
+    [Arguments("rwxrw-rw-", "without sticky bit", "rwxrw-rw- without sticky bit")]
+    [Arguments("rwsrwSrw-", "with set-ID bits", "rwsrwSrw- with set-ID bits")]
+    [Arguments("-wxrw-rw-", "for this file", "-wxrw-rw- for this file")]
+    [Arguments("rwxrw-", "rwx with sticky bit", "rwxrw-rwx with sticky bit")]
+    [Arguments("https://example.com/rwxrw-rw-", "with-details", "https://example.com/rwxrw-rw-with-details")]
+    [Arguments("prefix-rwxrw-rw-", "suffix", "prefix-rwxrw-rw-suffix")]
+    [Arguments("--rwxrw-rw-", "option", "--rwxrw-rw-option")]
+    public async Task Wrapped_Permission_Masks_Preserve_Prose_Separators(
+        string first, string second, string expected)
+    {
+        var help = $"Arguments\n    --permissions : POSIX permissions (e.g. {first}\n                    {second}).\n";
+        var scraper = new TestAzCliScraper();
+        var command = (await scraper.Parse(["az", "storage", "fs", "file", "create"], help))!;
+        var description = $"POSIX permissions (e.g. {expected}).";
+
+        await Assert.That(command.Options.Single().Description).IsEqualTo(description);
+        var files = await new OptionsClassGenerator().GenerateAsync(
+            scraper.CreateToolDefinition() with { Commands = [command] });
+        await Assert.That(files.Single().Content).Contains($"/// {description}");
+    }
+
+    [Test]
     [Arguments("--404-document", "Number404Document")]
     [Arguments("--use-32bit-worker-process", "UseNumber32bitWorkerProcess")]
     public async Task Digit_Leading_Option_Segments_Use_Shared_Names_Without_Changing_Switches(
