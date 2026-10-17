@@ -186,7 +186,7 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
         CancellationToken cancellationToken) =>
         throw new InvalidOperationException("Shared traversal must pass its parsed synopsis.");
 
-    protected override Task<CliCommandDefinition?> ParseCommandAsync(
+    protected override async Task<CliCommandDefinition?> ParseCommandAsync(
         string[] commandPath,
         string helpText,
         UsageSynopsisParseResult usage,
@@ -197,7 +197,7 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
         if (commandParts.Length == 0)
         {
             // This is just the root command, skip it
-            return Task.FromResult<CliCommandDefinition?>(null);
+            return null;
         }
 
         usage = NormalizeCommandGroupUsage(commandParts, usage);
@@ -210,6 +210,50 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
 
         // Parse options from the help text
         var options = ParseOptions(helpText, commandParts);
+
+        // Destroy delegates to apply, and both commands document shared planning options
+        // by referring to plan's help instead of repeating those option rows.
+        if (commandParts is ["apply" or "destroy"])
+        {
+            var sharedOptions = new List<CliOptionDefinition>();
+            if (commandParts is ["destroy"])
+            {
+                var applyHelp = await GetHelpTextAsync([ToolName, "apply"], cancellationToken).ConfigureAwait(false);
+                if (applyHelp is not null)
+                {
+                    sharedOptions.AddRange(ParseOptions(applyHelp, commandParts));
+                }
+            }
+
+            var planHelp = await GetHelpTextAsync([ToolName, "plan"], cancellationToken).ConfigureAwait(false);
+            if (planHelp is not null)
+            {
+                sharedOptions.AddRange(ParseOptions(planHelp, commandParts, PlanCustomizationSectionPattern()));
+            }
+
+            foreach (var option in sharedOptions)
+            {
+                var index = CliOptionDefinition.FindIndexBySwitch(options, option.SwitchName);
+                if (index < 0)
+                {
+                    options.Add(option);
+                }
+                else if (option.AcceptsMultipleValues && !options[index].AcceptsMultipleValues)
+                {
+                    // Shared help can document repeatability omitted by the local help.
+                    options[index] = options[index] with
+                    {
+                        AcceptsMultipleValues = true,
+                        CSharpType = option.CSharpType,
+                    };
+                }
+            }
+
+            if (commandParts is ["destroy"])
+            {
+                options.RemoveAll(option => option.SwitchName is "-destroy" or "-refresh-only" or "-replace");
+            }
+        }
 
         // Terraform's state identities synopsis requires -json, but its Options section
         // omits this presence-only flag (internal/command/state_identities.go).
@@ -252,7 +296,7 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
             Enums = enums
         };
 
-        return Task.FromResult<CliCommandDefinition?>(command);
+        return command;
     }
 
     private static UsageSynopsisParseResult NormalizeCommandGroupUsage(
@@ -326,110 +370,99 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// Parses options from Terraform help text.
     /// Terraform uses single-dash flags: -flag or -option=value
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts, Regex? sectionPattern = null)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts, Regex? sectionPattern = null)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
-
-        // Find Options: section
-        var optionsMatch = (sectionPattern ?? OptionsSectionPattern()).Match(helpText);
-        if (!optionsMatch.Success)
+        foreach (Match optionsMatch in (sectionPattern ?? OptionsSectionPattern()).Matches(helpText))
         {
-            return options;
-        }
+            var sectionStart = optionsMatch.Index + optionsMatch.Length;
 
-        var sectionStart = optionsMatch.Index + optionsMatch.Length;
-
-        // Find where this section ends
-        var sectionEnd = helpText.Length;
-        var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
-        if (nextSectionMatch.Success)
-        {
-            sectionEnd = nextSectionMatch.Index;
-        }
-
-        var section = helpText[sectionStart..sectionEnd];
-        var lines = section.Split('\n');
-
-        for (var i = 0; i < lines.Length; i++)
-        {
-            var line = lines[i];
-
-            // Match Terraform option patterns:
-            // -flag           Boolean flag
-            // -option=value   Value option with default
-            // -option=PATH    Value option with type hint
-            var match = TerraformOptionPattern().Match(line);
-            if (!match.Success)
+            // Find where this section ends
+            var sectionEnd = helpText.Length;
+            var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
+            if (nextSectionMatch.Success)
             {
-                continue;
+                sectionEnd = nextSectionMatch.Index;
             }
 
-            var flagName = match.Groups["flag"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
+            var section = helpText[sectionStart..sectionEnd];
+            var lines = section.Split('\n');
 
-            if (string.IsNullOrEmpty(flagName))
+            for (var i = 0; i < lines.Length; i++)
             {
-                continue;
+                var line = lines[i];
+
+                // Match Terraform option patterns:
+                // -flag           Boolean flag
+                // -option=value   Value option with default
+                // -option=PATH    Value option with type hint
+                var match = TerraformOptionPattern().Match(line);
+                if (!match.Success)
+                {
+                    continue;
+                }
+
+                var flagName = match.Groups["flag"].Value.Trim();
+                var valueHint = match.Groups["value"].Value.Trim();
+
+                if (string.IsNullOrEmpty(flagName))
+                {
+                    continue;
+                }
+
+                // Skip duplicates
+                if (seenOptions.Contains(flagName))
+                {
+                    continue;
+                }
+
+                seenOptions.Add(flagName);
+
+                var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+
+                var propertyName = NormalizePropertyName(flagName);
+                if (propertyName is null)
+                {
+                    continue;
+                }
+
+                // Determine type based on value hint
+                var isFlag = string.IsNullOrEmpty(valueHint) &&
+                             !DescriptionIdentifiesValue(commandParts, description);
+                var isBoolean = valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                                valueHint.Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                                valueHint.Equals("bool", StringComparison.OrdinalIgnoreCase);
+                var isInteger = IsNumericHint(valueHint);
+
+                var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag, isBoolean);
+                var csharpType = GetCSharpType(isFlag || isBoolean, isInteger, acceptsMultipleValues);
+
+                options.Add(new CliOptionDefinition
+                {
+                    SwitchName = $"-{flagName}",
+                    ShortForm = null,
+                    PropertyName = propertyName,
+                    CSharpType = csharpType,
+                    Description = description,
+                    IsFlag = isFlag,
+                    IsRequired = DescriptionDeclaresRequiredOption(description),
+                    AcceptsMultipleValues = acceptsMultipleValues,
+                    IsKeyValue = false,
+                    IsNumeric = isInteger,
+                    ValueSeparator = isFlag ? " " : "=",
+                    EnumDefinition = null,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                });
             }
-
-            // Skip duplicates
-            if (seenOptions.Contains(flagName))
-            {
-                continue;
-            }
-
-            seenOptions.Add(flagName);
-
-            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
-
-            var propertyName = NormalizePropertyName(flagName);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            // Determine type based on value hint
-            var isFlag = string.IsNullOrEmpty(valueHint) &&
-                         !DescriptionIdentifiesValue(commandParts, description);
-            var isBoolean = valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                            valueHint.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-                            valueHint.Equals("bool", StringComparison.OrdinalIgnoreCase);
-            var isInteger = IsNumericHint(valueHint);
-
-            if (isBoolean)
-            {
-                isFlag = true;
-            }
-
-            var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag, isBoolean);
-            var csharpType = GetCSharpType(isFlag, isInteger, acceptsMultipleValues);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = $"-{flagName}",
-                ShortForm = null,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = DescriptionDeclaresRequiredOption(description),
-                AcceptsMultipleValues = acceptsMultipleValues,
-                IsKeyValue = false,
-                IsNumeric = isInteger,
-                ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
     }
 
-    private static string GetCSharpType(bool isFlag, bool isInteger, bool acceptsMultipleValues)
+    private static string GetCSharpType(bool isBoolean, bool isInteger, bool acceptsMultipleValues)
     {
-        var scalarType = isFlag ? "bool?" : isInteger ? "int?" : "string?";
+        var scalarType = isBoolean ? "bool?" : isInteger ? "int?" : "string?";
         return AsCSharpType(scalarType, acceptsMultipleValues);
     }
 
@@ -482,7 +515,7 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// <summary>
     /// Matches section headers.
     /// </summary>
-    [GeneratedRegex(@"^[A-Z][\w\s]*:\s*$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[A-Z][^\r\n:]*:[ \t]*\r?$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex SectionHeaderPattern();
 
     /// <summary>
@@ -492,10 +525,13 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>
-    /// Matches "Options:" section header.
+    /// Matches local option sections, including named customization sections.
     /// </summary>
-    [GeneratedRegex(@"^Options?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?!Global[ \t]+)(?:[\w-]+[ \t]+)*Options?:[ \t]*\r?\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex OptionsSectionPattern();
+
+    [GeneratedRegex(@"^Plan Customization Options:[ \t]*\r?\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex PlanCustomizationSectionPattern();
 
     [GeneratedRegex(@"^Global options(?:\s+\([^\r\n]*\))?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex GlobalOptionsSectionPattern();
@@ -505,8 +541,9 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// -flag           Description
     /// -option=value   Description
     /// -option=PATH    Description
+    /// -var 'foo=bar'   Description
     /// </summary>
-    [GeneratedRegex(@"^\s*-(?<flag>[\w-]+)(?:=(?<value>\S+))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*-(?<flag>[\w-]+)(?:=(?<value>\S+)|[ \t]+(?<value>'[^'\r\n]*'|""[^""\r\n]*""))?[ \t]{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex TerraformOptionPattern();
 
     [GeneratedRegex(@"^(?:The (?:ID|name|artifact type|directory)|A comma-separated list)\b", RegexOptions.IgnoreCase)]

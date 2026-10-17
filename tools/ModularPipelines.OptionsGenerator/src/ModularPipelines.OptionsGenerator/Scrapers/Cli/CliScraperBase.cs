@@ -2523,8 +2523,10 @@ public abstract partial class CliScraperBase : ICliScraper
         + @"|(?:can|may|must|should)\s+be\s+"
         + @"(?:specified|supplied|provided|used|passed|set|given)\s+"
         + @"(?:(?:one|zero)\s+or\s+more\s+times|multiple\s+times|more\s+than\s+once)"
+        + @"|(?<!\b(?:not|never|don't|cannot|can't)\s+)(?:use|specify|supply|provide|pass|set|give)\s+"
+        + @"(?:this|the)\s+(?:option|flag|argument)\s+(?:multiple\s+times|more\s+than\s+once)"
         + @"|(?:accepts?|specify|supply|provide|use|pass|set|give|supports?|takes?)\s+"
-        + @"(?:(?:(?:this|the)\s+(?:option|flag|argument)\s+)?(?:multiple\s+times|more\s+than\s+once)|"
+        + @"(?:(?:multiple\s+times|more\s+than\s+once)|"
         + RepeatableItemCountPattern
         + @"|multiple\s+[\w-]+)"
         + @"|(?:an?\s+)?array\s+of\s+[\w-]+)\b";
