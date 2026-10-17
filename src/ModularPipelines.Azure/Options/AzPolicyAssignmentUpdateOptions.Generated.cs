@@ -159,7 +159,7 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     public IEnumerable<string>? SelfServe { get; set; }
 
     /// <summary>
-    /// The messages that describe why a resource is non- compliant with the policy.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The messages that describe why a resource is non-compliant with the policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--non-compliance-messages", ShortForm = "-m", GroupValues = true)]
     public IEnumerable<string>? NonComplianceMessages { get; set; }

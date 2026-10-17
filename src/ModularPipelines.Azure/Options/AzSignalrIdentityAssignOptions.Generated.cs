@@ -23,7 +23,7 @@ public record AzSignalrIdentityAssignOptions : AzOptions
     /// <summary>
     /// Assign managed identity for SignalR Service.
     /// </summary>
-    /// <param name="Identity">Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.</param>
+    /// <param name="Identity">Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. You can only assign either on of them.</param>
     public AzSignalrIdentityAssignOptions(
         string Identity
     )
@@ -38,7 +38,7 @@ public record AzSignalrIdentityAssignOptions : AzOptions
     }
 
     /// <summary>
-    /// Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user- assigned identity. You can only assign either on of them.
+    /// Assigns managed identities to the service. Use '[system]' to refer to the system-assigned identity or a resource ID to refer to a user-assigned identity. You can only assign either on of them.
     /// </summary>
     [CliOption("--identity")]
     public string Identity { get; private init; }

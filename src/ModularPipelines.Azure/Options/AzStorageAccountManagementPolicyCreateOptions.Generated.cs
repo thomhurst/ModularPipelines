@@ -24,7 +24,7 @@ public record AzStorageAccountManagementPolicyCreateOptions : AzOptions
     /// Create the data policy rules associated with the
     /// </summary>
     /// <param name="AccountName">The name of the storage account within the specified resource group.</param>
-    /// <param name="Policy">The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/common/storage- lifecycle-managment-concepts.</param>
+    /// <param name="Policy">The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/common/storage-lifecycle-managment-concepts.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzStorageAccountManagementPolicyCreateOptions(
         string AccountName,
@@ -54,7 +54,7 @@ public record AzStorageAccountManagementPolicyCreateOptions : AzOptions
     public string AccountName { get; private init; }
 
     /// <summary>
-    /// The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/common/storage- lifecycle-managment-concepts.
+    /// The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/common/storage-lifecycle-managment-concepts.
     /// </summary>
     [CliOption("--policy")]
     public string Policy { get; private init; }

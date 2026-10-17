@@ -23,7 +23,7 @@ public record AzMonitorAccountIssueAddOrUpdateResourceOptions : AzOptions
     /// <summary>
     /// Add or update resources in the issue.
     /// </summary>
-    /// <param name="Value">A list of related resources  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Value">A list of related resources  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzMonitorAccountIssueAddOrUpdateResourceOptions(
         IEnumerable<string> Value
     )
@@ -49,7 +49,7 @@ public record AzMonitorAccountIssueAddOrUpdateResourceOptions : AzOptions
     }
 
     /// <summary>
-    /// A list of related resources  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// A list of related resources  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--value", GroupValues = true)]
     public IEnumerable<string> Value { get; private init; }

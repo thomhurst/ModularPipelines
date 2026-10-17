@@ -121,7 +121,7 @@ public record AzSearchServiceCreateOptions : AzOptions
     public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
-    /// Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--encryption-with-cmk", GroupValues = true)]
     public IEnumerable<string>? EncryptionWithCmk { get; set; }

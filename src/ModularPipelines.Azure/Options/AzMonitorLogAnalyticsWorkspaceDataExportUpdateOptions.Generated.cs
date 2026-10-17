@@ -64,7 +64,7 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
     public CliOptionValue? Enable { get; set; }
 
     /// <summary>
-    /// An array of tables to export.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// An array of tables to export.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tables", ShortForm = "-t", GroupValues = true)]
     public IEnumerable<string>? Tables { get; set; }

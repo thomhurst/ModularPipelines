@@ -48,13 +48,13 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resour ceGroups/{resourceGroupName}/providers/Microsoft. Batch/batchAccounts/{accountName}/applications/{a pplicationName}).  # pylint: disable=line-too- long Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. Space- separated application IDs with optional version in 'id[#version]' format.
+    /// The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resour ceGroups/{resourceGroupName}/providers/Microsoft. Batch/batchAccounts/{accountName}/applications/{a pplicationName}).  # pylint: disable=line-too-long Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. Space-separated application IDs with optional version in 'id[#version]' format.
     /// </summary>
     [CliOption("--application-package-references", GroupValues = true)]
     public IEnumerable<string>? ApplicationPackageReferences { get; set; }
 
     /// <summary>
-    /// A formula for the desired number of Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true. The formula is checked for validity before the Pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see 'Automatically scale Compute Nodes in an Azure Batch Pool' (https://az ure.microsoft.com/documentation/articles/batch- automatic-scaling/).
+    /// A formula for the desired number of Compute Nodes in the Pool. This property must not be specified if enableAutoScale is set to false. It is required if enableAutoScale is set to true. The formula is checked for validity before the Pool is created. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see 'Automatically scale Compute Nodes in an Azure Batch Pool' (https://az ure.microsoft.com/documentation/articles/batch-automatic-scaling/).
     /// </summary>
     [CliOption("--auto-scale-formula")]
     public string? AutoScaleFormula { get; set; }
@@ -66,7 +66,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public bool? EnableInterNodeCommunication { get; set; }
 
     /// <summary>
-    /// A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case- insensitive (that is, you may not have two Pool IDs within an Account that differ only by case). Required.
+    /// A string that uniquely identifies the Pool within the Account. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two Pool IDs within an Account that differ only by case). Required.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; set; }
@@ -108,13 +108,13 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? TaskSlotsPerNode { get; set; }
 
     /// <summary>
-    /// The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes for Pools using Images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration), see Sizes for Virtual Machines (Linux) (https://azure.microsoft .com/documentation/articles/virtual-machines- linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentat ion/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). Required.
+    /// The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available VM sizes for Pools using Images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration), see Sizes for Virtual Machines (Linux) (https://azure.microsoft .com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentat ion/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). Required.
     /// </summary>
     [CliOption("--vm-size")]
     public string? VmSize { get; set; }
 
     /// <summary>
-    /// Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual- network/accelerated-networking-overview. Set true to enable.  Allowed values: false, true.
+    /// Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. Set true to enable.  Allowed values: false, true.
     /// </summary>
     [CliOption("--accelerated-networking", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AcceleratedNetworking { get; set; }
@@ -168,7 +168,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? SecurityType { get; set; }
 
     /// <summary>
-    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en- us/azure/batch/batch-compute-node-environment- variables). Required.
+    /// The command line of the StartTask. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables). Required.
     /// </summary>
     [CliOption("--start-task-command-line")]
     public string? StartTaskCommandLine { get; set; }
@@ -186,7 +186,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? StartTaskMaxTaskRetryCount { get; set; }
 
     /// <summary>
-    /// A list of files that the Batch service will download to the Compute Node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Files listed under this element are located in the Task's working directory. Space- separated resource references in filename=httpurl format.
+    /// A list of files that the Batch service will download to the Compute Node before running the command line.  There is a maximum size for the list of resource files. When the max size is exceeded, the request will fail and the response error code will be RequestEntityTooLarge. If this occurs, the collection of ResourceFiles must be reduced in size. This can be achieved using .zip files, Application Packages, or Docker Containers. Files listed under this element are located in the Task's working directory. Space-separated resource references in filename=httpurl format.
     /// </summary>
     [CliOption("--start-task-resource-files", GroupValues = true)]
     public IEnumerable<string>? StartTaskResourceFiles { get; set; }
@@ -276,7 +276,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? DiskEncryptionTargets { get; set; }
 
     /// <summary>
-    /// OS image reference. This can be either 'publisher:offer:sku[:version]' format, or a fully qualified ARM image id of the form '/subscr iptions/{subscriptionId}/resourceGroups/{resource Group}/providers/Microsoft.Compute/images/{imageN ame}'. If 'publisher:offer:sku[:version]' format, version is optional and if omitted latest will be used. Valid values can be retrieved via 'az batch pool supported-images list'. For example: 'Micros oftWindowsServer:WindowsServer:2012-R2- Datacenter:latest'.
+    /// OS image reference. This can be either 'publisher:offer:sku[:version]' format, or a fully qualified ARM image id of the form '/subscr iptions/{subscriptionId}/resourceGroups/{resource Group}/providers/Microsoft.Compute/images/{imageN ame}'. If 'publisher:offer:sku[:version]' format, version is optional and if omitted latest will be used. Valid values can be retrieved via 'az batch pool supported-images list'. For example: 'Micros oftWindowsServer:WindowsServer:2012-R2-Datacenter:latest'.
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
@@ -300,7 +300,7 @@ public record AzBatchPoolCreateOptions : AzOptions
     public string? Policy { get; set; }
 
     /// <summary>
-    /// Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual- machines/windows/ephemeral-os-disks#size- requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual- machines/linux/ephemeral-os-disks#size- requirements. "cachedisk".
+    /// Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. "cachedisk".
     /// </summary>
     [CliOption("--placement")]
     public string? Placement { get; set; }

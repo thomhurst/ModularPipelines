@@ -23,7 +23,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappConfigContainerSetOptions : AzOptions
 {
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`).
     /// </summary>
     [CliOption("--container-image-name", ShortForm = "-c")]
     public string? ContainerImageName { get; set; }
@@ -48,7 +48,7 @@ public record AzWebappConfigContainerSetOptions : AzOptions
     public string? ContainerRegistryUser { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`). WARNING: Option '--docker-custom-image-name' has been deprecated and will be removed in a future release. Use '--container-image-name' instead.
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). WARNING: Option '--docker-custom-image-name' has been deprecated and will be removed in a future release. Use '--container-image-name' instead.
     /// </summary>
     [CliOption("--docker-custom-image-name")]
     public string? DockerCustomImageName { get; set; }

@@ -56,7 +56,7 @@ public record AzPpgUpdateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--intent-vm-sizes", GroupValues = true)]
     public IEnumerable<string>? IntentVmSizes { get; set; }

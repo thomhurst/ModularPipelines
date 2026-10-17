@@ -83,13 +83,13 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions
     public string? Index { get; set; }
 
     /// <summary>
-    /// When the matchVariable points to a key- value pair (e.g, RequestHeader), this identifies the key.
+    /// When the matchVariable points to a key-value pair (e.g, RequestHeader), this identifies the key.
     /// </summary>
     [CliOption("--selector")]
     public string? Selector { get; set; }
 
     /// <summary>
-    /// When the matchVariable points to a key- value pair (e.g, RequestHeader), this operates on the selector.  Allowed values: Contains, EndsWith, Equals, StartsWith.
+    /// When the matchVariable points to a key-value pair (e.g, RequestHeader), this operates on the selector.  Allowed values: Contains, EndsWith, Equals, StartsWith.
     /// </summary>
     [CliOption("--selector-match-operator")]
     public string? SelectorMatchOperator { get; set; }
@@ -101,7 +101,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
-    /// The managed rule sets that are associated with the exception.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The managed rule sets that are associated with the exception.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rule-sets", GroupValues = true)]
     public IEnumerable<string>? RuleSets { get; set; }

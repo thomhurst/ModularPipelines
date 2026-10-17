@@ -73,13 +73,13 @@ public record AzNetworkWatcherConnectionMonitorEndpointAddOptions : AzOptions
     public string? Address { get; set; }
 
     /// <summary>
-    /// List of address of the endpoint item which needs to be excluded to the endpoint scope.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// List of address of the endpoint item which needs to be excluded to the endpoint scope.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-exclude", GroupValues = true)]
     public IEnumerable<string>? AddressExclude { get; set; }
 
     /// <summary>
-    /// List of address of the endpoint item which needs to be included to the endpoint scope.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// List of address of the endpoint item which needs to be included to the endpoint scope.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-include", GroupValues = true)]
     public IEnumerable<string>? AddressInclude { get; set; }
@@ -115,7 +115,7 @@ public record AzNetworkWatcherConnectionMonitorEndpointAddOptions : AzOptions
     public IEnumerable<string>? DestTestGroups { get; set; }
 
     /// <summary>
-    /// Space-separated list of names for test group to reference as source.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of names for test group to reference as source.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--source-test-groups", GroupValues = true)]
     public IEnumerable<string>? SourceTestGroups { get; set; }

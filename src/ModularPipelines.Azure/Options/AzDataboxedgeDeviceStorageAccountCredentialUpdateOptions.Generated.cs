@@ -53,7 +53,7 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [SecretValue]
     [CliOption("--account-key", GroupValues = true)]

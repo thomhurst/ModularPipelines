@@ -84,7 +84,7 @@ public record AzSecuritySecurityConnectorDevopsAzuredevopsorgProjectCreateOption
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Configuration payload for PR Annotations. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Configuration payload for PR Annotations. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--actionable-remediation", GroupValues = true)]
     public IEnumerable<string>? ActionableRemediation { get; set; }

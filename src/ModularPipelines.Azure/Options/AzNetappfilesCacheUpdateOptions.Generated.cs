@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetappfilesCacheUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -142,7 +142,7 @@ public record AzNetappfilesCacheUpdateOptions : AzOptions
     public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>
-    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
+    /// Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--smb-encryption")]
     public string? SmbEncryption { get; set; }

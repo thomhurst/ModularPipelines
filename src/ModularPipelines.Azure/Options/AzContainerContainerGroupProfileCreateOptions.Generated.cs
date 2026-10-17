@@ -63,7 +63,7 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// A list of environment variable for the container. Space- separated values in 'key=value' format.
+    /// A list of environment variable for the container. Space-separated values in 'key=value' format.
     /// </summary>
     [CliOption("--environment-variables", ShortForm = "-e", GroupValues = true)]
     public IEnumerable<string>? EnvironmentVariables { get; set; }

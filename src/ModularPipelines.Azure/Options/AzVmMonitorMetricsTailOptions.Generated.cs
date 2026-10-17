@@ -62,7 +62,7 @@ public record AzVmMonitorMetricsTailOptions : AzOptions
     public IEnumerable<CliOptionValue>? Aggregation { get; set; }
 
     /// <summary>
-    /// The list of dimensions (space-separated) the metrics are queried into.  Values from: az vm monitor metrics list- definitions -n MyVM -g MyRG --query "@[*].dimensions".
+    /// The list of dimensions (space-separated) the metrics are queried into.  Values from: az vm monitor metrics list-definitions -n MyVM -g MyRG --query "@[*].dimensions".
     /// </summary>
     [CliOption("--dimension", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Dimension { get; set; }

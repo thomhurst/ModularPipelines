@@ -24,7 +24,7 @@ public record AzStackWhatifMgShowOptions : AzOptions
     /// <summary>
     /// Get a deployment stack what-if result from management group scope.
     /// </summary>
-    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what-if result in.</param>
     public AzStackWhatifMgShowOptions(
         string ManagementGroupId
     )
@@ -39,7 +39,7 @@ public record AzStackWhatifMgShowOptions : AzOptions
     }
 
     /// <summary>
-    /// The management group ID to create a deployment stack what- if result in.
+    /// The management group ID to create a deployment stack what-if result in.
     /// </summary>
     [CliOption("--management-group-id", ShortForm = "-m")]
     public string ManagementGroupId { get; private init; }

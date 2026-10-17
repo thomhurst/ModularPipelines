@@ -24,7 +24,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Create new Redis Cache instance.
     /// </summary>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     /// <param name="Name">Name of the Redis cache.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="Sku">Type of Redis cache.  Allowed values: Basic, Premium, Standard.</param>
@@ -59,7 +59,7 @@ public record AzRedisCreateOptions : AzOptions
     }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

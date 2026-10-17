@@ -94,7 +94,7 @@ public record AzCosmosdbGremlinGraphCreateOptions : AzOptions
     public int? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
-    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
+    /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy-file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
     /// </summary>
     [CliOption("--conflict-resolution-policy", ShortForm = "-c")]
     public string? ConflictResolutionPolicy { get; set; }

@@ -24,7 +24,7 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationShowOptions : Az
     /// Show a test configuration from a
     /// </summary>
     /// <param name="ConnectionMonitor">Connection monitor name.</param>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     /// <param name="Name">The name of the connection monitor test configuration.</param>
     public AzNetworkWatcherConnectionMonitorTestConfigurationShowOptions(
         string ConnectionMonitor,
@@ -54,7 +54,7 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationShowOptions : Az
     public string ConnectionMonitor { get; private init; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

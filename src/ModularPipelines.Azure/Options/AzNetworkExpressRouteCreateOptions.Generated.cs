@@ -92,7 +92,7 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Name of the peering location.  Values from: az network express- route list-service-providers.
+    /// Name of the peering location.  Values from: az network express-route list-service-providers.
     /// </summary>
     [CliOption("--peering-location")]
     public string? PeeringLocation { get; set; }

@@ -90,31 +90,31 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public CliOptionValue? BlockDeleteBeforeEol { get; set; }
 
     /// <summary>
-    /// Logical unit numbers (space- delimited) of data disk snapshots.
+    /// Logical unit numbers (space-delimited) of data disk snapshots.
     /// </summary>
     [CliOption("--data-snapshot-luns", GroupValues = true)]
     public IEnumerable<string>? DataSnapshotLuns { get; set; }
 
     /// <summary>
-    /// Names or IDs (space- delimited) of data disk snapshots.
+    /// Names or IDs (space-delimited) of data disk snapshots.
     /// </summary>
     [CliOption("--data-snapshots", GroupValues = true)]
     public IEnumerable<string>? DataSnapshots { get; set; }
 
     /// <summary>
-    /// Logical unit numbers (space- delimited) of source VHD URIs of data disks.
+    /// Logical unit numbers (space-delimited) of source VHD URIs of data disks.
     /// </summary>
     [CliOption("--data-vhds-luns", GroupValues = true)]
     public IEnumerable<string>? DataVhdsLuns { get; set; }
 
     /// <summary>
-    /// Names or IDs (space- delimited) of storage accounts of source VHD URIs of data disks.
+    /// Names or IDs (space-delimited) of storage accounts of source VHD URIs of data disks.
     /// </summary>
     [CliOption("--data-vhds-sa", GroupValues = true)]
     public IEnumerable<string>? DataVhdsSa { get; set; }
 
     /// <summary>
-    /// Source VHD URIs (space- delimited) of data disks.
+    /// Source VHD URIs (space-delimited) of data disks.
     /// </summary>
     [CliOption("--data-vhds-uris", GroupValues = true)]
     public IEnumerable<string>? DataVhdsUris { get; set; }
@@ -138,7 +138,7 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public string? ImageVersion { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults lo cation=&lt;locat ion&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults lo cation=&lt;locat ion&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }
@@ -150,7 +150,7 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public string? ManagedImage { get; set; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish.
+    /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
@@ -192,37 +192,37 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public string? StorageAccountType { get; set; }
 
     /// <summary>
-    /// Space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each edge zone: `&lt;edge zone&gt;,&lt;os_des &gt;,&lt;lun1&gt;,&lt;lun 1_des&gt;,&lt;lun2&gt; ,&lt;lun2_des&gt;`.
+    /// Space-separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each edge zone: `&lt;edge zone&gt;,&lt;os_des &gt;,&lt;lun1&gt;,&lt;lun 1_des&gt;,&lt;lun2&gt; ,&lt;lun2_des&gt;`.
     /// </summary>
     [CliOption("--target-edge-zone-encryption", GroupValues = true)]
     public IEnumerable<string>? TargetEdgeZoneEncryption { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
+    /// Space-separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
     [CliOption("--target-edge-zones", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? TargetEdgeZones { get; set; }
 
     /// <summary>
-    /// Space- separated list of customer managed key for Confidential VM encrypting the OS disk in the gallery artifact for each region. Format for each region: `&lt;os_cvm_encr yption_type&gt;, &lt;os_cvm_des&gt;` . The valid values for os _cvm_encrypti on_type are E ncryptedVMGue stStateOnlyWi thPmk, Encryp tedWithPmk, E ncryptedWithC mk.
+    /// Space-separated list of customer managed key for Confidential VM encrypting the OS disk in the gallery artifact for each region. Format for each region: `&lt;os_cvm_encr yption_type&gt;, &lt;os_cvm_des&gt;` . The valid values for os _cvm_encrypti on_type are E ncryptedVMGue stStateOnlyWi thPmk, Encryp tedWithPmk, E ncryptedWithC mk.
     /// </summary>
     [CliOption("--target-region-cvm-encryption", GroupValues = true)]
     public IEnumerable<string>? TargetRegionCvmEncryption { get; set; }
 
     /// <summary>
-    /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each region: `&lt;os_des&gt;,&lt;lu n1&gt;,&lt;lun1_des &gt;,&lt;lun2&gt;,&lt;lun 2_des&gt;`. Use "null" as a placeholder.
+    /// Space-separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each region: `&lt;os_des&gt;,&lt;lu n1&gt;,&lt;lun1_des &gt;,&lt;lun2&gt;,&lt;lun 2_des&gt;`. Use "null" as a placeholder.
     /// </summary>
     [CliOption("--target-region-encryption", GroupValues = true)]
     public IEnumerable<string>? TargetRegionEncryption { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
+    /// Space-separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
     [CliOption("--target-regions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? TargetRegions { get; set; }

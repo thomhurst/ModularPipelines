@@ -23,7 +23,7 @@ public record AzStackWhatifMgDeleteOptions : AzOptions
     /// <summary>
     /// Delete a deployment stack what-if result from management group
     /// </summary>
-    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what- if result in.</param>
+    /// <param name="ManagementGroupId">The management group ID to create a deployment stack what-if result in.</param>
     public AzStackWhatifMgDeleteOptions(
         string ManagementGroupId
     )
@@ -38,7 +38,7 @@ public record AzStackWhatifMgDeleteOptions : AzOptions
     }
 
     /// <summary>
-    /// The management group ID to create a deployment stack what- if result in.
+    /// The management group ID to create a deployment stack what-if result in.
     /// </summary>
     [CliOption("--management-group-id", ShortForm = "-m")]
     public string ManagementGroupId { get; private init; }

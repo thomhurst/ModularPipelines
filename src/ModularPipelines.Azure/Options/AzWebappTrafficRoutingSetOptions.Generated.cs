@@ -23,7 +23,7 @@ public record AzWebappTrafficRoutingSetOptions : AzOptions
     /// <summary>
     /// Configure routing traffic to deployment slots.
     /// </summary>
-    /// <param name="Distribution">Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.</param>
+    /// <param name="Distribution">Space-separated slot routings in a format of `&lt;slot-name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.</param>
     public AzWebappTrafficRoutingSetOptions(
         IEnumerable<string> Distribution
     )
@@ -49,7 +49,7 @@ public record AzWebappTrafficRoutingSetOptions : AzOptions
     }
 
     /// <summary>
-    /// Space-separated slot routings in a format of `&lt;slot- name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.
+    /// Space-separated slot routings in a format of `&lt;slot-name&gt;=&lt;percentage&gt;` e.g. staging=50. Unused traffic percentage will go to the Production slot.
     /// </summary>
     [CliOption("--distribution", ShortForm = "-d", GroupValues = true)]
     public IEnumerable<string> Distribution { get; private init; }

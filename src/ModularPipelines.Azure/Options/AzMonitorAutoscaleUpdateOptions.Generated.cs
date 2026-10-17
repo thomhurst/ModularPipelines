@@ -58,7 +58,7 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The numer of instances to use. If used with --min/max- count, the default number of instances to use.
+    /// The numer of instances to use. If used with --min/max-count, the default number of instances to use.
     /// </summary>
     [CliOption("--count")]
     public string? Count { get; set; }

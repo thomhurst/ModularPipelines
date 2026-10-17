@@ -99,13 +99,13 @@ public record AzContainerappCreateOptions : AzOptions
     public string? WorkloadProfileName { get; set; }
 
     /// <summary>
-    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
+    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container-apps/azure-resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
 
     /// <summary>
-    /// A Managed Identity to authenticate with the registry server instead of username/password. Use a resource ID or 'system' for user- defined and system- defined identities, respectively. The registry must be an ACR. If possible, an 'acrpull' role assignment will be created for the identity automatically.
+    /// A Managed Identity to authenticate with the registry server instead of username/password. Use a resource ID or 'system' for user-defined and system-defined identities, respectively. The registry must be an ACR. If possible, an 'acrpull' role assignment will be created for the identity automatically.
     /// </summary>
     [CliOption("--registry-identity")]
     public string? RegistryIdentity { get; set; }
@@ -143,13 +143,13 @@ public record AzContainerappCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Secrets { get; set; }
 
     /// <summary>
-    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// A list of container startup command argument(s). Space-separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Args { get; set; }
 
     /// <summary>
-    /// A list of supported commands on the container that will executed during startup. Space- separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Command { get; set; }
@@ -167,13 +167,13 @@ public record AzContainerappCreateOptions : AzOptions
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
+    /// A list of environment variable(s) for the container. Space-separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
     /// </summary>
     [CliOption("--env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? EnvVars { get; set; }
 
     /// <summary>
-    /// Container image, e.g. publisher/image- name:tag.
+    /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
     [CliOption("--image", ShortForm = "-i")]
     public string? Image { get; set; }
@@ -311,7 +311,7 @@ public record AzContainerappCreateOptions : AzOptions
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
-    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
+    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container-apps/scale-app#scale-triggers.
     /// </summary>
     [CliOption("--scale-rule-type")]
     public string? ScaleRuleType { get; set; }

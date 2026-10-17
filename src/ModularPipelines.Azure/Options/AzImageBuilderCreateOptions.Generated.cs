@@ -80,7 +80,7 @@ public record AzImageBuilderCreateOptions : AzOptions
     public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
-    /// Local path or URL to an image template file. When using --image-template, all other parameters are ignored except -g and -n. Reference: https://learn.microsoft.com/azure/virtual- machines/linux/image-builder-json.
+    /// Local path or URL to an image template file. When using --image-template, all other parameters are ignored except -g and -n. Reference: https://learn.microsoft.com/azure/virtual-machines/linux/image-builder-json.
     /// </summary>
     [CliOption("--image-template")]
     public string? ImageTemplate { get; set; }
@@ -170,7 +170,7 @@ public record AzImageBuilderCreateOptions : AzOptions
     public IEnumerable<string>? ManagedImageDestinations { get; set; }
 
     /// <summary>
-    /// Shared image gallery (sig) output distributor information. Space-separated list of key-value pairs. E.g "my_gallery_1/image_def_1=eastus,westus my_gallery_2/image_def_2=uksouth,canadaeast,francesouth." Each key is the sig image definition ID or sig gallery name and sig image definition delimited by a "/". Each value is a comma- delimited list of replica locations.
+    /// Shared image gallery (sig) output distributor information. Space-separated list of key-value pairs. E.g "my_gallery_1/image_def_1=eastus,westus my_gallery_2/image_def_2=uksouth,canadaeast,francesouth." Each key is the sig image definition ID or sig gallery name and sig image definition delimited by a "/". Each value is a comma-delimited list of replica locations.
     /// </summary>
     [CliOption("--shared-image-destinations", GroupValues = true)]
     public IEnumerable<string>? SharedImageDestinations { get; set; }

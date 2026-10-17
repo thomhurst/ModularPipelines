@@ -24,7 +24,7 @@ public record AzCosmosdbMongodbRoleDefinitionCreateOptions : AzOptions
     /// Create a Mongo DB role definition under an Azure
     /// </summary>
     /// <param name="AccountName">Cosmosdb account name.</param>
-    /// <param name="Body">Role Definition body with Id (Optional for create), Type (Default is CustomRole), DatabaseName, Privileges, Roles.  You can enter it as a string or as a file, e.g., --body @mongo- role_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"RoleName\": \"MyRWRole\",\"Type\": \"CustomRole\"\"DatabaseName\": \"MyDb\",\"Privileges\": [ {\"Resource\": {\"Db\": \"MyDB\",\"Collection\": \"MyCol\"},\"Actions\": [\"insert\",\"find\"]}],\"Roles\": [ {\"Role\": \"myInheritedRole\",\"Db\": \"MyTestDb\"}]}".</param>
+    /// <param name="Body">Role Definition body with Id (Optional for create), Type (Default is CustomRole), DatabaseName, Privileges, Roles.  You can enter it as a string or as a file, e.g., --body @mongo-role_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"RoleName\": \"MyRWRole\",\"Type\": \"CustomRole\"\"DatabaseName\": \"MyDb\",\"Privileges\": [ {\"Resource\": {\"Db\": \"MyDB\",\"Collection\": \"MyCol\"},\"Actions\": [\"insert\",\"find\"]}],\"Roles\": [ {\"Role\": \"myInheritedRole\",\"Db\": \"MyTestDb\"}]}".</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzCosmosdbMongodbRoleDefinitionCreateOptions(
         string AccountName,
@@ -54,7 +54,7 @@ public record AzCosmosdbMongodbRoleDefinitionCreateOptions : AzOptions
     public string AccountName { get; private init; }
 
     /// <summary>
-    /// Role Definition body with Id (Optional for create), Type (Default is CustomRole), DatabaseName, Privileges, Roles.  You can enter it as a string or as a file, e.g., --body @mongo- role_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"RoleName\": \"MyRWRole\",\"Type\": \"CustomRole\"\"DatabaseName\": \"MyDb\",\"Privileges\": [ {\"Resource\": {\"Db\": \"MyDB\",\"Collection\": \"MyCol\"},\"Actions\": [\"insert\",\"find\"]}],\"Roles\": [ {\"Role\": \"myInheritedRole\",\"Db\": \"MyTestDb\"}]}".
+    /// Role Definition body with Id (Optional for create), Type (Default is CustomRole), DatabaseName, Privileges, Roles.  You can enter it as a string or as a file, e.g., --body @mongo-role_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"RoleName\": \"MyRWRole\",\"Type\": \"CustomRole\"\"DatabaseName\": \"MyDb\",\"Privileges\": [ {\"Resource\": {\"Db\": \"MyDB\",\"Collection\": \"MyCol\"},\"Actions\": [\"insert\",\"find\"]}],\"Roles\": [ {\"Role\": \"myInheritedRole\",\"Db\": \"MyTestDb\"}]}".
     /// </summary>
     [CliOption("--body", ShortForm = "-b")]
     public string Body { get; private init; }

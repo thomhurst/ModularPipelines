@@ -85,7 +85,7 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Connection monitor tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Connection monitor tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -115,13 +115,13 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     public IEnumerable<string>? Outputs { get; set; }
 
     /// <summary>
-    /// List of connection monitor test configurations. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of connection monitor test configurations. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--test-configurations", GroupValues = true)]
     public IEnumerable<string>? TestConfigurations { get; set; }
 
     /// <summary>
-    /// List of connection monitor test groups. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of connection monitor test groups. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--test-groups", GroupValues = true)]
     public IEnumerable<string>? TestGroups { get; set; }

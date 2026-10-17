@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetappfilesVolumeUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -52,7 +52,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
@@ -154,7 +154,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public string? Ppg { get; set; }
 
     /// <summary>
-    /// Set of protocol types, default NFSv3, CIFS for SMB protocol  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// Set of protocol types, default NFSv3, CIFS for SMB protocol  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--protocol-types", GroupValues = true)]
     public IEnumerable<string>? ProtocolTypes { get; set; }
@@ -178,7 +178,7 @@ public record AzNetappfilesVolumeUpdateOptions : AzOptions
     public CliOptionValue? SmbCa { get; set; }
 
     /// <summary>
-    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--smb-encryption", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? SmbEncryption { get; set; }

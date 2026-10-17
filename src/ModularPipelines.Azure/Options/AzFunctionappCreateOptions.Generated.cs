@@ -92,13 +92,13 @@ public record AzFunctionappCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
-    /// Use this option if you want to configure networking later for an app using network- restricted storage.  Allowed values: false, true.
+    /// Use this option if you want to configure networking later for an app using network-restricted storage.  Allowed values: false, true.
     /// </summary>
     [CliOption("--cnl", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Cnl { get; set; }
 
     /// <summary>
-    /// Geographic location where function app will be hosted. Use `az functionapp list-consumption- locations` to view available locations.
+    /// Geographic location where function app will be hosted. Use `az functionapp list-consumption-locations` to view available locations.
     /// </summary>
     [CliOption("--consumption-plan-location", ShortForm = "-c")]
     public string? ConsumptionPlanLocation { get; set; }
@@ -176,7 +176,7 @@ public record AzFunctionappCreateOptions : AzOptions
     public string? DeploymentStorageAuthType { get; set; }
 
     /// <summary>
-    /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed- identity authentication type, this parameter is not applicable and should be left empty.
+    /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed-identity authentication type, this parameter is not applicable and should be left empty.
     /// </summary>
     [CliOption("--deployment-storage-auth-value")]
     public string? DeploymentStorageAuthValue { get; set; }
@@ -231,7 +231,7 @@ public record AzFunctionappCreateOptions : AzOptions
     public string? Environment { get; set; }
 
     /// <summary>
-    /// Geographic location where function app will be hosted. Use `az functionapp list- flexconsumption-locations` to view available locations.
+    /// Geographic location where function app will be hosted. Use `az functionapp list-flexconsumption-locations` to view available locations.
     /// </summary>
     [CliOption("--flexconsumption-location", ShortForm = "-f")]
     public string? FlexconsumptionLocation { get; set; }

@@ -91,7 +91,7 @@ public record AzStorageAccountLocalUserUpdateOptions : AzOptions
     public string? HomeDirectory { get; set; }
 
     /// <summary>
-    /// The permission scope argument list which includes the permissions, service, and resource_name.The permissions can be a combination of the below possible values: Read(r), Write (w), Delete (d), List (l), and Create (c). The service has possible values: blob, file. The resource-name is the container name or the file share name. Example: --permission-scope permissions=r service=blob resource-name=container1Can specify multiple permission scopes: --permission-scope permissions=rw service=blob resource-name=container1-- permission-scope permissions=rwd service=file resource- name=share2.
+    /// The permission scope argument list which includes the permissions, service, and resource_name.The permissions can be a combination of the below possible values: Read(r), Write (w), Delete (d), List (l), and Create (c). The service has possible values: blob, file. The resource-name is the container name or the file share name. Example: --permission-scope permissions=r service=blob resource-name=container1Can specify multiple permission scopes: --permission-scope permissions=rw service=blob resource-name=container1-- permission-scope permissions=rwd service=file resource-name=share2.
     /// </summary>
     [CliOption("--permission-scope", GroupValues = true)]
     public IEnumerable<CliValueGroup>? PermissionScope { get; set; }

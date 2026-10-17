@@ -89,7 +89,7 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -101,7 +101,7 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     public string? Vnet { get; set; }
 
     /// <summary>
-    /// VPN authentication types enabled for the virtual network gateway.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// VPN authentication types enabled for the virtual network gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--vpn-auth-type", GroupValues = true)]
     public IEnumerable<string>? VpnAuthType { get; set; }

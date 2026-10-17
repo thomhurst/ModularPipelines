@@ -23,9 +23,9 @@ public record AzNetworkDnsRecordSetDsAddRecordOptions : AzOptions
     /// <summary>
     /// Add a DS record.
     /// </summary>
-    /// <param name="Algorithm">The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec- alg-numbers.xhtml.</param>
+    /// <param name="Algorithm">The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml.</param>
     /// <param name="Digest">The digest value is a cryptographic hash value of the referenced DNSKEY Resource Record.</param>
-    /// <param name="DigestType">The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr- types.xhtml.</param>
+    /// <param name="DigestType">The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml.</param>
     /// <param name="KeyTag">The key tag value is used to determine which DNSKEY Resource Record is used for signature verification.</param>
     /// <param name="RecordSetName">The name of the record set relative to the zone. Creates a new record set if one does not exist.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
@@ -65,7 +65,7 @@ public record AzNetworkDnsRecordSetDsAddRecordOptions : AzOptions
     }
 
     /// <summary>
-    /// The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec- alg-numbers.xhtml.
+    /// The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml.
     /// </summary>
     [CliOption("--algorithm")]
     public int Algorithm { get; private init; }
@@ -77,7 +77,7 @@ public record AzNetworkDnsRecordSetDsAddRecordOptions : AzOptions
     public string Digest { get; private init; }
 
     /// <summary>
-    /// The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr- types.xhtml.
+    /// The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml.
     /// </summary>
     [CliOption("--digest-type")]
     public int DigestType { get; private init; }

@@ -25,7 +25,7 @@ public record AzReposPrSetVoteOptions : AzOptions
     /// Vote on a pull request. Requires the azure-devops extension (az extension add --name azure-devops).
     /// </summary>
     /// <param name="Id">ID of the pull request.</param>
-    /// <param name="Vote">New vote value for the pull request.  Allowed values: approve, approve- with-suggestions, reject, reset, wait-for-author.</param>
+    /// <param name="Vote">New vote value for the pull request.  Allowed values: approve, approve-with-suggestions, reject, reset, wait-for-author.</param>
     public AzReposPrSetVoteOptions(
         string Id,
         string Vote
@@ -50,7 +50,7 @@ public record AzReposPrSetVoteOptions : AzOptions
     public string Id { get; private init; }
 
     /// <summary>
-    /// New vote value for the pull request.  Allowed values: approve, approve- with-suggestions, reject, reset, wait-for-author.
+    /// New vote value for the pull request.  Allowed values: approve, approve-with-suggestions, reject, reset, wait-for-author.
     /// </summary>
     [CliOption("--vote")]
     public string Vote { get; private init; }

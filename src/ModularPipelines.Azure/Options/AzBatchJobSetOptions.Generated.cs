@@ -82,7 +82,7 @@ public record AzBatchJobSetOptions : AzOptions
     public string? MaxParallelTasks { get; set; }
 
     /// <summary>
-    /// A list of name-value pairs associated with the Job as metadata. If omitted, the existing Job metadata is left unchanged. Space- separated values in 'key=value' format.
+    /// A list of name-value pairs associated with the Job as metadata. If omitted, the existing Job metadata is left unchanged. Space-separated values in 'key=value' format.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }

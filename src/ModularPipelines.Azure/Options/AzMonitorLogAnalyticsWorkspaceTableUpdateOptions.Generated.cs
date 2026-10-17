@@ -66,7 +66,7 @@ public record AzMonitorLogAnalyticsWorkspaceTableUpdateOptions : AzOptions
     public string WorkspaceName { get; private init; }
 
     /// <summary>
-    /// A list of table custom columns.Extracts multiple space- separated columns in column_name=column_type format.
+    /// A list of table custom columns.Extracts multiple space-separated columns in column_name=column_type format.
     /// </summary>
     [CliOption("--columns", GroupValues = true)]
     public IEnumerable<string>? Columns { get; set; }

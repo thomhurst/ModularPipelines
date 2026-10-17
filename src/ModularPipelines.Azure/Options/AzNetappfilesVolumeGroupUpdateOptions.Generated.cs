@@ -58,7 +58,7 @@ public record AzNetappfilesVolumeGroupUpdateOptions : AzOptions
     public IEnumerable<string>? GroupMetaData { get; set; }
 
     /// <summary>
-    /// List of volumes from group  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// List of volumes from group  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--volumes", GroupValues = true)]
     public IEnumerable<string>? Volumes { get; set; }

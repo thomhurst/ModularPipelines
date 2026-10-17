@@ -135,7 +135,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     public string? WorkloadProfileName { get; set; }
 
     /// <summary>
-    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure- resource-manager-api-spec#examples.
+    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure-resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
@@ -173,7 +173,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Secrets { get; set; }
 
     /// <summary>
-    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// A list of container startup command argument(s). Space-separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Args { get; set; }
@@ -197,7 +197,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     public string? Cpu { get; set; }
 
     /// <summary>
-    /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
+    /// A list of environment variable(s) for the container. Space-separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
     /// </summary>
     [CliOption("--env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? EnvVars { get; set; }

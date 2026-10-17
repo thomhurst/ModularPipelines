@@ -70,7 +70,7 @@ public record AzBatchPoolAutoscaleEvaluateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// The formula for the desired number of Compute Nodes in the Pool. The formula is validated and its results calculated, but it is not applied to the Pool. To apply the formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying this formula, see Automatically scale Compute Nodes in an Azure Batch Pool (https://azure.microsoft.com/en-us/documentation/articles/batch- automatic-scaling). Required.
+    /// The formula for the desired number of Compute Nodes in the Pool. The formula is validated and its results calculated, but it is not applied to the Pool. To apply the formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying this formula, see Automatically scale Compute Nodes in an Azure Batch Pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling). Required.
     /// </summary>
     [CliOption("--auto-scale-formula")]
     public string? AutoScaleFormula { get; set; }

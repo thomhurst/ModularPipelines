@@ -267,7 +267,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableAzureKeyvaultKms { get; set; }
 
     /// <summary>
-    /// Disable Azure Monitor Application Monitoring auto- instrumentation for a Kubernetes cluster.
+    /// Disable Azure Monitor Application Monitoring auto-instrumentation for a Kubernetes cluster.
     /// </summary>
     [CliFlag("--disable-azure-monitor-app-monitoring")]
     public bool? DisableAzureMonitorAppMonitoring { get; set; }
@@ -279,7 +279,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableAzureMonitorLogs { get; set; }
 
     /// <summary>
-    /// Disable Azure Monitor Metrics Profile. This will delete all DCRA's associated with the cluster, any linked DCRs with the data stream = prometheus- stream and the recording rule groups created by the addon for this AKS cluster. If OpenTelemetry metrics are enabled, they are disabled as well, since they are collected through the managed Prometheus pipeline. Confirmation is requested first unless "--yes" is specified.
+    /// Disable Azure Monitor Metrics Profile. This will delete all DCRA's associated with the cluster, any linked DCRs with the data stream = prometheus-stream and the recording rule groups created by the addon for this AKS cluster. If OpenTelemetry metrics are enabled, they are disabled as well, since they are collected through the managed Prometheus pipeline. Confirmation is requested first unless "--yes" is specified.
     /// </summary>
     [CliFlag("--disable-azure-monitor-metrics")]
     public bool? DisableAzureMonitorMetrics { get; set; }
@@ -363,7 +363,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableImageCleaner { get; set; }
 
     /// <summary>
-    /// Disable KEDA workload auto- scaler.
+    /// Disable KEDA workload auto-scaler.
     /// </summary>
     [CliFlag("--disable-keda")]
     public bool? DisableKeda { get; set; }
@@ -411,7 +411,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableRunCommand { get; set; }
 
     /// <summary>
-    /// Disable secret rotation. Use with azure-keyvault-secrets- provider addon.
+    /// Disable secret rotation. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliFlag("--disable-secret-rotation")]
     public bool? DisableSecretRotation { get; set; }
@@ -603,7 +603,7 @@ public record AzAksUpdateOptions : AzOptions
     public bool? EnableImageCleaner { get; set; }
 
     /// <summary>
-    /// Enable KEDA workload auto- scaler.
+    /// Enable KEDA workload auto-scaler.
     /// </summary>
     [CliFlag("--enable-keda")]
     public bool? EnableKeda { get; set; }
@@ -789,13 +789,13 @@ public record AzAksUpdateOptions : AzOptions
     public string? K8sSupportPlan { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-annotations-allow-list")]
     public string? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-labels-allow-list")]
     public string? KsmMetricLabelsAllowList { get; set; }
@@ -945,7 +945,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? NodeProvisioningMode { get; set; }
 
     /// <summary>
-    /// The node labels for all node pool. See https://aka.ms/node- labels for syntax of labels.
+    /// The node labels for all node pool. See https://aka.ms/node-labels for syntax of labels.
     /// </summary>
     [CliOption("--nodepool-labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? NodepoolLabels { get; set; }
@@ -1011,7 +1011,7 @@ public record AzAksUpdateOptions : AzOptions
     public string? PrivateDnsZone { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure-keyvault-secrets- provider addon.
+    /// Set interval of rotation poll. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }

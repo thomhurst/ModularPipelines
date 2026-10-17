@@ -40,7 +40,7 @@ public record AzIotHubIdentityAssignOptions : AzOptions
     public IEnumerable<CliOptionValue>? System { get; set; }
 
     /// <summary>
-    /// Assign user-assigned managed identities to this hub. Accept space- separated list of identity resource IDs.
+    /// Assign user-assigned managed identities to this hub. Accept space-separated list of identity resource IDs.
     /// </summary>
     [CliOption("--user", GroupValues = true)]
     public IEnumerable<string>? User { get; set; }

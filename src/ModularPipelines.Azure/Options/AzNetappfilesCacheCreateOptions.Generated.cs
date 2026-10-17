@@ -33,7 +33,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <param name="PeerVolumeName">External origin volume name associated to this cache.</param>
     /// <param name="PeerVserverName">External Vserver (SVM) name name of the SVM hosting the origin volume.</param>
     /// <param name="CacheSubnetId">The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.</param>
-    /// <param name="EncryptionKeySource">Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.</param>
+    /// <param name="EncryptionKeySource">Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.</param>
     /// <param name="FilePath">The file path of the Cache.</param>
     /// <param name="PeeringSubnetId">The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.</param>
     /// <param name="Size">Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB.</param>
@@ -164,7 +164,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     public string CacheSubnetId { get; private init; }
 
     /// <summary>
-    /// Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case- insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
+    /// Source of key used to encrypt data in the cache. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string EncryptionKeySource { get; private init; }
@@ -188,7 +188,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     public string Size { get; private init; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -278,7 +278,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>
-    /// Enables encryption for in- flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
+    /// Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol cache. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--smb-encryption")]
     public string? SmbEncryption { get; set; }

@@ -99,7 +99,7 @@ public record AzPipelinesVariableUpdateOptions : AzOptions
     public CliOptionValue? Secret { get; set; }
 
     /// <summary>
-    /// New value of the variable. For secret variables, use --prompt-value parameter, to be prompted to enter it via standard input. For non- interactive consoles it can be picked from environment variable prefixed with AZURE_DEVOPS_EXT_PIPELINE_VAR_ e.g. A variable nameed `MySecret` can be input using environment variable AZURE_DEVOPS_EXT_PIPELINE_VAR_MySecret.
+    /// New value of the variable. For secret variables, use --prompt-value parameter, to be prompted to enter it via standard input. For non-interactive consoles it can be picked from environment variable prefixed with AZURE_DEVOPS_EXT_PIPELINE_VAR_ e.g. A variable nameed `MySecret` can be input using environment variable AZURE_DEVOPS_EXT_PIPELINE_VAR_MySecret.
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; set; }

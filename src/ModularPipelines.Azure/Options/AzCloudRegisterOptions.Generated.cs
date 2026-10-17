@@ -110,7 +110,7 @@ public record AzCloudRegisterOptions : AzOptions
     public string? EndpointVmImageAliasDoc { get; set; }
 
     /// <summary>
-    /// Profile to use for this cloud. The azure stack profiles `2017-03-09-profile` `2018-03-01-hybrid` `2019-03-01-hybrid` and `2020-09-01-hybrid` have been deprecated and removed. To continue using Azure Stack, please install the Azure CLI `2.66.*` (LTS) version. For more details, refer to: https://learn.microsoft.com/en- us/cli/azure/whats-new- overview#important-notice-for- azure-stack-hub-customers.  Allowed values: latest.
+    /// Profile to use for this cloud. The azure stack profiles `2017-03-09-profile` `2018-03-01-hybrid` `2019-03-01-hybrid` and `2020-09-01-hybrid` have been deprecated and removed. To continue using Azure Stack, please install the Azure CLI `2.66.*` (LTS) version. For more details, refer to: https://learn.microsoft.com/en-us/cli/azure/whats-new-overview#important-notice-for-azure-stack-hub-customers.  Allowed values: latest.
     /// </summary>
     [CliOption("--profile")]
     public string? Profile { get; set; }

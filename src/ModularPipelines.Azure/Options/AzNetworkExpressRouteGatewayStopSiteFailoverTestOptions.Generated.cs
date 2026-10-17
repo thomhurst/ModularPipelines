@@ -24,7 +24,7 @@ public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOption
     /// <summary>
     /// This operation stops an ongoing
     /// </summary>
-    /// <param name="Details">List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="Details">List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     /// <param name="PeeringLocation">Peering location of the test.</param>
     /// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
     public AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions(
@@ -60,7 +60,7 @@ public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOption
     }
 
     /// <summary>
-    /// List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of all the failover connections for this peering location  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--details", GroupValues = true)]
     public IEnumerable<string> Details { get; private init; }

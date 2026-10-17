@@ -50,7 +50,7 @@ public record AzSqlElasticPoolListEditionsOptions : AzOptions
     public bool? Available { get; set; }
 
     /// <summary>
-    /// List of additional details to include in output.  Allowed values: db- max-dtu, db-max-size, db-min-dtu, max-size.
+    /// List of additional details to include in output.  Allowed values: db-max-dtu, db-max-size, db-min-dtu, max-size.
     /// </summary>
     [CliOption("--show-details", ShortForm = "-d", GroupValues = true)]
     public IEnumerable<string>? ShowDetails { get; set; }

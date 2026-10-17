@@ -103,7 +103,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     public string? SourceVault { get; set; }
 
     /// <summary>
-    /// Resource tags  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -115,7 +115,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Space separated resource IDs to add user- assigned identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space separated resource IDs to add user-assigned identities.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", GroupValues = true)]
     public IEnumerable<string>? MiUserAssigned { get; set; }

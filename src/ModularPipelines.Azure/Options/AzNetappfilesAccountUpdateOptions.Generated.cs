@@ -28,7 +28,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,7 +100,7 @@ public record AzNetappfilesAccountUpdateOptions : AzOptions
     public string? IdentityType { get; set; }
 
     /// <summary>
-    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource Groups/{resourceGroupName}/providers/Microsoft. ManagedIdentity/userAssignedIdentities/{identit yName}. The dictionary values can be empty objects ({}) in requests.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource Groups/{resourceGroupName}/providers/Microsoft. ManagedIdentity/userAssignedIdentities/{identit yName}. The dictionary values can be empty objects ({}) in requests.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--user-assigned-identities", GroupValues = true)]
     public IEnumerable<string>? UserAssignedIdentities { get; set; }

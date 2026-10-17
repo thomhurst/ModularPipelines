@@ -73,13 +73,13 @@ public record AzSqlMiLinkCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Databases in the distributed availability group Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Databases in the distributed availability group Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--databases", GroupValues = true)]
     public IEnumerable<string>? Databases { get; set; }
 
     /// <summary>
-    /// The link failover mode - can be Manual if intended to be used for two- way failover with a supported SQL Server, or None for one-way failover to Azure.  Allowed values: Manual, None.
+    /// The link failover mode - can be Manual if intended to be used for two-way failover with a supported SQL Server, or None for one-way failover to Azure.  Allowed values: Manual, None.
     /// </summary>
     [CliOption("--failover-mode")]
     public string? FailoverMode { get; set; }

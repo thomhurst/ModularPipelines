@@ -24,7 +24,7 @@ public record AzFunctionappCorsAddOptions : AzOptions
     /// <summary>
     /// Add allowed origins.
     /// </summary>
-    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.</param>
+    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.</param>
     public AzFunctionappCorsAddOptions(
         IEnumerable<CliOptionValue> AllowedOrigins
     )
@@ -50,7 +50,7 @@ public record AzFunctionappCorsAddOptions : AzOptions
     }
 
     /// <summary>
-    /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.
+    /// Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*" and remove all other origins from the list.
     /// </summary>
     [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue> AllowedOrigins { get; private init; }

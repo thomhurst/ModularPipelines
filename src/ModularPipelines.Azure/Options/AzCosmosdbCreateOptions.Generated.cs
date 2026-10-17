@@ -74,7 +74,7 @@ public record AzCosmosdbCreateOptions : AzOptions
     public string? DefaultConsistencyLevel { get; set; }
 
     /// <summary>
-    /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user- assigned identity&gt;`.
+    /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more. User-assigned identities are specified in format `UserAssignedIdentity=&lt;resource ID of the user-assigned identity&gt;`.
     /// </summary>
     [CliOption("--default-identity")]
     public string? DefaultIdentity { get; set; }

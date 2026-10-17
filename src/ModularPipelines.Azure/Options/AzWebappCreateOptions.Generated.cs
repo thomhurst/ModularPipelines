@@ -92,7 +92,7 @@ public record AzWebappCreateOptions : AzOptions
     public string? BasicAuth { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
     /// </summary>
     [CliOption("--container-image-name", ShortForm = "-c")]
     public string? ContainerImageName { get; set; }

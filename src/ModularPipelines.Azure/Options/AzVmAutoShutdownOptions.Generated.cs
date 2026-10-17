@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmAutoShutdownOptions : AzOptions
 {
     /// <summary>
-    /// The email recipient to send notifications to (can be a list of semi- colon separated email addresses).
+    /// The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; set; }

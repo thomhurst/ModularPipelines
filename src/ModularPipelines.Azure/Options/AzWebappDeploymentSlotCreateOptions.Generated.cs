@@ -73,7 +73,7 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     public string? ConfigurationSource { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
     /// </summary>
     [CliOption("--container-image-name", ShortForm = "-c")]
     public string? ContainerImageName { get; set; }
@@ -98,7 +98,7 @@ public record AzWebappDeploymentSlotCreateOptions : AzOptions
     public string? ContainerRegistryUser { get; set; }
 
     /// <summary>
-    /// Container image name, e.g. publisher/image- name:tag. WARNING: Option '--deployment-container-image-name' has been deprecated and will be removed in a future release.
+    /// Container image name, e.g. publisher/image-name:tag. WARNING: Option '--deployment-container-image-name' has been deprecated and will be removed in a future release.
     /// </summary>
     [CliOption("--deployment-container-image-name", ShortForm = "-i")]
     public string? DeploymentContainerImageName { get; set; }

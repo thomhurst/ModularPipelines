@@ -174,7 +174,7 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     public CliOptionValue? EnableAdvancedFilteringOnArrays { get; set; }
 
     /// <summary>
-    /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and Microsoft.Storage.BlobDeleted). In order to subscribe to all default event types, do not specify any value for this argument. For event grid topics, event types are customer defined. For Azure events, e.g., Storage Accounts, IoT Hub, etc., you can query their event types using this CLI command 'az eventgrid topic-type list- event-types'.
+    /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and Microsoft.Storage.BlobDeleted). In order to subscribe to all default event types, do not specify any value for this argument. For event grid topics, event types are customer defined. For Azure events, e.g., Storage Accounts, IoT Hub, etc., you can query their event types using this CLI command 'az eventgrid topic-type list-event-types'.
     /// </summary>
     [CliOption("--included-event-types", GroupValues = true)]
     public IEnumerable<string>? IncludedEventTypes { get; set; }

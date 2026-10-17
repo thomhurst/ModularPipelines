@@ -69,7 +69,7 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     public string? PolicyAssignment { get; set; }
 
     /// <summary>
-    /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The policy definition reference IDs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--policy-definition-reference-ids", ShortForm = "-r", GroupValues = true)]
     public IEnumerable<string>? PolicyDefinitionReferenceIds { get; set; }

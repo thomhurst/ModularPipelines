@@ -62,7 +62,7 @@ public record AzPolicyDefinitionCreateOptions : AzOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The details of the source of external evaluation results required by the policy during enforcement evaluation. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The details of the source of external evaluation results required by the policy during enforcement evaluation. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--external-evaluation-enforcement-settings", GroupValues = true)]
     public IEnumerable<string>? ExternalEvaluationEnforcementSettings { get; set; }

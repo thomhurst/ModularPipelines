@@ -28,7 +28,7 @@ public record AzNetworkPrivateDnsRecordSetAUpdateOptions : AzOptions
     public string? IfMatch { get; set; }
 
     /// <summary>
-    /// Metadata attached to the record set.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }

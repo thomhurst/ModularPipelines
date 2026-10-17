@@ -28,7 +28,7 @@ public record AzNetworkExpressRouteGatewayConnectionUpdateOptions : AzOptions
     public string? AuthorizationKey { get; set; }
 
     /// <summary>
-    /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en- us/azure/virtual-wan/effective-routes- virtual-hub?branch=pr-en- us-91866#aboutdefaultroute might be helpful. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en-us/azure/virtual-wan/effective-routes-virtual-hub?branch=pr-en-us-91866#aboutdefaultroute might be helpful. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--internet-security", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? InternetSecurity { get; set; }
@@ -124,7 +124,7 @@ public record AzNetworkExpressRouteGatewayConnectionUpdateOptions : AzOptions
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// Space-separated list of resource id of propagated route tables.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--propagated-route-tables' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// Space-separated list of resource id of propagated route tables.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--propagated-route-tables' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--propagated", GroupValues = true)]
     public IEnumerable<string>? Propagated { get; set; }

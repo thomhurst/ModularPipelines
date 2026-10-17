@@ -77,7 +77,7 @@ public record AzEventhubsEventhubFabricShortcutCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Microsoft Fabric workspace and artifact configuration.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Microsoft Fabric workspace and artifact configuration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--configuration", GroupValues = true)]
     public IEnumerable<string>? Configuration { get; set; }

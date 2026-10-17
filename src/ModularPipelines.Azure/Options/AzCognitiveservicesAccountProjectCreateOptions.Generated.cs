@@ -23,7 +23,7 @@ public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
     /// <summary>
     /// Create a project for Azure Cognitive Services
     /// </summary>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     /// <param name="Name">Cognitive service account name.</param>
     /// <param name="ProjectName">Cognitive Services account project name.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
@@ -53,7 +53,7 @@ public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
     }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

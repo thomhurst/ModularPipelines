@@ -92,7 +92,7 @@ public record AzPolicyAttestationCreateOptions : AzOptions
     public string? ExpiresOn { get; set; }
 
     /// <summary>
-    /// Additional metadata in space- separated key=value pairs for an attestation. This overwrites any existing metadata for the attestation.
+    /// Additional metadata in space-separated key=value pairs for an attestation. This overwrites any existing metadata for the attestation.
     /// </summary>
     [CliOption("--metadata", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Metadata { get; set; }

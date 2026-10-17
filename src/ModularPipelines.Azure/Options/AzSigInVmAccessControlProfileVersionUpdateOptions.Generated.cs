@@ -28,7 +28,7 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--target-regions", GroupValues = true)]
     public IEnumerable<string>? TargetRegions { get; set; }

@@ -29,7 +29,7 @@ public record AzAksConnectionUpdateEventhubOptions : AzOptions
     public string? AppConfigId { get; set; }
 
     /// <summary>
-    /// The client type used on the aks.  Allowed values: dotnet, dotnet- internal, go, java, kafka-springBoot, nodejs, none, python, springBoot.
+    /// The client type used on the aks.  Allowed values: dotnet, dotnet-internal, go, java, kafka-springBoot, nodejs, none, python, springBoot.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

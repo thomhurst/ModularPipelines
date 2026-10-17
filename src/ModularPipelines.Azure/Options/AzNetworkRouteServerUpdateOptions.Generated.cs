@@ -28,7 +28,7 @@ public record AzNetworkRouteServerUpdateOptions : AzOptions
     public CliOptionValue? AllowB2bTraffic { get; set; }
 
     /// <summary>
-    /// The VirtualHub Router autoscale configuration.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The VirtualHub Router autoscale configuration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--auto-scale-config", GroupValues = true)]
     public IEnumerable<string>? AutoScaleConfig { get; set; }

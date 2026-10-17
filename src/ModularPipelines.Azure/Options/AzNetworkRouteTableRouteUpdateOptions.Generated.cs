@@ -70,7 +70,7 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The next hop definition containing ECMP next hop IP addresses. Only allowed when nextHopType is VirtualApplianceEcmp.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The next hop definition containing ECMP next hop IP addresses. Only allowed when nextHopType is VirtualApplianceEcmp.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--next-hop", GroupValues = true)]
     public IEnumerable<string>? NextHop { get; set; }

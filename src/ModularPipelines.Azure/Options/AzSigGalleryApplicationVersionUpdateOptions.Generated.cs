@@ -69,7 +69,7 @@ public record AzSigGalleryApplicationVersionUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The target regions where the Image Version is going to be replicated to. This property is updatable. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The target regions where the Image Version is going to be replicated to. This property is updatable. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--target-regions", GroupValues = true)]
     public IEnumerable<string>? TargetRegions { get; set; }
@@ -129,7 +129,7 @@ public record AzSigGalleryApplicationVersionUpdateOptions : AzOptions
     public string? GalleryName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

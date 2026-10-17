@@ -122,7 +122,7 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of availability zones into which to provision the resource.  Allowed values: 1, 2, 3.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
     public IEnumerable<string>? Zone { get; set; }

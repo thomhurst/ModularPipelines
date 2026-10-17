@@ -77,7 +77,7 @@ public record AzAksMeshEnableEgressGatewayOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Specify the namespace of the Istio egress gateway.  Default: aks-istio- egress. This optional field specifies the namespace of the Istio egress gateway. Defaults to "aks- istio-egress" if unspecified.
+    /// Specify the namespace of the Istio egress gateway.  Default: aks-istio-egress. This optional field specifies the namespace of the Istio egress gateway. Defaults to "aks-istio-egress" if unspecified.
     /// </summary>
     [CliOption("--istio-eg-gtw-ns")]
     public string? IstioEgGtwNs { get; set; }

@@ -51,7 +51,7 @@ public record AzAppConfigUpdateOptions : AzOptions
     public string? AppinsightsResource { get; set; }
 
     /// <summary>
-    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
+    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass-through.
     /// </summary>
     [CliOption("--arm-auth-mode")]
     public string? ArmAuthMode { get; set; }

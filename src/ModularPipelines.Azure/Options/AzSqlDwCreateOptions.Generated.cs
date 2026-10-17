@@ -26,7 +26,7 @@ public record AzSqlDwCreateOptions : AzOptions
     /// </summary>
     /// <param name="Name">Name of the data warehouse.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
     public AzSqlDwCreateOptions(
         string Name,
         string ResourceGroup,
@@ -61,7 +61,7 @@ public record AzSqlDwCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string Server { get; private init; }

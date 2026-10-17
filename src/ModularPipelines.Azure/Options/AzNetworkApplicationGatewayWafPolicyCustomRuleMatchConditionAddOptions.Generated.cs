@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     /// <summary>
     /// Add a match
     /// </summary>
-    /// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="MatchVariables">Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     /// <param name="Name">Name of the WAF policy rule.</param>
     /// <param name="Operator">Operator for matching.  Allowed values: Any, BeginsWith, Contains, EndsWith, Equal, GeoMatch, GreaterThan, GreaterThanOrEqual, IPMatch, LessThan, LessThanOrEqual, Regex.</param>
     /// <param name="PolicyName">Name of the application gateway WAF policy.</param>
@@ -70,7 +70,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     }
 
     /// <summary>
-    /// Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of variables to use when matching. Variable values: RemoteAddr, RequestMethod, QueryString, PostArgs, RequestUri, RequestHeaders, RequestBody, RequestCookies.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--match-variables", GroupValues = true)]
     public IEnumerable<string> MatchVariables { get; private init; }
@@ -112,13 +112,13 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     public CliOptionValue? Negate { get; set; }
 
     /// <summary>
-    /// Space-separated list of transforms to apply when matching. Allowed values: HtmlEntityDecode, Uppercase, Lowercase, RemoveNulls, Trim, UrlDecode, UrlEncode.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of transforms to apply when matching. Allowed values: HtmlEntityDecode, Uppercase, Lowercase, RemoveNulls, Trim, UrlDecode, UrlEncode.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--transforms", GroupValues = true)]
     public IEnumerable<string>? Transforms { get; set; }
 
     /// <summary>
-    /// Space-separated list of values to match.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of values to match.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }

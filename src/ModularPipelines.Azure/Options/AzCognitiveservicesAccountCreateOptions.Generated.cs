@@ -24,8 +24,8 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// Manage Azure Cognitive Services accounts.
     /// </summary>
-    /// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.</param>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Kind">The API name of cognitive services account. Values from: az cognitiveservices account list-kinds.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     /// <param name="Name">Cognitive service account name.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="Sku">Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.</param>
@@ -59,13 +59,13 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     }
 
     /// <summary>
-    /// The API name of cognitive services account. Values from: az cognitiveservices account list- kinds.
+    /// The API name of cognitive services account. Values from: az cognitiveservices account list-kinds.
     /// </summary>
     [CliOption("--kind")]
     public string Kind { get; private init; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

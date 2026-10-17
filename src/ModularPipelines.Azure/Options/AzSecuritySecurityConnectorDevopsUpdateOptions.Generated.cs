@@ -42,7 +42,7 @@ public record AzSecuritySecurityConnectorDevopsUpdateOptions : AzOptions
     public string? AutoDiscovery { get; set; }
 
     /// <summary>
-    /// List of top-level inventory to select when AutoDiscovery is disabled. This field is ignored when AutoDiscovery is enabled.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of top-level inventory to select when AutoDiscovery is disabled. This field is ignored when AutoDiscovery is enabled.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--inventory-list", GroupValues = true)]
     public IEnumerable<string>? InventoryList { get; set; }

@@ -104,7 +104,7 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     public string? Status { get; set; }
 
     /// <summary>
-    /// The list of tags that describe the device. These tags can be used to view and group this device (across resource groups).  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The list of tags that describe the device. These tags can be used to view and group this device (across resource groups).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -33,7 +33,7 @@ public record AzSqlDbLtrPolicySetOptions : AzOptions
     public string? MonthlyRetention { get; set; }
 
     /// <summary>
-    /// The mode of time based immutability to be set on the LTR backups. Possible values are: 'Locked', 'Unlocked'. This is only valid if make-backups- immutable is enabled.
+    /// The mode of time based immutability to be set on the LTR backups. Possible values are: 'Locked', 'Unlocked'. This is only valid if make-backups-immutable is enabled.
     /// </summary>
     [CliOption("--tb-immutability-mode")]
     public string? TbImmutabilityMode { get; set; }
@@ -81,7 +81,7 @@ public record AzSqlDbLtrPolicySetOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string? Server { get; set; }

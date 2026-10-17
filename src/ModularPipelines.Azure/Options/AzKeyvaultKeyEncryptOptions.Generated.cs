@@ -23,7 +23,7 @@ public record AzKeyvaultKeyEncryptOptions : AzOptions
     /// <summary>
     /// Encrypt an arbitrary sequence of bytes using an encryption key that is
     /// </summary>
-    /// <param name="Algorithm">Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA- OAEP, RSA-OAEP-256, RSA1_5.</param>
+    /// <param name="Algorithm">Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA-OAEP, RSA-OAEP-256, RSA1_5.</param>
     /// <param name="Value">The value to be encrypted. Default data type is Base64 encoded string.</param>
     public AzKeyvaultKeyEncryptOptions(
         string Algorithm,
@@ -43,7 +43,7 @@ public record AzKeyvaultKeyEncryptOptions : AzOptions
     }
 
     /// <summary>
-    /// Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA- OAEP, RSA-OAEP-256, RSA1_5.
+    /// Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA-OAEP, RSA-OAEP-256, RSA1_5.
     /// </summary>
     [CliOption("--algorithm", ShortForm = "-a")]
     public string Algorithm { get; private init; }

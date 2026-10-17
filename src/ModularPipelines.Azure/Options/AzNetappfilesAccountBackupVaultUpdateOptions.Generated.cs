@@ -28,7 +28,7 @@ public record AzNetappfilesAccountBackupVaultUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Resource tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
