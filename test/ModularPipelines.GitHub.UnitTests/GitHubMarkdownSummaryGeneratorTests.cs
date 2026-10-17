@@ -72,7 +72,7 @@ public class GitHubMarkdownSummaryGeneratorTests
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            await context.Environment.BuildSystem.AppendSummaryAsync(new string('u', 1024 * 1024 - 1), cancellationToken);
+            await context.Environment.BuildSystem.AppendSummaryAsync(new string('u', (1024 * 1024) - 1), cancellationToken);
             return "done";
         }
     }
@@ -93,7 +93,7 @@ public class GitHubMarkdownSummaryGeneratorTests
 
             await builder.RunAsync();
 
-            await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo(new string('u', 1024 * 1024 - 1) + "\n");
+            await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo(new string('u', (1024 * 1024) - 1) + "\n");
         }
         finally
         {

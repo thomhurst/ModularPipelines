@@ -155,7 +155,7 @@ public class BuildSystemContextTests
         try
         {
             var path = Path.Combine(directory.FullName, "summary");
-            await File.WriteAllTextAsync(path, new string('x', 1024 * 1024 - 10));
+            await File.WriteAllTextAsync(path, new string('x', (1024 * 1024) - 10));
             var variables = new Mock<IEnvironmentVariablesContext>();
             variables.Setup(x => x.Get("GITHUB_STEP_SUMMARY", It.IsAny<EnvironmentVariableTarget>())).Returns(path);
             using var output = new StringWriter();
@@ -174,7 +174,7 @@ public class BuildSystemContextTests
             }));
 
             await Assert.That(results.Count(x => x)).IsEqualTo(3);
-            await Assert.That(new FileInfo(path).Length).IsEqualTo(1024L * 1024 - 1);
+            await Assert.That(new FileInfo(path).Length).IsEqualTo((1024L * 1024) - 1);
         }
         finally
         {
