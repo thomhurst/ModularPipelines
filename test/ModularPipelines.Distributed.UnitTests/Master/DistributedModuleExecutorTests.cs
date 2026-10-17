@@ -83,6 +83,13 @@ public class DistributedModuleExecutorTests
             throw new InvalidOperationException("A master cache hit must skip execution.");
     }
 
+    [DependsOn<CachedDistributedModule>]
+    private sealed class CachedDependentModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("dependent");
+    }
+
     private sealed class AnotherCachedDistributedModule : Module<SimpleResult>
     {
         protected override void Configure(ModuleConfigurationBuilder module) =>
@@ -703,6 +710,69 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    [Timeout(10_000)]
+    public async Task Worker_Claims_Dependent_Of_Master_Cache_Hit(CancellationToken testCancellation)
+    {
+        var cached = new CachedDistributedModule();
+        var dependent = new CachedDependentModule();
+        var ready = Channel.CreateUnbounded<ModuleState>();
+        ready.Writer.TryWrite(new ModuleState(cached, cached.GetType()));
+        var scheduler = CreateMockScheduler();
+        scheduler.Setup(instance => instance.ReadyModules).Returns(ready.Reader);
+        scheduler.Setup(instance => instance.MarkModuleCompleted(
+                cached.GetType(), true, null, ModuleStatus.RestoredFromCache))
+            .Callback(() =>
+            {
+                ready.Writer.TryWrite(new ModuleState(dependent, dependent.GetType()));
+                ready.Writer.Complete();
+            });
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(instance => instance.GetResultAsync(cached, It.IsAny<IPipelineContext>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(CreateSuccessResult(new SimpleResult { Message = "cached value" }, nameof(CachedDistributedModule)));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var tracking = new ResultTrackingCoordinator(coordinator);
+        var executor = CreateExecutor(scheduler, coordinator: tracking, cacheResultRepository: cache.Object);
+        var types = new ModuleTypeRegistry();
+        types.Register(cached.GetType());
+        types.Register(dependent.GetType());
+        var serializer = new ModuleResultSerializer(types);
+        var execution = executor.ExecuteAsync([cached, dependent]);
+        try
+        {
+            await tracking.WaitForResultStartedAsync(dependent.GetType()).WaitAsync(testCancellation);
+            var lease = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), testCancellation);
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(ModuleId.FromType(dependent.GetType()));
+            await Assert.That(lease.Assignment.DependencyResultReferences.Single().IsAvailable).IsTrue();
+
+            // A worker has its own module instances and cannot use the master's local completion.
+            var workerCached = new CachedDistributedModule();
+            var workerRegistry = new ModuleResultRegistry();
+            await DependencyResultApplicator.FetchAndApplyAsync(
+                lease.Assignment.DependencyResultReferences,
+                new DependencyResultCache(coordinator, testCancellation),
+                DependencyResultApplicator.BuildModuleLookup([workerCached, new CachedDependentModule()]),
+                serializer,
+                workerRegistry,
+                NullLogger.Instance).WaitAsync(testCancellation);
+            var restored = await ((IInternalModule) workerCached).ResultTask.WaitAsync(testCancellation);
+            await Assert.That(restored.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
+            await Assert.That(((SimpleResult) restored.ValueOrDefault!).Message).IsEqualTo("cached value");
+            var result = CreateSuccessResult("dependent completed", nameof(CachedDependentModule));
+            await coordinator.PublishResultAsync(serializer.Serialize(result, lease.Assignment.ModuleId, lease.WorkerId), lease, testCancellation);
+            await execution.WaitAsync(testCancellation);
+        }
+        finally
+        {
+            // Unblock collection even if fetching the dependency times out on a broken implementation.
+            await coordinator.PublishResultAsync(serializer.Serialize(
+                CreateSuccessResult("cleanup", nameof(CachedDependentModule)), ModuleId.FromType(dependent.GetType()), DistributedTestData.Worker),
+                lease: null, CancellationToken.None);
+            await execution.WaitAsync(TestHostSettings.DefaultTestTimeout, CancellationToken.None);
+        }
+    }
+
+    [Test]
     public async Task Cache_Hit_State_Application_Failure_Does_Not_Fall_Back_To_Dispatch()
     {
         var module = new CachedDistributedModule();
@@ -1292,7 +1362,7 @@ public class DistributedModuleExecutorTests
                 It.Is<SerializedModuleResult>(result =>
                 result.ModuleId == ModuleId.FromType(typeof(DistributedModule))),
             It.IsAny<ModuleLease?>(),
-            CancellationToken.None), Times.Once());
+            It.Is<CancellationToken>(token => token.CanBeCanceled)), Times.Once());
     }
 
     [Test]
@@ -1316,7 +1386,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(instance => instance.PublishResultAsync(
                 It.IsAny<SerializedModuleResult>(),
                 It.IsAny<ModuleLease?>(),
-                CancellationToken.None))
+                It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Broker unavailable"));
         coordinator.Setup(instance => instance.BroadcastCancellationAsync(DistributedCancellationReason.PipelineFailed, CancellationToken.None))
             .Returns(Task.CompletedTask);
@@ -1333,8 +1403,8 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator.Object,
             resultCollector: resultCollector);
 
-        await executor.ExecuteAsync([module])
-            .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
+        await Assert.That(async () => await executor.ExecuteAsync([module])
+            .WaitAsync(TimeSpan.FromSeconds(3), testCancellation)).Throws<InvalidOperationException>();
 
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
             .IsNotNull();
@@ -1720,6 +1790,214 @@ public class DistributedModuleExecutorTests
         var resultB = resultRegistry.GetResult(typeof(AnotherDistributedModule));
         await Assert.That(resultB).IsNotNull();
         await Assert.That(resultB!.ExceptionOrDefault).IsNotNull();
+    }
+
+    [Test]
+    [Timeout(10_000)]
+    public async Task Pending_Canceled_Results_Are_Published_Before_AlwaysRun_Completes(CancellationToken testCancellation)
+    {
+        var failed = new DistributedModule();
+        var pending = new AnotherDistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(failed, failed.GetType()));
+        scheduler.Setup(instance => instance.CancelPendingModules()).Returns([pending]);
+        var conditions = new Mock<IModuleConditionHandler>();
+        conditions.Setup(instance => instance.PrepareExecutionRoutingAsync(failed, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Assignment failed"));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var tracking = new ResultTrackingCoordinator(coordinator);
+        var types = new ModuleTypeRegistry();
+        types.Register(pending.GetType());
+        var serializer = new ModuleResultSerializer(types);
+        var alwaysRun = new Mock<IAlwaysRunHandler>();
+        alwaysRun.Setup(instance => instance.WaitForAlwaysRunModulesAsync(
+                scheduler.Object, It.IsAny<IReadOnlyList<IModule>>(), It.IsAny<Func<ModuleState, Task>>()))
+            .Returns(async () =>
+            {
+                // A worker performing cleanup can fetch this result while the master waits for cleanup.
+                var published = await coordinator.WaitForResultAsync(ModuleId.FromType(pending.GetType()), testCancellation);
+                await Assert.That(serializer.Deserialize(published)?.Status).IsEqualTo(ModuleStatus.Canceled);
+            });
+        var executor = CreateExecutor(scheduler, coordinator: tracking, conditionHandler: conditions.Object,
+            alwaysRunHandler: alwaysRun.Object);
+
+        await executor.ExecuteAsync([failed, pending]).WaitAsync(testCancellation);
+
+        alwaysRun.VerifyAll();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(10_000)]
+    public async Task Canceled_Result_Publication_Failure_Stops_InFlight_Cleanup(
+        bool stallPublication, CancellationToken testCancellation)
+    {
+        var pending = new AnotherDistributedModule();
+        var cleanup = new AlwaysRunDistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(cleanup, cleanup.GetType()));
+        scheduler.Setup(instance => instance.CancelPendingModules()).Returns([pending]);
+        var resultWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var failedPublication = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var publicationToken = CancellationToken.None;
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.WaitForResultAsync(
+                It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>(async (_, token) =>
+            {
+                resultWaitStarted.TrySetResult();
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return null!;
+            });
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(), null, It.IsAny<CancellationToken>()))
+            .Returns<SerializedModuleResult, ModuleLease?, CancellationToken>((result, _, token) =>
+            {
+                if (result.ModuleId != ModuleId.FromType(pending.GetType()))
+                {
+                    return Task.CompletedTask;
+                }
+
+                publicationToken = token;
+                // Ignore cancellation to verify the master also bounds its wait.
+                return stallPublication ? failedPublication.Task : Task.FromException(new InvalidOperationException("Broker unavailable"));
+            });
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object,
+            distributedOptions: new DistributedOptions
+            {
+                WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(10),
+                WorkerTimeout = TimeSpan.FromMilliseconds(200),
+            });
+        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        var execution = executor.ExecuteAsync([pending, cleanup], new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(new ModuleResultRegistry()), cancellation.Token);
+        try
+        {
+            await resultWaitStarted.Task.WaitAsync(testCancellation);
+            await cancellation.CancelAsync();
+            await Assert.That(async () => await execution.WaitAsync(TimeSpan.FromSeconds(3), testCancellation))
+                .Throws<InvalidOperationException>();
+            if (stallPublication)
+            {
+                await Assert.That(publicationToken.IsCancellationRequested).IsTrue();
+            }
+
+            coordinator.Verify(instance => instance.SignalCompletionAsync(CancellationToken.None), Times.Once());
+        }
+        finally
+        {
+            failedPublication.TrySetResult();
+        }
+    }
+
+    [Test]
+    [Timeout(10_000)]
+    public async Task Canceled_Publication_Failure_Interrupts_AlwaysRun_Handler(CancellationToken testCancellation)
+    {
+        var pending = new AnotherDistributedModule();
+        var scheduler = CreateMockScheduler();
+        scheduler.Setup(instance => instance.CancelPendingModules()).Returns([pending]);
+        var publication = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanupStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanup = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(), null, It.IsAny<CancellationToken>()))
+            .Returns(publication.Task);
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler.Setup(instance => instance.WaitForAlwaysRunModulesAsync(
+                scheduler.Object, It.IsAny<IReadOnlyList<IModule>>(), It.IsAny<Func<ModuleState, Task>>()))
+            .Callback(() =>
+            {
+                cleanupStarted.TrySetResult();
+                publication.TrySetException(new InvalidOperationException("Broker unavailable"));
+            })
+            .Returns(cleanup.Task);
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object,
+            alwaysRunHandler: alwaysRunHandler.Object);
+        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        await cancellation.CancelAsync();
+        try
+        {
+            var execution = executor.ExecuteAsync([pending], new Dictionary<Type, TimeSpan>(),
+                new ExecutionBackendContext(new ModuleResultRegistry()), cancellation.Token);
+            await cleanupStarted.Task.WaitAsync(testCancellation);
+            await Assert.That(async () => await execution.WaitAsync(TimeSpan.FromSeconds(3), testCancellation))
+                .Throws<InvalidOperationException>();
+            coordinator.Verify(instance => instance.SignalCompletionAsync(CancellationToken.None), Times.Once());
+        }
+        finally
+        {
+            publication.TrySetResult();
+            cleanup.TrySetResult();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(10_000)]
+    public async Task Terminal_Publication_Failure_Completes_Cached_Or_Skipped_Scheduler_State(
+        bool cacheHit, CancellationToken testCancellation)
+    {
+        IModule module = cacheHit ? new CachedDistributedModule() : new CachedModuleWithConflictingCapabilities();
+        var scheduler = CreateMockScheduler(new ModuleState(module, module.GetType()));
+        var cache = new Mock<IModuleCacheResultRepository>();
+        cache.Setup(instance => instance.GetResultAsync(It.IsAny<Module<SimpleResult>>(),
+                It.IsAny<IPipelineContext>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(cacheHit ? CreateSuccessResult(new SimpleResult(), module.GetType().Name) : null);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(), null, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Broker unavailable"));
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, cacheResultRepository: cache.Object);
+
+        await Assert.That(async () => await executor.ExecuteAsync([module]).WaitAsync(testCancellation))
+            .Throws<InvalidOperationException>();
+
+        scheduler.Verify(instance => instance.MarkModuleCompleted(module.GetType(), true, null,
+            cacheHit ? ModuleStatus.RestoredFromCache : ModuleStatus.Skipped), Times.Once());
+        coordinator.Verify(instance => instance.SignalCompletionAsync(CancellationToken.None), Times.Once());
+    }
+
+    [Test]
+    [Timeout(10_000)]
+    public async Task Worker_Shutdown_Waits_For_Canceled_Result_Publication(CancellationToken testCancellation)
+    {
+        var failed = new DistributedModule();
+        var pending = new AnotherDistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(failed, failed.GetType()));
+        scheduler.Setup(instance => instance.CancelPendingModules()).Returns([pending]);
+        var conditions = new Mock<IModuleConditionHandler>();
+        conditions.Setup(instance => instance.PrepareExecutionRoutingAsync(failed, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Assignment failed"));
+        var publicationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releasePublication = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(instance => instance.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(), null, It.IsAny<CancellationToken>()))
+            .Returns<SerializedModuleResult, ModuleLease?, CancellationToken>(async (result, _, _) =>
+            {
+                if (result.ModuleId == ModuleId.FromType(pending.GetType()))
+                {
+                    publicationStarted.TrySetResult();
+                    await releasePublication.Task.WaitAsync(testCancellation);
+                }
+            });
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, conditionHandler: conditions.Object);
+        var execution = executor.ExecuteAsync([failed, pending]);
+        try
+        {
+            await publicationStarted.Task.WaitAsync(testCancellation);
+            await Assert.That(execution.IsCompleted).IsFalse();
+            coordinator.Verify(instance => instance.SignalCompletionAsync(It.IsAny<CancellationToken>()), Times.Never());
+        }
+        finally
+        {
+            releasePublication.TrySetResult();
+            await execution.WaitAsync(testCancellation);
+        }
+
+        coordinator.Verify(instance => instance.SignalCompletionAsync(CancellationToken.None), Times.Once());
     }
 
     [Test]
@@ -2762,6 +3040,9 @@ public class DistributedModuleExecutorTests
 
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))?.ExceptionOrDefault)
             .IsSameReferenceAs(failure);
+        coordinator.Verify(instance => instance.PublishResultAsync(
+            It.Is<SerializedModuleResult>(result => result.ModuleId == ModuleId.FromType(typeof(DistributedModule))),
+            null, It.Is<CancellationToken>(token => token.CanBeCanceled)), Times.Once());
         conditionHandler.Verify(handler => handler.PrepareExecutionRoutingAsync(
             It.IsAny<IModule>(),
             It.IsAny<CancellationToken>()), Times.Once());
@@ -3002,12 +3283,16 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync((ModuleResult<SimpleResult>?) null);
 
         var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new InMemoryDistributedCoordinator();
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
+            coordinator: coordinator,
             cacheResultRepository: cache.Object);
 
         await executor.ExecuteAsync([module]);
+        var published = coordinator.WaitForResultAsync(ModuleId.FromType(module.GetType()), CancellationToken.None);
+        await Assert.That(published.IsCompletedSuccessfully).IsTrue();
 
         cache.Verify(c => c.DiscardFingerprint(module), Times.Once());
         scheduler.Verify(s => s.MarkModuleCompleted(
@@ -3108,6 +3393,9 @@ public class DistributedModuleExecutorTests
             .IsTypeOf<OperationCanceledException>();
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
             .IsSameReferenceAs(moduleResult);
+        coordinator.Verify(instance => instance.PublishResultAsync(
+            It.Is<SerializedModuleResult>(result => result.ModuleId == ModuleId.FromType(typeof(DistributedModule))),
+            null, It.Is<CancellationToken>(token => token.CanBeCanceled)), Times.Once());
         scheduler.Verify(
             s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, ModuleStatus.Canceled),
             Times.Once());
