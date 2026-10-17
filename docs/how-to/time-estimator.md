@@ -37,13 +37,13 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(
 
-        Type moduleType,
+        ModuleId moduleId,
 
         CancellationToken cancellationToken = default)
 
     {
 
-        return await store.GetAsync(moduleType.FullName!, cancellationToken)
+        return await store.GetAsync(moduleId.Value, cancellationToken)
 
             ?? TimeSpan.FromMinutes(2);
 
@@ -53,7 +53,7 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 
     public Task SaveModuleTimeAsync(
 
-        Type moduleType,
+        ModuleId moduleId,
 
         TimeSpan duration,
 
@@ -61,7 +61,7 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 
     {
 
-        return store.SaveAsync(moduleType.FullName!, duration, cancellationToken);
+        return store.SaveAsync(moduleId.Value, duration, cancellationToken);
 
     }
 
@@ -69,3 +69,5 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 ```
 
 When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent measured durations for a module, which a custom provider can average instead of keeping its own storage. Configure `RunReportOptions.PipelineIdentity` explicitly through `builder.ConfigureOptions` before querying the reader. The identity derived automatically when writing reports is not used by `IRunHistoryReader`; a missing or blank identity causes `InvalidOperationException`. See [Run reports and history](/ModularPipelines/docs/how-to/run-reports.md#local-history-and-deltas) for configuration and query examples.
+
+All provider methods use `ModularPipelines.ModuleId`, shared with run history, artifacts, and execution backends. Use `ModuleId.FromType(typeof(MyModule))` to derive an identifier. A `[ModuleId("build")]` attribute keeps the identifier stable when a module is renamed. Construct an identifier with `new ModuleId(value)` or an explicit cast from a string; invalid identifiers throw during this explicit validation step. Reading an identifier as a string remains implicit. The default provider hashes identifiers into safe filenames. Existing estimates are rebuilt under the new keys after upgrading to v4.
