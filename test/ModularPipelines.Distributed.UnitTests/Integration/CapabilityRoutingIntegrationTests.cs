@@ -12,7 +12,7 @@ public class CapabilityRoutingIntegrationTests
 
         var assignment = new ModuleAssignment
         {
-            ModuleId = "Docker.Module",
+            ModuleId = new ModuleId("Docker.Module"),
             RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
@@ -37,7 +37,7 @@ public class CapabilityRoutingIntegrationTests
 
         var assignment = new ModuleAssignment
         {
-            ModuleId = "Docker.Module",
+            ModuleId = new ModuleId("Docker.Module"),
             RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
@@ -73,7 +73,7 @@ public class CapabilityRoutingIntegrationTests
 
         var dockerAssignment = new ModuleAssignment
         {
-            ModuleId = "Docker.Module",
+            ModuleId = new ModuleId("Docker.Module"),
             RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
@@ -81,7 +81,7 @@ public class CapabilityRoutingIntegrationTests
 
         var plainAssignment = new ModuleAssignment
         {
-            ModuleId = "Plain.Module",
+            ModuleId = new ModuleId("Plain.Module"),
             RequiredCapabilities = CapabilityRequirement.None,
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
@@ -103,7 +103,7 @@ public class CapabilityRoutingIntegrationTests
 
         var assignment = new ModuleAssignment
         {
-            ModuleId = "Unix.Module",
+            ModuleId = new ModuleId("Unix.Module"),
             RequiredCapabilities = CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS),
             AlwaysRun = false,
             PipelineSchemaVersion = string.Empty,
@@ -122,6 +122,6 @@ public class CapabilityRoutingIntegrationTests
             new HashSet<Capability> { Capability.MacOS },
             CancellationToken.None);
 
-        await Assert.That(macResult?.Assignment.ModuleId).IsEqualTo("Unix.Module");
+        await Assert.That(macResult?.Assignment.ModuleId).IsEqualTo((ModuleId?) new ModuleId("Unix.Module"));
     }
 }

@@ -263,7 +263,7 @@ public class RedisMemoryDiagnosticsTests
     {
         ArtifactId = id,
         Name = "artifact",
-        ModuleId = "module",
+        ModuleId = new ModuleId("module"),
         SizeBytes = size,
         UploadedAt = DateTimeOffset.UtcNow,
     };

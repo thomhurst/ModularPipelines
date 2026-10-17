@@ -8,12 +8,12 @@ public class DistributedDtoSerializationTests
     {
         var expected = new ModuleAssignment
         {
-            ModuleId = "BuildModule",
+            ModuleId = new ModuleId("BuildModule"),
             RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("Docker")),
             AlwaysRun = true,
             DependencyResultReferences = [new DependencyResultReference
             {
-                ModuleId = "DependencyModule",
+                ModuleId = new ModuleId("DependencyModule"),
                 IsAvailable = true,
             }],
             EnqueuedAt = DateTimeOffset.UtcNow,
@@ -68,7 +68,7 @@ public class DistributedDtoSerializationTests
     {
         var result = new SerializedModuleResult
         {
-            ModuleId = "BuildModule",
+            ModuleId = new ModuleId("BuildModule"),
             WorkerId = WorkerId.FromInstanceIndex(1),
             Payload = "{}",
             CompletedAt = DateTimeOffset.UtcNow,
@@ -88,7 +88,7 @@ public class DistributedDtoSerializationTests
         var now = DateTimeOffset.UtcNow;
         var expected = new SerializedModuleResult
         {
-            ModuleId = "BuildModule",
+            ModuleId = new ModuleId("BuildModule"),
             WorkerId = WorkerId.FromInstanceIndex(1),
             Payload = "{}",
             CompletedAt = now,

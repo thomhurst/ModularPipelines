@@ -170,10 +170,10 @@ public class ParallelLimiterConfigurationTests
 
     private sealed class EstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken)
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken)
             => Task.FromResult(TimeSpan.FromMinutes(1));
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken)
+        public Task SaveModuleTimeAsync(ModuleId moduleId, TimeSpan duration, CancellationToken cancellationToken)
             => Task.CompletedTask;
     }
 }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using ModularPipelines.Models;
@@ -14,9 +15,10 @@ internal static class PipelineRunCompatibility
             return configuredIdentity;
         }
 
-        return Hash(string.Join('\n', modules
-            .Select(static module => ModuleTypeIdentifier.Get(module.GetType()))
-            .OrderBy(static name => name, StringComparer.Ordinal)));
+        return Hash(string.Concat(modules
+            .Select(static module => ModuleId.FromType(module.GetType()).Value)
+            .OrderBy(static id => id, StringComparer.Ordinal)
+            .Select(static id => $"{id.Length.ToString(CultureInfo.InvariantCulture)}:{id}")));
     }
 
     public static string GetGraphFingerprint(IReadOnlyList<ModuleDependencyModel> models)

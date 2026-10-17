@@ -6,10 +6,10 @@ using System.Text.Json.Serialization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Serialization;
 
-namespace ModularPipelines.Distributed;
+namespace ModularPipelines;
 
 /// <summary>
-/// Identifies a module in distributed messages, artifacts, and cache fingerprints.
+/// Identifies a module in run history, time estimates, distributed messages, artifacts, and cache fingerprints.
 /// </summary>
 [TypeConverter(typeof(ModuleIdTypeConverter))]
 [JsonConverter(typeof(ModuleIdJsonConverter))]
@@ -38,9 +38,7 @@ public readonly struct ModuleId : IEquatable<ModuleId>
     {
         ArgumentNullException.ThrowIfNull(moduleType);
         var configuredId = moduleType.GetCustomAttribute<ModuleIdAttribute>(inherit: false)?.Id;
-        return new ModuleId(configuredId ?? (moduleType.IsGenericType
-            ? StableTypeName.Get(moduleType)
-            : moduleType.FullName ?? moduleType.Name));
+        return new ModuleId(configuredId ?? StableTypeName.Get(moduleType));
     }
 
     /// <inheritdoc />
@@ -60,7 +58,7 @@ public readonly struct ModuleId : IEquatable<ModuleId>
 
     public static bool operator !=(ModuleId left, ModuleId right) => !left.Equals(right);
 
-    public static implicit operator ModuleId(string value) => new(value);
+    public static explicit operator ModuleId(string value) => new(value);
 
     public static implicit operator string(ModuleId moduleId) => moduleId.Value;
 }

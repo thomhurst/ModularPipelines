@@ -29,7 +29,7 @@ internal class DistributedResultCollector(
         var result = _serializer.Deserialize(serialized);
         if (result is ModuleResult { ModuleType: { } moduleType })
         {
-            _telemetryTracker?.RecordResult(serialized, receivedAt, ModuleTypeIdentifier.Get(moduleType));
+            _telemetryTracker?.RecordResult(serialized, receivedAt);
             if (serialized.WorkerId != _distributedOptions?.Value.LocalWorkerId)
             {
                 _commandExecutionCounter?.AddRemote(

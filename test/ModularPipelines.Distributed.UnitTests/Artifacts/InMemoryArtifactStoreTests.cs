@@ -13,7 +13,7 @@ public class InMemoryArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "test-artifact",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             ContentType = "application/octet-stream",
         };
 
@@ -43,17 +43,17 @@ public class InMemoryArtifactStoreTests
         var descriptor1 = new ArtifactDescriptor
         {
             Name = "art1",
-            ModuleId = "Module.A",
+            ModuleId = new ModuleId("Module.A"),
         };
         var descriptor2 = new ArtifactDescriptor
         {
             Name = "art2",
-            ModuleId = "Module.A",
+            ModuleId = new ModuleId("Module.A"),
         };
         var descriptor3 = new ArtifactDescriptor
         {
             Name = "art3",
-            ModuleId = "Module.B",
+            ModuleId = new ModuleId("Module.B"),
         };
 
         using (var s1 = new MemoryStream([1, 2]))
@@ -71,9 +71,9 @@ public class InMemoryArtifactStoreTests
             await store.UploadAsync(descriptor3, s3, CancellationToken.None);
         }
 
-        var moduleAList = await store.ListArtifactsAsync("Module.A", CancellationToken.None);
-        var moduleBList = await store.ListArtifactsAsync("Module.B", CancellationToken.None);
-        var moduleCList = await store.ListArtifactsAsync("Module.C", CancellationToken.None);
+        var moduleAList = await store.ListArtifactsAsync(new ModuleId("Module.A"), CancellationToken.None);
+        var moduleBList = await store.ListArtifactsAsync(new ModuleId("Module.B"), CancellationToken.None);
+        var moduleCList = await store.ListArtifactsAsync(new ModuleId("Module.C"), CancellationToken.None);
 
         await Assert.That(moduleAList.Count).IsEqualTo(2);
         await Assert.That(moduleBList.Count).IsEqualTo(1);
@@ -88,7 +88,7 @@ public class InMemoryArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "art1",
-            ModuleId = "Module.A",
+            ModuleId = new ModuleId("Module.A"),
         };
         ArtifactReference reference;
         using (var stream = new MemoryStream([1, 2, 3]))
@@ -98,7 +98,7 @@ public class InMemoryArtifactStoreTests
 
         await store.DeleteAsync(reference, CancellationToken.None);
 
-        var list = await store.ListArtifactsAsync("Module.A", CancellationToken.None);
+        var list = await store.ListArtifactsAsync(new ModuleId("Module.A"), CancellationToken.None);
         await Assert.That(list.Count).IsEqualTo(0);
     }
 
@@ -111,7 +111,7 @@ public class InMemoryArtifactStoreTests
         {
             ArtifactId = "nonexistent",
             Name = "fake",
-            ModuleId = "Fake.Module",
+            ModuleId = new ModuleId("Fake.Module"),
             SizeBytes = 0,
             ContentType = null,
             UploadedAt = DateTimeOffset.UtcNow,

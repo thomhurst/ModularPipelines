@@ -12,7 +12,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 6;
+    public const int CurrentSchemaVersion = 7;
 
     /// <summary>
     /// Gets the schema version used by this report.

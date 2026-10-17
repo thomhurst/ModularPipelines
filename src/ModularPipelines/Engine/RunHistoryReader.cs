@@ -10,11 +10,11 @@ internal sealed class RunHistoryReader(
     IOptions<PipelineOptions> pipelineOptions) : IRunHistoryReader
 {
     public async Task<IReadOnlyList<ModuleDurationSample>> GetModuleDurationTrendAsync(
-        string moduleTypeName,
+        ModuleId moduleId,
         int lastN,
         CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(moduleTypeName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(moduleId.Value, nameof(moduleId));
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(lastN);
 
         var pipelineIdentity = pipelineOptions.Value.RunReport.PipelineIdentity;
@@ -36,7 +36,7 @@ internal sealed class RunHistoryReader(
         {
             var matchingModules = report.Modules
                 .Where(candidate =>
-                    string.Equals(candidate.ModuleTypeName, moduleTypeName, StringComparison.Ordinal))
+                    candidate.ModuleId == moduleId)
                 .Take(2)
                 .ToArray();
             if (matchingModules.Length != 1

@@ -56,10 +56,10 @@ public class RegistrationSemanticsTests
 
     private sealed class EstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken = default) =>
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken = default) =>
             Task.FromResult(TimeSpan.Zero);
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default) =>
+        public Task SaveModuleTimeAsync(ModuleId moduleId, TimeSpan duration, CancellationToken cancellationToken = default) =>
             Task.CompletedTask;
     }
 

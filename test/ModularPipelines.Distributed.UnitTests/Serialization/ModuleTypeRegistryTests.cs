@@ -55,7 +55,7 @@ public class ModuleTypeRegistryTests
         var registry = new ModuleTypeRegistry();
         registry.Register(typeof(TestModule));
 
-        var resolved = registry.Resolve(typeof(TestModule).FullName!);
+        var resolved = registry.Resolve(ModuleId.FromType(typeof(TestModule)));
 
         await Assert.That(resolved).IsNotNull();
         await Assert.That(resolved!.Value.ModuleType).IsEqualTo(typeof(TestModule));
@@ -67,16 +67,16 @@ public class ModuleTypeRegistryTests
     {
         var registry = new ModuleTypeRegistry();
 
-        var resolved = registry.Resolve("NonExistent.Module");
+        var resolved = registry.Resolve(new ModuleId("NonExistent.Module"));
 
         await Assert.That(resolved).IsNull();
     }
 
     [Test]
-    public async Task ModuleId_Defaults_To_FullName_And_Honors_Override()
+    public async Task ModuleId_Defaults_To_Stable_Type_Name_And_Honors_Override()
     {
         await Assert.That(ModuleId.FromType(typeof(TestModule)).Value)
-            .IsEqualTo(typeof(TestModule).FullName);
+            .IsEqualTo($"{typeof(TestModule).FullName}, {typeof(TestModule).Assembly.GetName().Name}");
         await Assert.That(ModuleId.FromType(typeof(StableModule)).Value)
             .IsEqualTo("stable-module");
     }
@@ -127,8 +127,8 @@ public class ModuleTypeRegistryTests
         registry.Register(typeof(TestModule));
         registry.Register(typeof(AnotherModule));
 
-        var resolved1 = registry.Resolve(typeof(TestModule).FullName!);
-        var resolved2 = registry.Resolve(typeof(AnotherModule).FullName!);
+        var resolved1 = registry.Resolve(ModuleId.FromType(typeof(TestModule)));
+        var resolved2 = registry.Resolve(ModuleId.FromType(typeof(AnotherModule)));
 
         await Assert.That(resolved1).IsNotNull();
         await Assert.That(resolved2).IsNotNull();

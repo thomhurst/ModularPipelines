@@ -1984,17 +1984,17 @@ public class DependencyGraphExporterTests
 
     private sealed class FixedEstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken) =>
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
             Task.FromResult(TimeSpan.FromSeconds(5));
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) =>
+        public Task SaveModuleTimeAsync(ModuleId moduleId, TimeSpan duration, CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
         public Task SaveSubModuleTimeAsync(
-            Type moduleType,
+            ModuleId moduleId,
             SubModuleEstimation subModuleEstimation,
             CancellationToken cancellationToken) =>
             Task.CompletedTask;
@@ -2003,20 +2003,20 @@ public class DependencyGraphExporterTests
     private sealed class CancelingEstimatedTimeProvider(CancellationTokenSource cancellationTokenSource)
         : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken)
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(ModuleId moduleId, CancellationToken cancellationToken)
         {
             cancellationTokenSource.Cancel();
             return Task.FromResult(TimeSpan.FromSeconds(5));
         }
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) =>
+        public Task SaveModuleTimeAsync(ModuleId moduleId, TimeSpan duration, CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
         public Task SaveSubModuleTimeAsync(
-            Type moduleType,
+            ModuleId moduleId,
             SubModuleEstimation subModuleEstimation,
             CancellationToken cancellationToken) =>
             Task.CompletedTask;

@@ -201,7 +201,7 @@ samples from the latest runs:
 
 ```csharp
 var samples = await historyReader.GetModuleDurationTrendAsync(
-    moduleTypeName,
+    ModuleId.FromType(typeof(MyModule)),
     lastN: 10,
     cancellationToken);
 ```
@@ -241,3 +241,9 @@ store retains the already-masked excerpts.
 In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former
 `GetLatestAsync` interface member is now an extension method, so stores need only implement the
 query operation and `SaveAsync`.
+
+Module reports expose `ModuleRunReport.ModuleId` using the root `ModularPipelines.ModuleId`
+type. Reports retain the JSON field name `moduleTypeName` for readers of older report files;
+schema v7 writes the stable identifier used by estimates and distributed execution. Older
+reports remain readable. A duration is reused only when its stored key equals the new
+identifier; explicit identifiers and some generic type keys differ from earlier keys. Use `[ModuleId("build")]` on a module to preserve its key across renames.

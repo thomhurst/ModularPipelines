@@ -118,7 +118,7 @@ internal class SpectreResultsPrinter(
 
         return $"Workers idle {idlePercentage:F1}% of run; longest queue wait: "
                + $"{longestQueueWait.QueueWaitDuration.ToDisplayString()} on "
-               + SpectreMarkupEscaper.Escape(GetModuleName(longestQueueWait.ModuleTypeName));
+               + SpectreMarkupEscaper.Escape(longestQueueWait.ModuleId.Value);
     }
 
     private static void PrintHeader(PipelineSummary pipelineSummary)
@@ -164,7 +164,7 @@ internal class SpectreResultsPrinter(
         var reportLookup = pipelineSummary.RunReport is null
             ? [with(StringComparer.Ordinal)]
             : pipelineSummary.RunReport.Modules
-                .ToUniqueByKeyDictionary(static report => report.ModuleTypeName);
+                .ToUniqueByKeyDictionary(static report => report.ModuleId.Value);
         var showDeltas = pipelineSummary.RunReport?.TotalDurationDelta.HasValue == true
             || reportLookup.Values.Any(static module => module.DurationDelta.HasValue);
         if (showDeltas)
@@ -273,7 +273,7 @@ internal class SpectreResultsPrinter(
         };
         if (showDeltas)
         {
-            cells.Add(reportLookup.TryGetValue(ModuleTypeIdentifier.Get(module.GetType()), out var report)
+            cells.Add(reportLookup.TryGetValue(ModuleId.FromType(module.GetType()).Value, out var report)
                 ? FormatDelta(report.DurationDelta)
                 : "[dim]-[/]");
         }
@@ -470,13 +470,6 @@ internal class SpectreResultsPrinter(
 
         System.Console.WriteLine();
         AnsiConsole.MarkupLine($"[dim]Distributed:[/] {CreateDistributedSummaryLine(report)}");
-    }
-
-    private static string GetModuleName(string moduleTypeName)
-    {
-        var typeName = moduleTypeName.Split(',')[0];
-        var separator = typeName.LastIndexOf('.');
-        return separator >= 0 ? typeName[(separator + 1)..] : typeName;
     }
 
     private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)

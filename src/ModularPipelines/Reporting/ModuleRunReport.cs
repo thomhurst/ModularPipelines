@@ -15,9 +15,12 @@ public sealed record ModuleRunReport
     public string ModuleName { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets the stable assembly-qualified module type identifier.
+    /// Gets the stable module identifier.
     /// </summary>
-    public string ModuleTypeName { get; init; } = string.Empty;
+    // Retain the field name so older history files remain readable.
+    [JsonPropertyName("moduleTypeName")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModuleId ModuleId { get; init; }
 
     /// <summary>
     /// Gets the original stored result start time, including when this run reused the result.

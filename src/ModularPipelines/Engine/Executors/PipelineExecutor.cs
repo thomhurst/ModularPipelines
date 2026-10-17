@@ -84,13 +84,13 @@ internal class PipelineExecutor(
         return pipelineSummary;
     }
 
-    private static Dictionary<Distributed.ModuleId, TimeSpan> ToModuleIdDurations(
+    private static Dictionary<ModuleId, TimeSpan> ToModuleIdDurations(
         Dictionary<Type, TimeSpan> estimatedDurations)
     {
-        var durations = new Dictionary<Distributed.ModuleId, TimeSpan>(estimatedDurations.Count);
+        var durations = new Dictionary<ModuleId, TimeSpan>(estimatedDurations.Count);
         foreach (var (moduleType, duration) in estimatedDurations)
         {
-            durations[Distributed.ModuleId.FromType(moduleType)] = duration;
+            durations[ModuleId.FromType(moduleType)] = duration;
         }
 
         return durations;

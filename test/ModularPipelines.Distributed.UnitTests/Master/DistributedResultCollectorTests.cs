@@ -51,12 +51,12 @@ public class DistributedResultCollectorTests
             successResult, ModuleId.FromType(typeof(TestModule)), WorkerId.FromInstanceIndex(1));
 
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
-        coordinatorMock.Setup(c => c.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
+        coordinatorMock.Setup(c => c.WaitForResultAsync(ModuleId.FromType(typeof(TestModule)), It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
 
         var collector = new DistributedResultCollector(coordinatorMock.Object, serializer);
 
-        var result = await collector.WaitForResultAsync(typeof(TestModule).FullName!, CancellationToken.None);
+        var result = await collector.WaitForResultAsync(ModuleId.FromType(typeof(TestModule)), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -83,7 +83,7 @@ public class DistributedResultCollectorTests
         var threw = false;
         try
         {
-            await collector.WaitForResultAsync("Test.Module", cts.Token);
+            await collector.WaitForResultAsync(new ModuleId("Test.Module"), cts.Token);
         }
         catch (OperationCanceledException)
         {
@@ -97,7 +97,7 @@ public class DistributedResultCollectorTests
     private sealed class CustomIdModule : TestModule;
 
     [Test]
-    public async Task Custom_ModuleId_Preserves_Type_Name_In_Distributed_Report()
+    public async Task Custom_ModuleId_Is_Used_In_Distributed_Report()
     {
         var registry = new ModuleTypeRegistry();
         registry.Register(typeof(CustomIdModule));
@@ -130,9 +130,8 @@ public class DistributedResultCollectorTests
         var result = await collector.WaitForResultAsync(moduleId, CancellationToken.None);
         var report = tracker.CreateReport(now, now.AddSeconds(1), configuredWorkerCount: 2)!;
 
-        await Assert.That(report.Modules.Single().ModuleTypeName)
-            .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
-        await Assert.That(report.Modules.Single().ModuleTypeName).IsEqualTo(result!.TypeName);
+        await Assert.That(report.Modules.Single().ModuleId).IsEqualTo(moduleId);
+        await Assert.That(result!.TypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
     }
 
     [Test]
@@ -158,7 +157,7 @@ public class DistributedResultCollectorTests
             CommandCount = 4,
         };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
-        coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
+        coordinator.Setup(x => x.WaitForResultAsync(ModuleId.FromType(typeof(TestModule)), It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
         var commandExecutionCounter = new CommandExecutionCounter();
         var collector = new DistributedResultCollector(
@@ -168,7 +167,7 @@ public class DistributedResultCollectorTests
             OptionsFactory.Create(new DistributedOptions { InstanceIndex = 0 }));
 
         var collected = await collector.WaitForResultAsync(
-            typeof(TestModule).FullName!,
+            ModuleId.FromType(typeof(TestModule)),
             CancellationToken.None);
 
         using (Assert.Multiple())
@@ -204,7 +203,7 @@ public class DistributedResultCollectorTests
             CommandCount = 2,
         };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
-        coordinator.Setup(x => x.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
+        coordinator.Setup(x => x.WaitForResultAsync(ModuleId.FromType(typeof(TestModule)), It.IsAny<CancellationToken>()))
             .ReturnsAsync(serialized);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.Add(typeof(TestModule), 2);
@@ -214,7 +213,7 @@ public class DistributedResultCollectorTests
             commandExecutionCounter,
             OptionsFactory.Create(new DistributedOptions { InstanceIndex = 0 }));
 
-        await collector.WaitForResultAsync(typeof(TestModule).FullName!, CancellationToken.None);
+        await collector.WaitForResultAsync(ModuleId.FromType(typeof(TestModule)), CancellationToken.None);
 
         await Assert.That(commandExecutionCounter.TotalCount).IsEqualTo(2);
     }

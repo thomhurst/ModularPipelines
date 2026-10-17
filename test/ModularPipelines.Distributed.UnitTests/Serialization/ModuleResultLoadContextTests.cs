@@ -143,7 +143,7 @@ public class ModuleResultLoadContextTests
         ? typeof(List<>).MakeGenericType(assembly.GetType("RuntimeValue")!)
         : assembly.GetType("RuntimeValue")!;
 
-    private static SerializedModuleResult CreatePayload(ModuleResultSerializer serializer, Assembly assembly, bool collection, string moduleId = "ContextModule")
+    private static SerializedModuleResult CreatePayload(ModuleResultSerializer serializer, Assembly assembly, bool collection, string? moduleId = null)
     {
         var value = Activator.CreateInstance(ValueType(assembly, collection))!;
         if (collection)
@@ -159,6 +159,6 @@ public class ModuleResultLoadContextTests
             StartTime = now,
             EndTime = now,
             Status = ModuleStatus.Succeeded,
-        }, moduleId, WorkerId.FromInstanceIndex(1));
+        }, moduleId is null ? ModuleId.FromType(assembly.GetType("ContextModule")!) : new ModuleId(moduleId), WorkerId.FromInstanceIndex(1));
     }
 }

@@ -36,7 +36,7 @@ public class S3ArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "test-art",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             ContentType = "application/octet-stream",
         };
         var data = new byte[] { 1, 2, 3, 4, 5 };
@@ -63,7 +63,7 @@ public class S3ArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "build-output",
-            ModuleId = "My.BuildModule",
+            ModuleId = new ModuleId("My.BuildModule"),
         };
         PutObjectRequest? capturedRequest = null;
 
@@ -94,9 +94,9 @@ public class S3ArtifactStoreTests
         var reference = await _store.UploadAsync(new ArtifactDescriptor
         {
             Name = "output",
-            ModuleId = id,
+            ModuleId = new ModuleId(id),
         }, stream, CancellationToken.None);
-        await _store.ListArtifactsAsync(id, CancellationToken.None);
+        await _store.ListArtifactsAsync(new ModuleId(id), CancellationToken.None);
 
         await Assert.That(reference.ModuleId.Value).IsEqualTo(id);
         await Assert.That(keys[0]).StartsWith($"modpipe/artifacts/run123/{encodedId}/data/output/");
@@ -165,7 +165,7 @@ public class S3ArtifactStoreTests
             await store.UploadAsync(new ArtifactDescriptor
             {
                 Name = "output",
-                ModuleId = "Test.Module",
+                ModuleId = new ModuleId("Test.Module"),
             }, stream, CancellationToken.None);
         }).Throws<InvalidOperationException>();
 
@@ -209,10 +209,10 @@ public class S3ArtifactStoreTests
         var uploaded = await store.UploadAsync(new ArtifactDescriptor
         {
             Name = name,
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
         }, stream, CancellationToken.None);
 
-        var listed = await store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var listed = await store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None);
 
         // Listing must never fetch the payload, even when its name resembles the metadata prefix.
         _mockS3.Verify(s => s.GetObjectAsync("test-bucket",
@@ -241,7 +241,7 @@ public class S3ArtifactStoreTests
         var descriptor = new ArtifactDescriptor
         {
             Name = "art1",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
         };
         PutObjectRequest? capturedRequest = null;
 
@@ -263,10 +263,10 @@ public class S3ArtifactStoreTests
             .ReturnsAsync(new PutObjectResponse());
 
         await using var nonSeekable = new NonSeekableStream(new MemoryStream([1, 2, 3, 4]));
-        var fromNonSeekable = await _store.UploadAsync(new ArtifactDescriptor { Name = "a", ModuleId = "Test.Module" }, nonSeekable, CancellationToken.None);
+        var fromNonSeekable = await _store.UploadAsync(new ArtifactDescriptor { Name = "a", ModuleId = new ModuleId("Test.Module") }, nonSeekable, CancellationToken.None);
 
         using var offset = new MemoryStream([1, 2, 3, 4, 5, 6]) { Position = 2 };
-        var fromOffset = await _store.UploadAsync(new ArtifactDescriptor { Name = "b", ModuleId = "Test.Module" }, offset, CancellationToken.None);
+        var fromOffset = await _store.UploadAsync(new ArtifactDescriptor { Name = "b", ModuleId = new ModuleId("Test.Module") }, offset, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -298,7 +298,7 @@ public class S3ArtifactStoreTests
             .ReturnsAsync(new PutObjectResponse());
 
         await using var source = new NonSeekableStream(new MemoryStream([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = "Test.Module" }, source, CancellationToken.None);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = new ModuleId("Test.Module") }, source, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -328,7 +328,7 @@ public class S3ArtifactStoreTests
             .ThrowsAsync(new AmazonS3Exception("boom"));
 
         using var source = new MemoryStream(new byte[12]);
-        await Assert.That(async () => await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = "Test.Module" }, source, CancellationToken.None))
+        await Assert.That(async () => await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = new ModuleId("Test.Module") }, source, CancellationToken.None))
             .Throws<AmazonS3Exception>();
 
         _mockS3.Verify(s => s.AbortMultipartUploadAsync(
@@ -343,7 +343,7 @@ public class S3ArtifactStoreTests
         {
             ArtifactId = "art1",
             Name = "test",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             SizeBytes = 3,
             ContentType = null,
             UploadedAt = DateTimeOffset.UtcNow,
@@ -378,7 +378,7 @@ public class S3ArtifactStoreTests
         {
             ArtifactId = "art1",
             Name = "test",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             SizeBytes = 3,
             ContentType = null,
             UploadedAt = DateTimeOffset.UtcNow,
@@ -406,7 +406,7 @@ public class S3ArtifactStoreTests
         {
             ArtifactId = "id1",
             Name = "art1",
-            ModuleId = "Test.Module",
+            ModuleId = new ModuleId("Test.Module"),
             SizeBytes = 100,
             ContentType = null,
             UploadedAt = DateTimeOffset.UtcNow,
@@ -427,7 +427,7 @@ public class S3ArtifactStoreTests
                 ResponseStream = metadataStream,
             });
 
-        var results = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await _store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None);
 
         await Assert.That(results.Count).IsEqualTo(1);
         await Assert.That(results[0].Name).IsEqualTo("art1");
@@ -450,7 +450,7 @@ public class S3ArtifactStoreTests
                 ResponseStream = new MemoryStream("{not json"u8.ToArray()),
             });
 
-        var results = await _store.ListArtifactsAsync("Test.Module", CancellationToken.None);
+        var results = await _store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None);
 
         await Assert.That(results).IsEmpty();
     }
@@ -467,7 +467,7 @@ public class S3ArtifactStoreTests
         _mockS3.Setup(s => s.GetObjectAsync("test-bucket", It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new AmazonS3Exception("Access Denied") { StatusCode = HttpStatusCode.Forbidden, ErrorCode = "AccessDenied" });
 
-        await Assert.That(async () => await _store.ListArtifactsAsync("Test.Module", CancellationToken.None))
+        await Assert.That(async () => await _store.ListArtifactsAsync(new ModuleId("Test.Module"), CancellationToken.None))
             .Throws<AmazonS3Exception>();
     }
 

@@ -86,7 +86,7 @@ public class DistributedPipelineIntegrationTests
         await coordinator.PublishResultAsync(serialized, lease: null, CancellationToken.None);
 
         // Collector waits for result
-        var result = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);
+        var result = await collector.WaitForResultAsync(ModuleId.FromType(typeof(ModuleA)), CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Succeeded);
@@ -100,7 +100,7 @@ public class DistributedPipelineIntegrationTests
         using var cts = new CancellationTokenSource();
 
         // Start waiting for result that won't come
-        var waitTask = coordinator.WaitForResultAsync("NonExistent.Module", cts.Token);
+        var waitTask = coordinator.WaitForResultAsync(new ModuleId("NonExistent.Module"), cts.Token);
 
         // Cancel after a short delay
         cts.CancelAfter(100);
@@ -180,9 +180,9 @@ public class DistributedPipelineIntegrationTests
         await coordinator.PublishResultAsync(serializedC, lease: null, CancellationToken.None);
 
         // Collect all 3
-        var collectedA = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);
-        var collectedB = await collector.WaitForResultAsync(typeof(ModuleB).FullName!, CancellationToken.None);
-        var collectedC = await collector.WaitForResultAsync(typeof(ModuleC).FullName!, CancellationToken.None);
+        var collectedA = await collector.WaitForResultAsync(ModuleId.FromType(typeof(ModuleA)), CancellationToken.None);
+        var collectedB = await collector.WaitForResultAsync(ModuleId.FromType(typeof(ModuleB)), CancellationToken.None);
+        var collectedC = await collector.WaitForResultAsync(ModuleId.FromType(typeof(ModuleC)), CancellationToken.None);
 
         await Assert.That(collectedA).IsNotNull();
         await Assert.That(collectedA!.Status).IsEqualTo(ModuleStatus.Succeeded);

@@ -25,7 +25,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType, cancellationToken).ConfigureAwait(false);
+            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(ModuleId.FromType(moduleType), cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -38,7 +38,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration, cancellationToken).ConfigureAwait(false);
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(ModuleId.FromType(moduleType), duration, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -53,7 +53,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         try
         {
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
-            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType, cancellationToken).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
+            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(ModuleId.FromType(moduleType), cancellationToken).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -69,7 +69,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation, cancellationToken).ConfigureAwait(false);
+            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(ModuleId.FromType(moduleType), subModuleEstimation, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {

@@ -173,12 +173,12 @@ public class SpectreResultsPrinterTests
             [
                 new DistributedModuleRunReport
                 {
-                    ModuleTypeName = "Example.FastModule, Example.Assembly",
+                    ModuleId = new ModuleId("Example.FastModule, Example.Assembly"),
                     QueueWaitDuration = TimeSpan.FromSeconds(1),
                 },
                 new DistributedModuleRunReport
                 {
-                    ModuleTypeName = "Example.SlowModule, Example.Assembly",
+                    ModuleId = new ModuleId("Example.SlowModule, Example.Assembly"),
                     QueueWaitDuration = TimeSpan.FromSeconds(5),
                 },
             ],
@@ -187,8 +187,29 @@ public class SpectreResultsPrinterTests
         using (Assert.Multiple())
         {
             await Assert.That(line).Contains("Workers idle 40.0% of run");
-            await Assert.That(line).Contains("longest queue wait: 5s 0ms on SlowModule");
+            await Assert.That(line).Contains("longest queue wait: 5s 0ms on Example.SlowModule, Example.Assembly");
         }
+    }
+
+    [Test]
+    [Arguments("build.application", "build.application")]
+    [Arguments("build,release", "build,release")]
+    [Arguments("build.[release],v1.2", "build.[[release]],v1.2")]
+    public async Task DistributedSummaryLine_PreservesAndEscapesModuleId(string moduleId, string expected)
+    {
+        var line = SpectreResultsPrinter.CreateDistributedSummaryLine(new DistributedRunReport
+        {
+            Modules =
+            [
+                new DistributedModuleRunReport
+                {
+                    ModuleId = new ModuleId(moduleId),
+                    QueueWaitDuration = TimeSpan.FromSeconds(5),
+                },
+            ],
+        });
+
+        await Assert.That(line).Contains($"longest queue wait: 5s 0ms on {expected}");
     }
 
     [Test]
@@ -222,7 +243,7 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(SkippedModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SkippedModule)),
+                        ModuleId = ModuleId.FromType(typeof(SkippedModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                 ],
@@ -284,13 +305,13 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(SecondModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(SecondModule)),
+                        ModuleId = ModuleId.FromType(typeof(SecondModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
                 ],
@@ -351,13 +372,13 @@ public class SpectreResultsPrinterTests
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(1),
                     },
                     new ModuleRunReport
                     {
                         ModuleName = nameof(FirstModule),
-                        ModuleTypeName = ModuleTypeIdentifier.Get(typeof(FirstModule)),
+                        ModuleId = ModuleId.FromType(typeof(FirstModule)),
                         DurationDelta = TimeSpan.FromSeconds(2),
                     },
                 ],

@@ -71,12 +71,12 @@ internal sealed class RerunFailedPlan(
         PipelineRunReport report,
         CancellationToken cancellationToken)
     {
-        var previousModules = report.Modules.ToDictionary(static module => module.ModuleTypeName, StringComparer.Ordinal);
+        var previousModules = report.Modules.ToDictionary(static module => module.ModuleId);
         var context = contextProvider.GetModuleContext();
         foreach (var runnable in modules.RunnableModules)
         {
             var module = runnable.Module;
-            var previous = previousModules[ModuleTypeIdentifier.Get(module.GetType())];
+            var previous = previousModules[ModuleId.FromType(module.GetType())];
             if (!IsSuccessful(previous.Status))
             {
                 continue;
@@ -122,7 +122,7 @@ internal sealed class RerunFailedPlan(
     {
         var identity = PipelineRunCompatibility.GetPipelineIdentity(options.Value.RunReport.PipelineIdentity, modules);
         var fingerprint = PipelineRunCompatibility.GetGraphFingerprint(dependencyChainProvider.ModuleDependencyModels);
-        var typeNames = modules.Select(static module => ModuleTypeIdentifier.Get(module.GetType())).ToHashSet(StringComparer.Ordinal);
+        var moduleIds = modules.Select(static module => ModuleId.FromType(module.GetType())).ToHashSet();
         await foreach (var report in historyStore.GetRunsAsync(
                            new RunHistoryQuery { PipelineIdentity = identity, MaxRuns = int.MaxValue }, cancellationToken)
                            .ConfigureAwait(false))
@@ -131,8 +131,8 @@ internal sealed class RerunFailedPlan(
                 || !string.Equals(report.PipelineIdentity, identity, StringComparison.Ordinal)
                 || !string.Equals(report.GraphFingerprint, fingerprint, StringComparison.Ordinal)
                 || report.Modules.Count != modules.Count
-                || report.Modules.Select(static module => module.ModuleTypeName).Distinct(StringComparer.Ordinal).Count() != modules.Count
-                || !typeNames.SetEquals(report.Modules.Select(static module => module.ModuleTypeName)))
+                || report.Modules.Select(static module => module.ModuleId).Distinct().Count() != modules.Count
+                || !moduleIds.SetEquals(report.Modules.Select(static module => module.ModuleId)))
             {
                 continue;
             }

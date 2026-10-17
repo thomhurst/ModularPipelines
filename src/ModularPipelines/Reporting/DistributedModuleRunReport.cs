@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ModularPipelines.Reporting;
 
 /// <summary>
@@ -5,8 +7,11 @@ namespace ModularPipelines.Reporting;
 /// </summary>
 public sealed record DistributedModuleRunReport
 {
-    /// <summary>Gets the full module type name.</summary>
-    public string ModuleTypeName { get; init; } = string.Empty;
+    /// <summary>Gets the stable module identifier.</summary>
+    // Retain the field name so older history files remain readable.
+    [JsonPropertyName("moduleTypeName")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public ModuleId ModuleId { get; init; }
 
     /// <summary>Gets the worker that executed the module.</summary>
     public Distributed.WorkerId WorkerId { get; init; }
