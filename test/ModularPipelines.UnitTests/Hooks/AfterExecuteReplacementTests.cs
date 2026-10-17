@@ -160,13 +160,32 @@ public class AfterExecuteReplacementTests
     }
 
     [Test]
-    public async Task SuccessReplacedBySkipped_DerivesSkippedStatus()
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task SkippedReplacement_InvokesSkipHookOnce_AndPreservesSkippedResult(bool executionFails, bool skipHookThrows)
     {
-        var summary = await TestPipelineBuilder.Create().AddModule<SkippedReplacementModule>().RunAsync();
-        var result = summary.GetResult<SkippedReplacementModule, string>();
+        var builder = TestPipelineBuilder.Create();
+        if (executionFails)
+        {
+            builder.AddModule<FailureSkippedReplacementModule>();
+        }
+        else
+        {
+            builder.AddModule<SkippedReplacementModule>();
+        }
+
+        await using var host = await builder.BuildAsync();
+        var module = host.Services.GetServices<IModule>().OfType<SkippedReplacementModule>().Single();
+        module.SkipHookThrows = skipHookThrows;
+        await host.RunAsync();
+        var result = await module;
 
         await Assert.That(result.Status).IsEqualTo(ModuleStatus.Skipped);
         await Assert.That(result.SkipDecisionOrDefault!.Reason).IsEqualTo("replacement skip");
+        await Assert.That(module.SkipDecisions.Count).IsEqualTo(1);
+        await Assert.That(module.SkipDecisions[0]).IsSameReferenceAs(result.SkipDecisionOrDefault);
     }
 
     [Test]
@@ -287,6 +306,18 @@ public class AfterExecuteReplacementTests
 
     private class SkippedReplacementModule : FreshReplacementModule
     {
+        public bool SkipHookThrows { get; set; }
+
+        public List<SkipDecision> SkipDecisions { get; } = [];
+
+        protected override Task OnSkippedAsync(IModuleContext context, SkipDecision skipDecision, CancellationToken cancellationToken)
+        {
+            SkipDecisions.Add(skipDecision);
+            return SkipHookThrows
+                ? Task.FromException(new InvalidOperationException("skip hook failed"))
+                : Task.CompletedTask;
+        }
+
         protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
             IModuleContext context, ModuleResult<string> result, CancellationToken cancellationToken)
             => Task.FromResult<ModuleResult<string>?>(new ModuleResult<string>.Skipped(SkipDecision.Skip("replacement skip"))
@@ -297,6 +328,12 @@ public class AfterExecuteReplacementTests
                 EndTime = default,
                 Status = ModuleStatus.Succeeded,
             });
+    }
+
+    private class FailureSkippedReplacementModule : SkippedReplacementModule
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => throw new InvalidOperationException("original failure");
     }
 
     private class IgnoredFailureReplacementModule : RecoveringModule

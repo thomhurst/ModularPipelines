@@ -804,6 +804,12 @@ internal class ModuleExecutionPipeline(
             executionContext.Status = normalized.Status;
             executionContext.Exception = normalized.ExceptionOrDefault;
             executionContext.SkipResult = normalized.SkipDecisionOrDefault ?? SkipDecision.DoNotSkip;
+            if (normalized is ModuleResult<T>.Skipped skipped)
+            {
+                await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipped.Decision, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
             return normalized;
         }
         catch (Exception afterHookException)
