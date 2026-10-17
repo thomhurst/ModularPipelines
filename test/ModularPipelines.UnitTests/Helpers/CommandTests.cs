@@ -1452,18 +1452,65 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
-    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace(bool waitForParentExit)
     {
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "grace-parent", TimeSpan.FromSeconds(1), gateForcefulCancellation: true);
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
         await fixture.WaitForReadyProcessAsync("intermediate", TimeSpan.FromSeconds(10));
         fixture.Cancel();
         await fixture.TriggerAsync("spawn");
         var grandchild = await fixture.WaitForReadyProcessAsync("grandchild", TimeSpan.FromSeconds(10));
+        if (waitForParentExit)
+        {
+            await parent.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
         fixture.AllowForcefulCancellation();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
         await Assert.That(await WaitForExitAsync(grandchild, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    public async Task WaitForForcefulCancellationAsync_Waits_For_Pending_Termination_Callback()
+    {
+        using var jobs = new WindowsJobLifetime();
+        using var terminator = new Command.ProcessTreeTerminator(Mock.Of<ICommandLogger>(), jobs);
+        using var gracefulCancellation = new CancellationTokenSource();
+        using var forcefulCancellation = new CancellationTokenSource();
+        using var allowTermination = new ManualResetEventSlim();
+        var cancellationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var terminationRegistration = forcefulCancellation.Token.Register(terminator.Kill);
+        // Cancellation callbacks run in reverse registration order. Hold dispatch after the
+        // token changes state, before the termination callback has been selected to run.
+        using var blockingRegistration = forcefulCancellation.Token.Register(() =>
+        {
+            cancellationStarted.TrySetResult();
+            if (!allowTermination.Wait(TimeSpan.FromSeconds(5)))
+            {
+                throw new TimeoutException("Test did not release cancellation dispatch.");
+            }
+        });
+        gracefulCancellation.Cancel();
+        var cancellation = Task.Run(forcefulCancellation.Cancel);
+        try
+        {
+            await cancellationStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            var wait = Command.WaitForForcefulCancellationAsync(
+                terminator, gracefulCancellation.Token, forcefulCancellation.Token);
+
+            await Assert.That(wait.IsCompleted).IsFalse();
+            allowTermination.Set();
+            await wait.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            allowTermination.Set();
+            await cancellation.WaitAsync(TimeSpan.FromSeconds(5));
+        }
     }
 
     [Test]
