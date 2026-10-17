@@ -9,6 +9,109 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CobraCliScraperTests
 {
     [Test]
+    [Arguments("int", "int?")]
+    [Arguments("int8", "int?")]
+    [Arguments("int16", "int?")]
+    [Arguments("int32", "int?")]
+    [Arguments("int64", "long?")]
+    [Arguments("uint", "ulong?")]
+    [Arguments("uint8", "uint?")]
+    [Arguments("uint16", "uint?")]
+    [Arguments("uint32", "uint?")]
+    [Arguments("uint64", "ulong?")]
+    [Arguments("float32", "double?")]
+    [Arguments("float64", "double?")]
+    [Arguments("number", "string?")]
+    [Arguments("count", "int?")]
+    [Arguments("integer", "string?")]
+    [Arguments("number64", "string?")]
+    [Arguments("real", "string?")]
+    [Arguments("decimal", "string?")]
+    [Arguments("double", "string?")]
+    [Arguments("float", "double?")]
+    [Arguments("ip", "string?")]
+    [Arguments("duration", "string?")]
+    public async Task Pflag_Numeric_Help_Types_Produce_Numeric_Options(string hint, string expectedType)
+    {
+        var help = $"Usage: fake run [flags]\n\nFlags:\n  --value {hint}   Value to use.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(option.IsNumeric).IsEqualTo(expectedType is "int?" or "long?" or "uint?" or "ulong?" or "double?");
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
+    [Arguments("strings")]
+    [Arguments("ints")]
+    [Arguments("uints")]
+    [Arguments("bools")]
+    [Arguments("stringSlice")]
+    [Arguments("stringArray")]
+    [Arguments("intSlice")]
+    [Arguments("int32Slice")]
+    [Arguments("int64Slice")]
+    [Arguments("uintSlice")]
+    [Arguments("boolSlice")]
+    [Arguments("float32Slice")]
+    [Arguments("float64Slice")]
+    [Arguments("durationSlice")]
+    [Arguments("ipSlice")]
+    [Arguments("customSlice")]
+    [Arguments("customArray")]
+    [Arguments("IPSLICE")]
+    [Arguments("STRINGARRAY")]
+    [Arguments("list")]
+    [Arguments("array")]
+    public async Task Pflag_Collections_Produce_Repeatable_String_Options(string hint)
+    {
+        var help = $"Usage: fake run [flags]\n\nFlags:\n  --value {hint}   Values to use.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.IsNumeric).IsFalse();
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
+    public async Task Floating_Point_Defaults_Remain_Numeric()
+    {
+        const string help = "Usage: fake run [flags]\n\nOptions:\n  --ratio=1.5: Scaling ratio.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+
+        await Assert.That(command!.Options.Single().CSharpType).IsEqualTo("double?");
+        await Assert.That(command.Options.Single().IsNumeric).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Gh/issue-edit.txt", "--add-sub-issue", "string?", false)]
+    [Arguments("Gh/issue-edit.txt", "--add-blocked-by", "string?", false)]
+    [Arguments("Gh/issue-edit.txt", "--parent", "string?", false)]
+    [Arguments("Helm/3.22.0/install.txt", "--post-renderer-args", "IEnumerable<string>?", true)]
+    [Arguments("Helm/3.22.0/template.txt", "--post-renderer-args", "IEnumerable<string>?", true)]
+    [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fd", "IEnumerable<string>?", true)]
+    [Arguments("Podman/6.1.3/container-exec-help.txt", "--preserve-fds", "ulong?", false)]
+    [Arguments("Podman/6.1.3/container-run-help.txt", "--ip", "string?", false)]
+    [Arguments("Podman/6.1.3/container-run-help.txt", "--cpus", "double?", false)]
+    [Arguments("Trivy/0.75.0/image.txt", "--license-confidence-level", "double?", false)]
+    [Arguments("Syft/1.54.0/root-help.txt", "--verbose", "int?", false)]
+    [Arguments("Grype/0.120.0/grype-help.txt", "--verbose", "int?", false)]
+    public async Task Real_Help_Preserves_Placeholders_And_Collection_Types(
+        string fixture, string switchName, string expectedType, bool acceptsMultipleValues)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", fixture));
+        var option = new TestCobraCliScraper().Options(help).Single(option => option.SwitchName == switchName);
+
+        await Assert.That(option.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(acceptsMultipleValues);
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
     [Arguments("--image=image", true)]
     [Arguments("--image IMAGE", true)]
     [Arguments("[--image=image]", false)]
@@ -345,6 +448,8 @@ public class CobraCliScraperTests
         public override string TargetNamespace => "ModularPipelines.Fake";
 
         public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        public IReadOnlyList<CliOptionDefinition> Options(string helpText) => ParseOptions(helpText, []);
 
         public IReadOnlyList<CliOptionDefinition> NamedOptions(string helpText) =>
             ParseNamedOptionSection(helpText, "Options", ["status"]);

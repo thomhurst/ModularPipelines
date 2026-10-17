@@ -340,3 +340,4 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.BrewCliScraper.ParseVers
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.HadolintCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.BuildahCliScraper.NormalizeOptionTypeHint(string![]! commandParts, string! switchName, string! typeHint, string! description) -> string!

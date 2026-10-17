@@ -33,6 +33,18 @@ public class BuildahGlobalOptionsTests
     }
 
     [Test]
+    public async Task Config_Healthcheck_Retries_Number_Placeholder_Remains_Numeric()
+    {
+        var commands = await new TestScraper().ScrapeAsync().ToListAsync();
+        var option = commands.Single(command => command.FullCommand == "buildah config").Options
+            .Single(option => option.SwitchName == "--healthcheck-retries");
+
+        await Assert.That(option.CSharpType).IsEqualTo("int?");
+        await Assert.That(option.IsNumeric).IsTrue();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
     public async Task Full_Traversal_Preserves_Commands_And_Local_Mapping_Overrides()
     {
         var scraper = new TestScraper();

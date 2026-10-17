@@ -544,7 +544,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
         if (double.TryParse(typeHint, System.Globalization.CultureInfo.InvariantCulture, out _))
         {
-            return "double";
+            return "float64";
         }
 
         return "string";
@@ -836,21 +836,22 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     ];
 
     /// <summary>
-    /// Known integer type hints.
+    /// Pflag integer type hints, including its count type. Usage placeholders such
+    /// as "number" do not prove that an option accepts only numeric values.
     /// </summary>
     private static readonly HashSet<string> KnownIntegerTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "integer", "number", "count"
+        "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "count"
     ];
 
     /// <summary>
-    /// Known floating-point type hints.
+    /// Pflag floating-point type hints. Pflag displays float64 as "float" in help.
     /// </summary>
     private static readonly HashSet<string> KnownFloatTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "float", "float32", "float64", "double", "decimal", "number64", "real"
+        "float", "float32", "float64"
     ];
 
     /// <summary>
@@ -868,7 +869,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     private static readonly HashSet<string> KnownArrayTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "list", "array", "strings", "stringarray", "stringslice", "int64slice", "slice"
+        "list", "array", "strings", "ints", "uints", "bools", "slice"
     ];
 
     /// <summary>
@@ -902,7 +903,9 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
     private static bool IsKnownArrayType(string typeHint)
     {
-        return KnownArrayTypes.Contains(typeHint);
+        return KnownArrayTypes.Contains(typeHint)
+               || typeHint.EndsWith("Slice", StringComparison.OrdinalIgnoreCase)
+               || typeHint.EndsWith("Array", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsKnownKeyValueType(string typeHint)
