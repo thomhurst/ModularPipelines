@@ -305,7 +305,44 @@ public class TerraformCliScraperTests
         }
     }
 
-    private sealed class TestTerraformCliScraper()
+    [Test]
+    public async Task MetadataFunctions_Requires_Undocumented_Json_Flag()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "terraform-1.16.6-metadata-functions-help.txt"));
+        var definition = await _scraper.Parse(["terraform", "metadata", "functions"], help);
+        var json = definition!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(json.SwitchName).IsEqualTo("-json");
+            await Assert.That(json.PropertyName).IsEqualTo("Json");
+            await Assert.That(json.IsFlag).IsTrue();
+            await Assert.That(json.IsRequired).IsTrue();
+            await Assert.That(json.CSharpType).IsEqualTo("bool?");
+            await Assert.That(definition.PositionalArguments).IsEmpty();
+        }
+    }
+
+    [Test]
+    [Arguments("-json", true)]
+    [Arguments("[-json]", false)]
+    public async Task Json_Requiredness_Comes_From_Synopsis_Without_Duplicate_Options(string synopsis, bool required)
+    {
+        var help = $"""
+            Usage: terraform [global options] metadata functions {synopsis}
+
+            Options:
+              -json  Produce JSON output.
+            """;
+        var definition = await _scraper.Parse(["terraform", "metadata", "functions"], help);
+        var json = definition!.Options.Single();
+
+        await Assert.That(json.IsRequired).IsEqualTo(required);
+        await Assert.That(json.IsFlag).IsTrue();
+    }
+
+    internal sealed class TestTerraformCliScraper()
         : TerraformCliScraper(
             new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
