@@ -292,7 +292,7 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes
 
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-- **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines; it must exceed `DistributedOptions.ModuleResultTimeout`.
+- **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines. Unnamed run options must exceed `DistributedOptions.ModuleResultTimeout` and `DistributedOptions.MasterTimeout`; coordinator creation also requires the TTL to exceed `DistributedOptions.WorkerTimeout`. Named module-cache options require a positive TTL independently of these timeouts.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
 - **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use
   **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix
@@ -308,6 +308,7 @@ combining the build and stage attempt keeps full stage retries isolated:
 ```yaml
 variables:
   MODULARPIPELINES_RUN_ID: "$(Build.BuildId)-$(System.StageAttempt)"
+  MODULARPIPELINES_TOTAL_INSTANCES: 3
 
 strategy:
   matrix:
