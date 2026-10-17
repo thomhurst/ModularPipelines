@@ -44,7 +44,7 @@ public class CopyUnixPermissionsTests
 
     [Test]
     [MatrixDataSource]
-    public async Task Copy_Preserves_Permissions_Without_Special_Bits(
+    public async Task Copy_Preserves_Permissions_With_Expected_Special_Bit_Policy(
         [Matrix(false, true)] bool useAsync,
         [Matrix("file", "file-folder", "folder")] string copy,
         [Matrix(false, true)] bool overwrite,
@@ -71,6 +71,24 @@ public class CopyUnixPermissionsTests
         {
             await destination.WriteAsync("old contents");
             File.SetUnixFileMode(destination.Path, UnixFileMode.UserRead | UnixFileMode.UserWrite | specialBits);
+        }
+
+        var expectedMode = permissions;
+        if (!useAsync)
+        {
+            // Sync copies retain File.Copy's native policy, including sticky bits on macOS.
+            var reference = temporary.Folder.GetFile("native-copy");
+            if (overwrite)
+            {
+                await reference.WriteAsync("old contents");
+                File.SetUnixFileMode(reference.Path, UnixFileMode.UserRead | UnixFileMode.UserWrite | specialBits);
+            }
+
+            File.Copy(source.Path, reference.Path, overwrite: true);
+            expectedMode = File.GetUnixFileMode(reference.Path);
+            // Only sticky-bit handling may differ from the strict async policy.
+            await Assert.That(expectedMode & ~UnixFileMode.StickyBit)
+                .IsEqualTo(permissions);
         }
 
         switch (copy)
@@ -107,7 +125,7 @@ public class CopyUnixPermissionsTests
                 break;
         }
 
-        await Assert.That(File.GetUnixFileMode(destination.Path)).IsEqualTo(permissions);
+        await Assert.That(File.GetUnixFileMode(destination.Path)).IsEqualTo(expectedMode);
         await Assert.That(File.GetUnixFileMode(source.Path)).IsEqualTo(permissions | specialBits);
         await Assert.That(await destination.ReadAsync()).IsEqualTo("contents");
     }
