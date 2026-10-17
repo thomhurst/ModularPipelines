@@ -346,6 +346,28 @@ internal sealed class Command(
         }
 
         var usesSudo = invocation.SudoPrefixLength > 0;
+        if (pathIndex != arguments.LastIndexOf(options.FilePath))
+        {
+            // A preceding option value or a script argument may equal the script operand.
+            var pathMarker = Guid.NewGuid().ToString("N");
+            var generatedArguments = _commandLineBuilder.Build(options with { FilePath = pathMarker }).Arguments.ToList();
+            var generatedPathIndex = generatedArguments.IndexOf(pathMarker);
+            if (generatedPathIndex < 0)
+            {
+                return invocation;
+            }
+
+            generatedArguments[generatedPathIndex] = options.FilePath;
+            var offset = usesSudo ? invocation.SudoPrefixLength + 1 : 0;
+            if (!arguments.Skip(offset).SequenceEqual(generatedArguments, StringComparer.Ordinal))
+            {
+                // An interceptor supplied a different command line; do not guess which operand it retained.
+                return invocation;
+            }
+
+            pathIndex = offset + generatedPathIndex;
+        }
+
         var tool = usesSudo ? arguments[invocation.SudoPrefixLength] : invocation.CommandLine.Tool;
         var preparedOptions = await new Bash(this, _pipelineWorkingDirectory).PrepareFileAsync(
             options with { Tool = tool },

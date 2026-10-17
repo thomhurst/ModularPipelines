@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,8 +17,6 @@ public class BashTests : TestBase
     {
         public int Conversions { get; private set; }
 
-        public string? ConversionDirectory { get; private set; }
-
         public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
             CommandDelegate next,
@@ -26,7 +25,7 @@ public class BashTests : TestBase
             if (invocation.CommandLine.Tool == Path.Combine(Environment.SystemDirectory, "wsl.exe"))
             {
                 Conversions++;
-                ConversionDirectory = invocation.WorkingDirectory;
+
                 return ValueTask.FromResult(CommandResult.Ok("/mnt/c/converted.sh\n"));
             }
 
@@ -87,13 +86,9 @@ public class BashTests : TestBase
             var result = await bash.RunFileAsync(options, executionOptions);
 
             await Assert.That(result.CommandInput).Contains(useWsl ? Path.Combine(Environment.SystemDirectory, "bash.exe") : finalBash);
-            await Assert.That(result.CommandInput).Contains(useWsl ? "/mnt/c/converted.sh" : "nested dir/script's $value.sh");
+            await Assert.That(result.CommandInput).Contains(useWsl ? Path.GetFullPath(options.FilePath, finalDirectory) : "nested dir/script's $value.sh");
             await Assert.That(result.CommandInput).Contains("literal argument");
-            await Assert.That(interceptor.Conversions).IsEqualTo(useWsl ? 1 : 0);
-            if (useWsl)
-            {
-                await Assert.That(interceptor.ConversionDirectory).IsEqualTo(finalDirectory);
-            }
+            await Assert.That(interceptor.Conversions).IsEqualTo(0);
 
             await Assert.That(options.Tool).IsNull();
             await Assert.That(options.FilePath).IsEqualTo("nested dir\\script's $value.sh");
@@ -103,6 +98,86 @@ public class BashTests : TestBase
         {
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    [Arguments("bash")]
+    [Arguments("BASH.EXE")]
+    [Arguments("missing-bash")]
+    [Arguments("tools\\bash.exe")]
+    public async Task Unresolved_Bash_Prefers_Application_Directory_Before_System32(string tool)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"mp bash application {Guid.NewGuid():N}");
+        Directory.CreateDirectory(directory);
+        var applicationBash = Path.Combine(directory, "bash.exe");
+        try
+        {
+            await File.WriteAllBytesAsync(applicationBash, []);
+            var isBareBash = tool.Equals("bash", StringComparison.OrdinalIgnoreCase)
+                || tool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase);
+
+            var resolved = Bash.ResolveFallbackTool(tool, directory);
+
+            await Assert.That(resolved).IsEqualTo(isBareBash ? applicationBash : tool);
+            File.Delete(applicationBash);
+            var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
+            var expectedFallback = isBareBash && File.Exists(systemBash) ? systemBash : tool;
+            await Assert.That(Bash.ResolveFallbackTool(tool, directory)).IsEqualTo(expectedFallback);
+            await Assert.That(Bash.ResolveFallbackTool(tool, null)).IsEqualTo(expectedFallback);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    public async Task RunFileAsync_DryRun_Does_Not_Invoke_Wsl()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "mp bash dry run");
+        var command = new Mock<ICommandContext>(MockBehavior.Strict);
+        var options = new BashFileOptions("nested dir\\script.sh")
+        {
+            Tool = Path.Combine(Environment.SystemDirectory, "bash.exe"),
+        };
+
+        var prepared = await new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(
+            options,
+            new CommandExecutionOptions { InternalDryRun = true },
+            default);
+
+        await Assert.That(prepared.Tool).IsEqualTo(options.Tool);
+        await Assert.That(prepared.FilePath).IsEqualTo(Path.GetFullPath(options.FilePath, directory));
+        command.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunFileAsync_Preserves_Option_Value_Equal_To_Script_Path(bool sudo)
+    {
+        const string path = "nested dir\\script.sh";
+        var bash = await GetService<IBashContext>();
+        var result = await bash.RunFileAsync(new BashFileOptions(path)
+        {
+            Tool = Path.Combine(Path.GetTempPath(), "native-bash.exe"),
+            AdditionalArguments =
+            [
+                new("--rcfile", CommandLinePhase.EarlyOperand),
+                new(path, CommandLinePhase.EarlyOperand),
+            ],
+        }, new CommandExecutionOptions
+        {
+            InternalDryRun = true,
+            Sudo = sudo,
+            EnvironmentVariables = new Dictionary<string, string?> { ["PATH"] = string.Empty },
+        });
+
+        await Assert.That(result.CommandInput).Contains($"--rcfile \"{path}\"");
+        await Assert.That(result.CommandInput).Contains($"\"{path.Replace('\\', '/')}\"");
     }
 
     private class BashCommandModule : Module<CommandResult>

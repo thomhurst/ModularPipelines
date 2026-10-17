@@ -56,21 +56,12 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
                 : _pipelineWorkingDirectory.Path,
         };
         var requestedTool = options.Tool ?? "bash";
-        var resolvedTool = CliCommandFactory.ResolveWindowsCommand(
+        var tool = CliCommandFactory.ResolveWindowsCommand(
             requestedTool,
             execOpts.WorkingDirectory,
-            execOpts.EnvironmentVariables);
+            execOpts.EnvironmentVariables)
+            ?? ResolveFallbackTool(requestedTool, Path.GetDirectoryName(Environment.ProcessPath));
         var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
-        if (resolvedTool is null
-            && (requestedTool.Equals("bash", StringComparison.OrdinalIgnoreCase)
-                || requestedTool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase))
-            && File.Exists(systemBash))
-        {
-            // CreateProcess can find System32 Bash even when the command's PATH does not include it.
-            resolvedTool = systemBash;
-        }
-
-        var tool = resolvedTool ?? requestedTool;
         var isWsl = string.Equals(tool, systemBash, StringComparison.OrdinalIgnoreCase);
 
         return options with
@@ -83,6 +74,28 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
         };
     }
 
+    internal static string ResolveFallbackTool(string requestedTool, string? applicationDirectory)
+    {
+        if (!requestedTool.Equals("bash", StringComparison.OrdinalIgnoreCase)
+            && !requestedTool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase))
+        {
+            return requestedTool;
+        }
+
+        // CreateProcess checks the host executable's directory before the system directories.
+        if (applicationDirectory is not null)
+        {
+            var applicationBash = Path.Combine(applicationDirectory, "bash.exe");
+            if (File.Exists(applicationBash))
+            {
+                return applicationBash;
+            }
+        }
+
+        var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
+        return File.Exists(systemBash) ? systemBash : requestedTool;
+    }
+
     private async Task<string> ToWslPath(
         string path,
         CommandExecutionOptions executionOptions,
@@ -90,6 +103,12 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
     {
         // Preserve paths already expressed in WSL's filesystem; resolve Windows paths against the command's directory.
         var absolutePath = path.StartsWith('/') ? path : Path.GetFullPath(path, executionOptions.WorkingDirectory!);
+        if (executionOptions.InternalDryRun)
+        {
+            // A dry run displays the absolute Windows path without starting WSL to translate it.
+            return absolutePath;
+        }
+
         var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(Path.Combine(Environment.SystemDirectory, "wsl.exe"))
         {
             Arguments = ["--exec", "wslpath", "-a", absolutePath],
