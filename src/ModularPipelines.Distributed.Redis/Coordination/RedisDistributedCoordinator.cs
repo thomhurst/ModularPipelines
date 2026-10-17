@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Redis;
@@ -14,6 +15,8 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <remarks>
 /// Enqueueing, claims, heartbeats, lease expiry and result publication run as Lua scripts so each is
 /// atomic and costs one round trip; the scripts that change run state also renew the run keys' expiry.
+/// A claim that finds legacy capability metadata first normalizes it in .NET and retries; conditional
+/// writes preserve concurrent registrations and cleanup, along with existing class IDs and queue members.
 /// Claims read one queue member per capability class rather than scanning the queue. Worker heartbeats use
 /// hash field expiry, so the coordinator needs Redis 7.4 or later (or Valkey 9.0 or later).
 /// Sharded pub/sub only wakes waiters early: every wait is bounded and re-reads Redis, so a message lost
@@ -29,11 +32,13 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     internal static readonly TimeSpan PollInterval = TimeSpan.FromSeconds(2);
 
     private const string ClosedSentinel = "__closed__";
+    private const string NormalizeSentinel = "__normalize__";
 
     private static readonly RespireScript HashFieldExpiryProbeScript = RespireScript.Create(
         "return redis.call('HPEXPIRE', KEYS[1], 1000, 'FIELDS', 1, '__modularpipelines_probe__')");
     private static readonly RespireScript EnqueueScript = RespireScript.Create(RedisCoordinationScripts.Enqueue);
     private static readonly RespireScript ClaimScript = RespireScript.Create(RedisCoordinationScripts.Claim);
+    private static readonly RespireScript NormalizeCapabilitiesScript = RespireScript.Create(RedisCoordinationScripts.NormalizeCapabilities);
     private static readonly RespireScript HeartbeatScript = RespireScript.Create(RedisCoordinationScripts.Heartbeat);
     private static readonly RespireScript ReserveMasterRunScript = RespireScript.Create(RedisCoordinationScripts.ReserveMasterRun);
     private static readonly RespireScript ReconcileHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.ReconcileHeartbeat);
@@ -638,12 +643,23 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         var leaseId = Guid.NewGuid().ToString("N");
         var capabilities = JsonSerializer.Serialize(RedisCapabilityNames.Normalize(workerCapabilities));
-        var assignment = await _redis.Scripts.ExecuteStringAsync(
-                ClaimScript,
-                _scriptKeys,
-                [capabilities, workerId.Value, leaseId, _workerTimeoutMilliseconds, _keyExpirationMilliseconds],
-                cancellationToken)
-            .ConfigureAwait(false);
+        string? assignment;
+        while (true)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            assignment = await _redis.Scripts.ExecuteStringAsync(
+                    ClaimScript,
+                    _scriptKeys,
+                    [capabilities, workerId.Value, leaseId, _workerTimeoutMilliseconds, _keyExpirationMilliseconds],
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (assignment is null || !assignment.StartsWith(NormalizeSentinel, StringComparison.Ordinal))
+            {
+                break;
+            }
+
+            await NormalizeLegacyCapabilitiesAsync(assignment[NormalizeSentinel.Length..], cancellationToken).ConfigureAwait(false);
+        }
 
         if (assignment is null)
         {
@@ -659,6 +675,34 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 Assignment = JsonSerializer.Deserialize<ModuleAssignment>(assignment)!,
             });
     }
+
+    private async Task NormalizeLegacyCapabilitiesAsync(string json, CancellationToken cancellationToken)
+    {
+        var entries = JsonSerializer.Deserialize<CapabilityMetadata[]>(json)!;
+        List<RespireValue> arguments = [];
+        foreach (var entry in entries)
+        {
+            var metadata = JsonNode.Parse(entry.Value)!;
+            if (entry.KeyIndex == 2)
+            {
+                var clauses = metadata["RequiredCapabilities"]!.Deserialize<Capability[][]>()!;
+                metadata["RequiredCapabilities"] = JsonSerializer.SerializeToNode(clauses.Select(RedisCapabilityNames.Normalize).ToArray());
+                metadata["CapabilitiesNormalized"] = true;
+            }
+            else
+            {
+                var capabilities = metadata["Capabilities"]!.Deserialize<Capability[]>()!;
+                metadata["NormalizedCapabilities"] = JsonSerializer.SerializeToNode(RedisCapabilityNames.Normalize(capabilities));
+            }
+
+            arguments.AddRange([entry.KeyIndex, entry.Field, entry.Value, metadata.ToJsonString()]);
+        }
+
+        await _redis.Scripts.ExecuteIntegerAsync(NormalizeCapabilitiesScript, _scriptKeys, [.. arguments], cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private sealed record CapabilityMetadata(int KeyIndex, string Field, string Value);
 
     private static ModuleLease ToLease(LeaseRecord record) => new()
     {

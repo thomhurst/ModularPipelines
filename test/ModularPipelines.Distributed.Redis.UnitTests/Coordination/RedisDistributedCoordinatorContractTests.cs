@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Coordination;
 using ModularPipelines.Testing.Distributed;
@@ -173,6 +174,63 @@ public class RedisDistributedCoordinatorContractTests
         });
 
     [Test]
+    [Arguments("docker", "DOCKER")]
+    [Arguments("gpu-ä", "GPU-Ä")]
+    [Arguments("ς", "Σ")]
+    [Arguments("𐐨", "𐐀")]
+    public Task Claim_Migrates_Legacy_Queue_Classes(string required, string available) =>
+        RunAsync(async (coordinator, client, keys) =>
+        {
+            var assignment = DistributedCoordinatorContract.CreateAssignment("Legacy") with
+            {
+                RequiredCapabilities = CapabilityRequirement.AllOf(new Capability(required)),
+            };
+            var classJson = JsonSerializer.Serialize(new { RequiredCapabilities = new[] { new[] { required } }, AlwaysRun = false });
+            var classId = RedisQueueMember.GetClassId(classJson);
+            var member = RedisQueueMember.Create(classId, assignment, JsonSerializer.Serialize(assignment));
+            await client.Scripts.ExecuteIntegerAsync(RespireScript.Create(RedisCoordinationScripts.Enqueue),
+                [.. keys.ScriptKeys.Select(static key => (RespireKey) key)],
+                [60_000, classId, classJson, member, assignment.ModuleId.Value]);
+
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var lease = await coordinator.DequeueModuleAsync(new WorkerId("upgraded"), new HashSet<Capability> { new(available) }, timeout.Token);
+
+            await Assert.That(lease).IsNotNull();
+            await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(assignment.ModuleId);
+            await Assert.That(lease.Assignment.RequiredCapabilities.Clauses[0][0].Name).IsEqualTo(required);
+            var leases = await client.Hashes.GetAsync<string>(keys.Leases, assignment.ModuleId.Value);
+            using var storedLease = JsonDocument.Parse(leases!);
+            await Assert.That(storedLease.RootElement.GetProperty("Member").GetString()).IsEqualTo(member);
+            await Assert.That(await client.Hashes.CountAsync(keys.QueueClasses)).IsEqualTo(1L);
+            await Assert.That(await client.Hashes.GetAsync<string>(keys.QueueIndex, assignment.ModuleId.Value)).IsNull();
+        });
+
+    [Test]
+    [Arguments(2, false)]
+    [Arguments(2, true)]
+    [Arguments(6, false)]
+    [Arguments(6, true)]
+    public Task Capability_Migration_Preserves_Concurrent_Replacement_Or_Deletion(int keyIndex, bool deleted) =>
+        RunAsync(async (_, client, keys) =>
+        {
+            var key = keys.ScriptKeys[keyIndex - 1];
+            const string field = "concurrent";
+            const string original = "{\"Capabilities\":[\"docker\"]}";
+            const string replacement = "{\"Capabilities\":[\"gpu-ä\"]}";
+            if (!deleted)
+            {
+                await client.Hashes.SetAsync(key, field, (RespireValue) replacement);
+            }
+
+            // The original snapshot was read before another worker replaced it or cleanup deleted it.
+            await client.Scripts.ExecuteIntegerAsync(RespireScript.Create(RedisCoordinationScripts.NormalizeCapabilities),
+                [.. keys.ScriptKeys.Select(static value => (RespireKey) value)],
+                [keyIndex, field, original, "{\"NormalizedCapabilities\":[\"DOCKER\"]}"]);
+
+            await Assert.That(await client.Hashes.GetAsync<string>(key, field)).IsEqualTo(deleted ? null : replacement);
+        });
+
+    [Test]
     [Arguments("ſ", "S")]
     [Arguments("ı", "I")]
     [Arguments("é", "e\u0301")]
@@ -198,8 +256,10 @@ public class RedisDistributedCoordinatorContractTests
         });
 
     [Test]
-    public Task Claim_Uses_Unicode_Capabilities_For_Fleet_Scarcity() =>
-        RunAsync(async (coordinator, _, _, _) =>
+    [Arguments(false)]
+    [Arguments(true)]
+    public Task Claim_Uses_Unicode_Capabilities_For_Fleet_Scarcity(bool legacyRegistrations) =>
+        RunAsync(async (coordinator, client, keys, _) =>
         {
             var common = DistributedCoordinatorContract.CreateAssignment("Common") with
             {
@@ -220,11 +280,19 @@ public class RedisDistributedCoordinatorContractTests
                 RegisteredAt = DateTimeOffset.UtcNow,
             };
             await coordinator.RegisterWorkerAsync(worker, CancellationToken.None);
-            await coordinator.RegisterWorkerAsync(worker with
+            var commonWorker = worker with
             {
                 WorkerId = new WorkerId("common"),
                 Capabilities = [new("gpu-ä")],
-            }, CancellationToken.None);
+            };
+            await coordinator.RegisterWorkerAsync(commonWorker, CancellationToken.None);
+            if (legacyRegistrations)
+            {
+                foreach (var registration in new[] { worker, commonWorker })
+                {
+                    await client.Hashes.SetAsync(keys.Workers, registration.WorkerId.Value, (RespireValue) JsonSerializer.Serialize(registration));
+                }
+            }
 
             using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             var lease = await coordinator.DequeueModuleAsync(worker.WorkerId, new HashSet<Capability> { new("GPU-Ä"), new("rare") }, timeout.Token);

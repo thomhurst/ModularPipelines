@@ -53,5 +53,8 @@ internal static class RedisQueueMember
     }
 
     /// <summary>The scheduling class shared by assignments with the same requirements.</summary>
-    internal sealed record QueueClass(string[][] RequiredCapabilities, bool AlwaysRun);
+    internal sealed record QueueClass(string[][] RequiredCapabilities, bool AlwaysRun)
+    {
+        public bool CapabilitiesNormalized => true;
+    }
 }

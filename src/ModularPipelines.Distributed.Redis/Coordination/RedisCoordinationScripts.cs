@@ -86,7 +86,8 @@ internal static class RedisCoordinationScripts
     // ARGV: worker capabilities JSON, worker identifier, lease identifier, worker timeout, time to live.
     // Each class is a contiguous range of the queue whose first member is that class's best item, so a
     // claim reads one member per class instead of scanning the queue. Returns the claimed assignment JSON,
-    // '__closed__' once the run stops handing out work, or nil when nothing can be claimed.
+    // '__closed__' once the run stops handing out work, '__normalize__' followed by legacy metadata
+    // that .NET must normalize before retrying, or nil when nothing can be claimed.
     public const string Claim = ServerTimeLua + RefreshLua + QueueIndexLua + """
         if redis.call('EXISTS', KEYS[9]) == 1 then
             return '__closed__'
@@ -98,6 +99,34 @@ internal static class RedisCoordinationScripts
         local always_run_only = reason ~= false
         local caps = cjson.decode(ARGV[1])
         local worker_timeout = tonumber(ARGV[4])
+
+        -- Return legacy metadata before changing queue state. The caller normalizes in .NET and
+        -- conditionally rewrites these exact values, then retries this atomic snapshot.
+        local legacy = {}
+        local classes = redis.call('HGETALL', KEYS[2])
+        for i = 1, #classes, 2 do
+            local class = cjson.decode(classes[i + 1])
+            if class['CapabilitiesNormalized'] ~= true then
+                table.insert(legacy, { KeyIndex = 2, Field = classes[i], Value = classes[i + 1] })
+            end
+            classes[i + 1] = class
+        end
+        local live_workers = {}
+        -- Expired heartbeat fields are gone, so this hash lists exactly the live workers.
+        for _, id in ipairs(redis.call('HKEYS', KEYS[7])) do
+            local raw = redis.call('HGET', KEYS[6], id)
+            if raw then
+                local registration = cjson.decode(raw)
+                if registration['NormalizedCapabilities'] == nil then
+                    table.insert(legacy, { KeyIndex = 6, Field = id, Value = raw })
+                else
+                    table.insert(live_workers, registration['NormalizedCapabilities'])
+                end
+            end
+        end
+        if #legacy > 0 then
+            return '__normalize__' .. cjson.encode(legacy)
+        end
 
         -- Both sides carry .NET OrdinalIgnoreCase comparison keys; Lua cannot case-fold Unicode.
         local function supports(required, available)
@@ -121,20 +150,10 @@ internal static class RedisCoordinationScripts
             return true
         end
 
-        -- Expired heartbeat fields are gone, so the heartbeat hash lists exactly the live workers.
-        local live_workers = {}
-        for _, id in ipairs(redis.call('HKEYS', KEYS[7])) do
-            local registration = redis.call('HGET', KEYS[6], id)
-            if registration then
-                table.insert(live_workers, cjson.decode(registration)['NormalizedCapabilities'] or {})
-            end
-        end
-
         local best = nil
-        local classes = redis.call('HGETALL', KEYS[2])
         for i = 1, #classes, 2 do
             local class_id = classes[i]
-            local class = cjson.decode(classes[i + 1])
+            local class = classes[i + 1]
             local required = class['RequiredCapabilities'] or {}
             if (not always_run_only or class['AlwaysRun'] == true) and supports(required, caps) then
                 local head = nil
@@ -201,6 +220,18 @@ internal static class RedisCoordinationScripts
         }))
         refresh(ARGV[5])
         return string.sub(best.member, 86)
+        """;
+
+    // ARGV: groups of key index, field, original JSON, normalized JSON. Never recreate deleted
+    // state or overwrite a registration/class that changed since the claim returned it.
+    public const string NormalizeCapabilities = """
+        for i = 1, #ARGV, 4 do
+            local key = KEYS[tonumber(ARGV[i])]
+            if redis.call('HGET', key, ARGV[i + 1]) == ARGV[i + 2] then
+                redis.call('HSET', key, ARGV[i + 1], ARGV[i + 3])
+            end
+        end
+        return 1
         """;
 
     // ARGV: time to live, worker identifier, worker timeout, status JSON, then in-flight module identifiers.
