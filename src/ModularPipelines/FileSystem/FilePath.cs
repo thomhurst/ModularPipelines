@@ -343,7 +343,6 @@ public class FilePath : IEquatable<FilePath>
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
 
         _provider.CopyFile(Path, path, true);
-        FileCopyMetadata.CopyUnixPermissions(_provider, Path, path);
         return new FilePath(path, _provider);
     }
 
@@ -374,10 +373,13 @@ public class FilePath : IEquatable<FilePath>
             await using (destStream.ConfigureAwait(false))
             {
                 await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+                if (FileCopyMetadata.UsesUnixPermissions(_provider))
+                {
+                    await destStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                    FileCopyMetadata.CopyUnixPermissions(_provider, sourceStream, destStream);
+                }
             }
         }
-
-        FileCopyMetadata.CopyUnixPermissions(_provider, Path, path);
 
         return new FilePath(path, _provider);
     }

@@ -6,6 +6,43 @@ namespace ModularPipelines.UnitTests.FileSystem;
 public class CopyUnixPermissionsTests
 {
     [Test]
+    public async Task CopyUnixPermissions_Uses_Open_Files_When_Paths_Are_Replaced()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Unix file permissions are unavailable on Windows.");
+        }
+
+        await using var temporary = new TempFolder();
+        var source = temporary.Folder.GetFile("source");
+        var destination = temporary.Folder.GetFile("destination");
+        var victim = temporary.Folder.GetFile("victim");
+        await source.WriteAsync("source contents");
+        await destination.WriteAsync("copied contents");
+        await victim.WriteAsync("private contents");
+        const UnixFileMode sourceMode = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.OtherRead;
+        const UnixFileMode victimMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+        File.SetUnixFileMode(source.Path, sourceMode);
+        File.SetUnixFileMode(victim.Path, victimMode);
+
+        using (var sourceStream = File.Open(source.Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+        using (var destinationStream = File.Open(destination.Path, FileMode.Open, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete))
+        {
+            File.Move(source.Path, source.Path + ".moved");
+            File.Move(destination.Path, destination.Path + ".moved");
+            File.CreateSymbolicLink(source.Path, victim.Path);
+            File.CreateSymbolicLink(destination.Path, victim.Path);
+
+            FileCopyMetadata.CopyUnixPermissions(SystemFileSystemProvider.Instance, sourceStream, destinationStream);
+        }
+
+        await Assert.That(File.GetUnixFileMode(destination.Path + ".moved")).IsEqualTo(sourceMode);
+        await Assert.That(File.GetUnixFileMode(source.Path + ".moved")).IsEqualTo(sourceMode);
+        await Assert.That(File.GetUnixFileMode(victim.Path)).IsEqualTo(victimMode);
+        await Assert.That(await victim.ReadAsync()).IsEqualTo("private contents");
+    }
+
+    [Test]
     [MatrixDataSource]
     public async Task Copy_Preserves_Permissions_Without_Special_Bits(
         [Matrix(false, true)] bool useAsync,
