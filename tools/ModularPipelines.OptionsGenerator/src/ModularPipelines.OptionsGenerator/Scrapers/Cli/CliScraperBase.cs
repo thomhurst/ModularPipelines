@@ -1967,6 +1967,7 @@ public abstract partial class CliScraperBase : ICliScraper
             && char.IsAsciiLetterOrDigit(continuation[0])
             && (WrappedLongOptionPrefixPattern().IsMatch(parts[^1])
                 || (joinHyphenatedWords && WrappedWordPrefixPattern().IsMatch(parts[^1])
+                    && !SymbolicPermissionMaskPattern().IsMatch(parts[^1])
                     && !SuspendedHyphenContinuationPattern().IsMatch(continuation))))
         {
             parts[^1] += continuation;
@@ -1984,6 +1985,10 @@ public abstract partial class CliScraperBase : ICliScraper
     // Join only physical continuations, preserving the hyphen and suspended prose.
     [GeneratedRegex(@"[A-Za-z0-9]-$")]
     private static partial Regex WrappedWordPrefixPattern();
+
+    // A complete POSIX permission mask ends in a permission dash, not a word-wrap hyphen.
+    [GeneratedRegex(@"(?<![\w/-])(?:[r-][w-][xSs-]){2}[r-][w-][xTt-]$")]
+    private static partial Regex SymbolicPermissionMaskPattern();
 
     [GeneratedRegex(@"^(?:and|or|to|through|versus|vs|nor|but)(?:\s|$)", RegexOptions.IgnoreCase)]
     private static partial Regex SuspendedHyphenContinuationPattern();
