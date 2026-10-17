@@ -233,9 +233,19 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
 
             foreach (var option in sharedOptions)
             {
-                if (CliOptionDefinition.FindIndexBySwitch(options, option.SwitchName) < 0)
+                var index = CliOptionDefinition.FindIndexBySwitch(options, option.SwitchName);
+                if (index < 0)
                 {
                     options.Add(option);
+                }
+                else if (option.AcceptsMultipleValues && !options[index].AcceptsMultipleValues)
+                {
+                    // Shared help can document repeatability omitted by the local help.
+                    options[index] = options[index] with
+                    {
+                        AcceptsMultipleValues = true,
+                        CSharpType = option.CSharpType,
+                    };
                 }
             }
 

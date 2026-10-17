@@ -45,6 +45,23 @@ public class TerraformPlanningOptionsTests
     [Test]
     [Arguments("plan")]
     [Arguments("apply")]
+    public async Task Planning_Commands_Preserve_Repeatable_Replacements(string name)
+    {
+        var command = await ParseFixture(name);
+        var option = command.Options.Single(option => option.SwitchName == "-replace");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(option.IsFlag).IsFalse();
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        }
+    }
+
+    [Test]
+    [Arguments("plan")]
+    [Arguments("apply")]
     [Arguments("destroy")]
     public async Task Boolean_Values_Are_Not_Presence_Only_Flags(string name)
     {

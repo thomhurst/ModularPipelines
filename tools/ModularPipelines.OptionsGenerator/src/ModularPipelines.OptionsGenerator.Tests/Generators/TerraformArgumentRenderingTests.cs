@@ -8,15 +8,16 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     private static readonly string[] TerraformVariableValues = ["foo=hello world", "bar=two"];
+    private static readonly string[] TerraformReplacementValues = ["aws_instance.first", "aws_instance.second"];
 
     [Test]
     [Arguments("false")]
     [Arguments("true")]
     [Arguments("unset")]
-    public async Task Terraform_Generated_Options_Render_Boolean_Values_And_Repeated_Variables(string value)
+    public async Task Terraform_Generated_Options_Render_Boolean_Values_And_Repeated_Options(string value)
     {
         var command = await TerraformPlanningOptionsTests.ParseFixture("apply");
-        var definitions = command.Options.Where(option => option.SwitchName is "-lock" or "-input" or "-var").ToList();
+        var definitions = command.Options.Where(option => option.SwitchName is "-lock" or "-input" or "-var" or "-replace").ToList();
         var type = Compile(await Generate(definitions)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(type)!;
         var parts = definitions.Select(definition =>
@@ -25,6 +26,10 @@ public partial class RequiredConstructorValidationTests
             if (definition.SwitchName == "-var")
             {
                 property.SetValue(instance, TerraformVariableValues);
+            }
+            else if (definition.SwitchName == "-replace")
+            {
+                property.SetValue(instance, TerraformReplacementValues);
             }
             else if (value != "unset")
             {
@@ -38,8 +43,8 @@ public partial class RequiredConstructorValidationTests
         }).ToArray<PropertyCommandLinePart>();
 
         string[] expected = value == "unset"
-            ? ["-var=foo=hello world", "-var=bar=two"]
-            : [$"-lock={value}", $"-input={value}", "-var=foo=hello world", "-var=bar=two"];
+            ? ["-replace=aws_instance.first", "-replace=aws_instance.second", "-var=foo=hello world", "-var=bar=two"]
+            : [$"-lock={value}", $"-input={value}", "-replace=aws_instance.first", "-replace=aws_instance.second", "-var=foo=hello world", "-var=bar=two"];
         await Assert.That(new CommandArgumentBuilder().BuildArguments(parts, instance))
             .IsEquivalentTo(expected, TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
