@@ -17,6 +17,10 @@ public class DescriptionEnumValueParserTests
     [Arguments("Reference <kind>/<name> where the kind value is one of: Secret, ConfigMap")]
     [Arguments("Reference <kind>/<name>, where the kind value has allowed values: Secret, ConfigMap")]
     [Arguments("Reference <kind>/<name>, where the kind format (Secret, ConfigMap) is supported")]
+    [Arguments("Reference <kind>/<name>: kind must be one of: Secret, ConfigMap")]
+    [Arguments("Reference <kind>/<name>: the <kind> field can be one of: Secret, ConfigMap")]
+    [Arguments("Reference <kind>/<name>: kind must be 'Secret' or 'ConfigMap'")]
+    [Arguments("Reference <kind>/<name>: kind format (Secret, ConfigMap) is supported")]
     public async Task TryParse_Rejects_Choices_For_Composite_Value_Components(string description)
     {
         await Assert.That(DescriptionEnumValueParser.TryParse(description)).IsNull();
@@ -54,6 +58,8 @@ public class DescriptionEnumValueParserTests
     [Arguments("Reference <kind>/<name>, output kind value must be one of: json, yaml")]
     [Arguments("Reference <kind>/<name>, where the kind value must be one of: Secret, ConfigMap; output format has allowed values: json, yaml")]
     [Arguments("Reference <kind>/<name>, where the kind field can be one of: Secret, ConfigMap. Output format (json, yaml)")]
+    [Arguments("Reference <kind>/<name>: kind must be one of: Secret, ConfigMap. Output format has allowed values: json, yaml")]
+    [Arguments("Reference <kind>/<name>: output kind must be one of: json, yaml")]
     public async Task TryParse_Preserves_Whole_Value_Choices_Alongside_Composite_Prose(string description)
     {
         var result = DescriptionEnumValueParser.TryParse(description);

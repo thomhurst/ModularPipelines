@@ -106,6 +106,12 @@ public record CliOptionDefinition
         return resolution.IsResolved;
     }
 
+    internal static bool IsKnownReferenceType(string cSharpType)
+    {
+        var resolution = GetCollectionShape(cSharpType);
+        return resolution.IsResolved && resolution.IsReferenceType;
+    }
+
     internal static bool MayBeReferenceType(string cSharpType)
     {
         var resolution = GetCollectionShape(cSharpType);

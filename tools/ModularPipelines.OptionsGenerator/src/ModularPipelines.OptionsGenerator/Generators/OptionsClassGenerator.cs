@@ -796,8 +796,9 @@ public class OptionsClassGenerator : ICodeGenerator
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
         // Nullable reference annotations do not require separate storage. Nullable value
         // types do: forwarding a required int to int? would change its runtime contract.
-        var narrowsGlobalString = propertyType == "string" && option?.GlobalOptionPropertyType == "string?";
-        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType || narrowsGlobalString;
+        var narrowsGlobalReference = option?.GlobalOptionPropertyType == propertyType + "?"
+            && CliOptionDefinition.IsKnownReferenceType(propertyType);
+        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType || narrowsGlobalReference;
         // Constructors materialize required collections, but forwarding properties can
         // receive later base assignments. Retain those values for validation and rendering.
         if ((!isRequired || forwardsToGlobal) && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
@@ -813,7 +814,7 @@ public class OptionsClassGenerator : ICodeGenerator
             // Keep command-specific metadata separate while base-typed callers use the same value.
             sb.AppendLine(declaration);
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => base.{propertyName}{(narrowsGlobalString ? "!" : "")};");
+            sb.AppendLine($"        get => base.{propertyName}{(narrowsGlobalReference ? "!" : "")};");
             sb.AppendLine($"        {GetPropertyAccessor(isRequired)} => base.{propertyName} = value;");
             sb.AppendLine("    }");
             return;
@@ -842,7 +843,8 @@ public class OptionsClassGenerator : ICodeGenerator
         var storage = forwardsToGlobal ? $"base.{propertyName}" : "field";
         sb.AppendLine(declaration);
         sb.AppendLine("    {");
-        sb.AppendLine(forwardsToGlobal ? $"        get => {storage};" : "        get;");
+        var narrowsGlobalReference = forwardsToGlobal && option?.GlobalOptionPropertyType != propertyType;
+        sb.AppendLine(forwardsToGlobal ? $"        get => {storage}{(narrowsGlobalReference ? "!" : "")};" : "        get;");
         sb.AppendLine(forwardsToGlobal
             ? $"        {GetPropertyAccessor(isRequired)} => {storage} = value;"
             : $"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
@@ -852,7 +854,8 @@ public class OptionsClassGenerator : ICodeGenerator
             // Keep a separate metadata slot while intercepting assignments through the base setter.
             sb.AppendLine();
             sb.AppendLine("    /// <inheritdoc />");
-            sb.AppendLine($"    protected override {propertyType} {GetGlobalCollectionSnapshotMethodName(propertyName)}({propertyType} value) =>");
+            var globalPropertyType = option!.GlobalOptionPropertyType;
+            sb.AppendLine($"    protected override {globalPropertyType} {GetGlobalCollectionSnapshotMethodName(propertyName)}({globalPropertyType} value) =>");
             sb.AppendLine($"        value is {{ }} values ? {snapshot} : default;");
         }
 

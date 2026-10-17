@@ -7,16 +7,25 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public partial class RequiredConstructorValidationTests
 {
     [Test]
-    public async Task Required_String_Override_Shares_Nullable_Global_Storage()
+    [Arguments("string", true, false)]
+    [Arguments("object", true, false)]
+    [Arguments("IEnumerable<string>", true, false)]
+    [Arguments("IEnumerable<string>", true, true)]
+    [Arguments("string[]", true, false)]
+    [Arguments("string[]", true, true)]
+    [Arguments("int", false, false)]
+    [Arguments("bool", false, false)]
+    [Arguments("System.DateTime", false, false)]
+    public async Task Required_Override_Uses_Compatible_Global_Storage(string propertyType, bool sharesStorage, bool rejectBlankCollectionValues)
     {
         var global = new CliOptionDefinition
         {
             SwitchName = "--project",
             ShortForm = "-p",
             PropertyName = "Project",
-            CSharpType = "string?",
+            CSharpType = propertyType + "?",
         };
-        var local = global with { ShortForm = null, IsRequired = true, Description = "The command-specific project selector." };
+        var local = global with { ShortForm = null, IsRequired = true, Description = "The command-specific project selector.", RejectBlankCollectionValues = rejectBlankCollectionValues };
         var command = new CliCommandDefinition
         {
             FullCommand = "tool run",
@@ -45,13 +54,43 @@ public partial class RequiredConstructorValidationTests
         var derivedType = assembly.GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var baseProperty = baseType.GetProperty("Project")!;
         var derivedProperty = derivedType.GetProperty("Project", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)!;
-        var instance = Activator.CreateInstance(derivedType, ["constructor"]);
-        await Assert.That(baseProperty.GetValue(instance)).IsEqualTo("constructor");
-        baseProperty.SetValue(instance, "base");
-        await Assert.That(derivedProperty.GetValue(instance)).IsEqualTo("base");
-        derivedProperty.SetValue(instance, "derived");
-        await Assert.That(baseProperty.GetValue(instance)).IsEqualTo("derived");
-        await Assert.That(() => Activator.CreateInstance(derivedType, [null]))
-            .Throws<TargetInvocationException>().WithInnerException<ArgumentNullException>();
+        object Value(int index) => propertyType switch
+        {
+            "IEnumerable<string>" or "string[]" => new[] { index.ToString() },
+            "int" => index,
+            "bool" => index % 2 == 0,
+            "System.DateTime" => new DateTime(2026, 1, index),
+            _ => index.ToString(),
+        };
+
+        var instance = Activator.CreateInstance(derivedType, [Value(1)]);
+        if (sharesStorage)
+        {
+            await Assert.That(baseProperty.GetValue(instance)).IsEqualTo(derivedProperty.GetValue(instance));
+            await Assert.That(new NullabilityInfoContext().Create(derivedProperty).ReadState).IsEqualTo(NullabilityState.NotNull);
+            baseProperty.SetValue(instance, Value(2));
+            await Assert.That(derivedProperty.GetValue(instance)).IsEqualTo(baseProperty.GetValue(instance));
+            derivedProperty.SetValue(instance, Value(3));
+            await Assert.That(baseProperty.GetValue(instance)).IsEqualTo(derivedProperty.GetValue(instance));
+            if (rejectBlankCollectionValues)
+            {
+                var snapshotMethod = derivedType.GetMethod(OptionsClassGenerator.GetGlobalCollectionSnapshotMethodName("Project"),
+                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)!;
+                var nullability = new NullabilityInfoContext();
+                await Assert.That(nullability.Create(snapshotMethod.ReturnParameter).ReadState).IsEqualTo(NullabilityState.Nullable);
+                await Assert.That(nullability.Create(snapshotMethod.GetParameters().Single()).ReadState).IsEqualTo(NullabilityState.Nullable);
+            }
+
+            await Assert.That(() => Activator.CreateInstance(derivedType, [null]))
+                .Throws<TargetInvocationException>().WithInnerException<ArgumentNullException>();
+        }
+        else
+        {
+            await Assert.That(baseProperty.GetValue(instance)).IsNull();
+            baseProperty.SetValue(instance, Value(2));
+            await Assert.That(derivedProperty.GetValue(instance)).IsEqualTo(Value(1));
+            derivedProperty.SetValue(instance, Value(3));
+            await Assert.That(baseProperty.GetValue(instance)).IsEqualTo(Value(2));
+        }
     }
 }

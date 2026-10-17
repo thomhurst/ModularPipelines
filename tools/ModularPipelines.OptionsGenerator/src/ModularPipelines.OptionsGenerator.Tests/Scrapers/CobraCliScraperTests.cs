@@ -322,10 +322,12 @@ public class CobraCliScraperTests
     [Arguments("the <kind> field can be")]
     [Arguments("kind component may be")]
     [Arguments("the kind field is")]
-    public async Task Component_Noun_Phrases_Preserve_Composite_Values_And_Type_Hints(string subject)
+    [Arguments("kind must be", ": ")]
+    [Arguments("the <kind> field can be", ": ")]
+    public async Task Component_Noun_Phrases_Preserve_Composite_Values_And_Type_Hints(string subject, string separator = ", where ")
     {
-        var description = $"Reference <kind>/<name>, where {subject} one of: Secret, ConfigMap";
-        var bulletDescription = $"Reference <kind>/<name>, where {subject} allowed values: - Secret - ConfigMap";
+        var description = $"Reference <kind>/<name>{separator}{subject} one of: Secret, ConfigMap";
+        var bulletDescription = $"Reference <kind>/<name>{separator}{subject} allowed values: - Secret - ConfigMap";
         var helpText = $"Usage: fake run [OPTIONS]\n\nOptions:\n  --reference string   {description}\n  --bullet string   {bulletDescription}\n  --hint Foo|Bar   {description}\n  --output string   {description}. Output format has allowed values: json, yaml\n";
         var command = await new TestCobraCliScraper().Parse(["fake", "run"], helpText);
 
