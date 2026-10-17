@@ -839,11 +839,6 @@ public static partial class UsageSynopsisParser
                 continue;
             }
 
-            if (IsNonOperandSyntax(operandToken))
-            {
-                continue;
-            }
-
             ParseAndAddOperand(
                 operandToken,
                 operandPhase,
@@ -929,6 +924,13 @@ public static partial class UsageSynopsisParser
         ref bool prependOptionTerminatorToNextOperand,
         ref string? associatedOptionSwitch)
     {
+        if (!groupedBehindOptionTerminator
+            && !prependOptionTerminatorToNextOperand
+            && IsNonOperandSyntax(operandToken))
+        {
+            return;
+        }
+
         var argument = ParseOperand(operandToken, arguments.Count, operandPhase);
         if (argument is null)
         {
@@ -1505,13 +1507,12 @@ public static partial class UsageSynopsisParser
             canonicalName = requiredPlaceholder;
         }
 
+        _ = TrimControlWrappers(canonicalName, out var hasNestedRepetition);
         var isVariadic = trimmed.EndsWith("...", StringComparison.Ordinal)
                          || trimmed.EndsWith('…')
                          || content.EndsWith("...", StringComparison.Ordinal)
                          || content.EndsWith('…')
-                         || TrimControlWrappers(canonicalName).EndsWith("...", StringComparison.Ordinal)
-                         || TrimControlWrappers(canonicalName).EndsWith('…')
-                         || canonicalName.EndsWith(" ...", StringComparison.Ordinal)
+                         || hasNestedRepetition
                          || IsForwardedOptionTail(trimmed, content);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
         var documentationName = GetOperandDocumentationName(trimmed, canonicalName);
@@ -1559,9 +1560,12 @@ public static partial class UsageSynopsisParser
         || HasRequiredSuffixOutsideOptionalPrefix(token);
 
     private static bool IsForwardedOptionTail(string token, string content) =>
-        token.StartsWith('[')
-        && content.Contains(' ')
-        && content.EndsWith(" OPTIONS", StringComparison.OrdinalIgnoreCase);
+        token.StartsWith('[') && IsForwardedOptionLabel(content);
+
+    // A literal command followed by options denotes forwarded arguments, e.g. [ps OPTIONS].
+    private static bool IsForwardedOptionLabel(string content) =>
+        content.EndsWith(" OPTIONS", StringComparison.OrdinalIgnoreCase)
+        && !ControlTokens.Contains(content[..^" OPTIONS".Length]);
 
     private static bool TryParseNestedOperandGroup(
         string token,
@@ -2336,7 +2340,9 @@ public static partial class UsageSynopsisParser
 
     private static bool IsOptionControlLabel(string content) =>
         OptionControlTokens.Contains(content)
-        || content.EndsWith(" flags", StringComparison.OrdinalIgnoreCase);
+        || content.EndsWith(" flags", StringComparison.OrdinalIgnoreCase)
+        || (content.EndsWith(" options", StringComparison.OrdinalIgnoreCase)
+            && !IsForwardedOptionLabel(content));
 
     private static bool IsOptionControlToken(string token)
     {
@@ -2344,7 +2350,7 @@ public static partial class UsageSynopsisParser
         return !HasMixedOptionOperandAlternatives(content)
                && !HasLoneDashOperandAlternatives(content)
                && (IsOptionAlternative(content)
-                   || OptionControlTokens.Contains(content));
+                   || IsOptionControlLabel(content));
     }
 
     private static bool IsPhaseControlToken(string token)
@@ -2603,12 +2609,20 @@ public static partial class UsageSynopsisParser
                && !IsOptionControlLabel(content);
     }
 
-    private static string TrimControlWrappers(string token)
+    private static string TrimControlWrappers(string token) => TrimControlWrappers(token, out _);
+
+    private static string TrimControlWrappers(string token, out bool hasRepetition)
     {
+        hasRepetition = false;
         var content = token.Trim();
         while (true)
         {
             content = content.TrimEnd(',', ':', ';');
+            if (content.EndsWith("...", StringComparison.Ordinal) || content.EndsWith('…'))
+            {
+                hasRepetition = true;
+                content = content.TrimEnd('.', '…').TrimEnd();
+            }
             if (!IsWrapped(content))
             {
                 return content;

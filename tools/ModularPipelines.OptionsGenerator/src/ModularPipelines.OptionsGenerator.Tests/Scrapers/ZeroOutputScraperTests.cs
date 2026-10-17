@@ -303,10 +303,15 @@ public class ZeroOutputScraperTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(arguments.Keys).IsEquivalentTo(["Flags", "SshFlags", "Command"]);
+            await Assert.That(arguments.Keys).IsEquivalentTo(["SshFlags", "Command"]);
             await Assert.That(arguments["SshFlags"].CSharpType).IsEqualTo("IEnumerable<string>?");
             await Assert.That(arguments["SshFlags"].IsRequired).IsFalse();
+            await Assert.That(arguments["SshFlags"].PositionIndex).IsEqualTo(0);
+            await Assert.That(arguments["SshFlags"].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+            await Assert.That(arguments["SshFlags"].PrependOptionTerminator).IsTrue();
             await Assert.That(arguments["Command"].CSharpType).IsEqualTo("string?");
+            await Assert.That(arguments["Command"].PositionIndex).IsEqualTo(0);
+            await Assert.That(arguments["Command"].Phase).IsEqualTo(CommandLinePhase.LateOperand);
         }
     }
 

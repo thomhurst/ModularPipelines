@@ -1067,6 +1067,24 @@ public class UsageSynopsisParserTests
                 ["vault", "delete"],
                 Required("Path", phase: CommandLinePhase.Passthrough)),
             Fixture(
+                "skopeo",
+                File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Skopeo", "1.13.3", "copy-help.txt")),
+                ["skopeo", "copy"],
+                Required("SourceImage", phase: CommandLinePhase.Passthrough),
+                Required("DestinationImage", phase: CommandLinePhase.Passthrough)),
+            Fixture(
+                "vault transit import",
+                "Usage: vault transit import PATH KEY [options...]",
+                ["vault", "transit", "import"],
+                Required("Path"),
+                Required("Key")),
+            Fixture(
+                "vault transform import",
+                "Usage: vault transform import PATH KEY [options...]",
+                ["vault", "transform", "import"],
+                Required("Path"),
+                Required("Key")),
+            Fixture(
                 "terraform",
                 "Usage: terraform [global options] import [options] ADDRESS ID",
                 ["terraform", "import"],
@@ -1190,10 +1208,14 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments()
+    [Arguments("ps OPTIONS")]
+    [Arguments("ps options")]
+    [Arguments("PS OPTIONS")]
+    [Arguments("PS options")]
+    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments(string label)
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: docker top CONTAINER [ps OPTIONS]",
+            $"Usage: docker top CONTAINER [{label}]",
             ["docker", "top"]);
 
         var psOptions = result.PositionalArguments.Single(argument =>
@@ -1374,10 +1396,54 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands()
+    [Arguments("[command options]")]
+    [Arguments("[COMMAND OPTIONS]")]
+    [Arguments("[command OPTIONS]")]
+    [Arguments("[command flags]")]
+    [Arguments("[<flags>...]")]
+    [Arguments("[<options>...]")]
+    [Arguments("[flags...]")]
+    [Arguments("[<flags>…]")]
+    [Arguments("[<flags>...]...;")]
+    public async Task Option_Control_Labels_Do_Not_Create_Operands(string label)
+    {
+        var result = UsageSynopsisParser.Parse($"Usage: tool run {label} <target>", ["tool", "run"]);
+
+        var target = result.PositionalArguments.Single();
+        await Assert.That(target.PropertyName).IsEqualTo("Target");
+        await Assert.That(target.PositionIndex).IsEqualTo(0);
+        await Assert.That(target.IsRequired).IsTrue();
+        await Assert.That(target.IsVariadic).IsFalse();
+        await Assert.That(target.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    public async Task Codespace_Ssh_Control_Flags_Do_Not_Replace_Forwarded_Operands()
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: tool run (options | --all)",
+            "USAGE\n  gh codespace ssh [<flags>...] [-- <ssh-flags>...] [<command>]",
+            ["gh", "codespace", "ssh"]);
+
+        await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["SshFlags", "Command"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        var sshFlags = result.PositionalArguments[0];
+        await Assert.That(sshFlags.IsVariadic).IsTrue();
+        await Assert.That(sshFlags.IsRequired).IsFalse();
+        await Assert.That(sshFlags.PrependOptionTerminator).IsTrue();
+        await Assert.That(sshFlags.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(result.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.LateOperand);
+        await Assert.That(result.UnparsedOperandTokens).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("options")]
+    [Arguments("command options")]
+    [Arguments("<flags>...")]
+    public async Task Does_Not_Model_Option_Control_Alternatives_As_Operands(string label)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool run ({label} | --all)",
             ["tool", "run"]);
 
         await Assert.That(result.PositionalArguments).IsEmpty();
