@@ -47,7 +47,7 @@ public class FluxCreateSource
     }
 
     /// <summary>
-    /// The create source bucket command generates a Bucket resource and waits for it to be downloaded.
+    /// The create source bucket command generates a Bucket resource and waits for it to be downloaded. For Buckets with static authentication, the credentials are stored in a Kubernetes secret.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class FluxCreateSource
     }
 
     /// <summary>
-    /// The create source git command generates a GitRepository resource and waits for it to sync.
+    /// The create source git command generates a GitRepository resource and waits for it to sync. For Git over SSH, host and SSH keys are automatically generated and stored in a Kubernetes secret. For private Git repositories, the basic authentication credentials are stored in a Kubernetes secret.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class FluxCreateSource
     }
 
     /// <summary>
-    /// The create source helm command generates a HelmRepository resource and waits for it to fetch the index.
+    /// The create source helm command generates a HelmRepository resource and waits for it to fetch the index. For private Helm repositories, the basic authentication credentials are stored in a Kubernetes secret.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

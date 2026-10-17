@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create image policy command generates an ImagePolicy resource.
+/// The create image policy command generates an ImagePolicy resource. An ImagePolicy object calculates a "latest image" given an image repository and a policy, e.g., semver.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

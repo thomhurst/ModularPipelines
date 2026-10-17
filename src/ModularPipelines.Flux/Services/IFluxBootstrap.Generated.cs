@@ -22,7 +22,7 @@ namespace ModularPipelines.Flux.Services;
 public interface IFluxBootstrap
 {
     /// <summary>
-    /// The bootstrap sub-commands push the Flux manifests to a Git repository
+    /// The bootstrap sub-commands push the Flux manifests to a Git repository and deploy Flux on the cluster.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -31,7 +31,7 @@ public interface IFluxBootstrap
     public Task<CommandResult> ExecuteAsync(FluxBootstrapOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The bootstrap bitbucket-server command creates the Bitbucket Server repository if it doesn't exists and
+    /// The bootstrap bitbucket-server command creates the Bitbucket Server repository if it doesn't exists and commits the Flux manifests to the master branch. Then it configures the target cluster to synchronize with the repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -40,7 +40,7 @@ public interface IFluxBootstrap
     public Task<CommandResult> BitbucketServerAsync(FluxBootstrapBitbucketServerOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The bootstrap git command commits the Flux manifests to the
+    /// The bootstrap git command commits the Flux manifests to the branch of a Git repository. And then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -49,7 +49,7 @@ public interface IFluxBootstrap
     public Task<CommandResult> GitAsync(FluxBootstrapGitOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The bootstrap gitea command creates the Gitea repository if it doesn't exists and
+    /// The bootstrap gitea command creates the Gitea repository if it doesn't exists and commits the Flux manifests to the specified branch. Then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -58,7 +58,7 @@ public interface IFluxBootstrap
     public Task<CommandResult> GiteaAsync(FluxBootstrapGiteaOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The bootstrap github command creates the GitHub repository if it doesn't exists and
+    /// The bootstrap github command creates the GitHub repository if it doesn't exists and commits the Flux manifests to the specified branch. Then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -67,7 +67,7 @@ public interface IFluxBootstrap
     public Task<CommandResult> GithubAsync(FluxBootstrapGithubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The bootstrap gitlab command creates the GitLab repository if it doesn't exist and
+    /// The bootstrap gitlab command creates the GitLab repository if it doesn't exist and commits the Flux manifests to the specified branch. Then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

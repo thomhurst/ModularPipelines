@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create image repository command generates an ImageRepository resource.
+/// The create image repository command generates an ImageRepository resource. An ImageRepository object specifies an image repository to scan.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

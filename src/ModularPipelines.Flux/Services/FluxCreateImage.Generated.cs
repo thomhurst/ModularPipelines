@@ -32,7 +32,7 @@ public class FluxCreateImage
     #region Commands
 
     /// <summary>
-    /// The create image sub-commands work with image automation objects;
+    /// The create image sub-commands work with image automation objects; that is, object controlling updates to git based on e.g., new container images being available.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class FluxCreateImage
     }
 
     /// <summary>
-    /// The create image policy command generates an ImagePolicy resource.
+    /// The create image policy command generates an ImagePolicy resource. An ImagePolicy object calculates a "latest image" given an image repository and a policy, e.g., semver.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class FluxCreateImage
     }
 
     /// <summary>
-    /// The create image repository command generates an ImageRepository resource.
+    /// The create image repository command generates an ImageRepository resource. An ImageRepository object specifies an image repository to scan.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class FluxCreateImage
     }
 
     /// <summary>
-    /// The create image update command generates an ImageUpdateAutomation resource.
+    /// The create image update command generates an ImageUpdateAutomation resource. An ImageUpdateAutomation object specifies an automated update to images mentioned in YAMLs in a git repository.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

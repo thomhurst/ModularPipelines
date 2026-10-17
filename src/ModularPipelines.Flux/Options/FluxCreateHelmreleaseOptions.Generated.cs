@@ -38,7 +38,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// the name of the HelmChart resource to use as source for the HelmRelease, in the format '&lt;kind&gt;/&lt;name&gt;.&lt;namespace&gt;', where kind must be one of: (OCIRepository,HelmChart)
     /// </summary>
     [CliOption("--chart-ref", Format = OptionFormat.EqualsSeparated)]
-    public FluxCreateHelmreleaseChartRef? ChartRef { get; set; }
+    public string? ChartRef { get; set; }
 
     /// <summary>
     /// Helm chart version, accepts a semver range (ignored for charts from GitRepository sources)
@@ -93,7 +93,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// source that contains the chart in the format '&lt;kind&gt;/&lt;name&gt;.&lt;namespace&gt;', where kind must be one of: (HelmRepository, GitRepository, Bucket)
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
-    public FluxCreateHelmreleaseSource? Source { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// namespace to store the Helm release, defaults to the target namespace
@@ -117,7 +117,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// a Kubernetes object reference that contains the values.yaml data key in the format '&lt;kind&gt;/&lt;name&gt;', where kind must be one of: (Secret,ConfigMap)
     /// </summary>
     [CliOption("--values-from", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<FluxCreateHelmreleaseValuesFrom>? ValuesFrom { get; set; }
+    public IEnumerable<string>? ValuesFrom { get; set; }
 
     /// <summary>
     /// export in YAML format to stdout

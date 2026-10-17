@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to
+/// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to finish the apply.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

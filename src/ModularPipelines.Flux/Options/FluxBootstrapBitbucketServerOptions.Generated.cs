@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The bootstrap bitbucket-server command creates the Bitbucket Server repository if it doesn't exists and
+/// The bootstrap bitbucket-server command creates the Bitbucket Server repository if it doesn't exists and commits the Flux manifests to the master branch. Then it configures the target cluster to synchronize with the repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

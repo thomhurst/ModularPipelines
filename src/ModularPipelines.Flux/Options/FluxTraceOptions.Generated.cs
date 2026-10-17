@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The trace command shows how one or more objects are managed by Flux,
+/// The trace command shows how one or more objects are managed by Flux, from which source and revision they come, and what the latest reconciliation status is.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Flux.Options;
 public record FluxTraceOptions : FluxOptions
 {
     /// <summary>
-    /// The trace command shows how one or more objects are managed by Flux,
+    /// The trace command shows how one or more objects are managed by Flux, from which source and revision they come, and what the latest reconciliation status is.
     /// </summary>
     /// <param name="Resource">The &lt;resource&gt; operand.</param>
     /// <param name="Name">The &lt;name&gt; operand.</param>

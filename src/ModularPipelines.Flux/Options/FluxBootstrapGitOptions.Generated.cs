@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The bootstrap git command commits the Flux manifests to the
+/// The bootstrap git command commits the Flux manifests to the branch of a Git repository. And then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

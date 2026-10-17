@@ -47,7 +47,7 @@ public class FluxBuild : IFluxBuild
     }
 
     /// <summary>
-    /// The build artifact command creates a tgz file with the manifests
+    /// The build artifact command creates a tgz file with the manifests from the given directory or a single manifest file.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class FluxBuild : IFluxBuild
     }
 
     /// <summary>
-    /// The build command queries the Kubernetes API and fetches the specified Flux Kustomization.
+    /// The build command queries the Kubernetes API and fetches the specified Flux Kustomization. It then uses the fetched in cluster flux kustomization to perform needed transformation on the local kustomization.yaml pointed at by --path. The local kustomization.yaml is generated if it does not exist. Finally it builds the overlays using the local kustomization.yaml, and write the resulting multi-doc YAML to stdout.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

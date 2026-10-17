@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create tenant command generates namespaces, service accounts and role bindings to limit the
+/// The create tenant command generates namespaces, service accounts and role bindings to limit the reconcilers scope to the tenant namespaces.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

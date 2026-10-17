@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create secret proxy command generates a Kubernetes secret with the
+/// The create secret proxy command generates a Kubernetes secret with the proxy address and the basic authentication credentials.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

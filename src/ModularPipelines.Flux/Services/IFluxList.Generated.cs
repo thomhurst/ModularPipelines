@@ -31,7 +31,7 @@ public interface IFluxList
     public Task<CommandResult> ExecuteAsync(FluxListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The list command fetches the tags and their metadata from a remote OCI repository.
+    /// The list command fetches the tags and their metadata from a remote OCI repository. The command can read the credentials from '~/.docker/config.json' but they can also be passed with --creds. It can also login to a supported provider with the --provider flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

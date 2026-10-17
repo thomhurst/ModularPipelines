@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create source git command generates a GitRepository resource and waits for it to sync.
+/// The create source git command generates a GitRepository resource and waits for it to sync. For Git over SSH, host and SSH keys are automatically generated and stored in a Kubernetes secret. For private Git repositories, the basic authentication credentials are stored in a Kubernetes secret.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
