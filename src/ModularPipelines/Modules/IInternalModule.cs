@@ -6,6 +6,11 @@ internal interface IInternalModule : IModule
 {
     Task<IModuleResult> ResultTask { get; }
 
+    bool HasAcceptedDistributedResult { get; }
+
+    /// <summary>Applies the coordinator's final result, superseding a rejected local attempt.</summary>
+    IModuleResult ApplyAcceptedDistributedResult(IModuleResult result);
+
     bool TrySetDistributedResult(IModuleResult result);
 
     /// <summary>

@@ -209,7 +209,8 @@ internal sealed class DistributedAssignmentExecutor(
                 Artifacts = artifacts,
                 ExecutionTelemetry = executionTimer.CreateTelemetry(),
             };
-            acceptedArtifacts?.Record(serialized);
+            // Publication alone does not confirm acceptance: an expired lease is ignored.
+            // Dependencies and summaries read the coordinator's final result and artifacts.
             await coordinator.PublishResultAsync(serialized, lease, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)

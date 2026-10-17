@@ -39,6 +39,7 @@ internal class WorkerModuleExecutor(
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
     private readonly IReadOnlyList<IModule> _registeredModules = [.. registeredModules.Distinct<IModule>(ReferenceEqualityComparer.Instance)];
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
@@ -176,6 +177,7 @@ internal class WorkerModuleExecutor(
 
         var executedModules = new ConcurrentQueue<IModule>();
         var masterState = DistributedMasterState.Running;
+        var claimLoopCompleted = false;
         try
         {
             if (_logger.IsEnabled(LogLevel.Debug))
@@ -211,6 +213,7 @@ internal class WorkerModuleExecutor(
 
             masterState = await WaitForWorkToEndAsync(poolTask, masterWatchTask, workerCts, options)
                 .ConfigureAwait(false);
+            claimLoopCompleted = poolTask.IsCompletedSuccessfully && !workerCts.IsCancellationRequested;
         }
         finally
         {
@@ -222,6 +225,28 @@ internal class WorkerModuleExecutor(
         if (masterState == DistributedMasterState.Lost)
         {
             throw new DistributedMasterLostException(workerId);
+        }
+
+        if (claimLoopCompleted || masterState == DistributedMasterState.Completed)
+        {
+            // A normally completed claim loop also signals completion for coordinators that use
+            // the default Running master state. Reconcile leaf attempts without holding a slot
+            // while a retry runs. Canceled workers must not wait for results that may never exist.
+            using var resultCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            resultCts.CancelAfter(options.MasterTimeout);
+            await DependencyResultApplicator.FetchAndApplyAsync(
+                    [.. executedModules.Select(module => new DependencyResultReference
+                    {
+                        ModuleId = ModuleId.FromType(module.GetType()),
+                        IsAvailable = true,
+                    })],
+                    new DependencyResultCache(_coordinator, resultCts.Token),
+                    moduleLookup,
+                    _serializer,
+                    _resultRegistry,
+                    _logger,
+                    acceptedArtifacts: acceptedArtifacts)
+                .ConfigureAwait(false);
         }
 
         return _resultRegistry.GetCompletedResults(executedModules);

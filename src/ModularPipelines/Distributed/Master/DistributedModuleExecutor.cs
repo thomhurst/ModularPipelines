@@ -1192,7 +1192,9 @@ internal class DistributedModuleExecutor(
             .ConfigureAwait(false);
         if (result is not null)
         {
-            result = ApplyResult(module, result, plan.Context);
+            result = module.AsInternal().ApplyAcceptedDistributedResult(result);
+            _resultRegistry.RegisterAcceptedResult(moduleType, result);
+            plan.Context.TryApplyResult(module, result);
         }
 
         await CompleteCollectedResultAsync(result, moduleType, plan).ConfigureAwait(false);

@@ -219,10 +219,12 @@ public class WorkerModuleExecutorTests
         await Assert.That(result!.ExceptionOrDefault!.Message).Contains("schema mismatch");
         await Assert.That(result.ExceptionOrDefault.Message).Contains("master assignment");
 
-        // The rejected claim is recorded locally so the worker's own summary reports it.
+        // The worker summary uses the coordinator-confirmed failure after reconciliation.
         var localResult = ((IModule) module).AsInternal().ResultTask;
         await Assert.That(localResult.IsCompletedSuccessfully).IsTrue();
-        await Assert.That(localResult.Result.ExceptionOrDefault).IsTypeOf<PipelineSchemaMismatchException>();
+        await Assert.That(localResult.Result.ExceptionOrDefault).IsTypeOf<RemoteModuleException>();
+        await Assert.That(((RemoteModuleException) localResult.Result.ExceptionOrDefault!).OriginalExceptionType)
+            .IsEqualTo(typeof(PipelineSchemaMismatchException).FullName);
     }
 
     [Test]
@@ -357,6 +359,9 @@ public class WorkerModuleExecutorTests
                 published.Enqueue(result);
                 return Task.CompletedTask;
             });
+        coordinator.Setup(x => x.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .Returns<ModuleId, CancellationToken>((moduleId, _) =>
+                Task.FromResult(published.Single(result => result.ModuleId == moduleId)));
         var runner = new Mock<IModuleRunner>();
         var executionCount = 0;
         runner.Setup(x => x.ExecuteWithoutDependencyWaitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
@@ -408,8 +413,8 @@ public class WorkerModuleExecutorTests
         }
 
         var returned = await run.WaitAsync(cancellationToken);
-        await Assert.That(returned.Select(result => result.TypeName ?? string.Empty).Order())
-            .IsEquivalentTo(modules.Select(module => module.GetType().FullName!).Order());
+        await Assert.That(returned.Cast<ModuleResult>().Select(result => result.ModuleType!))
+            .IsEquivalentTo(modules.Select(module => module.GetType()));
         foreach (var result in returned)
         {
             await Assert.That(result.ExceptionOrDefault).IsNotNull();

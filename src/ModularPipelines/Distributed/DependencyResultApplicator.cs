@@ -59,7 +59,7 @@ internal static class DependencyResultApplicator
     /// Fetches referenced dependency results once per run and applies them to local module instances
     /// and the result registry.
     /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
-    /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
+    /// The coordinator's final result supersedes any unconfirmed local attempt.
     /// </summary>
     public static async Task FetchAndApplyAsync(
         IReadOnlyList<DependencyResultReference> dependencyResultReferences,
@@ -91,15 +91,16 @@ internal static class DependencyResultApplicator
                 continue;
             }
 
-            // Completed local results remain authoritative if the remote copy
-            // expires or is evicted; refetching would block unnecessarily.
-            var localResult = depModule.AsInternal().ResultTask;
-            if (localResult.IsCompletedSuccessfully)
+            // Only a coordinator-confirmed result is authoritative. A completed local attempt
+            // may have lost its lease before publication. Retain confirmed results after eviction.
+            var internalModule = depModule.AsInternal();
+            if (internalModule.HasAcceptedDistributedResult)
             {
+                var localResult = internalModule.ResultTask;
                 var localProcessingStartedAt = clock.GetTimestamp();
                 try
                 {
-                    resultRegistry.RegisterResult(depModule.GetType(), localResult.Result);
+                    resultRegistry.RegisterAcceptedResult(depModule.GetType(), localResult.Result);
                 }
                 finally
                 {
@@ -128,12 +129,8 @@ internal static class DependencyResultApplicator
             {
                 var result = serializer.Deserialize(serializedResult) ?? throw new InvalidOperationException(
                     $"Dependency result for '{reference.ModuleId}' is empty.");
-                var applied = ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                var internalModule = depModule.AsInternal();
-                var acceptedResult = !applied && internalModule.ResultTask.IsCompletedSuccessfully
-                    ? internalModule.ResultTask.Result
-                    : result;
-                resultRegistry.RegisterResult(depModule.GetType(), acceptedResult);
+                var acceptedResult = depModule.AsInternal().ApplyAcceptedDistributedResult(result);
+                resultRegistry.RegisterAcceptedResult(depModule.GetType(), acceptedResult);
             }
             finally
             {

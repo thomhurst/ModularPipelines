@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -113,7 +114,7 @@ public class DependencyResultPropagationTests
         var resultCache = new DependencyResultCache(coordinator.Object, CancellationToken.None);
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
         var timedRegistry = new Mock<IModuleResultRegistry>();
-        timedRegistry.Setup(registry => registry.RegisterResult(It.IsAny<Type>(), It.IsAny<IModuleResult>()))
+        timedRegistry.Setup(registry => registry.RegisterAcceptedResult(It.IsAny<Type>(), It.IsAny<IModuleResult>()))
             .Callback<Type, IModuleResult>((type, result) =>
             {
                 clock.Advance(TimeSpan.FromSeconds(3));
@@ -167,7 +168,7 @@ public class DependencyResultPropagationTests
         var registerCount = 0;
         var resultRegistry = new Mock<IModuleResultRegistry>();
         resultRegistry
-            .Setup(registry => registry.RegisterResult(
+            .Setup(registry => registry.RegisterAcceptedResult(
                 typeof(DependencyModule),
                 It.IsAny<IModuleResult>()))
             .Callback<Type, IModuleResult>((_, result) =>
@@ -233,7 +234,7 @@ public class DependencyResultPropagationTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task Completed_Local_Dependency_Does_Not_Require_Retained_Remote_Result(bool skipped)
+    public async Task Confirmed_Dependency_Does_Not_Require_Retained_Remote_Result(bool skipped)
     {
         var module = new DependencyModule();
         var result = skipped
@@ -247,7 +248,7 @@ public class DependencyResultPropagationTests
                 EndTime = DateTimeOffset.UtcNow,
             }
             : CreateSuccessResult(new DepResult { Value = "completed locally" }, nameof(DependencyModule));
-        ModuleCompletionSourceApplicator.TryApply(module, result);
+        module.AsInternal().ApplyAcceptedDistributedResult(result);
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator.Setup(value => value.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("The remote result has been evicted."));
@@ -267,6 +268,54 @@ public class DependencyResultPropagationTests
 
         await Assert.That(registry.GetResult(typeof(DependencyModule))).IsSameReferenceAs(result);
         coordinator.Verify(value => value.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Test]
+    public async Task Coordinator_Result_Replaces_Rejected_Local_Result_And_Artifacts()
+    {
+        var module = new DependencyModule();
+        var local = CreateSuccessResult(new DepResult { Value = "rejected" }, nameof(DependencyModule));
+        ModuleCompletionSourceApplicator.TryApply(module, local);
+        var types = new ModuleTypeRegistry();
+        types.Register(typeof(DependencyModule));
+        var serializer = new ModuleResultSerializer(types);
+        var accepted = serializer.Serialize(
+            CreateSuccessResult(new DepResult { Value = "accepted" }, nameof(DependencyModule)),
+            ModuleId.FromType(typeof(DependencyModule)), WorkerId.FromInstanceIndex(2)) with
+        {
+            Artifacts = [new ArtifactReference
+            {
+                ArtifactId = "accepted-artifact",
+                Name = "output",
+                ModuleId = ModuleId.FromType(typeof(DependencyModule)),
+                SizeBytes = 1,
+                UploadedAt = DateTimeOffset.UtcNow,
+            }],
+        };
+        var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator.Setup(value => value.WaitForResultAsync(accepted.ModuleId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(accepted);
+        var registry = new ModuleResultRegistry();
+        registry.RegisterResult(typeof(DependencyModule), local);
+        var artifacts = new AcceptedArtifactRegistry();
+
+        await DependencyResultApplicator.FetchAndApplyAsync(
+            [new DependencyResultReference { ModuleId = accepted.ModuleId, IsAvailable = true }],
+            new DependencyResultCache(coordinator.Object, CancellationToken.None),
+            DependencyResultApplicator.BuildModuleLookup([module]), serializer, registry,
+            NullLogger.Instance, acceptedArtifacts: artifacts);
+
+        await Assert.That((await module).Value!.Value).IsEqualTo("accepted");
+        await Assert.That(((ModuleResult<DepResult>) registry.GetResult(typeof(DependencyModule))!).Value!.Value)
+            .IsEqualTo("accepted");
+        await Assert.That(artifacts.TryGet(accepted.ModuleId, out var recorded)).IsTrue();
+        await Assert.That(recorded).IsSameReferenceAs(accepted.Artifacts);
+
+        // A late local writer must not undo reconciliation.
+        registry.RegisterResult(typeof(DependencyModule), local);
+        registry.RegisterResult<DepResult>(typeof(DependencyModule), local);
+        await Assert.That(registry.GetResult<DepResult>(typeof(DependencyModule))!.Value!.Value)
+            .IsEqualTo("accepted");
     }
 
     [Test]

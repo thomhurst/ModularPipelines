@@ -10,6 +10,7 @@ using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
@@ -127,12 +128,28 @@ public class WorkerFailureHandlingTests
             new WorkerId("replacement"), new HashSet<Capability>(), CancellationToken.None);
         await gate.LeaseCanceled.Task.WaitAsync(TestTimeout);
         gate.ReleaseAlwaysRun.TrySetResult();
-        await coordinator.SignalCompletionAsync(CancellationToken.None);
-        await run.WaitAsync(TestTimeout);
-
         await Assert.That(coordinator.WaitForResultAsync(old.Assignment.ModuleId, CancellationToken.None).IsCompleted).IsFalse();
         await Assert.That((await coordinator.GetActiveLeasesAsync(CancellationToken.None)).Single().LeaseId)
             .IsEqualTo(replacement!.LeaseId);
+
+        // Completion requires the replacement's final result, which the worker must use in its summary.
+        var moduleType = ignoresCancellation ? typeof(IgnoringLeaseModule) : typeof(LeaseModule);
+        var types = new ModuleTypeRegistry();
+        types.Register(moduleType);
+        var accepted = new ModuleResultSerializer(types).Serialize(new ModuleResult<int>.Success(42)
+        {
+            Name = moduleType.Name,
+            Status = ModuleStatus.Succeeded,
+            StartTime = clock.GetUtcNow(),
+            EndTime = clock.GetUtcNow(),
+            Duration = TimeSpan.Zero,
+        }, old.Assignment.ModuleId, replacement.WorkerId);
+        await coordinator.PublishResultAsync(accepted, replacement, CancellationToken.None);
+        await coordinator.SignalCompletionAsync(CancellationToken.None);
+        var summary = await run.WaitAsync(TestTimeout);
+
+        await Assert.That(((ModuleResult<int>) summary.Single()).Value).IsEqualTo(42);
+        await Assert.That(await coordinator.GetActiveLeasesAsync(CancellationToken.None)).IsEmpty();
     }
 
     [ProducesArtifact("package", "does-not-exist/*.nupkg")]

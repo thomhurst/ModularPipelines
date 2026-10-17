@@ -602,7 +602,7 @@ public class DistributedModuleExecutorTests
     [Arguments(false, true)]
     [Arguments(true, false)]
     [Arguments(true, true)]
-    public async Task Collection_Uses_Accepted_Result_When_Worker_Result_Or_Failure_Is_Rejected(
+    public async Task Collection_Uses_Coordinator_Result_Over_Local_Attempt_Unless_Collection_Fails(
         bool collectionThrows,
         bool acceptedFailure)
     {
@@ -633,9 +633,10 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module]);
 
-        await Assert.That(registry.GetResult(module.GetType())).IsSameReferenceAs(accepted);
-        await Assert.That(await module.AsInternal().ResultTask).IsSameReferenceAs(accepted);
-        scheduler.Verify(x => x.MarkModuleCompleted(module.GetType(), !acceptedFailure,
+        var expected = collectionThrows ? accepted : candidate;
+        await Assert.That(registry.GetResult(module.GetType())!.Status).IsEqualTo(expected.Status);
+        await Assert.That((await module.AsInternal().ResultTask).Status).IsEqualTo(expected.Status);
+        scheduler.Verify(x => x.MarkModuleCompleted(module.GetType(), expected.ExceptionOrDefault == null,
             It.IsAny<Exception?>(), It.IsAny<ModuleStatus?>()), Times.Once());
         if (collectionThrows)
         {

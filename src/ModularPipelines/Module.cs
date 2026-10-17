@@ -58,6 +58,7 @@ namespace ModularPipelines;
 public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
 {
     private Lazy<ModuleConfiguration> _configuration;
+    private Task<ModuleResult<T>>? _acceptedDistributedResult;
 
     // Exposes hook-transformed results to self-awaits without completing the public result early.
     private AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
@@ -87,7 +88,7 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
                 return Task.FromResult<IModuleResult>(provisionalResult);
             }
 
-            return CompletionSource.Task.ContinueWith(
+            return (Volatile.Read(ref _acceptedDistributedResult) ?? CompletionSource.Task).ContinueWith(
                 static t => (IModuleResult) t.Result,
                 TaskContinuationOptions.ExecuteSynchronously);
         }
@@ -143,6 +144,7 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
             : copy.CreateConfigurationLazy();
         copy._provisionalResult = new AsyncLocal<ModuleResult<T>?>();
         copy.CompletionSource = CreateCompletionSource();
+        copy._acceptedDistributedResult = null;
         return copy;
     }
 
@@ -330,6 +332,19 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
         => OnFailedAsync(context, exception, cancellationToken);
 
     /// <inheritdoc />
+    bool IInternalModule.HasAcceptedDistributedResult => Volatile.Read(ref _acceptedDistributedResult) is not null;
+
+    /// <inheritdoc />
+    IModuleResult IInternalModule.ApplyAcceptedDistributedResult(IModuleResult result)
+    {
+        var accepted = Task.FromResult((ModuleResult<T>) result);
+        var existing = Interlocked.CompareExchange(ref _acceptedDistributedResult, accepted, null);
+        var final = (existing ?? accepted).Result;
+        CompletionSource.TrySetResult(final);
+        return final;
+    }
+
+    /// <inheritdoc />
     bool IInternalModule.TrySetDistributedResult(IModuleResult result)
     {
         return CompletionSource.TrySetResult((ModuleResult<T>) result);
@@ -341,7 +356,7 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
         CompletionSource.TrySetResult((ModuleResult<T>) result);
 
         // Read the completion source directly: a provisional hook result must never be published.
-        return CompletionSource.Task.Result;
+        return Volatile.Read(ref _acceptedDistributedResult)?.Result ?? CompletionSource.Task.Result;
     }
 
     internal ModuleResult<T>? SetProvisionalResult(ModuleResult<T> result)
@@ -368,8 +383,9 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
             return Task.FromResult(provisionalResult).GetAwaiter();
         }
 
-        ModuleWaitScope.RegisterWait(this, CompletionSource.Task);
-        return CompletionSource.Task.GetAwaiter();
+        var resultTask = Volatile.Read(ref _acceptedDistributedResult) ?? CompletionSource.Task;
+        ModuleWaitScope.RegisterWait(this, resultTask);
+        return resultTask.GetAwaiter();
     }
 
     private ModuleConfiguration CreateConfiguration()
