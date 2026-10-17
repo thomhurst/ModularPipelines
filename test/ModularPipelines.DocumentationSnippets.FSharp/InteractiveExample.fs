@@ -2,7 +2,6 @@ module ModularPipelines.DocumentationSnippets.FSharp.InteractiveExample
 
 open ModularPipelines.DotNet.Extensions
 open ModularPipelines.DotNet.Services
-open ModularPipelines.Extensions
 open ModularPipelines
 open System.Threading
 
