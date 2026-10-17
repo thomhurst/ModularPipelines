@@ -237,6 +237,45 @@ public abstract record ModuleResult<T> : ModuleResult
     internal override bool HasSuccessfulValue => this is Success;
 
     /// <summary>
+    /// Creates a successful result while preserving this result's module identity and timing.
+    /// </summary>
+    /// <param name="value">The replacement value.</param>
+    /// <returns>A successful result with the same metadata.</returns>
+    public Success ToSuccess(T value) => new(value)
+    {
+        Name = Name,
+        TypeName = TypeName,
+        ModuleType = ModuleType,
+        WorkerId = WorkerId,
+        StartTime = StartTime,
+        EndTime = EndTime,
+        Duration = Duration,
+        Status = ModuleStatus.Succeeded,
+    };
+
+    /// <summary>
+    /// Creates a failed result while preserving this result's module identity and timing.
+    /// </summary>
+    /// <param name="exception">The replacement failure.</param>
+    /// <returns>A failed result with the same metadata.</returns>
+    /// <exception cref="ArgumentNullException">The exception is null.</exception>
+    public Failure ToFailure(Exception exception)
+    {
+        ArgumentNullException.ThrowIfNull(exception);
+        return new(exception)
+        {
+            Name = Name,
+            TypeName = TypeName,
+            ModuleType = ModuleType,
+            WorkerId = WorkerId,
+            StartTime = StartTime,
+            EndTime = EndTime,
+            Duration = Duration,
+            Status = ModuleStatus.Failed,
+        };
+    }
+
+    /// <summary>
     /// Gets the successful value.
     /// </summary>
     /// <exception cref="InvalidOperationException">
