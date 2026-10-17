@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Content Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../../../src/ModularPipelines.AmazonWebServices/Extensions/AmazonExtensions.cs"
+             Link="Fixtures/AmazonExtensions.cs.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <!-- Compile the production renderer directly; the generator already links its shared phase/arity enums. -->

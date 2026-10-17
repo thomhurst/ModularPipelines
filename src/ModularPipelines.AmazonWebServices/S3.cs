@@ -16,6 +16,7 @@ namespace ModularPipelines.AmazonWebServices;
 public class S3 : IS3, IDisposable
 {
     private readonly AmazonS3Client _client;
+    private readonly bool _ownsClient;
     private bool _disposed;
 
     /// <summary>
@@ -23,8 +24,14 @@ public class S3 : IS3, IDisposable
     /// </summary>
     /// <param name="client">The Amazon S3 client to wrap.</param>
     public S3(AmazonS3Client client)
+        : this(client, ownsClient: true)
+    {
+    }
+
+    internal S3(AmazonS3Client client, bool ownsClient)
     {
         _client = client;
+        _ownsClient = ownsClient;
     }
 
     #region Bucket Operations
@@ -308,7 +315,7 @@ public class S3 : IS3, IDisposable
     #region IDisposable
 
     /// <summary>
-    /// Disposes the underlying Amazon S3 client.
+    /// Disposes this wrapper and, when owned by this wrapper, the underlying Amazon S3 client.
     /// </summary>
     public void Dispose()
     {
@@ -317,7 +324,7 @@ public class S3 : IS3, IDisposable
     }
 
     /// <summary>
-    /// Disposes the underlying Amazon S3 client.
+    /// Disposes this wrapper and, when owned by this wrapper, the underlying Amazon S3 client.
     /// </summary>
     /// <param name="disposing">True if called from Dispose(), false if called from finalizer.</param>
     protected virtual void Dispose(bool disposing)
@@ -327,7 +334,7 @@ public class S3 : IS3, IDisposable
             return;
         }
 
-        if (disposing)
+        if (disposing && _ownsClient)
         {
             _client.Dispose();
         }
