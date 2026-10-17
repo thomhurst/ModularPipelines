@@ -1,4 +1,12 @@
 $ErrorActionPreference = 'Stop'
+
+# Local extension wheels require explicit confirmation on runners without a TTY.
+$workflow = Get-Content -LiteralPath "$PSScriptRoot/../workflows/generate-cli-options.yml" -Raw
+$extensionInstalls = [regex]::Matches($workflow, '(?m)^\s*az extension add\s+(?<arguments>[^\r\n]+)')
+if ($extensionInstalls.Count -ne 1 -or $extensionInstalls[0].Groups['arguments'].Value -notmatch '(?:^|\s)--yes(?:\s|$)') {
+    throw 'The verified Azure DevOps extension must be installed with --yes to avoid a TTY prompt.'
+}
+
 $testRoot = Join-Path ([IO.Path]::GetTempPath()) "generation-download-tests-$([guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Path $testRoot | Out-Null
 
