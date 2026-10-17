@@ -2,11 +2,41 @@
 
 ## What is it?[​](#what-is-it "Direct link to What is it?")
 
-If a repository has been set up, then when a module finishes without throwing an exception, it will attempt to save its result in the repository.
+If a repository has been set up, the pipeline attempts to save successful module results and failure results whose failures are ignored (`FailureIgnored`). An ignored failure still contains an exception and has no successful value.
 
 This can be used later on if you want to re-run the pipeline but skip certain categories or modules.
 
-If a module is skipped, but it has a result available from a previous run, then it'll be reconstructed from the historical result, and it'll act as if it was successfully run.
+If a module is skipped and a historical result is available, the pipeline restores that result with status `RestoredFromHistory`. Restoration changes the status, not the result variant: a stored failure remains a failure, and reading its `.Value` throws. Dependent modules must inspect the outcome before consuming the value; the restored status alone does not prove success.
+
+For example, when a dependency returns `ModuleResult<string>`, handle each variant:
+
+```
+switch (result)
+
+{
+
+    case ModuleResult<string>.Success { Value: var value }:
+
+        // Consume value.
+
+        break;
+
+    case ModuleResult<string>.Failure { Exception: var exception }:
+
+        // Handle the stored failure.
+
+        break;
+
+    case ModuleResult<string>.Skipped { Decision: var decision }:
+
+        // Handle the skipped outcome.
+
+        break;
+
+}
+```
+
+Alternatively, use `TryGetValue(out var value)` to check for a successful value without throwing. `ValueOrDefault` also avoids throwing, but cannot distinguish a failure from a successful default value.
 
 It's recommended to store and retrieve results using the Git commit SHA, as then you'll only be using the results from that previous commit's run. And other commits remain unaffected. You have access to a `context` object that gives you access to things like the git information.
 
@@ -118,7 +148,7 @@ public class MyModuleRepository : IModuleResultRepository
 
 ## Behavior[​](#behavior "Direct link to Behavior")
 
-* Restored results have the `RestoredFromHistory` status, so dependent modules can read them.
+* Restored results have the `RestoredFromHistory` status and retain their success, failure, or skipped variant. Dependent modules can inspect them, but only a success variant has a value.
 * Repository failures are best-effort: exceptions from `SaveResultAsync` and `GetResultAsync` are logged, and the module runs (or is skipped) as if no result was stored.
 * `IsEnabled` defaults to `true`; return `false` to switch the repository off without removing it.
 * Result history is separate from [module caching](/ModularPipelines/docs/how-to/module-caching.md), which restores results by input fingerprint, and from the [time estimator](/ModularPipelines/docs/how-to/time-estimator.md), which stores durations.

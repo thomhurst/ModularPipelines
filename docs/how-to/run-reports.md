@@ -34,11 +34,20 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-Relative report and history paths are resolved from the Git repository root when it is available. Outside a Git repository, they are resolved from the application base directory. This keeps the same storage location when a pipeline is launched from different working directories.
+Relative report and history paths are resolved from the Git repository root when it is available. Outside a Git repository, they are resolved from the pipeline working directory. Within a Git repository, launching the pipeline from different subdirectories keeps the same storage location.
 
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed report is also exposed through `PipelineSummary.RunReport`. After a successful write, an information log records the report's resolved path.
 
 Each report has a unique `RunId`, `RunCorrelation` metadata for the machine and detected build system, and the previous run's finish time when it supplies a duration-delta baseline. Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
+
+## Schema v6 and rerun compatibility[​](#schema-v6-and-rerun-compatibility "Direct link to Schema v6 and rerun compatibility")
+
+The current report schema is v6, introduced with failed-module reruns. It adds:
+
+* `PipelineRunReport.GraphFingerprint`, which identifies module types, compiled module assemblies, result types, and dependency edges for rerun compatibility; and
+* `ModuleRunReport.ResultStartTime` and `ResultEndTime`, which retain the original result timestamps, including when the current run reuses a result. These are separate from the module's current-run `Start` and `End` execution timestamps.
+
+`--rerun-failed` uses this metadata to match retained reports to typed results from an `IModuleResultRepository`. Reports contain status and telemetry, not typed result values. Older schemas remain queryable as history, but cannot supply a compatible rerun baseline. See [Rerun Failed Modules](/ModularPipelines/docs/how-to/command-line.md#rerun-failed-modules) for repository requirements and fallback behavior.
 
 ## Inspect distributed utilization[​](#inspect-distributed-utilization "Direct link to Inspect distributed utilization")
 
@@ -140,7 +149,11 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-History is partitioned by pipeline identity and pruning only removes files owned by the built-in history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered module types; changing only the report path does not fork history. After each save, the default store applies the per-identity `HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of its history when newer reports from other identities fill the global pool. Set `GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable pipeline identities and separate history directories for independently bounded histories. A positive global limit must be at least as large as `HistoryRetention`. Report and history I/O failures are logged as warnings and do not replace a pipeline failure. Report and history files are published atomically, so cancellation or a failed write cannot replace a complete report with partial JSON. After each successful history save, the built-in store also removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent writers.
+History is partitioned by pipeline identity and pruning only removes files owned by the built-in history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered module types; changing only the report path does not fork history. After each save, the default store applies the per-identity `HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of its history when newer reports from other identities fill the global pool. Set `GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable pipeline identities and separate history directories for independently bounded histories. A positive global limit must be at least as large as `HistoryRetention`.
+
+When `RunReport.HistoryRetention <= 0` or `PipelineOptions.DisableModuleCache` is enabled (including through `--no-cache`), `--rerun-failed` does not reuse successful results. Selected modules execute normally, subject to module/category filters and skip conditions, even if older reports and repository results still exist.
+
+Report and history I/O failures are logged as warnings and do not replace a pipeline failure. Report and history files are published atomically, so cancellation or a failed write cannot replace a complete report with partial JSON. After each successful history save, the built-in store also removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent writers.
 
 Query retained reports newest-first through `IRunHistoryStore`:
 

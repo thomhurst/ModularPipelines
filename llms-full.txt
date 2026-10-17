@@ -4680,7 +4680,7 @@ See the [complete analyzer rule reference](/ModularPipelines/docs/analyzers.md) 
 
 ## Dependency access and cancellation[​](#dependency-access-and-cancellation "Direct link to Dependency access and cancellation")
 
-[`MP0021`](/ModularPipelines/docs/analyzers/MP0021.md) warns when an optional dependency is accessed with `GetModule<T>()`. Use `GetModuleIfRegistered<T>()` and handle an absent module. [`MP0022`](/ModularPipelines/docs/analyzers/MP0022.md) is informational: a required dependency can use `GetModule<T>()` instead of an unnecessary nullable lookup. Both rules also recognize generated module accessors. Declarations include inherited `DependsOn` attributes and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required declaration wins when the same dependency is declared more than once. Conditional fluent declarations with an unknown condition do not produce accessor mismatch diagnostics.
+[`MP0021`](/ModularPipelines/docs/analyzers/MP0021.md) warns when an optional dependency is accessed with `GetModule<T>()`. Use `GetModuleIfRegistered<T>()` and handle an absent module. [`MP0022`](/ModularPipelines/docs/analyzers/MP0022.md) is informational: a required dependency can use `GetModule<T>()` instead of an unnecessary nullable lookup. Both rules inspect `GetModule<T>()` and `GetModuleIfRegistered<T>()` calls. Declarations include inherited `DependsOn` attributes and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required declaration wins when the same dependency is declared more than once. Conditional fluent declarations with an unknown condition do not produce accessor mismatch diagnostics.
 
 [`MP0016`](/ModularPipelines/docs/analyzers/MP0016.md) checks cancellation forwarding in `ExecuteAsync`, its reachable helpers, and lifecycle overrides: `OnBeforeExecuteAsync`, `OnAfterExecuteAsync`, `OnSkippedAsync`, `OnCachedResultAsync`, and `OnFailedAsync`. It also checks asynchronous module configuration callbacks that receive a `CancellationToken`, including `WithSkipWhen`, `WithSkipWhenAll`, and `WithIgnoreFailuresWhen`. Pass the available token to asynchronous operations:
 
@@ -5049,20 +5049,20 @@ await builder.RunAsync();
 
 ## Options[​](#options "Direct link to Options")
 
-| Option                       | Behavior                                                                                                                                          |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--help`, `-h`               | Prints built-in pipeline command-line usage without executing modules.                                                                            |
-| `--dry-run`                  | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules. |
-| `--no-cache`                 | Disables module cache reads and writes, and result reuse with `--rerun-failed`.                                                                   |
-| `--rerun-failed`             | Reruns unsuccessful modules and their transitive dependents, reusing compatible stored successful results.                                        |
-| `--list-modules`             | Lists registered modules, categories, and direct dependencies without executing modules.                                                          |
-| `--module <name>`            | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas.                                             |
-| `--skip-module <name>`       | Excludes a module. Repeat the option or separate names with commas.                                                                               |
-| `--categories <name>`        | Runs modules in the specified categories. Repeat the option or separate names with commas.                                                        |
-| `--ignore-categories <name>` | Excludes modules in the specified categories. Repeat the option or separate names with commas.                                                    |
-| `--validate`                 | Validates pipeline configuration without executing modules.                                                                                       |
-| `--graph <format> [path]`    | Exports the dependency graph as `mermaid`, `dot`, or `json` without executing modules.                                                            |
-| `--graph-path <path>`        | Sets the graph output path. Requires `--graph` and cannot be combined with its positional path.                                                   |
+| Option                       | Behavior                                                                                                                                                                    |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--help`, `-h`               | Prints built-in pipeline command-line usage without executing modules.                                                                                                      |
+| `--dry-run`                  | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules.                           |
+| `--no-cache`                 | Disables module cache reads and writes, and result reuse with `--rerun-failed`.                                                                                             |
+| `--rerun-failed`             | Reruns unsuccessful modules and their transitive dependents, reusing compatible stored successful results when history retention is positive and module caching is enabled. |
+| `--list-modules`             | Lists registered modules, categories, and direct dependencies without executing modules.                                                                                    |
+| `--module <name>`            | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas.                                                                       |
+| `--skip-module <name>`       | Excludes a module. Repeat the option or separate names with commas.                                                                                                         |
+| `--categories <name>`        | Runs modules in the specified categories. Repeat the option or separate names with commas.                                                                                  |
+| `--ignore-categories <name>` | Excludes modules in the specified categories. Repeat the option or separate names with commas.                                                                              |
+| `--validate`                 | Validates pipeline configuration without executing modules.                                                                                                                 |
+| `--graph <format> [path]`    | Exports the dependency graph as `mermaid`, `dot`, or `json` without executing modules.                                                                                      |
+| `--graph-path <path>`        | Sets the graph output path. Requires `--graph` and cannot be combined with its positional path.                                                                             |
 
 Module names are matched case-insensitively. A simple type name, full type name, or assembly-qualified type name can be used. If a simple name matches multiple registered modules, use a full type name.
 
@@ -5107,6 +5107,8 @@ dotnet run -- --rerun-failed
 ```
 
 The pipeline selects the newest compatible retained run for the same pipeline identity (`RunReport.PipelineIdentity`, or the identity derived from registered module types). Compatibility requires the same module types, compiled module assemblies, result types, and dependency edges. Reports from older schema versions, changed graphs, and corrupt files are not used. If no compatible history exists, the selected modules execute normally.
+
+Result reuse also requires `RunReport.HistoryRetention > 0` and `PipelineOptions.DisableModuleCache` to be `false`. When retention is zero or negative, or module caching is disabled (including through `--no-cache`), the selected modules execute normally without rerun result reuse, even if older reports and repository results exist. Module/category filters and skip conditions still apply.
 
 Run reports contain status and telemetry, not typed result values. Configure an `IModuleResultRepository` with `AddResultsRepository<TRepository>()` to reuse successful results. The repository must return the actual successful typed result, including its original module identity and start/end timestamps. Results must match the retained report. Missing, stale, failed, disabled, or unreadable results cause the module and its transitive dependents to execute. A missing result never becomes a default-valued success. The repository remains responsible for validating inputs and external state that are not represented in the module graph.
 
@@ -8839,11 +8841,20 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-Relative report and history paths are resolved from the Git repository root when it is available. Outside a Git repository, they are resolved from the application base directory. This keeps the same storage location when a pipeline is launched from different working directories.
+Relative report and history paths are resolved from the Git repository root when it is available. Outside a Git repository, they are resolved from the pipeline working directory. Within a Git repository, launching the pipeline from different subdirectories keeps the same storage location.
 
 The current schema version is available as `PipelineRunReport.CurrentSchemaVersion`. The completed report is also exposed through `PipelineSummary.RunReport`. After a successful write, an information log records the report's resolved path.
 
 Each report has a unique `RunId`, `RunCorrelation` metadata for the machine and detected build system, and the previous run's finish time when it supplies a duration-delta baseline. Registering the Git or GitHub integration also adds the available commit, branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
+
+## Schema v6 and rerun compatibility[​](#schema-v6-and-rerun-compatibility "Direct link to Schema v6 and rerun compatibility")
+
+The current report schema is v6, introduced with failed-module reruns. It adds:
+
+* `PipelineRunReport.GraphFingerprint`, which identifies module types, compiled module assemblies, result types, and dependency edges for rerun compatibility; and
+* `ModuleRunReport.ResultStartTime` and `ResultEndTime`, which retain the original result timestamps, including when the current run reuses a result. These are separate from the module's current-run `Start` and `End` execution timestamps.
+
+`--rerun-failed` uses this metadata to match retained reports to typed results from an `IModuleResultRepository`. Reports contain status and telemetry, not typed result values. Older schemas remain queryable as history, but cannot supply a compatible rerun baseline. See [Rerun Failed Modules](/ModularPipelines/docs/how-to/command-line.md#rerun-failed-modules) for repository requirements and fallback behavior.
 
 ## Inspect distributed utilization[​](#inspect-distributed-utilization "Direct link to Inspect distributed utilization")
 
@@ -8945,7 +8956,11 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-History is partitioned by pipeline identity and pruning only removes files owned by the built-in history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered module types; changing only the report path does not fork history. After each save, the default store applies the per-identity `HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of its history when newer reports from other identities fill the global pool. Set `GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable pipeline identities and separate history directories for independently bounded histories. A positive global limit must be at least as large as `HistoryRetention`. Report and history I/O failures are logged as warnings and do not replace a pipeline failure. Report and history files are published atomically, so cancellation or a failed write cannot replace a complete report with partial JSON. After each successful history save, the built-in store also removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent writers.
+History is partitioned by pipeline identity and pruning only removes files owned by the built-in history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one from the registered module types; changing only the report path does not fork history. After each save, the default store applies the per-identity `HistoryRetention` limit, then keeps the newest `GlobalHistoryRetention` reports across all identities. The global limit supersedes the per-identity limit: a quieter identity can lose all of its history when newer reports from other identities fill the global pool. Set `GlobalHistoryRetention` to `0` when every identity must retain its own history, or use stable pipeline identities and separate history directories for independently bounded histories. A positive global limit must be at least as large as `HistoryRetention`.
+
+When `RunReport.HistoryRetention <= 0` or `PipelineOptions.DisableModuleCache` is enabled (including through `--no-cache`), `--rerun-failed` does not reuse successful results. Selected modules execute normally, subject to module/category filters and skip conditions, even if older reports and repository results still exist.
+
+Report and history I/O failures are logged as warnings and do not replace a pipeline failure. Report and history files are published atomically, so cancellation or a failed write cannot replace a complete report with partial JSON. After each successful history save, the built-in store also removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent writers.
 
 Query retained reports newest-first through `IRunHistoryStore`:
 
@@ -9670,11 +9685,41 @@ dotnet_diagnostic.MPG0003.severity = error
 
 ## What is it?[​](#what-is-it "Direct link to What is it?")
 
-If a repository has been set up, then when a module finishes without throwing an exception, it will attempt to save its result in the repository.
+If a repository has been set up, the pipeline attempts to save successful module results and failure results whose failures are ignored (`FailureIgnored`). An ignored failure still contains an exception and has no successful value.
 
 This can be used later on if you want to re-run the pipeline but skip certain categories or modules.
 
-If a module is skipped, but it has a result available from a previous run, then it'll be reconstructed from the historical result, and it'll act as if it was successfully run.
+If a module is skipped and a historical result is available, the pipeline restores that result with status `RestoredFromHistory`. Restoration changes the status, not the result variant: a stored failure remains a failure, and reading its `.Value` throws. Dependent modules must inspect the outcome before consuming the value; the restored status alone does not prove success.
+
+For example, when a dependency returns `ModuleResult<string>`, handle each variant:
+
+```
+switch (result)
+
+{
+
+    case ModuleResult<string>.Success { Value: var value }:
+
+        // Consume value.
+
+        break;
+
+    case ModuleResult<string>.Failure { Exception: var exception }:
+
+        // Handle the stored failure.
+
+        break;
+
+    case ModuleResult<string>.Skipped { Decision: var decision }:
+
+        // Handle the skipped outcome.
+
+        break;
+
+}
+```
+
+Alternatively, use `TryGetValue(out var value)` to check for a successful value without throwing. `ValueOrDefault` also avoids throwing, but cannot distinguish a failure from a successful default value.
 
 It's recommended to store and retrieve results using the Git commit SHA, as then you'll only be using the results from that previous commit's run. And other commits remain unaffected. You have access to a `context` object that gives you access to things like the git information.
 
@@ -9786,7 +9831,7 @@ public class MyModuleRepository : IModuleResultRepository
 
 ## Behavior[​](#behavior "Direct link to Behavior")
 
-* Restored results have the `RestoredFromHistory` status, so dependent modules can read them.
+* Restored results have the `RestoredFromHistory` status and retain their success, failure, or skipped variant. Dependent modules can inspect them, but only a success variant has a value.
 * Repository failures are best-effort: exceptions from `SaveResultAsync` and `GetResultAsync` are logged, and the module runs (or is skipped) as if no result was stored.
 * `IsEnabled` defaults to `true`; return `false` to switch the repository off without removing it.
 * Result history is separate from [module caching](/ModularPipelines/docs/how-to/module-caching.md), which restores results by input fingerprint, and from the [time estimator](/ModularPipelines/docs/how-to/time-estimator.md), which stores durations.
@@ -13377,7 +13422,25 @@ V3's `GetFailedModuleResults()` mixed two kinds of result. V4 splits them:
 
 To reproduce the V3 list, combine both. For the overall outcome, read `summary.Succeeded`.
 
-`PipelineSummary` is sealed in V4. Its timing properties are renamed from `Start`, `End`, and `TotalDuration` to `StartTime`, `EndTime`, and `Duration`; update custom JSON consumers too. `Succeeded` replaces the module-level `Status` property. It is true only when the pipeline completes without unignored failures. Skipped, cached, restored, and ignored-failure results permit success; incomplete, failed, and canceled runs do not. The value survives JSON round-trips even though module results are not serialized. `summary.Modules` and `summary.GetModule<T>()` are removed. Retrieve dependencies inside a module, or inspect `summary.Results` after execution. If the old code needs a particular output, select the matching typed result. When several modules return the same type, tell them apart by `Name`. `IModuleResult.TypeName` is also available, but it can be null. Update custom serialization and result repositories for the new metadata.
+`PipelineSummary` is sealed in V4. Its timing properties are renamed from `Start`, `End`, and `TotalDuration` to `StartTime`, `EndTime`, and `Duration`; update custom JSON consumers too. `Succeeded` replaces the module-level `Status` property. It is true only when the pipeline completes without unignored failures. Skipped, cached, restored, and ignored-failure results permit success; incomplete, failed, and canceled runs do not. The value survives JSON round-trips even though module results are not serialized. `summary.Modules` and `summary.GetModule<T>()` are removed from the public API. Retrieve dependencies inside a module. After execution, use `summary.GetResult<TModule, TResult>()` to retrieve the completed result for an exact module type, or `TryGetResult` when it may be absent:
+
+```
+var result = summary.GetResult<BuildModule, CommandResult>();
+
+
+
+if (summary.TryGetResult<BuildModule, CommandResult>(out var completed)
+
+    && completed.TryGetValue(out var commandResult))
+
+{
+
+    // Use the successful commandResult.
+
+}
+```
+
+`GetResult` throws `InvalidOperationException` when no completed result exists; `TryGetResult` returns `false`. Finding a result does not guarantee success: both methods also return failure and skipped variants. Inspect the variant or use `TryGetValue` before reading `.Value`. Lookup uses module type identity, so modules returning the same value type remain distinct. Keep `summary.Results` for enumeration. Results are excluded from JSON serialization, so deserialized summaries have no results to look up. Update custom serialization and result repositories for the new metadata.
 
 ## Lifecycle Hooks and Event Handlers[​](#lifecycle-hooks-and-event-handlers "Direct link to Lifecycle Hooks and Event Handlers")
 
@@ -14264,55 +14327,56 @@ public class BuildModule : Module<CommandResult>
 
 ## Breaking API Reference[​](#breaking-api-reference "Direct link to Breaking API Reference")
 
-| V3 API                                                               | V4 API                                                              | Review needed                                                                                                 |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `builder.Services.AddModule<T>()`                                    | `builder.AddModule<T>()`                                            | Preserve conditional registration and factories                                                               |
-| Both `builder.ConfigureServices(...)` overloads                      | Register directly on `builder.Services`                             | Use the builder variable for registrations that need it                                                       |
-| `builder.Build()`                                                    | `await builder.BuildAsync()`                                        | Dispose the pipeline with `await using`                                                                       |
-| `builder.ExecutePipelineAsync()`                                     | `builder.RunAsync()`                                                | Await completion                                                                                              |
-| `builder.Options.X = value`                                          | `builder.ConfigureOptions(o => o with { X = value })`               | Nested settings moved                                                                                         |
-| `Configure(): ModuleConfiguration`                                   | `Configure(ModuleConfigurationBuilder): void`                       | Preserve inherited configuration                                                                              |
-| `DeclareDependencies(...)`                                           | Dependencies in `Configure(module)`                                 | Keep required/optional/conditional distinctions                                                               |
-| `WithRetryCount` / `WithRetryPolicy`                                 | `WithRetry` / `WithShield`                                          | Preserve policy semantics                                                                                     |
-| `Module<T>` returning `Task<T?>`                                     | `Task<T>`, or explicitly `Module<T?>`                               | Decide whether null is valid                                                                                  |
-| `ExecuteModuleAsync` / `ExecuteModule`                               | `ExecuteAsync` / `Execute`                                          | Non-generic module overrides only                                                                             |
-| Result `IsSuccess` / `IsFailure` / `IsSkipped`                       | Typed variants or safe accessors                                    | Match the result's actual generic type                                                                        |
-| `summary.GetModuleResultsAsync()`                                    | `summary.Results`                                                   | No live module handles                                                                                        |
-| `IPipelineGlobalHooks` / `IPipelineModuleHooks`                      | `IPipelineEventHandler` / `IModuleEventHandler`                     | Update callback signatures                                                                                    |
-| `MustAsync` / `Must`                                                 | `EvaluateAsync(context, cancellationToken)`                         | Return explicit requirement decisions                                                                         |
-| `context.SubModule(...)`                                             | `context.RunSubModuleAsync(...)`                                    | Forward the body token                                                                                        |
-| `context.DotNet()` and other tool accessors                          | `context.Tools.DotNet`, etc.                                        | Upgrade integration and generator together                                                                    |
-| Tool command `Build(...)`, etc.                                      | `BuildAsync(...)`, etc.                                             | Inspect regenerated signatures                                                                                |
-| `context.Shell.Command.ExecuteCommandLineTool(...)`                  | `context.Shell.RunAsync(...)`                                       | Pass individual argument tokens                                                                               |
-| `token:`                                                             | `cancellationToken:`                                                | Only changed framework parameters                                                                             |
-| `LogSettings`                                                        | `Logging`                                                           | Command and HTTP execution options                                                                            |
-| Framework `File` / `Folder`                                          | `FilePath` / `FolderPath`                                           | Keep `System.IO` symbols intact                                                                               |
-| `await context.Files.ExistsAsync(path, cancellationToken)`           | `context.Files.Exists(path)`                                        | Remove this call's await and token; relative paths use the pipeline working directory                         |
-| `context.Data.Hex.FromHex(value)`                                    | `context.Data.Hex.FromHex(value, Encoding.UTF8)` for text           | One-argument return type changes from `string` to `byte[]`; review inferred types and legacy input validation |
-| `context.Data.Hex.ToHex(bytes)` with `IEnumerable<byte>`             | `context.Data.Hex.ToHex(bytes.ToArray())`                           | Keep existing `byte[]` and string arguments unchanged                                                         |
-| `PipelineCancelledException`                                         | `PipelineCanceledException`                                         | Derives from `OperationCanceledException`; V4 spells "canceled" with one L throughout                         |
-| `IEventHandlerPriority.Priority`                                     | `IEventHandler.Order`                                               | Ascending order; add the trailing `CancellationToken` to handler methods                                      |
-| `PluginRegistry.Register(plugin)`                                    | `builder.AddPlugin(plugin)`                                         | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)`                           |
-| `[RunIfAll<...>]`                                                    | `[RunIf<...>]`                                                      | Same AND semantics                                                                                            |
-| `MandatoryRunConditionAttribute` / `RunConditionAttribute.Condition` | `RunConditionAttribute(ConditionIntent.Run)` / `EvaluateAsync`      | Use `GroupKey` for OR-ed alternatives                                                                         |
-| `BuildSystem.IsGitHubActions`, etc.                                  | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc.                   | The enum is in `ModularPipelines`                                                                             |
-| `context.Environment.BuildSystem.IsBuildServer`                      | `context.Environment.BuildSystem.IsCI`                              | Also honors a truthy `CI` variable; `IsLocal` is the inverse                                                  |
-| `context.IsRunningInCI()`                                            | `context.Environment.BuildSystem.IsCI`                              | Also honors a truthy `CI` variable                                                                            |
-| `context.IsRunningLocally()`                                         | `context.Environment.BuildSystem.IsLocal`                           | Inverse of `IsCI`                                                                                             |
-| `context.IsRunningIn(buildSystem)`                                   | `context.Environment.BuildSystem.Is(buildSystem)`                   | V4 compares all enum values, including `Unknown`                                                              |
-| `[CliArgument(Placement = ...)]`                                     | `[CliArgument(Phase = ...)]`                                        | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough`                                          |
-| `IPipelineValidator.Validate`                                        | `ValidateAsync(services, cancellationToken)`                        | Return `Task<ValidationResult>`                                                                               |
-| `[CliCommand("tool", ...)]`                                          | `[CliTool("tool")]` + `[CliSubCommand(...)]`                        | Handwritten option types only                                                                                 |
-| `Git().Information.BranchName`, etc.                                 | `(await Tools.Git.Information.GetRequiredInfoAsync(ct)).BranchName` | Use `GetInfoAsync` if Git may be unavailable; properties can be null                                          |
-| `CommandLogVerbosity.Minimal`                                        | `CommandLogVerbosity.InputOnly`                                     | Logs command input only; pick the level you need                                                              |
-| `summary.Start` / `End` / `TotalDuration`                            | `StartTime` / `EndTime` / `Duration`                                | `PipelineSummary` is now sealed                                                                               |
-| `summary.Status`                                                     | `summary.Succeeded`                                                 | Boolean overall outcome; inspect `Failures` for details                                                       |
-| `summary.GetFailedModuleResults()`                                   | `summary.Failures` and `summary.IgnoredFailures`                    | V3 returned both kinds together                                                                               |
-| `Git().Commands.Push(...)`, etc.                                     | `Tools.Git.Commands.Remotes.PushAsync(...)`, etc.                   | Commands are grouped by area                                                                                  |
-| `DependsOnLazy<T>()`                                                 | `DependsOnOptional<T>()`                                            | Same scheduling behavior                                                                                      |
-| `WithTimeout(TimeSpan.Zero)`                                         | `WithTimeout(Timeout.InfiniteTimeSpan)`                             | Zero now throws                                                                                               |
-| `CommandException.ExitCode`, etc.                                    | `CommandException.Result.ExitCode`, etc.                            | `ExecutionTime` becomes `Result.Duration`                                                                     |
-| `Status.Successful`, etc.                                            | `ModuleStatus.Succeeded`, etc.                                      | See the status table                                                                                          |
+| V3 API                                                               | V4 API                                                                                     | Review needed                                                                                                 |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `builder.Services.AddModule<T>()`                                    | `builder.AddModule<T>()`                                                                   | Preserve conditional registration and factories                                                               |
+| Both `builder.ConfigureServices(...)` overloads                      | Register directly on `builder.Services`                                                    | Use the builder variable for registrations that need it                                                       |
+| `builder.Build()`                                                    | `await builder.BuildAsync()`                                                               | Dispose the pipeline with `await using`                                                                       |
+| `builder.ExecutePipelineAsync()`                                     | `builder.RunAsync()`                                                                       | Await completion                                                                                              |
+| `builder.Options.X = value`                                          | `builder.ConfigureOptions(o => o with { X = value })`                                      | Nested settings moved                                                                                         |
+| `Configure(): ModuleConfiguration`                                   | `Configure(ModuleConfigurationBuilder): void`                                              | Preserve inherited configuration                                                                              |
+| `DeclareDependencies(...)`                                           | Dependencies in `Configure(module)`                                                        | Keep required/optional/conditional distinctions                                                               |
+| `WithRetryCount` / `WithRetryPolicy`                                 | `WithRetry` / `WithShield`                                                                 | Preserve policy semantics                                                                                     |
+| `Module<T>` returning `Task<T?>`                                     | `Task<T>`, or explicitly `Module<T?>`                                                      | Decide whether null is valid                                                                                  |
+| `ExecuteModuleAsync` / `ExecuteModule`                               | `ExecuteAsync` / `Execute`                                                                 | Non-generic module overrides only                                                                             |
+| Result `IsSuccess` / `IsFailure` / `IsSkipped`                       | Typed variants or safe accessors                                                           | Match the result's actual generic type                                                                        |
+| `summary.GetModuleResultsAsync()`                                    | `summary.Results`                                                                          | No live module handles                                                                                        |
+| `summary.GetModule<T>()`                                             | `summary.GetResult<TModule, TResult>()` / `TryGetResult<TModule, TResult>(out var result)` | Returns a completed result; inspect its outcome before reading `.Value`                                       |
+| `IPipelineGlobalHooks` / `IPipelineModuleHooks`                      | `IPipelineEventHandler` / `IModuleEventHandler`                                            | Update callback signatures                                                                                    |
+| `MustAsync` / `Must`                                                 | `EvaluateAsync(context, cancellationToken)`                                                | Return explicit requirement decisions                                                                         |
+| `context.SubModule(...)`                                             | `context.RunSubModuleAsync(...)`                                                           | Forward the body token                                                                                        |
+| `context.DotNet()` and other tool accessors                          | `context.Tools.DotNet`, etc.                                                               | Upgrade integration and generator together                                                                    |
+| Tool command `Build(...)`, etc.                                      | `BuildAsync(...)`, etc.                                                                    | Inspect regenerated signatures                                                                                |
+| `context.Shell.Command.ExecuteCommandLineTool(...)`                  | `context.Shell.RunAsync(...)`                                                              | Pass individual argument tokens                                                                               |
+| `token:`                                                             | `cancellationToken:`                                                                       | Only changed framework parameters                                                                             |
+| `LogSettings`                                                        | `Logging`                                                                                  | Command and HTTP execution options                                                                            |
+| Framework `File` / `Folder`                                          | `FilePath` / `FolderPath`                                                                  | Keep `System.IO` symbols intact                                                                               |
+| `await context.Files.ExistsAsync(path, cancellationToken)`           | `context.Files.Exists(path)`                                                               | Remove this call's await and token; relative paths use the pipeline working directory                         |
+| `context.Data.Hex.FromHex(value)`                                    | `context.Data.Hex.FromHex(value, Encoding.UTF8)` for text                                  | One-argument return type changes from `string` to `byte[]`; review inferred types and legacy input validation |
+| `context.Data.Hex.ToHex(bytes)` with `IEnumerable<byte>`             | `context.Data.Hex.ToHex(bytes.ToArray())`                                                  | Keep existing `byte[]` and string arguments unchanged                                                         |
+| `PipelineCancelledException`                                         | `PipelineCanceledException`                                                                | Derives from `OperationCanceledException`; V4 spells "canceled" with one L throughout                         |
+| `IEventHandlerPriority.Priority`                                     | `IEventHandler.Order`                                                                      | Ascending order; add the trailing `CancellationToken` to handler methods                                      |
+| `PluginRegistry.Register(plugin)`                                    | `builder.AddPlugin(plugin)`                                                                | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)`                           |
+| `[RunIfAll<...>]`                                                    | `[RunIf<...>]`                                                                             | Same AND semantics                                                                                            |
+| `MandatoryRunConditionAttribute` / `RunConditionAttribute.Condition` | `RunConditionAttribute(ConditionIntent.Run)` / `EvaluateAsync`                             | Use `GroupKey` for OR-ed alternatives                                                                         |
+| `BuildSystem.IsGitHubActions`, etc.                                  | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc.                                          | The enum is in `ModularPipelines`                                                                             |
+| `context.Environment.BuildSystem.IsBuildServer`                      | `context.Environment.BuildSystem.IsCI`                                                     | Also honors a truthy `CI` variable; `IsLocal` is the inverse                                                  |
+| `context.IsRunningInCI()`                                            | `context.Environment.BuildSystem.IsCI`                                                     | Also honors a truthy `CI` variable                                                                            |
+| `context.IsRunningLocally()`                                         | `context.Environment.BuildSystem.IsLocal`                                                  | Inverse of `IsCI`                                                                                             |
+| `context.IsRunningIn(buildSystem)`                                   | `context.Environment.BuildSystem.Is(buildSystem)`                                          | V4 compares all enum values, including `Unknown`                                                              |
+| `[CliArgument(Placement = ...)]`                                     | `[CliArgument(Phase = ...)]`                                                               | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough`                                          |
+| `IPipelineValidator.Validate`                                        | `ValidateAsync(services, cancellationToken)`                                               | Return `Task<ValidationResult>`                                                                               |
+| `[CliCommand("tool", ...)]`                                          | `[CliTool("tool")]` + `[CliSubCommand(...)]`                                               | Handwritten option types only                                                                                 |
+| `Git().Information.BranchName`, etc.                                 | `(await Tools.Git.Information.GetRequiredInfoAsync(ct)).BranchName`                        | Use `GetInfoAsync` if Git may be unavailable; properties can be null                                          |
+| `CommandLogVerbosity.Minimal`                                        | `CommandLogVerbosity.InputOnly`                                                            | Logs command input only; pick the level you need                                                              |
+| `summary.Start` / `End` / `TotalDuration`                            | `StartTime` / `EndTime` / `Duration`                                                       | `PipelineSummary` is now sealed                                                                               |
+| `summary.Status`                                                     | `summary.Succeeded`                                                                        | Boolean overall outcome; inspect `Failures` for details                                                       |
+| `summary.GetFailedModuleResults()`                                   | `summary.Failures` and `summary.IgnoredFailures`                                           | V3 returned both kinds together                                                                               |
+| `Git().Commands.Push(...)`, etc.                                     | `Tools.Git.Commands.Remotes.PushAsync(...)`, etc.                                          | Commands are grouped by area                                                                                  |
+| `DependsOnLazy<T>()`                                                 | `DependsOnOptional<T>()`                                                                   | Same scheduling behavior                                                                                      |
+| `WithTimeout(TimeSpan.Zero)`                                         | `WithTimeout(Timeout.InfiniteTimeSpan)`                                                    | Zero now throws                                                                                               |
+| `CommandException.ExitCode`, etc.                                    | `CommandException.Result.ExitCode`, etc.                                                   | `ExecutionTime` becomes `Result.Duration`                                                                     |
+| `Status.Successful`, etc.                                            | `ModuleStatus.Succeeded`, etc.                                                             | See the status table                                                                                          |
 
 ## Agents / LLM Migration Reference[​](#agents--llm-migration-reference "Direct link to Agents / LLM Migration Reference")
 
