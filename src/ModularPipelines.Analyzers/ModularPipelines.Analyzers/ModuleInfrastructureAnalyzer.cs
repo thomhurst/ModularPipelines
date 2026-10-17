@@ -62,47 +62,55 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             var enumerableType = startContext.Compilation.GetTypeByMetadataName(AnalyzerConstants.FullyQualifiedTypeNames.IEnumerable);
 
             startContext.RegisterOperationAction(operationContext =>
-            {
-                if (!operationContext.ContainingSymbol.ContainingType.InheritsFrom(moduleType))
-                {
-                    return;
-                }
-
-                var method = operationContext.Operation switch
-                {
-                    IInvocationOperation invocation => invocation.TargetMethod,
-                    IMethodReferenceOperation reference => reference.Method,
-                    _ => null,
-                };
-
-                if (method is { Name: "Start" }
-                    && SymbolEqualityComparer.Default.Equals(method.ContainingType, processType))
-                {
-                    operationContext.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, operationContext.Operation.Syntax.GetLocation()));
-                }
-            }, OperationKind.Invocation, OperationKind.MethodReference);
+                AnalyzeProcessUse(operationContext, moduleType, processType), OperationKind.Invocation, OperationKind.MethodReference);
 
             startContext.RegisterOperationAction(operationContext =>
-            {
-                if (!operationContext.ContainingSymbol.ContainingType.InheritsFrom(moduleType)
-                    || operationContext.Operation is not IObjectCreationOperation creation)
-                {
-                    return;
-                }
-
-                if (SymbolEqualityComparer.Default.Equals(creation.Type, startInfoType))
-                {
-                    operationContext.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, creation.Syntax.GetLocation()));
-                }
-                else if (creation.Type.InheritsFrom(httpClientType))
-                {
-                    operationContext.ReportDiagnostic(Diagnostic.Create(DirectHttpClientRule, creation.Syntax.GetLocation()));
-                }
-            }, OperationKind.ObjectCreation);
+                AnalyzeObjectCreation(operationContext, moduleType, startInfoType, httpClientType), OperationKind.ObjectCreation);
 
             startContext.RegisterSymbolAction(symbolContext =>
                 AnalyzeConstructors(symbolContext, moduleType, moduleInterface, enumerableType), SymbolKind.NamedType);
         });
+    }
+
+    private static void AnalyzeProcessUse(OperationAnalysisContext context, INamedTypeSymbol moduleType,
+        INamedTypeSymbol? processType)
+    {
+        if (!context.ContainingSymbol.ContainingType.InheritsFrom(moduleType))
+        {
+            return;
+        }
+
+        var method = context.Operation switch
+        {
+            IInvocationOperation invocation => invocation.TargetMethod,
+            IMethodReferenceOperation reference => reference.Method,
+            _ => null,
+        };
+
+        if (method is { Name: "Start" }
+            && SymbolEqualityComparer.Default.Equals(method.ContainingType, processType))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, context.Operation.Syntax.GetLocation()));
+        }
+    }
+
+    private static void AnalyzeObjectCreation(OperationAnalysisContext context, INamedTypeSymbol moduleType,
+        INamedTypeSymbol? startInfoType, INamedTypeSymbol? httpClientType)
+    {
+        if (!context.ContainingSymbol.ContainingType.InheritsFrom(moduleType)
+            || context.Operation is not IObjectCreationOperation creation)
+        {
+            return;
+        }
+
+        if (SymbolEqualityComparer.Default.Equals(creation.Type, startInfoType))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(DirectProcessRule, creation.Syntax.GetLocation()));
+        }
+        else if (creation.Type.InheritsFrom(httpClientType))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(DirectHttpClientRule, creation.Syntax.GetLocation()));
+        }
     }
 
     private static void AnalyzeConstructors(SymbolAnalysisContext context, INamedTypeSymbol moduleType,

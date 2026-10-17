@@ -55,6 +55,17 @@ public class ModuleInfrastructureAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = nameof(Process.Start);")]
+    [DataRow("_ = nameof(global::System.Diagnostics.Process.Start);")]
+    [DataRow("_ = nameof(P.Start);")]
+    [DataRow("_ = nameof(Start);")]
+    [DataRow("using var process = new Process(); _ = nameof(process.Start);")]
+    public async Task Does_Not_Report_Process_Start_Nameof(string statement)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(statement));
+    }
+
+    [TestMethod]
     [DataRow("_ = {|#0:new HttpClient()|};")]
     [DataRow("_ = {|#0:new global::System.Net.Http.HttpClient(new HttpClientHandler(), true)|};")]
     [DataRow("_ = {|#0:new H()|};")]
