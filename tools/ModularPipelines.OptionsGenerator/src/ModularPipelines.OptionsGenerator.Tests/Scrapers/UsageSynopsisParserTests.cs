@@ -1208,10 +1208,14 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
-    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments()
+    [Arguments("ps OPTIONS")]
+    [Arguments("ps options")]
+    [Arguments("PS OPTIONS")]
+    [Arguments("PS options")]
+    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments(string label)
     {
         var result = UsageSynopsisParser.Parse(
-            "Usage: docker top CONTAINER [ps OPTIONS]",
+            $"Usage: docker top CONTAINER [{label}]",
             ["docker", "top"]);
 
         var psOptions = result.PositionalArguments.Single(argument =>

@@ -839,13 +839,6 @@ public static partial class UsageSynopsisParser
                 continue;
             }
 
-            if (!groupedBehindOptionTerminator
-                && !prependOptionTerminatorToNextOperand
-                && IsNonOperandSyntax(operandToken))
-            {
-                continue;
-            }
-
             ParseAndAddOperand(
                 operandToken,
                 operandPhase,
@@ -931,6 +924,13 @@ public static partial class UsageSynopsisParser
         ref bool prependOptionTerminatorToNextOperand,
         ref string? associatedOptionSwitch)
     {
+        if (!groupedBehindOptionTerminator
+            && !prependOptionTerminatorToNextOperand
+            && IsNonOperandSyntax(operandToken))
+        {
+            return;
+        }
+
         var argument = ParseOperand(operandToken, arguments.Count, operandPhase);
         if (argument is null)
         {
@@ -1562,10 +1562,9 @@ public static partial class UsageSynopsisParser
     private static bool IsForwardedOptionTail(string token, string content) =>
         token.StartsWith('[') && IsForwardedOptionLabel(content);
 
-    // A literal command followed by uppercase OPTIONS denotes forwarded arguments, e.g. [ps OPTIONS].
+    // A literal command followed by options denotes forwarded arguments, e.g. [ps OPTIONS].
     private static bool IsForwardedOptionLabel(string content) =>
-        content.EndsWith(" OPTIONS", StringComparison.Ordinal)
-        && content[..^" OPTIONS".Length].Any(char.IsLower)
+        content.EndsWith(" OPTIONS", StringComparison.OrdinalIgnoreCase)
         && !ControlTokens.Contains(content[..^" OPTIONS".Length]);
 
     private static bool TryParseNestedOperandGroup(
