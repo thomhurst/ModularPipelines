@@ -36,19 +36,22 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
         return RunFileAsync(new BashFileOptions(path), executionOptions, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> RunFileAsync(
+    public virtual Task<CommandResult> RunFileAsync(
         BashFileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-        }
+        return _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
 
-        var execOpts = (executionOptions ?? new CommandExecutionOptions()) with
+    internal async Task<BashFileOptions> PrepareFileAsync(
+        BashFileOptions options,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken)
+    {
+        var execOpts = executionOptions with
         {
-            WorkingDirectory = executionOptions?.WorkingDirectory is { } workingDirectory
+            WorkingDirectory = executionOptions.WorkingDirectory is { } workingDirectory
                 ? _pipelineWorkingDirectory.ResolvePath(workingDirectory)
                 : _pipelineWorkingDirectory.Path,
         };
@@ -70,14 +73,14 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
         var tool = resolvedTool ?? requestedTool;
         var isWsl = string.Equals(tool, systemBash, StringComparison.OrdinalIgnoreCase);
 
-        return await _command.ExecuteCommandLineToolAsync(options with
+        return options with
         {
             Tool = tool,
             // Git/MSYS Bash accepts Windows drive paths with forward slashes without WSL or cygpath.
             FilePath = isWsl
                 ? await ToWslPath(options.FilePath, execOpts, cancellationToken).ConfigureAwait(false)
                 : options.FilePath.Replace('\\', '/'),
-        }, execOpts, cancellationToken).ConfigureAwait(false);
+        };
     }
 
     private async Task<string> ToWslPath(

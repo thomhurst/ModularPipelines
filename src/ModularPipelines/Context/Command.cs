@@ -306,6 +306,11 @@ internal sealed class Command(
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
+        if (OperatingSystem.IsWindows() && invocation.ToolOptions is BashFileOptions bashOptions)
+        {
+            invocation = await PrepareBashFileInvocationAsync(invocation, bashOptions, executionCancellationToken).ConfigureAwait(false);
+        }
+
         return invocation.ExecutionOptions.InternalDryRun
             ? ExecuteDryRun(
                 invocation.Command,
@@ -325,6 +330,45 @@ internal sealed class Command(
                     callerCancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
+    }
+
+    private async Task<PreparedCommandInvocation> PrepareBashFileInvocationAsync(
+        PreparedCommandInvocation invocation,
+        BashFileOptions options,
+        CancellationToken cancellationToken)
+    {
+        var arguments = invocation.CommandLine.Arguments.ToList();
+        var pathIndex = arguments.IndexOf(options.FilePath);
+        if (pathIndex < 0)
+        {
+            // A manually replaced command line no longer contains the script operand.
+            return invocation;
+        }
+
+        var usesSudo = invocation.SudoPrefixLength > 0;
+        var tool = usesSudo ? arguments[invocation.SudoPrefixLength] : invocation.CommandLine.Tool;
+        var preparedOptions = await new Bash(this, _pipelineWorkingDirectory).PrepareFileAsync(
+            options with { Tool = tool },
+            invocation.ExecutionOptions,
+            cancellationToken).ConfigureAwait(false);
+        arguments[pathIndex] = preparedOptions.FilePath;
+        if (usesSudo)
+        {
+            arguments[invocation.SudoPrefixLength] = preparedOptions.Tool!;
+        }
+
+        tool = usesSudo ? invocation.CommandLine.Tool : preparedOptions.Tool!;
+
+        var (command, commandInput) = CreateCliCommand(tool, arguments, invocation.ExecutionOptions);
+        return invocation with
+        {
+            CommandLine = new CommandLine(tool, arguments),
+            ToolOptions = preparedOptions,
+            Command = command,
+            RawCommandInput = commandInput,
+            RawEnvironmentVariables = GetRawEnvironmentVariables(command),
+            InputToLog = CreateInputToLog(commandInput, invocation.ExecutionOptions, Activity.Current),
+        };
     }
 
     private void RecordTelemetryCommandInput(
