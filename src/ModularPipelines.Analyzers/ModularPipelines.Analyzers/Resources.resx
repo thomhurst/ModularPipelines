@@ -309,4 +309,13 @@
   <data name="NonGenericModuleResultAnalyzerTitle" xml:space="preserve"><value>Use type-erased module outcome checks</value></data>
   <data name="NonGenericModuleResultAnalyzerMessageFormat" xml:space="preserve"><value>Non-generic outcome tests do not match generic engine results; use Status, ExceptionOrDefault, or SkipDecisionOrDefault</value></data>
   <data name="NonGenericModuleResultAnalyzerDescription" xml:space="preserve"><value>The engine produces generic failure and skipped records. When consuming type-erased results, inspect Status, ExceptionOrDefault, or SkipDecisionOrDefault instead of testing non-generic outcome types.</value></data>
+  <data name="DirectProcessTitle" xml:space="preserve"><value>Use pipeline command execution</value></data>
+  <data name="DirectProcessMessageFormat" xml:space="preserve"><value>Use context.Shell instead of Process.Start or ProcessStartInfo inside a module</value></data>
+  <data name="DirectProcessDescription" xml:space="preserve"><value>Direct process execution bypasses command interception, secret masking, cancellation, and ModuleTester command recording. Use context.Shell to execute commands.</value></data>
+  <data name="DirectHttpClientTitle" xml:space="preserve"><value>Use pipeline HTTP services</value></data>
+  <data name="DirectHttpClientMessageFormat" xml:space="preserve"><value>Use context.Network.Http instead of creating HttpClient inside a module</value></data>
+  <data name="DirectHttpClientDescription" xml:space="preserve"><value>Creating HttpClient directly bypasses pipeline resilience, logging, and InterceptHttp. Use context.Network.Http or inject a configured client from IHttpClientFactory.</value></data>
+  <data name="InjectedModuleTitle" xml:space="preserve"><value>Use module dependency accessors</value></data>
+  <data name="InjectedModuleMessageFormat" xml:space="preserve"><value>Do not inject modules into module constructors; declare DependsOn and use context.GetModule or context.GetModuleIfRegistered</value></data>
+  <data name="InjectedModuleDescription" xml:space="preserve"><value>Constructor injection bypasses dependency access analysis. Declare the dependency and retrieve it through the module context, even when a DependsOn declaration already exists.</value></data>
 </root>

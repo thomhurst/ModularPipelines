@@ -500,6 +500,60 @@ namespace ModularPipelines.Analyzers {
             }
         }
 
+        internal static string DirectProcessTitle {
+            get {
+                return ResourceManager.GetString("DirectProcessTitle", resourceCulture);
+            }
+        }
+
+        internal static string DirectProcessMessageFormat {
+            get {
+                return ResourceManager.GetString("DirectProcessMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string DirectProcessDescription {
+            get {
+                return ResourceManager.GetString("DirectProcessDescription", resourceCulture);
+            }
+        }
+
+        internal static string DirectHttpClientTitle {
+            get {
+                return ResourceManager.GetString("DirectHttpClientTitle", resourceCulture);
+            }
+        }
+
+        internal static string DirectHttpClientMessageFormat {
+            get {
+                return ResourceManager.GetString("DirectHttpClientMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string DirectHttpClientDescription {
+            get {
+                return ResourceManager.GetString("DirectHttpClientDescription", resourceCulture);
+            }
+        }
+
+        internal static string InjectedModuleTitle {
+            get {
+                return ResourceManager.GetString("InjectedModuleTitle", resourceCulture);
+            }
+        }
+
+        internal static string InjectedModuleMessageFormat {
+            get {
+                return ResourceManager.GetString("InjectedModuleMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string InjectedModuleDescription {
+            get {
+                return ResourceManager.GetString("InjectedModuleDescription", resourceCulture);
+            }
+        }
+
         internal static string NonGenericModuleResultAnalyzerTitle {
             get {
                 return ResourceManager.GetString("NonGenericModuleResultAnalyzerTitle", resourceCulture);

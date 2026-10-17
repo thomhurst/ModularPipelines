@@ -33,6 +33,9 @@ sidebar_position: 1
 | [`MP0021`](./MP0021.md) | Usage | Warning | Public analyzer package | Optional dependency accessed with GetModule instead of GetModuleIfRegistered. |
 | [`MP0022`](./MP0022.md) | Usage | Info | Public analyzer package | Required dependency accessed with GetModuleIfRegistered instead of GetModule. |
 | [`MP0023`](./MP0023.md) | Usage | Warning | Public analyzer package | Non-generic outcome tests do not match generic engine results; use Status, ExceptionOrDefault, or SkipDecisionOrDefault. |
+| [`MP0024`](./MP0024.md) | Usage | Warning | Public analyzer package | Calls Process.Start or creates ProcessStartInfo inside a module; use context.Shell for command interception, secret masking, and cancellation. |
+| [`MP0025`](./MP0025.md) | Usage | Warning | Public analyzer package | Creates HttpClient inside a module; use context.Network.Http for pipeline resilience, logging, and HTTP interception. |
+| [`MP0026`](./MP0026.md) | Usage | Warning | Public analyzer package | Injects a module into a module constructor; declare DependsOn and use context.GetModule or context.GetModuleIfRegistered. |
 | [`MPCLI001`](./MPCLI001.md) | Usage | Error | Public analyzer package | CliFlag property must be bool? or int? |
 | [`MPCLI002`](./MPCLI002.md) | Usage | Error | Public analyzer package | Value-less bool? CliOption should use CliFlag. |
 | [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |

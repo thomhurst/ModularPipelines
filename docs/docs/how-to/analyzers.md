@@ -38,6 +38,45 @@ protected override void Configure(ModuleConfigurationBuilder module) =>
 Unrelated methods with the same names and callbacks without an available token
 are excluded.
 
+## Use pipeline services inside modules
+
+These warnings apply to code declared in module types, including constructors,
+field initializers, lifecycle methods, helpers, and callbacks. Nested helper types
+that do not inherit from a module are excluded.
+
+- [`MP0024`](../analyzers/MP0024.md) warns on `System.Diagnostics.Process.Start`
+  (static or instance calls and method-group references) and `new ProcessStartInfo(...)`. Use
+  `context.Shell.RunAsync(...)` so commands participate in secret masking,
+  cancellation, command interception, and `ModuleTester` command recording.
+- [`MP0025`](../analyzers/MP0025.md) warns on `new HttpClient(...)`, including
+  target-typed `new()`. Use `context.Network.Http.SendAsync(...)` for pipeline
+  resilience, logging, and `InterceptHttp`. Injecting an existing configured
+  client is allowed.
+- [`MP0026`](../analyzers/MP0026.md) warns when a module constructor receives
+  another module, including primary constructors and parameters typed as
+  `IModule`. Declare the dependency with `DependsOn` and retrieve it through
+  `context.GetModule<T>()` or `context.GetModuleIfRegistered<T>()`. The warning
+  applies even when the dependency is already declared, so accesses remain
+  visible to dependency analysis.
+
+For example, execute a command and read a dependency through the context:
+
+```csharp
+[DependsOn<BuildModule>]
+public class PublishModule : Module<int>
+{
+    protected override async Task<int> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var build = await context.GetModule<BuildModule>();
+        await context.Shell.RunAsync("tool", ["publish"], cancellationToken);
+        return 0;
+    }
+}
+```
+
+Suppress an individual warning when direct access is intentional.
+
 ## Configure a rule
 
 Set a rule's severity in `.editorconfig`:
