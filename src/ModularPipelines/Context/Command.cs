@@ -146,6 +146,10 @@ internal sealed class Command(
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions));
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions.CommandLineCredentials));
+        if (executionOptions.StandardInputIsSecret)
+        {
+            _secretRegistry.AddSecret(executionOptions.StandardInput);
+        }
     }
 
     private (ProcessCommand Command, string CommandInput, string Tool, List<string> Arguments, int SudoPrefixLength) CreateCommand(

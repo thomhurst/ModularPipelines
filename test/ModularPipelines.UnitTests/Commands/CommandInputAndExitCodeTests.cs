@@ -6,6 +6,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.ProcessTestHost;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
 using NReco.Logging.File;
@@ -14,6 +15,57 @@ namespace ModularPipelines.UnitTests.Commands;
 
 public class CommandInputAndExitCodeTests : TestBase
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Input_Does_Not_Register_Secrets_By_Default(bool rewriteOptions)
+    {
+        var input = string.Join('\n', Enumerable.Range(0, 2048).Select(index => $"script line {index}: café 東京 \"value\""));
+        var (command, pipeline) = await GetService<ICommandContext>(services =>
+        {
+            if (rewriteOptions)
+            {
+                services.AddSingleton<ICommandInterceptor>(new StandardInputInterceptor(input));
+            }
+        });
+        var secrets = pipeline.Services.GetRequiredService<ISecretProvider>();
+        var version = secrets.Version;
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            CreateCommand("exit-code", "0"),
+            new CommandExecutionOptions { StandardInput = rewriteOptions ? null : input });
+
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(secrets.Version).IsEqualTo(version);
+    }
+
+    [Test]
+    public async Task Large_Input_Masks_Registered_Values_Without_Registering_The_Document()
+    {
+        const string secret = "embedded-stdin-password";
+        var input = new string('x', 64 * 1024) + "\n" + secret + "\n";
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var (command, pipeline) = await GetService<ICommandContext>(services =>
+        {
+            services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            services.AddLogging(builder => builder.AddFile(file));
+        });
+        pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
+        var secrets = pipeline.Services.GetRequiredService<ISecretProvider>();
+        var version = secrets.Version;
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            CreateCommand("stdin-echo", "0", "0"),
+            new CommandExecutionOptions { StandardInput = input });
+
+        await Assert.That(result.StandardOutput).IsEqualTo(input);
+        await Assert.That(secrets.Version).IsEqualTo(version);
+        await pipeline.DisposeAsync();
+        var log = await File.ReadAllTextAsync(file);
+        await Assert.That(log).DoesNotContain(secret);
+        await Assert.That(log).Contains("********");
+    }
+
     [Test]
     public async Task Rejects_Null_Success_Exit_Codes_At_Initialization()
     {
@@ -94,9 +146,11 @@ public class CommandInputAndExitCodeTests : TestBase
     }
 
     [Test]
-    [Arguments(0)]
-    [Arguments(7)]
-    public async Task Input_Is_Masked_In_Logs_And_Failure_Diagnostics(int exitCode)
+    [Arguments(0, false)]
+    [Arguments(7, false)]
+    [Arguments(0, true)]
+    [Arguments(7, true)]
+    public async Task Secret_Input_Is_Masked_In_Logs_And_Failure_Diagnostics(int exitCode, bool rewriteOptions)
     {
         const string secret = "stdin-password-secret";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
@@ -104,8 +158,16 @@ public class CommandInputAndExitCodeTests : TestBase
         {
             services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             services.AddLogging(builder => builder.AddFile(file));
+            if (rewriteOptions)
+            {
+                services.AddSingleton<ICommandInterceptor>(new StandardInputInterceptor(secret + "\n", isSecret: true));
+            }
         });
-        var options = new CommandExecutionOptions { StandardInput = secret + "\n" };
+        var options = new CommandExecutionOptions
+        {
+            StandardInput = rewriteOptions ? null : secret + "\n",
+            StandardInputIsSecret = !rewriteOptions,
+        };
         var tool = CreateCommand("stdin-echo", "0", exitCode.ToString());
         if (exitCode == 0)
         {
@@ -248,6 +310,12 @@ public class CommandInputAndExitCodeTests : TestBase
     {
         public ValueTask<CommandResult> InvokeAsync(CommandInvocation invocation, CommandDelegate next, CancellationToken cancellationToken) =>
             next(invocation with { ExecutionOptions = invocation.ExecutionOptions with { SuccessExitCodes = [2] } }, cancellationToken);
+    }
+
+    private sealed class StandardInputInterceptor(string input, bool isSecret = false) : ICommandInterceptor
+    {
+        public ValueTask<CommandResult> InvokeAsync(CommandInvocation invocation, CommandDelegate next, CancellationToken cancellationToken) =>
+            next(invocation with { ExecutionOptions = invocation.ExecutionOptions with { StandardInput = input, StandardInputIsSecret = isSecret } }, cancellationToken);
     }
 
     private sealed class ExitCodeInterceptor(int exitCode) : ICommandInterceptor

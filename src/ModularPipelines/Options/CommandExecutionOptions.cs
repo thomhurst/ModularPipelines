@@ -1,5 +1,4 @@
 using System.Text;
-using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
 
@@ -33,10 +32,20 @@ public record CommandExecutionOptions
     /// <summary>
     /// Gets text to write to standard input as UTF-8 without a byte order mark or an added newline.
     /// Standard input closes after the text is written. Null closes it immediately.
-    /// The text is registered as a secret and is never included in the command line.
+    /// The text is never included in the command line. To mask echoed input in logs and failure diagnostics,
+    /// set <see cref="StandardInputIsSecret"/> or register individual sensitive values with
+    /// <see cref="ModularPipelines.Secrets.ISecretRegistry"/> before execution.
     /// </summary>
-    [SecretValue]
     public string? StandardInput { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether to register all of <see cref="StandardInput"/> for secret masking.
+    /// Defaults to false so scripts and documents do not expand into pipeline-wide secret patterns.
+    /// Set to true for passwords or other small secret payloads. Registration retains the input and its
+    /// encoded and per-line variants for the pipeline lifetime; for large input, register only sensitive
+    /// values with <see cref="ModularPipelines.Secrets.ISecretRegistry"/> instead.
+    /// </summary>
+    public bool StandardInputIsSecret { get; init; }
 
     /// <summary>
     /// Gets the credentials used to start the command-line process.
