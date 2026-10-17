@@ -24,7 +24,7 @@ public record AzSignalrUpstreamUpdateOptions : AzOptions
     /// <summary>
     /// Update order sensitive upstream settings for an existing SignalR
     /// </summary>
-    /// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".</param>
+    /// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event-pattern", "category-pattern".</param>
     public AzSignalrUpstreamUpdateOptions(
         IEnumerable<CliValueGroup> Template
     )
@@ -50,7 +50,7 @@ public record AzSignalrUpstreamUpdateOptions : AzOptions
     }
 
     /// <summary>
-    /// Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".
+    /// Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event-pattern", "category-pattern".
     /// </summary>
     [CliOption("--template", GroupValues = true)]
     public IEnumerable<CliValueGroup> Template { get; private init; }

@@ -88,7 +88,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public CliOptionValue? VmProtection { get; set; }
 
     /// <summary>
-    /// A list of IPAM Pools allocating IP address prefixes. If a non-empty value is provided, --address-prefixes would be ignored.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// A list of IPAM Pools allocating IP address prefixes. If a non-empty value is provided, --address-prefixes would be ignored.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
@@ -118,13 +118,13 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// A configurable list of summarized gateway prefixes advertised for the virtual network.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more. WARNING: Argument '--summarized-gateway-prefixes' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// A configurable list of summarized gateway prefixes advertised for the virtual network.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--summarized-gateway-prefixes' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--sgp", GroupValues = true)]
     public IEnumerable<string>? Sgp { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

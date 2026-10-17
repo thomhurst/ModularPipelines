@@ -109,7 +109,7 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? ExternalGossipCertificates { get; set; }
 
     /// <summary>
-    /// A list of ip addresses of the seed nodes of on- premise data centers.
+    /// A list of ip addresses of the seed nodes of on-premise data centers.
     /// </summary>
     [CliOption("--external-seed-nodes", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? ExternalSeedNodes { get; set; }

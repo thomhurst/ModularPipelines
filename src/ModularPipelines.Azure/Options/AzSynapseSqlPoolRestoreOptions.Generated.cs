@@ -93,7 +93,7 @@ public record AzSynapseSqlPoolRestoreOptions : AzOptions
     public string? DeletedTime { get; set; }
 
     /// <summary>
-    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM- DDTHH:MM:SS".
+    /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
     /// </summary>
     [CliOption("--time", ShortForm = "-t")]
     public string? Time { get; set; }

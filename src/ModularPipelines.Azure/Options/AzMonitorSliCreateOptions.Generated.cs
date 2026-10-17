@@ -26,7 +26,7 @@ public record AzMonitorSliCreateOptions : AzOptions
     /// </summary>
     /// <param name="ServiceGroupName">The name of the service group.</param>
     /// <param name="SliName">Name of the SLI that is given by the user.</param>
-    /// <param name="MiUserAssigned">Set the user managed identities. At least one user-assigned managed identity is required; system-assigned identity is not supported by this service.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
+    /// <param name="MiUserAssigned">Set the user managed identities. At least one user-assigned managed identity is required; system-assigned identity is not supported by this service.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzMonitorSliCreateOptions(
         string ServiceGroupName,
         string SliName,
@@ -72,13 +72,13 @@ public record AzMonitorSliCreateOptions : AzOptions
     public string SliName { get; private init; }
 
     /// <summary>
-    /// Set the user managed identities. At least one user-assigned managed identity is required; system-assigned identity is not supported by this service.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Set the user managed identities. At least one user-assigned managed identity is required; system-assigned identity is not supported by this service.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue> MiUserAssigned { get; private init; }
 
     /// <summary>
-    /// Destination AMW accounts.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Destination AMW accounts.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--amw-accounts", GroupValues = true)]
     public IEnumerable<string>? AmwAccounts { get; set; }

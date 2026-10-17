@@ -68,7 +68,7 @@ public record AzMonitorActionGroupIdentityRemoveOptions : AzOptions
     public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Set the user managed identities.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }

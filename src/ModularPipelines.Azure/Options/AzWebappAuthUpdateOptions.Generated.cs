@@ -65,7 +65,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     public CliOptionValue? TokenStore { get; set; }
 
     /// <summary>
-    /// One or more token audiences (comma- delimited).
+    /// One or more token audiences (comma-delimited).
     /// </summary>
     [SecretValue]
     [CliOption("--aad-allowed-token-audiences", GroupValues = true)]
@@ -92,7 +92,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     public string? AadClientSecretCertificateThumbprint { get; set; }
 
     /// <summary>
-    /// This url can be found in the JSON output returned from your active directory endpoint using your tenantID. The endpoint can be queried from `az cloud show` at "endpoints.activeDirectory". The tenantID can be found using `az account show`. Get the "issuer" from the JSON at `&lt;active directory endpoint&gt;/&lt;tenantId&gt;/.well- known/openid-configuration`.
+    /// This url can be found in the JSON output returned from your active directory endpoint using your tenantID. The endpoint can be queried from `az cloud show` at "endpoints.activeDirectory". The tenantID can be found using `az account show`. Get the "issuer" from the JSON at `&lt;active directory endpoint&gt;/&lt;tenantId&gt;/.well-known/openid-configuration`.
     /// </summary>
     [SecretValue]
     [CliOption("--aad-token-issuer-url")]
@@ -156,7 +156,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     public IEnumerable<string>? MicrosoftAccountOauthScopes { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

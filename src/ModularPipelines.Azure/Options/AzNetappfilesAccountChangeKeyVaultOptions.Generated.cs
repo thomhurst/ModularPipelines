@@ -34,7 +34,7 @@ public record AzNetappfilesAccountChangeKeyVaultOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--endpoint-pairs", GroupValues = true)]
     public IEnumerable<string>? EndpointPairs { get; set; }

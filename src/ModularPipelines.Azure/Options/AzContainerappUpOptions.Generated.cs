@@ -150,7 +150,7 @@ public record AzContainerappUpOptions : AzOptions
     public string? ServicePrincipalTenantId { get; set; }
 
     /// <summary>
-    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the- command-line. If not provided or not found in the cache (and using --repo), a browser page will be opened to authenticate with Github.
+    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line. If not provided or not found in the cache (and using --repo), a browser page will be opened to authenticate with Github.
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
@@ -169,13 +169,13 @@ public record AzContainerappUpOptions : AzOptions
     public int? TargetPort { get; set; }
 
     /// <summary>
-    /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. You can use "az monitor log- analytics workspace create" to create one. Extra billing may apply.
+    /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply.
     /// </summary>
     [CliOption("--logs-workspace-id")]
     public string? LogsWorkspaceId { get; set; }
 
     /// <summary>
-    /// Log Analytics workspace key to configure your Log Analytics workspace. You can use "az monitor log- analytics workspace get-shared-keys" to retrieve the key.
+    /// Log Analytics workspace key to configure your Log Analytics workspace. You can use "az monitor log-analytics workspace get-shared-keys" to retrieve the key.
     /// </summary>
     [CliOption("--logs-workspace-key")]
     public string? LogsWorkspaceKey { get; set; }

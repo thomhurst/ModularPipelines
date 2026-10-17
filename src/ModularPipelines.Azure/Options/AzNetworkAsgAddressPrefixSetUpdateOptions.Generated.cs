@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkAsgAddressPrefixSetUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Space-separated list of IPv4 or IPv6 address prefixes in CIDR notation.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of IPv4 or IPv6 address prefixes in CIDR notation.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }

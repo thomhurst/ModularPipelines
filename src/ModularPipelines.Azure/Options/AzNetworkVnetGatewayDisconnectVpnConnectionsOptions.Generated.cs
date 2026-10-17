@@ -28,7 +28,7 @@ public record AzNetworkVnetGatewayDisconnectVpnConnectionsOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// List of Name or ID of VPN connections.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// List of Name or ID of VPN connections.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--vpn-connections", GroupValues = true)]
     public IEnumerable<string>? VpnConnections { get; set; }

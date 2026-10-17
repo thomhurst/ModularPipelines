@@ -69,7 +69,7 @@ public record AzMonitorActivityLogListOptions : AzOptions
     public string? Status { get; set; }
 
     /// <summary>
-    /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
+    /// End time of the query. Defaults to the current time. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
     [CliOption("--end-time", GroupValues = true)]
     public IEnumerable<string>? EndTime { get; set; }

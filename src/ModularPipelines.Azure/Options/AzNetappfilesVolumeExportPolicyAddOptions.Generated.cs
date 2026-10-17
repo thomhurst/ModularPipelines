@@ -162,7 +162,7 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     public string? AllowedClients { get; set; }
 
     /// <summary>
-    /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non- root users can change ownership of files that they own. Allowed values: Restricted, Unrestricted.  Default: Restricted.
+    /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own. Allowed values: Restricted, Unrestricted.  Default: Restricted.
     /// </summary>
     [CliOption("--chown-mode")]
     public string? ChownMode { get; set; }

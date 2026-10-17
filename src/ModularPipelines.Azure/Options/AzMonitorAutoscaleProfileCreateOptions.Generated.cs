@@ -27,7 +27,7 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     /// <param name="Name">Name of the autoscale profile.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
-    /// <param name="Timezone">Timezone name.  Values from: az monitor autoscale profile list- timezones.</param>
+    /// <param name="Timezone">Timezone name.  Values from: az monitor autoscale profile list-timezones.</param>
     public AzMonitorAutoscaleProfileCreateOptions(
         string AutoscaleName,
         string Name,
@@ -81,7 +81,7 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     public int Count { get; private init; }
 
     /// <summary>
-    /// Timezone name.  Values from: az monitor autoscale profile list- timezones.
+    /// Timezone name.  Values from: az monitor autoscale profile list-timezones.
     /// </summary>
     [CliOption("--timezone")]
     public string Timezone { get; private init; }

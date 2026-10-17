@@ -108,13 +108,13 @@ public record AzNetworkApplicationGatewayUrlPathMapRuleUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Backend address pool resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Backend address pool resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--backend-address-pool", GroupValues = true)]
     public IEnumerable<string>? BackendAddressPool { get; set; }
 
     /// <summary>
-    /// Backend http settings resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Backend http settings resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--backend-http-settings", GroupValues = true)]
     public IEnumerable<string>? BackendHttpSettings { get; set; }
@@ -132,13 +132,13 @@ public record AzNetworkApplicationGatewayUrlPathMapRuleUpdateOptions : AzOptions
     public IEnumerable<string>? LoadDistributionPolicy { get; set; }
 
     /// <summary>
-    /// Path rules of URL path map.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Path rules of URL path map.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--paths", GroupValues = true)]
     public IEnumerable<string>? Paths { get; set; }
 
     /// <summary>
-    /// Redirect configuration resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Redirect configuration resource of URL path map path rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--redirect-configuration", GroupValues = true)]
     public IEnumerable<string>? RedirectConfiguration { get; set; }

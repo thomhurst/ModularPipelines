@@ -56,13 +56,13 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Add an action group. Accepts space-separated action group identifiers. The identifier can be the action group's name or its resource ID. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Add an action group. Accepts space-separated action group identifiers. The identifier can be the action group's name or its resource ID. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--action-group", ShortForm = "-a", GroupValues = true)]
     public IEnumerable<string>? ActionGroup { get; set; }
 
     /// <summary>
-    /// The list of Activity Log Alert rule conditions. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The list of Activity Log Alert rule conditions. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--all-of", GroupValues = true)]
     public IEnumerable<string>? AllOf { get; set; }
@@ -92,7 +92,7 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
-    /// The tags of the resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The tags of the resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -75,7 +75,7 @@ public record AzAdAppCreateOptions : AzOptions
     public string? AppRoles { get; set; }
 
     /// <summary>
-    /// Application developers can configure optional claims in their Microsoft Entra applications to specify the claims that are sent to their application by the Microsoft security token service. For more information, see https://learn.microsoft.com/azure/active- directory/develop/active-directory-optional-claims. Should be JSON file path or in-line JSON string. See examples for details.
+    /// Application developers can configure optional claims in their Microsoft Entra applications to specify the claims that are sent to their application by the Microsoft security token service. For more information, see https://learn.microsoft.com/azure/active-directory/develop/active-directory-optional-claims. Should be JSON file path or in-line JSON string. See examples for details.
     /// </summary>
     [CliOption("--optional-claims")]
     public string? OptionalClaims { get; set; }

@@ -128,7 +128,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
     public string? StorageAccountId { get; set; }
 
     /// <summary>
-    /// The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e 8510-67ab-4e9a-95a9- e2f1e570ea9c/resourceGroups/insights-integrat ion/providers/Microsoft.OperationalInsights/w orkspaces/viruela2.
+    /// The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e 8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integrat ion/providers/Microsoft.OperationalInsights/w orkspaces/viruela2.
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; set; }

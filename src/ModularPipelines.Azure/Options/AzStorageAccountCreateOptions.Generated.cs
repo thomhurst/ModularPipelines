@@ -146,13 +146,13 @@ public record AzStorageAccountCreateOptions : AzOptions
     public CliOptionValue? EnableSftp { get; set; }
 
     /// <summary>
-    /// Set the encryption key type for Queue service. "Account": Queue will be encrypted with account-scoped encryption key. "Service": Queue will always be encrypted with service- scoped keys. Currently the default encryption key type is "Service". Allowed values: Account, Service.
+    /// Set the encryption key type for Queue service. "Account": Queue will be encrypted with account-scoped encryption key. "Service": Queue will always be encrypted with service-scoped keys. Currently the default encryption key type is "Service". Allowed values: Account, Service.
     /// </summary>
     [CliOption("--encryption-key-type-for-queue", ShortForm = "-q")]
     public string? EncryptionKeyTypeForQueue { get; set; }
 
     /// <summary>
-    /// Set the encryption key type for Table service. "Account": Table will be encrypted with account-scoped encryption key. "Service": Table will always be encrypted with service- scoped keys. Currently the default encryption key type is "Service". Allowed values: Account, Service.
+    /// Set the encryption key type for Table service. "Account": Table will be encrypted with account-scoped encryption key. "Service": Table will always be encrypted with service-scoped keys. Currently the default encryption key type is "Service". Allowed values: Account, Service.
     /// </summary>
     [CliOption("--encryption-key-type-for-table", ShortForm = "-t")]
     public string? EncryptionKeyTypeForTable { get; set; }
@@ -260,7 +260,7 @@ public record AzStorageAccountCreateOptions : AzOptions
     public string? ImmutabilityPeriod { get; set; }
 
     /// <summary>
-    /// Defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allow- protected-append-write property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.  Allowed values: Disabled, Locked, Unlocked.
+    /// Defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allow-protected-append-write property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.  Allowed values: Disabled, Locked, Unlocked.
     /// </summary>
     [CliOption("--immutability-state")]
     public string? ImmutabilityState { get; set; }

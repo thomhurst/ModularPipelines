@@ -116,7 +116,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     public string? IpAddressType { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }

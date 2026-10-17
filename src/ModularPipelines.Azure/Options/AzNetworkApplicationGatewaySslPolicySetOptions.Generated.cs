@@ -56,7 +56,7 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// SSL cipher suites to be enabled in the specified order to application gateway. Values from `az network application- gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// SSL cipher suites to be enabled in the specified order to application gateway. Values from `az network application-gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--cipher-suites", GroupValues = true)]
     public IEnumerable<string>? CipherSuites { get; set; }
@@ -68,7 +68,7 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     public IEnumerable<string>? DisabledSslProtocols { get; set; }
 
     /// <summary>
-    /// Minimum version of SSL protocol to be supported on application gateway. Values from: `az network application-gateway ssl- policy list-options`.  Allowed values: TLSv1_0, TLSv1_1, TLSv1_2, TLSv1_3.
+    /// Minimum version of SSL protocol to be supported on application gateway. Values from: `az network application-gateway ssl-policy list-options`.  Allowed values: TLSv1_0, TLSv1_1, TLSv1_2, TLSv1_3.
     /// </summary>
     [CliOption("--min-protocol-version")]
     public string? MinProtocolVersion { get; set; }

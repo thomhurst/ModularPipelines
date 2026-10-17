@@ -72,7 +72,7 @@ public record AzVmHostGroupCreateOptions : AzOptions
     public CliOptionValue? AutomaticPlacement { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. Otherwise, location will default to the resource group's location.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. Otherwise, location will default to the resource group's location.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }

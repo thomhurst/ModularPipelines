@@ -27,7 +27,7 @@ public record AzNetworkApplicationGatewayUrlPathMapCreateOptions : AzOptions
     /// <param name="GatewayName">Name of the application gateway.</param>
     /// <param name="Name">Name of the URL path map.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Paths">Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzNetworkApplicationGatewayUrlPathMapCreateOptions(
         string GatewayName,
         string Name,
@@ -83,7 +83,7 @@ public record AzNetworkApplicationGatewayUrlPathMapCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of paths to associate with the rule. Valid paths start and end with "/", e.g, "/bar/".  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--paths", GroupValues = true)]
     public IEnumerable<string> Paths { get; private init; }

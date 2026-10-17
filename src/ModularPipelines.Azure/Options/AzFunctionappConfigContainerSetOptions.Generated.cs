@@ -65,7 +65,7 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     public string? DaprLogLevel { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`). WARNING: Option '--docker-custom-image-name' has been deprecated and will be removed in a future release. Use '--image' instead.
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). WARNING: Option '--docker-custom-image-name' has been deprecated and will be removed in a future release. Use '--image' instead.
     /// </summary>
     [CliOption("--docker-custom-image-name")]
     public string? DockerCustomImageName { get; set; }
@@ -96,7 +96,7 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     public CliOptionValue? EnableDapr { get; set; }
 
     /// <summary>
-    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image-name&gt;:&lt;tag&gt;`).
     /// </summary>
     [CliOption("--image", ShortForm = "-c")]
     public string? Image { get; set; }

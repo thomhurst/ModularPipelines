@@ -34,7 +34,7 @@ public record AzVmssUpdateOptions : AzOptions
     public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
-    /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
+    /// Specifies if Scheduled Events should be auto-approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
     [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AllInstanceDown { get; set; }
@@ -58,7 +58,7 @@ public record AzVmssUpdateOptions : AzOptions
     public string? CapacityReservationGroup { get; set; }
 
     /// <summary>
-    /// Custom init script file or text (cloud-init, cloud- config, etc..).
+    /// Custom init script file or text (cloud-init, cloud-config, etc..).
     /// </summary>
     [CliOption("--custom-data")]
     public string? CustomData { get; set; }
@@ -136,7 +136,7 @@ public record AzVmssUpdateOptions : AzOptions
     public CliOptionValue? EnableSecureBoot { get; set; }
 
     /// <summary>
-    /// Enable the Spot- Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
+    /// Enable the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-spot-restore", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableSpotRestore { get; set; }
@@ -220,7 +220,7 @@ public record AzVmssUpdateOptions : AzOptions
     public CliOptionValue? IsOverridable { get; set; }
 
     /// <summary>
-    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
+    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi-tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -322,13 +322,13 @@ public record AzVmssUpdateOptions : AzOptions
     public int? RegularPriorityPercentage { get; set; }
 
     /// <summary>
-    /// Specify the scale- in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
+    /// Specify the scale-in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
     /// </summary>
     [CliOption("--scale-in-policy", GroupValues = true)]
     public IEnumerable<string>? ScaleInPolicy { get; set; }
 
     /// <summary>
-    /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
+    /// Specifies the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
     [CliOption("--scheduled-events-api-version")]
     public string? ScheduledEventsApiVersion { get; set; }
@@ -358,7 +358,7 @@ public record AzVmssUpdateOptions : AzOptions
     public IEnumerable<string>? SkuprofileRank { get; set; }
 
     /// <summary>
-    /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
+    /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual-machines/ for size info.
     /// </summary>
     [CliOption("--skuprofile-vmsizes", GroupValues = true)]
     public IEnumerable<string>? SkuprofileVmsizes { get; set; }
@@ -400,13 +400,13 @@ public record AzVmssUpdateOptions : AzOptions
     public int? VCpusAvailable { get; set; }
 
     /// <summary>
-    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
+    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper-threading is disabled.
     /// </summary>
     [CliOption("--v-cpus-per-core")]
     public int? VCpusPerCore { get; set; }
 
     /// <summary>
-    /// The new size of the virtual machine instances in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info. WARNING: Argument '--vm-sku' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// The new size of the virtual machine instances in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual-machines/ for size info. WARNING: Argument '--vm-sku' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--vm-sku")]
     public string? VmSku { get; set; }
@@ -496,7 +496,7 @@ public record AzVmssUpdateOptions : AzOptions
     public CliOptionValue? ProtectFromScaleIn { get; set; }
 
     /// <summary>
-    /// Protect the VM instance from scale set actions (including scale- in).  Allowed values: false, true.
+    /// Protect the VM instance from scale set actions (including scale-in).  Allowed values: false, true.
     /// </summary>
     [CliOption("--protect-from-scale-set-actions", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? ProtectFromScaleSetActions { get; set; }

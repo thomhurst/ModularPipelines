@@ -27,7 +27,7 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     /// <param name="Name">Name of the Azure SQL Database.</param>
     /// <param name="PartnerServer">Name of the server to create the new replica in.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.</param>
+    /// <param name="Server">Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.</param>
     public AzSqlDbReplicaCreateOptions(
         string Name,
         string PartnerServer,
@@ -72,7 +72,7 @@ public record AzSqlDbReplicaCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string Server { get; private init; }

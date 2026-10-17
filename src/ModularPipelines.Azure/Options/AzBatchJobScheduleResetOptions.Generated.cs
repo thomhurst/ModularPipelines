@@ -70,7 +70,7 @@ public record AzBatchJobScheduleResetOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// A list of name-value pairs associated with the schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. Space- separated values in 'key=value' format.
+    /// A list of name-value pairs associated with the schedule as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. Space-separated values in 'key=value' format.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }
@@ -130,7 +130,7 @@ public record AzBatchJobScheduleResetOptions : AzOptions
     public IEnumerable<string>? JobManagerTaskApplicationPackageReferences { get; set; }
 
     /// <summary>
-    /// The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en- us/azure/batch/batch-compute-node- environment-variables). Required.
+    /// The command line of the Job Manager Task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file paths, it should use a relative path (relative to the Task working directory), or use the Batch provided environment variable (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables). Required.
     /// </summary>
     [CliOption("--job-manager-task-command-line")]
     public string? JobManagerTaskCommandLine { get; set; }

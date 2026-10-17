@@ -91,7 +91,7 @@ public record AzPolicySetDefinitionVersionCreateOptions : AzOptions
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The policy set definition parameter definitions.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The policy set definition parameter definitions.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--params", ShortForm = "-p", GroupValues = true)]
     public IEnumerable<string>? Params { get; set; }

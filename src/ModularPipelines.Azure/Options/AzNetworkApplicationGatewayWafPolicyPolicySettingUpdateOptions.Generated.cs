@@ -152,7 +152,7 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     public string? LogScrubbingState { get; set; }
 
     /// <summary>
-    /// The rules that are applied to the logs for scrubbing.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more. Singular flags: `--scrubbing-rule`.
+    /// The rules that are applied to the logs for scrubbing.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. Singular flags: `--scrubbing-rule`.
     /// </summary>
     [CliOption("--scrubbing-rule", GroupValues = true)]
     public IEnumerable<string>? ScrubbingRule { get; set; }

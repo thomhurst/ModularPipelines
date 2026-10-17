@@ -102,7 +102,7 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     public int? DataDiskSize { get; set; }
 
     /// <summary>
-    /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual- machines/disks-types. Default: StandardSSD_LRS. Standard_LRS: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. StandardSSD_LRS: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev/test. Premium_LRS: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS.
+    /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual-machines/disks-types. Default: StandardSSD_LRS. Standard_LRS: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. StandardSSD_LRS: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev/test. Premium_LRS: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS.
     /// </summary>
     [CliOption("--data-disk-type")]
     public string? DataDiskType { get; set; }

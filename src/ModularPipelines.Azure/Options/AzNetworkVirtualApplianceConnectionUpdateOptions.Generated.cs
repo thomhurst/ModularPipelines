@@ -52,7 +52,7 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The list of labels.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of labels.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }

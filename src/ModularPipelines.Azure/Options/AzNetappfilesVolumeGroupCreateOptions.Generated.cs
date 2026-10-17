@@ -67,7 +67,7 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -301,7 +301,7 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     public string? Memory { get; set; }
 
     /// <summary>
-    /// Total Number of system (SAP- HANA) host in this deployment (currently max 3 nodes can be configured). Default: 1.
+    /// Total Number of system (SAP-HANA) host in this deployment (currently max 3 nodes can be configured). Default: 1.
     /// </summary>
     [CliOption("--number-of-hosts")]
     public string? NumberOfHosts { get; set; }

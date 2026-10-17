@@ -121,7 +121,7 @@ public record AzNetworkApplicationGatewaySslProfileUpdateOptions : AzOptions
     public IEnumerable<string>? CipherSuites { get; set; }
 
     /// <summary>
-    /// Space-separated list of protocols to disable.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of protocols to disable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--disabled-protocols", GroupValues = true)]
     public IEnumerable<string>? DisabledProtocols { get; set; }

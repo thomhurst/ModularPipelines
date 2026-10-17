@@ -74,7 +74,7 @@ public record AzStorageShareRmCreateOptions : AzOptions
     public string? EnabledProtocols { get; set; }
 
     /// <summary>
-    /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }

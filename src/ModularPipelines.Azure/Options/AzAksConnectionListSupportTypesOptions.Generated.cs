@@ -21,7 +21,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAksConnectionListSupportTypesOptions : AzOptions
 {
     /// <summary>
-    /// The target resource type.  Allowed values: app-insights, appconfig, cognitiveservices, confluent-cloud, cosmos-cassandra, cosmos-gremlin, cosmos-mongo, cosmos-sql, cosmos-table, eventhub, keyvault, mongodb- atlas, mysql, mysql-flexible, neon-postgres, postgres, postgres- flexible, redis, redis-enterprise, servicebus, signalr, sql, storage- blob, storage-file, storage-queue, storage-table, webpubsub.
+    /// The target resource type.  Allowed values: app-insights, appconfig, cognitiveservices, confluent-cloud, cosmos-cassandra, cosmos-gremlin, cosmos-mongo, cosmos-sql, cosmos-table, eventhub, keyvault, mongodb-atlas, mysql, mysql-flexible, neon-postgres, postgres, postgres-flexible, redis, redis-enterprise, servicebus, signalr, sql, storage-blob, storage-file, storage-queue, storage-table, webpubsub.
     /// </summary>
     [CliOption("--target-type", ShortForm = "-t")]
     public string? TargetType { get; set; }

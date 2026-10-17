@@ -90,7 +90,7 @@ public record AzNetworkDnsRecordSetCnameCreateOptions : AzOptions
     public string? TmProfile { get; set; }
 
     /// <summary>
-    /// The metadata attached to the record set.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }

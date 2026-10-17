@@ -158,7 +158,7 @@ public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// FlowLog resource Managed Identity  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// FlowLog resource Managed Identity  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--identity", GroupValues = true)]
     public IEnumerable<string>? Identity { get; set; }
@@ -170,7 +170,7 @@ public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
     public string? FilteringCriteria { get; set; }
 
     /// <summary>
-    /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five- minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
+    /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five-minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
     /// </summary>
     [CliOption("--record-types")]
     public string? RecordTypes { get; set; }

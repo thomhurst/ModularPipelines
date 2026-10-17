@@ -25,9 +25,9 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// </summary>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="ServiceName">The name of the API Management service instance.</param>
-    /// <param name="ApiId">Unique name of the api for which schema needs to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.</param>
+    /// <param name="ApiId">Unique name of the api for which schema needs to be created. API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.</param>
     /// <param name="SchemaId">Unique name of the api schema to be created. Schema identifier. Must be unique in the current API Management service instance.</param>
-    /// <param name="SchemaType">Schema type  (e.g. application/json, application/vnd.ms-azure- apim.graphql.schema). Must be a valid media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document.</param>
+    /// <param name="SchemaType">Schema type  (e.g. application/json, application/vnd.ms-azure-apim.graphql.schema). Must be a valid media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document.</param>
     public AzApimApiSchemaCreateOptions(
         string ResourceGroup,
         string ServiceName,
@@ -70,7 +70,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     public string ServiceName { get; private init; }
 
     /// <summary>
-    /// Unique name of the api for which schema needs to be created. API revision identifier. Must be unique in the current API Management service instance. Non- current revision has ;rev=n as a suffix where n is the revision number.
+    /// Unique name of the api for which schema needs to be created. API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
     /// </summary>
     [CliOption("--api-id")]
     public string ApiId { get; private init; }
@@ -82,7 +82,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     public string SchemaId { get; private init; }
 
     /// <summary>
-    /// Schema type  (e.g. application/json, application/vnd.ms-azure- apim.graphql.schema). Must be a valid media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document.
+    /// Schema type  (e.g. application/json, application/vnd.ms-azure-apim.graphql.schema). Must be a valid media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document.
     /// </summary>
     [CliOption("--schema-type")]
     public string SchemaType { get; private init; }

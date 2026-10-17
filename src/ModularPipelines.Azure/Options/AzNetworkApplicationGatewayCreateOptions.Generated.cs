@@ -202,7 +202,7 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// The certificate name. Default will be `&lt;application- gateway-name&gt;SslCert`.
+    /// The certificate name. Default will be `&lt;application-gateway-name&gt;SslCert`.
     /// </summary>
     [CliOption("--ssl-certificate-name")]
     public string? SslCertificateName { get; set; }
@@ -298,7 +298,7 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     public string? PrivateLinkSubnetPrefix { get; set; }
 
     /// <summary>
-    /// The application gateway ssl profiles. Usage: --ssl-profile name=MySslProfile client-auth-configuration=True cipher- suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 policy-type=Custom min-protocol-version=TLSv1_0
+    /// The application gateway ssl profiles. Usage: --ssl-profile name=MySslProfile client-auth-configuration=True cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 policy-type=Custom min-protocol-version=TLSv1_0
     /// </summary>
     [CliOption("--ssl-profile", GroupValues = true)]
     public IEnumerable<CliValueGroup>? SslProfile { get; set; }

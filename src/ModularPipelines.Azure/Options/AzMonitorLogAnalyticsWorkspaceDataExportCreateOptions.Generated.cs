@@ -28,7 +28,7 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="WorkspaceName">The name of the workspace.</param>
     /// <param name="Destination">The destination resource ID. It should be a storage account, an event hub namespace. If event hub namespace is provided without --event-hub-name, event hub would be created for each table automatically.</param>
-    /// <param name="Tables">An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Tables">An array of tables to export.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions(
         string DataExportName,
         string ResourceGroup,
@@ -94,7 +94,7 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions : AzOptions
     public string Destination { get; private init; }
 
     /// <summary>
-    /// An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// An array of tables to export.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tables", ShortForm = "-t", GroupValues = true)]
     public IEnumerable<string> Tables { get; private init; }

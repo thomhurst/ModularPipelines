@@ -28,7 +28,7 @@ public record AzNetworkPublicIpPrefixUpdateOptions : AzOptions
     public string? FirstPartyServiceTagId { get; set; }
 
     /// <summary>
-    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ip-tags", GroupValues = true)]
     public IEnumerable<string>? IpTags { get; set; }

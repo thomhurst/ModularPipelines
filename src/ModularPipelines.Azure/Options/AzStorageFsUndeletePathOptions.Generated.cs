@@ -25,7 +25,7 @@ public record AzStorageFsUndeletePathOptions : AzOptions
     /// Restore soft-deleted path.
     /// </summary>
     /// <param name="DeletedPathName">Specifies the path (file or directory) to restore.</param>
-    /// <param name="DeletionId">Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.</param>
+    /// <param name="DeletionId">Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.</param>
     /// <param name="FileSystem">File system name.</param>
     public AzStorageFsUndeletePathOptions(
         string DeletedPathName,
@@ -55,7 +55,7 @@ public record AzStorageFsUndeletePathOptions : AzOptions
     public string DeletedPathName { get; private init; }
 
     /// <summary>
-    /// Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting- timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for- python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.
+    /// Specifies the version of the deleted path to restore. :keyword int timeout: Sets the server-side timeout for the operation in seconds. For more details see https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations. This value is not tracked or validated on the client. To configure client-side network timesouts see `here &lt;https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/storage/azure-storage-file-datalake #other-client--per-operation-configuration&gt;`_.
     /// </summary>
     [CliOption("--deletion-id")]
     public string DeletionId { get; private init; }

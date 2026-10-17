@@ -25,10 +25,10 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions : AzO
     /// Add a test configuration to a
     /// </summary>
     /// <param name="ConnectionMonitor">Connection monitor name.</param>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     /// <param name="Name">The name of the connection monitor test configuration.</param>
     /// <param name="Protocol">The protocol to use in test evaluation. Allowed values: Http, Icmp, Tcp.  Allowed values: Http, Icmp, Tcp.</param>
-    /// <param name="TestGroups">Space-separated list of names of test group which only need to be affected if specified. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="TestGroups">Space-separated list of names of test group which only need to be affected if specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions(
         string ConnectionMonitor,
         string Location,
@@ -76,7 +76,7 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions : AzO
     public string ConnectionMonitor { get; private init; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }
@@ -94,7 +94,7 @@ public record AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions : AzO
     public string Protocol { get; private init; }
 
     /// <summary>
-    /// Space-separated list of names of test group which only need to be affected if specified. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of names of test group which only need to be affected if specified. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--test-groups", GroupValues = true)]
     public IEnumerable<string> TestGroups { get; private init; }

@@ -28,7 +28,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <param name="ActionOnUnmanage">Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.</param>
     /// <param name="DenySettingsMode">Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.</param>
     /// <param name="Name">The name of the deployment stack what-if result.</param>
-    /// <param name="ResourceGroup">The resource group where the deployment stack what- if result will be created.</param>
+    /// <param name="ResourceGroup">The resource group where the deployment stack what-if result will be created.</param>
     /// <param name="RetentionInterval">The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.</param>
     /// <param name="StackId">The fully-qualified ID of the deployment stack to perform a what-if operation on.</param>
     public AzStackWhatifGroupCreateOptions(
@@ -83,7 +83,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
-    /// The resource group where the deployment stack what- if result will be created.
+    /// The resource group where the deployment stack what-if result will be created.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string ResourceGroup { get; private init; }

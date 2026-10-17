@@ -74,7 +74,7 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     public string? FirstPartyServiceTagId { get; set; }
 
     /// <summary>
-    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ip-tags", GroupValues = true)]
     public IEnumerable<string>? IpTags { get; set; }
@@ -98,7 +98,7 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

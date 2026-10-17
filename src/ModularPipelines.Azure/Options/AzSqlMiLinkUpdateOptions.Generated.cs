@@ -22,13 +22,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzSqlMiLinkUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Databases in the distributed availability group. This property can be updated only for links in MultiDatabase mode.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// Databases in the distributed availability group. This property can be updated only for links in MultiDatabase mode.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--databases", GroupValues = true)]
     public IEnumerable<string>? Databases { get; set; }

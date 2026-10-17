@@ -24,7 +24,7 @@ public record AzNetworkWatcherConnectionMonitorShowOptions : AzOptions
     /// Shows a connection monitor by name.
     /// </summary>
     /// <param name="ConnectionMonitorName">Connection monitor name.</param>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     public AzNetworkWatcherConnectionMonitorShowOptions(
         string ConnectionMonitorName,
         string Location
@@ -49,7 +49,7 @@ public record AzNetworkWatcherConnectionMonitorShowOptions : AzOptions
     public string ConnectionMonitorName { get; private init; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

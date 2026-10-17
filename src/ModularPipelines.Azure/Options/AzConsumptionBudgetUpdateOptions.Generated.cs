@@ -82,7 +82,7 @@ public record AzConsumptionBudgetUpdateOptions : AzOptions
     public string? TimeGrain { get; set; }
 
     /// <summary>
-    /// Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than three months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--time-period", GroupValues = true)]
     public IEnumerable<string>? TimePeriod { get; set; }

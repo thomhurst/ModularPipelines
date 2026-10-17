@@ -23,7 +23,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
     /// <summary>
     /// Creates an availability group listener.
     /// </summary>
-    /// <param name="AgName">Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.</param>
+    /// <param name="AgName">Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability-groups/windows/use-the-availability-group-wizard-sql-server-management-studio?view=sql-server-2017 to create and availability group.</param>
     /// <param name="GroupName">Name of the SQL virtual machine group.</param>
     /// <param name="Name">Name of the availability group listener.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
@@ -88,7 +88,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
     }
 
     /// <summary>
-    /// Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability- groups/windows/use-the-availability-group-wizard-sql-server- management-studio?view=sql-server-2017 to create and availability group.
+    /// Name of the availability group. Please refer to https://learn.microsoft.com/sql/database-engine/availability-groups/windows/use-the-availability-group-wizard-sql-server-management-studio?view=sql-server-2017 to create and availability group.
     /// </summary>
     [CliOption("--ag-name", ShortForm = "-a")]
     public string AgName { get; private init; }

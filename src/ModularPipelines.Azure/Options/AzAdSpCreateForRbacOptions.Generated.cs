@@ -40,7 +40,7 @@ public record AzAdSpCreateForRbacOptions : AzOptions
     public string? Role { get; set; }
 
     /// <summary>
-    /// Space-separated list of scopes the service principal's role assignment applies to. e.g., subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Co mpute/virtualMachines/myVM.
+    /// Space-separated list of scopes the service principal's role assignment applies to. e.g., subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup, /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup/providers/Microsoft.Co mpute/virtualMachines/myVM.
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }

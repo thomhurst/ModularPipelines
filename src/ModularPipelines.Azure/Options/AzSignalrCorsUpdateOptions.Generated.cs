@@ -24,7 +24,7 @@ public record AzSignalrCorsUpdateOptions : AzOptions
     /// <summary>
     /// Update allowed origins to a SignalR Service.
     /// </summary>
-    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".</param>
+    /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*".</param>
     public AzSignalrCorsUpdateOptions(
         IEnumerable<CliOptionValue> AllowedOrigins
     )
@@ -50,7 +50,7 @@ public record AzSignalrCorsUpdateOptions : AzOptions
     }
 
     /// <summary>
-    /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
+    /// Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
     [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue> AllowedOrigins { get; private init; }

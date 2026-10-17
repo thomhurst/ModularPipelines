@@ -100,7 +100,7 @@ public record AzMonitorLogAnalyticsQueryPackQueryCreateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The related categories for the function.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The related categories for the function.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--categories", GroupValues = true)]
     public IEnumerable<string>? Categories { get; set; }

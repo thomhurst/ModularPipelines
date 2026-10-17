@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzRelayNamespaceAuthorizationRuleUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rights", GroupValues = true)]
     public IEnumerable<string>? Rights { get; set; }

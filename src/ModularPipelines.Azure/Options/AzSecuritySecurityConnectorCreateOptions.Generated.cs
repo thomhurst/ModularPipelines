@@ -55,7 +55,7 @@ public record AzSecuritySecurityConnectorCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// The security connector environment data. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The security connector environment data. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--environment-data", GroupValues = true)]
     public IEnumerable<string>? EnvironmentData { get; set; }

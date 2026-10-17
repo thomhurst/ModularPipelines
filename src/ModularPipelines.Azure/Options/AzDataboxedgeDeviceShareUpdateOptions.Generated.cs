@@ -58,7 +58,7 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     public string? AccessProtocol { get; set; }
 
     /// <summary>
-    /// Azure container mapping for the share.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Azure container mapping for the share.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-container-info", GroupValues = true)]
     public IEnumerable<string>? AzureContainerInfo { get; set; }

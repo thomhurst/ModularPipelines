@@ -45,7 +45,7 @@ public record AzAppConfigIdentityRemoveOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
-    /// Accept system-assigned or user-assigned managed identities separated by spaces. Use '[system]' to refer to system-assigned managed identity, '[all]' for all managed identities or a resource ID to refer user- assigned managed identity. If this argument is not provided or this argument is provided without any value, system-assigned managed identity will be removed by default.
+    /// Accept system-assigned or user-assigned managed identities separated by spaces. Use '[system]' to refer to system-assigned managed identity, '[all]' for all managed identities or a resource ID to refer user-assigned managed identity. If this argument is not provided or this argument is provided without any value, system-assigned managed identity will be removed by default.
     /// </summary>
     [CliOption("--identities", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Identities { get; set; }

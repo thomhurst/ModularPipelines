@@ -47,7 +47,7 @@ public record AzAcrManifestShowOptions : AzOptions
     public string? Registry { get; set; }
 
     /// <summary>
-    /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
+    /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry-tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
     /// </summary>
     [CliOption("--suffix")]
     public string? Suffix { get; set; }
@@ -65,7 +65,7 @@ public record AzAcrManifestShowOptions : AzOptions
     public string? Subscription { get; set; }
 
     /// <summary>
-    /// A fully qualified manifest specifier such as 'myregistry.azurecr.io/hello- world:latest'.
+    /// A fully qualified manifest specifier such as 'myregistry.azurecr.io/hello-world:latest'.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ManifestId { get; set; }

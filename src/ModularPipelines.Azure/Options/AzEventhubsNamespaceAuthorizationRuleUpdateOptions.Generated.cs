@@ -46,7 +46,7 @@ public record AzEventhubsNamespaceAuthorizationRuleUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The rights associated with the rule.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rights", GroupValues = true)]
     public IEnumerable<string>? Rights { get; set; }

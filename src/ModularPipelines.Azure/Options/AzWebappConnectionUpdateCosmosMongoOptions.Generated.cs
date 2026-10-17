@@ -29,7 +29,7 @@ public record AzWebappConnectionUpdateCosmosMongoOptions : AzOptions
     public string? AppConfigId { get; set; }
 
     /// <summary>
-    /// The client type used on the webapp.  Allowed values: dotnet, dotnet- internal, go, java, nodejs, none, springBoot.
+    /// The client type used on the webapp.  Allowed values: dotnet, dotnet-internal, go, java, nodejs, none, springBoot.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

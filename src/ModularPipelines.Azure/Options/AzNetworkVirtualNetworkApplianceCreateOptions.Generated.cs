@@ -68,7 +68,7 @@ public record AzNetworkVirtualNetworkApplianceCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Resource tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

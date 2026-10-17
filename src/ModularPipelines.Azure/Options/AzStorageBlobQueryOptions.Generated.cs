@@ -24,7 +24,7 @@ public record AzStorageBlobQueryOptions : AzOptions
     /// <summary>
     /// Enable users to select/project on blob or blob snapshot data by
     /// </summary>
-    /// <param name="QueryExpression">The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see https://learn.microsoft.com/azure/storage/blobs/query- acceleration-sql-reference.</param>
+    /// <param name="QueryExpression">The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see https://learn.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference.</param>
     public AzStorageBlobQueryOptions(
         string QueryExpression
     )
@@ -39,7 +39,7 @@ public record AzStorageBlobQueryOptions : AzOptions
     }
 
     /// <summary>
-    /// The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see https://learn.microsoft.com/azure/storage/blobs/query- acceleration-sql-reference.
+    /// The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see https://learn.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference.
     /// </summary>
     [CliOption("--query-expression")]
     public string QueryExpression { get; private init; }

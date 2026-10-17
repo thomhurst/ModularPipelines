@@ -140,7 +140,7 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Specify a single public IP (name or ID) for an active-standby gateway. Specify two space- separated public IPs for an active-active gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Specify a single public IP (name or ID) for an active-standby gateway. Specify two space-separated public IPs for an active-active gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--public-ip-address", GroupValues = true)]
     public IEnumerable<string>? PublicIpAddress { get; set; }
@@ -158,13 +158,13 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// VPN authentication types enabled for the virtual network gateway. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// VPN authentication types enabled for the virtual network gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--vpn-auth-type", GroupValues = true)]
     public IEnumerable<string>? VpnAuthType { get; set; }
@@ -224,13 +224,13 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Set the user managed identities. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Set the user managed identities. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
-    /// VirtualNetworkGatewayNatRule Resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--nat-rule`.
+    /// VirtualNetworkGatewayNatRule Resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--nat-rule`.
     /// </summary>
     [CliOption("--nat-rule", GroupValues = true)]
     public IEnumerable<string>? NatRule { get; set; }
@@ -248,7 +248,7 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     public string? RootCertName { get; set; }
 
     /// <summary>
-    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Singular flags: `--address-prefix`.
+    /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--address-prefix`.
     /// </summary>
     [CliOption("--address-prefix", GroupValues = true)]
     public IEnumerable<string>? AddressPrefix { get; set; }
@@ -260,7 +260,7 @@ public record AzNetworkVnetGatewayCreateOptions : AzOptions
     public IEnumerable<string>? ClientProtocol { get; set; }
 
     /// <summary>
-    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--custom-routes", GroupValues = true)]
     public IEnumerable<string>? CustomRoutes { get; set; }

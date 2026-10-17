@@ -24,7 +24,7 @@ public record AzKeyvaultEkmConnectionCreateOptions : AzOptions
     /// Create the EKM connection.
     /// </summary>
     /// <param name="Host">EKM proxy host (FQDN or FQDN:port). If port is omitted, 443 is assumed.</param>
-    /// <param name="ServerCaCertificate">Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space- separated file paths (each PEM or DER).</param>
+    /// <param name="ServerCaCertificate">Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space-separated file paths (each PEM or DER).</param>
     public AzKeyvaultEkmConnectionCreateOptions(
         string Host,
         IEnumerable<string> ServerCaCertificate
@@ -60,7 +60,7 @@ public record AzKeyvaultEkmConnectionCreateOptions : AzOptions
     public string Host { get; private init; }
 
     /// <summary>
-    /// Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space- separated file paths (each PEM or DER).
+    /// Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space-separated file paths (each PEM or DER).
     /// </summary>
     [CliOption("--server-ca-certificate", GroupValues = true)]
     public IEnumerable<string> ServerCaCertificate { get; private init; }

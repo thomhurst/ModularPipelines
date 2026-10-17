@@ -90,7 +90,7 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     public CliOptionValue? BlockDeleteBeforeEol { get; set; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish.
+    /// Do not wait for the long-running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
@@ -102,13 +102,13 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     public int? ReplicaCount { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
+    /// Space-separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
     [CliOption("--target-edge-zones", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? TargetEdgeZones { get; set; }
 
     /// <summary>
-    /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
+    /// Space-separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
     [CliOption("--target-regions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? TargetRegions { get; set; }

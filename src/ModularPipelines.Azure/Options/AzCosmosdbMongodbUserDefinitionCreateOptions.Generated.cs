@@ -24,7 +24,7 @@ public record AzCosmosdbMongodbUserDefinitionCreateOptions : AzOptions
     /// Create a Mongo DB user definition under an Azure
     /// </summary>
     /// <param name="AccountName">Cosmosdb account name.</param>
-    /// <param name="Body">User Definition body with Id (Optional for create), UserName, Password, DatabaseName, CustomData, Mechanisms, Roles.  You can enter it as a string or as a file, e.g., --body @mongo- user_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"UserName\": \"MyUserName\",\"Password\": \"MyPass\",\"CustomData\": \"MyCustomData\",\"Mechanisms\": \"SCRAM- SHA-256\"\"DatabaseName\": \"MyDb\",\"Roles\": [ {\"Role\": \"myReadRole\",\"Db\": \"MyDb\"}]}".</param>
+    /// <param name="Body">User Definition body with Id (Optional for create), UserName, Password, DatabaseName, CustomData, Mechanisms, Roles.  You can enter it as a string or as a file, e.g., --body @mongo-user_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"UserName\": \"MyUserName\",\"Password\": \"MyPass\",\"CustomData\": \"MyCustomData\",\"Mechanisms\": \"SCRAM-SHA-256\"\"DatabaseName\": \"MyDb\",\"Roles\": [ {\"Role\": \"myReadRole\",\"Db\": \"MyDb\"}]}".</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzCosmosdbMongodbUserDefinitionCreateOptions(
         string AccountName,
@@ -54,7 +54,7 @@ public record AzCosmosdbMongodbUserDefinitionCreateOptions : AzOptions
     public string AccountName { get; private init; }
 
     /// <summary>
-    /// User Definition body with Id (Optional for create), UserName, Password, DatabaseName, CustomData, Mechanisms, Roles.  You can enter it as a string or as a file, e.g., --body @mongo- user_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"UserName\": \"MyUserName\",\"Password\": \"MyPass\",\"CustomData\": \"MyCustomData\",\"Mechanisms\": \"SCRAM- SHA-256\"\"DatabaseName\": \"MyDb\",\"Roles\": [ {\"Role\": \"myReadRole\",\"Db\": \"MyDb\"}]}".
+    /// User Definition body with Id (Optional for create), UserName, Password, DatabaseName, CustomData, Mechanisms, Roles.  You can enter it as a string or as a file, e.g., --body @mongo-user_definition-body-file.json or --body "{\"Id\": \"be79875a-2cc4-40d5-8958-566017875b39\",\"UserName\": \"MyUserName\",\"Password\": \"MyPass\",\"CustomData\": \"MyCustomData\",\"Mechanisms\": \"SCRAM-SHA-256\"\"DatabaseName\": \"MyDb\",\"Roles\": [ {\"Role\": \"myReadRole\",\"Db\": \"MyDb\"}]}".
     /// </summary>
     [CliOption("--body", ShortForm = "-b")]
     public string Body { get; private init; }

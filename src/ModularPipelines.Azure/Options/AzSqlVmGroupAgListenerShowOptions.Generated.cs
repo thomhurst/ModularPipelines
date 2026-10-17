@@ -44,7 +44,7 @@ public record AzSqlVmGroupAgListenerShowOptions : AzOptions
     public string GroupName { get; private init; }
 
     /// <summary>
-    /// Get the SQLIaaSExtension configuration settings. To view all settings, use *. To select only a few, the settings must be space- separated.  Allowed values: *, AssessmentSettings, AutoBackupSettings, AutoPatchingSettings, KeyVaultCredentialSettings, ServerConfigurationsManagementSettings.
+    /// Get the SQLIaaSExtension configuration settings. To view all settings, use *. To select only a few, the settings must be space-separated.  Allowed values: *, AssessmentSettings, AutoBackupSettings, AutoPatchingSettings, KeyVaultCredentialSettings, ServerConfigurationsManagementSettings.
     /// </summary>
     [CliOption("--expand", GroupValues = true)]
     public IEnumerable<string>? Expand { get; set; }

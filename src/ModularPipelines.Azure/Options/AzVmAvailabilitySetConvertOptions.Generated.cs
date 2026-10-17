@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzVmAvailabilitySetConvertOptions : AzOptions
 {
     /// <summary>
-    /// Specify if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AllInstanceDown { get; set; }

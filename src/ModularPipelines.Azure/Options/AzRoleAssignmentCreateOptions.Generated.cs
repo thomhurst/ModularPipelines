@@ -24,7 +24,7 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     /// Create a new role assignment for a user, group, or service
     /// </summary>
     /// <param name="Role">Role name or id.</param>
-    /// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.</param>
+    /// <param name="Scope">Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.</param>
     public AzRoleAssignmentCreateOptions(
         string Role,
         string Scope
@@ -49,7 +49,7 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     public string Role { get; private init; }
 
     /// <summary>
-    /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.
+    /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/ virtualMachines/myVM.
     /// </summary>
     [CliOption("--scope")]
     public string Scope { get; private init; }

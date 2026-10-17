@@ -128,7 +128,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     public string? PeVnetPolicies { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -146,7 +146,7 @@ public record AzNetworkVnetCreateOptions : AzOptions
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
-    /// A configurable list of summarized gateway prefixes advertised for the virtual network.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more. WARNING: Argument '--summarized-gateway-prefixes' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// A configurable list of summarized gateway prefixes advertised for the virtual network.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--summarized-gateway-prefixes' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--sgp", GroupValues = true)]
     public IEnumerable<string>? Sgp { get; set; }
@@ -164,13 +164,13 @@ public record AzNetworkVnetCreateOptions : AzOptions
     public string? SubnetName { get; set; }
 
     /// <summary>
-    /// Space-separated list of address prefixes in CIDR format for the new subnet. If omitted, automatically reserves a /24 (or as large as available) block within the VNet address space.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of address prefixes in CIDR format for the new subnet. If omitted, automatically reserves a /24 (or as large as available) block within the VNet address space.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--subnet-prefixes", GroupValues = true)]
     public IEnumerable<string>? SubnetPrefixes { get; set; }
 
     /// <summary>
-    /// Manage a list of subnets in a Virtual Network (similar to `az network vnet subnet`).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Manage a list of subnets in a Virtual Network (similar to `az network vnet subnet`).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }

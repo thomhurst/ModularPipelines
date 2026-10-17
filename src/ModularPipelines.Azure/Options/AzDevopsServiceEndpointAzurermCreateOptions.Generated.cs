@@ -89,7 +89,7 @@ public record AzDevopsServiceEndpointAzurermCreateOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
-    /// Path to (.pem) which is certificate. Create using command "openssl pkcs12 -in file.pfx -out file.pem -nodes -password pass:password_here". More details : https://aka.ms/azure-devops-cli- azurerm-service-endpoint.
+    /// Path to (.pem) which is certificate. Create using command "openssl pkcs12 -in file.pfx -out file.pem -nodes -password pass:password_here". More details : https://aka.ms/azure-devops-cli-azurerm-service-endpoint.
     /// </summary>
     [CliOption("--azure-rm-service-principal-certificate-path")]
     public string? AzureRmServicePrincipalCertificatePath { get; set; }

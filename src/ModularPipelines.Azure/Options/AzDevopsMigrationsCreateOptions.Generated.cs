@@ -70,7 +70,7 @@ public record AzDevopsMigrationsCreateOptions : AzOptions
     public string? RepositoryId { get; set; }
 
     /// <summary>
-    /// Validation policies to skip. Accepts either a comma-separated list of policy names (for example, AgentPoolExists,MaxFileSize) or a non- negative integer bitmask. Supported policy names (case-insensitive): None, ActivePullRequestCount, PullRequestDeltaSize, AgentPoolExists, MaxFileSize, MaxPullRequestSize, MaxPushPackSize, MaxReferenceNameLength, TargetRepositoryDoesNotExist, SourceRepositoryContainsLfsObjects, SourceRepositoryNotReadOnly, BoardsGitHubConnectionProvisioning, All.
+    /// Validation policies to skip. Accepts either a comma-separated list of policy names (for example, AgentPoolExists,MaxFileSize) or a non-negative integer bitmask. Supported policy names (case-insensitive): None, ActivePullRequestCount, PullRequestDeltaSize, AgentPoolExists, MaxFileSize, MaxPullRequestSize, MaxPushPackSize, MaxReferenceNameLength, TargetRepositoryDoesNotExist, SourceRepositoryContainsLfsObjects, SourceRepositoryNotReadOnly, BoardsGitHubConnectionProvisioning, All.
     /// </summary>
     [CliOption("--skip-validation")]
     public string? SkipValidation { get; set; }
@@ -88,7 +88,7 @@ public record AzDevopsMigrationsCreateOptions : AzOptions
     public string? TargetRepository { get; set; }
 
     /// <summary>
-    /// Create in validate-only mode (pre- migration checks only).
+    /// Create in validate-only mode (pre-migration checks only).
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

@@ -87,7 +87,7 @@ public record AzFunctionappDeploymentGithubActionsAddOptions : AzOptions
     public bool? LoginWithGithub { get; set; }
 
     /// <summary>
-    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the-command-line.
+    /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line.
     /// </summary>
     [SecretValue]
     [CliOption("--token")]

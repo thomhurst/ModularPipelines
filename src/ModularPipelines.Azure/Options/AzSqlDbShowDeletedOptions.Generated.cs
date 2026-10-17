@@ -69,7 +69,7 @@ public record AzSqlDbShowDeletedOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--server", ShortForm = "-s")]
     public string? Server { get; set; }

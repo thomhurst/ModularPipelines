@@ -64,7 +64,7 @@ public record AzBatchNodeListOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata- filters-in-batch.
+    /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch.
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }

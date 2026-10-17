@@ -51,7 +51,7 @@ public record AzSynapseKustoAttachedDatabaseConfigurationUpdateOptions : AzOptio
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Table level sharing specifications. Usage: --table-level-sharing-properties tables-to-include=XX tables-to-exclude=XX external- tables-to-include=XX external-tables-to-exclude=XX materialized-views-to-include=XX materialized-views-to-exclude=XX
+    /// Table level sharing specifications. Usage: --table-level-sharing-properties tables-to-include=XX tables-to-exclude=XX external-tables-to-include=XX external-tables-to-exclude=XX materialized-views-to-include=XX materialized-views-to-exclude=XX
     /// </summary>
     [CliOption("--table-level-sharing-properties", GroupValues = true)]
     public IEnumerable<string>? TableLevelSharingProperties { get; set; }

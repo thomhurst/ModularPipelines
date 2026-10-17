@@ -34,7 +34,7 @@ public record AzSigShareAddOptions : AzOptions
     public IEnumerable<string>? SubscriptionIds { get; set; }
 
     /// <summary>
-    /// A list of tenant ids to share the gallery with.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// A list of tenant ids to share the gallery with.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tenant-ids", GroupValues = true)]
     public IEnumerable<string>? TenantIds { get; set; }

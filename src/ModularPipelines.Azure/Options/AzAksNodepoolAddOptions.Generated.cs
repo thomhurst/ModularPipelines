@@ -373,7 +373,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places. Default: nan.
+    /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. It can only include up to 5 decimal places. Default: nan.
     /// </summary>
     [CliOption("--spot-max-price")]
     public string? SpotMaxPrice { get; set; }

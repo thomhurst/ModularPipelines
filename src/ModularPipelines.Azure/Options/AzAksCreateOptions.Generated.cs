@@ -484,7 +484,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableImageCleaner { get; set; }
 
     /// <summary>
-    /// Enable KEDA workload auto- scaler.
+    /// Enable KEDA workload auto-scaler.
     /// </summary>
     [CliFlag("--enable-keda")]
     public bool? EnableKeda { get; set; }
@@ -700,19 +700,19 @@ public record AzAksCreateOptions : AzOptions
     public string? K8sSupportPlan { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-annotations-allow-list")]
     public string? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-labels-allow-list")]
     public string? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node- config.
+    /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--kubelet-config")]
     public string? KubeletConfig { get; set; }
@@ -724,7 +724,7 @@ public record AzAksCreateOptions : AzOptions
     public string? KubernetesVersion { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node- config.
+    /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
     /// </summary>
     [CliOption("--linux-os-config")]
     public string? LinuxOsConfig { get; set; }
@@ -844,7 +844,7 @@ public record AzAksCreateOptions : AzOptions
     public string? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use.  Allowed values: azure, kubenet, none. Specify "azure" for highly scalable networking, "kubenet" for IP assignment from subnet NAT- based routing, or "none" for no networking configured. Defaults to "azure".
+    /// The Kubernetes network plugin to use.  Allowed values: azure, kubenet, none. Specify "azure" for highly scalable networking, "kubenet" for IP assignment from subnet NAT-based routing, or "none" for no networking configured. Defaults to "azure".
     /// </summary>
     [CliOption("--network-plugin")]
     public string? NetworkPlugin { get; set; }
@@ -952,13 +952,13 @@ public record AzAksCreateOptions : AzOptions
     public IEnumerable<string>? NodepoolAllowedHostPorts { get; set; }
 
     /// <summary>
-    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space- separated list of IDs.
+    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of IDs.
     /// </summary>
     [CliOption("--nodepool-asg-ids", GroupValues = true)]
     public IEnumerable<string>? NodepoolAsgIds { get; set; }
 
     /// <summary>
-    /// The node labels for all node pool. See https://aka.ms/node- labels for syntax of labels.
+    /// The node labels for all node pool. See https://aka.ms/node-labels for syntax of labels.
     /// </summary>
     [CliOption("--nodepool-labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? NodepoolLabels { get; set; }
@@ -1072,7 +1072,7 @@ public record AzAksCreateOptions : AzOptions
     public string? Revision { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure-keyvault-secrets- provider addon.
+    /// Set interval of rotation poll. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }

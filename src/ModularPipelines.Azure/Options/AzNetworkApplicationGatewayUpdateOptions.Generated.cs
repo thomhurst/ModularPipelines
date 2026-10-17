@@ -76,13 +76,13 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn. microsoft.com/azure/azure-subscription- service-limits#application-gateway-limits). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn. microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ssl-profiles", GroupValues = true)]
     public IEnumerable<string>? SslProfiles { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -112,7 +112,7 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Entra JWT validation configurations for the application gateway resource. For default limits, see [Application Gateway limits](ht tps://docs.microsoft.com/azure/azure- subscription-service-limits#application- gateway-limits).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Entra JWT validation configurations for the application gateway resource. For default limits, see [Application Gateway limits](ht tps://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--entra-jwt-configs", GroupValues = true)]
     public IEnumerable<string>? EntraJwtConfigs { get; set; }

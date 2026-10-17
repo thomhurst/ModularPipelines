@@ -87,7 +87,7 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Source file encoding. The value is saved as a tag (`file- encoding=&lt;val&gt;`) and used during download to automatically encode the resulting file.  Allowed values: ascii, base64, hex, utf-16be, utf-16le, utf-8.  Default: utf-8.
+    /// Source file encoding. The value is saved as a tag (`file-encoding=&lt;val&gt;`) and used during download to automatically encode the resulting file.  Allowed values: ascii, base64, hex, utf-16be, utf-16le, utf-8.  Default: utf-8.
     /// </summary>
     [CliOption("--encoding", ShortForm = "-e")]
     public string? Encoding { get; set; }

@@ -81,7 +81,7 @@ public record AzVmCreateOptions : AzOptions
     public CliOptionValue? AlignRegionalDisks { get; set; }
 
     /// <summary>
-    /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
+    /// Specifies if Scheduled Events should be auto-approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
     [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AllInstanceDown { get; set; }
@@ -117,13 +117,13 @@ public record AzVmCreateOptions : AzOptions
     public int? Count { get; set; }
 
     /// <summary>
-    /// Custom init script file or text (cloud-init, cloud- config, etc..).
+    /// Custom init script file or text (cloud-init, cloud-config, etc..).
     /// </summary>
     [CliOption("--custom-data")]
     public string? CustomData { get; set; }
 
     /// <summary>
-    /// Specify the Read- Write IOPS for the managed disk when storage account type is UltraSSD_LRS.
+    /// Specify the Read-Write IOPS for the managed disk when storage account type is UltraSSD_LRS.
     /// </summary>
     [CliOption("--data-disk-iops")]
     public int? DataDiskIops { get; set; }
@@ -231,7 +231,7 @@ public record AzVmCreateOptions : AzOptions
     public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
-    /// The name of the operating system image as a URN alias, URN, custom image name or ID, custom image version ID, or VHD blob URI. In addition, it also supports shared gallery image. Please use the image alias including the version of the distribution you want to use. For example: please use Debian11 instead of Debian.' This parameter is required unless using `--attach-os-disk.` Valid URN format: "Publisher: Offer:Sku:Version". For more information, see ht tps://learn.microso ft.com/azure/virtua l- machines/linux/cli- ps-findimage. Values from: az vm image list, az vm image show, az sig image-version show- shared.
+    /// The name of the operating system image as a URN alias, URN, custom image name or ID, custom image version ID, or VHD blob URI. In addition, it also supports shared gallery image. Please use the image alias including the version of the distribution you want to use. For example: please use Debian11 instead of Debian.' This parameter is required unless using `--attach-os-disk.` Valid URN format: "Publisher: Offer:Sku:Version". For more information, see ht tps://learn.microso ft.com/azure/virtua l-machines/linux/cli-ps-findimage. Values from: az vm image list, az vm image show, az sig image-version show-shared.
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
@@ -261,7 +261,7 @@ public record AzVmCreateOptions : AzOptions
     public int? KeyIncarnationId { get; set; }
 
     /// <summary>
-    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
+    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi-tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -333,7 +333,7 @@ public record AzVmCreateOptions : AzOptions
     public string? ProxyAgentMode { get; set; }
 
     /// <summary>
-    /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
+    /// Specifies the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
     [CliOption("--scheduled-events-api-version")]
     public string? ScheduledEventsApiVersion { get; set; }
@@ -382,7 +382,7 @@ public record AzVmCreateOptions : AzOptions
     public int? VCpusAvailable { get; set; }
 
     /// <summary>
-    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
+    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper-threading is disabled.
     /// </summary>
     [CliOption("--v-cpus-per-core")]
     public int? VCpusPerCore { get; set; }
@@ -605,7 +605,7 @@ public record AzVmCreateOptions : AzOptions
     public string? PublicIpSku { get; set; }
 
     /// <summary>
-    /// The name of the subnet when creating a new VNet or referencing an existing one. Can also reference an existing subnet by ID. If both vnet- name and subnet are omitted, an appropriate VNet and subnet will be selected automatically, or a new one will be created.
+    /// The name of the subnet when creating a new VNet or referencing an existing one. Can also reference an existing subnet by ID. If both vnet-name and subnet are omitted, an appropriate VNet and subnet will be selected automatically, or a new one will be created.
     /// </summary>
     [CliOption("--subnet")]
     public string? Subnet { get; set; }

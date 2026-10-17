@@ -23,13 +23,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Application-specific metadata in the form of key-value pairs. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Application-specific metadata in the form of key-value pairs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -84,7 +84,7 @@ public record AzCosmosdbPostgresClusterUpdateOptions : AzOptions
     public CliOptionValue? EnableShardsOnCoord { get; set; }
 
     /// <summary>
-    /// Maintenance window of a cluster.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// Maintenance window of a cluster.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--maintenance-window", GroupValues = true)]
     public IEnumerable<string>? MaintenanceWindow { get; set; }

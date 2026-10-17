@@ -76,19 +76,19 @@ public record AzComputeFleetUpdateOptions : AzOptions
     public string? Mode { get; set; }
 
     /// <summary>
-    /// Configuration Options for Regular instances in Compute Fleet.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Configuration Options for Regular instances in Compute Fleet.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--regular-priority-profile", GroupValues = true)]
     public IEnumerable<string>? RegularPriorityProfile { get; set; }
 
     /// <summary>
-    /// Configuration Options for Spot instances in Compute Fleet.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Configuration Options for Spot instances in Compute Fleet.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--spot-priority-profile", GroupValues = true)]
     public IEnumerable<string>? SpotPriorityProfile { get; set; }
 
     /// <summary>
-    /// Attribute based Fleet.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Attribute based Fleet.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--vm-attributes", GroupValues = true)]
     public IEnumerable<string>? VmAttributes { get; set; }
@@ -106,7 +106,7 @@ public record AzComputeFleetUpdateOptions : AzOptions
     public IEnumerable<string>? VmSizesProfile { get; set; }
 
     /// <summary>
-    /// Zone Allocation Policy for Fleet.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Zone Allocation Policy for Fleet.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--zone-allocation-policy", GroupValues = true)]
     public IEnumerable<string>? ZoneAllocationPolicy { get; set; }

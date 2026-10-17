@@ -45,7 +45,7 @@ public record AzContainerappRegistrySetOptions : AzOptions
     public string Server { get; private init; }
 
     /// <summary>
-    /// The managed identity with which to authenticate to the Azure Container Registry (instead of username/password). Use 'system' for a system- defined identity or a resource id for a user-defined identity. The managed identity should have been assigned acrpull permissions on the ACR before deployment (use 'az role assignment create --role acrpull ...').
+    /// The managed identity with which to authenticate to the Azure Container Registry (instead of username/password). Use 'system' for a system-defined identity or a resource id for a user-defined identity. The managed identity should have been assigned acrpull permissions on the ACR before deployment (use 'az role assignment create --role acrpull ...').
     /// </summary>
     [CliOption("--identity")]
     public string? Identity { get; set; }

@@ -158,7 +158,7 @@ public record AzAppservicePlanCreateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination- path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
+    /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination-path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
     /// </summary>
     [CliOption("--storage-mount", GroupValues = true)]
     public IEnumerable<CliValueGroup>? StorageMount { get; set; }

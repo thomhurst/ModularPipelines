@@ -67,7 +67,7 @@ public record AzSignalrCreateOptions : AzOptions
     public string Sku { get; private init; }
 
     /// <summary>
-    /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
+    /// Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
     [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? AllowedOrigins { get; set; }

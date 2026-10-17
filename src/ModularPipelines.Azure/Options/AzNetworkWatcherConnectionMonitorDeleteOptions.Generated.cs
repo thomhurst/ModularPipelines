@@ -25,7 +25,7 @@ public record AzNetworkWatcherConnectionMonitorDeleteOptions : AzOptions
     /// Delete a connection monitor for the given region.
     /// </summary>
     /// <param name="ConnectionMonitorName">Connection monitor name.</param>
-    /// <param name="Location">Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
+    /// <param name="Location">Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.</param>
     public AzNetworkWatcherConnectionMonitorDeleteOptions(
         string ConnectionMonitorName,
         string Location
@@ -50,7 +50,7 @@ public record AzNetworkWatcherConnectionMonitorDeleteOptions : AzOptions
     public string ConnectionMonitorName { get; private init; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string Location { get; private init; }

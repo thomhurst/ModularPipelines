@@ -80,13 +80,13 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     public CliOptionValue? EnableProxyProtocol { get; set; }
 
     /// <summary>
-    /// Space-separated list of FQDNs.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of FQDNs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--fqdns", GroupValues = true)]
     public IEnumerable<string>? Fqdns { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb-name`.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of names or IDs of load balancer frontend IP configurations to link to. If names are used, also supply `--lb-name`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--lb-frontend-ip-configs", GroupValues = true)]
     public IEnumerable<string>? LbFrontendIpConfigs { get; set; }
@@ -110,7 +110,7 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Resource tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

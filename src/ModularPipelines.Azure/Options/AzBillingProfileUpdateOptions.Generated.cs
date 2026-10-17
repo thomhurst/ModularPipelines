@@ -56,7 +56,7 @@ public record AzBillingProfileUpdateOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
-    /// Billing address. Usage: --bill-to first-name=XX last-name=XX company-name=XX address-line1=XX address- line2=XX address-line3=XX city=XX district=XX region=XX country=XX postal-code=XX email=XX phone-number=XX.
+    /// Billing address. Usage: --bill-to first-name=XX last-name=XX company-name=XX address-line1=XX address-line2=XX address-line3=XX city=XX district=XX region=XX country=XX postal-code=XX email=XX phone-number=XX.
     /// </summary>
     [CliOption("--bill-to", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? BillTo { get; set; }

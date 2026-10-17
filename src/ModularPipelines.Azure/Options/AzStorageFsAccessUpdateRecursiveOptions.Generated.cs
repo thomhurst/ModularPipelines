@@ -25,7 +25,7 @@ public record AzStorageFsAccessUpdateRecursiveOptions : AzOptions
     /// <summary>
     /// Modify the Access Control on a path and sub-paths in
     /// </summary>
-    /// <param name="Acl">The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.</param>
+    /// <param name="Acl">The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access-control.</param>
     /// <param name="FileSystem">File system name (i.e. container name).</param>
     /// <param name="Path">The path to a file or directory in the specified file system.</param>
     public AzStorageFsAccessUpdateRecursiveOptions(
@@ -50,7 +50,7 @@ public record AzStorageFsAccessUpdateRecursiveOptions : AzOptions
     }
 
     /// <summary>
-    /// The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control.
+    /// The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".  For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access-control.
     /// </summary>
     [CliOption("--acl")]
     public string Acl { get; private init; }

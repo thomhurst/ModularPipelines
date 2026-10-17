@@ -34,7 +34,7 @@ public record AzContainerappJobStartOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see https://learn.microsoft.com/azure/container-apps/azure-resource- manager-api-spec#examples.
+    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see https://learn.microsoft.com/azure/container-apps/azure-resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }

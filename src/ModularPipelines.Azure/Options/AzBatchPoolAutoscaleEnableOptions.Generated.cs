@@ -51,7 +51,7 @@ public record AzBatchPoolAutoscaleEnableOptions : AzOptions
     public string? AutoScaleEvaluationInterval { get; set; }
 
     /// <summary>
-    /// The formula for the desired number of Compute Nodes in the Pool. The formula is checked for validity before it is applied to the Pool. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see Automatically scale Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-automatic- scaling).
+    /// The formula for the desired number of Compute Nodes in the Pool. The formula is checked for validity before it is applied to the Pool. If the formula is not valid, the Batch service rejects the request with detailed error information. For more information about specifying this formula, see Automatically scale Compute Nodes in an Azure Batch Pool (https://learn.microsoft.com/azure/batch/batch-automatic-scaling).
     /// </summary>
     [CliOption("--auto-scale-formula")]
     public string? AutoScaleFormula { get; set; }

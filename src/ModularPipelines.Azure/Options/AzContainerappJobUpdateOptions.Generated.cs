@@ -76,13 +76,13 @@ public record AzContainerappJobUpdateOptions : AzOptions
     public string? WorkloadProfileName { get; set; }
 
     /// <summary>
-    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure- resource-manager-api-spec#examples.
+    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure-resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
 
     /// <summary>
-    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// A list of container startup command argument(s). Space-separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Args { get; set; }
@@ -118,7 +118,7 @@ public record AzContainerappJobUpdateOptions : AzOptions
     public bool? RemoveAllEnvVars { get; set; }
 
     /// <summary>
-    /// Remove environment variable(s) from container. Space- separated environment variable names.
+    /// Remove environment variable(s) from container. Space-separated environment variable names.
     /// </summary>
     [CliOption("--remove-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? RemoveEnvVars { get; set; }

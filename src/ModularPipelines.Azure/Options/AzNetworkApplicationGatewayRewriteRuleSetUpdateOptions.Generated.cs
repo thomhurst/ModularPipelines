@@ -97,7 +97,7 @@ public record AzNetworkApplicationGatewayRewriteRuleSetUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Rewrite rules in the rewrite rule set.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Rewrite rules in the rewrite rule set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rules", GroupValues = true)]
     public IEnumerable<string>? Rules { get; set; }
