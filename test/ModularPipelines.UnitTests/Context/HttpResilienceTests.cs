@@ -256,6 +256,8 @@ public class HttpResilienceTests
         request.Content = content;
         await Assert.That(await content.ReadAsStringAsync()).IsEqualTo("payload");
         await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("response body");
+        await Assert.That(response.RequestMessage).IsSameReferenceAs(request);
+        await Assert.That(await response.RequestMessage!.Content!.ReadAsStringAsync()).IsEqualTo("payload");
     }
 
     [Test]
@@ -326,6 +328,20 @@ public class HttpResilienceTests
         await Assert.That((await content.ReadAsByteArrayAsync()).Length).IsEqualTo(bypass == "understated" ? (1024 * 1024) + 1 : 7);
     }
 
+    [Test]
+    public async Task IndependentlySuppliedResponseRequestIsPreserved()
+    {
+        using var responseRequest = new HttpRequestMessage(HttpMethod.Get, "https://example.test/redirected");
+        var inner = new DisposalTrackingHandler(responseRequest: responseRequest);
+        using var invoker = CreateInvoker(inner);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/retry");
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        await Assert.That(response.RequestMessage).IsSameReferenceAs(responseRequest);
+        await AssertClonesDisposed(inner, request);
+    }
+
     private static async Task AssertClonesDisposed(DisposalTrackingHandler inner, HttpRequestMessage original)
     {
         foreach (var request in inner.Requests)
@@ -339,7 +355,8 @@ public class HttpResilienceTests
     private sealed class DisposalTrackingHandler(
         int rejectedAttempts = 0,
         bool fail = false,
-        CancellationTokenSource? cancellation = null) : HttpMessageHandler
+        CancellationTokenSource? cancellation = null,
+        HttpRequestMessage? responseRequest = null) : HttpMessageHandler
     {
         public List<HttpRequestMessage> Requests { get; } = [];
 
@@ -361,7 +378,7 @@ public class HttpResilienceTests
 
             return new HttpResponseMessage(Requests.Count <= rejectedAttempts ? HttpStatusCode.BadGateway : HttpStatusCode.OK)
             {
-                RequestMessage = request,
+                RequestMessage = responseRequest ?? request,
                 Content = new StringContent("response body"),
             };
         }

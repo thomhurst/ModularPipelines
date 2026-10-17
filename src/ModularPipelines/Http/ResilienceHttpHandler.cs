@@ -70,7 +70,14 @@ internal class ResilienceHttpHandler : DelegatingHandler
             async ct =>
             {
                 using var attemptRequest = CloneRequest(request, contentBytes);
-                return await SendAttemptAsync(attemptRequest, options.AttemptTimeout, ct).ConfigureAwait(false);
+                var response = await SendAttemptAsync(attemptRequest, options.AttemptTimeout, ct).ConfigureAwait(false);
+                if (ReferenceEquals(response.RequestMessage, attemptRequest))
+                {
+                    // Do not expose the clone after its disposal; preserve independently supplied requests.
+                    response.RequestMessage = request;
+                }
+
+                return response;
             },
             cancellationToken).ConfigureAwait(false);
     }
