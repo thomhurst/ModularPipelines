@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -13,6 +14,53 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class BashTests : TestBase
 {
+    private sealed class SerialCommandInterceptor : ICommandInterceptor, IDisposable
+    {
+        private readonly SemaphoreSlim _gate = new(1, 1);
+
+        public int Calls { get; private set; }
+
+        public async ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken)
+        {
+            Calls++;
+            if (!await _gate.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken))
+            {
+                throw new InvalidOperationException("Command interceptor re-entered while holding its gate.");
+            }
+
+            try
+            {
+                return await next(invocation, cancellationToken);
+            }
+            finally
+            {
+                _gate.Release();
+            }
+        }
+
+        public void Dispose() => _gate.Dispose();
+    }
+
+    [Test]
+    [WindowsOnlyTest]
+    public async Task RunFileAsync_Wsl_Conversion_Does_Not_Reenter_Interceptor_Gate()
+    {
+        using var interceptor = new SerialCommandInterceptor();
+        var (bash, _) = await GetService<IBashContext>(services => services.AddSingleton<ICommandInterceptor>(interceptor));
+        // Fail process creation deterministically without needing WSL installed or starting a distribution.
+        var missingDirectory = Path.Combine(Path.GetTempPath(), $"mp missing wsl directory {Guid.NewGuid():N}");
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() => bash.RunFileAsync(
+            new BashFileOptions("script.sh") { Tool = Path.Combine(Environment.SystemDirectory, "bash.exe") },
+            new CommandExecutionOptions { WorkingDirectory = missingDirectory }));
+
+        await Assert.That(exception!.Result.CommandInput).Contains("wsl.exe");
+        await Assert.That(interceptor.Calls).IsEqualTo(1);
+    }
+
     private sealed class ChangeBashEnvironmentInterceptor(string directory, bool useWsl) : ICommandInterceptor
     {
         public int Conversions { get; private set; }
@@ -143,9 +191,11 @@ public class BashTests : TestBase
             Tool = Path.Combine(Environment.SystemDirectory, "bash.exe"),
         };
 
-        var prepared = await new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(
+        var prepared = await Bash.PrepareFileAsync(
             options,
             new CommandExecutionOptions { InternalDryRun = true },
+            new PipelineWorkingDirectory(directory),
+            command.Object.ExecuteCommandLineToolAsync,
             default);
 
         await Assert.That(prepared.Tool).IsEqualTo(options.Tool);
@@ -200,8 +250,8 @@ public class BashTests : TestBase
         };
 
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(
-                options, new CommandExecutionOptions(), default));
+            Bash.PrepareFileAsync(
+                options, new CommandExecutionOptions(), new PipelineWorkingDirectory(directory), command.Object.ExecuteCommandLineToolAsync, default));
 
         await Assert.That(exception!.Message).IsEqualTo($"wslpath returned no path for '{Path.Combine(directory, options.FilePath)}'.");
     }
@@ -286,9 +336,11 @@ public class BashTests : TestBase
 
         var bashPath = Path.Combine(Environment.SystemDirectory, "bash.exe");
 
-        var prepared = await new Bash(command.Object, new PipelineWorkingDirectory(pipelineDirectory)).PrepareFileAsync(
+        var prepared = await Bash.PrepareFileAsync(
             new BashFileOptions(path) { Tool = bashPath },
             executionOptions,
+            new PipelineWorkingDirectory(pipelineDirectory),
+            command.Object.ExecuteCommandLineToolAsync,
             cancellationToken);
 
         await Assert.That(invocations).Count().IsEqualTo(1);
@@ -337,7 +389,7 @@ public class BashTests : TestBase
                 Arguments = ["argument's $value"],
             };
             var command = new Mock<ICommandContext>(MockBehavior.Strict);
-            var prepared = await new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(options, executionOptions, cancellationToken);
+            var prepared = await Bash.PrepareFileAsync(options, executionOptions, new PipelineWorkingDirectory(directory), command.Object.ExecuteCommandLineToolAsync, cancellationToken);
 
             await Assert.That(prepared.FilePath).IsEqualTo("nested dir/script's $value.sh");
             await Assert.That(prepared.Tool).IsEqualTo(bashPath);
@@ -382,7 +434,7 @@ public class BashTests : TestBase
             .ReturnsAsync((CommandLineToolOptions actual, CommandExecutionOptions? _, CancellationToken _) =>
                 actual is BashFileOptions ? CommandResult.Ok() : CommandResult.Ok("/mnt/c/script.sh\n"));
 
-        var prepared = await new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(options, executionOptions, default);
+        var prepared = await Bash.PrepareFileAsync(options, executionOptions, new PipelineWorkingDirectory(directory), command.Object.ExecuteCommandLineToolAsync, default);
 
         await Assert.That(invocations).Count().IsEqualTo(usesSystemBash ? 1 : 0);
         if (usesSystemBash)
@@ -440,7 +492,7 @@ public class BashTests : TestBase
         command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Bash(command.Object, new PipelineWorkingDirectory(Environment.CurrentDirectory)).RunFileAsync(options, executionOptions, cancellationToken);
+        await new Bash(command.Object).RunFileAsync(options, executionOptions, cancellationToken);
 
         command.VerifyAll();
         command.VerifyNoOtherCalls();
@@ -456,7 +508,7 @@ public class BashTests : TestBase
         command.Setup(context => context.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken))
             .ReturnsAsync(CommandResult.Ok());
 
-        await new Bash(command.Object, new PipelineWorkingDirectory(Environment.CurrentDirectory)).RunAsync(options, executionOptions, cancellationToken);
+        await new Bash(command.Object).RunAsync(options, executionOptions, cancellationToken);
 
         command.VerifyAll();
     }

@@ -60,10 +60,19 @@ internal sealed class Command(
     private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
     private readonly PipelineWorkingDirectory _pipelineWorkingDirectory = pipelineWorkingDirectory;
 
-    public async Task<CommandResult> ExecuteCommandLineToolAsync(
+    public Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
+    {
+        return ExecuteCommandAsync(options, executionOptions, interceptCommands: true, cancellationToken);
+    }
+
+    private async Task<CommandResult> ExecuteCommandAsync(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions,
+        bool interceptCommands,
+        CancellationToken cancellationToken)
     {
         var execOpts = (executionOptions ?? new CommandExecutionOptions()) with
         {
@@ -113,6 +122,7 @@ internal sealed class Command(
             return await ExecuteCommandCoreAsync(
                     invocation,
                     activity,
+                    interceptCommands,
                     linkedCancellationToken.Token,
                     cancellationToken,
                     timeoutCancellationToken)
@@ -273,13 +283,16 @@ internal sealed class Command(
     private async Task<CommandResult> ExecuteCommandCoreAsync(
         PreparedCommandInvocation invocation,
         Activity? activity,
+        bool interceptCommands,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
-        var interceptors = _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors];
+        var interceptors = interceptCommands
+            ? _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors]
+            : [];
         if (interceptors.Length == 0)
         {
             var result = await ExecuteInvocationAsync(
@@ -369,9 +382,12 @@ internal sealed class Command(
         }
 
         var tool = usesSudo ? arguments[invocation.SudoPrefixLength] : invocation.CommandLine.Tool;
-        var preparedOptions = await new Bash(this, _pipelineWorkingDirectory).PrepareFileAsync(
+        var preparedOptions = await Bash.PrepareFileAsync(
             options with { Tool = tool },
             invocation.ExecutionOptions,
+            _pipelineWorkingDirectory,
+            // Internal conversion runs inside the active interceptor chain; never enter that chain again.
+            (toolOptions, executionOptions, token) => ExecuteCommandAsync(toolOptions, executionOptions, interceptCommands: false, token),
             cancellationToken).ConfigureAwait(false);
         arguments[pathIndex] = preparedOptions.FilePath;
         if (usesSudo)
