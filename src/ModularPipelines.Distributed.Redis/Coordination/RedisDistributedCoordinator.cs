@@ -22,11 +22,12 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// hash field expiry, so the coordinator needs Redis 7.4 or later (or Valkey 9.0 or later).
 /// Sharded pub/sub only wakes waiters early: every wait is bounded and re-reads Redis, so a message lost
 /// while the connection reconnects delays a waiter by at most <see cref="PollInterval"/>.
-/// Cancelling a call abandons its wait; Redis may still run a command already sent, and later
-/// commands are not issued.
+/// Cancelling a claim abandons its wait until its assignment is received; Redis may still run a command
+/// already sent. Once received, the assignment is returned even after cancellation so it can be finalized.
 /// Claims retry with the same lease token until success or cancellation, including after a retry batch fails.
-/// Delivery is acknowledged before returning a lease. Only acknowledged or heartbeat-renewed leases count
-/// toward <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so lost claim responses cannot exhaust it.
+/// Delivery acknowledgement is attempted once before returning a lease. An ambiguous acknowledgement failure
+/// returns the received assignment instead of waiting for retries. Only acknowledged or heartbeat-renewed leases
+/// count toward <see cref="DistributedOptions.MaxModuleLeaseExpirations"/>, so lost claim responses cannot exhaust it.
 /// The master's coordinator records a heartbeat every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
 /// until it is disposed or cleans up the run, so workers detect a master that stopped without signalling
 /// completion.
@@ -655,7 +656,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            assignment = await ExecuteClaimCommandAsync(ClaimScript, arguments, cancellationToken).ConfigureAwait(false);
+            assignment = await ExecuteClaimAsync(arguments, cancellationToken).ConfigureAwait(false);
             if (assignment is null || !assignment.StartsWith(NormalizeSentinel, StringComparison.Ordinal))
             {
                 break;
@@ -669,17 +670,32 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             return (assignment == ClosedSentinel, null);
         }
 
-        // Prove delivery before execution starts, without acknowledging a lost claim response.
-        // A late acknowledgement must not return a lease that expired or was reassigned.
-        assignment = await ExecuteClaimCommandAsync(AcknowledgeClaimScript, arguments, cancellationToken).ConfigureAwait(false);
-        return assignment is null
-            ? (false, null)
-            : (false, new ModuleLease
+        // Receipt transfers ownership. Do not retry an ambiguous acknowledgement or let cancellation
+        // discard this assignment: the worker pool must execute or finalize the work it already received.
+        try
+        {
+            var acknowledged = await _redis.Scripts.ExecuteStringAsync(
+                    AcknowledgeClaimScript, _scriptKeys, arguments, CancellationToken.None)
+                .ConfigureAwait(false);
+            if (acknowledged is null)
             {
-                LeaseId = leaseId,
-                WorkerId = workerId,
-                Assignment = JsonSerializer.Deserialize<ModuleAssignment>(assignment)!,
-            });
+                // A definitive rejection means the lease expired or was reassigned before acknowledgement.
+                return (false, null);
+            }
+        }
+        catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+        {
+            // Redis may have acknowledged delivery. Return the known assignment either way; the normal
+            // worker heartbeat can renew it, and result publication still checks the lease token and expiry.
+            _logger?.LogWarning(exception, "Redis claim acknowledgement was ambiguous; returning the received assignment");
+        }
+
+        return (false, new ModuleLease
+        {
+            LeaseId = leaseId,
+            WorkerId = workerId,
+            Assignment = JsonSerializer.Deserialize<ModuleAssignment>(assignment)!,
+        });
     }
 
     private async Task NormalizeLegacyCapabilitiesAsync(string json, CancellationToken cancellationToken)
@@ -710,8 +726,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     private sealed record CapabilityMetadata(int KeyIndex, string Field, string Value);
 
-    private async Task<string?> ExecuteClaimCommandAsync(
-        RespireScript script,
+    private async Task<string?> ExecuteClaimAsync(
         RespireValue[] arguments,
         CancellationToken cancellationToken)
     {
@@ -720,7 +735,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             try
             {
                 return await _claimRetry.ExecuteAsync(
-                        async token => await _redis.Scripts.ExecuteStringAsync(script, _scriptKeys, arguments, token)
+                        async token => await _redis.Scripts.ExecuteStringAsync(ClaimScript, _scriptKeys, arguments, token)
                             .ConfigureAwait(false),
                         cancellationToken)
                     .ConfigureAwait(false);
