@@ -63,7 +63,7 @@ public class FluxResume : IFluxResume
     }
 
     /// <summary>
-    /// The resume command marks a previously suspended Alert resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Alert resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -78,7 +78,7 @@ public class FluxResume : IFluxResume
     }
 
     /// <summary>
-    /// The resume command marks a previously suspended Provider resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Provider resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -93,7 +93,7 @@ public class FluxResume : IFluxResume
     }
 
     /// <summary>
-    /// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -108,7 +108,7 @@ public class FluxResume : IFluxResume
     }
 
     /// <summary>
-    /// The resume command marks a previously suspended Kustomization resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Kustomization resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -123,7 +123,7 @@ public class FluxResume : IFluxResume
     }
 
     /// <summary>
-    /// The resume command marks a previously suspended Receiver resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Receiver resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

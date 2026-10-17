@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create source bucket command generates a Bucket resource and waits for it to be downloaded.
+/// The create source bucket command generates a Bucket resource and waits for it to be downloaded. For Buckets with static authentication, the credentials are stored in a Kubernetes secret.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

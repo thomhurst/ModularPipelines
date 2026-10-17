@@ -91,7 +91,7 @@ public interface IFluxCreate
     public Task<CommandResult> ReceiverAsync(FluxCreateReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The create tenant command generates namespaces, service accounts and role bindings to limit the
+    /// The create tenant command generates namespaces, service accounts and role bindings to limit the reconcilers scope to the tenant namespaces.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

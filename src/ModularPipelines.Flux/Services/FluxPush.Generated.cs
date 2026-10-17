@@ -47,7 +47,7 @@ public class FluxPush : IFluxPush
     }
 
     /// <summary>
-    /// The push artifact command creates a tarball from the given directory or the single file and uploads the artifact to an OCI repository.
+    /// The push artifact command creates a tarball from the given directory or the single file and uploads the artifact to an OCI repository. The command can read the credentials from '~/.docker/config.json' but they can also be passed with --creds. It can also login to a supported provider with the --provider flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

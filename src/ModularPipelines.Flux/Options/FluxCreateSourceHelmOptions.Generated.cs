@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create source helm command generates a HelmRepository resource and waits for it to fetch the index.
+/// The create source helm command generates a HelmRepository resource and waits for it to fetch the index. For private Helm repositories, the basic authentication credentials are stored in a Kubernetes secret.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

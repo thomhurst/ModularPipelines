@@ -44,7 +44,7 @@ public record FluxCreateSourceChartOptions : FluxOptions
     /// source that contains the chart in the format '&lt;kind&gt;/&lt;name&gt;', where kind must be one of: (HelmRepository, GitRepository, Bucket)
     /// </summary>
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
-    public FluxCreateSourceChartSource? Source { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// regular expression to use for the OIDC issuer during signature verification

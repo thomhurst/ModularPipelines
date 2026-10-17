@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The stats command prints a report of Flux custom resources present on a cluster,
+/// The stats command prints a report of Flux custom resources present on a cluster, including their reconcile status and the amount of cumulative storage used for each source type
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

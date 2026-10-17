@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The bootstrap gitlab command creates the GitLab repository if it doesn't exist and
+/// The bootstrap gitlab command creates the GitLab repository if it doesn't exist and commits the Flux manifests to the specified branch. Then it configures the target cluster to synchronize with that repository. If the Flux components are present on the cluster, the bootstrap command will perform an upgrade if needed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

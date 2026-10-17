@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The push artifact command creates a tarball from the given directory or the single file and uploads the artifact to an OCI repository.
+/// The push artifact command creates a tarball from the given directory or the single file and uploads the artifact to an OCI repository. The command can read the credentials from '~/.docker/config.json' but they can also be passed with --creds. It can also login to a supported provider with the --provider flag.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

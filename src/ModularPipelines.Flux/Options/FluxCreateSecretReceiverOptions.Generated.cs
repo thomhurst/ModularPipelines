@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create secret receiver command generates a Kubernetes secret with
+/// The create secret receiver command generates a Kubernetes secret with the token used for webhook payload validation and an annotation with the computed webhook URL.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -47,7 +47,7 @@ public class FluxCreateSecret
     }
 
     /// <summary>
-    /// The create secret git command generates a Kubernetes secret with Git credentials.
+    /// The create secret git command generates a Kubernetes secret with Git credentials. For Git over SSH, the host and SSH keys are automatically generated and stored in the secret. For Git over HTTP/S, the provided basic authentication credentials or bearer authentication token are stored in the secret.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class FluxCreateSecret
     }
 
     /// <summary>
-    /// The create secret proxy command generates a Kubernetes secret with the
+    /// The create secret proxy command generates a Kubernetes secret with the proxy address and the basic authentication credentials.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class FluxCreateSecret
     }
 
     /// <summary>
-    /// The create secret receiver command generates a Kubernetes secret with
+    /// The create secret receiver command generates a Kubernetes secret with the token used for webhook payload validation and an annotation with the computed webhook URL.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

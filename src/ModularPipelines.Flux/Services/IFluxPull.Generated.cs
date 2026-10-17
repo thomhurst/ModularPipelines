@@ -31,7 +31,7 @@ public interface IFluxPull
     public Task<CommandResult> ExecuteAsync(FluxPullOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The pull artifact command downloads and extracts the OCI artifact content to the given path.
+    /// The pull artifact command downloads and extracts the OCI artifact content to the given path. The command can read the credentials from '~/.docker/config.json' but they can also be passed with --creds. It can also login to a supported provider with the --provider flag.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

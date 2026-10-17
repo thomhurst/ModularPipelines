@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The debug helmrelease command can be used to troubleshoot failing Helm release reconciliations.
+/// The debug helmrelease command can be used to troubleshoot failing Helm release reconciliations. WARNING: This command will print sensitive information if Kubernetes Secrets are referenced in the HelmRelease .spec.valuesFrom field.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

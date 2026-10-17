@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create image sub-commands work with image automation objects;
+/// The create image sub-commands work with image automation objects; that is, object controlling updates to git based on e.g., new container images being available.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

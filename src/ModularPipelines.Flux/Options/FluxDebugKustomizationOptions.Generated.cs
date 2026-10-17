@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The debug kustomization command can be used to troubleshoot failing Flux Kustomization reconciliations.
+/// The debug kustomization command can be used to troubleshoot failing Flux Kustomization reconciliations. WARNING: This command will print sensitive information if Kubernetes Secrets are referenced in the Kustomization .spec.postBuild.substituteFrom field.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -14,7 +14,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create image update command generates an ImageUpdateAutomation resource.
+/// The create image update command generates an ImageUpdateAutomation resource. An ImageUpdateAutomation object specifies an automated update to images mentioned in YAMLs in a git repository.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

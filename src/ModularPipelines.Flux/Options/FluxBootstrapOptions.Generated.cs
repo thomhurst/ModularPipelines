@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The bootstrap sub-commands push the Flux manifests to a Git repository
+/// The bootstrap sub-commands push the Flux manifests to a Git repository and deploy Flux on the cluster.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

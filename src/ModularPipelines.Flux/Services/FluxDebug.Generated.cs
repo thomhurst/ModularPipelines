@@ -47,7 +47,7 @@ public class FluxDebug : IFluxDebug
     }
 
     /// <summary>
-    /// The debug helmrelease command can be used to troubleshoot failing Helm release reconciliations.
+    /// The debug helmrelease command can be used to troubleshoot failing Helm release reconciliations. WARNING: This command will print sensitive information if Kubernetes Secrets are referenced in the HelmRelease .spec.valuesFrom field.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class FluxDebug : IFluxDebug
     }
 
     /// <summary>
-    /// The debug kustomization command can be used to troubleshoot failing Flux Kustomization reconciliations.
+    /// The debug kustomization command can be used to troubleshoot failing Flux Kustomization reconciliations. WARNING: This command will print sensitive information if Kubernetes Secrets are referenced in the Kustomization .spec.postBuild.substituteFrom field.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

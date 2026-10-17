@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The create secret git command generates a Kubernetes secret with Git credentials.
+/// The create secret git command generates a Kubernetes secret with Git credentials. For Git over SSH, the host and SSH keys are automatically generated and stored in the secret. For Git over HTTP/S, the provided basic authentication credentials or bearer authentication token are stored in the secret.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

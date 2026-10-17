@@ -41,7 +41,7 @@ public interface IFluxResume
     public Task<CommandResult> ExecuteAsync(FluxResumeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The resume command marks a previously suspended Alert resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Alert resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -50,7 +50,7 @@ public interface IFluxResume
     public Task<CommandResult> AlertAsync(FluxResumeAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The resume command marks a previously suspended Provider resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Provider resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -59,7 +59,7 @@ public interface IFluxResume
     public Task<CommandResult> AlertProviderAsync(FluxResumeAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended HelmRelease resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -68,7 +68,7 @@ public interface IFluxResume
     public Task<CommandResult> HelmreleaseAsync(FluxResumeHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The resume command marks a previously suspended Kustomization resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Kustomization resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public interface IFluxResume
     public Task<CommandResult> KustomizationAsync(FluxResumeKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The resume command marks a previously suspended Receiver resource for reconciliation and waits for it to
+    /// The resume command marks a previously suspended Receiver resource for reconciliation and waits for it to finish the apply.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

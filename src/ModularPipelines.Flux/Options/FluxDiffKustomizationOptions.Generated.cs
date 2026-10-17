@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The diff command does a build, then it performs a server-side dry-run and prints the diff.
+/// The diff command does a build, then it performs a server-side dry-run and prints the diff. Exit status: 0 No differences were found. 1 Differences were found. &gt;1 diff failed with an error.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

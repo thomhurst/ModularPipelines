@@ -115,7 +115,7 @@ public partial interface IFlux
     #region Commands
 
     /// <summary>
-    /// The check command will perform a series of checks to validate that
+    /// The check command will perform a series of checks to validate that the local environment is configured correctly and if the installed components are healthy.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -124,7 +124,7 @@ public partial interface IFlux
     public Task<CommandResult> CheckAsync(FluxCheckOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The envsubst command substitutes the values of environment variables
+    /// The envsubst command substitutes the values of environment variables in the string piped as standard input and writes the result to the standard output. This command can be used to replicate the behavior of the Flux Kustomization post-build substitutions.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -142,7 +142,7 @@ public partial interface IFlux
     public Task<CommandResult> EventsAsync(FluxEventsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The install command deploys Flux in the specified namespace.
+    /// The install command deploys Flux in the specified namespace. If a previous version is installed, then an in-place upgrade will be performed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -169,7 +169,7 @@ public partial interface IFlux
     public Task<CommandResult> MigrateAsync(FluxMigrateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The stats command prints a report of Flux custom resources present on a cluster,
+    /// The stats command prints a report of Flux custom resources present on a cluster, including their reconcile status and the amount of cumulative storage used for each source type
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -178,7 +178,7 @@ public partial interface IFlux
     public Task<CommandResult> StatsAsync(FluxStatsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The trace command shows how one or more objects are managed by Flux,
+    /// The trace command shows how one or more objects are managed by Flux, from which source and revision they come, and what the latest reconciliation status is.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

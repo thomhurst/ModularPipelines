@@ -13,7 +13,7 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The envsubst command substitutes the values of environment variables
+/// The envsubst command substitutes the values of environment variables in the string piped as standard input and writes the result to the standard output. This command can be used to replicate the behavior of the Flux Kustomization post-build substitutions.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -15,7 +15,7 @@ using ModularPipelines.Flux.Enums;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The install command deploys Flux in the specified namespace.
+/// The install command deploys Flux in the specified namespace. If a previous version is installed, then an in-place upgrade will be performed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
