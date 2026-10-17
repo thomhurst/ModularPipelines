@@ -47,7 +47,7 @@ public record TerraformApplyOptions : TerraformOptions
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
-    [CliFlag("-lock")]
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
     public bool? Lock { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record TerraformApplyOptions : TerraformOptions
     /// <summary>
     /// Ask for input for variables if not directly set.
     /// </summary>
-    [CliFlag("-input")]
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
     public bool? Input { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record TerraformApplyOptions : TerraformOptions
     /// Terraform will plan to replace this resource instance instead of doing an update or no-op action.
     /// </summary>
     [CliOption("-replace", Format = OptionFormat.EqualsSeparated)]
-    public string? Replace { get; set; }
+    public IEnumerable<string>? Replace { get; set; }
 
     /// <summary>
     /// Path to read and save state (unless state-out is specified). Defaults to "terraform.tfstate". Legacy option for the local backend only. See the local backend's documentation for more information.
@@ -93,10 +93,34 @@ public record TerraformApplyOptions : TerraformOptions
     public string? StateOut { get; set; }
 
     /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
+
+    /// <summary>
+    /// Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.
+    /// </summary>
+    [CliFlag("-refresh-only")]
+    public bool? RefreshOnly { get; set; }
+
+    /// <summary>
+    /// Skip checking for external changes to remote objects while creating the plan. This can potentially make planning faster, but at the expense of possibly planning against a stale record of the remote system state.
+    /// </summary>
+    [CliOption("-refresh", Format = OptionFormat.EqualsSeparated)]
+    public bool? Refresh { get; set; }
+
+    /// <summary>
+    /// Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies. You can use this option multiple times to include more than one object. This is for exceptional use only.
+    /// </summary>
+    [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
     /// The PLAN operand.

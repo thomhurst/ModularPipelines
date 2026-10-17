@@ -51,13 +51,13 @@ public record TerraformImportOptions : TerraformOptions
     /// <summary>
     /// Disable interactive input prompts.
     /// </summary>
-    [CliFlag("-input")]
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
     public bool? Input { get; set; }
 
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
-    [CliFlag("-lock")]
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
     public bool? Lock { get; set; }
 
     /// <summary>
@@ -71,6 +71,12 @@ public record TerraformImportOptions : TerraformOptions
     /// </summary>
     [CliFlag("-no-color")]
     public bool? NoColor { get; set; }
+
+    /// <summary>
+    /// Set a variable in the Terraform configuration. This flag can be set multiple times. This is only useful with the "-config" flag.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// Set variables in the Terraform configuration from a file. If "terraform.tfvars" or any ".auto.tfvars" files are present, they will be automatically loaded.

@@ -21,9 +21,40 @@ namespace ModularPipelines.Terraform.Options;
 public record TerraformProvidersSchemaOptions : TerraformOptions
 {
     /// <summary>
+    /// Prints out a json representation of the schemas for all providers used
+    /// </summary>
+    /// <param name="Json"></param>
+    public TerraformProvidersSchemaOptions(
+        bool Json
+    )
+    {
+        if (!Json)
+        {
+            throw new global::System.ArgumentException(
+                "Required flag must be enabled to emit its switch.",
+                nameof(Json));
+        }
+        this.Json = Json;
+    }
+
+    public void Deconstruct(out bool Json)
+    {
+        Json = this.Json;
+    }
+
+    [CliFlag("-json")]
+    public bool Json { get; private init; }
+
+    /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
 
 }

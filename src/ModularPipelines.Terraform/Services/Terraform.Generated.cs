@@ -25,6 +25,7 @@ internal partial class Terraform : ITerraform
     /// Initializes a new instance of the <see cref="Terraform"/> class.
     /// </summary>
     public Terraform(
+        ITerraformMetadata metadata,
         ITerraformProviders providers,
         ITerraformStacks stacks,
         ITerraformState state,
@@ -32,6 +33,7 @@ internal partial class Terraform : ITerraform
         ICommandContext command
     )
     {
+        Metadata = metadata;
         Providers = providers;
         Stacks = stacks;
         State = state;
@@ -40,6 +42,9 @@ internal partial class Terraform : ITerraform
     }
 
     #region Sub-domain Services
+
+    /// <inheritdoc />
+    public ITerraformMetadata Metadata { get; }
 
     /// <inheritdoc />
     public ITerraformProviders Providers { get; }
@@ -154,15 +159,6 @@ internal partial class Terraform : ITerraform
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformLogoutOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> MetadataAsync(
-        TerraformMetadataOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new TerraformMetadataOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

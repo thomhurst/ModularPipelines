@@ -20,4 +20,88 @@ namespace ModularPipelines.Terraform.Options;
 [CliSubCommand("destroy")]
 public record TerraformDestroyOptions : TerraformOptions
 {
+    /// <summary>
+    /// Skip interactive approval of plan before applying.
+    /// </summary>
+    [CliFlag("-auto-approve")]
+    public bool? AutoApprove { get; set; }
+
+    /// <summary>
+    /// Path to backup the existing state file before modifying. Defaults to the "-state-out" path with ".backup" extension. Set to "-" to disable backup.
+    /// </summary>
+    [CliOption("-backup", Format = OptionFormat.EqualsSeparated)]
+    public string? Backup { get; set; }
+
+    /// <summary>
+    /// If Terraform produces any warnings that are not accompanied by errors, show them in a more compact form that includes only the summary messages.
+    /// </summary>
+    [CliFlag("-compact-warnings")]
+    public bool? CompactWarnings { get; set; }
+
+    /// <summary>
+    /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
+    /// </summary>
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
+    public bool? Lock { get; set; }
+
+    /// <summary>
+    /// Duration to retry a state lock.
+    /// </summary>
+    [CliOption("-lock-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? LockTimeout { get; set; }
+
+    /// <summary>
+    /// Ask for input for variables if not directly set.
+    /// </summary>
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
+    public bool? Input { get; set; }
+
+    /// <summary>
+    /// If specified, output won't contain any color.
+    /// </summary>
+    [CliFlag("-no-color")]
+    public bool? NoColor { get; set; }
+
+    /// <summary>
+    /// Limit the number of parallel resource operations. Defaults to 10.
+    /// </summary>
+    [CliOption("-parallelism", Format = OptionFormat.EqualsSeparated)]
+    public int? Parallelism { get; set; }
+
+    /// <summary>
+    /// Path to read and save state (unless state-out is specified). Defaults to "terraform.tfstate". Legacy option for the local backend only. See the local backend's documentation for more information.
+    /// </summary>
+    [CliOption("-state", Format = OptionFormat.EqualsSeparated)]
+    public string? State { get; set; }
+
+    /// <summary>
+    /// Path to write state to that is different than "-state". This can be used to preserve the old state. Legacy option for the local backend only. See the local backend's documentation for more information.
+    /// </summary>
+    [CliOption("-state-out", Format = OptionFormat.EqualsSeparated)]
+    public string? StateOut { get; set; }
+
+    /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
+    /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
+    /// </summary>
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VarFile { get; set; }
+
+    /// <summary>
+    /// Skip checking for external changes to remote objects while creating the plan. This can potentially make planning faster, but at the expense of possibly planning against a stale record of the remote system state.
+    /// </summary>
+    [CliOption("-refresh", Format = OptionFormat.EqualsSeparated)]
+    public bool? Refresh { get; set; }
+
+    /// <summary>
+    /// Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies. You can use this option multiple times to include more than one object. This is for exceptional use only.
+    /// </summary>
+    [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Target { get; set; }
+
 }
