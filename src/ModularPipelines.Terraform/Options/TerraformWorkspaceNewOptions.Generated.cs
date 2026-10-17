@@ -40,7 +40,7 @@ public record TerraformWorkspaceNewOptions : TerraformOptions
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
-    [CliFlag("-lock")]
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
     public bool? Lock { get; set; }
 
     /// <summary>

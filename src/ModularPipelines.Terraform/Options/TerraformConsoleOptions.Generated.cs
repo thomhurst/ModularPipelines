@@ -39,6 +39,12 @@ public record TerraformConsoleOptions : TerraformOptions
     public string? Scope { get; set; }
 
     /// <summary>
+    /// Set a variable in the Terraform configuration. This flag can be set multiple times.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
     /// Set variables in the Terraform configuration from a file. If "terraform.tfvars" or any ".auto.tfvars" files are present, they will be automatically loaded.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]

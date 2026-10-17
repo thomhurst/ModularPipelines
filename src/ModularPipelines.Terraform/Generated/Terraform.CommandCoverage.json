@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "terraform",
   "toolVersion": "Terraform v1.16.6",
-  "commandCount": 70,
-  "commandTreeSha256": "27469ab79a53dfa5bfb971a7e8e2dc64cdc419731cd022d0d5317cace378c2a1",
+  "commandCount": 72,
+  "commandTreeSha256": "cc9b81b25fa196b26fa78434fa6adc5ac84173e28b6f6679cd8026292d33cd65",
   "commands": [
     "terraform apply",
     "terraform console",
@@ -17,6 +17,7 @@
     "terraform login",
     "terraform logout",
     "terraform metadata",
+    "terraform metadata functions",
     "terraform modules",
     "terraform output",
     "terraform plan",
@@ -74,9 +75,11 @@
     "terraform workspace delete",
     "terraform workspace list",
     "terraform workspace new",
-    "terraform workspace select"
+    "terraform workspace select",
+    "terraform workspace show"
   ],
   "commandGroups": [
+    "terraform metadata",
     "terraform providers",
     "terraform stacks",
     "terraform stacks configuration",

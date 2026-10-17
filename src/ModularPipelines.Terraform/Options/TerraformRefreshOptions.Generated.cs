@@ -29,13 +29,13 @@ public record TerraformRefreshOptions : TerraformOptions
     /// <summary>
     /// Ask for input for variables if not directly set.
     /// </summary>
-    [CliFlag("-input")]
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
     public bool? Input { get; set; }
 
     /// <summary>
     /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
-    [CliFlag("-lock")]
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
     public bool? Lock { get; set; }
 
     /// <summary>
@@ -61,6 +61,12 @@ public record TerraformRefreshOptions : TerraformOptions
     /// </summary>
     [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Target { get; set; }
+
+    /// <summary>
+    /// Set a variable in the Terraform configuration. This flag can be set multiple times.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// Set variables in the Terraform configuration from a file. If "terraform.tfvars" or any ".auto.tfvars" files are present, they will be automatically loaded.

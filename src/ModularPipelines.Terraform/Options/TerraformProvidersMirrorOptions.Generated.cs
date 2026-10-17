@@ -41,19 +41,25 @@ public record TerraformProvidersMirrorOptions : TerraformOptions
     /// Choose which target platform to build a mirror for. By default Terraform will obtain plugin packages suitable for the platform where you run this command. Use this flag multiple times to include packages for multiple target systems.
     /// </summary>
     [CliOption("-platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
+    public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
     /// Ignore the provider lock file when fetching providers. By default the mirror command will use the version info in the lock file if the configuration directory has been previously initialized.
     /// </summary>
-    [CliFlag("-lock-file")]
+    [CliOption("-lock-file", Format = OptionFormat.EqualsSeparated)]
     public bool? LockFile { get; set; }
+
+    /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
 
     /// <summary>
     /// The &lt;target-dir&gt; operand.

@@ -14,7 +14,7 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Services;
 
 /// <summary>
-/// terraform deployment-step commands.
+/// terraform stacks deployment-step commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class TerraformStacksDeploymentStep

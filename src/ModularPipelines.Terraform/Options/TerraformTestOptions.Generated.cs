@@ -30,7 +30,7 @@ public record TerraformTestOptions : TerraformOptions
     /// If specified, Terraform will only execute the test files specified by this flag. You can use this option multiple times to execute more than one test file.
     /// </summary>
     [CliOption("-filter", Format = OptionFormat.EqualsSeparated)]
-    public string? Filter { get; set; }
+    public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
     /// If specified, machine readable output will be printed in JSON format
@@ -57,10 +57,16 @@ public record TerraformTestOptions : TerraformOptions
     public int? Parallelism { get; set; }
 
     /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
 
     /// <summary>
     /// Print the plan or state for each test run block as it executes.

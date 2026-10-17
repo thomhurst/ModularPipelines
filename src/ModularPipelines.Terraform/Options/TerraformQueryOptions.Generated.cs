@@ -20,4 +20,34 @@ namespace ModularPipelines.Terraform.Options;
 [CliSubCommand("query")]
 public record TerraformQueryOptions : TerraformOptions
 {
+    /// <summary>
+    /// Set a value for one of the input variables in the query file of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
+    /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
+    /// </summary>
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VarFile { get; set; }
+
+    /// <summary>
+    /// Instructs Terraform to generate import and resource blocks for any found results. The configuration is written to a new file at PATH, which must not already exist. When this option is used with the json option, the generated configuration will be part of the JSON output instead of written to a file.
+    /// </summary>
+    [CliOption("-generate-config-out", Format = OptionFormat.EqualsSeparated)]
+    public string? GenerateConfigOut { get; set; }
+
+    /// <summary>
+    /// If specified, machine readable output will be printed in JSON format
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
+    /// <summary>
+    /// If specified, output won't contain any color.
+    /// </summary>
+    [CliFlag("-no-color")]
+    public bool? NoColor { get; set; }
+
 }

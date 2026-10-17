@@ -23,13 +23,13 @@ public record TerraformStacksFmtOptions : TerraformOptions
     /// <summary>
     /// Don't list files whose formatting differs (always false if reading from stdin(-) and always true if using -check)
     /// </summary>
-    [CliFlag("-list")]
+    [CliOption("-list", Format = OptionFormat.EqualsSeparated)]
     public bool? List { get; set; }
 
     /// <summary>
     /// Don't write to source files (always false if reading from stdin(-) or using -check)
     /// </summary>
-    [CliFlag("-write")]
+    [CliOption("-write", Format = OptionFormat.EqualsSeparated)]
     public bool? Write { get; set; }
 
     /// <summary>

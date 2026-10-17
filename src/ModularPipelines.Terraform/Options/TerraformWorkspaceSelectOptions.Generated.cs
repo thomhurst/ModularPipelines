@@ -40,7 +40,7 @@ public record TerraformWorkspaceSelectOptions : TerraformOptions
     /// <summary>
     /// Create the Terraform workspace if it doesn't exist.
     /// </summary>
-    [CliFlag("-or-create")]
+    [CliOption("-or-create", Format = OptionFormat.EqualsSeparated)]
     public bool? OrCreate { get; set; }
 
     /// <summary>
