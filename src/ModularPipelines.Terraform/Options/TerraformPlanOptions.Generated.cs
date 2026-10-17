@@ -20,4 +20,106 @@ namespace ModularPipelines.Terraform.Options;
 [CliSubCommand("plan")]
 public record TerraformPlanOptions : TerraformOptions
 {
+    /// <summary>
+    /// Select the "destroy" planning mode, which creates a plan to destroy all objects currently managed by this Terraform configuration instead of the usual behavior.
+    /// </summary>
+    [CliFlag("-destroy")]
+    public bool? Destroy { get; set; }
+
+    /// <summary>
+    /// Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.
+    /// </summary>
+    [CliFlag("-refresh-only")]
+    public bool? RefreshOnly { get; set; }
+
+    /// <summary>
+    /// Skip checking for external changes to remote objects while creating the plan. This can potentially make planning faster, but at the expense of possibly planning against a stale record of the remote system state.
+    /// </summary>
+    [CliOption("-refresh", Format = OptionFormat.EqualsSeparated)]
+    public bool? Refresh { get; set; }
+
+    /// <summary>
+    /// Force replacement of a particular resource instance using its resource address. If the plan would've normally produced an update or no-op action for this instance, Terraform will plan to replace it instead. You can use this option multiple times to replace more than one object.
+    /// </summary>
+    [CliOption("-replace", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Replace { get; set; }
+
+    /// <summary>
+    /// Limit the planning operation to only the given module, resource, or resource instance and all of its dependencies. You can use this option multiple times to include more than one object. This is for exceptional use only.
+    /// </summary>
+    [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Target { get; set; }
+
+    /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
+    /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
+    /// </summary>
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? VarFile { get; set; }
+
+    /// <summary>
+    /// If Terraform produces any warnings that are not accompanied by errors, shows them in a more compact form that includes only the summary messages.
+    /// </summary>
+    [CliFlag("-compact-warnings")]
+    public bool? CompactWarnings { get; set; }
+
+    /// <summary>
+    /// Return detailed exit codes when the command exits. This will change the meaning of exit codes to: 0 - Succeeded, diff is empty (no changes) 1 - Errored 2 - Succeeded, there is a diff
+    /// </summary>
+    [CliFlag("-detailed-exitcode")]
+    public bool? DetailedExitcode { get; set; }
+
+    /// <summary>
+    /// (Experimental) If import blocks are present in configuration, instructs Terraform to generate HCL for any imported resources not already present. The configuration is written to a new file at PATH, which must not already exist. Terraform may still attempt to write configuration if the plan errors.
+    /// </summary>
+    [CliOption("-generate-config-out", Format = OptionFormat.EqualsSeparated)]
+    public string? GenerateConfigOut { get; set; }
+
+    /// <summary>
+    /// Ask for input for variables if not directly set.
+    /// </summary>
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
+    public bool? Input { get; set; }
+
+    /// <summary>
+    /// Don't hold a state lock during the operation. This is dangerous if others might concurrently run commands against the same workspace.
+    /// </summary>
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
+    public bool? Lock { get; set; }
+
+    /// <summary>
+    /// Duration to retry a state lock.
+    /// </summary>
+    [CliOption("-lock-timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? LockTimeout { get; set; }
+
+    /// <summary>
+    /// If specified, output won't contain any color.
+    /// </summary>
+    [CliFlag("-no-color")]
+    public bool? NoColor { get; set; }
+
+    /// <summary>
+    /// Write a plan file to the given path. This can be used as input to the "apply" command.
+    /// </summary>
+    [CliOption("-out", Format = OptionFormat.EqualsSeparated)]
+    public string? Out { get; set; }
+
+    /// <summary>
+    /// Limit the number of concurrent operations. Defaults to 10.
+    /// </summary>
+    [CliOption("-parallelism", Format = OptionFormat.EqualsSeparated)]
+    public int? Parallelism { get; set; }
+
+    /// <summary>
+    /// A legacy option used for the local backend only. See the local backend's documentation for more information.
+    /// </summary>
+    [CliOption("-state", Format = OptionFormat.EqualsSeparated)]
+    public string? State { get; set; }
+
 }

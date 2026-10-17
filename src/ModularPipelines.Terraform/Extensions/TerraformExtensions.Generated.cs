@@ -28,6 +28,7 @@ public static class TerraformExtensions
     public static IServiceCollection RegisterTerraformContext(this IServiceCollection services)
     {
         services.TryAddScoped<ITerraform, Services.Terraform>();
+        services.TryAddScoped<ITerraformMetadata, TerraformMetadata>();
         services.TryAddScoped<ITerraformProviders, TerraformProviders>();
         services.TryAddScoped<ITerraformStacks, TerraformStacks>();
         services.TryAddScoped<ITerraformState, TerraformState>();

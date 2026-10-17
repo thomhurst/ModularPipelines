@@ -21,6 +21,11 @@ public partial interface ITerraform
     #region Sub-domain Services
 
     /// <summary>
+    /// Gets the metadata sub-domain service.
+    /// </summary>
+    ITerraformMetadata Metadata { get; }
+
+    /// <summary>
     /// Gets the providers sub-domain service.
     /// </summary>
     ITerraformProviders Providers { get; }
@@ -142,15 +147,6 @@ public partial interface ITerraform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> LogoutAsync(TerraformLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// This command has subcommands for metadata related purposes.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public Task<CommandResult> MetadataAsync(TerraformMetadataOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints out a list of all declared Terraform modules and their resolved versions

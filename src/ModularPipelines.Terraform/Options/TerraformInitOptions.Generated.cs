@@ -23,7 +23,7 @@ public record TerraformInitOptions : TerraformOptions
     /// <summary>
     /// Disable backend or HCP Terraform initialization for this configuration and use what was previously initialized instead.
     /// </summary>
-    [CliFlag("-backend")]
+    [CliOption("-backend", Format = OptionFormat.EqualsSeparated)]
     public bool? Backend { get; set; }
 
     /// <summary>
@@ -47,19 +47,19 @@ public record TerraformInitOptions : TerraformOptions
     /// <summary>
     /// Disable downloading modules for this configuration.
     /// </summary>
-    [CliFlag("-get")]
+    [CliOption("-get", Format = OptionFormat.EqualsSeparated)]
     public bool? Get { get; set; }
 
     /// <summary>
     /// Disable interactive prompts. Note that some actions may require interactive prompts and will error if input is disabled.
     /// </summary>
-    [CliFlag("-input")]
+    [CliOption("-input", Format = OptionFormat.EqualsSeparated)]
     public bool? Input { get; set; }
 
     /// <summary>
     /// Don't hold a state lock during backend migration. This is dangerous if others might concurrently run commands against the same workspace.
     /// </summary>
-    [CliFlag("-lock")]
+    [CliOption("-lock", Format = OptionFormat.EqualsSeparated)]
     public bool? Lock { get; set; }
 
     /// <summary>
@@ -123,9 +123,15 @@ public record TerraformInitOptions : TerraformOptions
     public string? TestDirectory { get; set; }
 
     /// <summary>
+    /// Set a value for one of the input variables in the root module of the configuration. Use this option more than once to set more than one variable.
+    /// </summary>
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Var { get; set; }
+
+    /// <summary>
     /// Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
     /// </summary>
     [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
-    public string? VarFile { get; set; }
+    public IEnumerable<string>? VarFile { get; set; }
 
 }
