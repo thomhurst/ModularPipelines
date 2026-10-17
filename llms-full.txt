@@ -3721,8 +3721,6 @@ using ModularPipelines.Context;
 
 using ModularPipelines.DotNet.Options;
 
-using ModularPipelines.Extensions;
-
 using ModularPipelines.Models;
 
 
@@ -4009,8 +4007,6 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
    open ModularPipelines.DotNet.Services
 
-   open ModularPipelines.Extensions
-
    open ModularPipelines
 
    open System.Threading
@@ -4113,8 +4109,6 @@ Install the .NET 11 SDK, then follow these steps:
    using ModularPipelines.Attributes;
 
    using ModularPipelines.Context;
-
-   using ModularPipelines.Extensions;
 
    using ModularPipelines.Models;
 
@@ -4513,6 +4507,14 @@ cd MyPipeline
 
 The generated project contains restore, build, test, and publish modules with explicit dependencies. It also includes `appsettings.json`, where you can change the paths and build configuration later.
 
+To include an optional TUnit project under `Tests/`, add `--tests` to the `dotnet new` command above. Run the generated tests from the pipeline directory:
+
+```
+dotnet run --project Tests/MyPipeline.Tests.csproj
+```
+
+The option defaults to `false`. The generated `BuildModuleTests` uses `ModularPipelines.Testing` to test the build module in isolation, with intercepted commands and an in-memory filesystem. See [Testing](/ModularPipelines/docs/how-to/testing.md) for the harness API.
+
 Run the pipeline like any other .NET application:
 
 ```
@@ -4834,7 +4836,7 @@ ZIP creation defaults to optimal compression and refuses to replace an existing 
 
 Cancellation propagates as `OperationCanceledException`. Creation or extraction can leave a partial archive or partially extracted files; these operations are not transactional. Archive finalization and cleanup still run after cancellation.
 
-Content hashing and copying use asynchronous stream APIs without wrapping disk work in `Task.Run`. File-system metadata operations and directory enumeration remain synchronous. In .NET 10, ZIP central-directory enumeration and parts of entry creation/finalization also perform synchronous I/O because the runtime does not expose asynchronous alternatives for those steps. Custom providers determine whether their streams implement asynchronous I/O directly.
+Content hashing and copying use asynchronous stream APIs without wrapping disk work in `Task.Run`. File-system metadata operations and directory enumeration remain synchronous. In the pinned .NET 11 runtime, `ZipArchive.CreateAsync` reads the central directory asynchronously before returning a read-mode archive, so enumerating `Entries` then uses the loaded metadata. Entry streams use `OpenAsync` and async disposal; archive finalization uses `DisposeAsync`. `CreateEntry` remains synchronous and can write the preceding unopened entry's header, for example for an empty directory. These helpers therefore do not guarantee that every ZIP operation avoids synchronous I/O. Custom providers also determine whether their streams implement asynchronous I/O directly. See the runtime's [async archive implementation](https://github.com/dotnet/runtime/blob/v11.0.0-rc.1.26425.128/src/libraries/System.IO.Compression/src/System/IO/Compression/ZipArchive.Async.cs) and [entry creation path](https://github.com/dotnet/runtime/blob/v11.0.0-rc.1.26425.128/src/libraries/System.IO.Compression/src/System/IO/Compression/ZipArchive.cs).
 
 ## Migrating custom context implementations to V4[​](#migrating-custom-context-implementations-to-v4 "Direct link to Migrating custom context implementations to V4")
 
@@ -5310,7 +5312,7 @@ var options = new SomeGeneratedOptions
 };
 ```
 
-Within each non-terminal phase, additional tokens retain their declared order and appear before generated tokens. The supported phases render as `EarlyOperand`, `Normal`, `Passthrough`, then `Terminal`. Use `RunSettings` or a declared marker in `Arguments` for end-of-options pass-through values. Terminal tokens appear after `Arguments` and cannot be combined with an end-of-options marker or `RunSettings`.
+Within each non-terminal phase, additional tokens retain their declared order and appear before generated tokens. The supported phases render as `EarlyOperand`, `Normal`, `Passthrough`, `LateOperand`, then `Terminal`. Use `RunSettings` or a declared marker in `Arguments` for end-of-options pass-through values. Terminal tokens appear after `Arguments` and cannot be combined with an end-of-options marker or `RunSettings`.
 
 ## Strongly Typed Options[​](#strongly-typed-options "Direct link to Strongly Typed Options")
 
@@ -6971,6 +6973,24 @@ new CommandLoggingOptions
 }
 ```
 
+### Command Output Encoding[​](#command-output-encoding "Direct link to Command Output Encoding")
+
+`CommandExecutionOptions.OutputEncoding` controls how standard output and standard error are decoded. It defaults to `System.Text.Encoding.UTF8`. A byte order mark in either stream takes precedence over this setting for that stream. Set it per command when a tool emits another encoding:
+
+```
+var result = await context.Shell.RunAsync(
+
+    "legacy-tool",
+
+    ["export"],
+
+    new CommandExecutionOptions { OutputEncoding = System.Text.Encoding.Latin1 },
+
+    cancellationToken);
+```
+
+This controls decoding of process output, not the encoding a tool uses to write files.
+
 ### Captured Output Limits[​](#captured-output-limits "Direct link to Captured Output Limits")
 
 `CommandExecutionOptions.MaxCapturedOutputLength` defaults to 1,048,576 characters per stream. Longer output retains its beginning and end, with `... [truncated N characters] ...` in the middle. This affects `CommandResult` capture, not the complete streamed log output.
@@ -7079,9 +7099,9 @@ Fingerprint-based module caching skips work when its declared inputs have not ch
 Register the filesystem backend once:
 
 ```
-using ModularPipelines.Caching;
+using ModularPipelines;
 
-using ModularPipelines.Extensions;
+using ModularPipelines.Caching;
 
 
 
@@ -8079,8 +8099,6 @@ using Microsoft.Extensions.Hosting;
 
 using ModularPipelines;
 
-using ModularPipelines.Extensions;
-
 using ModularPipelines.Options;
 
 
@@ -8632,7 +8650,7 @@ This applies to all modules that don't override their retry configuration. Modul
 
 A run condition is an `IRunCondition`: one asynchronous predicate that receives the pipeline context and a cancellation token.
 
-Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`. Keep them side-effect-free: they must not mutate external state or rely on being evaluated exactly once. Fluent conditions that await module results are reported as unknown in a dry-run plan because planning never executes dependencies to produce those results.
+Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`. Keep them side-effect-free: they must not mutate external state or rely on being evaluated exactly once. Fluent conditions that await module results remain unresolved during planning because planning never executes dependencies to produce those results. The plan reports an unknown skip decision unless another condition determines the outcome.
 
 ```
 public class ServiceIsAvailable : IRunCondition
@@ -8774,7 +8792,11 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 
 ## Planning-safe conditions[​](#planning-safe-conditions "Direct link to Planning-safe conditions")
 
-`PlanAsync()`, `--dry-run`, and dependency-graph export evaluate a condition only when it is marked with `IPlanningSafe`. Implement the marker on conditions, condition attributes, and condition groups that are free of side effects, blocking work, and remote I/O. Other conditions stay unresolved until the pipeline runs. The same marker applies to dependency selectors derived from `DependsOnBaseAttribute` and to module registration handlers.
+`PlanAsync()`, `--dry-run`, and dependency-graph export evaluate typed conditions registered through attributes, `WithRunIf`, or `WithSkipIf` only when they are marked with `IPlanningSafe`. Implement the marker on conditions, condition attributes, and condition groups that are free of side effects, blocking work, and remote I/O. Unmarked typed conditions stay unresolved until execution. The same marker applies to dependency selectors derived from `DependsOnBaseAttribute` and to module registration handlers.
+
+Fluent delegates passed to `WithSkipWhen` or `WithSkipWhenAll` are different: planning can invoke them without an `IPlanningSafe` marker, including asynchronous delegates. Do not put execution-only HTTP, Git, or other remote checks in these delegates; use an unmarked `IRunCondition` with `WithRunIf` or `WithSkipIf` instead. A dry-run does not prevent I/O performed by a delegate.
+
+Not every delegate runs on every plan. Module selection and earlier skip decisions can bypass it, and composed conditions short-circuit. If a delegate accesses an unavailable module result, that condition remains unresolved; another condition can still determine the skip decision. Work performed before that access can still run. Keep delegates side-effect-free and safe to evaluate more than once.
 
 ## Built-in conditions[​](#built-in-conditions "Direct link to Built-in conditions")
 
@@ -8814,7 +8836,7 @@ ModularPipelines can write a schema-versioned JSON report after every pipeline r
 Configure an explicit output path on the pipeline builder:
 
 ```
-using ModularPipelines.Extensions;
+using ModularPipelines;
 
 
 
@@ -9341,7 +9363,7 @@ The recommended way to configure module skipping is through the `Configure(Modul
 
 Attribute conditions (`[SkipIf<T1, ..., T4>]`, `[RunIf<T1, ..., T4>]`, and `[RunIfAny<T1, ..., T4>]`) and the equivalent `.WithRunIf<T>()` and `.WithSkipIf<T>()` builder methods remain supported; see [Run conditions](/ModularPipelines/docs/how-to/run-conditions.md). Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
-`PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be side-effect-free and must not rely on being evaluated exactly once. If a fluent condition reads an awaited module result, that result does not exist during planning; the plan reports the module's skip decision as unknown and continues without executing modules.
+`PlanAsync()` and `--dry-run` can invoke `WithSkipWhen` and `WithSkipWhenAll` delegates without an `IPlanningSafe` marker, including asynchronous delegates. Typed conditions registered with attributes, `WithRunIf`, or `WithSkipIf` require that marker to run during planning. Module selection, earlier skip decisions, and short-circuiting can prevent evaluation; not every delegate runs on every dry-run. Conditions must be side-effect-free and must not rely on being evaluated exactly once. If a fluent condition reads an awaited module result, that result does not exist during planning; the condition remains unresolved without executing modules. The plan reports an unknown skip decision unless another condition determines the outcome. Any delegate work before the result access can still run, including remote I/O. Use unmarked typed conditions for checks that must wait until execution.
 
 ### Simple Condition[​](#simple-condition "Direct link to Simple Condition")
 
@@ -9373,7 +9395,7 @@ public class MyModule : Module<CommandResult>
 
 ### Using Pipeline Context[​](#using-pipeline-context "Direct link to Using Pipeline Context")
 
-When you need access to the pipeline context for your skip condition:
+Delegates can read local values from the pipeline context:
 
 ```
 public class MyModule : Module<CommandResult>
@@ -9384,9 +9406,9 @@ public class MyModule : Module<CommandResult>
 
         .WithSkipWhen(
 
-            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
+            ctx => ctx.Environment.Variables.Get("DEPLOY_ENV") != "production",
 
-            "This should only run on the main branch");
+            "This should only run in production");
 
 
 
@@ -9394,7 +9416,7 @@ public class MyModule : Module<CommandResult>
 
     {
 
-        // This only runs on the main branch
+        // This only runs in production
 
     }
 
@@ -9420,15 +9442,11 @@ public class MyModule : Module<CommandResult>
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithSkipWhen(async (ctx, _) =>
+        .WithSkipWhen(
 
-        {
+            ctx => ctx.Environment.Variables.Get("DEPLOY_ENV") != "production",
 
-            var repositoryInfo = await ctx.Tools.Git.Information.GetInfoAsync();
-
-            return repositoryInfo?.BranchName != "main";
-
-        }, "This should only run on the main branch");
+            "This should only run in production");
 
 
 
@@ -9445,7 +9463,7 @@ public class MyModule : Module<CommandResult>
 
 ### Async Skip Conditions[​](#async-skip-conditions "Direct link to Async Skip Conditions")
 
-For conditions that require async operations, reuse an `HttpClient` instance and dispose of each response:
+For an execution-only remote check, implement `IRunCondition` without `IPlanningSafe` and register it with `WithRunIf` (or `WithSkipIf` for the inverse predicate). Planning leaves this check unresolved and does not send the HTTP request. Reuse an `HttpClient` instance and dispose of each response:
 
 ```
 using System.Net.Http;
@@ -9454,7 +9472,7 @@ using ModularPipelines;
 
 
 
-public class MyModule : Module
+public sealed class RemoteServiceIsAvailable : IRunCondition
 
 {
 
@@ -9462,21 +9480,31 @@ public class MyModule : Module
 
 
 
+    public async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+
+    {
+
+        using var response = await Client.GetAsync(
+
+            "https://api.example.com/should-run",
+
+            cancellationToken);
+
+        return response.IsSuccessStatusCode;
+
+    }
+
+}
+
+
+
+public class MyModule : Module
+
+{
+
     protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithSkipWhen(async (_, cancellationToken) =>
-
-        {
-
-            using var response = await Client.GetAsync(
-
-                "https://api.example.com/should-run",
-
-                cancellationToken);
-
-            return !response.IsSuccessStatusCode;
-
-        }, "The remote service is unavailable");
+        .WithRunIf<RemoteServiceIsAvailable>();
 
 
 
@@ -9497,9 +9525,15 @@ public class MyModule : Module
 
 Repeated `WithSkipWhen` conditions use OR-to-skip semantics, matching repeated `[SkipIf<T>]` attributes. They run in registration order, and evaluation stops when any condition returns `SkipDecision.Skip`.
 
-For example, this module skips cleanup for either CI builds or non-main branches:
+For example, this module skips cleanup for either CI builds or non-main branches. The Git package's `RunIfBranch` attribute is not planning-safe, so its Git lookup waits until execution:
 
 ```
+using ModularPipelines.Git.Attributes;
+
+
+
+[RunIfBranch("main")]
+
 public class CleanupModule : Module<CommandResult>
 
 {
@@ -9507,12 +9541,6 @@ public class CleanupModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
-
-        .WithSkipWhen(
-
-            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
-
-            "Not on the main branch")
 
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
 
@@ -9943,6 +9971,20 @@ The test harness uses the normal module execution pipeline, so skip conditions, 
 * progress, logos, dependency chains, and result printing are disabled;
 * module failures are returned for assertions instead of escaping from the harness.
 
+## Generate a test project[​](#generate-a-test-project "Direct link to Generate a test project")
+
+The pipeline template can include a TUnit project that references `ModularPipelines.Testing`:
+
+```
+dotnet new modularpipeline -n MyPipeline --tests
+
+cd MyPipeline
+
+dotnet run --project Tests/MyPipeline.Tests.csproj
+```
+
+Install `ModularPipelines.Templates` first as shown in [Getting started](/ModularPipelines/docs/getting-started.md). `--tests` defaults to `false`; enable it to generate `Tests/MyPipeline.Tests.csproj` and `BuildModuleTests`. The example seeds the restore result, supplies build settings, and inspects the recorded build command without running a real build.
+
 ## Execute a module[​](#execute-a-module "Direct link to Execute a module")
 
 Specify the module and result types for strongly typed value access:
@@ -10296,7 +10338,7 @@ public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEst
 }
 ```
 
-When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent measured durations for a module, which a custom provider can average instead of keeping its own storage.
+When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent measured durations for a module, which a custom provider can average instead of keeping its own storage. Configure `RunReportOptions.PipelineIdentity` explicitly through `builder.ConfigureOptions` before querying the reader. The identity derived automatically when writing reports is not used by `IRunHistoryReader`; a missing or blank identity causes `InvalidOperationException`. See [Run reports and history](/ModularPipelines/docs/how-to/run-reports.md#local-history-and-deltas) for configuration and query examples.
 
 
 ---
@@ -12941,7 +12983,9 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `Engine.IModuleResultRepository`, `Engine.IModuleEstimatedTimeProvider`                            | `ModularPipelines.Reporting`                                      |
 | `Models.PipelineMetrics`, `Models.ModuleTimeline`, `Models.SubModuleEstimation`                    | `ModularPipelines.Reporting`                                      |
 
-Start ordinary modules with `using ModularPipelines;`. Keep other imports where you need them, such as `ModularPipelines.Options`, `ModularPipelines.Extensions`, `ModularPipelines.FileSystem`, and generated CLI option namespaces.
+Start ordinary modules with `using ModularPipelines;`. Keep other imports where you need them, such as `ModularPipelines.Options`, `ModularPipelines.FileSystem`, and generated CLI option namespaces.
+
+Remove `using ModularPipelines.Extensions;` from V4 code. That namespace now contains only internal types; public builder APIs are available through `ModularPipelines`.
 
 Do not replace whole namespaces blindly. Some types did not move:
 

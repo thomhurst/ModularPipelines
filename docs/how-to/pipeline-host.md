@@ -376,8 +376,6 @@ using Microsoft.Extensions.Hosting;
 
 using ModularPipelines;
 
-using ModularPipelines.Extensions;
-
 using ModularPipelines.Options;
 
 

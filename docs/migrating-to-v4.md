@@ -120,7 +120,9 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `Engine.IModuleResultRepository`, `Engine.IModuleEstimatedTimeProvider`                            | `ModularPipelines.Reporting`                                      |
 | `Models.PipelineMetrics`, `Models.ModuleTimeline`, `Models.SubModuleEstimation`                    | `ModularPipelines.Reporting`                                      |
 
-Start ordinary modules with `using ModularPipelines;`. Keep other imports where you need them, such as `ModularPipelines.Options`, `ModularPipelines.Extensions`, `ModularPipelines.FileSystem`, and generated CLI option namespaces.
+Start ordinary modules with `using ModularPipelines;`. Keep other imports where you need them, such as `ModularPipelines.Options`, `ModularPipelines.FileSystem`, and generated CLI option namespaces.
+
+Remove `using ModularPipelines.Extensions;` from V4 code. That namespace now contains only internal types; public builder APIs are available through `ModularPipelines`.
 
 Do not replace whole namespaces blindly. Some types did not move:
 

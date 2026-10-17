@@ -7,9 +7,9 @@ Fingerprint-based module caching skips work when its declared inputs have not ch
 Register the filesystem backend once:
 
 ```
-using ModularPipelines.Caching;
+using ModularPipelines;
 
-using ModularPipelines.Extensions;
+using ModularPipelines.Caching;
 
 
 

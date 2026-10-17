@@ -27,8 +27,6 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
 
    open ModularPipelines.DotNet.Services
 
-   open ModularPipelines.Extensions
-
    open ModularPipelines
 
    open System.Threading

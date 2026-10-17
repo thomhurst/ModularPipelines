@@ -214,6 +214,24 @@ new CommandLoggingOptions
 }
 ```
 
+### Command Output Encoding[​](#command-output-encoding "Direct link to Command Output Encoding")
+
+`CommandExecutionOptions.OutputEncoding` controls how standard output and standard error are decoded. It defaults to `System.Text.Encoding.UTF8`. A byte order mark in either stream takes precedence over this setting for that stream. Set it per command when a tool emits another encoding:
+
+```
+var result = await context.Shell.RunAsync(
+
+    "legacy-tool",
+
+    ["export"],
+
+    new CommandExecutionOptions { OutputEncoding = System.Text.Encoding.Latin1 },
+
+    cancellationToken);
+```
+
+This controls decoding of process output, not the encoding a tool uses to write files.
+
 ### Captured Output Limits[​](#captured-output-limits "Direct link to Captured Output Limits")
 
 `CommandExecutionOptions.MaxCapturedOutputLength` defaults to 1,048,576 characters per stream. Longer output retains its beginning and end, with `... [truncated N characters] ...` in the middle. This affects `CommandResult` capture, not the complete streamed log output.

@@ -2,7 +2,7 @@
 
 A run condition is an `IRunCondition`: one asynchronous predicate that receives the pipeline context and a cancellation token.
 
-Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`. Keep them side-effect-free: they must not mutate external state or rely on being evaluated exactly once. Fluent conditions that await module results are reported as unknown in a dry-run plan because planning never executes dependencies to produce those results.
+Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`. Keep them side-effect-free: they must not mutate external state or rely on being evaluated exactly once. Fluent conditions that await module results remain unresolved during planning because planning never executes dependencies to produce those results. The plan reports an unknown skip decision unless another condition determines the outcome.
 
 ```
 public class ServiceIsAvailable : IRunCondition
@@ -144,7 +144,11 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 
 ## Planning-safe conditions[​](#planning-safe-conditions "Direct link to Planning-safe conditions")
 
-`PlanAsync()`, `--dry-run`, and dependency-graph export evaluate a condition only when it is marked with `IPlanningSafe`. Implement the marker on conditions, condition attributes, and condition groups that are free of side effects, blocking work, and remote I/O. Other conditions stay unresolved until the pipeline runs. The same marker applies to dependency selectors derived from `DependsOnBaseAttribute` and to module registration handlers.
+`PlanAsync()`, `--dry-run`, and dependency-graph export evaluate typed conditions registered through attributes, `WithRunIf`, or `WithSkipIf` only when they are marked with `IPlanningSafe`. Implement the marker on conditions, condition attributes, and condition groups that are free of side effects, blocking work, and remote I/O. Unmarked typed conditions stay unresolved until execution. The same marker applies to dependency selectors derived from `DependsOnBaseAttribute` and to module registration handlers.
+
+Fluent delegates passed to `WithSkipWhen` or `WithSkipWhenAll` are different: planning can invoke them without an `IPlanningSafe` marker, including asynchronous delegates. Do not put execution-only HTTP, Git, or other remote checks in these delegates; use an unmarked `IRunCondition` with `WithRunIf` or `WithSkipIf` instead. A dry-run does not prevent I/O performed by a delegate.
+
+Not every delegate runs on every plan. Module selection and earlier skip decisions can bypass it, and composed conditions short-circuit. If a delegate accesses an unavailable module result, that condition remains unresolved; another condition can still determine the skip decision. Work performed before that access can still run. Keep delegates side-effect-free and safe to evaluate more than once.
 
 ## Built-in conditions[​](#built-in-conditions "Direct link to Built-in conditions")
 

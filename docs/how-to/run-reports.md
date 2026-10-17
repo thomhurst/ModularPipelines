@@ -7,7 +7,7 @@ ModularPipelines can write a schema-versioned JSON report after every pipeline r
 Configure an explicit output path on the pipeline builder:
 
 ```
-using ModularPipelines.Extensions;
+using ModularPipelines;
 
 
 
