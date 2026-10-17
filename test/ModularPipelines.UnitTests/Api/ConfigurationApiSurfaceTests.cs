@@ -27,6 +27,7 @@ public class ConfigurationApiSurfaceTests
     [Test]
     public async Task Internal_Module_Lookup_Is_Not_Public()
     {
+        await Assert.That(typeof(EnumerableExtensions).IsPublic).IsFalse();
         await Assert.That(typeof(EnumerableExtensions).GetMethod("GetModule", BindingFlags.Public | BindingFlags.Static)).IsNull();
     }
 

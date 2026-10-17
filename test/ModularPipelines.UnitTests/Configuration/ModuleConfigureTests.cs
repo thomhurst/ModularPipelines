@@ -166,6 +166,7 @@ public class ModuleConfigureTests
 
         using (Assert.Multiple())
         {
+            await Assert.That(typeof(ModuleConfigurationBuilder).GetConstructors()).IsEmpty();
             await Assert.That(typeof(ModuleConfiguration).GetConstructors()).IsEmpty();
             await Assert.That(typeof(ModuleConfiguration).GetProperty("Default", publicStatic)).IsNull();
             await Assert.That(typeof(ModuleConfiguration).GetMethod("Create", publicStatic)).IsNull();

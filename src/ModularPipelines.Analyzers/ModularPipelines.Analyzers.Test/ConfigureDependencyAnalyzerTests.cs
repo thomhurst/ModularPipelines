@@ -113,7 +113,7 @@ public class ConfigureDependencyAnalyzerTests
 
     [TestMethod]
     [DataRow("private void Other(ModuleConfigurationBuilder module) => module.DependsOn<Dependency>();")]
-    [DataRow("protected override void Configure(ModuleConfigurationBuilder module) => new ModuleConfigurationBuilder().DependsOn<Dependency>();")]
+    [DataRow("protected override void Configure(ModuleConfigurationBuilder module) { ModuleConfigurationBuilder other = null!; other.DependsOn<Dependency>(); }")]
     [DataRow("protected override void Configure(ModuleConfigurationBuilder module) => module.DependsOn<Consumer>();")]
     [DataRow("protected override void Configure(ModuleConfigurationBuilder module) { Action deferred = () => module.DependsOn<Dependency>(); }")]
     [DataRow("protected override void Configure(ModuleConfigurationBuilder module) { void Deferred() => module.DependsOn<Dependency>(); }")]

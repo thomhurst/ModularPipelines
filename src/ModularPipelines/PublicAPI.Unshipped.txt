@@ -2311,7 +2311,6 @@ ModularPipelines.ModuleConfigurationBuilder.DependsOnIf(System.Type! moduleType,
 ModularPipelines.ModuleConfigurationBuilder.DependsOnIf<TModule>(bool condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.DependsOnOptional(System.Type! moduleType) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.DependsOnOptional<TModule>() -> ModularPipelines.ModuleConfigurationBuilder!
-ModularPipelines.ModuleConfigurationBuilder.ModuleConfigurationBuilder() -> void
 ModularPipelines.ModuleConfigurationBuilder.WithAlwaysRun() -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithCacheAssemblyVersionKey(string! value) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithCacheEnvironmentVariable(string! variableName) -> ModularPipelines.ModuleConfigurationBuilder!
@@ -3479,7 +3478,6 @@ ModularPipelines.Exceptions.PipelineFailedException.Summary.get -> ModularPipeli
 *REMOVED*ModularPipelines.Extensions.CommandExtensions
 ModularPipelines.CommandExtensions
 *REMOVED*ModularPipelines.Extensions.EnumerableExtensions
-ModularPipelines.EnumerableExtensions
 *REMOVED*ModularPipelines.Extensions.FileExtensions
 ModularPipelines.FileSystem.FileExtensions
 *REMOVED*ModularPipelines.Extensions.FolderExtensions

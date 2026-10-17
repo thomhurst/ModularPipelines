@@ -57,6 +57,10 @@ public sealed class ModuleConfigurationBuilder
     private ExecutionHint? _executionHint;
     private string? _category;
 
+    internal ModuleConfigurationBuilder()
+    {
+    }
+
     #region WithSkipWhen Overloads
 
     /// <summary>

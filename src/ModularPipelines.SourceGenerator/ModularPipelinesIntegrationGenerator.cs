@@ -431,6 +431,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             builder.AppendLine("namespace ModularPipelines.Context");
             builder.AppendLine("{");
             builder.AppendLine(
+                "[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]");
+            builder.AppendLine(
+                "[global::System.CodeDom.Compiler.GeneratedCodeAttribute("
+                + $"\"ModularPipelines.SourceGenerator\", \"{typeof(ModularPipelinesIntegrationGenerator).Assembly.GetName().Version}\")]");
+            builder.AppendLine(
                 $"public static class {candidates[0].GeneratedTypeName}");
             builder.AppendLine("{");
             builder.AppendLine(
