@@ -741,7 +741,7 @@ internal class DistributedModuleExecutor(
             async (lease, claimedAt, leaseToken) =>
             {
                 using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(pipelineCancellationToken, leaseToken);
-                ArmResultDeadline(lease.Assignment.ModuleId);
+                ArmResultDeadline(lease);
                 await ExecuteMasterAssignmentAsync(
                     lease,
                     claimedAt,
@@ -887,7 +887,7 @@ internal class DistributedModuleExecutor(
                 foreach (var lease in await _masterCoordinator.GetActiveLeasesAsync(cancellationToken)
                              .ConfigureAwait(false))
                 {
-                    ArmResultDeadline(lease.Assignment.ModuleId);
+                    ArmResultDeadline(lease);
                 }
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -950,12 +950,11 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private void ArmResultDeadline(ModuleId moduleId)
+    private void ArmResultDeadline(ModuleLease lease)
     {
-        if (_resultDeadlines.TryGetValue(moduleId, out var deadline))
+        if (_resultDeadlines.TryGetValue(lease.Assignment.ModuleId, out var deadline))
         {
-            deadline.Arm();
-            deadline.ClearRequeued();
+            deadline.Arm(lease.LeaseId);
         }
     }
 
@@ -1448,14 +1447,17 @@ internal class DistributedModuleExecutor(
     }
 
     /// <summary>
-    /// The master's backstop deadline for one module's result. It starts when a worker is first
-    /// seen holding the module's lease, not when the module is queued.
+    /// The master's backstop deadline for one module's result. Each new lease gets a full deadline;
+    /// time spent queued between leases does not consume the next worker's budget.
     /// </summary>
-    private sealed class ResultDeadline(TimeSpan? backstop, CapabilityRequirement? workerOnlyCapabilities) : IDisposable
+    internal sealed class ResultDeadline(
+        TimeSpan? backstop,
+        CapabilityRequirement? workerOnlyCapabilities,
+        TimeProvider? timeProvider = null) : IDisposable
     {
-        private readonly CancellationTokenSource _cts = new();
+        private readonly CancellationTokenSource _cts = new(Timeout.InfiniteTimeSpan, timeProvider ?? TimeProvider.System);
         private readonly Lock _lock = new();
-        private int _armed;
+        private string? _leaseId;
         private DateTimeOffset? _requeuedAt;
         private Exception? _strandReason;
 
@@ -1496,14 +1498,24 @@ internal class DistributedModuleExecutor(
 
         public void MarkRequeued(DateTimeOffset now)
         {
-            if (workerOnlyCapabilities is null)
-            {
-                return;
-            }
-
             lock (_lock)
             {
-                _requeuedAt ??= now;
+                // Pause while queued, including assignments the master can reclaim. A replacement may
+                // already be running locally, so let the next active-lease observation arm it again.
+                _leaseId = null;
+                try
+                {
+                    _cts.CancelAfter(Timeout.InfiniteTimeSpan);
+                }
+                catch (ObjectDisposedException)
+                {
+                    // The result arrived while the expired lease was being observed.
+                }
+
+                if (workerOnlyCapabilities is not null)
+                {
+                    _requeuedAt ??= now;
+                }
             }
         }
 
@@ -1552,20 +1564,30 @@ internal class DistributedModuleExecutor(
 
         public CancellationToken Token => _cts.Token;
 
-        public void Arm()
+        public void Arm(string leaseId)
         {
-            if (Backstop is not { } backstop || Interlocked.Exchange(ref _armed, 1) != 0)
+            lock (_lock)
             {
-                return;
-            }
+                if (_leaseId == leaseId)
+                {
+                    return;
+                }
 
-            try
-            {
-                _cts.CancelAfter(backstop);
-            }
-            catch (ObjectDisposedException)
-            {
-                // The result arrived while the lease was being observed.
+                _leaseId = leaseId;
+                _requeuedAt = null;
+                if (Backstop is not { } backstop)
+                {
+                    return;
+                }
+
+                try
+                {
+                    _cts.CancelAfter(backstop);
+                }
+                catch (ObjectDisposedException)
+                {
+                    // The result arrived while the lease was being observed.
+                }
             }
         }
 
