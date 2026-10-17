@@ -51,7 +51,7 @@ public record AzBillingAccountUpdateOptions : AzOptions
     public string? BillingProfilesValue { get; set; }
 
     /// <summary>
-    /// The departments associated to the enrollment. Expected value: json- string/@json-file.
+    /// The departments associated to the enrollment. Expected value: json-string/@json-file.
     /// </summary>
     [CliOption("--departments")]
     public string? Departments { get; set; }
@@ -63,7 +63,7 @@ public record AzBillingAccountUpdateOptions : AzOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The accounts associated to the enrollment. Expected value: json- string/@json-file.
+    /// The accounts associated to the enrollment. Expected value: json-string/@json-file.
     /// </summary>
     [CliOption("--enrollment-accounts")]
     public string? EnrollmentAccounts { get; set; }
@@ -75,7 +75,7 @@ public record AzBillingAccountUpdateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// The address of the individual or organization that is responsible for the billing account. Usage: --sold-to first-name=XX last-name=XX company-name=XX address-line1=XX address- line2=XX address-line3=XX city=XX district=XX region=XX country=XX postal-code=XX email=XX phone-number=XX.
+    /// The address of the individual or organization that is responsible for the billing account. Usage: --sold-to first-name=XX last-name=XX company-name=XX address-line1=XX address-line2=XX address-line3=XX city=XX district=XX region=XX country=XX postal-code=XX email=XX phone-number=XX.
     /// </summary>
     [CliOption("--sold-to", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? SoldTo { get; set; }

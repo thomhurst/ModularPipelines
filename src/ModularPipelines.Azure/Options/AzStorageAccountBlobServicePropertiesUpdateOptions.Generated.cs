@@ -75,7 +75,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     public int? ChangeFeedDays { get; set; }
 
     /// <summary>
-    /// Indicate whether change feed event logging is enabled. If it is true, you enable the storage account to begin capturing changes. The default value is true. You can see more details in https://learn.microsoft.c om/azure/storage/blobs/storage-blob- change-feed?tabs=azure- portal#register-by-using-azure-cli. Allowed values: false, true.
+    /// Indicate whether change feed event logging is enabled. If it is true, you enable the storage account to begin capturing changes. The default value is true. You can see more details in https://learn.microsoft.c om/azure/storage/blobs/storage-blob-change-feed?tabs=azure-portal#register-by-using-azure-cli. Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-change-feed", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableChangeFeed { get; set; }
@@ -147,7 +147,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     public string? Number404Document { get; set; }
 
     /// <summary>
-    /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case- sensitive.
+    /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case-sensitive.
     /// </summary>
     [CliOption("--default-index")]
     public string? DefaultIndex { get; set; }

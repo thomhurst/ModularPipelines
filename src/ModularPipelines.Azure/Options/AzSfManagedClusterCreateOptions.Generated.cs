@@ -111,7 +111,7 @@ public record AzSfManagedClusterCreateOptions : AzOptions
     public string? ClusterCodeVersion { get; set; }
 
     /// <summary>
-    /// The upgrade mode of the cluster when new Service Fabric runtime version is available Wave0: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test/Dev clusters.Wave1: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre- prod clusters.Wave2: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. Allowed values: Wave0, Wave1, Wave2.
+    /// The upgrade mode of the cluster when new Service Fabric runtime version is available Wave0: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test/Dev clusters.Wave1: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre-prod clusters.Wave2: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. Allowed values: Wave0, Wave1, Wave2.
     /// </summary>
     [CliOption("--cluster-upgrade-cadence")]
     public string? ClusterUpgradeCadence { get; set; }

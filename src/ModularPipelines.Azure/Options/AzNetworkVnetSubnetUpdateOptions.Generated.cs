@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkVnetSubnetUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Space-separated list of address prefixes in CIDR format. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of address prefixes in CIDR format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
@@ -52,13 +52,13 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public CliOptionValue? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
     /// <summary>
-    /// An array of service endpoints. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// An array of service endpoints. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
-    /// A list of IPAM Pools for allocating IP address prefixes. A list of IPAM Pools allocating IP address prefixes. If a non- empty value is provided, --address-prefixes would be ignored by CLI.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// A list of IPAM Pools for allocating IP address prefixes. A list of IPAM Pools allocating IP address prefixes. If a non-empty value is provided, --address-prefixes would be ignored by CLI.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
@@ -76,7 +76,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public string? NetworkSecurityGroup { get; set; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -106,7 +106,7 @@ public record AzNetworkVnetSubnetUpdateOptions : AzOptions
     public IEnumerable<string>? ServiceEndpointPolicy { get; set; }
 
     /// <summary>
-    /// Space-separated list of services allowed private access to this subnet. Values from: az network vnet list-endpoint- services.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of services allowed private access to this subnet. Values from: az network vnet list-endpoint-services.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--service-endpoints", GroupValues = true)]
     public IEnumerable<string>? ServiceEndpoints { get; set; }

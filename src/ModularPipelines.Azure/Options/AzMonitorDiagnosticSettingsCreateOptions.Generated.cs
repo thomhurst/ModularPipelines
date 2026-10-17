@@ -86,7 +86,7 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     public string? MarketplacePartnerId { get; set; }
 
     /// <summary>
-    /// The list of metric settings.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of metric settings.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--metrics", GroupValues = true)]
     public IEnumerable<string>? Metrics { get; set; }

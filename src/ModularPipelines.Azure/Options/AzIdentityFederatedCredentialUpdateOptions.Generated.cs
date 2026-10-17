@@ -103,19 +103,19 @@ public record AzIdentityFederatedCredentialUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The aud value in the token sent to Azure for getting the user- assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure to issue the access token.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// The aud value in the token sent to Azure for getting the user-assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure to issue the access token.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--audiences", GroupValues = true)]
     public IEnumerable<string>? Audiences { get; set; }
 
     /// <summary>
-    /// The openId connect metadata URL of the issuer of the identity provider that Azure AD would use in the token exchange protocol for validating tokens before issuing a token as the user- assigned managed identity.
+    /// The openId connect metadata URL of the issuer of the identity provider that Azure AD would use in the token exchange protocol for validating tokens before issuing a token as the user-assigned managed identity.
     /// </summary>
     [CliOption("--issuer")]
     public string? Issuer { get; set; }
 
     /// <summary>
-    /// The sub value in the token sent to Azure AD for getting the user- assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure AD to issue the access token. Either 'subject' or 'claimsMatchingExpression' must be defined, but not both.
+    /// The sub value in the token sent to Azure AD for getting the user-assigned managed identity token. The value configured in the federated credential and the one in the incoming token must exactly match for Azure AD to issue the access token. Either 'subject' or 'claimsMatchingExpression' must be defined, but not both.
     /// </summary>
     [CliOption("--subject")]
     public string? Subject { get; set; }

@@ -141,13 +141,13 @@ public record AzSigGalleryApplicationVersionCreateOptions : AzOptions
     public string? PackageFileName { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The target regions where the Image Version is going to be replicated to. This property is updatable. Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The target regions where the Image Version is going to be replicated to. This property is updatable. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--target-regions", GroupValues = true)]
     public IEnumerable<string>? TargetRegions { get; set; }

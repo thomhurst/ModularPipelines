@@ -93,7 +93,7 @@ public record AzSqlServerMsSupportAuditPolicyUpdateOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql- server=&lt;name&gt;`.
+    /// Name of the Azure SQL Server. You can configure the default using `az configure --defaults sql-server=&lt;name&gt;`.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

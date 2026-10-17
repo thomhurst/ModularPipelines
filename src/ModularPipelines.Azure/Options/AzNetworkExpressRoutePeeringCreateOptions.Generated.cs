@@ -98,7 +98,7 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     public string? VlanId { get; set; }
 
     /// <summary>
-    /// Space-separated list of prefixes to be advertised through the BGP peering.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of prefixes to be advertised through the BGP peering.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--advertised-public-prefixes", GroupValues = true)]
     public IEnumerable<string>? AdvertisedPublicPrefixes { get; set; }

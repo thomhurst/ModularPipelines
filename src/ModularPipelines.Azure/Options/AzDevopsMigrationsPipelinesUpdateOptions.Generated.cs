@@ -58,7 +58,7 @@ public record AzDevopsMigrationsPipelinesUpdateOptions : AzOptions
     public IEnumerable<string>? RepositoryMapping { get; set; }
 
     /// <summary>
-    /// Failed pipeline IDs to retry. Accepts space-separated or comma- separated values.
+    /// Failed pipeline IDs to retry. Accepts space-separated or comma-separated values.
     /// </summary>
     [CliOption("--retry-ids", GroupValues = true)]
     public IEnumerable<string>? RetryIds { get; set; }

@@ -150,7 +150,7 @@ public record AzCognitiveservicesAgentCreateOptions : AzOptions
     public bool? ShowLogs { get; set; }
 
     /// <summary>
-    /// Skip validation that project managed identity has access to container registry. Use when access is configured via user- assigned identity, service principal, network-level permissions, or other methods the check cannot detect.
+    /// Skip validation that project managed identity has access to container registry. Use when access is configured via user-assigned identity, service principal, network-level permissions, or other methods the check cannot detect.
     /// </summary>
     [CliFlag("--skip-acr-check")]
     public bool? SkipAcrCheck { get; set; }

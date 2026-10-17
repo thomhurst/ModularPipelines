@@ -69,7 +69,7 @@ public record AzStorageShareGenerateSasOptions : AzOptions
     public string? CacheControl { get; set; }
 
     /// <summary>
-    /// Response header value for Content- Disposition when resource is accessed using this shared access signature.
+    /// Response header value for Content-Disposition when resource is accessed using this shared access signature.
     /// </summary>
     [CliOption("--content-disposition")]
     public string? ContentDisposition { get; set; }

@@ -52,7 +52,7 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     public string? AccessTier { get; set; }
 
     /// <summary>
-    /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--metadata", GroupValues = true)]
     public IEnumerable<string>? Metadata { get; set; }
@@ -106,7 +106,7 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

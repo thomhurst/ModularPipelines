@@ -24,7 +24,7 @@ public record AzStorageAccountBlobInventoryPolicyCreateOptions : AzOptions
     /// Create Blob Inventory Policy for storage
     /// </summary>
     /// <param name="AccountName">The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</param>
-    /// <param name="Policy">The Storage Account Blob Inventory Policy, string in JSON format or json file path. See more details in https://learn.microsoft.com/azure/storage/blobs/blob- inventory#inventory-policy.</param>
+    /// <param name="Policy">The Storage Account Blob Inventory Policy, string in JSON format or json file path. See more details in https://learn.microsoft.com/azure/storage/blobs/blob-inventory#inventory-policy.</param>
     public AzStorageAccountBlobInventoryPolicyCreateOptions(
         string AccountName,
         string Policy
@@ -49,7 +49,7 @@ public record AzStorageAccountBlobInventoryPolicyCreateOptions : AzOptions
     public string AccountName { get; private init; }
 
     /// <summary>
-    /// The Storage Account Blob Inventory Policy, string in JSON format or json file path. See more details in https://learn.microsoft.com/azure/storage/blobs/blob- inventory#inventory-policy.
+    /// The Storage Account Blob Inventory Policy, string in JSON format or json file path. See more details in https://learn.microsoft.com/azure/storage/blobs/blob-inventory#inventory-policy.
     /// </summary>
     [CliOption("--policy")]
     public string Policy { get; private init; }

@@ -79,7 +79,7 @@ public record AzNetworkCrossRegionLbAddressPoolCreateOptions : AzOptions
     public string? AdminState { get; set; }
 
     /// <summary>
-    /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
+    /// An array of backend addresses.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
     /// </summary>
     [CliOption("--backend-address", GroupValues = true)]
     public IEnumerable<string>? BackendAddress { get; set; }

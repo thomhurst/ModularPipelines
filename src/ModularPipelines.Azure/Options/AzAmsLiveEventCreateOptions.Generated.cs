@@ -137,7 +137,7 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Live transcription language for the live event. Allowed values: ca-ES, da-DK, de-DE, en-AU, en-CA, en-GB, en-IN, en- NZ, en-US, es-ES, es-MX, fi-FI, fr-CA, fr-FR, it-IT, nl-NL, pt-BR, pt-PT, sv-SE See https://go.microsoft.com/fwlink/?linkid=2133742 for more information about the live transcription feature.
+    /// Live transcription language for the live event. Allowed values: ca-ES, da-DK, de-DE, en-AU, en-CA, en-GB, en-IN, en-NZ, en-US, es-ES, es-MX, fi-FI, fr-CA, fr-FR, it-IT, nl-NL, pt-BR, pt-PT, sv-SE See https://go.microsoft.com/fwlink/?linkid=2133742 for more information about the live transcription feature.
     /// </summary>
     [CliOption("--transcription-lang")]
     public string? TranscriptionLang { get; set; }

@@ -58,7 +58,7 @@ public record AzDevopsSecurityGroupCreateOptions : AzOptions
     public string? Org { get; set; }
 
     /// <summary>
-    /// Create new group using the OriginID as a reference to an existing group from an external AD or AAD backed provider. Required if name or email- id is missing.
+    /// Create new group using the OriginID as a reference to an existing group from an external AD or AAD backed provider. Required if name or email-id is missing.
     /// </summary>
     [CliOption("--origin-id")]
     public string? OriginId { get; set; }

@@ -66,7 +66,7 @@ public record AzRelayNamespaceAuthorizationRuleCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rights", GroupValues = true)]
     public IEnumerable<string>? Rights { get; set; }

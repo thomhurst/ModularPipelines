@@ -68,7 +68,7 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -86,13 +86,13 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
-    /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Set the user managed identities.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
-    /// The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--arm-role-receivers", GroupValues = true)]
     public IEnumerable<string>? ArmRoleReceivers { get; set; }
@@ -104,13 +104,13 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     public IEnumerable<string>? AutomationRunbookReceivers { get; set; }
 
     /// <summary>
-    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-app-push-receivers", GroupValues = true)]
     public IEnumerable<string>? AzureAppPushReceivers { get; set; }
 
     /// <summary>
-    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-function-receivers", GroupValues = true)]
     public IEnumerable<string>? AzureFunctionReceivers { get; set; }

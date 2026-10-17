@@ -44,7 +44,7 @@ public record AzBackupVaultResourceGuardMappingUpdateOptions : AzOptions
     public string ResourceGuardId { get; private init; }
 
     /// <summary>
-    /// ID of the tenant where the Resource Guard exists in Cross- Tenant scenarios.
+    /// ID of the tenant where the Resource Guard exists in Cross-Tenant scenarios.
     /// </summary>
     [CliOption("--tenant-id")]
     public string? TenantId { get; set; }

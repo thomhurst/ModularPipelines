@@ -70,7 +70,7 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--visibility", GroupValues = true)]
     public IEnumerable<string>? Visibility { get; set; }

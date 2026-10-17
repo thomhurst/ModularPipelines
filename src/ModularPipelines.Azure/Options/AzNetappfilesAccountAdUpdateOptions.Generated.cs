@@ -165,7 +165,7 @@ public record AzNetappfilesAccountAdUpdateOptions : AzOptions
     public string? PreferredServersForLdapClient { get; set; }
 
     /// <summary>
-    /// Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--security-operators", GroupValues = true)]
     public IEnumerable<string>? SecurityOperators { get; set; }

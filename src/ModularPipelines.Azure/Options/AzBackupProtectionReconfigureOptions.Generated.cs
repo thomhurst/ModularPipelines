@@ -78,7 +78,7 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     public string NewVaultName { get; private init; }
 
     /// <summary>
-    /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
+    /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource-group).  Allowed values: false, true.
     /// </summary>
     [CliOption("--retain-as-per-policy", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? RetainAsPerPolicy { get; set; }

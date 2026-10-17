@@ -27,7 +27,7 @@ public record AzHdinsightCreateOptions : AzOptions
     /// </summary>
     /// <param name="Name">The name of the cluster.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="Type">Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.</param>
+    /// <param name="Type">Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux-clusters#cluster-types.</param>
     public AzHdinsightCreateOptions(
         string Name,
         string ResourceGroup,
@@ -62,7 +62,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux- clusters#cluster-types.
+    /// Type of HDInsight cluster, like: hadoop, interactivehive, hbase, kafka, storm, spark, rserver, mlservices. See also: https://lea rn.microsoft.com/azure/hdinsight/ hdinsight-hadoop-provision-linux-clusters#cluster-types.
     /// </summary>
     [CliOption("--type", ShortForm = "-t")]
     public string Type { get; private init; }
@@ -128,7 +128,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? Time { get; set; }
 
     /// <summary>
-    /// The timezone for schedule autoscale type. Values from `az hdinsight autoscale list- timezones`.
+    /// The timezone for schedule autoscale type. Values from `az hdinsight autoscale list-timezones`.
     /// </summary>
     [CliOption("--timezone")]
     public string? Timezone { get; set; }
@@ -140,7 +140,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// Extra configurations of various components. Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. See also: https://learn.m icrosoft.com/azure/hdinsight/hdin sight-hadoop-customize-cluster- bootstrap.
+    /// Extra configurations of various components. Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. See also: https://learn.m icrosoft.com/azure/hdinsight/hdin sight-hadoop-customize-cluster-bootstrap.
     /// </summary>
     [CliOption("--cluster-configurations")]
     public string? ClusterConfigurations { get; set; }
@@ -152,7 +152,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? ClusterTier { get; set; }
 
     /// <summary>
-    /// The versions of various Hadoop components, in space-separated versions in 'component=version' format. Example: Spark=2.0 Hadoop=2.7.3 See also: https://le arn.microsoft.com/azure/hdinsight /hdinsight-component- versioning#hadoop-components- available-with-different- hdinsight-versions.
+    /// The versions of various Hadoop components, in space-separated versions in 'component=version' format. Example: Spark=2.0 Hadoop=2.7.3 See also: https://le arn.microsoft.com/azure/hdinsight /hdinsight-component-versioning#hadoop-components-available-with-different-hdinsight-versions.
     /// </summary>
     [CliOption("--component-version", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? ComponentVersion { get; set; }
@@ -176,7 +176,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
-    /// The HDInsight cluster version. See also: https://learn.microsoft .com/azure/hdinsight/hdinsight- component-versioning#supported- hdinsight-versions.  Default: default.
+    /// The HDInsight cluster version. See also: https://learn.microsoft .com/azure/hdinsight/hdinsight-component-versioning#supported-hdinsight-versions.  Default: default.
     /// </summary>
     [CliOption("--version", ShortForm = "-v")]
     public string? Version { get; set; }
@@ -194,7 +194,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? HostSku { get; set; }
 
     /// <summary>
-    /// Algorithm identifier for encryption.  Allowed values: RSA- OAEP, RSA-OAEP-256, RSA1_5. Default: RSA-OAEP.
+    /// Algorithm identifier for encryption.  Allowed values: RSA-OAEP, RSA-OAEP-256, RSA1_5. Default: RSA-OAEP.
     /// </summary>
     [CliOption("--encryption-algorithm")]
     public string? EncryptionAlgorithm { get; set; }
@@ -267,7 +267,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public IEnumerable<string>? EntraUid { get; set; }
 
     /// <summary>
-    /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please see: `https://github.com/Azure/azure- cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/entrauserconfig.json`.
+    /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please see: `https://github.com/Azure/azure-cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/entrauserconfig.json`.
     /// </summary>
     [CliOption("--entra-uinfo")]
     public string? EntraUinfo { get; set; }
@@ -316,13 +316,13 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? VnetName { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.
     /// </summary>
     [CliOption("--edgenode-size")]
     public string? EdgenodeSize { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.
     /// </summary>
     [CliOption("--headnode-size")]
     public string? HeadnodeSize { get; set; }
@@ -334,7 +334,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? KafkaManagementNodeCount { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.
     /// </summary>
     [CliOption("--kafka-management-node-size")]
     public string? KafkaManagementNodeSize { get; set; }
@@ -364,13 +364,13 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? WorkernodeDataDisksPerNode { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.
     /// </summary>
     [CliOption("--workernode-size")]
     public string? WorkernodeSize { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop- provision-linux- clusters#configure-cluster-size.
+    /// The size of the node. See also: https://learn.microsoft.com/azure /hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.
     /// </summary>
     [CliOption("--zookeepernode-size")]
     public string? ZookeepernodeSize { get; set; }
@@ -388,7 +388,7 @@ public record AzHdinsightCreateOptions : AzOptions
     public string? OutboundDependenciesManagedType { get; set; }
 
     /// <summary>
-    /// The private link configurations when creating cluster. Private Link Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. Please see https://github.com/Azure/azure- cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/privatelinkconfiguratio ns.json.
+    /// The private link configurations when creating cluster. Private Link Configurations may be supplied from a file using the `@{path}` syntax or a JSON string. Please see https://github.com/Azure/azure-cli/blob/dev/src/azure-cli/azure/ cli/command_modules/hdinsight/tes ts/latest/privatelinkconfiguratio ns.json.
     /// </summary>
     [CliOption("--private-link-config")]
     public string? PrivateLinkConfig { get; set; }

@@ -33,7 +33,7 @@ public record AzKeyvaultEkmConnectionUpdateOptions : AzOptions
     public string? PathPrefix { get; set; }
 
     /// <summary>
-    /// Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space- separated file paths (each PEM or DER).
+    /// Path(s) to server CA certificate(s) in PEM or DER format. Pass a single file containing a PEM chain (multiple certificate blocks), or multiple space-separated file paths (each PEM or DER).
     /// </summary>
     [CliOption("--server-ca-certificate", GroupValues = true)]
     public IEnumerable<string>? ServerCaCertificate { get; set; }

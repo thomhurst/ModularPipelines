@@ -80,7 +80,7 @@ public record AzAcrReplicationCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates whether or not zone redundancy should be enabled for this registry or replication. For more information, such as supported locations, please visit https://aka.ms/acr/az. Zone- redundancy cannot be updated. Defaults to 'Disabled'.  Allowed values: Disabled, Enabled. WARNING: Argument '--zone-redundancy' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// Indicates whether or not zone redundancy should be enabled for this registry or replication. For more information, such as supported locations, please visit https://aka.ms/acr/az. Zone-redundancy cannot be updated. Defaults to 'Disabled'.  Allowed values: Disabled, Enabled. WARNING: Argument '--zone-redundancy' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--zone-redundancy")]
     public string? ZoneRedundancy { get; set; }

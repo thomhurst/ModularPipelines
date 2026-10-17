@@ -44,7 +44,7 @@ public record AzAcrCheckNameOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
-    /// Domain name label scope will add a hash to the resource name . The resulting login server name will be in the format `registry- name`-`hash`.azurecr-io. Default is Unsecure.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse, Unsecure.  Default: Unsecure. WARNING: Argument '--dnl-scope' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// Domain name label scope will add a hash to the resource name . The resulting login server name will be in the format `registry-name`-`hash`.azurecr-io. Default is Unsecure.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse, Unsecure.  Default: Unsecure. WARNING: Argument '--dnl-scope' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--dnl-scope")]
     public string? DnlScope { get; set; }

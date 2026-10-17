@@ -75,7 +75,7 @@ public record AzVmssCreateOptions : AzOptions
     public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
-    /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
+    /// Specifies if Scheduled Events should be auto-approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
     [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AllInstanceDown { get; set; }
@@ -117,7 +117,7 @@ public record AzVmssCreateOptions : AzOptions
     public string? ComputerNamePrefix { get; set; }
 
     /// <summary>
-    /// Custom init script file or text (cloud-init, cloud- config, etc..).
+    /// Custom init script file or text (cloud-init, cloud-config, etc..).
     /// </summary>
     [CliOption("--custom-data")]
     public string? CustomData { get; set; }
@@ -135,7 +135,7 @@ public record AzVmssCreateOptions : AzOptions
     public bool? DisableIntegrityMonitoringAutoupgrade { get; set; }
 
     /// <summary>
-    /// Overprovision option (see https:/ /azure.microsoft.co m/documentation/art icles/virtual- machine-scale-sets- overview/ for details).
+    /// Overprovision option (see https:/ /azure.microsoft.co m/documentation/art icles/virtual-machine-scale-sets-overview/ for details).
     /// </summary>
     [CliFlag("--disable-overprovision")]
     public bool? DisableOverprovision { get; set; }
@@ -237,7 +237,7 @@ public record AzVmssCreateOptions : AzOptions
     public CliOptionValue? EnableSecureBoot { get; set; }
 
     /// <summary>
-    /// Enable the Spot- Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
+    /// Enable the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
     /// </summary>
     [CliOption("--enable-spot-restore", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableSpotRestore { get; set; }
@@ -285,7 +285,7 @@ public record AzVmssCreateOptions : AzOptions
     public string? HostGroup { get; set; }
 
     /// <summary>
-    /// The name of the operating system image as a URN alias, URN, custom image name or ID, or VHD blob URI. In addition, it also supports shared gallery image. Please use the image alias including the version of the distribution you want to use. For example: please use Debian11 instead of Debian.' This parameter is required unless using `--attach-os-disk.` Valid URN format: "Publisher: Offer:Sku:Version". For more information, see ht tps://learn.microso ft.com/azure/virtua l- machines/linux/cli- ps-findimage. Values from: az vm image list, az vm image show, az sig image-version show- shared.
+    /// The name of the operating system image as a URN alias, URN, custom image name or ID, or VHD blob URI. In addition, it also supports shared gallery image. Please use the image alias including the version of the distribution you want to use. For example: please use Debian11 instead of Debian.' This parameter is required unless using `--attach-os-disk.` Valid URN format: "Publisher: Offer:Sku:Version". For more information, see ht tps://learn.microso ft.com/azure/virtua l-machines/linux/cli-ps-findimage. Values from: az vm image list, az vm image show, az sig image-version show-shared.
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
@@ -327,7 +327,7 @@ public record AzVmssCreateOptions : AzOptions
     public CliOptionValue? IsOverridable { get; set; }
 
     /// <summary>
-    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
+    /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi-tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -471,13 +471,13 @@ public record AzVmssCreateOptions : AzOptions
     public int? RegularPriorityPercentage { get; set; }
 
     /// <summary>
-    /// Specify the scale- in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
+    /// Specify the scale-in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
     /// </summary>
     [CliOption("--scale-in-policy", GroupValues = true)]
     public IEnumerable<string>? ScaleInPolicy { get; set; }
 
     /// <summary>
-    /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
+    /// Specifies the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
     [CliOption("--scheduled-events-api-version")]
     public string? ScheduledEventsApiVersion { get; set; }
@@ -502,7 +502,7 @@ public record AzVmssCreateOptions : AzOptions
     public string? SecurityType { get; set; }
 
     /// <summary>
-    /// Limit the scale set to a single placement group. See https://learn.m icrosoft.com/azure/ virtual-machine- scale-sets/virtual- machine-scale-sets- placement-groups for details. Allowed values: false, true.
+    /// Limit the scale set to a single placement group. See https://learn.m icrosoft.com/azure/ virtual-machine-scale-sets/virtual-machine-scale-sets-placement-groups for details. Allowed values: false, true.
     /// </summary>
     [CliOption("--single-placement-group", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? SinglePlacementGroup { get; set; }
@@ -520,7 +520,7 @@ public record AzVmssCreateOptions : AzOptions
     public IEnumerable<string>? SkuprofileRank { get; set; }
 
     /// <summary>
-    /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
+    /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual-machines/ for size info.
     /// </summary>
     [CliOption("--skuprofile-vmsizes", GroupValues = true)]
     public IEnumerable<string>? SkuprofileVmsizes { get; set; }
@@ -562,7 +562,7 @@ public record AzVmssCreateOptions : AzOptions
     public int? VCpusAvailable { get; set; }
 
     /// <summary>
-    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
+    /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper-threading is disabled.
     /// </summary>
     [CliOption("--v-cpus-per-core")]
     public int? VCpusPerCore { get; set; }
@@ -574,7 +574,7 @@ public record AzVmssCreateOptions : AzOptions
     public bool? Validate { get; set; }
 
     /// <summary>
-    /// Size of VMs in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
+    /// Size of VMs in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual-machines/ for size info.
     /// </summary>
     [CliOption("--vm-sku")]
     public string? VmSku { get; set; }
@@ -749,7 +749,7 @@ public record AzVmssCreateOptions : AzOptions
     public bool? PublicIpPerVm { get; set; }
 
     /// <summary>
-    /// The name of the subnet when creating a new VNet or referencing an existing one. Can also reference an existing subnet by ID. If both vnet- name and subnet are omitted, an appropriate VNet and subnet will be selected automatically, or a new one will be created.
+    /// The name of the subnet when creating a new VNet or referencing an existing one. Can also reference an existing subnet by ID. If both vnet-name and subnet are omitted, an appropriate VNet and subnet will be selected automatically, or a new one will be created.
     /// </summary>
     [CliOption("--subnet")]
     public string? Subnet { get; set; }
@@ -761,7 +761,7 @@ public record AzVmssCreateOptions : AzOptions
     public string? SubnetAddressPrefix { get; set; }
 
     /// <summary>
-    /// Domain name of VM instances, once configured, the FQDN is `vm&lt;vm- index&gt;.&lt;vm-domain- name&gt;.&lt;..rest..&gt;`.
+    /// Domain name of VM instances, once configured, the FQDN is `vm&lt;vm-index&gt;.&lt;vm-domain-name&gt;.&lt;..rest..&gt;`.
     /// </summary>
     [CliOption("--vm-domain-name")]
     public string? VmDomainName { get; set; }
@@ -851,7 +851,7 @@ public record AzVmssCreateOptions : AzOptions
     public IEnumerable<string>? DataDiskEncryptionSets { get; set; }
 
     /// <summary>
-    /// Specify the Read- Write IOPS (space delimited) for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+    /// Specify the Read-Write IOPS (space delimited) for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
     /// </summary>
     [CliOption("--data-disk-iops", GroupValues = true)]
     public IEnumerable<string>? DataDiskIops { get; set; }

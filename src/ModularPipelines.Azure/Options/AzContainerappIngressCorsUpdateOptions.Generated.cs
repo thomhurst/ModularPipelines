@@ -28,25 +28,25 @@ public record AzContainerappIngressCorsUpdateOptions : AzOptions
     public CliOptionValue? AllowCredentials { get; set; }
 
     /// <summary>
-    /// A list of allowed header(s) for the container app. Values are space- separated. Empty string to clear existing values.
+    /// A list of allowed header(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
     [CliOption("--allowed-headers", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? AllowedHeaders { get; set; }
 
     /// <summary>
-    /// A list of allowed method(s) for the container app. Values are space- separated. Empty string to clear existing values.
+    /// A list of allowed method(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
     [CliOption("--allowed-methods", ShortForm = "-m", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? AllowedMethods { get; set; }
 
     /// <summary>
-    /// A list of allowed origin(s) for the container app. Values are space- separated. Empty string to clear existing values.
+    /// A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
     [CliOption("--allowed-origins", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? AllowedOrigins { get; set; }
 
     /// <summary>
-    /// A list of expose header(s) for the container app. Values are space- separated. Empty string to clear existing values.
+    /// A list of expose header(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
     [CliOption("--expose-headers", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? ExposeHeaders { get; set; }

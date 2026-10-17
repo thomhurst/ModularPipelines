@@ -163,13 +163,13 @@ public record AzNetworkNicIpConfigUpdateOptions : AzOptions
     public string? VnetName { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of load balancer address pools to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names or IDs of load balancer address pools to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--lb-address-pools", GroupValues = true)]
     public IEnumerable<string>? LbAddressPools { get; set; }
 
     /// <summary>
-    /// Space-separated list of names or IDs of load balancer inbound NAT rules to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names or IDs of load balancer inbound NAT rules to associate with the NIC. If names are used, `--lb-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--lb-inbound-nat-rules", GroupValues = true)]
     public IEnumerable<string>? LbInboundNatRules { get; set; }

@@ -68,7 +68,7 @@ public record AzWebappTroubleshootCollectNetworkCaptureOptions : AzOptions
     public int? Duration { get; set; }
 
     /// <summary>
-    /// Worker instance to capture. When omitted in an interactive terminal, you are prompted to select from the current instances. Specify this option for scripts and other non- interactive use. Only one instance can be captured at a time.
+    /// Worker instance to capture. When omitted in an interactive terminal, you are prompted to select from the current instances. Specify this option for scripts and other non-interactive use. Only one instance can be captured at a time.
     /// </summary>
     [CliOption("--instance", ShortForm = "-i")]
     public string? Instance { get; set; }

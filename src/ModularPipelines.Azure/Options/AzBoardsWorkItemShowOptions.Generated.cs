@@ -63,7 +63,7 @@ public record AzBoardsWorkItemShowOptions : AzOptions
     public string? Expand { get; set; }
 
     /// <summary>
-    /// Comma-separated list of requested fields. Example:System.Id,System.AreaPath. Refer https://aka.ms/azure-devops-cli- field-api for more details on fields.
+    /// Comma-separated list of requested fields. Example:System.Id,System.AreaPath. Refer https://aka.ms/azure-devops-cli-field-api for more details on fields.
     /// </summary>
     [CliOption("--fields", ShortForm = "-f")]
     public string? Fields { get; set; }

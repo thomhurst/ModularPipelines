@@ -150,7 +150,7 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     public string? VnetName { get; set; }
 
     /// <summary>
-    /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop- provision-linux-clusters#configure-cluster-size.  Default: Standard_D3_V2.
+    /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop-provision-linux-clusters#configure-cluster-size.  Default: Standard_D3_V2.
     /// </summary>
     [CliOption("--edgenode-size")]
     public string? EdgenodeSize { get; set; }

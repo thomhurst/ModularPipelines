@@ -85,13 +85,13 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions : AzOptions
     public IEnumerable<string>? CustomRules { get; set; }
 
     /// <summary>
-    /// Describes the managedRules structure.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Describes the managedRules structure.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--managed-rules", GroupValues = true)]
     public IEnumerable<string>? ManagedRules { get; set; }
 
     /// <summary>
-    /// The PolicySettings for policy.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The PolicySettings for policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--policy-settings", GroupValues = true)]
     public IEnumerable<string>? PolicySettings { get; set; }

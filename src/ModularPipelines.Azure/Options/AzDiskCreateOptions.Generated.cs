@@ -164,7 +164,7 @@ public record AzDiskCreateOptions : AzOptions
     public int? ImageReferenceLun { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }

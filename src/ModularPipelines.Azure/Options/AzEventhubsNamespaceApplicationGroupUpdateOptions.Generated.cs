@@ -52,7 +52,7 @@ public record AzEventhubsNamespaceApplicationGroupUpdateOptions : AzOptions
     public CliOptionValue? IsEnabled { get; set; }
 
     /// <summary>
-    /// List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--policies", GroupValues = true)]
     public IEnumerable<string>? Policies { get; set; }

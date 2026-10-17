@@ -24,7 +24,7 @@ public record AzRelayHycoAuthorizationRuleUpdateOptions : AzOptions
     /// <summary>
     /// Update Authorization Rule for given Relay Service
     /// </summary>
-    /// <param name="Rights">Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="Rights">Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzRelayHycoAuthorizationRuleUpdateOptions(
         IEnumerable<string> Rights
     )
@@ -50,7 +50,7 @@ public record AzRelayHycoAuthorizationRuleUpdateOptions : AzOptions
     }
 
     /// <summary>
-    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated list of Authorization rule rights. Allowed values: Listen, Manage, Send.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rights", GroupValues = true)]
     public IEnumerable<string> Rights { get; private init; }

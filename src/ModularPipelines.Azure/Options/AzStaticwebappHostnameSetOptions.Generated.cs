@@ -67,7 +67,7 @@ public record AzStaticwebappHostnameSetOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// Validation method for the custom domain.  Allowed values: cname- delegation, dns-txt-token.  Default: cname-delegation.
+    /// Validation method for the custom domain.  Allowed values: cname-delegation, dns-txt-token.  Default: cname-delegation.
     /// </summary>
     [CliOption("--validation-method", ShortForm = "-m")]
     public string? ValidationMethod { get; set; }

@@ -29,7 +29,7 @@ public record AzWebappConnectionUpdateSignalrOptions : AzOptions
     public string? AppConfigId { get; set; }
 
     /// <summary>
-    /// The client type used on the webapp.  Allowed values: dotnet, dotnet- internal, none.
+    /// The client type used on the webapp.  Allowed values: dotnet, dotnet-internal, none.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

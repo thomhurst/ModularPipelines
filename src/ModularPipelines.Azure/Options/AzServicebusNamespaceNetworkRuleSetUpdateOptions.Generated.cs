@@ -70,7 +70,7 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
-    /// List VirtualNetwork Rules  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// List VirtualNetwork Rules  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--virtual-network-rules", GroupValues = true)]
     public IEnumerable<string>? VirtualNetworkRules { get; set; }

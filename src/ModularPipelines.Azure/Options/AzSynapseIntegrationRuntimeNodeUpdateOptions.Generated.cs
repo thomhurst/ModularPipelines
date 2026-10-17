@@ -23,7 +23,7 @@ public record AzSynapseIntegrationRuntimeNodeUpdateOptions : AzOptions
     /// <summary>
     /// Update self-hosted integration runtime node.
     /// </summary>
-    /// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.</param>
+    /// <param name="AutoUpdate">Enable or disable the self-hosted integration runtime auto-update.  Allowed values: Off, On.</param>
     /// <param name="NodeName">The integration runtime node name.</param>
     /// <param name="UpdateDelayOffset">The time of the day for the self-hosted integration runtime auto-update.</param>
     public AzSynapseIntegrationRuntimeNodeUpdateOptions(
@@ -48,7 +48,7 @@ public record AzSynapseIntegrationRuntimeNodeUpdateOptions : AzOptions
     }
 
     /// <summary>
-    /// Enable or disable the self-hosted integration runtime auto- update.  Allowed values: Off, On.
+    /// Enable or disable the self-hosted integration runtime auto-update.  Allowed values: Off, On.
     /// </summary>
     [CliOption("--auto-update")]
     public string AutoUpdate { get; private init; }

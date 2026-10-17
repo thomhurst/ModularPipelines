@@ -73,13 +73,13 @@ public record AzAppConfigCreateOptions : AzOptions
     public string? AppinsightsResource { get; set; }
 
     /// <summary>
-    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass- through.
+    /// The authentication mode for accessing the App Configuration Store via ARM. 'pass-through' (Recommended) uses Microsoft Entra ID to access the store via ARM with proper authorization.'local' uses access keys for authentication. This requires access keys to be enabled.  Allowed values: local, pass-through.
     /// </summary>
     [CliOption("--arm-auth-mode")]
     public string? ArmAuthMode { get; set; }
 
     /// <summary>
-    /// Space-separated list of managed identities to be assigned. Use "[system]" to refer to system-assigned managed identity or a resource ID to refer to user- assigned managed identity. If this argument is provided without any value, system-assigned managed identity will be assigned by default. If this argument is not provided, no managed identities will be assigned to this App Configuration store.
+    /// Space-separated list of managed identities to be assigned. Use "[system]" to refer to system-assigned managed identity or a resource ID to refer to user-assigned managed identity. If this argument is provided without any value, system-assigned managed identity will be assigned by default. If this argument is not provided, no managed identities will be assigned to this App Configuration store.
     /// </summary>
     [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }

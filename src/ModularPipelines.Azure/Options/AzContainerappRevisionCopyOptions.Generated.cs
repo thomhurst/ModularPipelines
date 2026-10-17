@@ -28,7 +28,7 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public string? FromRevision { get; set; }
 
     /// <summary>
-    /// Container image, e.g. publisher/image- name:tag.
+    /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
     [CliOption("--image", ShortForm = "-i")]
     public string? Image { get; set; }
@@ -46,19 +46,19 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public string? WorkloadProfileName { get; set; }
 
     /// <summary>
-    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
+    /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container-apps/azure-resource-manager-api-spec#examples.
     /// </summary>
     [CliOption("--yaml")]
     public string? Yaml { get; set; }
 
     /// <summary>
-    /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
+    /// A list of container startup command argument(s). Space-separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Args { get; set; }
 
     /// <summary>
-    /// A list of supported commands on the container that will executed during startup. Space- separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
+    /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
     /// </summary>
     [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Command { get; set; }
@@ -94,13 +94,13 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public bool? RemoveAllEnvVars { get; set; }
 
     /// <summary>
-    /// Remove environment variable(s) from container. Space- separated environment variable names.
+    /// Remove environment variable(s) from container. Space-separated environment variable names.
     /// </summary>
     [CliOption("--remove-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? RemoveEnvVars { get; set; }
 
     /// <summary>
-    /// Replace environment variable(s) in container. Other existing environment variables are removed. Space- separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
+    /// Replace environment variable(s) in container. Other existing environment variables are removed. Space-separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
     /// </summary>
     [CliOption("--replace-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? ReplaceEnvVars { get; set; }
@@ -112,7 +112,7 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public IEnumerable<CliOptionValue>? SetEnvVars { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
@@ -172,7 +172,7 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
-    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
+    /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container-apps/scale-app#scale-triggers.
     /// </summary>
     [CliOption("--scale-rule-type")]
     public string? ScaleRuleType { get; set; }

@@ -29,7 +29,7 @@ public record AzAksConnectionCreateWebpubsubOptions : AzOptions
     public string? AppConfigId { get; set; }
 
     /// <summary>
-    /// The client type used on the aks.  Allowed values: dotnet, dotnet- internal, java, nodejs, none, python.
+    /// The client type used on the aks.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

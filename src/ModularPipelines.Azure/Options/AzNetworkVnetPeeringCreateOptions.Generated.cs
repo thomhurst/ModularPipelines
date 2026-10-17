@@ -102,7 +102,7 @@ public record AzNetworkVnetPeeringCreateOptions : AzOptions
     public CliOptionValue? EnableOnlyIpv6 { get; set; }
 
     /// <summary>
-    /// List of local subnet names that are subnet peered with remote virtual network.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// List of local subnet names that are subnet peered with remote virtual network.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--local-subnet-names", GroupValues = true)]
     public IEnumerable<string>? LocalSubnetNames { get; set; }

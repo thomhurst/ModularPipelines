@@ -84,13 +84,13 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Request Header Actions in the Action Set.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Request Header Actions in the Action Set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--request-header-configurations", GroupValues = true)]
     public IEnumerable<string>? RequestHeaderConfigurations { get; set; }
 
     /// <summary>
-    /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-request- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-request-headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--request-headers", GroupValues = true)]
     public IEnumerable<string>? RequestHeaders { get; set; }
@@ -102,7 +102,7 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
     public IEnumerable<string>? ResponseHeaderConfigurations { get; set; }
 
     /// <summary>
-    /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-response- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-response-headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--response-headers", GroupValues = true)]
     public IEnumerable<string>? ResponseHeaders { get; set; }
@@ -138,7 +138,7 @@ public record AzNetworkApplicationGatewayRewriteRuleUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// Conditions based on which the action set execution will be evaluated.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Conditions based on which the action set execution will be evaluated.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--conditions", GroupValues = true)]
     public IEnumerable<string>? Conditions { get; set; }

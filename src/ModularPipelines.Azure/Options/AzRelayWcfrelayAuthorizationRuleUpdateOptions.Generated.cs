@@ -24,7 +24,7 @@ public record AzRelayWcfrelayAuthorizationRuleUpdateOptions : AzOptions
     /// <summary>
     /// Update Authorization Rule for the given Relay
     /// </summary>
-    /// <param name="Rights">The rights associated with the rule.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.</param>
+    /// <param name="Rights">The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzRelayWcfrelayAuthorizationRuleUpdateOptions(
         IEnumerable<string> Rights
     )
@@ -50,7 +50,7 @@ public record AzRelayWcfrelayAuthorizationRuleUpdateOptions : AzOptions
     }
 
     /// <summary>
-    /// The rights associated with the rule.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--rights", GroupValues = true)]
     public IEnumerable<string> Rights { get; private init; }

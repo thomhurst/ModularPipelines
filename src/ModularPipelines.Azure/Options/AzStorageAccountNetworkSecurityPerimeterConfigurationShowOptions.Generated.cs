@@ -21,13 +21,13 @@ namespace ModularPipelines.Azure.Options;
 public record AzStorageAccountNetworkSecurityPerimeterConfigurationShowOptions : AzOptions
 {
     /// <summary>
-    /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower- case letters only.
+    /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
     /// </summary>
     [CliOption("--account-name")]
     public string? AccountName { get; set; }
 
     /// <summary>
-    /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
+    /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }

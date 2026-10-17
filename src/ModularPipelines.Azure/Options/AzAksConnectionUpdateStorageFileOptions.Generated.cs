@@ -29,7 +29,7 @@ public record AzAksConnectionUpdateStorageFileOptions : AzOptions
     public string? AppConfigId { get; set; }
 
     /// <summary>
-    /// The client type used on the aks.  Allowed values: dotnet, dotnet- internal, java, nodejs, none, php, python, ruby, springBoot.
+    /// The client type used on the aks.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, php, python, ruby, springBoot.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

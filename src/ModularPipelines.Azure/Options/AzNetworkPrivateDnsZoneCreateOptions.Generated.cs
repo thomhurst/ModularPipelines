@@ -62,7 +62,7 @@ public record AzNetworkPrivateDnsZoneCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Resource tags for the Private DNS zone.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Resource tags for the Private DNS zone.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -45,7 +45,7 @@ public record AzVmEncryptionEnableOptions : AzOptions
     public string DiskEncryptionKeyvault { get; private init; }
 
     /// <summary>
-    /// Encrypts-formats data disks instead of encrypting them. Encrypt-formatting is a lot faster than in-place encryption but wipes out the partition getting encrypt- formatted. (Only supported for Linux virtual machines.).
+    /// Encrypts-formats data disks instead of encrypting them. Encrypt-formatting is a lot faster than in-place encryption but wipes out the partition getting encrypt-formatted. (Only supported for Linux virtual machines.).
     /// </summary>
     [CliFlag("--encrypt-format-all")]
     public bool? EncryptFormatAll { get; set; }

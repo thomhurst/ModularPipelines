@@ -46,7 +46,7 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     public string? EvaluationFrequency { get; set; }
 
     /// <summary>
-    /// Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--scopes", GroupValues = true)]
     public IEnumerable<string>? Scopes { get; set; }

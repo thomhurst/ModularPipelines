@@ -76,19 +76,19 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     public IEnumerable<string>? ArmRoleReceivers { get; set; }
 
     /// <summary>
-    /// The list of AutomationRunbook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The list of AutomationRunbook receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--automation-runbook-receivers", GroupValues = true)]
     public IEnumerable<string>? AutomationRunbookReceivers { get; set; }
 
     /// <summary>
-    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The list of AzureAppPush receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-app-push-receivers", GroupValues = true)]
     public IEnumerable<string>? AzureAppPushReceivers { get; set; }
 
     /// <summary>
-    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The list of azure function receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-function-receivers", GroupValues = true)]
     public IEnumerable<string>? AzureFunctionReceivers { get; set; }

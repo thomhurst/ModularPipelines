@@ -58,7 +58,7 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }
@@ -70,7 +70,7 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Details required for Additional Network Interface.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Details required for Additional Network Interface.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--additional-nics", GroupValues = true)]
     public IEnumerable<string>? AdditionalNics { get; set; }

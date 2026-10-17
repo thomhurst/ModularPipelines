@@ -40,7 +40,7 @@ public record AzNetworkPrivateDnsLinkVnetUpdateOptions : AzOptions
     public CliOptionValue? RegistrationEnabled { get; set; }
 
     /// <summary>
-    /// Resource tags for the virtual network link.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Resource tags for the virtual network link.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

@@ -107,7 +107,7 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     public string? EndpointStatus { get; set; }
 
     /// <summary>
-    /// Space-separated list of country/region codes mapped to this endpoint when using the 'Geographic' routing method.  Values from: az network traffic-manager endpoint show-geographic- hierarchy.
+    /// Space-separated list of country/region codes mapped to this endpoint when using the 'Geographic' routing method.  Values from: az network traffic-manager endpoint show-geographic-hierarchy.
     /// </summary>
     [CliOption("--geo-mapping", GroupValues = true)]
     public IEnumerable<string>? GeoMapping { get; set; }

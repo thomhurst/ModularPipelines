@@ -58,7 +58,7 @@ public record AzAksConnectionUpdateConfluentCloudOptions : AzOptions
     public string? BootstrapServer { get; set; }
 
     /// <summary>
-    /// The client type used on the aks.  Allowed values: dotnet, dotnet- internal, go, java, none, python, springBoot.
+    /// The client type used on the aks.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
     /// </summary>
     [CliOption("--client-type")]
     public string? ClientType { get; set; }

@@ -106,7 +106,7 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions : AzOptions
     public string? Fa { get; set; }
 
     /// <summary>
-    /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
+    /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user-defined-functions.
     /// </summary>
     [CliOption("--fp")]
     public string? Fp { get; set; }

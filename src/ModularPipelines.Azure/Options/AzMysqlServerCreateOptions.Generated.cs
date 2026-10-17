@@ -71,7 +71,7 @@ public record AzMysqlServerCreateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
-    /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
+    /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP-DestinationIP&gt;`. Default is `Enabled`.
     /// </summary>
     [CliOption("--public")]
     public string? Public { get; set; }

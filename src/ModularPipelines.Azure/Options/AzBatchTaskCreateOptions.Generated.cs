@@ -63,7 +63,7 @@ public record AzBatchTaskCreateOptions : AzOptions
     public string? CommandLine { get; set; }
 
     /// <summary>
-    /// A list of environment variable settings for the task. Space- separated values in 'key=value' format.
+    /// A list of environment variable settings for the task. Space-separated values in 'key=value' format.
     /// </summary>
     [CliOption("--environment-settings", GroupValues = true)]
     public IEnumerable<string>? EnvironmentSettings { get; set; }

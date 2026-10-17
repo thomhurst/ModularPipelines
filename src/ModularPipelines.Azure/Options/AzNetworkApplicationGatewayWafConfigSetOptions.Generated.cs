@@ -25,7 +25,7 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
 ) : AzOptions
 {
     /// <summary>
-    /// Space-separated list of rule groups to disable. To disable individual rules, use `--disabled-rules`.  Values from: az network application- gateway waf-config list-rule-sets.
+    /// Space-separated list of rule groups to disable. To disable individual rules, use `--disabled-rules`.  Values from: az network application-gateway waf-config list-rule-sets.
     /// </summary>
     [CliOption("--disabled-rule-groups", GroupValues = true)]
     public IEnumerable<string>? DisabledRuleGroups { get; set; }
@@ -73,13 +73,13 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     public CliOptionValue? RequestBodyCheck { get; set; }
 
     /// <summary>
-    /// Rule set type.  Default: OWASP.  Values from: az network application- gateway waf-config list-rule-sets.
+    /// Rule set type.  Default: OWASP.  Values from: az network application-gateway waf-config list-rule-sets.
     /// </summary>
     [CliOption("--rule-set-type")]
     public string? RuleSetType { get; set; }
 
     /// <summary>
-    /// Rule set version.  Values from: az network application-gateway waf- config list-rule-sets.
+    /// Rule set version.  Values from: az network application-gateway waf-config list-rule-sets.
     /// </summary>
     [CliOption("--rule-set-version")]
     public string? RuleSetVersion { get; set; }

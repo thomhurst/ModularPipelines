@@ -122,7 +122,7 @@ public record AzStorageFsFileUploadOptions : AzOptions
     public CliOptionValue? Overwrite { get; set; }
 
     /// <summary>
-    /// POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read (4), write (2), or execute (1) permission. Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. The sticky bit is also supported and in symbolic notation, its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively (e.g. rwxrw-rw- with sticky bit is represented as rwxrw-rwT. A rwxrw- rwx with sticky bit is represented as rwxrw-rwt), absence of t or T indicates sticky bit not set. In 4-digit octal notation, its represented by 1st digit (e.g. 1766 represents rwxrw-rw- with sticky bit and 0766 represents rwxrw-rw- without sticky bit). For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control#levels-of-permission.
+    /// POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read (4), write (2), or execute (1) permission. Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. The sticky bit is also supported and in symbolic notation, its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively (e.g. rwxrw-rw- with sticky bit is represented as rwxrw-rwT. A rwxrw-rwx with sticky bit is represented as rwxrw-rwt), absence of t or T indicates sticky bit not set. In 4-digit octal notation, its represented by 1st digit (e.g. 1766 represents rwxrw-rw- with sticky bit and 0766 represents rwxrw-rw- without sticky bit). For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access-control#levels-of-permission.
     /// </summary>
     [CliOption("--permissions")]
     public string? Permissions { get; set; }
@@ -134,7 +134,7 @@ public record AzStorageFsFileUploadOptions : AzOptions
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created. The resulting permission is given by p &amp; ^u, where p is the permission and u is the umask. For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control#umask.
+    /// When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created. The resulting permission is given by p &amp; ^u, where p is the permission and u is the umask. For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access-control#umask.
     /// </summary>
     [CliOption("--umask")]
     public string? Umask { get; set; }

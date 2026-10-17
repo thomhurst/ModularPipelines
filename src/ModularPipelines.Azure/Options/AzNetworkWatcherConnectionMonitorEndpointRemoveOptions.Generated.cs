@@ -73,7 +73,7 @@ public record AzNetworkWatcherConnectionMonitorEndpointRemoveOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Space-separated list of names of test group which only need to be affected if specified.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated list of names of test group which only need to be affected if specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--test-groups", GroupValues = true)]
     public IEnumerable<string>? TestGroups { get; set; }

@@ -53,7 +53,7 @@ public record AzDataboxedgeDeviceUserUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
-    /// The password details.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The password details.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [SecretValue]
     [CliOption("--encrypted-password", GroupValues = true)]

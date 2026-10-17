@@ -28,7 +28,7 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="CompanyName">The name of the company.</param>
     /// <param name="ContactPerson">The contact person name.</param>
-    /// <param name="EmailList">The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.</param>
+    /// <param name="EmailList">The email list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     /// <param name="Phone">The phone number.</param>
     /// <param name="Status">Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.</param>
     /// <param name="AddressLine1">The address line1.</param>
@@ -129,7 +129,7 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
     public string ContactPerson { get; private init; }
 
     /// <summary>
-    /// The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The email list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--email-list", GroupValues = true)]
     public IEnumerable<string> EmailList { get; private init; }

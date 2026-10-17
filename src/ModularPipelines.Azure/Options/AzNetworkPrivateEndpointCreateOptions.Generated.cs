@@ -119,7 +119,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     public string? NicName { get; set; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -131,7 +131,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     public string? RequestMessage { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value]...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value]...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -173,7 +173,7 @@ public record AzNetworkPrivateEndpointCreateOptions : AzOptions
     public string? IpVersionType { get; set; }
 
     /// <summary>
-    /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
+    /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--ipam-pool-prefix-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamPoolPrefixAllocations { get; set; }

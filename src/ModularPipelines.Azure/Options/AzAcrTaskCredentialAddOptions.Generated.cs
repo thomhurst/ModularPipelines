@@ -80,7 +80,7 @@ public record AzAcrTaskCredentialAddOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
-    /// The task managed identity used for the credential. Use '[system]' to refer to the system-assigned identity or a client id to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/cross- registry-authentication for more information.
+    /// The task managed identity used for the credential. Use '[system]' to refer to the system-assigned identity or a client id to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/cross-registry-authentication for more information.
     /// </summary>
     [CliOption("--use-identity")]
     public string? UseIdentity { get; set; }

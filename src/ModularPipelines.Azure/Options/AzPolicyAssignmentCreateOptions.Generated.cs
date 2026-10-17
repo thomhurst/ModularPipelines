@@ -112,13 +112,13 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     public IEnumerable<string>? NotScopes { get; set; }
 
     /// <summary>
-    /// The policy override.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The policy override.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--overrides", GroupValues = true)]
     public IEnumerable<string>? Overrides { get; set; }
 
     /// <summary>
-    /// The parameter values for the assigned policy rule.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// The parameter values for the assigned policy rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--params", ShortForm = "-p", GroupValues = true)]
     public IEnumerable<string>? Params { get; set; }
@@ -136,7 +136,7 @@ public record AzPolicyAssignmentCreateOptions : AzOptions
     public IEnumerable<string>? ResourceSelectors { get; set; }
 
     /// <summary>
-    /// The self-serve exemption settings for the policy assignment.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// The self-serve exemption settings for the policy assignment.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--self-serve", GroupValues = true)]
     public IEnumerable<string>? SelfServe { get; set; }

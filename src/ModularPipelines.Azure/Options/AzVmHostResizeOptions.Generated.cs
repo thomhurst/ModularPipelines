@@ -58,7 +58,7 @@ public record AzVmHostResizeOptions : AzOptions
     public string? Subscription { get; set; }
 
     /// <summary>
-    /// Dedicated host size for resizing. Available dedicated host sizes for resizing could be listed by running 'az vm host list- resize-options'.
+    /// Dedicated host size for resizing. Available dedicated host sizes for resizing could be listed by running 'az vm host list-resize-options'.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }

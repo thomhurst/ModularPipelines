@@ -23,7 +23,7 @@ public record AzKeyvaultKeyDecryptOptions : AzOptions
     /// <summary>
     /// Decrypt a single block of encrypted data.
     /// </summary>
-    /// <param name="Algorithm">Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA- OAEP, RSA-OAEP-256, RSA1_5.</param>
+    /// <param name="Algorithm">Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA-OAEP, RSA-OAEP-256, RSA1_5.</param>
     /// <param name="Value">The value to be decrypted, which should be the result of "az keyvault encrypt".</param>
     public AzKeyvaultKeyDecryptOptions(
         string Algorithm,
@@ -43,7 +43,7 @@ public record AzKeyvaultKeyDecryptOptions : AzOptions
     }
 
     /// <summary>
-    /// Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA- OAEP, RSA-OAEP-256, RSA1_5.
+    /// Algorithm identifier.  Allowed values: A128CBC, A128CBCPAD, A128GCM, A192CBC, A192CBCPAD, A192GCM, A256CBC, A256CBCPAD, A256GCM, RSA-OAEP, RSA-OAEP-256, RSA1_5.
     /// </summary>
     [CliOption("--algorithm", ShortForm = "-a")]
     public string Algorithm { get; private init; }

@@ -55,7 +55,7 @@ public record AzPpgCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
+    /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--intent-vm-sizes", GroupValues = true)]
     public IEnumerable<string>? IntentVmSizes { get; set; }
@@ -73,7 +73,7 @@ public record AzPpgCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }

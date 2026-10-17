@@ -91,7 +91,7 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public string CreationToken { get; private init; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -115,25 +115,25 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public CliOptionValue? PolicyEnforced { get; set; }
 
     /// <summary>
-    /// The geo- location where the resource lives  When not specified, the location of the resource group will be used.
+    /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// Resource tags. Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
+    /// Resource tags. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Availability Zone  Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
+    /// Availability Zone  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--zones", GroupValues = true)]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption. keySource = 'Mi crosoft.KeyVaul t'. Possible values (case- insensitive) are: 'Microsoft .NetApp, Micros oft.KeyVault'. Allowed values: Microsoft.KeyVa ult, Microsoft. NetApp. Default: Micros oft.NetApp.
+    /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption. keySource = 'Mi crosoft.KeyVaul t'. Possible values (case-insensitive) are: 'Microsoft .NetApp, Micros oft.KeyVault'. Allowed values: Microsoft.KeyVa ult, Microsoft. NetApp. Default: Micros oft.NetApp.
     /// </summary>
     [CliOption("--encryption-key-source")]
     public string? EncryptionKeySource { get; set; }
@@ -145,7 +145,7 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public string? KeyVaultPrivateEndpointResourceId { get; set; }
 
     /// <summary>
-    /// Export policy rule  Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
+    /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--export-policy-rules", GroupValues = true)]
     public IEnumerable<string>? ExportPolicyRules { get; set; }
@@ -319,7 +319,7 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public string? NetworkFeatures { get; set; }
 
     /// <summary>
-    /// Application specific placement rules for the particular volume  Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
+    /// Application specific placement rules for the particular volume  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--placement-rules", GroupValues = true)]
     public IEnumerable<string>? PlacementRules { get; set; }
@@ -331,7 +331,7 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public string? Ppg { get; set; }
 
     /// <summary>
-    /// Set of protocol types, default NFSv3, CIFS for SMB protocol Support shorthand- syntax, json- file and yaml- file. Try "??" to show more.
+    /// Set of protocol types, default NFSv3, CIFS for SMB protocol Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--protocol-types", GroupValues = true)]
     public IEnumerable<string>? ProtocolTypes { get; set; }
@@ -373,7 +373,7 @@ public record AzNetappfilesVolumeCreateOptions : AzOptions
     public string? SmbNonBrowsable { get; set; }
 
     /// <summary>
-    /// If enabled (true) the volume will contain a read- only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
+    /// If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
     [CliOption("--snapshot-dir-visible", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? SnapshotDirVisible { get; set; }

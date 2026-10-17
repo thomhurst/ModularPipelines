@@ -120,7 +120,7 @@ public record AzNetworkNsgRuleCreateOptions : AzOptions
     public IEnumerable<string>? DestinationAsgs { get; set; }
 
     /// <summary>
-    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Default: ['80'].
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Default: ['80'].
     /// </summary>
     [CliOption("--destination-port-ranges", GroupValues = true)]
     public IEnumerable<string>? DestinationPortRanges { get; set; }
@@ -138,7 +138,7 @@ public record AzNetworkNsgRuleCreateOptions : AzOptions
     public IEnumerable<string>? SourceAsgs { get; set; }
 
     /// <summary>
-    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.  Default: ['*'].
+    /// Space-separated list of ports or port ranges between 0-65535. Use '*' to match all ports.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Default: ['*'].
     /// </summary>
     [CliOption("--source-port-ranges", GroupValues = true)]
     public IEnumerable<string>? SourcePortRanges { get; set; }

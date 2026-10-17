@@ -89,7 +89,7 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions : AzOptions
     public string VolumeName { get; private init; }
 
     /// <summary>
-    /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }

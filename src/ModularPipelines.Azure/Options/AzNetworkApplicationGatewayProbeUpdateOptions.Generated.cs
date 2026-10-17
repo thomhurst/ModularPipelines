@@ -97,7 +97,7 @@ public record AzNetworkApplicationGatewayProbeUpdateOptions : AzOptions
     public string? MatchBody { get; set; }
 
     /// <summary>
-    /// Space-separated list of allowed ranges of healthy status codes for the health response.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Space-separated list of allowed ranges of healthy status codes for the health response.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--match-status-codes", GroupValues = true)]
     public IEnumerable<string>? MatchStatusCodes { get; set; }

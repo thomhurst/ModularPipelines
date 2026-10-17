@@ -106,7 +106,7 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
-    /// Azure container mapping for the share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Azure container mapping for the share.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--azure-container-info", GroupValues = true)]
     public IEnumerable<string>? AzureContainerInfo { get; set; }
@@ -130,13 +130,13 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Details of the refresh job on this share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
+    /// Details of the refresh job on this share.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--refresh-details", GroupValues = true)]
     public IEnumerable<string>? RefreshDetails { get; set; }
 
     /// <summary>
-    /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliOption("--user-access-rights", GroupValues = true)]
     public IEnumerable<string>? UserAccessRights { get; set; }

@@ -93,7 +93,7 @@ public record AzStorageAccountOrPolicyCreateOptions : AzOptions
     public CliOptionValue? TagsReplication { get; set; }
 
     /// <summary>
-    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
+    /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
     /// </summary>
     [CliOption("--min-creation-time", ShortForm = "-t")]
     public string? MinCreationTime { get; set; }

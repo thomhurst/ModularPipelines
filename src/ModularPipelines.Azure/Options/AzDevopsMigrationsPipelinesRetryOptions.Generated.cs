@@ -34,7 +34,7 @@ public record AzDevopsMigrationsPipelinesRetryOptions : AzOptions
     public string? Org { get; set; }
 
     /// <summary>
-    /// Pipeline definition IDs to retry. Accepts space-separated or comma- separated values.
+    /// Pipeline definition IDs to retry. Accepts space-separated or comma-separated values.
     /// </summary>
     [CliOption("--pipeline-ids", GroupValues = true)]
     public IEnumerable<string>? PipelineIds { get; set; }

@@ -27,7 +27,7 @@ public record AzVmHostCreateOptions : AzOptions
     /// <param name="HostGroup">Name of the Dedicated Host Group.</param>
     /// <param name="Name">Name of the Dedicated Host.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
-    /// <param name="Sku">SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.</param>
+    /// <param name="Sku">SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual-machines/dedicated-host/.</param>
     public AzVmHostCreateOptions(
         string HostGroup,
         string Name,
@@ -72,7 +72,7 @@ public record AzVmHostCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
-    /// SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual- machines/dedicated-host/.
+    /// SKU of the dedicated host. Available SKUs: https://azure.microsoft.com/pricing/details/virtual-machines/dedicated-host/.
     /// </summary>
     [CliOption("--sku")]
     public string Sku { get; private init; }
