@@ -3,6 +3,7 @@
     <GeneratedOptionsAssembly>ModularPipelines.AmazonWebServices</GeneratedOptionsAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Moq" />
     <ProjectReference Include="..\..\src\ModularPipelines.AmazonWebServices\ModularPipelines.AmazonWebServices.csproj" />
   </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
