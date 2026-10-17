@@ -120,6 +120,12 @@ internal class Bash(ICommandContext command, PipelineWorkingDirectory pipelineWo
             CommandLineCredentials = executionOptions.CommandLineCredentials,
         }, cancellationToken).ConfigureAwait(false);
 
-        return result.StandardOutput.TrimEnd('\r', '\n');
+        var converted = result.StandardOutput.TrimEnd('\r', '\n');
+        if (converted.Length == 0)
+        {
+            throw new InvalidOperationException($"wslpath returned no path for '{absolutePath}'.");
+        }
+
+        return converted;
     }
 }

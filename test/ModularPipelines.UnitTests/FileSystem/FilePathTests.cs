@@ -354,7 +354,7 @@ public class FilePathTests : TestBase
     [Arguments("**/Nest1/Nest2/Nest3/Nest4/Nest5/*.txt")]
     public async Task GlobTests(string globPattern)
     {
-        var workingDirectory = new FolderPath(TestContext.OutputDirectory!).AssertExists();
+        var workingDirectory = new FolderPath(Path.Combine(TestContext.OutputDirectory!, "Data")).AssertExists();
         var files = workingDirectory.GetFiles(globPattern).ToList();
         await Assert.That(files).Count().IsEqualTo(1);
         await Assert.That(files[0].Name).IsEqualTo("Blah.txt");
@@ -363,7 +363,7 @@ public class FilePathTests : TestBase
     [Test]
     public async Task GlobTest2()
     {
-        var folder = new FolderPath(TestContext.OutputDirectory!)
+        var folder = new FolderPath(Path.Combine(TestContext.OutputDirectory!, "Data"))
             .AssertExists()
             .FindFolder(x => x.Name == "Nest5")!;
 

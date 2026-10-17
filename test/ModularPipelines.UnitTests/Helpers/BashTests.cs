@@ -180,6 +180,32 @@ public class BashTests : TestBase
         await Assert.That(result.CommandInput).Contains($"\"{path.Replace('\\', '/')}\"");
     }
 
+    [Test]
+    [WindowsOnlyTest]
+    [Arguments("")]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task RunFileAsync_Rejects_Empty_Wsl_Path_Conversion(string output)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "mp bash empty conversion");
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(CommandResult.Ok(output));
+        var options = new BashFileOptions("script.sh")
+        {
+            Tool = Path.Combine(Environment.SystemDirectory, "bash.exe"),
+        };
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            new Bash(command.Object, new PipelineWorkingDirectory(directory)).PrepareFileAsync(
+                options, new CommandExecutionOptions(), default));
+
+        await Assert.That(exception!.Message).IsEqualTo($"wslpath returned no path for '{Path.Combine(directory, options.FilePath)}'.");
+    }
+
     private class BashCommandModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
