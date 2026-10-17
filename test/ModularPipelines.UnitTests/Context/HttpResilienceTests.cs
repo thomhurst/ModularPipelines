@@ -342,6 +342,45 @@ public class HttpResilienceTests
         await AssertClonesDisposed(inner, request);
     }
 
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task SharedAttemptContentRemainsOwnedByResponse(int rejectedAttempts)
+    {
+        var inner = new DisposalTrackingHandler(rejectedAttempts, shareResponseContent: true);
+        using var invoker = CreateInvoker(inner);
+        using var content = new DisposalTrackingContent();
+        using var request = new HttpRequestMessage(HttpMethod.Put, "https://example.test/retry")
+        {
+            Content = content,
+        };
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        await Assert.That(inner.Requests.Count).IsEqualTo(Math.Min(rejectedAttempts + 1, 2));
+        await Assert.That(response.StatusCode).IsEqualTo(rejectedAttempts < 2 ? HttpStatusCode.OK : HttpStatusCode.BadGateway);
+        await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("payload");
+        await Assert.That(response.RequestMessage).IsSameReferenceAs(request);
+        await Assert.That(response.Content).IsSameReferenceAs(inner.Contents[^1]);
+        await Assert.That(inner.Contents[^1].IsDisposed).IsFalse();
+        foreach (var rejectedContent in inner.Contents.SkipLast(1))
+        {
+            await Assert.That(rejectedContent.IsDisposed).IsTrue();
+        }
+
+        foreach (var attempt in inner.Requests)
+        {
+            await Assert.That(attempt.Content).IsNull();
+            Assert.Throws<ObjectDisposedException>(() => attempt.Content = null);
+        }
+
+        response.Dispose();
+        await Assert.That(inner.Contents[^1].IsDisposed).IsTrue();
+        await Assert.That(content.IsDisposed).IsFalse();
+        await Assert.That(await content.ReadAsStringAsync()).IsEqualTo("payload");
+    }
+
     private static async Task AssertClonesDisposed(DisposalTrackingHandler inner, HttpRequestMessage original)
     {
         foreach (var request in inner.Requests)
@@ -356,9 +395,11 @@ public class HttpResilienceTests
         int rejectedAttempts = 0,
         bool fail = false,
         CancellationTokenSource? cancellation = null,
-        HttpRequestMessage? responseRequest = null) : HttpMessageHandler
+        HttpRequestMessage? responseRequest = null,
+        bool shareResponseContent = false) : HttpMessageHandler
     {
         public List<HttpRequestMessage> Requests { get; } = [];
+        public List<DisposalTrackingContent> Contents { get; } = [];
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
@@ -366,6 +407,7 @@ public class HttpResilienceTests
             request.Content?.Dispose();
             request.Content = new DisposalTrackingContent();
             Requests.Add(request);
+            Contents.Add((DisposalTrackingContent) request.Content);
 
             await Task.Yield();
             await Assert.That(((DisposalTrackingContent) request.Content).IsDisposed).IsFalse();
@@ -379,7 +421,7 @@ public class HttpResilienceTests
             return new HttpResponseMessage(Requests.Count <= rejectedAttempts ? HttpStatusCode.BadGateway : HttpStatusCode.OK)
             {
                 RequestMessage = responseRequest ?? request,
-                Content = new StringContent("response body"),
+                Content = shareResponseContent ? request.Content : new StringContent("response body"),
             };
         }
     }

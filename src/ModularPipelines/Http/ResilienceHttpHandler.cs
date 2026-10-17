@@ -71,6 +71,12 @@ internal class ResilienceHttpHandler : DelegatingHandler
             {
                 using var attemptRequest = CloneRequest(request, contentBytes);
                 var response = await SendAttemptAsync(attemptRequest, options.AttemptTimeout, ct).ConfigureAwait(false);
+                if (attemptRequest.Content != null && ReferenceEquals(response.Content, attemptRequest.Content))
+                {
+                    // The response owns shared content until the response itself is disposed.
+                    attemptRequest.Content = null;
+                }
+
                 if (ReferenceEquals(response.RequestMessage, attemptRequest))
                 {
                     // Do not expose the clone after its disposal; preserve independently supplied requests.
