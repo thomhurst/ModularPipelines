@@ -5,8 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../ModularPipelines.DocumentationSnippets.FSharp/ModularPipelines.DocumentationSnippets.FSharp.fsproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Docker\ModularPipelines.Docker.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Jq\ModularPipelines.Jq.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
   </ItemGroup>
 </Project>
