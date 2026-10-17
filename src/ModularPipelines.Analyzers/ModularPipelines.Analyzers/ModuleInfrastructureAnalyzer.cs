@@ -133,26 +133,35 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (enumerableType is not null)
+        if (enumerableType is not null
+            && HasModuleElement(type, moduleType, moduleInterface, enumerableType, visited))
         {
-            // Inspect module-typed elements only; enumerable elements can recursively contain themselves.
-            if (type is IArrayTypeSymbol array
-                && IsModuleParameter(array.ElementType, moduleType, moduleInterface, null, visited))
-            {
-                return true;
-            }
-
-            foreach (var candidate in type.AllInterfaces.Concat([type]).OfType<INamedTypeSymbol>())
-            {
-                if (SymbolEqualityComparer.Default.Equals(candidate.OriginalDefinition, enumerableType)
-                    && IsModuleParameter(candidate.TypeArguments[0], moduleType, moduleInterface, null, visited))
-                {
-                    return true;
-                }
-            }
+            return true;
         }
 
         return type is ITypeParameterSymbol parameter
             && parameter.ConstraintTypes.Any(constraint => IsModuleParameter(constraint, moduleType, moduleInterface, enumerableType, visited));
+    }
+
+    private static bool HasModuleElement(ITypeSymbol type, INamedTypeSymbol moduleType,
+        INamedTypeSymbol? moduleInterface, INamedTypeSymbol enumerableType, HashSet<ITypeSymbol> visited)
+    {
+        // Inspect module-typed elements only; enumerable elements can recursively contain themselves.
+        if (type is IArrayTypeSymbol array
+            && IsModuleParameter(array.ElementType, moduleType, moduleInterface, null, visited))
+        {
+            return true;
+        }
+
+        foreach (var candidate in type.AllInterfaces.Concat([type]).OfType<INamedTypeSymbol>())
+        {
+            if (SymbolEqualityComparer.Default.Equals(candidate.OriginalDefinition, enumerableType)
+                && IsModuleParameter(candidate.TypeArguments[0], moduleType, moduleInterface, null, visited))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
