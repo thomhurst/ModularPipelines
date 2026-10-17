@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -104,8 +105,7 @@ internal static class ProcessRunner
             if (input is not null)
             {
                 // Use the pipe directly: StreamWriter disposal can flush buffered data without cancellation.
-                var bytes = Encoding.UTF8.GetBytes(input);
-                await process.StandardInput.BaseStream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
+                await WriteInputAsync(process.StandardInput.BaseStream, input, cancellationToken).ConfigureAwait(false);
             }
         }
         catch (IOException)
@@ -124,6 +124,30 @@ internal static class ProcessRunner
         finally
         {
             CloseStandardInput(process);
+        }
+    }
+
+    internal static async Task WriteInputAsync(Stream stream, string input, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var encoder = Encoding.UTF8.GetEncoder();
+        var bytes = ArrayPool<byte>.Shared.Rent(BufferSize);
+        try
+        {
+            var offset = 0;
+            while (offset < input.Length)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                encoder.Convert(input.AsSpan(offset), bytes.AsSpan(0, BufferSize), flush: true,
+                    out var charactersUsed, out var bytesUsed, out _);
+                await stream.WriteAsync(bytes.AsMemory(0, bytesUsed), cancellationToken).ConfigureAwait(false);
+                offset += charactersUsed;
+            }
+        }
+        finally
+        {
+            // Standard input may contain secrets. Do not leave them in a shared buffer.
+            ArrayPool<byte>.Shared.Return(bytes, clearArray: true);
         }
     }
 
