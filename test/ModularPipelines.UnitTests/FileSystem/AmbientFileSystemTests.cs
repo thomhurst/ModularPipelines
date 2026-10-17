@@ -176,6 +176,14 @@ public class AmbientFileSystemTests
     {
         private readonly FilePath _file = new("file.txt");
         private readonly FolderPath _folder = new("folder");
+        private FilePath _configuredFile = null!;
+        private FolderPath _configuredFolder = null!;
+
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            _configuredFile = new FilePath("configured.txt");
+            _configuredFolder = new FolderPath("configured");
+        }
 
         protected internal override async Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -187,6 +195,8 @@ public class AmbientFileSystemTests
             FolderPath convertedFolder = "folder"!;
             return ReferenceEquals(_file.Provider, provider)
                 && ReferenceEquals(_folder.Provider, provider)
+                && ReferenceEquals(_configuredFile.Provider, provider)
+                && ReferenceEquals(_configuredFolder.Provider, provider)
                 && ReferenceEquals(convertedFile.Provider, provider)
                 && ReferenceEquals(convertedFolder.Provider, provider);
         }

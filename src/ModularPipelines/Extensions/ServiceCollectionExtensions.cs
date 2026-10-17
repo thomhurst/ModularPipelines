@@ -146,7 +146,9 @@ internal static class ServiceCollectionExtensions
     {
         using (new Logging.ModuleOutputContextScope(typeof(TModule), fileSystemProvider: serviceProvider.GetService<IFileSystemProvider>()))
         {
-            return moduleFactory(serviceProvider);
+            var module = moduleFactory(serviceProvider);
+            _ = module.Configuration;
+            return module;
         }
     }
 
