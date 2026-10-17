@@ -23,6 +23,8 @@ internal sealed class MasterServerHost : IAsyncDisposable
 
     private static readonly TimeSpan CompletionAcknowledgementPollInterval = TimeSpan.FromMilliseconds(20);
 
+    private readonly SemaphoreSlim _completionLock = new(1, 1);
+
     private WebApplication? _app;
     private CloudflaredTunnel? _tunnel;
     private SignalRMasterState? _masterState;
@@ -129,20 +131,39 @@ internal sealed class MasterServerHost : IAsyncDisposable
     /// </summary>
     public async Task NotifyCompletionAsync(CancellationToken cancellationToken)
     {
-        if (_app is null || _masterState is null)
+        await _completionLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
         {
-            return;
-        }
+            if (_app is null || _masterState is null)
+            {
+                return;
+            }
 
-        _masterState.MarkCompleted();
-        await _app.Services.GetRequiredService<IHubContext<DistributedPipelineHub>>()
-            .Clients.All.SendAsync(HubMethodNames.MasterCompleted, cancellationToken)
-            .ConfigureAwait(false);
+            _masterState.MarkCompleted();
+            await _app.Services.GetRequiredService<IHubContext<DistributedPipelineHub>>()
+                .Clients.All.SendAsync(HubMethodNames.MasterCompleted, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            _completionLock.Release();
+        }
     }
 
     public async ValueTask DisposeAsync()
     {
-        var app = Interlocked.Exchange(ref _app, null);
+        // Keep the application alive until any completion broadcast has finished.
+        WebApplication? app;
+        await _completionLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            app = _app;
+            _app = null;
+        }
+        finally
+        {
+            _completionLock.Release();
+        }
         if (app is null)
         {
             return;
