@@ -13,9 +13,9 @@ See the [complete analyzer rule reference](../analyzers/) for every rule, its ca
 [`MP0021`](../analyzers/MP0021.md) warns when an optional dependency is accessed with
 `GetModule<T>()`. Use `GetModuleIfRegistered<T>()` and handle an absent module.
 [`MP0022`](../analyzers/MP0022.md) is informational: a required dependency can use
-`GetModule<T>()` instead of an unnecessary nullable lookup. Both rules also recognize
-generated module accessors. Declarations include inherited `DependsOn` attributes
-and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required
+`GetModule<T>()` instead of an unnecessary nullable lookup. Both rules inspect
+`GetModule<T>()` and `GetModuleIfRegistered<T>()` calls. Declarations include inherited
+`DependsOn` attributes and fluent `DependsOn` / `DependsOnOptional` calls in `Configure`; a required
 declaration wins when the same dependency is declared more than once. Conditional
 fluent declarations with an unknown condition do not produce accessor mismatch diagnostics.
 
