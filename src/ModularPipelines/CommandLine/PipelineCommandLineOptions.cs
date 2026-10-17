@@ -11,6 +11,8 @@ internal sealed record PipelineCommandLineOptions(
     IReadOnlyList<string> SkippedModules,
     IReadOnlyList<string> RunOnlyCategories,
     IReadOnlyList<string> IgnoreCategories,
+    IReadOnlyList<string> RunOnlyTags,
+    IReadOnlyList<string> IgnoreTags,
     DependencyGraphFormat? GraphFormat,
     string? GraphPath,
     bool RerunFailed = false)
@@ -18,6 +20,8 @@ internal sealed record PipelineCommandLineOptions(
     public static PipelineCommandLineOptions Empty { get; } = new(
         PipelineCommand.Run,
         false,
+        [],
+        [],
         [],
         [],
         [],

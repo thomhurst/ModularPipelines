@@ -16,6 +16,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Validation;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -219,6 +220,7 @@ public class PipelineCommandLineTests
     }
 
     [ModuleCategory("selected")]
+    [ModuleTag("selected-tag")]
     private sealed class SelectedCategoryModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -734,6 +736,57 @@ public class PipelineCommandLineTests
             await Assert.That(_categoryExecutions).IsEqualTo(1);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task TagsOptionFiltersExecution()
+    {
+        var builder = Pipeline.CreateBuilder(["--tags", "SELECTED-TAG"]);
+        builder.AddModule<SelectedCategoryModule>();
+        builder.AddModule<UnrelatedModule>();
+
+        await builder.RunAsync();
+
+        await Assert.That(_categoryExecutions).IsEqualTo(1);
+        await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task IgnoreTagsOptionFiltersExecution()
+    {
+        var builder = Pipeline.CreateBuilder(["--ignore-tags=SELECTED-TAG"]);
+        builder.AddModule<SelectedCategoryModule>();
+        builder.AddModule<UnrelatedModule>();
+
+        await builder.RunAsync();
+
+        await Assert.That(_categoryExecutions).IsEqualTo(0);
+        await Assert.That(_unrelatedExecutions).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task TagOptionsAcceptRepeatedCommaSeparatedAndEqualsValues()
+    {
+        var builder = Pipeline.CreateBuilder(
+        [
+            "--tags", "fast, remote", "--tags=FAST,local",
+            "--ignore-tags=slow, database", "--ignore-tags", "SLOW,network",
+        ]);
+
+        await Assert.That(builder.Options.RunOnlyTags).IsEquivalentTo(["fast", "remote", "local"]);
+        await Assert.That(builder.Options.IgnoreTags).IsEquivalentTo(["slow", "database", "network"]);
+        await Assert.That(builder.Configuration["tags"]).IsNull();
+        await Assert.That(builder.Configuration["ignore-tags"]).IsNull();
+    }
+
+    [Test]
+    [Arguments("--tags")]
+    [Arguments("--ignore-tags")]
+    [Arguments("--tags=")]
+    [Arguments("--ignore-tags=, ")]
+    public async Task TagOptionsRejectMissingOrEmptyValues(string option)
+    {
+        await Assert.That(() => Pipeline.CreateBuilder([option])).Throws<ArgumentException>();
     }
 
     [Test]
@@ -1746,6 +1799,19 @@ public class PipelineCommandLineTests
             await Assert.That(output).Contains("configured-category");
             await Assert.That(summary.Succeeded).IsTrue();
         }
+    }
+
+    [Test]
+    [Arguments("--tags")]
+    [Arguments("--ignore-tags")]
+    public async Task ValidateCommandRejectsUnknownTags(string option)
+    {
+        var builder = CreateExecutionBuilder(["--validate", option, "missing-tag"]);
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.RunAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options && error.Message.Contains("missing-tag"));
     }
 
     [Test]

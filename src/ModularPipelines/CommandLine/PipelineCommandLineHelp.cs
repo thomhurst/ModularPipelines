@@ -18,6 +18,8 @@ internal static class PipelineCommandLineHelp
           --skip-module <name>[,<name>...] Exclude selected modules.
           --categories <name>[,<name>...]  Run selected categories.
           --ignore-categories <name>[,<name>...] Exclude selected categories.
+          --tags <name>[,<name>...]        Run modules matching any selected tag.
+          --ignore-tags <name>[,<name>...] Exclude modules matching any selected tag.
           --graph <mermaid|dot|json> [path] Export the dependency graph.
           --graph-path <path>              Set the graph output path explicitly.
           --                             Forward all remaining arguments to host configuration.
