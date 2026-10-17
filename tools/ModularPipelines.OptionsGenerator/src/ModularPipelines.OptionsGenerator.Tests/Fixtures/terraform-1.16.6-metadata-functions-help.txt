@@ -1,0 +1,3 @@
+Usage: terraform [global options] metadata functions -json
+
+  Prints out a json representation of the available function signatures.

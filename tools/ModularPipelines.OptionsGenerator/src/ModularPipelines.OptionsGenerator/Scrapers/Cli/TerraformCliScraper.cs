@@ -255,10 +255,9 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
             }
         }
 
-        // Terraform's state identities synopsis requires -json, but its Options section
-        // omits this presence-only flag (internal/command/state_identities.go).
-        if (commandParts is ["state", "identities"]
-            && usage.RequiredOptionSwitches.Contains("-json", StringComparer.Ordinal)
+        // Commands such as state identities and metadata functions require the presence-only
+        // -json flag in their synopsis without documenting it in an Options section.
+        if (usage.RequiredOptionSwitches.Contains("-json", StringComparer.Ordinal)
             && CliOptionDefinition.FindIndexBySwitch(options, "-json") < 0)
         {
             options.Add(new CliOptionDefinition
@@ -267,9 +266,10 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
                 PropertyName = "Json",
                 CSharpType = "bool?",
                 IsFlag = true,
-                IsRequired = true,
             });
         }
+
+        options = ApplyUsageRequiredOptions(options, usage);
 
         // Extract enums from options
         var enums = options
