@@ -1,5 +1,8 @@
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
@@ -66,6 +69,78 @@ public class AmbientFileSystemTests
         await Assert.That(result.ValueOrDefault).IsTrue();
         await Assert.That(module.ConfiguredFile.Provider).IsSameReferenceAs(provider);
         await Assert.That(module.ConfiguredFolder.Provider).IsSameReferenceAs(provider);
+        await Assert.That(AmbientModuleOutputContext.Current).IsNull();
+    }
+
+    [Test]
+    [Arguments("plan", false)]
+    [Arguments("plan", true)]
+    [Arguments("graph", false)]
+    [Arguments("graph", true)]
+    [Arguments("condition", false)]
+    [Arguments("condition", true)]
+    [Arguments("graph-condition", false)]
+    [Arguments("graph-condition", true)]
+    [Arguments("run", false)]
+    [Arguments("run", true)]
+    public async Task PlanningSkipConditionsUseRegisteredProvider(string operation, bool useFolder, CancellationToken cancellationToken)
+    {
+        var provider = new Mock<IFileSystemProvider>();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(provider.Object);
+        if (useFolder)
+        {
+            builder.AddModule<FolderSkipProviderModule>();
+        }
+        else
+        {
+            builder.AddModule<FileSkipProviderModule>();
+        }
+
+        await using var pipeline = await builder.BuildAsync();
+        switch (operation)
+        {
+            case "plan":
+                var plan = await pipeline.PlanAsync();
+                await Assert.That(plan.Waves.SelectMany(wave => wave.Modules).Single().ShouldSkip).IsFalse();
+                break;
+            case "graph":
+                using (var document = JsonDocument.Parse(
+                    await pipeline.Services.GetRequiredService<IDependencyGraphExporter>()
+                        .RenderAsync(DependencyGraphFormat.Json)))
+                {
+                    var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+                    await Assert.That(node.GetProperty("skipped").GetBoolean()).IsFalse();
+                }
+                break;
+            case "condition":
+            case "graph-condition":
+                var module = pipeline.Services.GetServices<IModule>().Single();
+                var evaluator = pipeline.Services.GetRequiredService<ModulePlanningSkipEvaluator>();
+                var decision = operation == "condition"
+                    ? await evaluator.EvaluateAsync(module, cancellationToken)
+                    : await evaluator.EvaluateGraphSafeAsync(
+                        module,
+                        pipeline.Services.GetRequiredService<IModuleMetadataRegistry>(),
+                        cancellationToken);
+                await Assert.That(decision!.ShouldSkip).IsFalse();
+                break;
+            case "run":
+                var summary = await pipeline.RunAsync();
+                var result = await summary.Modules.OfType<Module<bool>>().Single();
+                await Assert.That(result.ValueOrDefault).IsTrue();
+                break;
+        }
+
+        if (useFolder)
+        {
+            provider.Verify(fileSystem => fileSystem.DirectoryExists(AppContext.BaseDirectory), Times.AtLeastOnce);
+        }
+        else
+        {
+            provider.Verify(fileSystem => fileSystem.FileExists(typeof(AmbientFileSystemTests).Assembly.Location), Times.AtLeastOnce);
+        }
+
         await Assert.That(AmbientModuleOutputContext.Current).IsNull();
     }
 
@@ -206,6 +281,28 @@ public class AmbientFileSystemTests
             module.ReadyFiles.Add(new FilePath("handler.txt"));
             module.ReadyFolders.Add(new FolderPath("handler"));
         }
+    }
+
+    private sealed class FileSkipProviderModule : Module<bool>
+    {
+        protected override Module<bool> CreatePlanningCopy(IServiceProvider serviceProvider) => new FileSkipProviderModule();
+
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => new FilePath(typeof(AmbientFileSystemTests).Assembly.Location).Exists);
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(true);
+    }
+
+    private sealed class FolderSkipProviderModule : Module<bool>
+    {
+        protected override Module<bool> CreatePlanningCopy(IServiceProvider serviceProvider) => new FolderSkipProviderModule();
+
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithSkipWhen(_ => new FolderPath(AppContext.BaseDirectory).Exists);
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(true);
     }
 
     private class ConfigurationProviderModule : Module<bool>

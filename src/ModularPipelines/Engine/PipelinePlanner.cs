@@ -9,6 +9,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,54 +17,36 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-internal sealed class PipelinePlanner
+internal sealed class PipelinePlanner(
+    IServiceProvider serviceProvider,
+    IEnumerable<IModule> modules,
+    IRegistrationEventExecutor registrationEventExecutor,
+    ModuleRetriever moduleRetriever,
+    IModuleConditionHandler conditionHandler,
+    ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
+    IDependencyChainProvider dependencyChainProvider,
+    IOptions<PipelineOptions> options,
+    [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
+    IModuleResultHistoryProvider resultHistoryProvider,
+    IPipelineContextProvider pipelineContextProvider,
+    IModuleCacheResultRepository? moduleCacheResultRepository = null)
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly IReadOnlyList<IModule> _modules;
-    private readonly IRegistrationEventExecutor _registrationEventExecutor;
-    private readonly ModuleRetriever _moduleRetriever;
-    private readonly IModuleConditionHandler _conditionHandler;
-    private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
-    private readonly IModuleDependencyRegistry _dependencyRegistry;
-    private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly IDependencyChainProvider _dependencyChainProvider;
-    private readonly IOptions<PipelineOptions> _options;
-    private readonly IMediator _mediator;
-    private readonly IModuleResultHistoryProvider _resultHistoryProvider;
-    private readonly IPipelineContextProvider _pipelineContextProvider;
-    private readonly bool _moduleCachingEnabled;
-
-    public PipelinePlanner(
-        IServiceProvider serviceProvider,
-        IEnumerable<IModule> modules,
-        IRegistrationEventExecutor registrationEventExecutor,
-        ModuleRetriever moduleRetriever,
-        IModuleConditionHandler conditionHandler,
-        ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
-        IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry,
-        IDependencyChainProvider dependencyChainProvider,
-        IOptions<PipelineOptions> options,
-        [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
-        IModuleResultHistoryProvider resultHistoryProvider,
-        IPipelineContextProvider pipelineContextProvider,
-        IModuleCacheResultRepository? moduleCacheResultRepository = null)
-    {
-        _serviceProvider = serviceProvider;
-        _modules = modules.Distinct<IModule>(ReferenceEqualityComparer.Instance).ToArray();
-        _registrationEventExecutor = registrationEventExecutor;
-        _moduleRetriever = moduleRetriever;
-        _conditionHandler = conditionHandler;
-        _estimatedTimeProvider = estimatedTimeProvider;
-        _dependencyRegistry = dependencyRegistry;
-        _metadataRegistry = metadataRegistry;
-        _dependencyChainProvider = dependencyChainProvider;
-        _options = options;
-        _mediator = mediator;
-        _resultHistoryProvider = resultHistoryProvider;
-        _pipelineContextProvider = pipelineContextProvider;
-        _moduleCachingEnabled = moduleCacheResultRepository is not null;
-    }
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly IReadOnlyList<IModule> _modules = [.. modules.Distinct<IModule>(ReferenceEqualityComparer.Instance)];
+    private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
+    private readonly ModuleRetriever _moduleRetriever = moduleRetriever;
+    private readonly IModuleConditionHandler _conditionHandler = conditionHandler;
+    private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider = estimatedTimeProvider;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
+    private readonly IDependencyChainProvider _dependencyChainProvider = dependencyChainProvider;
+    private readonly IOptions<PipelineOptions> _options = options;
+    private readonly IMediator _mediator = mediator;
+    private readonly IModuleResultHistoryProvider _resultHistoryProvider = resultHistoryProvider;
+    private readonly IPipelineContextProvider _pipelineContextProvider = pipelineContextProvider;
+    private readonly bool _moduleCachingEnabled = moduleCacheResultRepository is not null;
 
     public async Task<PipelinePlan> CreateAsync(CancellationToken cancellationToken = default)
     {
@@ -72,7 +55,7 @@ internal sealed class PipelinePlanner
             throw new NoModulesRegisteredException();
         }
 
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules, cancellationToken).ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
         await ValidateDependenciesAsync(cancellationToken).ConfigureAwait(false);
 
@@ -227,6 +210,9 @@ internal sealed class PipelinePlanner
                 moduleResultAccessAllowed: false);
             try
             {
+                using var outputScope = new ModuleOutputContextScope(
+                    module.GetType(),
+                    fileSystemProvider: scopedServices.GetRequiredService<IFileSystemProvider>());
                 using var planningResultAccess = PlanningModuleResultAccess.Enter();
                 var planningCondition = configuration.PlanningSkipCondition;
                 return planningCondition is null
@@ -300,9 +286,7 @@ internal sealed class PipelinePlanner
                 }
             }
 
-            currentWave = nextWave
-                .OrderBy(model => model.Module.GetType().FullName, StringComparer.Ordinal)
-                .ToArray();
+            currentWave = [.. nextWave.OrderBy(model => model.Module.GetType().FullName, StringComparer.Ordinal)];
         }
 
         if (remainingDependencies.Count > 0)
@@ -427,10 +411,9 @@ internal sealed class PipelinePlanner
                     continue;
                 }
 
-                readyModules = unscheduledModules
+                readyModules = [.. unscheduledModules
                     .OrderByDescending(plannedModule => GetPriority(plannedModule.Module))
-                    .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)
-                    .ToArray();
+                    .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)];
             }
 
             var queuedAny = false;
@@ -482,7 +465,7 @@ internal sealed class PipelinePlanner
         IReadOnlyList<ScheduledModule> scheduledModules,
         ConcurrencyOptions concurrency)
     {
-        var module = plannedModule.Module;
+        _ = plannedModule.Module;
         var duration = plannedModule.ShouldSkip
             ? TimeSpan.Zero
             : plannedModule.EstimatedDuration;

@@ -7,6 +7,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Enums;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -449,6 +450,9 @@ internal sealed class DependencyGraphExporter(
                 moduleResultAccessAllowed: false);
             try
             {
+                using var outputScope = new ModuleOutputContextScope(
+                    module.GetType(),
+                    fileSystemProvider: scopedServices.GetRequiredService<IFileSystemProvider>());
                 using var planningResultAccess = PlanningModuleResultAccess.Enter();
                 var planningCondition = configuration.SynchronousPlanningSkipCondition;
                 return planningCondition is null
