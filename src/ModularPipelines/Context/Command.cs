@@ -60,10 +60,19 @@ internal sealed class Command(
     private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
     private readonly PipelineWorkingDirectory _pipelineWorkingDirectory = pipelineWorkingDirectory;
 
-    public async Task<CommandResult> ExecuteCommandLineToolAsync(
+    public Task<CommandResult> ExecuteCommandLineToolAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
+    {
+        return ExecuteCommandAsync(options, executionOptions, interceptCommands: true, cancellationToken);
+    }
+
+    private async Task<CommandResult> ExecuteCommandAsync(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions,
+        bool interceptCommands,
+        CancellationToken cancellationToken)
     {
         var execOpts = (executionOptions ?? new CommandExecutionOptions()) with
         {
@@ -113,6 +122,7 @@ internal sealed class Command(
             return await ExecuteCommandCoreAsync(
                     invocation,
                     activity,
+                    interceptCommands,
                     linkedCancellationToken.Token,
                     cancellationToken,
                     timeoutCancellationToken)
@@ -273,13 +283,16 @@ internal sealed class Command(
     private async Task<CommandResult> ExecuteCommandCoreAsync(
         PreparedCommandInvocation invocation,
         Activity? activity,
+        bool interceptCommands,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
-        var interceptors = _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors];
+        var interceptors = interceptCommands
+            ? _commandInterceptors as ICommandInterceptor[] ?? [.. _commandInterceptors]
+            : [];
         if (interceptors.Length == 0)
         {
             var result = await ExecuteInvocationAsync(
@@ -306,6 +319,11 @@ internal sealed class Command(
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
+        if (OperatingSystem.IsWindows() && invocation.ToolOptions is BashFileOptions bashOptions)
+        {
+            invocation = await PrepareBashFileInvocationAsync(invocation, bashOptions, executionCancellationToken).ConfigureAwait(false);
+        }
+
         return invocation.ExecutionOptions.InternalDryRun
             ? ExecuteDryRun(
                 invocation.Command,
@@ -325,6 +343,70 @@ internal sealed class Command(
                     callerCancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
+    }
+
+    private async Task<PreparedCommandInvocation> PrepareBashFileInvocationAsync(
+        PreparedCommandInvocation invocation,
+        BashFileOptions options,
+        CancellationToken cancellationToken)
+    {
+        var arguments = invocation.CommandLine.Arguments.ToList();
+        var pathIndex = arguments.IndexOf(options.FilePath);
+        if (pathIndex < 0)
+        {
+            // A manually replaced command line no longer contains the script operand.
+            return invocation;
+        }
+
+        var usesSudo = invocation.SudoPrefixLength > 0;
+        if (pathIndex != arguments.LastIndexOf(options.FilePath))
+        {
+            // A preceding option value or a script argument may equal the script operand.
+            var pathMarker = Guid.NewGuid().ToString("N");
+            var generatedArguments = _commandLineBuilder.Build(options with { FilePath = pathMarker }).Arguments.ToList();
+            var generatedPathIndex = generatedArguments.IndexOf(pathMarker);
+            if (generatedPathIndex < 0)
+            {
+                return invocation;
+            }
+
+            generatedArguments[generatedPathIndex] = options.FilePath;
+            var offset = usesSudo ? invocation.SudoPrefixLength + 1 : 0;
+            if (!arguments.Skip(offset).SequenceEqual(generatedArguments, StringComparer.Ordinal))
+            {
+                // An interceptor supplied a different command line; do not guess which operand it retained.
+                return invocation;
+            }
+
+            pathIndex = offset + generatedPathIndex;
+        }
+
+        var tool = usesSudo ? arguments[invocation.SudoPrefixLength] : invocation.CommandLine.Tool;
+        var preparedOptions = await Bash.PrepareFileAsync(
+            options with { Tool = tool },
+            invocation.ExecutionOptions,
+            _pipelineWorkingDirectory,
+            // Internal conversion runs inside the active interceptor chain; never enter that chain again.
+            (toolOptions, executionOptions, token) => ExecuteCommandAsync(toolOptions, executionOptions, interceptCommands: false, token),
+            cancellationToken).ConfigureAwait(false);
+        arguments[pathIndex] = preparedOptions.FilePath;
+        if (usesSudo)
+        {
+            arguments[invocation.SudoPrefixLength] = preparedOptions.Tool!;
+        }
+
+        tool = usesSudo ? invocation.CommandLine.Tool : preparedOptions.Tool!;
+
+        var (command, commandInput) = CreateCliCommand(tool, arguments, invocation.ExecutionOptions);
+        return invocation with
+        {
+            CommandLine = new CommandLine(tool, arguments),
+            ToolOptions = preparedOptions,
+            Command = command,
+            RawCommandInput = commandInput,
+            RawEnvironmentVariables = GetRawEnvironmentVariables(command),
+            InputToLog = CreateInputToLog(commandInput, invocation.ExecutionOptions, Activity.Current),
+        };
     }
 
     private void RecordTelemetryCommandInput(

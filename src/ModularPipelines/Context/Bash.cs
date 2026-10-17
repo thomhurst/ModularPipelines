@@ -1,19 +1,14 @@
-using ModularPipelines.Context;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Bash : IBashContext
+internal class Bash(ICommandContext command) : IBashContext
 {
     private static readonly TimeSpan WslPathExecutionTimeout = TimeSpan.FromSeconds(10);
 
-    private readonly ICommandContext _command;
-
-    public Bash(ICommandContext command)
-    {
-        _command = command;
-    }
+    private readonly ICommandContext _command = command;
 
     public virtual Task<CommandResult> RunAsync(
         string script,
@@ -39,39 +34,99 @@ internal class Bash : IBashContext
         return RunFileAsync(new BashFileOptions(path), executionOptions, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> RunFileAsync(
+    public virtual Task<CommandResult> RunFileAsync(
         BashFileOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options with
-        {
-            FilePath = await ToWslPath(
-                options.FilePath,
-                executionOptions?.WorkingDirectory,
-                cancellationToken).ConfigureAwait(false),
-        }, executionOptions, cancellationToken).ConfigureAwait(false);
+        return _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
-    private async Task<string> ToWslPath(
-        string path,
-        string? workingDirectory,
+    internal static async Task<BashFileOptions> PrepareFileAsync(
+        BashFileOptions options,
+        CommandExecutionOptions executionOptions,
+        PipelineWorkingDirectory pipelineWorkingDirectory,
+        Func<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken, Task<CommandResult>> executeCommand,
         CancellationToken cancellationToken)
     {
-        if (OperatingSystem.IsWindows())
+        var execOpts = executionOptions with
         {
-            var result = await _command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("wsl")
-            {
-                Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
-            }, new CommandExecutionOptions
-            {
-                ExecutionTimeout = WslPathExecutionTimeout,
-                WorkingDirectory = workingDirectory,
-            }, cancellationToken).ConfigureAwait(false);
+            WorkingDirectory = executionOptions.WorkingDirectory is { } workingDirectory
+                ? pipelineWorkingDirectory.ResolvePath(workingDirectory)
+                : pipelineWorkingDirectory.Path,
+        };
+        var requestedTool = options.Tool ?? "bash";
+        var tool = CliCommandFactory.ResolveWindowsCommand(
+            requestedTool,
+            execOpts.WorkingDirectory,
+            execOpts.EnvironmentVariables)
+            ?? ResolveFallbackTool(requestedTool, Path.GetDirectoryName(Environment.ProcessPath));
+        var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
+        var isWsl = string.Equals(tool, systemBash, StringComparison.OrdinalIgnoreCase);
 
-            return result.StandardOutput.Trim();
+        return options with
+        {
+            Tool = tool,
+            // Git/MSYS Bash accepts Windows drive paths with forward slashes without WSL or cygpath.
+            FilePath = isWsl
+                ? await ToWslPath(options.FilePath, execOpts, executeCommand, cancellationToken).ConfigureAwait(false)
+                : options.FilePath.Replace('\\', '/'),
+        };
+    }
+
+    internal static string ResolveFallbackTool(string requestedTool, string? applicationDirectory)
+    {
+        if (!requestedTool.Equals("bash", StringComparison.OrdinalIgnoreCase)
+            && !requestedTool.Equals("bash.exe", StringComparison.OrdinalIgnoreCase))
+        {
+            return requestedTool;
         }
 
-        return path;
+        // CreateProcess checks the host executable's directory before the system directories.
+        if (applicationDirectory is not null)
+        {
+            var applicationBash = Path.Combine(applicationDirectory, "bash.exe");
+            if (File.Exists(applicationBash))
+            {
+                return applicationBash;
+            }
+        }
+
+        var systemBash = Path.Combine(Environment.SystemDirectory, "bash.exe");
+        return File.Exists(systemBash) ? systemBash : requestedTool;
+    }
+
+    private static async Task<string> ToWslPath(
+        string path,
+        CommandExecutionOptions executionOptions,
+        Func<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken, Task<CommandResult>> executeCommand,
+        CancellationToken cancellationToken)
+    {
+        // Preserve paths already expressed in WSL's filesystem; resolve Windows paths against the command's directory.
+        var absolutePath = path.StartsWith('/') ? path : Path.GetFullPath(path, executionOptions.WorkingDirectory!);
+        if (executionOptions.InternalDryRun)
+        {
+            // A dry run displays the absolute Windows path without starting WSL to translate it.
+            return absolutePath;
+        }
+
+        var result = await executeCommand(new CommandLineToolOptions(Path.Combine(Environment.SystemDirectory, "wsl.exe"))
+        {
+            Arguments = ["--exec", "wslpath", "-a", absolutePath],
+        }, new CommandExecutionOptions
+        {
+            ExecutionTimeout = WslPathExecutionTimeout,
+            WorkingDirectory = executionOptions.WorkingDirectory,
+            EnvironmentVariables = executionOptions.EnvironmentVariables,
+            CommandLineCredentials = executionOptions.CommandLineCredentials,
+        }, cancellationToken).ConfigureAwait(false);
+
+        var converted = result.StandardOutput.TrimEnd('\r', '\n');
+        if (converted.Length == 0)
+        {
+            throw new InvalidOperationException($"wslpath returned no path for '{absolutePath}'.");
+        }
+
+        return converted;
     }
 }

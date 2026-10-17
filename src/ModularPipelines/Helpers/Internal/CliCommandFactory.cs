@@ -102,7 +102,7 @@ internal static class CliCommandFactory
         environmentVariables[variableName] = value.Replace("\"", "\"\"");
     }
 
-    private static string? ResolveWindowsCommand(
+    internal static string? ResolveWindowsCommand(
         string tool,
         string? workingDirectory,
         IEnumerable<KeyValuePair<string, string?>>? environmentVariables)
