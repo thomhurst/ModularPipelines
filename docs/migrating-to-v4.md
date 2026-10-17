@@ -887,6 +887,10 @@ The Git integration changed beyond the accessor:
 | `Git().Commands.Add(...)`, `Status(...)`                                                                                                          | `Tools.Git.Commands.WorkingTree.AddAsync(...)`, `StatusAsync(...)`                       |
 | `Git().Commands.Commits(...)`                                                                                                                     | `Tools.Git.Commands.History.CommitsAsync(...)`                                           |
 | `Git().Versioning.GetGitVersioningInformation()`                                                                                                  | `Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken)`                  |
+| `IGitCommandRunner.RunCommands(...)`                                                                                                              | `RunCommandsAsync(...)` (all overloads)                                                  |
+| `IGitCommandRunner.RunCommandsOrNull(...)`                                                                                                        | `RunCommandsOrNullAsync(...)` (all overloads)                                            |
+
+Update custom `IGitCommandRunner` implementations and test doubles to the new method names. Keep forwarding cancellation tokens through the token-aware overloads so running Git commands can be canceled. `RunCommandsOrNullAsync` still propagates cancellation rather than returning `null`.
 
 Commands are grouped into `Repository`, `WorkingTree`, `Branches`, `Remotes`, `History`, and `Maintenance`; find any command not listed above in those groups. `Tools.Git.Information.CommitsAsync(...)` returns the same commits as `Commands.History.CommitsAsync(...)`. If upgrading an intermediate V4 build that exposed `IGitInformation.Commits(...)`, rename it to `IGitInformation.CommitsAsync(...)`. In released V3.2.8, `Commits` existed only on the internal `GitInformation` implementation, not its public interface.
 
@@ -901,6 +905,14 @@ Every `GitRepositoryInfo` property except `Root` is nullable. For example, `Tag`
 var git = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
 var branch = git.BranchName ?? "detached";
+```
+
+### TRX test results[​](#trx-test-results "Direct link to TRX test results")
+
+Rename `ITrx.ParseTrxFile(file)` to `ParseTrxFileAsync(file, cancellationToken)`. The cancellation token is optional and cancels the asynchronous file read:
+
+```
+var results = await context.Tools.Trx.ParseTrxFileAsync(trxFile, cancellationToken);
 ```
 
 ### Command Prompt[​](#command-prompt "Direct link to Command Prompt")
