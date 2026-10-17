@@ -1,4 +1,7 @@
 using System.Reflection;
+using ModularPipelines.Attributes;
+using ModularPipelines.Generated;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -24,6 +27,7 @@ public partial class RequiredConstructorValidationTests
             ShortForm = "-p",
             PropertyName = "Project",
             CSharpType = propertyType + "?",
+            ValueSeparator = "=",
         };
         var local = global with { ShortForm = null, IsRequired = true, Description = "The command-specific project selector.", RejectBlankCollectionValues = rejectBlankCollectionValues };
         var command = new CliCommandDefinition
@@ -67,9 +71,24 @@ public partial class RequiredConstructorValidationTests
         if (sharesStorage)
         {
             await Assert.That(baseProperty.GetValue(instance)).IsEqualTo(derivedProperty.GetValue(instance));
+            if (propertyType == "string")
+            {
+                await Assert.That(baseProperty.GetValue(instance)).IsEqualTo("1");
+            }
+
             await Assert.That(new NullabilityInfoContext().Create(derivedProperty).ReadState).IsEqualTo(NullabilityState.NotNull);
             baseProperty.SetValue(instance, Value(2));
             await Assert.That(derivedProperty.GetValue(instance)).IsEqualTo(baseProperty.GetValue(instance));
+            if (propertyType == "string")
+            {
+                await Assert.That(derivedProperty.GetValue(instance)).IsEqualTo("2");
+                var metadata = derivedProperty.CustomAttributes.Single(attribute => attribute.AttributeType.Name == nameof(CliOptionAttribute));
+                var format = (OptionFormat) metadata.NamedArguments.Single(argument => argument.MemberName == nameof(CliOptionAttribute.Format)).TypedValue.Value!;
+                var part = new OptionPart(derivedProperty.Name, derivedProperty.GetValue,
+                    new CliOptionAttribute((string) metadata.ConstructorArguments.Single().Value!) { Format = format });
+                await Assert.That(new CommandArgumentBuilder().BuildArguments([part], instance!)).IsEquivalentTo(["--project=2"]);
+            }
+
             derivedProperty.SetValue(instance, Value(3));
             await Assert.That(baseProperty.GetValue(instance)).IsEqualTo(derivedProperty.GetValue(instance));
             if (rejectBlankCollectionValues)

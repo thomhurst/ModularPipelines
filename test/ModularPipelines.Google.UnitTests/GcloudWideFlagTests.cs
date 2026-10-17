@@ -62,18 +62,33 @@ public class GcloudWideFlagTests : TestBase
     }
 
     [Test]
-    public async Task Required_Local_Project_Takes_Precedence_Over_The_Inherited_Default()
+    [Arguments("asset analyze-move")]
+    [Arguments("dataplex entries search")]
+    [Arguments("policy-intelligence query-activity")]
+    public async Task Required_Local_Project_Renders_Once_And_Preserves_Command_Validation(string command)
     {
-        var options = new GcloudAssetAnalyzeMoveOptions("resource-project") { DestinationFolder = "folder" };
-        ((GcloudOptions) options).Project = "global-project";
+        // Shared-storage mutations are covered against freshly emitted classes in
+        // RequiredConstructorValidationTests; this package snapshot can precede regeneration.
+        GcloudOptions options = command switch
+        {
+            "asset analyze-move" => new GcloudAssetAnalyzeMoveOptions("resource-project") { DestinationFolder = "folder" },
+            "dataplex entries search" => new GcloudDataplexEntriesSearchOptions("resource-project", "query"),
+            "policy-intelligence query-activity" => new GcloudPolicyIntelligenceQueryActivityOptions("serviceAccountLastAuthentication", "resource-project"),
+            _ => throw new ArgumentOutOfRangeException(nameof(command)),
+        };
 
-        await Assert.That(options.Project).IsEqualTo("resource-project");
         var arguments = BuildArguments(options);
         await Assert.That(arguments.Count(argument => argument.StartsWith("--project=", StringComparison.Ordinal)))
             .IsEqualTo(1);
         await Assert.That(arguments).Contains("--project=resource-project");
         var errors = new List<ValidationResult>();
         await Assert.That(Validator.TryValidateObject(options, new(options), errors, true)).IsTrue();
+
+        if (options is GcloudAssetAnalyzeMoveOptions asset)
+        {
+            asset.DestinationOrganization = "organization";
+            await Assert.That(Validator.TryValidateObject(options, new(options), errors, true)).IsFalse();
+        }
     }
 
     [Test]
