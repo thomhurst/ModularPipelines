@@ -12,6 +12,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -88,7 +89,7 @@ public class RejectedAttemptTests
             await Assert.That(artifacts.TryGet(assignment.ModuleId, out _)).IsFalse();
             await DependencyResultApplicator.FetchAndApplyAsync(
                 [DistributedTestData.Dependency(assignment.ModuleId)], cache, lookup, serializer, results,
-                NullLogger.Instance, acceptedArtifacts: artifacts);
+                NullLogger.Instance, acceptedArtifacts: artifacts, cancellationToken: cancellationToken);
 
             await Assert.That((await module).Value).IsEqualTo("accepted");
             await Assert.That(results.GetResult<string>(typeof(Producer))!.Value).IsEqualTo("accepted");
@@ -174,7 +175,10 @@ public class RejectedAttemptTests
     {
         var accessor = new Mock<IInternalModuleLoggerAccessor>();
         accessor.Setup(value => value.GetLogger(It.IsAny<Type>())).Returns(Mock.Of<IInternalModuleLogger>());
-        return new ServiceCollection().AddSingleton(accessor.Object).BuildServiceProvider();
+        return new ServiceCollection()
+            .AddSingleton(accessor.Object)
+            .AddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance)
+            .BuildServiceProvider();
     }
 
     private static ModuleResult<string> Result(string value) => new ModuleResult<string>.Success(value)
