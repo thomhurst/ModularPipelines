@@ -61,17 +61,32 @@ public class XmlTests : TestBase
     }
 
     [Test]
-    public async Task Can_Serialize_With_Options()
+    public async Task Can_Serialize_With_DisableFormatting()
     {
         var xml = await GetService<IXmlContext>();
 
-        var result = xml.ToXml(XmlModel.CreateDefault(), SaveOptions.DisableFormatting);
-        await Assert.That(result.Trim()).IsEqualTo($"""
-                                       <XmlModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                                         <Foo>{TestValues.FooValue}</Foo>
-                                         <Hello>{TestValues.HelloValue}</Hello>
-                                       </XmlModel>
-                                       """);
+        var result = xml.ToXml(XmlModel.CreateWithItems(), SaveOptions.DisableFormatting);
+        await Assert.That(result).IsEqualTo(
+            "<XmlModel xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+            + $"<Foo>{TestValues.FooValue}</Foo><Hello>{TestValues.HelloValue}</Hello><Items>"
+            + $"<string>{TestValues.ItemsValue[0]}</string><string>{TestValues.ItemsValue[1]}</string><string>{TestValues.ItemsValue[2]}</string>"
+            + "</Items></XmlModel>");
+    }
+
+    [Test]
+    [Arguments(SaveOptions.None)]
+    [Arguments(SaveOptions.DisableFormatting)]
+    public async Task Can_Round_Trip_With_Options(SaveOptions options)
+    {
+        var xml = await GetService<IXmlContext>();
+        var model = XmlModel.CreateWithItems();
+
+        var result = xml.FromXml<XmlModel>(xml.ToXml(model, options));
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(result!.Foo).IsEqualTo(model.Foo);
+        await Assert.That(result.Hello).IsEqualTo(model.Hello);
+        await Assert.That(result.Items).IsEquivalentTo(model.Items!, TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
