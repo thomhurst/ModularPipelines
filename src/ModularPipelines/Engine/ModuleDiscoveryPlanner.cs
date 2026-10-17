@@ -11,7 +11,9 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -35,11 +37,9 @@ internal sealed class ModuleDiscoveryPlanner(
     private static readonly OpCode[] OneByteOpCodes = CreateOpCodeLookup(twoByte: false);
     private static readonly OpCode[] TwoByteOpCodes = CreateOpCodeLookup(twoByte: true);
 
-    private readonly IReadOnlyList<IModule> _modules = modules
-        .Distinct<IModule>(ReferenceEqualityComparer.Instance)
-        .ToArray();
+    private readonly IReadOnlyList<IModule> _modules = [.. modules.Distinct<IModule>(ReferenceEqualityComparer.Instance)];
     private readonly IReadOnlyList<ModulePlanningFactory> _planningFactories =
-        planningFactories.ToArray();
+        [.. planningFactories];
 
     public async Task<PlannedModuleDiscovery> DiscoverAsync(
         CancellationToken cancellationToken)
@@ -100,7 +100,7 @@ internal sealed class ModuleDiscoveryPlanner(
                 planningSafeOnly: true,
                 cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
-            await registrationEventExecutor.InvokeRegistrationEventsAsync(planningModules)
+            await registrationEventExecutor.InvokeRegistrationEventsAsync(planningModules, cancellationToken)
                 .ConfigureAwait(false);
 
             var moduleSelection = ModuleSelection.Create(
@@ -577,6 +577,9 @@ internal sealed class ModuleDiscoveryPlanner(
         ICollection<IModule> ownedPlanningModules,
         IServiceProvider planningServiceProvider)
     {
+        using var outputScope = new ModuleOutputContextScope(
+            runtimeModule.GetType(),
+            fileSystemProvider: planningServiceProvider.GetService<IFileSystemProvider>());
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
         var module = copyProvider.CreatePlanningCopy(trackingServiceProvider);
         var isPlannerOwned = !trackingServiceProvider.IsServiceProviderOwned(module);
@@ -1304,9 +1307,9 @@ internal sealed class ModuleDiscoveryPlanner(
     private sealed class StateComparisonContext(Func<object, bool> isServiceProviderOwned)
     {
         private readonly Dictionary<object, object> _firstToSecond =
-            new(ReferenceEqualityComparer.Instance);
+            [with(ReferenceEqualityComparer.Instance)];
         private readonly Dictionary<object, object> _secondToFirst =
-            new(ReferenceEqualityComparer.Instance);
+            [with(ReferenceEqualityComparer.Instance)];
 
         public bool IsServiceProviderOwned(object value) => isServiceProviderOwned(value);
 
@@ -1338,19 +1341,13 @@ internal sealed class ModuleDiscoveryPlanner(
     }
 }
 
-internal sealed class ModulePlanningFactory
+internal sealed class ModulePlanningFactory(
+    Func<IServiceProvider, IModule> create,
+    IModule? registeredInstance = null)
 {
-    private readonly Func<IServiceProvider, IModule> _create;
-    private IModule? _runtimeModule;
+    private readonly Func<IServiceProvider, IModule> _create = create;
+    private IModule? _runtimeModule = registeredInstance;
     private ResolvedObjectTrackingServiceProvider? _runtimeServiceOwnership;
-
-    public ModulePlanningFactory(
-        Func<IServiceProvider, IModule> create,
-        IModule? registeredInstance = null)
-    {
-        _create = create;
-        _runtimeModule = registeredInstance;
-    }
 
     public IModule CreateRuntimeModule(IServiceProvider serviceProvider)
     {
@@ -1374,7 +1371,7 @@ internal sealed class ModulePlanningFactory
 internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider innerServiceProvider)
     : IServiceProvider, IKeyedServiceProvider
 {
-    private readonly HashSet<object> _resolvedObjects = new(ReferenceEqualityComparer.Instance);
+    private readonly HashSet<object> _resolvedObjects = [with(ReferenceEqualityComparer.Instance)];
 
     public object? GetService(Type serviceType) => Track(innerServiceProvider.GetService(serviceType));
 

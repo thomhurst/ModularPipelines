@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -86,6 +87,9 @@ internal sealed class ModulePlanningSkipEvaluator(
                 moduleResultAccessAllowed: false);
             try
             {
+                using var outputScope = new ModuleOutputContextScope(
+                    module.GetType(),
+                    fileSystemProvider: scopedServices.GetRequiredService<IFileSystemProvider>());
                 using var planningResultAccess = PlanningModuleResultAccess.Enter();
                 return await planningSkipCondition(moduleContext, cancellationToken)
                     .ConfigureAwait(false);

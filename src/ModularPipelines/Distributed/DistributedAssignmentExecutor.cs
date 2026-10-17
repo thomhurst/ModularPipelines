@@ -8,6 +8,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -83,24 +84,9 @@ internal sealed class DistributedAssignmentExecutor(
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
-            acceptedArtifacts?.RecordConsumed(assignment.ConsumedArtifacts);
-            if (assignment.DependencyResultReferences.Count > 0)
-            {
-                using var dependencyCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, leaseLostToken);
-                await DependencyResultApplicator.FetchAndApplyAsync(
-                        assignment.DependencyResultReferences,
-                        dependencyResultCache,
-                        moduleLookup,
-                        serializer,
-                        resultRegistry,
-                        logger,
-                        executionTimer,
-                        acceptedArtifacts: acceptedArtifacts,
-                        cancellationToken: dependencyCts.Token)
-                    .ConfigureAwait(false);
-            }
-
-            await ExecuteAndPublishAsync(lease, module, executionTimer, cancellationToken).ConfigureAwait(false);
+            await ExecuteAndPublishAsync(
+                    lease, module, executionTimer, moduleLookup, dependencyResultCache, cancellationToken, leaseLostToken)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -130,7 +116,10 @@ internal sealed class DistributedAssignmentExecutor(
         ModuleLease lease,
         IModule module,
         DistributedModuleExecutionTimer executionTimer,
-        CancellationToken cancellationToken)
+        Dictionary<ModuleId, IModule> moduleLookup,
+        DependencyResultCache dependencyResultCache,
+        CancellationToken cancellationToken,
+        CancellationToken leaseLostToken)
     {
         var assignment = lease.Assignment;
         var moduleType = module.GetType();
@@ -140,10 +129,28 @@ internal sealed class DistributedAssignmentExecutor(
             .GetRequiredService<IInternalModuleLoggerAccessor>()
             .GetLogger(moduleType) as IInternalModuleLogger
             ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
-        using var outputScope = new ModuleOutputContextScope(moduleType, moduleLogger);
+        using var outputScope = new ModuleOutputContextScope(
+            moduleType, moduleLogger, serviceScope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
 
         try
         {
+            acceptedArtifacts?.RecordConsumed(assignment.ConsumedArtifacts);
+            if (assignment.DependencyResultReferences.Count > 0)
+            {
+                using var dependencyCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, leaseLostToken);
+                await DependencyResultApplicator.FetchAndApplyAsync(
+                        assignment.DependencyResultReferences,
+                        dependencyResultCache,
+                        moduleLookup,
+                        serializer,
+                        resultRegistry,
+                        logger,
+                        executionTimer,
+                        acceptedArtifacts: acceptedArtifacts,
+                        cancellationToken: dependencyCts.Token)
+                    .ConfigureAwait(false);
+            }
+
             if (artifactLifecycleManager is not null)
             {
                 var downloadStartedAt = Stopwatch.GetTimestamp();

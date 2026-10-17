@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Generated;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -95,7 +96,8 @@ internal static class ServiceCollectionExtensions
 
             services.AddSingleton(new RegisteredModuleInstance(tModule));
             // Factory registration transfers disposal ownership to the pipeline's host.
-            services.AddSingleton<IModule>(_ => tModule);
+            services.AddSingleton<IModule>(serviceProvider =>
+                CreateModuleFromFactory(serviceProvider, _ => tModule));
         }
 
         return services;
@@ -143,9 +145,11 @@ internal static class ServiceCollectionExtensions
         Func<IServiceProvider, TModule> moduleFactory)
         where TModule : class, IModule
     {
-        using (new Logging.ModuleOutputContextScope(typeof(TModule)))
+        using (new Logging.ModuleOutputContextScope(typeof(TModule), fileSystemProvider: serviceProvider.GetService<IFileSystemProvider>()))
         {
-            return moduleFactory(serviceProvider);
+            var module = moduleFactory(serviceProvider);
+            _ = module.Configuration;
+            return module;
         }
     }
 

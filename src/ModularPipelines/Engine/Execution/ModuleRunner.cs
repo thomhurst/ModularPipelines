@@ -14,6 +14,7 @@ using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Generated;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -193,6 +194,8 @@ internal class ModuleRunner : IModuleRunner
                             scope.ServiceProvider,
                             cancellationToken);
                         readyLogger = readyLifecycleContext.ConsoleWriter as IInternalModuleLogger;
+                        using var readyOutputScope = new ModuleOutputContextScope(
+                            moduleType, readyLogger, scope.ServiceProvider.GetRequiredService<IFileSystemProvider>());
                         await InvokeReadyEventAsync(moduleState, readyLifecycleContext).ConfigureAwait(false);
                     }
 
@@ -964,8 +967,9 @@ internal class ModuleRunner : IModuleRunner
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
         executionContext.ModuleActivity = activity;
 
-        // Keep logging and raw console attribution in one scoped ambient context.
-        using var outputScope = new ModuleOutputContextScope(moduleType, logger);
+        // Keep logging, raw console attribution, and the file-system provider in one ambient scope.
+        using var outputScope = new ModuleOutputContextScope(
+            moduleType, logger, scopedServiceProvider.GetRequiredService<IFileSystemProvider>());
 
         try
         {

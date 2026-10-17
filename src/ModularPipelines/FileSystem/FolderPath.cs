@@ -15,10 +15,12 @@ namespace ModularPipelines.FileSystem;
 /// </summary>
 /// <remarks>
 /// Relative paths passed to the constructor or an implicit string conversion use the process's
-/// current directory, not the pipeline working directory. Use
+/// current directory, not the pipeline working directory. Paths capture the active module's
+/// file-system provider, or the system provider outside a module scope. Use
 /// <see cref="ModularPipelines.Context.IFilesContext.GetFolder(string)"/> for pipeline-relative paths.
 /// String destinations passed to copy or move methods also use the process's current directory;
 /// resolve them through the files context first and pass the resulting absolute <see cref="Path"/>.
+/// Equality requires the same provider instance and uses the platform's path comparison rules.
 /// </remarks>
 [JsonConverter(typeof(FolderPathJsonConverter))]
 public class FolderPath : IEquatable<FolderPath>
@@ -34,11 +36,11 @@ public class FolderPath : IEquatable<FolderPath>
     /// Creates a folder path, resolving a relative path against the process's current directory.
     /// </summary>
     /// <param name="path">An absolute path or a path relative to the process's current directory.</param>
-    public FolderPath(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
+    public FolderPath(string path) : this(new DirectoryInfo(path), path, AmbientModuleOutputContext.CurrentFileSystemProvider)
     {
     }
 
-    internal FolderPath(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName, SystemFileSystemProvider.Instance)
+    internal FolderPath(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName, AmbientModuleOutputContext.CurrentFileSystemProvider)
     {
     }
 
@@ -527,7 +529,8 @@ public class FolderPath : IEquatable<FolderPath>
 
     /// <summary>Creates and returns a new temporary folder.</summary>
     /// <remarks>Prefer <see cref="TempFolder"/> with <c>using</c> or <c>await using</c> for automatic cleanup.</remarks>
-    public static FolderPath CreateTemporaryFolder() => CreateTemporaryFolder(SystemFileSystemProvider.Instance);
+    public static FolderPath CreateTemporaryFolder() => CreateTemporaryFolder(
+        AmbientModuleOutputContext.CurrentFileSystemProvider);
 
     /// <summary>
     /// Creates a temporary folder using the specified file system provider.
@@ -597,6 +600,11 @@ public class FolderPath : IEquatable<FolderPath>
             return true;
         }
 
+        if (!ReferenceEquals(_provider, other._provider))
+        {
+            return false;
+        }
+
         if (OperatingSystem.IsWindows())
         {
             return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
@@ -621,10 +629,10 @@ public class FolderPath : IEquatable<FolderPath>
     {
         if (OperatingSystem.IsWindows())
         {
-            return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
+            return HashCode.Combine(StringComparer.OrdinalIgnoreCase.GetHashCode(Path), RuntimeHelpers.GetHashCode(_provider));
         }
 
-        return Path.GetHashCode();
+        return HashCode.Combine(Path.GetHashCode(), RuntimeHelpers.GetHashCode(_provider));
     }
 
     public static bool operator ==(FolderPath? left, FolderPath? right)

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Logging;
@@ -12,10 +13,12 @@ namespace ModularPipelines.FileSystem;
 /// </summary>
 /// <remarks>
 /// Relative paths passed to the constructor or an implicit string conversion use the process's
-/// current directory, not the pipeline working directory. Use
+/// current directory, not the pipeline working directory. Paths capture the active module's
+/// file-system provider, or the system provider outside a module scope. Use
 /// <see cref="ModularPipelines.Context.IFilesContext.GetFile(string)"/> for pipeline-relative paths.
 /// String destinations passed to copy or move methods also use the process's current directory;
 /// resolve them through the files context first and pass the resulting absolute <see cref="Path"/>.
+/// Equality requires the same provider instance and uses the platform's path comparison rules.
 /// </remarks>
 [JsonConverter(typeof(FilePathJsonConverter))]
 public class FilePath : IEquatable<FilePath>
@@ -31,11 +34,11 @@ public class FilePath : IEquatable<FilePath>
     /// Creates a file path, resolving a relative path against the process's current directory.
     /// </summary>
     /// <param name="path">An absolute path or a path relative to the process's current directory.</param>
-    public FilePath(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
+    public FilePath(string path) : this(new FileInfo(path), path, AmbientModuleOutputContext.CurrentFileSystemProvider)
     {
     }
 
-    internal FilePath(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName, SystemFileSystemProvider.Instance)
+    internal FilePath(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName, AmbientModuleOutputContext.CurrentFileSystemProvider)
     {
     }
 
@@ -407,12 +410,12 @@ public class FilePath : IEquatable<FilePath>
     /// </remarks>
     public static FilePath GetNewTemporaryFilePath()
     {
-        var provider = SystemFileSystemProvider.Instance;
+        var provider = AmbientModuleOutputContext.CurrentFileSystemProvider;
         var path = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName());
 
         LogFileOperation("Temporary File Path: {Path}", path);
 
-        return path!;
+        return new FilePath(path, provider);
     }
 
     /// <summary>
@@ -466,6 +469,11 @@ public class FilePath : IEquatable<FilePath>
             return true;
         }
 
+        if (!ReferenceEquals(_provider, other._provider))
+        {
+            return false;
+        }
+
         if (OperatingSystem.IsWindows())
         {
             return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
@@ -490,10 +498,10 @@ public class FilePath : IEquatable<FilePath>
     {
         if (OperatingSystem.IsWindows())
         {
-            return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
+            return HashCode.Combine(StringComparer.OrdinalIgnoreCase.GetHashCode(Path), RuntimeHelpers.GetHashCode(_provider));
         }
 
-        return Path.GetHashCode();
+        return HashCode.Combine(Path.GetHashCode(), RuntimeHelpers.GetHashCode(_provider));
     }
 
     public static bool operator ==(FilePath? left, FilePath? right)

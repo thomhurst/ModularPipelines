@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 
@@ -19,7 +20,7 @@ namespace ModularPipelines.Engine;
 internal sealed class ModuleActivator : IModuleActivator
 {
     private static readonly ConditionalWeakTable<IModule, ResolvedObjectTrackingServiceProvider>
-        RuntimeServiceOwnership = new();
+        RuntimeServiceOwnership = [];
 
     /// <inheritdoc />
     [UnconditionalSuppressMessage(
@@ -79,7 +80,7 @@ internal sealed class ModuleActivator : IModuleActivator
         bool initializeConfiguration)
         where TModule : IModule
     {
-        using (new ModuleOutputContextScope(moduleType))
+        using (new ModuleOutputContextScope(moduleType, fileSystemProvider: serviceProvider.GetService<IFileSystemProvider>()))
         {
             var module = activate(serviceProvider);
             if (initializeConfiguration)

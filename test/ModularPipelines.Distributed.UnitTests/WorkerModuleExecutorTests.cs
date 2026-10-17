@@ -12,6 +12,7 @@ using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -110,6 +111,57 @@ public class WorkerModuleExecutorTests
     {
         protected internal override Task<object> ExecuteAsync(
             IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<object>("dependency");
+    }
+
+    private sealed record PathResult(FilePath File, FolderPath Folder);
+
+    private sealed class PathDependencyModule : Module<PathResult>
+    {
+        protected internal override Task<PathResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(new PathResult(new FilePath("dependency.txt"), new FolderPath("dependency")));
+    }
+
+    [DependsOn<PathDependencyModule>]
+    private sealed class PathConsumerModule : Module<bool>
+    {
+        public PathResult? DependencyPaths { get; private set; }
+
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var dependency = await context.GetModule<PathDependencyModule>();
+            DependencyPaths = dependency.ValueOrDefault;
+            return true;
+        }
+    }
+
+    [Test]
+    public async Task WorkerDependencyPathsRetainRegisteredProvider(CancellationToken cancellationToken)
+    {
+        var provider = Mock.Of<IFileSystemProvider>();
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(PathDependencyModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var now = DateTimeOffset.UtcNow;
+        var dependency = serializer.Serialize(new ModuleResult<PathResult>.Success(
+            new PathResult(new FilePath("dependency.txt"), new FolderPath("dependency")))
+        {
+            Name = nameof(PathDependencyModule),
+            Status = ModuleStatus.Succeeded,
+            StartTime = now,
+            EndTime = now,
+            Duration = TimeSpan.Zero,
+        }, ModuleId.FromType(typeof(PathDependencyModule)), WorkerId.FromInstanceIndex(0));
+
+        var (module, result) = await ExecuteWorkerModuleAsync<PathConsumerModule, bool>(builder =>
+        {
+            builder.Services.AddSingleton(provider);
+            builder.AddModule<PathDependencyModule>();
+        }, cancellationToken, dependencyResult: dependency);
+
+        await Assert.That(result?.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(module.DependencyPaths).IsNotNull();
+        await Assert.That(module.DependencyPaths!.File.Provider).IsSameReferenceAs(provider);
+        await Assert.That(module.DependencyPaths.Folder.Provider).IsSameReferenceAs(provider);
     }
 
     [Test]
