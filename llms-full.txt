@@ -1474,7 +1474,7 @@ Mark module complete/failed
 Schedule dependents
 ```
 
-The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, returns expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed.
+The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, handles expired leases with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed. Expirations are counted per module across all workers, independently of module retries. Below `DistributedOptions.MaxModuleLeaseExpirations`, the module is requeued; at the limit, the coordinator records a permanent failure instead. The default limit is `2`, allowing one recovery, and startup validation rejects values below `1`.
 
 When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as canceled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
@@ -1585,19 +1585,22 @@ Explicit custom registrations take precedence over automatic local, distributed-
 | `SendHeartbeatAsync`       | Legacy heartbeat. Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                                                                       |
 | `ReconcileHeartbeatAsync`  | Records `WorkerStatus`, atomically renews matching, unexpired worker and lease identifiers, and returns lost lease identifiers. The default implementation calls `SendHeartbeatAsync` and cannot detect revocation.                                                                                                       |
 | `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                                                                                       |
+| `GetMasterStateAsync`      | Reports `DistributedMasterState.Running`, `Completed` or `Lost`. Workers poll every `WorkerHeartbeatInterval`; completion cancels all in-flight modules, including AlwaysRun modules, and a lost master also fails the worker. The default always returns `Running` and cannot detect completion or loss.                 |
+
+`DistributedMasterState.Running` also covers a master that has not started yet. `Completed` means the master signalled completion; `Lost` means it exited, failed or crashed without signalling completion, or cannot be reached. A worker that cannot get a state response for `MasterTimeout` also treats the master as lost.
 
 ### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 
-| Method                       | Contract                                                                                                    |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`         | Adds an assignment to the queue.                                                                            |
-| `WithdrawAssignmentAsync`    | Removes a queued, unclaimed assignment; returns whether one was removed.                                    |
-| `GetActiveLeasesAsync`       | Returns the leases workers hold.                                                                            |
-| `RequeueExpiredLeasesAsync`  | Queues again every assignment whose lease was not renewed for `WorkerTimeout` and has no result.            |
-| `GetRegisteredWorkersAsync`  | Returns workers with live heartbeats or a final status.                                                     |
-| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including final command metrics.                                 |
-| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                                                         |
-| `BroadcastCancellationAsync` | Broadcasts a cancellation reason. The first reason is durable; workers that start waiting later observe it. |
+| Method                       | Contract                                                                                                                                                                                              |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EnqueueModuleAsync`         | Adds an assignment to the queue.                                                                                                                                                                      |
+| `WithdrawAssignmentAsync`    | Removes a queued, unclaimed assignment; returns whether one was removed.                                                                                                                              |
+| `GetActiveLeasesAsync`       | Returns the leases workers hold.                                                                                                                                                                      |
+| `RequeueExpiredLeasesAsync`  | Removes expired leases without results. Requeues their assignments below `MaxModuleLeaseExpirations`; at the limit, records a permanent module failure instead. Returns only the requeued module IDs. |
+| `GetRegisteredWorkersAsync`  | Returns workers with live heartbeats or a final status.                                                                                                                                               |
+| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including final command metrics.                                                                                                                           |
+| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                                                                                                                                                   |
+| `BroadcastCancellationAsync` | Broadcasts a cancellation reason. The first reason is durable; workers that start waiting later observe it.                                                                                           |
 
 Claims prefer, in order: higher `ModulePriority`, assignments fewer live workers can run, more specific capability requirements, longer critical paths, and earlier enqueue order.
 
@@ -1611,24 +1614,24 @@ Coordinators that hold connections should implement `IAsyncDisposable`: the pipe
 
 The `RedisDistributedCoordinator` keeps the queue in a sorted set and leases in a hash, and runs each multi-step operation as one Lua script:
 
-| Method                                                 | Redis operations                                                                                                                                                                                                                          |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`                                   | `ZADD` to the queue, refresh key expiry, `PUBLISH` work-available                                                                                                                                                                         |
-| `DequeueModuleAsync`                                   | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims. |
-| `PublishResultAsync`                                   | Script: validate exact worker and lease identifiers and expiry before `HSETNX` the result and `HDEL` the lease, refresh expiry, `PUBLISH` the result channel                                                                              |
-| `WaitForResultAsync`                                   | `HGET`, then subscribe and re-read the hash after every notification or two-second poll                                                                                                                                                   |
-| `RegisterWorkerAsync`                                  | Script: reject a live duplicate session, store registration, status and heartbeat                                                                                                                                                         |
-| `SendHeartbeatAsync`                                   | Legacy heartbeat. Store status, then a script refreshes the heartbeat and extends the worker's own leases                                                                                                                                 |
-| `ReconcileHeartbeatAsync`                              | Script: store status and heartbeat, renew only matching, unexpired worker and lease identifiers, and return lost lease identifiers                                                                                                        |
-| `WithdrawAssignmentAsync`                              | Script: `ZREM` queued copies of the module                                                                                                                                                                                                |
-| `RequeueExpiredLeasesAsync`                            | Script: remove expired leases and `ZADD` their assignments unless a result exists, then refresh key expiry                                                                                                                                |
-| `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `PUBLISH`                                                                                                                                                                          |
+| Method                                                 | Redis operations                                                                                                                                                                                                                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `EnqueueModuleAsync`                                   | `ZADD` to the queue, refresh key expiry, then `SPUBLISH` work-available                                                                                                                                                                                                  |
+| `DequeueModuleAsync`                                   | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims.                                |
+| `PublishResultAsync`                                   | Script: validate exact worker and lease identifiers and expiry before `HSETNX` the result and `HDEL` the lease, refresh expiry, then `SPUBLISH` the result channel                                                                                                       |
+| `WaitForResultAsync`                                   | `HGET`, then subscribe and re-read the hash after every notification or two-second poll                                                                                                                                                                                  |
+| `RegisterWorkerAsync`                                  | Script: reject a live duplicate session, store registration, status and heartbeat                                                                                                                                                                                        |
+| `SendHeartbeatAsync`                                   | Legacy heartbeat. Store status, then a script refreshes the heartbeat and extends the worker's own leases                                                                                                                                                                |
+| `ReconcileHeartbeatAsync`                              | Script: store status and heartbeat, renew only matching, unexpired worker and lease identifiers, and return lost lease identifiers                                                                                                                                       |
+| `WithdrawAssignmentAsync`                              | Script: `ZREM` queued copies of the module                                                                                                                                                                                                                               |
+| `RequeueExpiredLeasesAsync`                            | Script: remove expired leases without results, record expiration history and `ZADD` their assignments below `MaxModuleLeaseExpirations`; at the limit, store a terminal failure and remove queued copies. Refresh key expiry, then `SPUBLISH` work/result notifications. |
+| `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `SPUBLISH`                                                                                                                                                                                                        |
 
 Every call observes its cancellation token; because Redis cannot cancel a sent command, waits are bounded with `WaitAsync` and later commands are not issued.
 
 ## SignalR Implementation Details[​](#signalr-implementation-details "Direct link to SignalR Implementation Details")
 
-The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`, `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not come back expire and are requeued. When the connection closes for good, `DequeueModuleAsync` returns `null` and the worker stops.
+The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`, `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not come back expire and are requeued until `MaxModuleLeaseExpirations` is reached, then the module fails. When the connection closes for good, `DequeueModuleAsync` returns `null` and the worker stops.
 
 Security: when the master is reachable beyond the machine, connections must present the access token as a bearer token (or the `access_token` query parameter used by WebSockets); the master compares it in constant time and rejects the request with `401` otherwise. Registrations must carry the master's `RunId`, and only the registered worker may publish its results and heartbeats.
 
@@ -1643,6 +1646,8 @@ Exceptions carry their type name, message, stack trace, inner exception chain an
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
 To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedMasterCoordinator` and optionally `IDistributedCoordinatorFactory`. The master interface includes `IDistributedWorkerCoordinator` because the master also executes assignments. A factory can return a separate worker-only implementation.
+
+Implement `GetMasterStateAsync` on both master and worker coordinators. Persist completion and track master liveness so workers receive `Completed` after `SignalCompletionAsync` and `Lost` after a master disappears without signalling completion. The default interface implementation always returns `Running`: it preserves source compatibility but cannot detect master completion or loss, so workers cannot rely on it to cancel in-flight modules when the master stops collecting results.
 
 ```
 using System;
@@ -1756,6 +1761,12 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 
     public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
@@ -2182,14 +2193,15 @@ builder.AddDistributedMode(o => o with
 | `RequireExplicitRunId`      | `bool`                        | `false`                                                 | Reject generated single-instance IDs. The Redis and SignalR coordinators and Redis discovery enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`.                                                                     |
 | `WorkerRegistrationTimeout` | `TimeSpan`                    | `TimeSpan.FromMinutes(5)`                               | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error.                                                                                                                                                                              |
 | `WorkerHeartbeatInterval`   | `TimeSpan`                    | `TimeSpan.FromSeconds(5)`                               | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules.                                                                                                                                                                                                                                                            |
-| `WorkerTimeout`             | `TimeSpan`                    | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`.                                                                                                                                                                                                   |
+| `WorkerTimeout`             | `TimeSpan`                    | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. The master requeues expired leases until `MaxModuleLeaseExpirations` is reached, then fails the module. Must exceed `WorkerHeartbeatInterval`.                                                                                                                                                            |
+| `MaxModuleLeaseExpirations` | `int`                         | `2`                                                     | Number of lease expirations that permanently fail a module. Allows one recovery by default; `1` fails on the first expiration. Must be at least `1`. The budget applies per module across all workers, independently of module retries.                                                                                                                                          |
 | `MasterTimeout`             | `TimeSpan`                    | `TimeSpan.FromMinutes(1)`                               | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount`        | `int`                         | `0`                                                     | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch.                                                                                                                                                                                                                                             |
 | `ModuleResultTimeout`       | `TimeSpan`                    | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `Timeout.InfiniteTimeSpan` to wait indefinitely; zero and other negative values are rejected.                                              |
 | `RunCleanup`                | `DistributedRunCleanupPolicy` | `Always`                                                | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup).                                                                                                                                                                                                                                                                  |
 | `RunCleanupTimeout`         | `TimeSpan`                    | `TimeSpan.FromMinutes(2)`                               | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time.                                                                                                                                                                                         |
 
-Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`, are reported by pipeline validation and stop the distributed backend from starting.
+Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval`, `MasterTimeout <= WorkerHeartbeatInterval` or `MaxModuleLeaseExpirations < 1`, are reported by pipeline validation and stop the distributed backend from starting.
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -2233,7 +2245,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
-Every satellite package registers through one `Func<TOptions, TOptions>` overload and one `IConfigurationSection` overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
+Distributed backend registrations accept either a `Func<TOptions, TOptions>` transform or an `IConfigurationSection`, validate their options at startup, and can be called before or after `AddDistributedMode`:
 
 ```
 builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
@@ -2247,7 +2259,18 @@ builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 
 `AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the `Distributed` section, return `options with { RunId = "shared-run-id" }` from the configuration callback, or export `MODULARPIPELINES_RUN_ID` for each master and worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-Each backend registration has exactly two overloads: one taking a `Func<TOptions, TOptions>` and one taking an `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered; registering a second, different backend throws `InvalidOperationException` instead of silently replacing the first. Registering the same backend again is a no-op apart from applying the extra configuration.
+`AddRedisModuleCache` and `AddS3ModuleCache` each have four overloads. For `TOptions` equal to `RedisOptions` or `S3StorageOptions`, respectively, the arguments after the builder are:
+
+| Arguments                                                                                          | Configuration                                                 |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `Func<TOptions, TOptions> configure`                                                               | Backend options transform.                                    |
+| `Func<TOptions, TOptions> configure, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache` | Backend and module-cache options transforms.                  |
+| `IConfigurationSection section`                                                                    | Backend options bound from configuration.                     |
+| `IConfigurationSection section, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache`      | Backend options binding and a module-cache options transform. |
+
+The overloads without `configureCache` use the default module-cache settings. Module-cache registration does not enable distributed execution; see [Cache Module Results](/ModularPipelines/docs/how-to/module-caching.md).
+
+Only one coordinator backend and one artifact store backend can be registered; registering a second, different backend throws `InvalidOperationException` instead of silently replacing the first. Registering the same backend again is a no-op apart from applying the extra configuration.
 
 The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and `AddDistributedArtifactStoreFactory<TFactory>()`: do not mix a direct store and a factory, regardless of registration order. Repeating the same typed registration is a no-op. Keyed services are independent, and pipelines without an explicit store retain the default filesystem store. In V4, direct store registration no longer silently removes an earlier factory; choose one backend at the registration call site instead.
 
@@ -2336,13 +2359,16 @@ builder.AddRedisDistributed(o => o with
 });
 ```
 
-| Property              | Type                                    | Default                 | Description                                                                                                                                                                                                                                                                                                                                                                 |
-| --------------------- | --------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ConnectionString`    | `string`                                | `""`                    | [Respire connection string](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md): `host:port`, a `redis://` or `rediss://` URI, or a StackExchange.Redis-style comma-delimited string (`password`, `ssl`, `asyncTimeout`, etc.). Unknown options such as `abortConnect` fail validation. **Required** unless `ConfigureConnection` supplies the endpoints. |
-| `ConfigureConnection` | `Func<RespireOptions, RespireOptions>?` | `null`                  | Transforms the parsed `RespireOptions` before connecting, usually with a `with` expression. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, timeouts, and retry settings.                                                                                                                                                 |
-| `KeyPrefix`           | `string`                                | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                                                                                                                                                                                                                       |
-| `TimeToLive`          | `TimeSpan`                              | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier.                                                                                                                                                               |
-| `ChunkSizeBytes`      | `int`                                   | 1 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `CommandTimeout`, so lower it or raise the timeout for slow or shared links.                                                                                                            |
+| Property                   | Type                                    | Default                 | Description                                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------- | --------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConnectionString`         | `string`                                | `""`                    | [Respire connection string](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md): `host:port`, a `redis://` or `rediss://` URI, or a StackExchange.Redis-style comma-delimited string (`password`, `ssl`, `asyncTimeout`, etc.). Unknown options such as `abortConnect` fail validation. **Required** unless `ConfigureConnection` supplies the endpoints. |
+| `ConfigureConnection`      | `Func<RespireOptions, RespireOptions>?` | `null`                  | Transforms the parsed `RespireOptions` before connecting, usually with a `with` expression. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, timeouts, and retry settings.                                                                                                                                                 |
+| `KeyPrefix`                | `string`                                | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                                                                                                                                                                                                                       |
+| `TimeToLive`               | `TimeSpan`                              | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier.                                                                                                                                                               |
+| `ChunkSizeBytes`           | `int`                                   | 1 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `CommandTimeout`, so lower it or raise the timeout for slow or shared links.                                                                                                            |
+| `FailOnUnsafeMemoryPolicy` | `bool`                                  | `false`                 | Fail coordinator and artifact-store startup with `InvalidOperationException` when `INFO memory` reports finite `maxmemory` with an evicting policy, or diagnostics cannot establish the configuration. The default logs a warning and continues. Module-cache connections are not checked.                                                                                  |
+
+Use `noeviction` or unlimited `maxmemory` to prevent run state and artifact chunks from being evicted before their TTL expires. The startup memory check needs `INFO` permission and observes only the server answering the command, not every Redis Cluster node. It does not guard against later configuration changes.
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or resolves an `IRespireClient` from the service collection, so an application's own client is not adopted and cannot conflict with it.
 
@@ -2350,7 +2376,7 @@ Unless the connection string or `ConfigureConnection` sets one, the connection u
 
 The options are validated when the pipeline is built. After configuration and post-configuration finish, `ConfigureConnection` runs once per materialized options instance. The effective configuration must have at least one endpoint: a no-op or TLS-only callback without a connection string fails, as does a callback that removes every parsed endpoint. A connection string that Respire cannot parse also fails. Validation does not connect to Redis. Connections and retries reuse copies of the validated snapshot; later option changes or changes to an endpoint list the callback kept do not change that snapshot. Named module-cache options have their own snapshots.
 
-A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key expiration: keys retain their configured TTL, so choose a TTL that covers the required retention period.
+A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key expiration: keys retain their configured TTL, so choose a TTL that covers the required retention period. Coordinator creation additionally requires `TimeToLive` to exceed `DistributedOptions.WorkerTimeout`. Named module-cache options require a positive TTL but are not compared with these distributed timeouts.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -2441,7 +2467,7 @@ Pub/Sub channels (no TTL, ephemeral):
 | `modpipe:{run}:completion:signal`   | Wakes workers when the master signals completion |
 | `modpipe:{run}:cancellation:signal` | Wakes cancellation observers                     |
 
-Notifications only shorten waits: every wait also re-reads Redis every two seconds, so a message lost while the connection reconnects cannot strand a waiter. Heartbeats and the master's lease sweep refresh the expiry of every coordination key, and `RedisOptions.TimeToLive` must exceed `WorkerTimeout`, `ModuleResultTimeout` and `MasterTimeout`, so keys cannot expire while a run is active. Only the master renews its own heartbeat, while a marker that the master started is renewed with the other run keys, so a master whose heartbeat went stale or expired is reported as lost rather than as not started yet.
+Notifications use sharded pub/sub (`SPUBLISH`) and only shorten waits: every wait also re-reads Redis every two seconds, so a message lost while the connection reconnects cannot strand a waiter. Heartbeats and the master's lease sweep refresh coordination key expiry. Unnamed `RedisOptions.TimeToLive` must exceed `ModuleResultTimeout` and `MasterTimeout` during options validation; coordinator creation also requires it to exceed `WorkerTimeout`. Named module-cache options are independent of these run timeouts. Only the master renews its own heartbeat, while a marker that the master started is renewed with the other run keys, so a master whose heartbeat went stale or expired is reported as lost rather than as not started yet.
 
 Artifacts are stored under the same run namespace:
 
@@ -3213,7 +3239,7 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes[​](#important-notes "Direct link to Important Notes")
 
 * **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines; it must exceed `DistributedOptions.ModuleResultTimeout`.
+* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines. Unnamed run options must exceed `DistributedOptions.ModuleResultTimeout` and `DistributedOptions.MasterTimeout`; coordinator creation also requires the TTL to exceed `DistributedOptions.WorkerTimeout`. Named module-cache options require a positive TTL independently of these timeouts.
 * **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
 * **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 * **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
@@ -3226,6 +3252,8 @@ The same pattern works in Azure DevOps with a matrix strategy. Export one shared
 variables:
 
   MODULARPIPELINES_RUN_ID: "$(Build.BuildId)-$(System.StageAttempt)"
+
+  MODULARPIPELINES_TOTAL_INSTANCES: 3
 
 
 
@@ -3314,7 +3342,9 @@ Register exactly one backend; building the pipeline fails when several are regis
 
 ### Leases[​](#leases "Direct link to Leases")
 
-A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. Workers cancel assignments when reconciliation reports a lost lease. Coordinators reject results from expired or reassigned leases; the first accepted result is final. Cancellation is cooperative and cannot undo external side effects or guarantee exactly-once execution during a network partition.
+A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire. The master requeues each module until `DistributedOptions.MaxModuleLeaseExpirations` is reached, then fails it permanently. The default is `2`: one recovery is allowed, and the second expiration fails the module. The value must be at least `1`; the budget applies per module across all workers, independently of module retries.
+
+Workers cancel assignments when reconciliation reports a lost lease. Coordinators reject results from expired or reassigned leases; the first accepted result is final. Cancellation is cooperative and cannot undo external side effects or guarantee exactly-once execution during a network partition.
 
 Workers also watch the master. Once the master finishes, whether it succeeded or failed, nothing collects further results, so each worker cancels any modules it is still running, including AlwaysRun modules. When the master exits or crashes without signalling completion, or a worker cannot reach it for `MasterTimeout`, the worker also fails. SignalR workers notice a lost master when their connection closes for good, and a master that finished waits briefly for its workers to acknowledge completion before it shuts down, so a normal shutdown is never reported as a lost master; Redis workers notice when the master's heartbeat is older than `MasterTimeout` or has expired. Modules that ignore cancellation are abandoned after 30 seconds, so they cannot keep a worker alive.
 
@@ -3371,7 +3401,7 @@ Every instance automatically advertises its operating system through the matchin
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
 2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
-4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues modules whose leases expire.
+4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues expired leases until `MaxModuleLeaseExpirations` is reached, then fails the module.
 5. When a module fails, the master immediately broadcasts a `PipelineFailed` cancellation: workers cancel non-AlwaysRun modules and only claim AlwaysRun work, and the master withdraws queued non-AlwaysRun assignments. A user stop broadcasts `Stopped`, which cancels everything.
 
 ## Packages[​](#packages "Direct link to Packages")
@@ -54947,7 +54977,7 @@ Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are c
 builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
-Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Func<S3StorageOptions, S3StorageOptions>` overload and one `IConfigurationSection` overload.
+`AddS3DistributedArtifactStore` accepts either a `Func<S3StorageOptions, S3StorageOptions>` transform or an `IConfigurationSection`. `AddS3ModuleCache` has the four overloads described below.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
 
@@ -54964,6 +54994,17 @@ builder.AddS3ModuleCache(options => options with
 
 });
 ```
+
+`AddS3ModuleCache` has four overloads, with these arguments after the builder:
+
+| Arguments                                                                                                          | Configuration                                            |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| `Func<S3StorageOptions, S3StorageOptions> configure`                                                               | S3 options transform.                                    |
+| `Func<S3StorageOptions, S3StorageOptions> configure, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache` | S3 and module-cache options transforms.                  |
+| `IConfigurationSection section`                                                                                    | S3 options bound from configuration.                     |
+| `IConfigurationSection section, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache`                      | S3 options binding and a module-cache options transform. |
+
+The overloads without `configureCache` use the default module-cache settings.
 
 See [Cache Module Results](/ModularPipelines/docs/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.
 
@@ -55091,7 +55132,9 @@ builder.AddRedisDistributed(redis => redis with
 });
 ```
 
-`RedisOptions.TimeToLive` applies to every Redis key, including artifacts, and must exceed `DistributedOptions.ModuleResultTimeout`. Options are validated when the pipeline is built.
+`RedisOptions.TimeToLive` applies to every Redis key, including artifacts. For the unnamed run options, startup validation requires it to exceed both `DistributedOptions.ModuleResultTimeout` and `DistributedOptions.MasterTimeout`; coordinator creation also requires it to exceed `DistributedOptions.WorkerTimeout`. An infinite module result timeout does not disable key expiration. Named module-cache options require a positive TTL but are not compared with distributed timeouts.
+
+`RedisOptions.FailOnUnsafeMemoryPolicy` defaults to `false`: coordinator and artifact-store startup logs a warning and continues when `INFO memory` reports finite `maxmemory` with an evicting policy, or when diagnostics cannot establish the configuration. Set it to `true` to fail startup with `InvalidOperationException` instead. Use `noeviction` or unlimited `maxmemory` to prevent early eviction of run state and artifact chunks. The check needs `INFO` permission, observes only the server answering the command rather than every Redis Cluster node, and does not guard against later configuration changes. Module-cache connections are not checked.
 
 Set credentials that a connection string cannot carry safely, such as a password containing commas, through `ConfigureConnection`:
 
@@ -55119,7 +55162,7 @@ The package uses the [Respire](https://thomhurst.github.io/Respire/) client. `Co
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
-`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Func<RedisOptions, RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
+`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. These methods and `AddRedisDistributed` each accept either a `Func<RedisOptions, RedisOptions>` transform or an `IConfigurationSection`. `AddRedisModuleCache` has the four overloads described below. Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```
 builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
@@ -55144,6 +55187,17 @@ builder.AddRedisModuleCache(redis => redis with
 ```
 
 The module cache has its own `RedisOptions` and connection, separate from the distributed coordinator and artifact store, so it can point at a different Redis server. Its keys use the fingerprint as a Redis Cluster hash tag.
+
+`AddRedisModuleCache` has four overloads, with these arguments after the builder:
+
+| Arguments                                                                                                  | Configuration                                               |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `Func<RedisOptions, RedisOptions> configure`                                                               | Redis options transform.                                    |
+| `Func<RedisOptions, RedisOptions> configure, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache` | Redis and module-cache options transforms.                  |
+| `IConfigurationSection section`                                                                            | Redis options bound from configuration.                     |
+| `IConfigurationSection section, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache`              | Redis options binding and a module-cache options transform. |
+
+The overloads without `configureCache` use the default module-cache settings.
 
 See [Cache Module Results](/ModularPipelines/docs/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.
 

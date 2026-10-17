@@ -64,7 +64,7 @@ Mark module complete/failed
 Schedule dependents
 ```
 
-The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, returns expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed.
+The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, handles expired leases with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed. Expirations are counted per module across all workers, independently of module retries. Below `DistributedOptions.MaxModuleLeaseExpirations`, the module is requeued; at the limit, the coordinator records a permanent failure instead. The default limit is `2`, allowing one recovery, and startup validation rejects values below `1`.
 
 When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as canceled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
@@ -175,19 +175,22 @@ Explicit custom registrations take precedence over automatic local, distributed-
 | `SendHeartbeatAsync`       | Legacy heartbeat. Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                                                                       |
 | `ReconcileHeartbeatAsync`  | Records `WorkerStatus`, atomically renews matching, unexpired worker and lease identifiers, and returns lost lease identifiers. The default implementation calls `SendHeartbeatAsync` and cannot detect revocation.                                                                                                       |
 | `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                                                                                       |
+| `GetMasterStateAsync`      | Reports `DistributedMasterState.Running`, `Completed` or `Lost`. Workers poll every `WorkerHeartbeatInterval`; completion cancels all in-flight modules, including AlwaysRun modules, and a lost master also fails the worker. The default always returns `Running` and cannot detect completion or loss.                 |
+
+`DistributedMasterState.Running` also covers a master that has not started yet. `Completed` means the master signalled completion; `Lost` means it exited, failed or crashed without signalling completion, or cannot be reached. A worker that cannot get a state response for `MasterTimeout` also treats the master as lost.
 
 ### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 
-| Method                       | Contract                                                                                                    |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`         | Adds an assignment to the queue.                                                                            |
-| `WithdrawAssignmentAsync`    | Removes a queued, unclaimed assignment; returns whether one was removed.                                    |
-| `GetActiveLeasesAsync`       | Returns the leases workers hold.                                                                            |
-| `RequeueExpiredLeasesAsync`  | Queues again every assignment whose lease was not renewed for `WorkerTimeout` and has no result.            |
-| `GetRegisteredWorkersAsync`  | Returns workers with live heartbeats or a final status.                                                     |
-| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including final command metrics.                                 |
-| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                                                         |
-| `BroadcastCancellationAsync` | Broadcasts a cancellation reason. The first reason is durable; workers that start waiting later observe it. |
+| Method                       | Contract                                                                                                                                                                                              |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EnqueueModuleAsync`         | Adds an assignment to the queue.                                                                                                                                                                      |
+| `WithdrawAssignmentAsync`    | Removes a queued, unclaimed assignment; returns whether one was removed.                                                                                                                              |
+| `GetActiveLeasesAsync`       | Returns the leases workers hold.                                                                                                                                                                      |
+| `RequeueExpiredLeasesAsync`  | Removes expired leases without results. Requeues their assignments below `MaxModuleLeaseExpirations`; at the limit, records a permanent module failure instead. Returns only the requeued module IDs. |
+| `GetRegisteredWorkersAsync`  | Returns workers with live heartbeats or a final status.                                                                                                                                               |
+| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including final command metrics.                                                                                                                           |
+| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                                                                                                                                                   |
+| `BroadcastCancellationAsync` | Broadcasts a cancellation reason. The first reason is durable; workers that start waiting later observe it.                                                                                           |
 
 Claims prefer, in order: higher `ModulePriority`, assignments fewer live workers can run, more specific capability requirements, longer critical paths, and earlier enqueue order.
 
@@ -201,24 +204,24 @@ Coordinators that hold connections should implement `IAsyncDisposable`: the pipe
 
 The `RedisDistributedCoordinator` keeps the queue in a sorted set and leases in a hash, and runs each multi-step operation as one Lua script:
 
-| Method                                                 | Redis operations                                                                                                                                                                                                                          |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`                                   | `ZADD` to the queue, refresh key expiry, `PUBLISH` work-available                                                                                                                                                                         |
-| `DequeueModuleAsync`                                   | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims. |
-| `PublishResultAsync`                                   | Script: validate exact worker and lease identifiers and expiry before `HSETNX` the result and `HDEL` the lease, refresh expiry, `PUBLISH` the result channel                                                                              |
-| `WaitForResultAsync`                                   | `HGET`, then subscribe and re-read the hash after every notification or two-second poll                                                                                                                                                   |
-| `RegisterWorkerAsync`                                  | Script: reject a live duplicate session, store registration, status and heartbeat                                                                                                                                                         |
-| `SendHeartbeatAsync`                                   | Legacy heartbeat. Store status, then a script refreshes the heartbeat and extends the worker's own leases                                                                                                                                 |
-| `ReconcileHeartbeatAsync`                              | Script: store status and heartbeat, renew only matching, unexpired worker and lease identifiers, and return lost lease identifiers                                                                                                        |
-| `WithdrawAssignmentAsync`                              | Script: `ZREM` queued copies of the module                                                                                                                                                                                                |
-| `RequeueExpiredLeasesAsync`                            | Script: remove expired leases and `ZADD` their assignments unless a result exists, then refresh key expiry                                                                                                                                |
-| `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `PUBLISH`                                                                                                                                                                          |
+| Method                                                 | Redis operations                                                                                                                                                                                                                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `EnqueueModuleAsync`                                   | `ZADD` to the queue, refresh key expiry, then `SPUBLISH` work-available                                                                                                                                                                                                  |
+| `DequeueModuleAsync`                                   | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims.                                |
+| `PublishResultAsync`                                   | Script: validate exact worker and lease identifiers and expiry before `HSETNX` the result and `HDEL` the lease, refresh expiry, then `SPUBLISH` the result channel                                                                                                       |
+| `WaitForResultAsync`                                   | `HGET`, then subscribe and re-read the hash after every notification or two-second poll                                                                                                                                                                                  |
+| `RegisterWorkerAsync`                                  | Script: reject a live duplicate session, store registration, status and heartbeat                                                                                                                                                                                        |
+| `SendHeartbeatAsync`                                   | Legacy heartbeat. Store status, then a script refreshes the heartbeat and extends the worker's own leases                                                                                                                                                                |
+| `ReconcileHeartbeatAsync`                              | Script: store status and heartbeat, renew only matching, unexpired worker and lease identifiers, and return lost lease identifiers                                                                                                                                       |
+| `WithdrawAssignmentAsync`                              | Script: `ZREM` queued copies of the module                                                                                                                                                                                                                               |
+| `RequeueExpiredLeasesAsync`                            | Script: remove expired leases without results, record expiration history and `ZADD` their assignments below `MaxModuleLeaseExpirations`; at the limit, store a terminal failure and remove queued copies. Refresh key expiry, then `SPUBLISH` work/result notifications. |
+| `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `SPUBLISH`                                                                                                                                                                                                        |
 
 Every call observes its cancellation token; because Redis cannot cancel a sent command, waits are bounded with `WaitAsync` and later commands are not issued.
 
 ## SignalR Implementation Details[​](#signalr-implementation-details "Direct link to SignalR Implementation Details")
 
-The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`, `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not come back expire and are requeued. When the connection closes for good, `DequeueModuleAsync` returns `null` and the worker stops.
+The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`, `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not come back expire and are requeued until `MaxModuleLeaseExpirations` is reached, then the module fails. When the connection closes for good, `DequeueModuleAsync` returns `null` and the worker stops.
 
 Security: when the master is reachable beyond the machine, connections must present the access token as a bearer token (or the `access_token` query parameter used by WebSockets); the master compares it in constant time and rejects the request with `401` otherwise. Registrations must carry the master's `RunId`, and only the registered worker may publish its results and heartbeats.
 
@@ -233,6 +236,8 @@ Exceptions carry their type name, message, stack trace, inner exception chain an
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
 To implement a different transport (HTTP, shared filesystem, message queue, etc.), implement `IDistributedMasterCoordinator` and optionally `IDistributedCoordinatorFactory`. The master interface includes `IDistributedWorkerCoordinator` because the master also executes assignments. A factory can return a separate worker-only implementation.
+
+Implement `GetMasterStateAsync` on both master and worker coordinators. Persist completion and track master liveness so workers receive `Completed` after `SignalCompletionAsync` and `Lost` after a master disappears without signalling completion. The default interface implementation always returns `Running`: it preserves source compatibility but cannot detect master completion or loss, so workers cannot rely on it to cancel in-flight modules when the master stops collecting results.
 
 ```
 using System;
@@ -346,6 +351,12 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 
     public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 

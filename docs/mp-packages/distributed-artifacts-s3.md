@@ -121,7 +121,7 @@ Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are c
 builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = CompressionLevel.Optimal });
 ```
 
-Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Func<S3StorageOptions, S3StorageOptions>` overload and one `IConfigurationSection` overload.
+`AddS3DistributedArtifactStore` accepts either a `Func<S3StorageOptions, S3StorageOptions>` transform or an `IConfigurationSection`. `AddS3ModuleCache` has the four overloads described below.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
 
@@ -138,5 +138,16 @@ builder.AddS3ModuleCache(options => options with
 
 });
 ```
+
+`AddS3ModuleCache` has four overloads, with these arguments after the builder:
+
+| Arguments                                                                                                          | Configuration                                            |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| `Func<S3StorageOptions, S3StorageOptions> configure`                                                               | S3 options transform.                                    |
+| `Func<S3StorageOptions, S3StorageOptions> configure, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache` | S3 and module-cache options transforms.                  |
+| `IConfigurationSection section`                                                                                    | S3 options bound from configuration.                     |
+| `IConfigurationSection section, Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache`                      | S3 options binding and a module-cache options transform. |
+
+The overloads without `configureCache` use the default module-cache settings.
 
 See [Cache Module Results](/ModularPipelines/docs/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.
