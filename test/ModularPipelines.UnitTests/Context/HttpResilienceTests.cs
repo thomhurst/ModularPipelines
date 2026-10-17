@@ -233,6 +233,151 @@ public class HttpResilienceTests
         await Assert.That(inner.Requests[0]).IsSameReferenceAs(request);
     }
 
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task ClonedRequestsAreDisposedAfterSuccessOrRetryExhaustion(int rejectedAttempts)
+    {
+        var inner = new DisposalTrackingHandler(rejectedAttempts);
+        using var invoker = CreateInvoker(inner);
+        using var content = new DisposalTrackingContent();
+        using var request = new HttpRequestMessage(HttpMethod.Put, "https://example.test/retry")
+        {
+            Content = content,
+        };
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        await Assert.That(inner.Requests.Count).IsEqualTo(Math.Min(rejectedAttempts + 1, 2));
+        await Assert.That(response.StatusCode).IsEqualTo(rejectedAttempts < 2 ? HttpStatusCode.OK : HttpStatusCode.BadGateway);
+        await AssertClonesDisposed(inner, request);
+        await Assert.That(content.IsDisposed).IsFalse();
+        request.Content = content;
+        await Assert.That(await content.ReadAsStringAsync()).IsEqualTo("payload");
+        await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("response body");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ClonedRequestsAreDisposedAfterFailureOrCancellation(bool cancel)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var inner = new DisposalTrackingHandler(fail: true, cancellation: cancel ? cancellation : null);
+        using var invoker = CreateInvoker(inner);
+        using var content = new DisposalTrackingContent();
+        using var request = new HttpRequestMessage(HttpMethod.Put, "https://example.test/retry")
+        {
+            Content = content,
+        };
+
+        if (cancel)
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.SendAsync(request, cancellation.Token));
+        }
+        else
+        {
+            await Assert.ThrowsAsync<HttpRequestException>(() => invoker.SendAsync(request, cancellation.Token));
+        }
+
+        await Assert.That(inner.Requests.Count).IsEqualTo(cancel ? 1 : 2);
+        await AssertClonesDisposed(inner, request);
+        await Assert.That(content.IsDisposed).IsFalse();
+        request.Content = content;
+        await Assert.That(await content.ReadAsStringAsync()).IsEqualTo("payload");
+    }
+
+    [Test]
+    [Arguments("disabled")]
+    [Arguments("method")]
+    [Arguments("opt-out")]
+    [Arguments("large")]
+    [Arguments("understated")]
+    public async Task UnclonedRequestsRemainCallerOwned(string bypass)
+    {
+        var inner = new RetryHandler(readContent: true);
+        using var invoker = CreateInvoker(inner, maxRetries: bypass == "disabled" ? 0 : 1);
+        using var content = new DisposalTrackingContent(bypass == "understated" ? new byte[(1024 * 1024) + 1] : null);
+        if (bypass == "large")
+        {
+            content.Headers.ContentLength = (1024 * 1024) + 1;
+        }
+        else if (bypass == "understated")
+        {
+            content.Headers.ContentLength = 1;
+        }
+
+        using var request = new HttpRequestMessage(bypass == "method" ? HttpMethod.Post : HttpMethod.Put, "https://example.test/retry")
+        {
+            Content = content,
+        };
+        if (bypass == "opt-out")
+        {
+            request.Options.Set(HttpResilienceOptions.RetryEnabled, false);
+        }
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        await Assert.That(inner.Requests.Count).IsEqualTo(1);
+        await Assert.That(inner.Requests[0]).IsSameReferenceAs(request);
+        await Assert.That(content.IsDisposed).IsFalse();
+        request.Content = content;
+        await Assert.That((await content.ReadAsByteArrayAsync()).Length).IsEqualTo(bypass == "understated" ? (1024 * 1024) + 1 : 7);
+    }
+
+    private static async Task AssertClonesDisposed(DisposalTrackingHandler inner, HttpRequestMessage original)
+    {
+        foreach (var request in inner.Requests)
+        {
+            await Assert.That(ReferenceEquals(request, original)).IsFalse();
+            await Assert.That(((DisposalTrackingContent) request.Content!).IsDisposed).IsTrue();
+            Assert.Throws<ObjectDisposedException>(() => request.Content = null);
+        }
+    }
+
+    private sealed class DisposalTrackingHandler(
+        int rejectedAttempts = 0,
+        bool fail = false,
+        CancellationTokenSource? cancellation = null) : HttpMessageHandler
+    {
+        public List<HttpRequestMessage> Requests { get; } = [];
+
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            // Track content installed by an inner handler as well as the cloned request itself.
+            request.Content?.Dispose();
+            request.Content = new DisposalTrackingContent();
+            Requests.Add(request);
+
+            await Task.Yield();
+            await Assert.That(((DisposalTrackingContent) request.Content).IsDisposed).IsFalse();
+            cancellation?.Cancel();
+            cancellationToken.ThrowIfCancellationRequested();
+            if (fail)
+            {
+                throw new HttpRequestException("Terminal send failure.");
+            }
+
+            return new HttpResponseMessage(Requests.Count <= rejectedAttempts ? HttpStatusCode.BadGateway : HttpStatusCode.OK)
+            {
+                RequestMessage = request,
+                Content = new StringContent("response body"),
+            };
+        }
+    }
+
+    private sealed class DisposalTrackingContent(byte[]? bytes = null) : ByteArrayContent(bytes ?? "payload"u8.ToArray())
+    {
+        public bool IsDisposed { get; private set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            IsDisposed = true;
+            base.Dispose(disposing);
+        }
+    }
+
     private static HttpMessageInvoker CreateInvoker(HttpMessageHandler inner, int maxRetries = 1)
     {
         var logger = new Mock<IModuleLoggerAccessor>();

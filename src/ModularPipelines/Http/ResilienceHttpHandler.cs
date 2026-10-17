@@ -67,7 +67,11 @@ internal class ResilienceHttpHandler : DelegatingHandler
         var retryShield = BuildRetryShield(options, cancellationToken);
 
         return await retryShield.ExecuteAsync(
-            async ct => await SendAttemptAsync(CloneRequest(request, contentBytes), options.AttemptTimeout, ct).ConfigureAwait(false),
+            async ct =>
+            {
+                using var attemptRequest = CloneRequest(request, contentBytes);
+                return await SendAttemptAsync(attemptRequest, options.AttemptTimeout, ct).ConfigureAwait(false);
+            },
             cancellationToken).ConfigureAwait(false);
     }
 
