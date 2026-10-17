@@ -12,8 +12,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ENV PATH="${DOTNET_ROOT}:/root/.dotnet/tools:${PATH}"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      ca-certificates curl git unzip zip \
+      ca-certificates curl git procps unzip zip \
       libc6 libgcc-s1 libicu72 libssl3 libstdc++6 zlib1g libgssapi-krb5-2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Many command, logging and secret-masking tests run PowerShell scripts.
+RUN curl -fsSL https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -o /tmp/packages-microsoft-prod.deb \
+    && dpkg -i /tmp/packages-microsoft-prod.deb \
+    && rm /tmp/packages-microsoft-prod.deb \
+    && apt-get update && apt-get install -y --no-install-recommends powershell \
     && rm -rf /var/lib/apt/lists/*
 
 # scanner contract: the checkout lives inside the image, at /src
