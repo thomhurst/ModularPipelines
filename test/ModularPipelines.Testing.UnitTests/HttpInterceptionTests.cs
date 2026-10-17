@@ -191,6 +191,7 @@ public class HttpInterceptionTests
             {
                 Content = new StringContent("payload"),
             };
+            request.Options.Set(HttpResilienceOptions.RetryEnabled, true);
             request.Headers.Add("X-Test", "header");
             using var response = await context.Network.Http.SendAsync(request, cancellationToken);
             return await response.Content.ReadAsStringAsync(cancellationToken);
