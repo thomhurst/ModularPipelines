@@ -508,6 +508,11 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
 
         coordinator ??= new InMemoryDistributedCoordinator();
+        if (coordinator is IMocked<IDistributedMasterCoordinator> mockedCoordinator)
+        {
+            mockedCoordinator.Mock.SetReturnsDefault(Task.FromResult<IReadOnlyList<string>>([]));
+        }
+
         var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
         resultRegistry ??= new ModuleResultRegistry();

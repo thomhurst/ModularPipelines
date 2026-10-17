@@ -754,7 +754,10 @@ internal class DistributedModuleExecutor(
             maxConcurrency,
             exception => _logger.LogError(exception, "Coordinator worker loop encountered an error"),
             workerCancellationToken,
-            inFlightLeases: inFlightLeases).ConfigureAwait(false);
+            inFlightLeases: inFlightLeases,
+            beforeExecuteAsync: token => inFlightLeases.SendHeartbeatAsync(
+                _workerCoordinator, new WorkerStatus { WorkerId = MasterWorkerId, RunId = _options.Value.RunId }, token))
+            .ConfigureAwait(false);
 
         // Stop waiting for new work as soon as the pipeline is canceled, then keep dequeuing on
         // the worker lifetime: after a failure broadcast the coordinator only returns AlwaysRun
@@ -863,19 +866,9 @@ internal class DistributedModuleExecutor(
             try
             {
                 await Task.Delay(options.WorkerHeartbeatInterval, cancellationToken).ConfigureAwait(false);
-                var leases = inFlightLeases.GetLeases();
-                var sentAt = inFlightLeases.GetTimestamp();
-                var lost = await _masterCoordinator.ReconcileHeartbeatAsync(
-                        new WorkerStatus
-                        {
-                            WorkerId = MasterWorkerId,
-                            RunId = options.RunId,
-                            InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()],
-                        },
-                        leases,
-                        cancellationToken)
+                await inFlightLeases.SendHeartbeatAsync(
+                        _masterCoordinator, new WorkerStatus { WorkerId = MasterWorkerId, RunId = options.RunId }, cancellationToken)
                     .ConfigureAwait(false);
-                await inFlightLeases.ReconcileAsync(leases, lost, sentAt).ConfigureAwait(false);
 
                 foreach (var moduleId in await _masterCoordinator.RequeueExpiredLeasesAsync(cancellationToken)
                              .ConfigureAwait(false))

@@ -35,7 +35,8 @@ internal static class DistributedWorkerPool
         Action<Exception> onError,
         CancellationToken cancellationToken,
         TimeProvider? timeProvider = null,
-        InFlightLeases? inFlightLeases = null)
+        InFlightLeases? inFlightLeases = null,
+        Func<CancellationToken, Task>? beforeExecuteAsync = null)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
         var clock = timeProvider ?? TimeProvider.System;
@@ -71,6 +72,7 @@ internal static class DistributedWorkerPool
                 onError,
                 concurrencyGate,
                 inFlightLeases,
+                beforeExecuteAsync,
                 cancellationToken));
         }
 
@@ -118,12 +120,36 @@ internal static class DistributedWorkerPool
         Action<Exception> onError,
         SemaphoreSlim concurrencyGate,
         InFlightLeases? inFlightLeases,
+        Func<CancellationToken, Task>? beforeExecuteAsync,
         CancellationToken cancellationToken)
     {
         var leaseLostToken = inFlightLeases?.Add(lease) ?? CancellationToken.None;
         using var executionCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, leaseLostToken);
         try
         {
+            // Confirm execution intent before user code can crash the process. A lost claim or
+            // acknowledgement response must not leave executed work outside the expiration budget.
+            if (beforeExecuteAsync is not null)
+            {
+                while (true)
+                {
+                    try
+                    {
+                        await beforeExecuteAsync(leaseLostToken).ConfigureAwait(false);
+                        break;
+                    }
+                    catch (Exception exception) when (!leaseLostToken.IsCancellationRequested)
+                    {
+                        // Keep this slot and token while confirmation is ambiguous. The local
+                        // lease watchdog bounds retries when heartbeats cannot reach the coordinator.
+                        onError(exception);
+                        await Task.Delay(DequeueRetryDelay, leaseLostToken).ConfigureAwait(false);
+                    }
+                }
+
+                leaseLostToken.ThrowIfCancellationRequested();
+            }
+
             await executeAsync(lease, claimedAt, executionCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
@@ -176,6 +202,21 @@ internal sealed class InFlightLeases(TimeSpan? leaseTimeout = null, TimeProvider
         [.. GetLeases().Select(static lease => lease.Assignment.ModuleId).Distinct()];
 
     public long GetTimestamp() => _clock.GetTimestamp();
+
+    public async Task SendHeartbeatAsync(
+        IDistributedWorkerCoordinator coordinator,
+        WorkerStatus status,
+        CancellationToken cancellationToken)
+    {
+        var leases = GetLeases();
+        var sentAt = GetTimestamp();
+        var lost = await coordinator.ReconcileHeartbeatAsync(
+                status with { InFlightModules = [.. leases.Select(static lease => lease.Assignment.ModuleId).Distinct()] },
+                leases,
+                cancellationToken)
+            .ConfigureAwait(false);
+        await ReconcileAsync(leases, lost, sentAt).ConfigureAwait(false);
+    }
 
     public async Task ReconcileAsync(IReadOnlyList<ModuleLease> sentLeases, IReadOnlyList<string> lost, long sentAt)
     {

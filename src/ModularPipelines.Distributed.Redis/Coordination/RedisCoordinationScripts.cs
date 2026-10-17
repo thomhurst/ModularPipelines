@@ -8,7 +8,7 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <c>{class}|{order}|{assignment}</c> (see <see cref="RedisQueueMember"/>)</item>
 /// <item>queue classes: class identifier to <c>{RequiredCapabilities, AlwaysRun}</c></item>
 /// <item>queue index: module identifier to its queued members, separated by newlines</item>
-/// <item>leases: module identifier to <c>{LeaseId, WorkerId, Member, ExpiresAt}</c>, with
+/// <item>leases: module identifier to <c>{LeaseId, WorkerId, Member, ExpiresAt, Renewed}</c>, with
 /// <c>ExpiresAt</c> in Redis server milliseconds</item>
 /// <item>results</item>
 /// <item>worker registrations</item>
@@ -19,8 +19,9 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <item>master started marker</item>
 /// <item>lease expiration workers, keyed by module identifier</item>
 /// <item>master heartbeat</item>
+/// <item>claims: claim token to module identifier</item>
 /// </list>
-/// Keys 1 to 12 are the run's coordination keys; scripts that change run state renew their expiry.
+/// Scripts that change run state renew the expiry of keys 1 to 12 and 14.
 /// </summary>
 internal static class RedisCoordinationScripts
 {
@@ -35,6 +36,7 @@ internal static class RedisCoordinationScripts
             for i = 1, 12 do
                 redis.call('PEXPIRE', KEYS[i], ttl)
             end
+            redis.call('PEXPIRE', KEYS[14], ttl)
         end
 
         """;
@@ -83,7 +85,7 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
-    // ARGV: worker capabilities JSON, worker identifier, lease identifier, worker timeout, time to live.
+    // ARGV: worker capabilities JSON, worker identifier, lease/claim identifier, worker timeout, time to live.
     // Each class is a contiguous range of the queue whose first member is that class's best item, so a
     // claim reads one member per class instead of scanning the queue. Returns the claimed assignment JSON,
     // '__closed__' once the run stops handing out work, '__normalize__' followed by legacy metadata
@@ -97,6 +99,23 @@ internal static class RedisCoordinationScripts
             return '__closed__'
         end
         local always_run_only = reason ~= false
+        local claimed_module = redis.call('HGET', KEYS[14], ARGV[3])
+        if claimed_module then
+            local raw = redis.call('HGET', KEYS[4], claimed_module)
+            local lease = raw and cjson.decode(raw)
+            if lease and lease['LeaseId'] == ARGV[3] and lease['WorkerId'] == ARGV[2]
+                and tonumber(lease['ExpiresAt']) >= now then
+                local assignment = string.sub(lease['Member'], 86)
+                -- A lost response may be retried after the pipeline fails.
+                if always_run_only and cjson.decode(assignment)['AlwaysRun'] ~= true then
+                    return false
+                end
+                refresh(ARGV[5])
+                return assignment
+            end
+            -- Never let a late retry claim different work or resurrect an expired lease.
+            return false
+        end
         local caps = cjson.decode(ARGV[1])
         local worker_timeout = tonumber(ARGV[4])
 
@@ -217,7 +236,9 @@ internal static class RedisCoordinationScripts
             WorkerId = ARGV[2],
             Member = best.member,
             ExpiresAt = string.format('%d', now + worker_timeout),
+            Renewed = false,
         }))
+        redis.call('HSET', KEYS[14], ARGV[3], best.module_id)
         refresh(ARGV[5])
         return string.sub(best.member, 86)
         """;
@@ -234,6 +255,27 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    // Same ARGV as Claim. Acknowledgement proves that a claim response reached its caller, so
+    // a crash before the first periodic heartbeat still counts toward the expiration budget.
+    public const string AcknowledgeClaim = ServerTimeLua + RefreshLua + """
+        local module_id = redis.call('HGET', KEYS[14], ARGV[3])
+        local raw = module_id and redis.call('HGET', KEYS[4], module_id)
+        local lease = raw and cjson.decode(raw)
+        if not lease or lease['LeaseId'] ~= ARGV[3] or lease['WorkerId'] ~= ARGV[2]
+            or tonumber(lease['ExpiresAt']) < now then
+            return false
+        end
+        -- A lost acknowledgement response must not keep unstarted work alive indefinitely.
+        -- Only delivery's first acknowledgement extends the deadline; heartbeats renew execution.
+        if lease['Renewed'] ~= true then
+            lease['Renewed'] = true
+            lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[4]))
+            redis.call('HSET', KEYS[4], module_id, cjson.encode(lease))
+        end
+        refresh(ARGV[5])
+        return string.sub(lease['Member'], 86)
+        """;
+
     // ARGV: time to live, worker identifier, worker timeout, status JSON, then in-flight module identifiers.
     public const string Heartbeat = ServerTimeLua + RefreshLua + """
         redis.call('HSET', KEYS[8], ARGV[2], ARGV[4])
@@ -246,6 +288,7 @@ internal static class RedisCoordinationScripts
                 local lease = cjson.decode(raw)
                 if lease['WorkerId'] == ARGV[2] then
                     lease['ExpiresAt'] = expires_at
+                    lease['Renewed'] = true
                     redis.call('HSET', KEYS[4], ARGV[i], cjson.encode(lease))
                 end
             end
@@ -278,6 +321,7 @@ internal static class RedisCoordinationScripts
                 and token['WorkerId'] == ARGV[2] and lease['LeaseId'] == token['LeaseId']
                 and tonumber(lease['ExpiresAt']) >= now then
                 lease['ExpiresAt'] = string.format('%d', now + tonumber(ARGV[3]))
+                lease['Renewed'] = true
                 redis.call('HSET', KEYS[4], token['ModuleId'], cjson.encode(lease))
             else
                 table.insert(lost, token['LeaseId'])
@@ -378,7 +422,10 @@ internal static class RedisCoordinationScripts
                 if redis.call('HEXISTS', KEYS[5], entries[i]) == 0 then
                     local history = redis.call('HGET', KEYS[12], entries[i])
                     local workers = history and cjson.decode(history) or {}
-                    table.insert(workers, lease['WorkerId'])
+                    -- An unrenewed lease may be a claim whose response was lost or cancelled.
+                    if lease['Renewed'] == true then
+                        table.insert(workers, lease['WorkerId'])
+                    end
                     if #workers >= tonumber(ARGV[2]) then
                         redis.call('HSET', KEYS[5], entries[i], cjson.encode({
                             ModuleId = entries[i],

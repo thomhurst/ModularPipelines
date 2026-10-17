@@ -271,6 +271,8 @@ public static class DistributedCoordinatorContract
             var lease = await coordinator.DequeueModuleAsync(worker, new HashSet<Capability>(), token).ConfigureAwait(false);
             Check(lease is not null);
             Check(lease.Assignment.ModuleId == assignment.ModuleId);
+            await coordinator.SendHeartbeatAsync(
+                new WorkerStatus { WorkerId = worker, InFlightModules = [assignment.ModuleId] }, token).ConfigureAwait(false);
             // Stale queued copies must also be withdrawn when the budget is exhausted.
             await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
             await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);

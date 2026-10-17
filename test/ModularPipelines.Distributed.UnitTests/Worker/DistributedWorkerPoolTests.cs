@@ -9,6 +9,60 @@ namespace ModularPipelines.Distributed.UnitTests.Worker;
 public class DistributedWorkerPoolTests
 {
     [Test]
+    [Arguments("success")]
+    [Arguments("failure")]
+    [Arguments("retry")]
+    [Arguments("lost")]
+    [Timeout(5_000)]
+    public async Task Confirms_The_Tracked_Lease_Before_Execution(string outcome, CancellationToken cancellationToken)
+    {
+        var lease = CreateLease("tracked");
+        var inFlight = new InFlightLeases(TimeSpan.FromSeconds(1));
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        var confirmation = new TaskCompletionSource<IReadOnlyList<string>>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var heartbeatCalls = 0;
+        coordinator.Setup(instance => instance.ReconcileHeartbeatAsync(
+                It.Is<WorkerStatus>(status => status.InFlightModules.Contains(lease.Assignment.ModuleId)),
+                It.Is<IReadOnlyList<ModuleLease>>(leases => leases.Contains(lease)),
+                It.IsAny<CancellationToken>()))
+            .Returns<WorkerStatus, IReadOnlyList<ModuleLease>, CancellationToken>((_, _, token) =>
+                outcome == "retry" && Interlocked.Increment(ref heartbeatCalls) > 1
+                    ? Task.FromResult<IReadOnlyList<string>>([])
+                    : confirmation.Task.WaitAsync(token));
+        var claims = 0;
+        var executions = 0;
+        var run = DistributedWorkerPool.RunAsync(
+            _ => Task.FromResult(++claims == 1 ? lease : null),
+            (_, _, _) =>
+            {
+                executions++;
+                return Task.CompletedTask;
+            },
+            maxConcurrency: 1,
+            _ => { },
+            cancellationToken,
+            inFlightLeases: inFlight,
+            beforeExecuteAsync: token => inFlight.SendHeartbeatAsync(
+                coordinator.Object, new WorkerStatus { WorkerId = lease.WorkerId }, token));
+        await Assert.That(executions).IsEqualTo(0);
+        await Assert.That(inFlight.GetLeases()).Contains(lease);
+        await Assert.That(claims).IsEqualTo(1);
+        if (outcome is "failure" or "retry")
+        {
+            confirmation.SetException(new IOException("Heartbeat failed"));
+        }
+        else
+        {
+            confirmation.SetResult(outcome == "lost" ? [lease.LeaseId] : []);
+        }
+
+        await run.WaitAsync(cancellationToken);
+        await Assert.That(executions).IsEqualTo(outcome is "success" or "retry" ? 1 : 0);
+        await Assert.That(inFlight.GetLeases()).IsEmpty();
+        coordinator.VerifyAll();
+    }
+
+    [Test]
     [Timeout(5_000)]
     public async Task Claim_Time_Is_Recorded_When_The_Lease_Is_Dequeued(CancellationToken cancellationToken)
     {

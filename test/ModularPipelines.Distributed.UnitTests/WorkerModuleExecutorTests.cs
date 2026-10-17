@@ -328,6 +328,9 @@ public class WorkerModuleExecutorTests
         var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
+        coordinator.Setup(value => value.ReconcileHeartbeatAsync(
+                It.IsAny<WorkerStatus>(), It.IsAny<IReadOnlyList<ModuleLease>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
         var dequeueCount = 0;
         coordinator.Setup(x => x.DequeueModuleAsync(
                 It.IsAny<WorkerId>(),
