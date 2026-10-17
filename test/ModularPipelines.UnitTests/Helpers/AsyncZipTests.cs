@@ -38,8 +38,9 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.EnumerateFiles(Path.Combine(sourceDirectory, "empty"), "*", SearchOption.TopDirectoryOnly)).Returns([]);
         provider.Setup(fileSystem => fileSystem.GetRelativePath(sourceDirectory, It.IsAny<string>()))
             .Returns((string root, string path) => Path.GetRelativePath(root, path));
-        provider.Setup(fileSystem => fileSystem.Open(archivePath, FileMode.CreateNew, FileAccess.ReadWrite))
-            .Callback(() => archiveCreated = true).Returns(output);
+        provider.Setup(fileSystem => fileSystem.Open(It.IsAny<string>(), FileMode.CreateNew, FileAccess.ReadWrite)).Returns(output);
+        provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), archivePath)).Callback(() => archiveCreated = true);
+        provider.Setup(fileSystem => fileSystem.DeleteFile(It.IsAny<string>()));
         provider.Setup(fileSystem => fileSystem.OpenRead(sourcePath)).Returns(input);
         IZipContext zip = new Zip(provider.Object, new PipelineWorkingDirectory(Root));
 
@@ -145,7 +146,8 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.EnumerateDirectories(sourceDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
         provider.Setup(fileSystem => fileSystem.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([sourcePath]);
         provider.Setup(fileSystem => fileSystem.GetRelativePath(sourceDirectory, sourcePath)).Returns("input.txt");
-        provider.Setup(fileSystem => fileSystem.Open(archivePath, FileMode.CreateNew, FileAccess.ReadWrite)).Returns(output);
+        provider.Setup(fileSystem => fileSystem.Open(It.IsAny<string>(), FileMode.CreateNew, FileAccess.ReadWrite)).Returns(output);
+        provider.Setup(fileSystem => fileSystem.DeleteFile(It.IsAny<string>()));
         provider.Setup(fileSystem => fileSystem.OpenRead(sourcePath)).Returns(input);
         IZipContext zip = new Zip(provider.Object, new PipelineWorkingDirectory(Root));
 
