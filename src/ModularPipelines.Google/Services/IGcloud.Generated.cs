@@ -86,14 +86,14 @@ public partial interface IGcloud
     IGcloudApp App { get; }
 
     /// <summary>
-    /// Gets the apphub sub-domain service.
-    /// </summary>
-    IGcloudApphub Apphub { get; }
-
-    /// <summary>
     /// Gets the apptopology sub-domain service.
     /// </summary>
     IGcloudAppTopology AppTopology { get; }
+
+    /// <summary>
+    /// Gets the apphub sub-domain service.
+    /// </summary>
+    IGcloudApphub Apphub { get; }
 
     /// <summary>
     /// Gets the artifacts sub-domain service.
@@ -171,14 +171,14 @@ public partial interface IGcloud
     IGcloudCertificateManager CertificateManager { get; }
 
     /// <summary>
-    /// Gets the cloudlocationfinder sub-domain service.
-    /// </summary>
-    IGcloudCloudlocationfinder Cloudlocationfinder { get; }
-
-    /// <summary>
     /// Gets the cloudshell sub-domain service.
     /// </summary>
     IGcloudCloudShell CloudShell { get; }
+
+    /// <summary>
+    /// Gets the cloudlocationfinder sub-domain service.
+    /// </summary>
+    IGcloudCloudlocationfinder Cloudlocationfinder { get; }
 
     /// <summary>
     /// Gets the clusterdirector sub-domain service.
@@ -221,14 +221,14 @@ public partial interface IGcloud
     IGcloudContainer Container { get; }
 
     /// <summary>
-    /// Gets the databasemigration sub-domain service.
-    /// </summary>
-    IGcloudDatabaseMigration DatabaseMigration { get; }
-
-    /// <summary>
     /// Gets the datacatalog sub-domain service.
     /// </summary>
     IGcloudDataCatalog DataCatalog { get; }
+
+    /// <summary>
+    /// Gets the databasemigration sub-domain service.
+    /// </summary>
+    IGcloudDatabaseMigration DatabaseMigration { get; }
 
     /// <summary>
     /// Gets the dataflow sub-domain service.
@@ -481,14 +481,14 @@ public partial interface IGcloud
     IGcloudOracleDatabase OracleDatabase { get; }
 
     /// <summary>
-    /// Gets the organizations sub-domain service.
-    /// </summary>
-    IGcloudOrganizations Organizations { get; }
-
-    /// <summary>
     /// Gets the orgpolicies sub-domain service.
     /// </summary>
     IGcloudOrgPolicies OrgPolicies { get; }
+
+    /// <summary>
+    /// Gets the organizations sub-domain service.
+    /// </summary>
+    IGcloudOrganizations Organizations { get; }
 
     /// <summary>
     /// Gets the pam sub-domain service.

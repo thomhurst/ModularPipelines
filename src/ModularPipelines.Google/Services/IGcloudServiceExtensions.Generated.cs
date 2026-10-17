@@ -42,14 +42,14 @@ public interface IGcloudServiceExtensions
     GcloudServiceExtensionsLbTrafficExtensions LbTrafficExtensions { get; }
 
     /// <summary>
-    /// gcloud service-extensions wasm-plugins sub-commands.
-    /// </summary>
-    GcloudServiceExtensionsWasmPlugins WasmPlugins { get; }
-
-    /// <summary>
     /// gcloud service-extensions wasm-plugin-versions sub-commands.
     /// </summary>
     GcloudServiceExtensionsWasmPluginVersions WasmPluginVersions { get; }
+
+    /// <summary>
+    /// gcloud service-extensions wasm-plugins sub-commands.
+    /// </summary>
+    GcloudServiceExtensionsWasmPlugins WasmPlugins { get; }
 
     /// <summary>
     /// manage Service Extensions resources

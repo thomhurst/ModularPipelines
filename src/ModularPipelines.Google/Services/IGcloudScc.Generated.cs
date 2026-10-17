@@ -77,14 +77,14 @@ public interface IGcloudScc
     GcloudSccPostureOperations PostureOperations { get; }
 
     /// <summary>
-    /// gcloud scc postures sub-commands.
-    /// </summary>
-    GcloudSccPostures Postures { get; }
-
-    /// <summary>
     /// gcloud scc posture-templates sub-commands.
     /// </summary>
     GcloudSccPostureTemplates PostureTemplates { get; }
+
+    /// <summary>
+    /// gcloud scc postures sub-commands.
+    /// </summary>
+    GcloudSccPostures Postures { get; }
 
     /// <summary>
     /// gcloud scc sources sub-commands.

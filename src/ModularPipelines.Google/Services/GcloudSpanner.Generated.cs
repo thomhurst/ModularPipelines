@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudSpanner : IGcloudSpanner
 {
     private readonly ICommandContext _command;
-    private GcloudSpannerBackups? _backups;
     private GcloudSpannerBackupSchedules? _backupSchedules;
+    private GcloudSpannerBackups? _backups;
     private GcloudSpannerDatabases? _databases;
     private GcloudSpannerInstanceConfigs? _instanceConfigs;
     private GcloudSpannerInstancePartitions? _instancePartitions;
@@ -41,14 +41,14 @@ public class GcloudSpanner : IGcloudSpanner
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud spanner backups sub-commands.
-    /// </summary>
-    public GcloudSpannerBackups Backups => _backups ??= new GcloudSpannerBackups(_command);
-
-    /// <summary>
     /// gcloud spanner backup-schedules sub-commands.
     /// </summary>
     public GcloudSpannerBackupSchedules BackupSchedules => _backupSchedules ??= new GcloudSpannerBackupSchedules(_command);
+
+    /// <summary>
+    /// gcloud spanner backups sub-commands.
+    /// </summary>
+    public GcloudSpannerBackups Backups => _backups ??= new GcloudSpannerBackups(_command);
 
     /// <summary>
     /// gcloud spanner databases sub-commands.

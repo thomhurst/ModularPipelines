@@ -62,14 +62,14 @@ public interface IGcloudCompute
     GcloudComputeDiagnose Diagnose { get; }
 
     /// <summary>
-    /// gcloud compute disks sub-commands.
-    /// </summary>
-    GcloudComputeDisks Disks { get; }
-
-    /// <summary>
     /// gcloud compute disk-types sub-commands.
     /// </summary>
     GcloudComputeDiskTypes DiskTypes { get; }
+
+    /// <summary>
+    /// gcloud compute disks sub-commands.
+    /// </summary>
+    GcloudComputeDisks Disks { get; }
 
     /// <summary>
     /// gcloud compute external-vpn-gateways sub-commands.
@@ -132,14 +132,14 @@ public interface IGcloudCompute
     GcloudComputeHttpsHealthChecks HttpsHealthChecks { get; }
 
     /// <summary>
-    /// gcloud compute images sub-commands.
-    /// </summary>
-    GcloudComputeImages Images { get; }
-
-    /// <summary>
     /// gcloud compute image-views sub-commands.
     /// </summary>
     GcloudComputeImageViews ImageViews { get; }
+
+    /// <summary>
+    /// gcloud compute images sub-commands.
+    /// </summary>
+    GcloudComputeImages Images { get; }
 
     /// <summary>
     /// gcloud compute instance-groups sub-commands.
@@ -147,14 +147,14 @@ public interface IGcloudCompute
     GcloudComputeInstanceGroups InstanceGroups { get; }
 
     /// <summary>
-    /// gcloud compute instances sub-commands.
-    /// </summary>
-    GcloudComputeInstances Instances { get; }
-
-    /// <summary>
     /// gcloud compute instance-templates sub-commands.
     /// </summary>
     GcloudComputeInstanceTemplates InstanceTemplates { get; }
+
+    /// <summary>
+    /// gcloud compute instances sub-commands.
+    /// </summary>
+    GcloudComputeInstances Instances { get; }
 
     /// <summary>
     /// gcloud compute instant-snapshot-groups sub-commands.
@@ -327,14 +327,14 @@ public interface IGcloudCompute
     GcloudComputeSharedVpc SharedVpc { get; }
 
     /// <summary>
-    /// gcloud compute snapshots sub-commands.
-    /// </summary>
-    GcloudComputeSnapshots Snapshots { get; }
-
-    /// <summary>
     /// gcloud compute snapshot-settings sub-commands.
     /// </summary>
     GcloudComputeSnapshotSettings SnapshotSettings { get; }
+
+    /// <summary>
+    /// gcloud compute snapshots sub-commands.
+    /// </summary>
+    GcloudComputeSnapshots Snapshots { get; }
 
     /// <summary>
     /// gcloud compute sole-tenancy sub-commands.
@@ -352,14 +352,14 @@ public interface IGcloudCompute
     GcloudComputeSslPolicies SslPolicies { get; }
 
     /// <summary>
-    /// gcloud compute storage-pools sub-commands.
-    /// </summary>
-    GcloudComputeStoragePools StoragePools { get; }
-
-    /// <summary>
     /// gcloud compute storage-pool-types sub-commands.
     /// </summary>
     GcloudComputeStoragePoolTypes StoragePoolTypes { get; }
+
+    /// <summary>
+    /// gcloud compute storage-pools sub-commands.
+    /// </summary>
+    GcloudComputeStoragePools StoragePools { get; }
 
     /// <summary>
     /// gcloud compute target-grpc-proxies sub-commands.
@@ -422,14 +422,14 @@ public interface IGcloudCompute
     GcloudComputeVpnTunnels VpnTunnels { get; }
 
     /// <summary>
-    /// gcloud compute zones sub-commands.
-    /// </summary>
-    GcloudComputeZones Zones { get; }
-
-    /// <summary>
     /// gcloud compute zone-vm-extension-policies sub-commands.
     /// </summary>
     GcloudComputeZoneVmExtensionPolicies ZoneVmExtensionPolicies { get; }
+
+    /// <summary>
+    /// gcloud compute zones sub-commands.
+    /// </summary>
+    GcloudComputeZones Zones { get; }
 
     /// <summary>
     /// create and manipulate Compute Engine resources

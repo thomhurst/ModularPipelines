@@ -38,8 +38,8 @@ internal partial class Gcloud : IGcloud
         IGcloudApigee apigee,
         IGcloudApihub apihub,
         IGcloudApp app,
-        IGcloudApphub apphub,
         IGcloudAppTopology appTopology,
+        IGcloudApphub apphub,
         IGcloudArtifacts artifacts,
         IGcloudAsset asset,
         IGcloudAssured assured,
@@ -55,8 +55,8 @@ internal partial class Gcloud : IGcloud
         IGcloudBq bq,
         IGcloudBuilds builds,
         IGcloudCertificateManager certificateManager,
-        IGcloudCloudlocationfinder cloudlocationfinder,
         IGcloudCloudShell cloudShell,
+        IGcloudCloudlocationfinder cloudlocationfinder,
         IGcloudClusterDirector clusterDirector,
         IGcloudColab colab,
         IGcloudComplianceManager complianceManager,
@@ -65,8 +65,8 @@ internal partial class Gcloud : IGcloud
         IGcloudCompute compute,
         IGcloudConfig config,
         IGcloudContainer container,
-        IGcloudDatabaseMigration databaseMigration,
         IGcloudDataCatalog dataCatalog,
+        IGcloudDatabaseMigration databaseMigration,
         IGcloudDataflow dataflow,
         IGcloudDatalineage datalineage,
         IGcloudDataplex dataplex,
@@ -117,8 +117,8 @@ internal partial class Gcloud : IGcloud
         IGcloudNotebooks notebooks,
         IGcloudObservability observability,
         IGcloudOracleDatabase oracleDatabase,
-        IGcloudOrganizations organizations,
         IGcloudOrgPolicies orgPolicies,
+        IGcloudOrganizations organizations,
         IGcloudPam pam,
         IGcloudParameterManager parameterManager,
         IGcloudPolicyIntelligence policyIntelligence,
@@ -173,8 +173,8 @@ internal partial class Gcloud : IGcloud
         Apigee = apigee;
         Apihub = apihub;
         App = app;
-        Apphub = apphub;
         AppTopology = appTopology;
+        Apphub = apphub;
         Artifacts = artifacts;
         Asset = asset;
         Assured = assured;
@@ -190,8 +190,8 @@ internal partial class Gcloud : IGcloud
         Bq = bq;
         Builds = builds;
         CertificateManager = certificateManager;
-        Cloudlocationfinder = cloudlocationfinder;
         CloudShell = cloudShell;
+        Cloudlocationfinder = cloudlocationfinder;
         ClusterDirector = clusterDirector;
         Colab = colab;
         ComplianceManager = complianceManager;
@@ -200,8 +200,8 @@ internal partial class Gcloud : IGcloud
         Compute = compute;
         Config = config;
         Container = container;
-        DatabaseMigration = databaseMigration;
         DataCatalog = dataCatalog;
+        DatabaseMigration = databaseMigration;
         Dataflow = dataflow;
         Datalineage = datalineage;
         Dataplex = dataplex;
@@ -252,8 +252,8 @@ internal partial class Gcloud : IGcloud
         Notebooks = notebooks;
         Observability = observability;
         OracleDatabase = oracleDatabase;
-        Organizations = organizations;
         OrgPolicies = orgPolicies;
+        Organizations = organizations;
         Pam = pam;
         ParameterManager = parameterManager;
         PolicyIntelligence = policyIntelligence;
@@ -337,10 +337,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudApp App { get; }
 
     /// <inheritdoc />
-    public IGcloudApphub Apphub { get; }
+    public IGcloudAppTopology AppTopology { get; }
 
     /// <inheritdoc />
-    public IGcloudAppTopology AppTopology { get; }
+    public IGcloudApphub Apphub { get; }
 
     /// <inheritdoc />
     public IGcloudArtifacts Artifacts { get; }
@@ -388,10 +388,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudCertificateManager CertificateManager { get; }
 
     /// <inheritdoc />
-    public IGcloudCloudlocationfinder Cloudlocationfinder { get; }
+    public IGcloudCloudShell CloudShell { get; }
 
     /// <inheritdoc />
-    public IGcloudCloudShell CloudShell { get; }
+    public IGcloudCloudlocationfinder Cloudlocationfinder { get; }
 
     /// <inheritdoc />
     public IGcloudClusterDirector ClusterDirector { get; }
@@ -418,10 +418,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudContainer Container { get; }
 
     /// <inheritdoc />
-    public IGcloudDatabaseMigration DatabaseMigration { get; }
+    public IGcloudDataCatalog DataCatalog { get; }
 
     /// <inheritdoc />
-    public IGcloudDataCatalog DataCatalog { get; }
+    public IGcloudDatabaseMigration DatabaseMigration { get; }
 
     /// <inheritdoc />
     public IGcloudDataflow Dataflow { get; }
@@ -574,10 +574,10 @@ internal partial class Gcloud : IGcloud
     public IGcloudOracleDatabase OracleDatabase { get; }
 
     /// <inheritdoc />
-    public IGcloudOrganizations Organizations { get; }
+    public IGcloudOrgPolicies OrgPolicies { get; }
 
     /// <inheritdoc />
-    public IGcloudOrgPolicies OrgPolicies { get; }
+    public IGcloudOrganizations Organizations { get; }
 
     /// <inheritdoc />
     public IGcloudPam Pam { get; }

@@ -29,20 +29,20 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
     private GcloudOracleDatabaseDatabaseCharacterSets? _databaseCharacterSets;
     private GcloudOracleDatabaseDatabases? _databases;
     private GcloudOracleDatabaseDbSystemInitialStorageSizes? _dbSystemInitialStorageSizes;
-    private GcloudOracleDatabaseDbSystems? _dbSystems;
     private GcloudOracleDatabaseDbSystemShapes? _dbSystemShapes;
+    private GcloudOracleDatabaseDbSystems? _dbSystems;
     private GcloudOracleDatabaseDbVersions? _dbVersions;
     private GcloudOracleDatabaseEntitlements? _entitlements;
     private GcloudOracleDatabaseExadbVmClusters? _exadbVmClusters;
     private GcloudOracleDatabaseExascaleDbStorageVaults? _exascaleDbStorageVaults;
     private GcloudOracleDatabaseGiVersions? _giVersions;
     private GcloudOracleDatabaseGoldengateConnectionAssignments? _goldengateConnectionAssignments;
-    private GcloudOracleDatabaseGoldengateConnections? _goldengateConnections;
     private GcloudOracleDatabaseGoldengateConnectionTypes? _goldengateConnectionTypes;
+    private GcloudOracleDatabaseGoldengateConnections? _goldengateConnections;
     private GcloudOracleDatabaseGoldengateDeploymentEnvironments? _goldengateDeploymentEnvironments;
-    private GcloudOracleDatabaseGoldengateDeployments? _goldengateDeployments;
     private GcloudOracleDatabaseGoldengateDeploymentTypes? _goldengateDeploymentTypes;
     private GcloudOracleDatabaseGoldengateDeploymentVersions? _goldengateDeploymentVersions;
+    private GcloudOracleDatabaseGoldengateDeployments? _goldengateDeployments;
     private GcloudOracleDatabaseOdbNetworks? _odbNetworks;
     private GcloudOracleDatabaseOperations? _operations;
     private GcloudOracleDatabasePluggableDatabases? _pluggableDatabases;
@@ -103,14 +103,14 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
     public GcloudOracleDatabaseDbSystemInitialStorageSizes DbSystemInitialStorageSizes => _dbSystemInitialStorageSizes ??= new GcloudOracleDatabaseDbSystemInitialStorageSizes(_command);
 
     /// <summary>
-    /// gcloud oracle-database db-systems sub-commands.
-    /// </summary>
-    public GcloudOracleDatabaseDbSystems DbSystems => _dbSystems ??= new GcloudOracleDatabaseDbSystems(_command);
-
-    /// <summary>
     /// gcloud oracle-database db-system-shapes sub-commands.
     /// </summary>
     public GcloudOracleDatabaseDbSystemShapes DbSystemShapes => _dbSystemShapes ??= new GcloudOracleDatabaseDbSystemShapes(_command);
+
+    /// <summary>
+    /// gcloud oracle-database db-systems sub-commands.
+    /// </summary>
+    public GcloudOracleDatabaseDbSystems DbSystems => _dbSystems ??= new GcloudOracleDatabaseDbSystems(_command);
 
     /// <summary>
     /// gcloud oracle-database db-versions sub-commands.
@@ -143,24 +143,19 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
     public GcloudOracleDatabaseGoldengateConnectionAssignments GoldengateConnectionAssignments => _goldengateConnectionAssignments ??= new GcloudOracleDatabaseGoldengateConnectionAssignments(_command);
 
     /// <summary>
-    /// gcloud oracle-database goldengate-connections sub-commands.
-    /// </summary>
-    public GcloudOracleDatabaseGoldengateConnections GoldengateConnections => _goldengateConnections ??= new GcloudOracleDatabaseGoldengateConnections(_command);
-
-    /// <summary>
     /// gcloud oracle-database goldengate-connection-types sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateConnectionTypes GoldengateConnectionTypes => _goldengateConnectionTypes ??= new GcloudOracleDatabaseGoldengateConnectionTypes(_command);
 
     /// <summary>
+    /// gcloud oracle-database goldengate-connections sub-commands.
+    /// </summary>
+    public GcloudOracleDatabaseGoldengateConnections GoldengateConnections => _goldengateConnections ??= new GcloudOracleDatabaseGoldengateConnections(_command);
+
+    /// <summary>
     /// gcloud oracle-database goldengate-deployment-environments sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeploymentEnvironments GoldengateDeploymentEnvironments => _goldengateDeploymentEnvironments ??= new GcloudOracleDatabaseGoldengateDeploymentEnvironments(_command);
-
-    /// <summary>
-    /// gcloud oracle-database goldengate-deployments sub-commands.
-    /// </summary>
-    public GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments => _goldengateDeployments ??= new GcloudOracleDatabaseGoldengateDeployments(_command);
 
     /// <summary>
     /// gcloud oracle-database goldengate-deployment-types sub-commands.
@@ -171,6 +166,11 @@ public class GcloudOracleDatabase : IGcloudOracleDatabase
     /// gcloud oracle-database goldengate-deployment-versions sub-commands.
     /// </summary>
     public GcloudOracleDatabaseGoldengateDeploymentVersions GoldengateDeploymentVersions => _goldengateDeploymentVersions ??= new GcloudOracleDatabaseGoldengateDeploymentVersions(_command);
+
+    /// <summary>
+    /// gcloud oracle-database goldengate-deployments sub-commands.
+    /// </summary>
+    public GcloudOracleDatabaseGoldengateDeployments GoldengateDeployments => _goldengateDeployments ??= new GcloudOracleDatabaseGoldengateDeployments(_command);
 
     /// <summary>
     /// gcloud oracle-database odb-networks sub-commands.
