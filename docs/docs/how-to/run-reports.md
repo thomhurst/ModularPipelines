@@ -11,7 +11,7 @@ metrics, duration changes from the previous retained run, and correlation metada
 Configure an explicit output path on the pipeline builder:
 
 ```csharp
-using ModularPipelines.Extensions;
+using ModularPipelines;
 
 var builder = Pipeline.CreateBuilder(args);
 builder.WriteRunReport("artifacts/run-report.json");

@@ -29,6 +29,17 @@ cd MyPipeline
 The generated project contains restore, build, test, and publish modules with explicit dependencies.
 It also includes `appsettings.json`, where you can change the paths and build configuration later.
 
+To include an optional TUnit project under `Tests/`, add `--tests` to the `dotnet new` command
+above. Run the generated tests from the pipeline directory:
+
+```powershell
+dotnet run --project Tests/MyPipeline.Tests.csproj
+```
+
+The option defaults to `false`. The generated `BuildModuleTests` uses `ModularPipelines.Testing`
+to test the build module in isolation, with intercepted commands and an in-memory filesystem.
+See [Testing](./how-to/testing.md) for the harness API.
+
 Run the pipeline like any other .NET application:
 
 ```powershell

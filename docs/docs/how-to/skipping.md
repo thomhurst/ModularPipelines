@@ -15,10 +15,16 @@ and the equivalent `.WithRunIf<T>()` and `.WithSkipIf<T>()` builder methods rema
 Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so
 both invoke skipped hooks and lifecycle notifications.
 
-`PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be
-side-effect-free and must not rely on being evaluated exactly once.
+`PlanAsync()` and `--dry-run` can invoke `WithSkipWhen` and `WithSkipWhenAll` delegates without an
+`IPlanningSafe` marker, including asynchronous delegates. Typed conditions registered with attributes,
+`WithRunIf`, or `WithSkipIf` require that marker to run during planning. Module selection, earlier skip
+decisions, and short-circuiting can prevent evaluation; not every delegate runs on every dry-run.
+Conditions must be side-effect-free and must not rely on being evaluated exactly once.
 If a fluent condition reads an awaited module result, that result does not exist during planning;
-the plan reports the module's skip decision as unknown and continues without executing modules.
+the condition remains unresolved without executing modules. The plan reports an unknown skip decision
+unless another condition determines the outcome.
+Any delegate work before the result access can still run, including remote I/O. Use unmarked typed
+conditions for checks that must wait until execution.
 
 ### Simple Condition
 
@@ -39,19 +45,19 @@ public class MyModule : Module<CommandResult>
 
 ### Using Pipeline Context
 
-When you need access to the pipeline context for your skip condition:
+Delegates can read local values from the pipeline context:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(
-            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
-            "This should only run on the main branch");
+            ctx => ctx.Environment.Variables.Get("DEPLOY_ENV") != "production",
+            "This should only run in production");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // This only runs on the main branch
+        // This only runs in production
     }
 }
 ```
@@ -71,11 +77,9 @@ For better reporting, pass the reason alongside the boolean condition:
 public class MyModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithSkipWhen(async (ctx, _) =>
-        {
-            var repositoryInfo = await ctx.Tools.Git.Information.GetInfoAsync();
-            return repositoryInfo?.BranchName != "main";
-        }, "This should only run on the main branch");
+        .WithSkipWhen(
+            ctx => ctx.Environment.Variables.Get("DEPLOY_ENV") != "production",
+            "This should only run in production");
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -86,25 +90,31 @@ public class MyModule : Module<CommandResult>
 
 ### Async Skip Conditions
 
-For conditions that require async operations, reuse an `HttpClient` instance and dispose
-of each response:
+For an execution-only remote check, implement `IRunCondition` without `IPlanningSafe` and register
+it with `WithRunIf` (or `WithSkipIf` for the inverse predicate). Planning leaves this check unresolved
+and does not send the HTTP request. Reuse an `HttpClient` instance and dispose of each response:
 
 ```csharp
 using System.Net.Http;
 using ModularPipelines;
 
-public class MyModule : Module
+public sealed class RemoteServiceIsAvailable : IRunCondition
 {
     private static readonly HttpClient Client = new();
 
+    public async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        using var response = await Client.GetAsync(
+            "https://api.example.com/should-run",
+            cancellationToken);
+        return response.IsSuccessStatusCode;
+    }
+}
+
+public class MyModule : Module
+{
     protected override void Configure(ModuleConfigurationBuilder module) => module
-        .WithSkipWhen(async (_, cancellationToken) =>
-        {
-            using var response = await Client.GetAsync(
-                "https://api.example.com/should-run",
-                cancellationToken);
-            return !response.IsSuccessStatusCode;
-        }, "The remote service is unavailable");
+        .WithRunIf<RemoteServiceIsAvailable>();
 
     protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -120,16 +130,17 @@ Repeated `WithSkipWhen` conditions use OR-to-skip semantics, matching repeated `
 attributes. They run in registration order, and evaluation stops when any condition returns
 `SkipDecision.Skip`.
 
-For example, this module skips cleanup for either CI builds or non-main branches:
+For example, this module skips cleanup for either CI builds or non-main branches. The Git package's
+`RunIfBranch` attribute is not planning-safe, so its Git lookup waits until execution:
 
 ```csharp
+using ModularPipelines.Git.Attributes;
+
+[RunIfBranch("main")]
 public class CleanupModule : Module<CommandResult>
 {
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => Environment.GetEnvironmentVariable("CI") == "true", "Running in CI")
-        .WithSkipWhen(
-            async (ctx, _) => (await ctx.Tools.Git.Information.GetInfoAsync())?.BranchName != "main",
-            "Not on the main branch")
         .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
         .WithTimeout(TimeSpan.FromMinutes(5));
 }

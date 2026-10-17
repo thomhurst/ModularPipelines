@@ -25,7 +25,6 @@ using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 var builder = Pipeline.CreateBuilder(args);
