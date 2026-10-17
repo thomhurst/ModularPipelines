@@ -61,24 +61,120 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadResponseAsync_DisposesRequestAndPreservesResponseAndClient()
+    {
+        using var requestContent = new TrackingStringContent("request");
+        using var client = new HttpClient(new DownloadResponseHandler());
+        var downloader = await GetService<IDownloaderContext>();
+        var options = new DownloadOptions(new Uri("https://example.test/download"))
+        {
+            HttpClient = client,
+            RequestConfigurator = request => request.Content = requestContent,
+        };
+
+        Stream responseStream;
+        using (var response = await downloader.DownloadResponseAsync(options))
+        {
+            await Assert.That(requestContent.IsDisposed).IsTrue();
+            responseStream = await response.Content.ReadAsStreamAsync();
+            await Assert.That(responseStream.CanRead).IsTrue();
+            using var reader = new StreamReader(responseStream, leaveOpen: true);
+            await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("download");
+        }
+
+        await Assert.That(responseStream.CanRead).IsFalse();
+        using var subsequentResponse = await client.GetAsync(options.DownloadUri);
+        await Assert.That(await subsequentResponse.Content.ReadAsStringAsync()).IsEqualTo("download");
+    }
+
+    [Test]
+    public async Task DownloadResponseAsync_DisposesRequestWhenConfiguratorThrows()
+    {
+        using var requestContent = new TrackingStringContent("request");
+        using var responseContent = new StringContent("download");
+        var downloader = CreateDownloader(responseContent);
+        var failure = new InvalidOperationException("Configuration failed");
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            downloader.DownloadResponseAsync(new DownloadOptions(new Uri("https://example.test/download"))
+            {
+                RequestConfigurator = request =>
+                {
+                    request.Content = requestContent;
+                    throw failure;
+                },
+            }));
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(requestContent.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task DownloadResponseAsync_DisposesRequestWhenSendFails()
+    {
+        using var requestContent = new TrackingStringContent("request");
+        using var responseContent = new StringContent("download");
+        var failure = new HttpRequestException("Send failed");
+        var downloader = CreateDownloader(responseContent,
+            sendAsync: (_, _) => Task.FromException<HttpResponseMessage>(failure));
+
+        var exception = await Assert.ThrowsAsync<HttpRequestException>(() =>
+            downloader.DownloadResponseAsync(new DownloadOptions(new Uri("https://example.test/download"))
+            {
+                RequestConfigurator = request => request.Content = requestContent,
+            }));
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(requestContent.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task DownloadResponseAsync_DisposesRequestWhenSendIsCanceled()
+    {
+        using var requestContent = new TrackingStringContent("request");
+        using var responseContent = new StringContent("download");
+        using var cancellation = new CancellationTokenSource();
+        var downloader = CreateDownloader(responseContent, sendAsync: (_, token) =>
+        {
+            cancellation.Cancel();
+            return Task.FromCanceled<HttpResponseMessage>(token);
+        });
+
+        var exception = await Assert.ThrowsAsync<TaskCanceledException>(() =>
+            downloader.DownloadResponseAsync(new DownloadOptions(new Uri("https://example.test/download"))
+            {
+                RequestConfigurator = request => request.Content = requestContent,
+            }, cancellation.Token));
+
+        await Assert.That(exception!.CancellationToken).IsEqualTo(cancellation.Token);
+        await Assert.That(requestContent.IsDisposed).IsTrue();
+    }
+
+    [Test]
     public async Task DownloadStringAsync_DisposesResponse()
     {
+        using var requestContent = new TrackingStringContent("request");
         var content = new TrackingStringContent("download");
         var downloader = CreateDownloader(content);
 
         var result = await downloader.DownloadStringAsync(
-            new DownloadOptions(new Uri("https://example.test/download")));
+            new DownloadOptions(new Uri("https://example.test/download"))
+            {
+                RequestConfigurator = request => request.Content = requestContent,
+            });
 
         using (Assert.Multiple())
         {
             await Assert.That(result).IsEqualTo("download");
             await Assert.That(content.IsDisposed).IsTrue();
+            await Assert.That(requestContent.IsDisposed).IsTrue();
         }
     }
 
     [Test]
     public async Task DownloadFileAsync_DisposesResponse()
     {
+        using var requestContent = new TrackingStringContent("request");
         var content = new TrackingStringContent("download");
         var fileSystemProvider = new Mock<IFileSystemProvider>();
         fileSystemProvider
@@ -93,9 +189,11 @@ public class DownloaderTests : TestBase
             new Uri("https://example.test/download"))
         {
             SavePath = "download.bin",
+            RequestConfigurator = request => request.Content = requestContent,
         });
 
         await Assert.That(content.IsDisposed).IsTrue();
+        await Assert.That(requestContent.IsDisposed).IsTrue();
     }
 
     [Test]
@@ -331,14 +429,19 @@ public class DownloaderTests : TestBase
     [Test]
     public async Task DownloadResponseAsync_DisposesResponseWhenStatusValidationFails()
     {
+        using var requestContent = new TrackingStringContent("request");
         var content = new TrackingStringContent("failure");
         var downloader = CreateDownloader(content, statusCode: HttpStatusCode.BadRequest);
 
         await Assert.ThrowsAsync<PipelineHttpResponseException>(() =>
             downloader.DownloadResponseAsync(
-                new DownloadOptions(new Uri("https://example.test/download"))));
+                new DownloadOptions(new Uri("https://example.test/download"))
+                {
+                    RequestConfigurator = request => request.Content = requestContent,
+                }));
 
         await Assert.That(content.IsDisposed).IsTrue();
+        await Assert.That(requestContent.IsDisposed).IsTrue();
     }
 
     [Test]
@@ -425,18 +528,20 @@ public class DownloaderTests : TestBase
         HttpStatusCode statusCode = HttpStatusCode.OK,
         string? workingDirectory = null,
         Action<HttpOptions>? observeOptions = null,
-        IModuleLogger? logger = null)
+        IModuleLogger? logger = null,
+        Func<HttpOptions, CancellationToken, Task<HttpResponseMessage>>? sendAsync = null)
     {
         var http = new Mock<IHttpContext>();
         http.Setup(x => x.SendAsync(
                 It.IsAny<HttpOptions>(),
                 It.IsAny<CancellationToken>()))
             .Callback<HttpOptions, CancellationToken>((options, _) => observeOptions?.Invoke(options))
-            .Returns((HttpOptions options, CancellationToken _) => Task.FromResult(new HttpResponseMessage(statusCode)
-            {
-                Content = content,
-                RequestMessage = options.HttpRequestMessage,
-            }));
+            .Returns((HttpOptions options, CancellationToken token) => sendAsync?.Invoke(options, token)
+                ?? Task.FromResult(new HttpResponseMessage(statusCode)
+                {
+                    Content = content,
+                    RequestMessage = options.HttpRequestMessage,
+                }));
         var moduleLoggerAccessor = new Mock<IModuleLoggerAccessor>();
         moduleLoggerAccessor
             .Setup(x => x.Logger)
@@ -447,6 +552,18 @@ public class DownloaderTests : TestBase
             http.Object,
             fileSystemProvider ?? SystemFileSystemProvider.Instance,
             new PipelineWorkingDirectory(workingDirectory ?? Environment.CurrentDirectory));
+    }
+
+    private sealed class DownloadResponseHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StreamContent(new MemoryStream("download"u8.ToArray())),
+                RequestMessage = request,
+            });
+        }
     }
 
     private sealed class TrackingStringContent(string content) : StringContent(content)
