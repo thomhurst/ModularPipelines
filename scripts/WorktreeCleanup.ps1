@@ -5,6 +5,7 @@
 # Removal policy (one place, both callers):
 #   - PRESERVE tracked changes and untracked/ignored files outside known generated paths.
 #   - CLEAR known build artifacts and root-level workflow output covered by .gitignore.
+#   - DETACH directory junctions and symlinks before deleting, so no delete follows a link.
 #   - Long-path safe: git's own delete now works because core.longpaths=true is set
 #     system-wide; the `\\?\` extended-length Remove-Item is kept as a fallback for
 #     environments where that config is missing.
@@ -427,6 +428,35 @@ function Remove-MergedWorktree {
     }
 }
 
+# Git for Windows follows a directory junction while deleting a worktree: it empties the
+# target, then fails with "Directory not empty" on the link and leaves a remnant without
+# its .git file. Package managers link node_modules packages with junctions, and a junction
+# can also point into another checkout or a shared store. Delete each link itself, never its
+# target, before any recursive delete. Returns whether no directory link remains.
+function Remove-WorktreeDirectoryLinks {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$Worktree,
+        [string]$Label = ''
+    )
+
+    if (-not $IsWindows) { return $true }
+
+    # Get-ChildItem does not recurse through links, so every match is a link to remove.
+    $find = { @(Get-ChildItem -LiteralPath $Worktree -Directory -Recurse -Force -Attributes ReparsePoint -ErrorAction SilentlyContinue) }
+    foreach ($link in (& $find)) {
+        # DirectoryInfo.Delete() without recursion removes the reparse point only.
+        try { $link.Delete() } catch { Write-Host "Could not detach directory link $($link.FullName): $_" }
+    }
+
+    $remaining = & $find
+    if ($remaining.Count -gt 0) {
+        Write-Host "WARNING: worktree $Label kept: $($remaining.Count) directory link(s) could not be detached, first $($remaining[0].FullName): $Worktree"
+        return $false
+    }
+    return $true
+}
+
 # Deletes an already-vetted worktree directory and prunes its registration. Returns
 # whether the directory is gone. Callers must have checked that its content is disposable.
 function Remove-WorktreeDirectory {
@@ -436,22 +466,16 @@ function Remove-WorktreeDirectory {
         [string]$Label = ''
     )
 
+    if (-not (Remove-WorktreeDirectoryLinks -Worktree $Worktree -Label $Label)) { return $false }
+
     # Primary path: let git remove it. Double force also clears a stale setup lock and
     # deletes the remnant of an earlier, partially failed removal.
     git -C $Repo -c core.longpaths=true worktree remove --force --force $Worktree 2>$null | Out-Null
 
     # Fallback for long-path failures and remnants that Git no longer recognizes.
     if (Test-Path -LiteralPath $Worktree) {
-        # Avoid recursing through a package-manager junction if one exists in a docs
-        # worktree. Leave it for manual cleanup instead of risking deletion outside
-        # the worktree.
-        $junction = Get-ChildItem -LiteralPath $Worktree -Directory -Recurse -Force -Filter node_modules -ErrorAction SilentlyContinue |
-            Where-Object { ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 } |
-            Select-Object -First 1
-        if ($junction) {
-            Write-Host "WARNING: worktree $Label requires manual removal -- detach the node_modules junction at $($junction.FullName) first, then re-run cleanup: $Worktree"
-            return $false
-        }
+        # A failed git delete can leave links behind, so detach again before recursing.
+        if (-not (Remove-WorktreeDirectoryLinks -Worktree $Worktree -Label $Label)) { return $false }
         # \\?\ disables Win32 path normalization, so forward slashes (git's output
         # format) are NOT translated — convert to backslashes or the delete no-ops.
         $removalPath = if ($IsWindows) { '\\?\' + ($Worktree -replace '/', '\') } else { $Worktree }

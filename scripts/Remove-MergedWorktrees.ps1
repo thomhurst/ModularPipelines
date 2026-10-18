@@ -106,6 +106,7 @@ function Remove-OrphanedDirectory {
             return $false
         }
 
+        if (-not (Remove-WorktreeDirectoryLinks -Worktree $Path -Label '(orphaned dir)')) { return $false }
         $removalPath = if ($IsWindows) { '\\?\' + ($Path -replace '/', '\') } else { $Path }
         Remove-Item -LiteralPath $removalPath -Recurse -Force -ErrorAction SilentlyContinue
         if (Test-Path -LiteralPath $Path) {

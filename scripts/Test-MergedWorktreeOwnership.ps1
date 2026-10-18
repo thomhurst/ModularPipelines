@@ -169,6 +169,21 @@ exit 0
         Assert-Fixture ([bool]($calls -match '^acquire pr-900003 ')) 'Cleanup did not reserve its item lock before deleting.'
         Assert-Fixture ([bool]($calls -match '^release pr-900003 ')) 'Cleanup did not release its reservation.'
 
+        if ($IsWindows) {
+            # Git for Windows follows a junction while deleting a worktree and empties its
+            # target. The sweep must detach the link so content outside the worktree survives.
+            $outside = Join-Path $fixtureRoot 'outside-store'
+            New-Item -ItemType Directory -Path $outside | Out-Null
+            Set-Content -LiteralPath (Join-Path $outside 'keep.txt') -Value 'outside the worktree'
+            $path = New-FixtureWorktree 'pr-900007-junction' -Marker 'pr-900007'
+            Set-FixtureLock 'pr-900007' 'FREE'
+            New-Item -ItemType Directory -Path (Join-Path $path 'bin') | Out-Null
+            New-Item -ItemType Junction -Path (Join-Path $path 'bin/pkg') -Target $outside | Out-Null
+            Invoke-FixtureSweep
+            Assert-Fixture (-not (Test-Path -LiteralPath $path)) 'Merged worktree containing a junction was not removed.'
+            Assert-Fixture (Test-Path -LiteralPath (Join-Path $outside 'keep.txt')) 'Worktree removal deleted content through a junction.'
+        }
+
         foreach ($state in @('ERROR', 'RACE')) {
             $path = New-FixtureWorktree "pr-900004-$state"
             Set-FixtureLock 'pr-900004' $state
