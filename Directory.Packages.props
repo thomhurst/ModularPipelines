@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AdaptiveCards" Version="3.1.0" />
-    <PackageVersion Include="AWSSDK.Lambda" Version="4.0.110" />
+    <PackageVersion Include="AWSSDK.Lambda" Version="4.0.110.1" />
     <PackageVersion Include="AWSSDK.S3" Version="4.0.104.5" />
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
     <PackageVersion Include="Azure.ResourceManager" Version="1.14.0" />
