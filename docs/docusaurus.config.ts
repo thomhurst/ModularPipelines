@@ -104,6 +104,11 @@ const config: Config = {
           label: 'Documentation',
         },
         {
+          href: 'https://tomlonghurst.dev/',
+          label: 'More libraries',
+          position: 'right',
+        },
+        {
           href: 'https://www.nuget.org/packages/ModularPipelines',
           label: 'NuGet',
           position: 'right',
@@ -159,6 +164,35 @@ const config: Config = {
             {
               label: 'NuGet',
               href: 'https://www.nuget.org/packages/ModularPipelines',
+            },
+          ],
+        },
+        {
+          title: 'More libraries',
+          items: [
+            {
+              label: 'TUnit',
+              href: 'https://tunit.dev/',
+            },
+            {
+              label: 'Respire',
+              href: 'https://respire.tomlonghurst.dev/',
+            },
+            {
+              label: 'Kevlar',
+              href: 'https://kevlar.tomlonghurst.dev/',
+            },
+            {
+              label: 'Dekaf',
+              href: 'https://dekaf.tomlonghurst.dev/',
+            },
+            {
+              label: 'BDTest',
+              href: 'https://bdtest.tomlonghurst.dev/',
+            },
+            {
+              label: 'All projects',
+              href: 'https://tomlonghurst.dev/',
             },
           ],
         },
