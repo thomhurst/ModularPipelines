@@ -62,7 +62,7 @@ builder.AddRedisDistributed(redis => redis with
 });
 ```
 
-The package uses the [Respire](https://thomhurst.github.io/Respire/) client. `ConfigureConnection` transforms the
+The package uses the [Respire](https://respire.tomlonghurst.dev/) client. `ConfigureConnection` transforms the
 immutable `Respire.RespireOptions` parsed from the connection string. Each Redis feature owns its connection and
 connects asynchronously on first use. The package does not register or reuse an `IRespireClient` from the service
 collection.

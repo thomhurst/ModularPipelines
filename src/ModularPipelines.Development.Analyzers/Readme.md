@@ -14,4 +14,4 @@ The corresponding code fixes add the `virtual` modifier. See the analyzer source
 and [release tracking](AnalyzerReleases.Unshipped.md) for the current rules.
 
 For pipeline usage and current module examples, see the
-[root README](../../README.md) and [documentation](https://thomhurst.github.io/ModularPipelines/).
+[root README](../../README.md) and [documentation](https://modularpipelines.tomlonghurst.dev/).

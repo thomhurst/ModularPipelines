@@ -12,7 +12,7 @@ See the [migration guide](docs/docs/migrating-to-v4.md#generated-module-accessor
 ## Redis packages use Respire
 
 `ModularPipelines.Distributed.Redis` and `ModularPipelines.Distributed.Discovery.Redis` now use the
-[Respire](https://thomhurst.github.io/Respire/) client instead of StackExchange.Redis for the coordinator,
+[Respire](https://respire.tomlonghurst.dev/) client instead of StackExchange.Redis for the coordinator,
 artifact store, module cache, and master discovery. Coordinator keys, Lua scripts, and the stored queue layout
 have changed. Run-scoped coordinator data is incompatible with earlier versions. Finish existing runs before
 upgrading, then start new runs only after upgrading the master and all workers.

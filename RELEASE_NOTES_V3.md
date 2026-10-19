@@ -285,7 +285,7 @@ For the cleanest code, adopt the new patterns:
 4. Move `GetModule<T>()` calls to context
 5. Use pattern matching for result handling
 
-See the [Migration Guide](https://thomhurst.github.io/ModularPipelines/how-to/migrating-to-v3) for detailed examples.
+See the [Migration Guide](https://modularpipelines.tomlonghurst.dev/how-to/migrating-to-v3) for detailed examples.
 
 ## Upgrade Steps
 
@@ -296,6 +296,6 @@ See the [Migration Guide](https://thomhurst.github.io/ModularPipelines/how-to/mi
 
 ## Getting Help
 
-- [Full Migration Guide](https://thomhurst.github.io/ModularPipelines/how-to/migrating-to-v3)
+- [Full Migration Guide](https://modularpipelines.tomlonghurst.dev/how-to/migrating-to-v3)
 - [GitHub Issues](https://github.com/thomhurst/ModularPipelines/issues) - Use the `migration` label
 - [Examples](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Examples)

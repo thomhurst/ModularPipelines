@@ -7,7 +7,7 @@ namespace ModularPipelines.Analyzers.Test;
 public class AnalyzerMetadataTests
 {
     private const string DocumentationBaseUrl =
-        "https://thomhurst.github.io/ModularPipelines/docs/analyzers/";
+        "https://modularpipelines.tomlonghurst.dev/docs/analyzers/";
 
     [TestMethod]
     public void PublicRulesUseUnifiedIdsAndHelpLinks()

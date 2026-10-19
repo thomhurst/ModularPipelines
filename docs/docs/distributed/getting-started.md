@@ -23,7 +23,7 @@ Add the `ModularPipelines.Distributed.Redis` NuGet package to your pipeline proj
 dotnet add package ModularPipelines.Distributed.Redis
 ```
 
-This brings in `ModularPipelines` (which contains the core distributed abstractions) and the [Respire](https://thomhurst.github.io/Respire/) Redis client automatically.
+This brings in `ModularPipelines` (which contains the core distributed abstractions) and the [Respire](https://respire.tomlonghurst.dev/) Redis client automatically.
 
 ## 2. Configure the Pipeline
 

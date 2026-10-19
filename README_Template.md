@@ -106,7 +106,7 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 * Forgetting to `await` module results
 * Using `Console.Write` instead of the logging system
 
-## [Full Documentation](https://thomhurst.github.io/ModularPipelines)
+## [Full Documentation](https://modularpipelines.tomlonghurst.dev)
 
 ## Quick Start
 

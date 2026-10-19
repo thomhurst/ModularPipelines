@@ -6,7 +6,7 @@ internal static class GeneratorDiagnostics
 {
     private const string Category = "ModularPipelines.SourceGenerator";
     private const string HelpLinkBase =
-        "https://thomhurst.github.io/ModularPipelines/docs/how-to/source-generator-diagnostics";
+        "https://modularpipelines.tomlonghurst.dev/docs/how-to/source-generator-diagnostics";
 
     public static DiagnosticDescriptor InvalidIntegrationMethod { get; } = Create(
         "MPG0001",

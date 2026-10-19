@@ -248,7 +248,7 @@ builder.AddRedisDistributed(o => o with
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | `""` | [Respire connection string](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md): `host:port`, a `redis://` or `rediss://` URI, or a StackExchange.Redis-style comma-delimited string (`password`, `ssl`, `asyncTimeout`, etc.). Unknown options such as `abortConnect` fail validation. **Required** unless `ConfigureConnection` supplies the endpoints. |
+| `ConnectionString` | `string` | `""` | [Respire connection string](https://respire.tomlonghurst.dev/docs/fundamentals/connections.md): `host:port`, a `redis://` or `rediss://` URI, or a StackExchange.Redis-style comma-delimited string (`password`, `ssl`, `asyncTimeout`, etc.). Unknown options such as `abortConnect` fail validation. **Required** unless `ConfigureConnection` supplies the endpoints. |
 | `ConfigureConnection` | `Func<RespireOptions, RespireOptions>?` | `null` | Transforms the parsed `RespireOptions` before connecting, usually with a `with` expression. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, timeouts, and retry settings. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier. |
@@ -417,7 +417,7 @@ Detailed hub errors are disabled, and the tunnel URL is logged only at Debug.
 ## Redis Master Discovery
 
 `AddRedisMasterDiscovery` stores the SignalR master's `MasterEndpoint`, its URL and access token, in Redis
-so workers can find it. Discovery opens its own lazily connected [Respire](https://thomhurst.github.io/Respire/)
+so workers can find it. Discovery opens its own lazily connected [Respire](https://respire.tomlonghurst.dev/)
 connection; it neither uses nor replaces a Redis client registered by the application.
 
 | Property | Type | Default | Description |
@@ -460,7 +460,7 @@ host1:6379,host2:6379,password=mysecret,cluster=true
 ```
 
 Respire requires `cluster=true` (or `serviceName` for Sentinel) when a connection string lists more than one
-endpoint. See the [Respire connection docs](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md)
+endpoint. See the [Respire connection docs](https://respire.tomlonghurst.dev/docs/fundamentals/connections.md)
 for all connection string options.
 
 ## V4 endpoint migration
