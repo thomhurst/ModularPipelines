@@ -1,0 +1,31 @@
+<Project>
+  <!-- NuGet resolves project versions before generating the nuspec. Internal APIs
+       have no cross-release compatibility contract, so friend packages must use
+       exactly the core release they were built with. Keep core's declarations as
+       the source of truth rather than maintaining a second list of friends. -->
+  <Target Name="_ConstrainCorePackageDependency"
+          AfterTargets="_GetProjectReferenceVersions"
+          Condition="'$(IsPackable)' == 'true' and '$(NuspecFile)' == ''">
+    <ItemGroup>
+      <_ModularPipelinesCoreReference Include="@(_ProjectReferencesWithVersions)"
+                                     Condition="'%(_ProjectReferencesWithVersions.Filename)' == 'ModularPipelines'" />
+    </ItemGroup>
+    <XmlPeek XmlInputPath="$(MSBuildThisFileDirectory)ModularPipelines/ModularPipelines.csproj"
+             Query="/Project/ItemGroup/AssemblyAttribute[@Include='System.Runtime.CompilerServices.InternalsVisibleToAttribute']/_Parameter1[text()='$(AssemblyName)']"
+             Condition="'@(_ModularPipelinesCoreReference)' != ''">
+      <Output TaskParameter="Result" PropertyName="_ModularPipelinesCoreFriend" />
+    </XmlPeek>
+    <PropertyGroup>
+      <_ModularPipelinesCoreVersion>@(_ModularPipelinesCoreReference->'%(ProjectVersion)')</_ModularPipelinesCoreVersion>
+      <!-- Beta satellite packages have a suffix that core does not share. The
+           release packer passes core's version independently of their version. -->
+      <_ModularPipelinesCoreVersion Condition="'$(ModularPipelinesCorePackageVersion)' != ''">$(ModularPipelinesCorePackageVersion)</_ModularPipelinesCoreVersion>
+    </PropertyGroup>
+    <ItemGroup>
+      <_ProjectReferencesWithVersions Condition="'%(_ProjectReferencesWithVersions.Filename)' == 'ModularPipelines'">
+        <ProjectVersion Condition="'$(_ModularPipelinesCoreFriend)' == ''">$(_ModularPipelinesCoreVersion)</ProjectVersion>
+        <ProjectVersion Condition="'$(_ModularPipelinesCoreFriend)' != ''">[$(_ModularPipelinesCoreVersion)]</ProjectVersion>
+      </_ProjectReferencesWithVersions>
+    </ItemGroup>
+  </Target>
+</Project>
