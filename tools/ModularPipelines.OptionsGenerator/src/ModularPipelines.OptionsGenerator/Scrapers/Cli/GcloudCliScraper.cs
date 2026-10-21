@@ -1268,7 +1268,7 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             var values = match.Groups[1].Value
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => v.Trim().TrimEnd('.'))
+                .Select(v => LeadingEnumConjunctionPattern().Replace(v.Trim(), string.Empty).TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 25 && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
                 .Distinct()
                 .ToArray();
@@ -1285,7 +1285,7 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             var values = match.Groups[1].Value
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => v.Trim().TrimEnd('.'))
+                .Select(v => LeadingEnumConjunctionPattern().Replace(v.Trim(), string.Empty).TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 25)
                 .Distinct()
                 .ToArray();
@@ -1435,11 +1435,14 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
 
-    [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
-    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex InlineEnumValuesPattern();
+
+    [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]
+    private static partial Regex LeadingEnumConjunctionPattern();
 
     #endregion
 }
