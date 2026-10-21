@@ -518,7 +518,9 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    public async Task SendAsync_UsesPerRequestThenFallbackThenPipelineLogging()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task SendAsync_UsesPerRequestThenPipelineThenFallbackLogging(bool pipelineLogging)
     {
         var observedOptions = new List<HttpLoggingOptions>();
         var httpLogger = new Mock<IHttpLogger>();
@@ -552,7 +554,7 @@ public class HttpTests : TestBase
             {
                 Http = new PipelineHttpOptions
                 {
-                    Logging = HttpLoggingOptions.Headers,
+                    Logging = pipelineLogging ? HttpLoggingOptions.Headers : null,
                 },
             }));
 
@@ -561,6 +563,7 @@ public class HttpTests : TestBase
         {
             HttpClient = httpClient,
             Logging = HttpLoggingOptions.Minimal,
+            FallbackLogging = HttpLoggingOptions.Diagnostic,
         });
         using var fallbackResponse = await http.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/fallback"))
@@ -577,8 +580,8 @@ public class HttpTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(observedOptions[0]).IsSameReferenceAs(HttpLoggingOptions.Minimal);
-            await Assert.That(observedOptions[1]).IsSameReferenceAs(HttpLoggingOptions.Silent);
-            await Assert.That(observedOptions[2]).IsSameReferenceAs(HttpLoggingOptions.Headers);
+            await Assert.That(observedOptions[1]).IsSameReferenceAs(pipelineLogging ? HttpLoggingOptions.Headers : HttpLoggingOptions.Silent);
+            await Assert.That(observedOptions[2]).IsSameReferenceAs(pipelineLogging ? HttpLoggingOptions.Headers : HttpLoggingOptions.Default);
         }
     }
 

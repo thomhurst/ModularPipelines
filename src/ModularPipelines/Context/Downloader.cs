@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
@@ -12,12 +13,14 @@ internal class Downloader(
     IModuleLoggerAccessor moduleLoggerAccessor,
     IHttpContext http,
     IFileSystemProvider fileSystemProvider,
-    PipelineWorkingDirectory workingDirectory) : IDownloaderContext
+    PipelineWorkingDirectory workingDirectory,
+    IOptions<PipelineOptions> pipelineOptions) : IDownloaderContext
 {
     private readonly IModuleLoggerAccessor _moduleLoggerAccessor = moduleLoggerAccessor;
     private readonly IHttpContext _http = http;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
 
     public async Task<string> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
@@ -64,9 +67,10 @@ internal class Downloader(
             }
 
             var logger = _moduleLoggerAccessor.Logger;
-            if (logger.IsEnabled(LogLevel.Information))
+            var loggingOptions = GetEffectiveLoggingOptions(options);
+            if (loggingOptions.ShowRequest && logger.IsEnabled(LogLevel.Information))
             {
-                logger.LogInformation("Downloaded {Uri} to {SaveLocation}", HttpUriRedactor.Redact(options.DownloadUri, options.Logging), filePathToSave);
+                logger.LogInformation("Downloaded {Uri} to {SaveLocation}", HttpUriRedactor.Redact(options.DownloadUri, loggingOptions), filePathToSave);
             }
 
             return new FilePath(filePathToSave, _fileSystemProvider);
@@ -88,13 +92,20 @@ internal class Downloader(
 
         try
         {
-            return await response.EnsureSuccessStatusCodeWithContentAsync(options.Logging, cancellationToken).ConfigureAwait(false);
+            return await response.EnsureSuccessStatusCodeWithContentAsync(GetEffectiveLoggingOptions(options), cancellationToken).ConfigureAwait(false);
         }
         catch
         {
             response.Dispose();
             throw;
         }
+    }
+
+    private HttpLoggingOptions GetEffectiveLoggingOptions(DownloadOptions options)
+    {
+        return options.Logging
+               ?? _pipelineOptions.Value.Http.Logging
+               ?? HttpLoggingOptions.Minimal;
     }
 
     /// <summary>
