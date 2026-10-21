@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
@@ -75,7 +76,7 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -111,6 +112,15 @@ public static class Host
             return;
         }
 
+        var interrupted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var interruptRegistration = !OperatingSystem.IsWindows() && role is "interruptible-child" or "interruptible-grandchild"
+            ? PosixSignalRegistration.Create(PosixSignal.SIGINT, context =>
+            {
+                context.Cancel = true;
+                interrupted.TrySetResult();
+            })
+            : null;
+
         Publish(directory, name + ".ready", "ready");
         switch (role)
         {
@@ -136,6 +146,26 @@ public static class Host
                 break;
             case "graceful-exit":
                 await WaitForTrigger(directory, "parent-exit");
+                break;
+            case "interruptible-parent":
+                using (var child = StartChild("interruptible-child", directory, runtimeConfiguration))
+                {
+                    await child.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-child":
+                using (var grandchild = StartChild("interruptible-grandchild", directory, runtimeConfiguration))
+                {
+                    await interrupted.Task;
+                    Publish(directory, name + "-interrupted.ready", "cleanup");
+                    await grandchild.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-grandchild":
+                await interrupted.Task;
+                Publish(directory, name + "-interrupted.ready", "cleanup");
                 break;
             case "parent":
             case "parent-exit":

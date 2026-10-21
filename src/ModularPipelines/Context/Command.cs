@@ -1423,6 +1423,7 @@ internal sealed class Command(
                         descendant = Process.GetProcessById(processId);
                         var capturedDescendant = descendant;
                         var killDescendant = false;
+                        var interruptDescendant = false;
 
                         lock (_lock)
                         {
@@ -1433,6 +1434,7 @@ internal sealed class Command(
                             else if (_descendants.TryAdd(processId, descendant))
                             {
                                 killDescendant = _killRequested;
+                                interruptDescendant = !killDescendant;
                             }
                             else
                             {
@@ -1445,6 +1447,12 @@ internal sealed class Command(
                         if (killDescendant)
                         {
                             TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
+                        }
+                        else if (interruptDescendant)
+                        {
+                            // Interrupt each descendant once, including those spawned during grace.
+                            // A shell can defer its own SIGINT while waiting for a foreground child.
+                            ProcessRunner.Interrupt(capturedDescendant);
                         }
                     }
                     catch (ArgumentException)
