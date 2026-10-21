@@ -89,7 +89,7 @@ public record DotNetStoreOptions : DotNetOptions
     /// <summary>
     /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
-    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    [CliOption("--no-logo", ShortForm = "-nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>
