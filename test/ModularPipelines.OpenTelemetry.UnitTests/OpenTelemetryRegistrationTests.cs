@@ -2,11 +2,13 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -80,7 +82,7 @@ public class OpenTelemetryRegistrationTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task AddOtlpExporter_Configures_Trace_And_Metric_Export(bool replaceOptions)
+    public async Task AddOtlpExporter_Configures_Trace_Metric_And_Log_Export(bool replaceOptions)
     {
         using var handler = new RecordingHttpMessageHandler();
         using var client = new HttpClient(handler);
@@ -113,18 +115,99 @@ public class OpenTelemetryRegistrationTests
 
         using var meter = new Meter(PipelineTelemetry.MeterName);
         meter.CreateCounter<long>("export-test").Add(1);
+        var loggerProvider = services.GetRequiredService<LoggerProvider>();
+        services.GetRequiredService<ILoggerFactory>().CreateLogger("external-logger").LogInformation("export-test");
+        var logsFlushed = loggerProvider.ForceFlush();
         var tracesFlushed = traces.ForceFlush();
         var metricsFlushed = metrics.ForceFlush();
         var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
 
         await Assert.That(result).IsSameReferenceAs(telemetryBuilder);
         await Assert.That(options.TimeoutMilliseconds).IsEqualTo(1234);
+        await Assert.That(logsFlushed).IsTrue();
         await Assert.That(tracesFlushed).IsTrue();
         await Assert.That(metricsFlushed).IsTrue();
         await Assert.That(handler.Requests.Any(request =>
             request.Uri.AbsolutePath == "/otlp/v1/traces" && request.Token == "test-value")).IsTrue();
         await Assert.That(handler.Requests.Any(request =>
             request.Uri.AbsolutePath == "/otlp/v1/metrics" && request.Token == "test-value")).IsTrue();
+        await Assert.That(handler.Requests.Any(request =>
+            request.Uri.AbsolutePath == "/otlp/v1/logs" && request.Token == "test-value")).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(true, false, false)]
+    [Arguments(true, true, false)]
+    [Arguments(false, false, true)]
+    [Arguments(false, true, true)]
+    [Arguments(true, false, true)]
+    [Arguments(true, true, true)]
+    public async Task AddOtlpExporter_Repeated_Calls_Register_Once_And_Compose_Options(
+        bool configureFirst, bool configureSecond, bool separateBuilders)
+    {
+        using var handler = new RecordingHttpMessageHandler();
+        using var client = new HttpClient(handler);
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.Configure<OtlpExporterOptions>(options =>
+        {
+            options.Endpoint = new Uri("http://collector.example/otlp/");
+            options.Protocol = OtlpExportProtocol.HttpProtobuf;
+            options.Headers = "x-test-token=test-value";
+            options.TimeoutMilliseconds = 1200;
+            options.HttpClientFactory = () => client;
+        });
+        var configurationOrder = new List<int>();
+        builder.AddOpenTelemetry(telemetry =>
+        {
+            RegisterExporter(telemetry, configureFirst, 1);
+            if (!separateBuilders)
+            {
+                RegisterExporter(telemetry, configureSecond, 2);
+            }
+        });
+        if (separateBuilders)
+        {
+            builder.AddOpenTelemetry(telemetry => RegisterExporter(telemetry, configureSecond, 2));
+        }
+
+        using var services = builder.Services.BuildServiceProvider();
+        var traces = services.GetRequiredService<TracerProvider>();
+        var metrics = services.GetRequiredService<MeterProvider>();
+        using var source = new ActivitySource(PipelineTelemetry.PipelineSourceName);
+        using (source.StartActivity("repeat-export-test"))
+        {
+        }
+
+        using var meter = new Meter(PipelineTelemetry.MeterName);
+        meter.CreateCounter<long>("repeat-export-test").Add(1);
+        await Assert.That(traces.ForceFlush()).IsTrue();
+        await Assert.That(metrics.ForceFlush()).IsTrue();
+        var options = services.GetRequiredService<IOptionsMonitor<OtlpExporterOptions>>().CurrentValue;
+
+        await Assert.That(handler.Requests.Count(request => request.Uri.AbsolutePath == "/otlp/v1/traces")).IsEqualTo(1);
+        await Assert.That(handler.Requests.Count(request => request.Uri.AbsolutePath == "/otlp/v1/metrics")).IsEqualTo(1);
+        await Assert.That(options.TimeoutMilliseconds).IsEqualTo(1200 + (configureFirst ? 1 : 0) + (configureSecond ? 2 : 0));
+        await Assert.That(configurationOrder.SequenceEqual(
+            new[] { configureFirst ? 1 : 0, configureSecond ? 2 : 0 }.Where(value => value != 0))).IsTrue();
+
+        void RegisterExporter(ModularPipelinesOpenTelemetryBuilder telemetry, bool configure, int order)
+        {
+            if (configure)
+            {
+                telemetry.AddOtlpExporter(options =>
+                {
+                    configurationOrder.Add(order);
+                    options.TimeoutMilliseconds += order;
+                    return options;
+                });
+            }
+            else
+            {
+                telemetry.AddOtlpExporter();
+            }
+        }
     }
 
     [Test]

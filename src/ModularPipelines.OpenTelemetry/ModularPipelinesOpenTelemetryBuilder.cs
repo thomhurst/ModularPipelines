@@ -24,20 +24,28 @@ public sealed class ModularPipelinesOpenTelemetryBuilder
     public IOpenTelemetryBuilder Builder => _builder;
 
     /// <summary>
-    /// Adds the unified OTLP exporter for traces and metrics.
+    /// Adds the unified OTLP exporter for traces, metrics, and ILogger logs.
     /// </summary>
     /// <returns>This builder.</returns>
     /// <remarks>
     /// Configure the exporter through the standard OTEL_EXPORTER_OTLP_* environment variables.
+    /// Logs from all enabled ILogger categories are exported without module secret masking.
+    /// Use the standard logging APIs to filter or redact sensitive messages before export.
+    /// Repeated calls register the exporter once per service collection.
     /// </remarks>
     public ModularPipelinesOpenTelemetryBuilder AddOtlpExporter()
     {
-        _builder.UseOtlpExporter();
+        if (!_builder.Services.Any(service => service.ServiceType == typeof(OtlpExporterRegistration)))
+        {
+            _builder.UseOtlpExporter();
+            _builder.Services.AddSingleton(new OtlpExporterRegistration());
+        }
+
         return this;
     }
 
     /// <summary>
-    /// Adds the unified OTLP exporter with common exporter options for all signals.
+    /// Adds the unified OTLP exporter for traces, metrics, and ILogger logs with common options.
     /// </summary>
     /// <param name="configure">Transforms the exporter options. May return the supplied instance or a replacement.</param>
     /// <returns>This builder.</returns>
@@ -45,12 +53,15 @@ public sealed class ModularPipelinesOpenTelemetryBuilder
     /// For HTTP/protobuf, the endpoint is a base URL; signal-specific paths are appended automatically.
     /// Signal-specific OTEL_EXPORTER_OTLP_* environment variables take precedence over these common options.
     /// A replacement without a custom HTTP client factory retains the existing factory.
+    /// Logs from all enabled ILogger categories are exported without module secret masking.
+    /// Use the standard logging APIs to filter or redact sensitive messages before export.
+    /// Repeated calls register the exporter once per service collection and apply options transformations in order.
     /// </remarks>
     public ModularPipelinesOpenTelemetryBuilder AddOtlpExporter(Func<OtlpExporterOptions, OtlpExporterOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
 
-        _builder.UseOtlpExporter();
+        AddOtlpExporter();
         _builder.Services.Configure<OtlpExporterOptions>(options =>
         {
             var configured = configure(options)
@@ -108,5 +119,10 @@ public sealed class ModularPipelinesOpenTelemetryBuilder
 
         _builder.WithMetrics(configure);
         return this;
+    }
+
+    // The marker belongs to the service collection so separate wrapper builders share it.
+    private sealed class OtlpExporterRegistration
+    {
     }
 }
