@@ -147,13 +147,13 @@ public class DownloadTimeoutTests
         var factory = new Mock<IHttpClientFactory>();
         factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
         var logger = Mock.Of<IModuleLoggerAccessor>(x => x.Logger == Mock.Of<IModuleLogger>());
-        var http = new ModularPipelines.Http.Http(factory.Object, logger, Mock.Of<IHttpLogger>(),
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
-            {
-                Http = new PipelineHttpOptions { Timeout = pipelineTimeout },
-            }), time);
+        var options = Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+        {
+            Http = new PipelineHttpOptions { Timeout = pipelineTimeout },
+        });
+        var http = new ModularPipelines.Http.Http(factory.Object, logger, Mock.Of<IHttpLogger>(), options, time);
         return new Downloader(logger, http, SystemFileSystemProvider.Instance,
-            new PipelineWorkingDirectory(Environment.CurrentDirectory));
+            new PipelineWorkingDirectory(Environment.CurrentDirectory), options);
     }
 
     private sealed class CallbackHandler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> send)
