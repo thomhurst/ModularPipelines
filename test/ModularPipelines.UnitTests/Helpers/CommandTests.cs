@@ -1459,6 +1459,9 @@ public class CommandTests : TestBase
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "grace-parent", TimeSpan.FromSeconds(1), gateForcefulCancellation: true);
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        // Default command startup attaches the Windows job before Start returns. Keep the
+        // initial child out of that startup race so this test isolates capture during grace.
+        await fixture.TriggerAsync("start-child");
         await fixture.WaitForReadyProcessAsync("intermediate", TimeSpan.FromSeconds(10));
         fixture.Cancel();
         await fixture.TriggerAsync("spawn");

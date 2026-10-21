@@ -150,6 +150,12 @@ public static class Host
                     "child-failure-parent" => "failing-child",
                     _ => "child",
                 };
+                if (role == "grace-parent")
+                {
+                    // The grace-period regression starts descendants only after command containment is installed.
+                    await WaitForTrigger(directory, "start-child");
+                }
+
                 using (var child = StartChild(childRole, directory, runtimeConfiguration))
                 {
                     if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
