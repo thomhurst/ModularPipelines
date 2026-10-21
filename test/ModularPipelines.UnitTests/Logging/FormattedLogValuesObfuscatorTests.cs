@@ -188,19 +188,18 @@ public class FormattedLogValuesObfuscatorTests
     }
 
     [Test]
-    public async Task TryObfuscateValues_PreservesStateWhenToStringThrows()
+    public async Task TryObfuscateValues_ReplacesStateWhenToStringThrows()
     {
         var state = new ThrowingToStringState();
         var secretObfuscator = new Mock<ISecretObfuscator>();
         secretObfuscator.SetupGet(x => x.HasSecrets).Returns(true);
+        secretObfuscator.Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value ?? string.Empty);
 
         var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
             .TryObfuscateValues(state);
 
-        await Assert.That(obfuscatedState).IsSameReferenceAs(state);
-        secretObfuscator.Verify(
-            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
-            Times.Never);
+        await Assert.That(obfuscatedState).IsEqualTo("[Unavailable log value]");
     }
 
     [Test]
