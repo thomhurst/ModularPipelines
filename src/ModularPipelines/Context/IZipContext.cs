@@ -45,6 +45,10 @@ public interface IZipContext
     /// <param name="overwriteFiles">If <c>true</c>, existing files will be overwritten; otherwise, an exception is thrown for conflicts.</param>
     /// <returns>A <see cref="FolderPath"/> representing the extraction destination folder.</returns>
     /// <remarks>
+    /// With the default filesystem provider, each file is published only after extraction succeeds.
+    /// Files extracted before a failure remain in the destination.
+    /// On Windows, overwriting with the default provider requires reading the destination's access permissions
+    /// and replacing the file. If the permissions cannot be read, extraction fails before copying entry contents.
     /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
     /// The caller must prevent concurrent changes to the destination tree during extraction;
     /// path validation and filesystem writes are not atomic.
@@ -60,7 +64,7 @@ public interface IZipContext
     /// <returns>The created ZIP file.</returns>
     /// <exception cref="IOException">The source folder or an entry in its tree is a symbolic link or junction. The archive is not created.</exception>
     /// <remarks>
-    /// Cancellation or failure can leave a partial archive at the destination.
+    /// The archive is published only after compression succeeds.
     /// File metadata and directory enumeration are synchronous. The .NET runtime may also
     /// perform synchronous I/O during entry creation and finalization. Cleanup still runs after cancellation.
     /// </remarks>
@@ -77,7 +81,10 @@ public interface IZipContext
     /// <param name="cancellationToken">A token used to cancel extraction and stream copying.</param>
     /// <returns>The extraction destination folder.</returns>
     /// <remarks>
-    /// Cancellation or failure can leave files already extracted, including a partial current file.
+    /// With the default filesystem provider, each file is published only after extraction succeeds.
+    /// Files extracted before cancellation or failure remain in the destination.
+    /// On Windows, overwriting with the default provider requires reading the destination's access permissions
+    /// and replacing the file. If the permissions cannot be read, extraction fails before copying entry contents.
     /// File metadata and ZIP central-directory enumeration are synchronous; entry contents are copied asynchronously.
     /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
     /// The caller must prevent concurrent changes to the destination tree during extraction;

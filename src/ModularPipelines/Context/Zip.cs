@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Security.AccessControl;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
@@ -7,13 +8,15 @@ namespace ModularPipelines.Context;
 
 internal partial class Zip(
     IFileSystemProvider fileSystemProvider,
-    PipelineWorkingDirectory workingDirectory) : IZipContext
+    PipelineWorkingDirectory workingDirectory,
+    Action<string, string, string?>? replaceFile = null) : IZipContext
 {
     private const int UnixFileTypeRegular = 0x8000;
     private const int UnixPermissionMask = 0x1FF;
     private const int UnixHostPlatform = 3;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
+    private readonly Action<string, string, string?> _replaceFile = replaceFile ?? System.IO.File.Replace;
 
     public FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel)
     {
@@ -164,7 +167,7 @@ internal partial class Zip(
     }
 
     private string GetExtractionPath(string destinationPath) =>
-        _fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows()
+        _fileSystemProvider is SystemFileSystemProvider
             ? Path.Combine(Path.GetDirectoryName(destinationPath)!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp")
             : destinationPath;
 
@@ -178,8 +181,17 @@ internal partial class Zip(
 
         try
         {
-            if (_fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
+            if (_fileSystemProvider is SystemFileSystemProvider)
             {
+                if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
+                {
+                    var security = new FileInfo(destinationPath).GetAccessControl(AccessControlSections.Access);
+                    // Protect partially extracted contents with the destination's permissions from creation.
+                    security.SetAccessRuleProtection(isProtected: true, preserveInheritance: true);
+                    return new FileInfo(extractionPath).Create(
+                        FileMode.CreateNew, FileSystemRights.Write, FileShare.None, 4096, FileOptions.None, security);
+                }
+
                 var options = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
@@ -187,7 +199,7 @@ internal partial class Zip(
                     Share = FileShare.None,
                 };
                 var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if ((entry.VersionMadeBy >> 8) == UnixHostPlatform && unixAttributes != 0)
+                if (!OperatingSystem.IsWindows() && (entry.VersionMadeBy >> 8) == UnixHostPlatform && unixAttributes != 0)
                 {
                     // Only ordinary permissions are trusted; creation lets the OS apply umask.
                     var permissions = unixAttributes & UnixPermissionMask;
@@ -213,14 +225,53 @@ internal partial class Zip(
         {
             try
             {
-                // Replacing the inode preserves the creation mode and umask when overwriting.
-                _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
+                if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
+                {
+                    // ReplaceFile preserves the destination's ACL and inheritance policy.
+                    ReplaceExtraction(extractionPath, destinationPath);
+                }
+                else
+                {
+                    // Publish only the completed file. On Unix this also preserves creation mode and umask.
+                    _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
+                }
             }
             catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
             {
                 throw new DestinationFileExistsException(destinationPath, ex);
             }
         }
+    }
+
+    private void ReplaceExtraction(string extractionPath, string destinationPath)
+    {
+        var backupPath = GetExtractionPath(destinationPath);
+        try
+        {
+            _replaceFile(extractionPath, destinationPath, backupPath);
+        }
+        catch (IOException publicationException)
+        {
+            // ReplaceFile can move the original to the backup before failing to publish the replacement.
+            // Never overwrite a competing writer while restoring it, or delete the remaining backup.
+            if (System.IO.File.Exists(backupPath))
+            {
+                try
+                {
+                    System.IO.File.Move(backupPath, destinationPath);
+                }
+                catch (Exception recoveryException) when (recoveryException is IOException or UnauthorizedAccessException)
+                {
+                    throw new IOException(
+                        $"Failed to publish '{destinationPath}'. The original file is retained at '{backupPath}'.",
+                        new AggregateException(publicationException, recoveryException));
+                }
+            }
+
+            throw;
+        }
+
+        System.IO.File.Delete(backupPath);
     }
 
     private sealed class DestinationFileExistsException(string path, Exception? innerException = null)
