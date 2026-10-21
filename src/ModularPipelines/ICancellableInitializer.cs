@@ -1,6 +1,6 @@
 using Initialization.Microsoft.Extensions.DependencyInjection;
 
-namespace ModularPipelines.DependencyInjection;
+namespace ModularPipelines;
 
 /// <summary>
 /// Initializes a singleton service with cooperative pipeline startup cancellation.

@@ -2,6 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Events;
 using ModularPipelines.Logging;
 using ModularPipelines.Reporting;
+using ModularPipelines.Requirements;
 using ModularPipelines.Secrets;
 
 namespace ModularPipelines.UnitTests.Api;
@@ -14,6 +15,14 @@ public class NamespaceOrganizationTests
         (Type Type, string Namespace)[] expected =
         [
             (typeof(Module<>), "ModularPipelines"),
+            (typeof(IModule), "ModularPipelines"),
+            (typeof(ModuleConfiguration), "ModularPipelines"),
+            (typeof(ICancellableInitializer), "ModularPipelines"),
+            (typeof(IModularPipelinesPlugin), "ModularPipelines"),
+            (typeof(PipelinePlan), "ModularPipelines"),
+            (typeof(PipelinePlanModule), "ModularPipelines"),
+            (typeof(PipelinePlanWave), "ModularPipelines"),
+            (typeof(RequirementDecision), "ModularPipelines.Requirements"),
             (typeof(IModuleContext), "ModularPipelines"),
             (typeof(IPipelineContext), "ModularPipelines"),
             (typeof(ModuleResult<>), "ModularPipelines"),
@@ -58,6 +67,14 @@ public class NamespaceOrganizationTests
         string[] removedTypeNames =
         [
             "ModularPipelines.Modules.Module`1",
+            "ModularPipelines.Modules.IModule",
+            "ModularPipelines.Configuration.ModuleConfiguration",
+            "ModularPipelines.DependencyInjection.ICancellableInitializer",
+            "ModularPipelines.Plugins.IModularPipelinesPlugin",
+            "ModularPipelines.Models.PipelinePlan",
+            "ModularPipelines.Models.PipelinePlanModule",
+            "ModularPipelines.Models.PipelinePlanWave",
+            "ModularPipelines.Models.RequirementDecision",
             "ModularPipelines.Context.IModuleContext",
             "ModularPipelines.Models.ModuleResult`1",
             "ModularPipelines.Enums.ModuleStatus",

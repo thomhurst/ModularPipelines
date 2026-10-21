@@ -8,30 +8,30 @@ public class ModuleEventMetadataGeneratorTests
             public sealed class PipelineBuilder;
         }
 
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public interface IModule;
         }
 
         namespace ModularPipelines
         {
-            public abstract class Module<T> : Modules.IModule;
+            public abstract class Module<T> : IModule;
 
             public static class PipelineBuilderExtensions
             {
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                     this ModularPipelines.PipelineBuilder builder)
-                    where TModule : class, ModularPipelines.Modules.IModule => builder;
+                    where TModule : class, ModularPipelines.IModule => builder;
 
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                     this ModularPipelines.PipelineBuilder builder,
                     TModule module)
-                    where TModule : class, ModularPipelines.Modules.IModule => builder;
+                    where TModule : class, ModularPipelines.IModule => builder;
 
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                     this ModularPipelines.PipelineBuilder builder,
                     System.Func<System.IServiceProvider, TModule> factory)
-                    where TModule : class, ModularPipelines.Modules.IModule => builder;
+                    where TModule : class, ModularPipelines.IModule => builder;
             }
         }
 
@@ -44,7 +44,7 @@ public class ModuleEventMetadataGeneratorTests
             public abstract class DependsOnAttribute : System.Attribute;
 
             public sealed class DependsOnAttribute<TModule> : DependsOnAttribute
-                where TModule : ModularPipelines.Modules.IModule;
+                where TModule : ModularPipelines.IModule;
         }
         """;
 

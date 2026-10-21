@@ -12,7 +12,7 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 {
-    internal const string ModuleInterfaceFullName = "ModularPipelines.Modules.IModule";
+    internal const string ModuleInterfaceFullName = "ModularPipelines.IModule";
     internal const string ModuleNamespace = "ModularPipelines";
     internal const string GenericModuleMetadataName = "Module`1";
     internal const string DependsOnAttributeFullName = "ModularPipelines.DependsOnAttribute";

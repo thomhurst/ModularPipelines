@@ -2217,7 +2217,7 @@ internal static class ModuleAuthoringAnalysis
         ImmutableArray<ITypeSymbol> typeArguments)
     {
         if (typeArguments.FirstOrDefault()?.ToDisplayString()
-            == "ModularPipelines.Modules.IModule")
+            == "ModularPipelines.IModule")
         {
             return true;
         }
@@ -2229,7 +2229,7 @@ internal static class ModuleAuthoringAnalysis
                 out var serviceTypes)
             && serviceTypes.All(serviceType =>
                 serviceType.ToDisplayString()
-                == "ModularPipelines.Modules.IModule"));
+                == "ModularPipelines.IModule"));
     }
 
     private static bool TryTrackDirectImplementationType(

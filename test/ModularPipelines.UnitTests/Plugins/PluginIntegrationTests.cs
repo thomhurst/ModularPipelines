@@ -5,7 +5,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
-using ModularPipelines.Plugins;
 
 namespace ModularPipelines.UnitTests.Plugins;
 

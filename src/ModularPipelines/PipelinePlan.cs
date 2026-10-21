@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using ModularPipelines.Modules;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Describes the work a pipeline would perform without executing any modules.

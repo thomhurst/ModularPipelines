@@ -53,7 +53,7 @@ internal interface IProgressSession : IAsyncDisposable
     /// <param name="parentModule">The parent module.</param>
     /// <param name="subModule">The sub-module.</param>
     /// <param name="estimatedDuration">Estimated duration for progress animation.</param>
-    void OnSubModuleCreated(Modules.IModule parentModule, Modules.SubModuleBase subModule, TimeSpan estimatedDuration);
+    void OnSubModuleCreated(IModule parentModule, Modules.SubModuleBase subModule, TimeSpan estimatedDuration);
 
     /// <summary>
     /// Called when a sub-module completes.

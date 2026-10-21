@@ -1,9 +1,28 @@
-using ModularPipelines.Models;
+using ModularPipelines.Requirements;
 
 namespace ModularPipelines.UnitTests.Models;
 
 public class RequirementDecisionTests
 {
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Json_RoundTrip_Preserves_Decision_And_Property_Names(bool passed)
+    {
+        var decision = passed ? RequirementDecision.Passed : RequirementDecision.Failed("missing tool");
+        var json = System.Text.Json.JsonSerializer.Serialize(decision);
+        var restored = System.Text.Json.JsonSerializer.Deserialize<RequirementDecision>(json)!;
+        using var document = System.Text.Json.JsonDocument.Parse(json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("IsSatisfied").GetBoolean()).IsEqualTo(passed);
+            await Assert.That(document.RootElement.GetProperty("Reason").GetString()).IsEqualTo(decision.Reason);
+            await Assert.That(restored.IsSatisfied).IsEqualTo(passed);
+            await Assert.That(restored.Reason).IsEqualTo(decision.Reason);
+        }
+    }
+
     [Test]
     public async Task True_Implicit_Cast()
     {

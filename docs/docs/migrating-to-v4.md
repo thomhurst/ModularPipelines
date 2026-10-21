@@ -101,7 +101,12 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Context.IModuleContext`, `IPipelineContext` | `ModularPipelines` |
 | `ModularPipelines.Models.ModuleResult<T>`, `ModuleResult`, `CommandResult`, `None`, `SkipDecision` | `ModularPipelines` |
 | `ModularPipelines.Models.PipelineSummary`, `IModuleResult` | `ModularPipelines` |
-| `ModularPipelines.Configuration.ModuleConfigurationBuilder` | `ModularPipelines.ModuleConfigurationBuilder` |
+| `ModularPipelines.Configuration.ModuleConfigurationBuilder`, `ModuleConfiguration` | `ModularPipelines` |
+| `ModularPipelines.Modules.IModule` | `ModularPipelines.IModule` |
+| `ModularPipelines.Models.PipelinePlan`, `PipelinePlanModule`, `PipelinePlanWave` | `ModularPipelines` |
+| `ModularPipelines.DependencyInjection.ICancellableInitializer` | `ModularPipelines.ICancellableInitializer` |
+| `ModularPipelines.Plugins.IModularPipelinesPlugin` | `ModularPipelines.IModularPipelinesPlugin` |
+| `ModularPipelines.Models.RequirementDecision` | `ModularPipelines.Requirements.RequirementDecision` |
 | `ModularPipelines.Attributes.DependsOn*` | `ModularPipelines` |
 | Run-condition types in `Attributes` / `Conditions` | `ModularPipelines` |
 | `ModularPipelines.Enums.ModulePriority` | `ModularPipelines.ModulePriority` |
@@ -127,7 +132,7 @@ types; public builder APIs are available through `ModularPipelines`.
 Do not replace whole namespaces blindly. Some types did not move:
 
 - CLI attributes such as `CliOptionAttribute` stay in `ModularPipelines.Attributes`.
-- `RequirementDecision` stays in `ModularPipelines.Models`.
+- CLI value types such as `KeyValue` and `CliOptionValue` still use `ModularPipelines.Models` while their generated integrations migrate.
 - Generated `context.Tools.<Tool>` properties need `using ModularPipelines.Context;`.
 
 The V4 package adds a `buildTransitive` global `using ModularPipelines;` to C# consumers. If your
@@ -249,7 +254,7 @@ var summary = await pipeline.RunAsync(cancellationToken);
 ```
 
 For cooperative service initialization, implement
-`ModularPipelines.DependencyInjection.ICancellableInitializer.InitializeAsync(CancellationToken)`
+`ModularPipelines.ICancellableInitializer.InitializeAsync(CancellationToken)`
 and register the service as a singleton. This interface extends
 `Initialization.Microsoft.Extensions.DependencyInjection.IInitializer` and preserves initializer
 ordering and parallel batches. Its inherited parameterless method forwards with the default token.
