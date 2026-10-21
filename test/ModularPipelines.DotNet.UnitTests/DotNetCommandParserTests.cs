@@ -61,7 +61,7 @@ public class DotNetCommandParserTests : TestBase
     [Test]
     public async Task Test_Renders_VSTest_Options()
     {
-        var result = await GetResult(new DotNetTestOptions
+        var result = await GetResult(new DotNetTestVstestOptions
         {
             Settings = "test.runsettings",
             Filter = "Category=Unit",
@@ -77,7 +77,7 @@ public class DotNetCommandParserTests : TestBase
     [Test]
     public async Task Test_Repeats_Logger_Collector_And_Adapter_Switches()
     {
-        var result = await GetResult(new DotNetTestOptions
+        var result = await GetResult(new DotNetTestVstestOptions
         {
             TestAdapterPath = ["adapters/first", "adapters/second"],
             Logger = ["trx", "console;verbosity=normal"],
@@ -105,6 +105,21 @@ public class DotNetCommandParserTests : TestBase
     }
 
     [Test]
+    public async Task Test_Renders_Testing_Platform_Options_And_Passthrough_Switches()
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            Project = "Tests.csproj",
+            NoBuild = true,
+            PlatformOptions = ["--report-trx"],
+            ExtensionOptions = ["--coverage"],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet test --project Tests.csproj --no-build --report-trx --coverage");
+    }
+
+    [Test]
     public async Task Test_Preserves_Explicit_MTP_Arguments()
     {
         var result = await GetResult(new DotNetTestOptions
@@ -125,7 +140,7 @@ public class DotNetCommandParserTests : TestBase
     [Arguments("Tests.exe")]
     public async Task Test_Renders_Positional_Target_Before_Options(string target)
     {
-        var result = await GetResult(new DotNetTestOptions
+        var result = await GetResult(new DotNetTestVstestOptions
         {
             ProjectSolution = target,
             Filter = "Category=Unit",

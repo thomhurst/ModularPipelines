@@ -182,7 +182,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         }
 
         // Apply command-specific positional argument fixes
-        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs, description);
+        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs, description, usage.Synopsis);
 
         // Extract enums from options
         var enums = options
@@ -491,7 +491,8 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     private static List<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
         List<CliPositionalArgument> args,
-        string? description)
+        string? description,
+        string? usageSynopsis)
     {
         var commandKey = string.Join(" ", commandParts);
 
@@ -553,6 +554,13 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                     },
                     .. args.Select(argument => argument with { PositionIndex = argument.PositionIndex + 1 }),
                 ];
+            }
+
+            // Older help declared terminators before both groups. Current Microsoft.Testing.Platform
+            // help passes them directly, and a repeated terminator reaches the test application.
+            if (usageSynopsis?.Contains("--]", StringComparison.Ordinal) != true)
+            {
+                return args;
             }
 
             return [.. args.Select(argument => argument.PropertyName switch

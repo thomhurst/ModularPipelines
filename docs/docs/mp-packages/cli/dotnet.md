@@ -130,6 +130,7 @@ Global options are rendered before the selected subcommand.
 | `dotnet solution remove` | `DotNetSolutionRemoveOptions` |
 | `dotnet store` | `DotNetStoreOptions` |
 | `dotnet test` | `DotNetTestOptions` |
+| `dotnet test` | `DotNetTestVstestOptions` |
 | `dotnet tool` | `DotNetToolOptions` |
 | `dotnet tool install` | `DotNetToolInstallOptions` |
 | `dotnet tool list` | `DotNetToolListOptions` |

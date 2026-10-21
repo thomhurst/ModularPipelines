@@ -93,6 +93,12 @@ public record CliCommandDefinition
     public string? CommandGroupIdentifierOverride { get; init; }
 
     /// <summary>
+    /// Identifies an alternative option set for the same command path, such as a runner
+    /// selected by configuration rather than by arguments. Generated method names append it.
+    /// </summary>
+    public string? VariantIdentifier { get; init; }
+
+    /// <summary>
     /// Optional generated identifiers for nested command parts, keyed by their zero-based
     /// position in <see cref="CommandParts"/>.
     /// </summary>

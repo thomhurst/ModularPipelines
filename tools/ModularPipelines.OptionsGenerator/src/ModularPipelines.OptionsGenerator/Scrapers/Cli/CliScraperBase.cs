@@ -594,6 +594,50 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         await commandChannel.Writer.WriteAsync(command, cancellationToken);
+
+        foreach (var variant in GetCommandVariants(path))
+        {
+            var variantCommand = await ParseCommandVariantAsync(path, variant, command, cancellationToken);
+            await commandChannel.Writer.WriteAsync(variantCommand, cancellationToken);
+        }
+    }
+
+    private async Task<CliCommandDefinition> ParseCommandVariantAsync(
+        string[] path,
+        string variant,
+        CliCommandDefinition primary,
+        CancellationToken cancellationToken)
+    {
+        var command = string.Join(' ', path);
+        var result = await ExecuteVariantHelpCommandAsync(path, variant, cancellationToken).ConfigureAwait(false);
+        var helpText = !string.IsNullOrEmpty(result.StandardOutput) ? result.StandardOutput : result.StandardError;
+
+        // A missing variant would silently delete its generated API while command coverage,
+        // which tracks command paths, still passes. Fail the scrape instead.
+        if (!ShouldAcceptHelpResult(path, result) || string.IsNullOrWhiteSpace(helpText))
+        {
+            throw new InvalidOperationException($"No {variant} variant help was produced for {command}.");
+        }
+
+        var usage = ParseUsageSynopsis(path, helpText);
+        var parsed = await TryParseCommandAsync(path, helpText, usage, cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException($"The {variant} variant of {command} could not be parsed.");
+
+        var sharedEnums = parsed.Enums.Select(e => e.EnumName)
+            .Intersect(primary.Enums.Select(e => e.EnumName), StringComparer.Ordinal)
+            .ToList();
+        if (sharedEnums.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"The {variant} variant of {command} reuses enum names {string.Join(", ", sharedEnums)}. "
+                + "Disambiguate them in the scraper.");
+        }
+
+        return parsed with
+        {
+            ClassName = GenerateClassName([.. path, variant]),
+            VariantIdentifier = variant,
+        };
     }
 
     private bool ShouldSkipCommand(
@@ -932,6 +976,22 @@ public abstract partial class CliScraperBase : ICliScraper
     /// </summary>
     protected virtual Task<CliCommandResult> ExecuteHelpCommandAsync(string[] commandPath, CancellationToken cancellationToken) =>
         ExecuteAndRecordHelpCommandAsync(commandPath, ExecutablePath, GetHelpArguments(commandPath), cancellationToken);
+
+    /// <summary>
+    /// Gets identifiers for alternative option sets that a command exposes under configuration
+    /// its arguments cannot select, such as a test runner chosen by a settings file. Each variant
+    /// is generated as its own options class and method, suffixed with the identifier.
+    /// </summary>
+    protected virtual IReadOnlyList<string> GetCommandVariants(string[] commandPath) => [];
+
+    /// <summary>
+    /// Executes help for a variant returned by <see cref="GetCommandVariants"/>.
+    /// </summary>
+    protected virtual Task<CliCommandResult> ExecuteVariantHelpCommandAsync(
+        string[] commandPath,
+        string variant,
+        CancellationToken cancellationToken) =>
+        throw new NotSupportedException($"{GetType().Name} declares variant {variant} without variant help.");
 
     private protected void LogRejectedHelp(CliCommandResult result, string command, bool failedCommand = false)
     {

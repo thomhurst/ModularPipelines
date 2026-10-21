@@ -12,25 +12,68 @@ public partial class DotNetCliScraper
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
+    /// <summary>
+    /// The <c>global.json</c> test runner whose <c>dotnet test</c> help generates the primary options.
+    /// </summary>
+    internal const string TestPlatformRunner = "Microsoft.Testing.Platform";
+
+    /// <summary>
+    /// The variant generated from the SDK's default runner, VSTest.
+    /// </summary>
+    internal const string VstestVariant = "Vstest";
+
+    private static bool IsTestCommand(string[] commandPath) => commandPath is [_, "test"];
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<string> GetCommandVariants(string[] commandPath) =>
+        IsTestCommand(commandPath) ? [VstestVariant] : [];
+
     protected override async Task<CliCommandResult> ExecuteHelpCommandAsync(string[] commandPath, CancellationToken cancellationToken)
     {
-        if (commandPath.Length != 2 || commandPath[1] != "test")
+        if (!IsTestCommand(commandPath))
         {
             return await base.ExecuteHelpCommandAsync(commandPath, cancellationToken).ConfigureAwait(false);
         }
 
-        // Repository global.json can select Microsoft.Testing.Platform and hide VSTest
-        // switches. Keep the selected SDK, but query its default runner in isolation.
+        return await ExecuteIsolatedTestHelpAsync(commandPath, TestPlatformRunner, CliHelpKind.Help, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    protected override async Task<CliCommandResult> ExecuteVariantHelpCommandAsync(
+        string[] commandPath,
+        string variant,
+        CancellationToken cancellationToken)
+    {
+        if (!IsTestCommand(commandPath) || variant != VstestVariant)
+        {
+            return await base.ExecuteVariantHelpCommandAsync(commandPath, variant, cancellationToken).ConfigureAwait(false);
+        }
+
+        return await ExecuteIsolatedTestHelpAsync(commandPath, testRunner: null, CliHelpKind.Variant, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// The nearest global.json selects the dotnet test runner, and each runner prints different
+    /// switches. Keep the selected SDK, but query help with an explicit runner in isolation.
+    /// </summary>
+    private async Task<CliCommandResult> ExecuteIsolatedTestHelpAsync(
+        string[] commandPath,
+        string? testRunner,
+        CliHelpKind helpKind,
+        CancellationToken cancellationToken)
+    {
         var version = await GetVersionAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Cannot isolate dotnet test help without the selected SDK version.");
         var directory = Directory.CreateTempSubdirectory("dotnet-test-help-");
         try
         {
             // Resolve sdk.paths against the original invocation directory before running help in isolation.
-            var settings = await CreateIsolatedSdkSettingsAsync(Environment.CurrentDirectory, version, cancellationToken).ConfigureAwait(false);
+            var settings = await CreateIsolatedSdkSettingsAsync(Environment.CurrentDirectory, version, testRunner, cancellationToken).ConfigureAwait(false);
             await File.WriteAllTextAsync(Path.Combine(directory.FullName, "global.json"), settings, cancellationToken).ConfigureAwait(false);
             return await ExecuteAndRecordHelpCommandAsync(commandPath, ExecutablePath, GetHelpArguments(commandPath),
-                cancellationToken, directory.FullName).ConfigureAwait(false);
+                cancellationToken, directory.FullName, helpKind: helpKind).ConfigureAwait(false);
         }
         finally
         {
@@ -45,7 +88,11 @@ public partial class DotNetCliScraper
         }
     }
 
-    internal static async Task<string> CreateIsolatedSdkSettingsAsync(string workingDirectory, string version, CancellationToken cancellationToken)
+    internal static async Task<string> CreateIsolatedSdkSettingsAsync(
+        string workingDirectory,
+        string version,
+        string? testRunner,
+        CancellationToken cancellationToken)
     {
         string[]? paths = null;
         for (var directory = new DirectoryInfo(workingDirectory); directory is not null; directory = directory.Parent)
@@ -77,6 +124,7 @@ public partial class DotNetCliScraper
         return JsonSerializer.Serialize(new
         {
             sdk = new { version, rollForward = "disable", allowPrerelease = true, paths },
+            test = testRunner is null ? null : new { runner = testRunner },
         }, IsolatedSdkJsonOptions);
     }
 }
