@@ -12,7 +12,7 @@ Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
 dotnet add package ModularPipelines.Node
 ```
 
-Required command-line tools: `node`, `npm`, `npx`, `nvm`, and `pnpm`. Install the tools used by your pipeline and make them available on `PATH`.
+Required command-line tools: `node`, `npm`, `npx`, `nvm`, and `pnpm`. Install the tools used by your pipeline and make executables available on `PATH`. On Linux/macOS, nvm-sh is a shell function; the wrapper loads it as described below.
 
 ## Context entry points
 
@@ -47,7 +47,7 @@ The package exposes generated options records for its supported CLI commands.
 npm and npx are generated from the installed npm CLI help, like pnpm. Import options
 from `ModularPipelines.Node.Options` and service interfaces from
 `ModularPipelines.Node.Services`. The handwritten npm/npx types in
-`ModularPipelines.Node.Models` are removed. Node and nvm retain their existing APIs;
+`ModularPipelines.Node.Models` are removed. Node retains its existing API;
 `context.Tools.Node.Npm` and `.Npx` also resolve the generated services.
 
 Generated methods accept command options, optional `CommandExecutionOptions`, and a
@@ -94,3 +94,28 @@ in its constructor; additional terms use `Terms`.
 
 See the generated [npm reference](cli/npm.md), [npx reference](cli/npx.md), and
 [pnpm reference](cli/pnpm.md) for the current command surface.
+
+## nvm behavior
+
+On Linux/macOS, each nvm call starts Bash and sources `nvm.sh` from `NVM_DIR`.
+When `NVM_DIR` is unset or empty, it uses `$XDG_CONFIG_HOME/nvm` if
+`XDG_CONFIG_HOME` is set, otherwise `$HOME/.nvm`. Bash must be on `PATH`.
+Arguments are passed separately to Bash, so spaces and shell metacharacters are
+preserved. Loading nvm does not automatically select a default Node version.
+
+On Windows, the wrapper runs the nvm-windows executable directly. `InstallAsync`
+and `UseAsync` invoke its supported `install` and `use` commands. Selecting a
+version changes the shared nvm-windows symlink, can require elevation, and can
+affect other processes; avoid concurrent version selection.
+
+`VersionAsync` now consistently reports **nvm's version** (`nvm --version` on
+Unix, `nvm version` on Windows). Use `CurrentAsync` to report the active Node
+version (`nvm current`). The unsupported cross-platform `WhichAsync` member is
+removed; `CurrentAsync` returns a version, not an executable path.
+
+`UseAsync` on Unix changes only its child shell. It cannot update the pipeline's
+`PATH`, and a later `Node.VersionAsync`, npm, or npx call will not inherit the
+selection. `InstallAsync` persists installed files, but its shell environment
+changes are also temporary. To run commands using a selected Unix version, source
+nvm, select the version, and run those commands in a single `context.Shell.Bash`
+script, or configure their executable paths/environment explicitly.
