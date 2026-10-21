@@ -1,6 +1,8 @@
+using System.Net;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
@@ -133,6 +135,124 @@ public class InstallersContextTests : TestBase
             File.Delete(path);
             directory.Delete();
         }
+    }
+
+    [Test]
+    [Arguments(".msi")]
+    [Arguments(".MSI")]
+    [Arguments(".ps1")]
+    [Arguments(".PS1")]
+    [Arguments(".exe")]
+    [Arguments(".cmd")]
+    public async Task InstallSelectsLauncherAndPreservesArguments(string extension)
+    {
+        var directory = Directory.CreateTempSubdirectory("installer test's ");
+        var path = Path.Combine(directory.FullName, "installer" + extension);
+        await File.WriteAllTextAsync(path, string.Empty);
+        using var cancellation = new CancellationTokenSource();
+        var arguments = new[] { "/quiet", "argument with spaces", "it's ready", "a&b;$value" };
+        var isMsi = OperatingSystem.IsWindows() && extension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
+        var isPowerShell = extension.Equals(".ps1", StringComparison.OrdinalIgnoreCase);
+        var expectedTool = isMsi ? "msiexec" : isPowerShell ? "pwsh" : path;
+        var expectedArguments = isMsi ? new[] { "/i", path }.Concat(arguments)
+            : isPowerShell ? new[] { "-NoLogo", "-NoProfile", "-NonInteractive", "-File", path }.Concat(arguments)
+            : arguments;
+        var result = CommandResult.Ok();
+        var command = new Mock<ICommandContext>(MockBehavior.Strict);
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.Is<CommandLineToolOptions>(options => options.Tool == expectedTool
+                    && options.Arguments != null && options.Arguments.SequenceEqual(expectedArguments)),
+                It.Is<CommandExecutionOptions?>(options => isMsi
+                    ? options != null && options.SuccessExitCodes.SequenceEqual(new[] { 0, 1641, 3010 })
+                    : options == null), cancellation.Token))
+            .ReturnsAsync(result);
+        var installer = new InstallersContext(
+            command.Object, Mock.Of<IDownloaderContext>(), new PipelineWorkingDirectory(directory.FullName));
+
+        try
+        {
+            var actual = await installer.InstallAsync(new InstallerOptions("./installer" + extension)
+            {
+                Arguments = arguments,
+            }, cancellation.Token);
+
+            await Assert.That(actual).IsSameReferenceAs(result);
+            command.VerifyAll();
+        }
+        finally
+        {
+            File.Delete(path);
+            directory.Delete();
+        }
+    }
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public async Task PowerShellInstallerRunsScriptWithLiteralArguments()
+    {
+        var directory = Directory.CreateTempSubdirectory("installer test's ");
+        var path = Path.Combine(directory.FullName, "setup.ps1");
+        try
+        {
+            await File.WriteAllTextAsync(path, "[Console]::WriteLine(($args -join '|'))");
+            var installer = await GetService<IInstallersContext>();
+            var result = await installer.InstallAsync(new InstallerOptions(path)
+            {
+                Arguments = ["argument with spaces", "it's ready", "a&b;$value"],
+            });
+
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.StandardOutput.TrimEnd()).IsEqualTo("argument with spaces|it's ready|a&b;$value");
+        }
+        finally
+        {
+            File.Delete(path);
+            directory.Delete();
+        }
+    }
+
+    [Test]
+    [RequiresTool("pwsh")]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task WebPowerShellInstallerUsesResponseMetadataAndDeletesDownload(bool useContentDisposition)
+    {
+        using var finalRequest = new HttpRequestMessage(HttpMethod.Get,
+            useContentDisposition ? "https://example.test/download" : "https://example.test/setup.ps1");
+        var content = new StringContent("[Console]::WriteLine($PSCommandPath); [Console]::WriteLine(($args -join '|'))");
+        if (useContentDisposition)
+        {
+            content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+            {
+                FileNameStar = "setup.ps1",
+            };
+        }
+
+        var http = new Mock<IHttpContext>();
+        http.Setup(context => context.SendAsync(It.IsAny<HttpOptions>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = content,
+                RequestMessage = finalRequest,
+            });
+        var logger = new Mock<IModuleLoggerAccessor>();
+        logger.SetupGet(accessor => accessor.Logger).Returns(Mock.Of<IModuleLogger>());
+        var workingDirectory = new PipelineWorkingDirectory(Environment.CurrentDirectory);
+        var downloader = new Downloader(logger.Object, http.Object, SystemFileSystemProvider.Instance, workingDirectory,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        var installer = new InstallersContext(await GetService<ICommandContext>(), downloader, workingDirectory);
+
+        var result = await installer.InstallFromWebAsync(new WebInstallerOptions(new Uri("https://example.test/install"))
+        {
+            Arguments = ["argument with spaces", "it's ready", "a&b;$value"],
+        });
+
+        var output = result.StandardOutput.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        await Assert.That(result.ExitCode).IsEqualTo(0);
+        await Assert.That(output.Length).IsEqualTo(2);
+        await Assert.That(Path.GetExtension(output[0])).IsEqualTo(".ps1");
+        await Assert.That(File.Exists(output[0])).IsFalse();
+        await Assert.That(output[1]).IsEqualTo("argument with spaces|it's ready|a&b;$value");
     }
 
     [Test]
