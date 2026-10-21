@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ModularPipelines.SourceGenerator;
 
@@ -52,6 +53,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        var isTrimOrAotEnabled = context.AnalyzerConfigOptionsProvider.Select(
+            static (optionsProvider, _) => IsTrimOrAotEnabled(optionsProvider));
+
         var modules = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsCandidate(node),
@@ -91,12 +95,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 compilation.GetTypeByMetadataName(ModuleInterfaceFullName) is not null));
 
         context.RegisterSourceOutput(
-            compilationMetadata.Combine(allModules),
+            compilationMetadata.Combine(allModules).Combine(isTrimOrAotEnabled),
             static (sourceContext, input) =>
-                EmitModuleMetadata(sourceContext, input.Left, input.Right));
+                EmitModuleMetadata(sourceContext, input.Left.Left, input.Left.Right, input.Right));
 
         context.RegisterSourceOutput(
-            genericModuleRegistrations,
+            genericModuleRegistrations
+                .Combine(isTrimOrAotEnabled)
+                .Where(static input => input.Right)
+                .Select(static (input, _) => input.Left),
             static (sourceContext, registration) =>
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     GenericModuleRegistrationRuntimeMetadata,
@@ -104,7 +111,10 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     registration.TypeParameterName)));
 
         context.RegisterSourceOutput(
-            nonConcreteModuleRegistrations,
+            nonConcreteModuleRegistrations
+                .Combine(isTrimOrAotEnabled)
+                .Where(static input => input.Right)
+                .Select(static (input, _) => input.Left),
             static (sourceContext, registration) =>
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     NonConcreteModuleRegistrationRuntimeMetadata,
@@ -115,13 +125,32 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static void EmitModuleMetadata(
         SourceProductionContext sourceContext,
         CompilationMetadata compilation,
-        ImmutableArray<ModuleMetadataInfo> modules)
+        ImmutableArray<ModuleMetadataInfo> modules,
+        bool reportRuntimeMetadataDiagnostics)
     {
         if (!compilation.HasModuleInterface)
         {
             return;
         }
 
+        if (reportRuntimeMetadataDiagnostics)
+        {
+            ReportRuntimeMetadataDiagnostics(sourceContext, modules);
+        }
+
+        var source = Generate(compilation.AssemblyName, modules);
+        if (source is not null)
+        {
+            sourceContext.AddSource(
+                "ModularPipelines.ModuleMetadata.g.cs",
+                source);
+        }
+    }
+
+    private static void ReportRuntimeMetadataDiagnostics(
+        SourceProductionContext sourceContext,
+        ImmutableArray<ModuleMetadataInfo> modules)
+    {
         foreach (var skipped in modules
                      .Where(static module => !module.CanEmit)
                      .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
@@ -156,15 +185,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 selector.SelectorDependencyLocation,
                 selector.TypeName));
         }
-
-        var source = Generate(compilation.AssemblyName, modules);
-        if (source is not null)
-        {
-            sourceContext.AddSource(
-                "ModularPipelines.ModuleMetadata.g.cs",
-                source);
-        }
     }
+
+    private static bool IsTrimOrAotEnabled(AnalyzerConfigOptionsProvider optionsProvider) =>
+        IsEnabled(optionsProvider, "build_property.PublishTrimmed")
+        || IsEnabled(optionsProvider, "build_property.PublishAot");
+
+    private static bool IsEnabled(AnalyzerConfigOptionsProvider optionsProvider, string key) =>
+        optionsProvider.GlobalOptions.TryGetValue(key, out var value)
+        && string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
 
     internal static bool IsModuleRegistrationCandidate(SyntaxNode node)
     {

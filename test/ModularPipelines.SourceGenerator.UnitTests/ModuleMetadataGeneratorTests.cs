@@ -205,7 +205,10 @@ public class ModuleMetadataGeneratorTests
                 [ModularPipelines.DependsOn<DependencyModule>]
                 public sealed partial class BuildModule : ModularPipelines.Module<string>;
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         var generated = result.GeneratedTrees.Single().GetText().ToString();
 
@@ -247,7 +250,10 @@ public class ModuleMetadataGeneratorTests
                     private sealed class HiddenModule : ModularPipelines.Module<string>;
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         var generated = result.GeneratedTrees.Single().GetText().ToString();
 
@@ -323,7 +329,10 @@ public class ModuleMetadataGeneratorTests
                     public sealed class BuildModule : ModularPipelines.Module<string>;
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         var generated = result.GeneratedTrees.Single().GetText().ToString();
 
@@ -450,7 +459,10 @@ public class ModuleMetadataGeneratorTests
                     }
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         var generated = result.GeneratedTrees.Single().GetText().ToString();
 
@@ -570,7 +582,10 @@ public class ModuleMetadataGeneratorTests
                     }
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         using (Assert.Multiple())
         {
@@ -623,7 +638,10 @@ public class ModuleMetadataGeneratorTests
                     }
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         using (Assert.Multiple())
         {
@@ -658,7 +676,10 @@ public class ModuleMetadataGeneratorTests
                 public sealed class BuildModule
                     : ModularPipelines.Module<string>, IHasSelectorDependency;
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         await Assert.That(result.Diagnostics)
             .Contains(diagnostic => diagnostic.Id == "MPG0016"
@@ -707,7 +728,10 @@ public class ModuleMetadataGeneratorTests
                 [ModularPipelines.Attributes.CustomSelector]
                 public sealed class CustomModule : ModularPipelines.Module<string>;
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+        {
+            ["build_property.PublishAot"] = "true",
+        });
 
         var diagnostics = result.Diagnostics
             .Where(diagnostic => diagnostic.Id == "MPG0016")
@@ -764,7 +788,10 @@ public class ModuleMetadataGeneratorTests
                     }
                 }
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
 
         using (Assert.Multiple())
         {
@@ -794,7 +821,10 @@ public class ModuleMetadataGeneratorTests
                 [ModularPipelines.DependsOn<ExternalModules.GenericModule<string>>]
                 public sealed class BuildModule : ModularPipelines.Module<bool>;
             }
-            """);
+            """, globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
 
         await Assert.That(result.Diagnostics)
             .Contains(diagnostic => diagnostic.Id == "MPG0012"
@@ -855,6 +885,100 @@ public class ModuleMetadataGeneratorTests
             """);
 
         await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
+    }
+
+    [Test]
+    [Arguments(null, null, false)]
+    [Arguments("false", "false", false)]
+    [Arguments("invalid", "invalid", false)]
+    [Arguments("true", null, true)]
+    [Arguments(null, "true", true)]
+    [Arguments("TrUe", "false", true)]
+    [Arguments("false", "TrUe", true)]
+    [Arguments("true", "true", true)]
+    public async Task Runtime_Metadata_Diagnostics_Require_Trimmed_Or_Aot_Build(
+        string? publishTrimmed,
+        string? publishAot,
+        bool expectDiagnostics)
+    {
+        const string externalSource = """
+            namespace ExternalModules
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
+            }
+            """;
+        const string source = """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+
+                public static class PipelineBuilderExtensions
+                {
+                    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder)
+                        where TModule : class, IModule => builder;
+                }
+
+                public abstract class DependsOnBaseAttribute : System.Attribute;
+                public sealed class DependsOnAllModulesInheritingFromAttribute<TModule>
+                    : DependsOnBaseAttribute;
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines;
+
+                public sealed class BuildModule : Module<string>;
+                public sealed partial class PartialModule : Module<string>;
+
+                [DependsOnAllModulesInheritingFrom<BuildModule>]
+                public sealed class SelectorModule : Module<string>;
+
+                public static class Registration
+                {
+                    private sealed class HiddenModule : Module<string>;
+
+                    public static void Configure<TModule>(PipelineBuilder builder)
+                        where TModule : class, IModule
+                    {
+                        builder.AddModule<ExternalModules.GenericModule<string>>();
+                        builder.AddModule<TModule>();
+                        builder.AddModule<IModule>();
+                    }
+                }
+            }
+            """;
+        var globalOptions = new Dictionary<string, string>();
+        if (publishTrimmed is not null)
+        {
+            globalOptions["build_property.PublishTrimmed"] = publishTrimmed;
+        }
+
+        if (publishAot is not null)
+        {
+            globalOptions["build_property.PublishAot"] = publishAot;
+        }
+
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(), TestInfrastructure, externalSource, source, globalOptions);
+        var nonTrimmedResult = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(), TestInfrastructure, externalSource, source);
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Select(static diagnostic => diagnostic.Id))
+                .IsEquivalentTo(expectDiagnostics
+                    ? ["MPG0011", "MPG0012", "MPG0013", "MPG0014", "MPG0015", "MPG0016"]
+                    : Array.Empty<string>());
+            await Assert.That(generated)
+                .IsEqualTo(nonTrimmedResult.GeneratedTrees.Single().GetText().ToString());
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.BuildModule, string>")
+                .And.Contains("CreateRegistration<global::Consumer.PartialModule, string>")
+                .And.Contains("CreateRegistration<global::Consumer.SelectorModule, string>")
+                .And.Contains("isComplete: false")
+                .And.Contains("dependenciesComplete: false");
+        }
     }
 
     private static int CountOccurrences(string source, string value)
