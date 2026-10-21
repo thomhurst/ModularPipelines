@@ -330,23 +330,23 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
             // Determine type based on value hint
             // Some nuget options don't have value hints but still take values (e.g., -n|--name)
-            var declaresBooleanDefault = description.Contains(
-                                             "[default: False]",
-                                             StringComparison.OrdinalIgnoreCase)
-                                         || description.Contains(
-                                             "[default: True]",
-                                             StringComparison.OrdinalIgnoreCase);
+            var hasTrueDefault = description.Contains("[default: True]", StringComparison.OrdinalIgnoreCase);
+            var declaresBooleanDefault = hasTrueDefault || description.Contains(
+                "[default: False]", StringComparison.OrdinalIgnoreCase);
             var hasNumericDefault = NumericDefaultPattern().IsMatch(description);
             var hasKnownCollectionShape = IsKnownRepeatableOption(commandParts, primaryFlag);
-            var isFlag = !hasKnownCollectionShape && !hasOptionalValue && !hasNumericDefault && string.IsNullOrEmpty(valueHint)
+            // A presence-only switch cannot disable a true default. Keep its explicit bool
+            // value shape through type enhancement, while preserving optional-value options.
+            var isBooleanValue = hasTrueDefault && !hasKnownCollectionShape && !hasOptionalValue;
+            var isFlag = !isBooleanValue && !hasKnownCollectionShape && !hasOptionalValue && !hasNumericDefault && string.IsNullOrEmpty(valueHint)
                          && (declaresBooleanDefault
                              || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
-            var acceptsMultiple = !isFlag && (hasKnownCollectionShape ||
+            var acceptsMultiple = !isBooleanValue && !isFlag && (hasKnownCollectionShape ||
                                   description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
                                   description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase));
 
-            var csharpType = DetermineType(valueHint, description, isFlag, acceptsMultiple);
+            var csharpType = isBooleanValue ? "bool?" : DetermineType(valueHint, description, isFlag, acceptsMultiple);
 
             options.Add(new CliOptionDefinition
             {
@@ -364,7 +364,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 ValueArity = hasOptionalValue
                     ? CliOptionValueArity.Optional
                     : CliOptionValueArity.Required,
-                HasVerifiedValueShape = hasKnownCollectionShape || hasOptionalValue || hasNumericDefault,
+                HasVerifiedValueShape = isBooleanValue || hasKnownCollectionShape || hasOptionalValue || hasNumericDefault,
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
