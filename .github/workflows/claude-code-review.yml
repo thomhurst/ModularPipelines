@@ -111,7 +111,7 @@ jobs:
 
       - name: Run Claude Code Review
         id: claude-review
-        uses: anthropics/claude-code-action@a5a423f75c251dcbff8a74e99f83b2cb03c72bfa # v1
+        uses: anthropics/claude-code-action@aa8a7738e48bf30a40ee499ce818bef081c5ab5e # v1
         env:
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           GH_REPO: ${{ github.repository }}
