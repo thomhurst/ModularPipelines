@@ -144,7 +144,7 @@ public record DotNetTestOptions : DotNetOptions
     /// <summary>
     /// Run test(s), without displaying Microsoft Testplatform banner [default: True]
     /// </summary>
-    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    [CliOption("--no-logo", ShortForm = "-nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>

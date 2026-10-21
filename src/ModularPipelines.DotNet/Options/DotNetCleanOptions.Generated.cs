@@ -66,7 +66,7 @@ public record DotNetCleanOptions : DotNetOptions
     /// <summary>
     /// Do not display the startup banner or the copyright message. [default: True]
     /// </summary>
-    [CliFlag("--nologo")]
+    [CliOption("--nologo")]
     public bool? NoLogo { get; set; }
 
     /// <summary>

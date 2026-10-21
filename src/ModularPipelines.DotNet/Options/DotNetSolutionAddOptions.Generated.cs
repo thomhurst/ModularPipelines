@@ -35,7 +35,7 @@ public record DotNetSolutionAddOptions : DotNetOptions
     /// <summary>
     /// Recursively add projects' ReferencedProjects to solution [default: True]
     /// </summary>
-    [CliFlag("--include-references")]
+    [CliOption("--include-references")]
     public bool? IncludeReferences { get; set; }
 
     /// <summary>
