@@ -262,7 +262,7 @@ public record DockerImageBuildOptions : DockerOptions
     /// Ulimit options (default [])
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
-    public string? Ulimit { get; set; }
+    public IEnumerable<string>? Ulimit { get; set; }
 
     /// <summary>
     /// The PATH operand.

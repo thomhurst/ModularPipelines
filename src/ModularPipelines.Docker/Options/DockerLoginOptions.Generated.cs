@@ -14,7 +14,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Authenticate to a registry.
+/// Authenticate to a registry. Defaults to Docker Hub if no server is specified.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

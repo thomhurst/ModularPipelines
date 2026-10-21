@@ -60,7 +60,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
     /// </summary>
     [CliOption("--blkio-weight", Format = OptionFormat.EqualsSeparated)]
-    public string? BlkioWeight { get; set; }
+    public uint? BlkioWeight { get; set; }
 
     /// <summary>
     /// Block IO weight (relative device weight) (default [])
@@ -132,7 +132,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
-    public double? Cpus { get; set; }
+    public string? Cpus { get; set; }
 
     /// <summary>
     /// CPUs in which to allow execution (0-3, 0,1)
@@ -240,7 +240,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// GPU devices to add to the container ('all' to pass all GPUs)
     /// </summary>
     [CliOption("--gpus", Format = OptionFormat.EqualsSeparated)]
-    public string? Gpus { get; set; }
+    public IEnumerable<string>? Gpus { get; set; }
 
     /// <summary>
     /// Add additional groups to join
@@ -402,7 +402,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// Attach a filesystem mount to the container
     /// </summary>
     [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
-    public string? Mount { get; set; }
+    public IEnumerable<string>? Mount { get; set; }
 
     /// <summary>
     /// Assign a name to the container
@@ -414,7 +414,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// Connect a container to a network
     /// </summary>
     [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
-    public string? Network { get; set; }
+    public IEnumerable<string>? Network { get; set; }
 
     /// <summary>
     /// Add network-scoped alias for the container
@@ -564,7 +564,7 @@ public record DockerContainerCreateOptions : DockerOptions
     /// Ulimit options (default [])
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
-    public string? Ulimit { get; set; }
+    public IEnumerable<string>? Ulimit { get; set; }
 
     /// <summary>
     /// Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])
