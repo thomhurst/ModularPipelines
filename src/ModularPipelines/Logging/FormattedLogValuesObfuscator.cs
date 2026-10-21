@@ -113,6 +113,11 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
             return preObfuscatedValue.Value;
         }
 
+        if (value is IEnumerable<char> characters && value is not string)
+        {
+            return ObfuscateCharacters(characters, depth, ref remainingValues);
+        }
+
         if (value is IEnumerable enumerable && value is not string)
         {
             return ObfuscateEnumerable(enumerable, depth, ref remainingValues);
@@ -139,6 +144,40 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
         return isScalar && obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
             ? value
             : obfuscatedValue;
+    }
+
+    private object ObfuscateCharacters(IEnumerable<char> characters, int depth, ref int remainingValues)
+    {
+        var snapshot = new List<char>();
+        try
+        {
+            foreach (var character in characters)
+            {
+                if (depth + 1 >= 16 || remainingValues <= 0)
+                {
+                    // Discard partial sequences: a secret may cross the truncation boundary.
+                    return new object[] { _secretObfuscator.Obfuscate("[Truncated log value]", null) };
+                }
+
+                remainingValues--;
+                snapshot.Add(character);
+            }
+        }
+        catch (Exception)
+        {
+            return _secretObfuscator.Obfuscate("[Unavailable log value]", null);
+        }
+
+        // Mask the complete sequence so multi-character secrets cannot survive as separate chars.
+        var masked = _secretObfuscator.Obfuscate(string.Concat(snapshot), null);
+        var extraValues = Math.Max(0, masked.Length - snapshot.Count);
+        if (extraValues > remainingValues)
+        {
+            return new object[] { _secretObfuscator.Obfuscate("[Truncated log value]", null) };
+        }
+
+        remainingValues -= extraValues;
+        return masked.ToCharArray();
     }
 
     private object ObfuscateEnumerable(IEnumerable enumerable, int depth, ref int remainingValues)
