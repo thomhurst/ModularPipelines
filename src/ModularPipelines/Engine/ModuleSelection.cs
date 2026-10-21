@@ -76,8 +76,14 @@ internal sealed class ModuleSelection
         foreach (var name in names)
         {
             var matches = models
-                .Where(model => Matches(model.Module.GetType(), name))
+                .Where(model => name.Equals(model.Module.GetType().AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase))
                 .ToArray();
+            // Keep assembly-qualified names usable even when an identifier has the same value.
+            if (matches.Length == 0)
+            {
+                matches = [.. models.Where(model => Matches(model.Module.GetType(), name))];
+            }
+
             if (matches.Length == 0)
             {
                 if (name.Contains(','))
@@ -110,6 +116,5 @@ internal sealed class ModuleSelection
     private static bool Matches(Type moduleType, string name) =>
         name.Equals(moduleType.Name, StringComparison.OrdinalIgnoreCase)
         || name.Equals(moduleType.FullName, StringComparison.OrdinalIgnoreCase)
-        || name.Equals(moduleType.AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase)
         || name.Equals(ModuleId.FromType(moduleType).Value, StringComparison.OrdinalIgnoreCase);
 }

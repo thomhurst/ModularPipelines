@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Reflection.Emit;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -193,6 +195,47 @@ public class ModuleIdSelectionTests
 
         await Assert.That(modules[typeof(UnrelatedModule)].ShouldSkip).IsEqualTo(option == "--skip-module");
         await Assert.That(modules[typeof(FullNameCollidingIdModule)].ShouldSkip).IsEqualTo(option == "--module");
+    }
+
+    [Test]
+    [Arguments("--module", false, false)]
+    [Arguments("--module", false, true)]
+    [Arguments("--skip-module", false, false)]
+    [Arguments("--skip-module", false, true)]
+    [Arguments("--module", true, false)]
+    [Arguments("--skip-module", true, false)]
+    public async Task AssemblyQualifiedNameTakesPrecedenceOverModuleId(string option, bool programmatic, bool upperCase)
+    {
+        var name = typeof(UnrelatedModule).AssemblyQualifiedName!;
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"ModuleSelectionCollision_{Guid.NewGuid():N}"), AssemblyBuilderAccess.RunAndCollect);
+        var type = assembly.DefineDynamicModule("Modules")
+            .DefineType("AssemblyNameCollidingIdModule", TypeAttributes.Public, typeof(CollisionModuleBase));
+        type.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(ModuleIdAttribute).GetConstructor([typeof(string)])!, [name]));
+        var collidingType = type.CreateType()!;
+        var selector = upperCase ? name.ToUpperInvariant() : name;
+        var builder = CreateBuilder(programmatic ? [] : [option, selector]);
+        builder.AddModules(collidingType);
+        if (programmatic)
+        {
+            builder.ConfigureOptions(options => option == "--module"
+                ? options with { RunOnlyModules = [selector] }
+                : options with { IgnoreModules = [selector] });
+        }
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToDictionary(module => module.Module.GetType());
+
+        await Assert.That(modules[typeof(UnrelatedModule)].ShouldSkip).IsEqualTo(option == "--skip-module");
+        await Assert.That(modules[collidingType].ShouldSkip).IsEqualTo(option == "--module");
+    }
+
+    public class CollisionModuleBase : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("assembly name collision");
     }
 
     private static PipelineBuilder CreateBuilder(string[] args)

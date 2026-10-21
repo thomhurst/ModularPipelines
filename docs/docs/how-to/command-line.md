@@ -43,7 +43,8 @@ the module marked with `[ModuleId("build")]`. If a name or identifier matches
 multiple registered modules, use a unique full type name. If that full type name
 also matches another module's identifier, use the intended module's assembly-qualified
 type name (available from `typeof(MyModule).AssemblyQualifiedName`) as one quoted
-argument.
+argument. An assembly-qualified type name takes precedence over any module identifier
+with the same value.
 
 Pass an identifier containing commas as one quoted argument, for example
 `--module "Namespace.BuildModule, App"` for a default stable identifier or
