@@ -31,7 +31,7 @@ public record DotNetRestoreOptions : DotNetOptions
     /// The NuGet package source to use for the restore.
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
+    public IEnumerable<string>? Source { get; set; }
 
     /// <summary>
     /// The directory to restore packages to.
@@ -133,7 +133,7 @@ public record DotNetRestoreOptions : DotNetOptions
     /// The target runtime to restore packages for.
     /// </summary>
     [CliOption("--runtime", ShortForm = "-r")]
-    public string? Runtime { get; set; }
+    public IEnumerable<string>? Runtime { get; set; }
 
     /// <summary>
     /// The target architecture.

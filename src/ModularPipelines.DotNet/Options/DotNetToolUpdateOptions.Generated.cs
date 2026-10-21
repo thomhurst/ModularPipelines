@@ -60,13 +60,13 @@ public record DotNetToolUpdateOptions : DotNetOptions
     /// Add an additional NuGet package source to use during installation.
     /// </summary>
     [CliOption("--add-source")]
-    public string? AddSource { get; set; }
+    public IEnumerable<string>? AddSource { get; set; }
 
     /// <summary>
     /// Replace all NuGet package sources to use during installation with these.
     /// </summary>
     [CliOption("--source")]
-    public string? Source { get; set; }
+    public IEnumerable<string>? Source { get; set; }
 
     /// <summary>
     /// The target framework to install the tool for.
