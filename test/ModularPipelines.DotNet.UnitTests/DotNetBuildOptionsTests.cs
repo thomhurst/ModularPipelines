@@ -6,23 +6,15 @@ namespace ModularPipelines.DotNet.UnitTests;
 public class DotNetBuildOptionsTests
 {
     [Test]
-    public async Task NoLogo_Renders_Switch()
-    {
-        var options = new DotNetBuildOptions { NoLogo = true };
-
-        var arguments = BuildArguments(options);
-
-        await AssertArguments(arguments, ["--nologo"]);
-    }
-
-    [Test]
+    [Arguments("build")]
     [Arguments("clean")]
     [Arguments("pack")]
     [Arguments("publish")]
-    public async Task Sibling_NoLogo_Properties_Render_Switch(string command)
+    public async Task NoLogo_Properties_Render_Normalized_Switch(string command)
     {
         object options = command switch
         {
+            "build" => new DotNetBuildOptions { NoLogo = true },
             "clean" => new DotNetCleanOptions { NoLogo = true },
             "pack" => new DotNetPackOptions { NoLogo = true },
             "publish" => new DotNetPublishOptions { NoLogo = true },
@@ -31,6 +23,9 @@ public class DotNetBuildOptionsTests
 
         var arguments = BuildArguments(options);
 
-        await AssertArguments(arguments, ["--nologo"]);
+        // Both SDK help shapes are valid: a presence flag or an explicit boolean value.
+        // The generator tests enforce true/false/null rendering for true-default help.
+        await Assert.That(arguments.SequenceEqual(["--nologo"])
+                          || arguments.SequenceEqual(["--nologo", "true"])).IsTrue();
     }
 }
