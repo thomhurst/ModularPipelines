@@ -135,15 +135,19 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
         }
 
         var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
-        var type = value.GetType();
-        var isScalar = type.IsPrimitive || type.IsEnum
-                       || value is string or decimal or DateTime or DateTimeOffset
-                           or DateOnly or TimeOnly or TimeSpan or Guid;
 
         // A harmless ToString() does not prove an object's properties are safe to export.
-        return isScalar && obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
+        return IsScalar(value) && obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
             ? value
             : obfuscatedValue;
+    }
+
+    private static bool IsScalar(object value)
+    {
+        var type = value.GetType();
+        return type.IsPrimitive || type.IsEnum
+               || value is string or decimal or DateTime or DateTimeOffset
+                   or DateOnly or TimeOnly or TimeSpan or Guid;
     }
 
     private object ObfuscateCharacters(IEnumerable<char> characters, int depth, ref int remainingValues)
@@ -168,6 +172,11 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
             return _secretObfuscator.Obfuscate("[Unavailable log value]", null);
         }
 
+        return MaskCharacters(snapshot, ref remainingValues);
+    }
+
+    private object MaskCharacters(List<char> snapshot, ref int remainingValues)
+    {
         // Mask the complete sequence so multi-character secrets cannot survive as separate chars.
         var masked = _secretObfuscator.Obfuscate(string.Concat(snapshot), null);
         var extraValues = Math.Max(0, masked.Length - snapshot.Count);
@@ -183,14 +192,26 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
     private object ObfuscateEnumerable(IEnumerable enumerable, int depth, ref int remainingValues)
     {
         var values = new List<object?>();
+        var characters = new List<char>();
         try
         {
             foreach (var element in enumerable)
             {
-                if (remainingValues <= 0)
+                if (depth + 1 >= 16 || remainingValues <= 0)
                 {
+                    if (characters.Count == values.Count)
+                    {
+                        // An all-character prefix may be part of a longer secret.
+                        return new object[] { _secretObfuscator.Obfuscate("[Truncated log value]", null) };
+                    }
+
                     values.Add(_secretObfuscator.Obfuscate("[Truncated log value]", null));
                     break;
+                }
+
+                if (element is char character)
+                {
+                    characters.Add(character);
                 }
 
                 if (element is null)
@@ -207,6 +228,12 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
         catch (Exception)
         {
             return _secretObfuscator.Obfuscate("[Unavailable log value]", null);
+        }
+
+        // Non-generic collections can contain the same character sequences as char[].
+        if (characters.Count > 0 && characters.Count == values.Count)
+        {
+            return MaskCharacters(characters, ref remainingValues);
         }
 
         // Always snapshot: even a currently harmless collection could be mutated before export.

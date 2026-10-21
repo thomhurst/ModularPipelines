@@ -43,6 +43,9 @@ public class StructuredLogSecretTests
     [Arguments(0)]
     [Arguments(1)]
     [Arguments(2)]
+    [Arguments(3)]
+    [Arguments(4)]
+    [Arguments(5)]
     public async Task BufferedEvent_MasksCharacterCollectionsAsOneSequence(int collectionKind)
     {
         var characters = Secret.ToCharArray();
@@ -50,7 +53,10 @@ public class StructuredLogSecretTests
         {
             0 => characters,
             1 => characters.ToList(),
-            _ => characters.Select(character => character),
+            2 => characters.Select(character => character),
+            3 => new ArrayList(characters),
+            4 => characters.Cast<object>().ToArray(),
+            _ => new Queue(characters),
         };
         var obfuscator = CreateObfuscator();
         var logger = new Mock<ILogger>();
@@ -74,10 +80,18 @@ public class StructuredLogSecretTests
     [Test]
     [Arguments("")]
     [Arguments("ordinary")]
-    public async Task CharacterCollection_IsAnIndependentSnapshot(string text)
+    [Arguments("", true)]
+    [Arguments("ordinary", true)]
+    public async Task CharacterCollection_IsAnIndependentSnapshot(string text, bool nonGeneric = false)
     {
         var characters = text.ToCharArray();
-        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(characters);
+        object value = nonGeneric ? new ArrayList(characters) : characters;
+        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(value);
+        if (value is ArrayList list)
+        {
+            list.Clear();
+        }
+
         Array.Fill(characters, 'x');
         await Assert.That(new string(((IEnumerable) sanitized).Cast<char>().ToArray())).IsEqualTo(text);
         if (characters.Length > 0)
@@ -87,9 +101,16 @@ public class StructuredLogSecretTests
     }
 
     [Test]
-    public async Task CharacterCollections_RespectTheSharedBudget()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CharacterCollections_RespectTheSharedBudget(bool nonGeneric)
     {
         object[] values = [new string('x', 1000).ToCharArray(), Secret.ToCharArray(), Secret.ToCharArray()];
+        if (nonGeneric)
+        {
+            values = values.Select(value => (object) new ArrayList((char[]) value)).ToArray();
+        }
+
         var sanitized = (object[]) new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(values);
         await Assert.That(new string((char[]) sanitized[1])).IsEqualTo("**********");
         var truncated = ((IEnumerable) sanitized[2]).Cast<object>().Single();
@@ -99,26 +120,65 @@ public class StructuredLogSecretTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task OversizedCharacterCollections_DiscardPartialSequences(bool infinite)
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task OversizedCharacterCollections_DiscardPartialSequences(bool infinite, bool nonGeneric = false)
     {
         IEnumerable<char> characters = infinite ? InfiniteCharacters() : new string('x', 1024).ToCharArray();
-        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(characters);
+        object value = nonGeneric ? characters.Cast<object>() : characters;
+        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(value);
         await Assert.That(((IEnumerable) sanitized).Cast<object>().Single()).IsEqualTo("[Truncated log value]");
     }
 
     [Test]
-    public async Task CharacterMaskExpansion_RespectsTheBudget()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CharacterMaskExpansion_RespectsTheBudget(bool nonGeneric)
     {
         var obfuscator = CreateObfuscator(maskingOptions: new SecretMaskingOptions { MaskValue = new string('*', 1024) });
-        var sanitized = new FormattedLogValuesObfuscator(obfuscator).TryObfuscateValues(Secret.ToCharArray());
+        object value = nonGeneric ? new ArrayList(Secret.ToCharArray()) : Secret.ToCharArray();
+        var sanitized = new FormattedLogValuesObfuscator(obfuscator).TryObfuscateValues(value);
         await Assert.That(((IEnumerable) sanitized).Cast<object>().Single()).IsEqualTo("[Truncated log value]");
     }
 
     [Test]
-    public async Task ThrowingCharacterCollection_DiscardsPartialSequences()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ThrowingCharacterCollection_DiscardsPartialSequences(bool nonGeneric)
     {
-        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(ThrowingCharacters());
+        object value = nonGeneric ? ThrowingCharacters().Cast<object>() : ThrowingCharacters();
+        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(value);
         await Assert.That(sanitized).IsEqualTo("[Unavailable log value]");
+    }
+
+    [Test]
+    public async Task CollectionsAtDepthLimit_StopEnumerating()
+    {
+        object value = Enumerable.Repeat(Secret, 2048);
+        for (var depth = 0; depth < 15; depth++)
+        {
+            value = new[] { value };
+        }
+
+        var sanitized = new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(value);
+        for (var depth = 0; depth < 15; depth++)
+        {
+            sanitized = ((IEnumerable) sanitized).Cast<object>().Single();
+        }
+
+        await Assert.That(((IEnumerable) sanitized).Cast<object>().Single()).IsEqualTo("[Truncated log value]");
+    }
+
+    [Test]
+    public async Task MixedCollections_KeepSanitizedNonCharacterElements()
+    {
+        var values = new ArrayList { 'a', Secret, null, 42, new[] { Secret } };
+        var sanitized = (object?[]) new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(values);
+        await Assert.That(sanitized[0]).IsEqualTo('a');
+        await Assert.That(sanitized[1]).IsEqualTo("**********");
+        await Assert.That(sanitized[2]).IsNull();
+        await Assert.That(sanitized[3]).IsEqualTo(42);
+        await Assert.That(((object[]) sanitized[4]!)[0]).IsEqualTo("**********");
     }
 
     [Test]
