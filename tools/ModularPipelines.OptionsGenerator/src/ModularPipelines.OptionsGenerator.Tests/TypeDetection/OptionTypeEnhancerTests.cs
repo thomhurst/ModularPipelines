@@ -43,7 +43,9 @@ public class OptionTypeEnhancerTests
     [Arguments("float32", "double?", true)]
     [Arguments("float64", "double?", true)]
     [Arguments("custom", "string?", false)]
-    public async Task EnhanceAsync_Preserves_Cobra_Floating_Point_Hints(
+    [Arguments("number", "string?", false)]
+    [Arguments("NUMBER", "string?", false)]
+    public async Task EnhanceAsync_Preserves_Cobra_Type_Hints(
         string hint, string expectedType, bool isNumeric)
     {
         var executor = new HelpExecutor(false, false, $"  --cpus {hint}   Number of CPUs");

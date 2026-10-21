@@ -113,6 +113,8 @@ public class CliTypeMapperTests
     [Arguments("string")]
     [Arguments("duration")]
     [Arguments("bytes")]
+    [Arguments("number")]
+    [Arguments("NUMBER")]
     public async Task FromCobraTypeHint_Returns_String_For_StringLike_Types(string typeHint)
     {
         var result = CliTypeMapper.FromCobraTypeHint(typeHint);

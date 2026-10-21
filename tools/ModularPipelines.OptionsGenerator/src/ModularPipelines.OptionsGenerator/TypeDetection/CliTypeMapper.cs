@@ -27,7 +27,7 @@ public static class CliTypeMapper
             "bool" or "boolean" => CliOptionType.Bool,
 
             // Integer types
-            "int" or "int8" or "int16" or "int32" or "integer" or "number" or "count" => CliOptionType.Int,
+            "int" or "int8" or "int16" or "int32" or "integer" or "count" => CliOptionType.Int,
             "int64" => CliOptionType.Long,
             "uint8" or "uint16" or "uint32" => CliOptionType.UInt,
             // Go's uint can be 64-bit, so retain its full range on either architecture.
