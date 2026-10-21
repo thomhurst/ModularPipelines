@@ -507,6 +507,24 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateMethodName_Appends_Variant_Identifier()
+    {
+        var command = new CliCommandDefinition
+        {
+            FullCommand = "dotnet test",
+            CommandParts = ["test"],
+            ClassName = "DotNetTestVstestOptions",
+            ParentClassName = "DotNetOptions",
+            ToolNamespacePrefix = "DotNet",
+            Options = [],
+            VariantIdentifier = "Vstest",
+        };
+
+        await Assert.That(GeneratorUtils.GenerateMethodName(command)).IsEqualTo("TestVstest");
+        await Assert.That(GeneratorUtils.GenerateMethodNameFromLastCommandPart(command)).IsEqualTo("TestVstest");
+    }
+
+    [Test]
     public async Task GenerateMethodNameFromCommandParts_Handles_Kebab_Case_Parts()
     {
         var result = GeneratorUtils.GenerateMethodNameFromCommandParts(["build-server"]);

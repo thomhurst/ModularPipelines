@@ -1099,22 +1099,40 @@ See the generated [Gcloud reference](./mp-packages/cli/gcloud.md) for the comple
 
 ### .NET test runner options
 
-`DotNetTestOptions` now follows the selected SDK's default VSTest help, independent
-of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`,
-`Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`,
-`Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed.
-For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass
-runner-specific switches through the existing `Arguments` property:
+`dotnet test` accepts different switches depending on the runner that `global.json`
+selects, so it is generated twice:
+
+| Runner | Options | Method |
+| --- | --- | --- |
+| Microsoft.Testing.Platform (`test.runner` in `global.json`) | `DotNetTestOptions` | `TestAsync` |
+| VSTest (the SDK default) | `DotNetTestVstestOptions` | `TestVstestAsync` |
+
+`DotNetTestOptions` exposes `Project`, `Solution`, `TestModules`, and the other
+Microsoft.Testing.Platform switches. Test-application switches go in
+`PlatformOptions` and `ExtensionOptions`:
 
 ```csharp
-new DotNetTestOptions
+await context.Tools.DotNet.TestAsync(new DotNetTestOptions
 {
-    Arguments = ["--project", "Tests.csproj", "--", "--filter", "Category=Unit", "--", "--report-trx"],
-    ArgumentsContainOptionTerminator = true,
-};
+    Project = "Tests.csproj",
+    ExtensionOptions = ["--report-trx", "--coverage"],
+});
 ```
 
-Generation does not change the runner selected when your command executes.
+VSTest's `Filter`, `Logger`, `Collect`, `Settings`, `Blame`, and `ProjectSolution`
+members moved to `DotNetTestVstestOptions`:
+
+```csharp
+await context.Tools.DotNet.TestVstestAsync(new DotNetTestVstestOptions
+{
+    ProjectSolution = "Tests.sln",
+    Filter = "Category=Unit",
+    Logger = ["trx"],
+});
+```
+
+Choosing a method does not select the runner: keep `global.json` consistent with
+the options you use.
 `DotNetPackOptions.Version` accepts a package-version string; `Verbosity`,
 `SelfContained`, and `UseCurrentRuntime` are available where the CLI supports them.
 

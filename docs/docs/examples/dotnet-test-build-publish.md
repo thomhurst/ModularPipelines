@@ -17,8 +17,9 @@ Set `NUGET_API_KEY` in the pipeline environment, then use this complete pipeline
 
 The test commands below use Microsoft.Testing.Platform and its coverage extension.
 Select that runner in your repository's `global.json` (`test.runner` set to
-`Microsoft.Testing.Platform`). Runner-specific switches are passed through
-`Arguments`; the generated `DotNetTestOptions` properties describe VSTest defaults.
+`Microsoft.Testing.Platform`). `DotNetTestOptions` describes that runner; extension
+switches such as `--coverage` go in `ExtensionOptions`. For VSTest, use
+`DotNetTestVstestOptions` with `TestVstestAsync`.
 
 ```csharp
 using EnumerableAsyncProcessor.Extensions;
@@ -66,12 +67,8 @@ public class RunUnitTestsModule : Module<CommandResult[]>
             .SelectAsync(testProject => context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
-                    Arguments =
-                    [
-                        "--project", testProject.Path,
-                        "--coverage",
-                        "--coverage-output-format", "cobertura",
-                    ],
+                    Project = testProject.Path,
+                    ExtensionOptions = ["--coverage", "--coverage-output-format", "cobertura"],
                 },
                 cancellationToken: cancellationToken))
             .ProcessInParallel();

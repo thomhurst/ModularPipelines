@@ -188,6 +188,7 @@ internal enum CliHelpKind
     Manual,
     Usage,
     Discovery,
+    Variant,
 }
 
 internal sealed record CliHelpInvocation

@@ -319,6 +319,25 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Command_Variants_Generate_Distinct_Service_Methods()
+    {
+        var tool = Tool(
+            Command("ToolTestOptions", "ToolOptions", ["test"]),
+            Command("ToolTestVstestOptions", "ToolOptions", ["test"]) with { VariantIdentifier = "Vstest" });
+
+        var interfaceContent = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+        var implementationContent = (await new ServiceImplementationGenerator().GenerateAsync(tool)).Single().Content;
+        var optionsFiles = await new OptionsClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(interfaceContent).Contains("Task<CommandResult> TestAsync(ToolTestOptions? options = null");
+        await Assert.That(interfaceContent).Contains("Task<CommandResult> TestVstestAsync(ToolTestVstestOptions? options = null");
+        await Assert.That(implementationContent).Contains("TestVstestAsync(");
+        var variantOptions = optionsFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolTestVstestOptions.Generated.cs").Content;
+        await Assert.That(variantOptions).Contains("[CliSubCommand(\"test\")]");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Preserve_Compound_PascalCase()
     {
         var tool = Tool(

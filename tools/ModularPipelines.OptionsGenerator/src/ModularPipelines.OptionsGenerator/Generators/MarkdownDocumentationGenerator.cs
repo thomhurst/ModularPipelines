@@ -269,7 +269,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
     {
         if (command.SubDomainGroup is null)
         {
-            var rootMethod = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+            var rootMethod = GeneratorUtils.GenerateMethodName(command);
             var emittedRootCommand = GeneratorUtils.GetNonCollidingRootCommands(tool)
                 .Any(candidate => string.Equals(
                     candidate.FullCommand,

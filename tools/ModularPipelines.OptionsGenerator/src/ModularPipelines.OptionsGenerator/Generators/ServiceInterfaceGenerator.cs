@@ -90,7 +90,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 
             foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName, StringComparer.Ordinal))
             {
-                var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+                var methodName = GeneratorUtils.GenerateMethodName(command);
                 GeneratorUtils.GenerateServiceMethodSignature(sb, methodName, command);
                 sb.AppendLine();
             }
