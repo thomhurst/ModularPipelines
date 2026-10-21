@@ -22,14 +22,14 @@ namespace ModularPipelines.Google.Services;
 public interface IGcloudSpanner
 {
     /// <summary>
-    /// gcloud spanner backups sub-commands.
-    /// </summary>
-    GcloudSpannerBackups Backups { get; }
-
-    /// <summary>
     /// gcloud spanner backup-schedules sub-commands.
     /// </summary>
     GcloudSpannerBackupSchedules BackupSchedules { get; }
+
+    /// <summary>
+    /// gcloud spanner backups sub-commands.
+    /// </summary>
+    GcloudSpannerBackups Backups { get; }
 
     /// <summary>
     /// gcloud spanner databases sub-commands.

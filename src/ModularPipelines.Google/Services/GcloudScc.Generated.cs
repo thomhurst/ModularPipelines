@@ -31,8 +31,8 @@ public class GcloudScc : IGcloudScc
     private GcloudSccOperations? _operations;
     private GcloudSccPostureDeployments? _postureDeployments;
     private GcloudSccPostureOperations? _postureOperations;
-    private GcloudSccPostures? _postures;
     private GcloudSccPostureTemplates? _postureTemplates;
+    private GcloudSccPostures? _postures;
     private GcloudSccSources? _sources;
 
     /// <summary>
@@ -101,14 +101,14 @@ public class GcloudScc : IGcloudScc
     public GcloudSccPostureOperations PostureOperations => _postureOperations ??= new GcloudSccPostureOperations(_command);
 
     /// <summary>
-    /// gcloud scc postures sub-commands.
-    /// </summary>
-    public GcloudSccPostures Postures => _postures ??= new GcloudSccPostures(_command);
-
-    /// <summary>
     /// gcloud scc posture-templates sub-commands.
     /// </summary>
     public GcloudSccPostureTemplates PostureTemplates => _postureTemplates ??= new GcloudSccPostureTemplates(_command);
+
+    /// <summary>
+    /// gcloud scc postures sub-commands.
+    /// </summary>
+    public GcloudSccPostures Postures => _postures ??= new GcloudSccPostures(_command);
 
     /// <summary>
     /// gcloud scc sources sub-commands.
