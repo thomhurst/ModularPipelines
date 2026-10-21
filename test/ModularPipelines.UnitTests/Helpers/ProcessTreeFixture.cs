@@ -85,6 +85,11 @@ internal sealed class ProcessTreeFixture(Func<ProcessIdentity, Process?>? cleanu
                 }
                 catch (Exception exception)
                 {
+                    if (File.Exists(Path.Combine(DirectoryPath, name)))
+                    {
+                        return;
+                    }
+
                     throw new InvalidOperationException($"Process fixture failed before publishing {name}. {DescribeState()}", exception);
                 }
 

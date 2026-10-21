@@ -8,13 +8,15 @@ namespace ModularPipelines.Context;
 
 internal partial class Zip(
     IFileSystemProvider fileSystemProvider,
-    PipelineWorkingDirectory workingDirectory) : IZipContext
+    PipelineWorkingDirectory workingDirectory,
+    Action<string, string, string?>? replaceFile = null) : IZipContext
 {
     private const int UnixFileTypeRegular = 0x8000;
     private const int UnixPermissionMask = 0x1FF;
     private const int UnixHostPlatform = 3;
     private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
     private readonly PipelineWorkingDirectory _workingDirectory = workingDirectory;
+    private readonly Action<string, string, string?> _replaceFile = replaceFile ?? System.IO.File.Replace;
 
     public FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel)
     {
@@ -226,7 +228,7 @@ internal partial class Zip(
                 if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
                 {
                     // ReplaceFile preserves the destination's ACL and inheritance policy.
-                    System.IO.File.Replace(extractionPath, destinationPath, destinationBackupFileName: null);
+                    ReplaceExtraction(extractionPath, destinationPath);
                 }
                 else
                 {
@@ -239,6 +241,37 @@ internal partial class Zip(
                 throw new DestinationFileExistsException(destinationPath, ex);
             }
         }
+    }
+
+    private void ReplaceExtraction(string extractionPath, string destinationPath)
+    {
+        var backupPath = GetExtractionPath(destinationPath);
+        try
+        {
+            _replaceFile(extractionPath, destinationPath, backupPath);
+        }
+        catch (IOException publicationException)
+        {
+            // ReplaceFile can move the original to the backup before failing to publish the replacement.
+            // Never overwrite a competing writer while restoring it, or delete the remaining backup.
+            if (System.IO.File.Exists(backupPath))
+            {
+                try
+                {
+                    System.IO.File.Move(backupPath, destinationPath);
+                }
+                catch (Exception recoveryException) when (recoveryException is IOException or UnauthorizedAccessException)
+                {
+                    throw new IOException(
+                        $"Failed to publish '{destinationPath}'. The original file is retained at '{backupPath}'.",
+                        new AggregateException(publicationException, recoveryException));
+                }
+            }
+
+            throw;
+        }
+
+        System.IO.File.Delete(backupPath);
     }
 
     private sealed class DestinationFileExistsException(string path, Exception? innerException = null)

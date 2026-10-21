@@ -11,6 +11,79 @@ public class ZipReliabilityTests
 {
     [Test]
     [MatrixDataSource]
+    public async Task FailedWindowsPublicationPreservesOriginalContents(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(0, 1, 2)] int failureState)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            Skip.Test("Windows replacement recovery requires Windows.");
+            return;
+        }
+
+        var root = Directory.CreateTempSubdirectory("zip-replacement-failure-");
+        try
+        {
+            var source = Directory.CreateDirectory(Path.Combine(root.FullName, "source"));
+            await File.WriteAllTextAsync(Path.Combine(source.FullName, "input.txt"), "new contents");
+            string? retainedBackup = null;
+            var failPublication = true;
+            IZipContext zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root.FullName),
+                (replacement, destination, backup) =>
+                {
+                    if (!failPublication)
+                    {
+                        File.Replace(replacement, destination, backup);
+                        return;
+                    }
+
+                    // Model ReplaceFile failures before and after moving the original to its backup.
+                    if (failureState != 0)
+                    {
+                        File.Move(destination, backup!);
+                        retainedBackup = backup;
+                    }
+
+                    if (failureState == 2)
+                    {
+                        File.WriteAllText(destination, "competing contents");
+                    }
+
+                    throw new IOException("Simulated replacement publication failure.");
+                });
+            await Create(zip, source.FullName, asynchronous);
+            var destinationDirectory = Directory.CreateDirectory(Path.Combine(root.FullName, "destination"));
+            var destinationPath = Path.Combine(destinationDirectory.FullName, "input.txt");
+            await File.WriteAllTextAsync(destinationPath, "original contents");
+
+            var exception = await Assert.ThrowsAsync<IOException>(() => Extract(zip, asynchronous, overwriteFiles: true));
+            if (failureState == 2)
+            {
+                await Assert.That(await File.ReadAllTextAsync(destinationPath)).IsEqualTo("competing contents");
+                await Assert.That(await File.ReadAllTextAsync(retainedBackup!)).IsEqualTo("original contents");
+                await Assert.That(exception!.InnerException!.Message).Contains(retainedBackup!);
+                await Assert.That(Directory.GetFiles(destinationDirectory.FullName).Length).IsEqualTo(2);
+                File.Delete(retainedBackup!);
+            }
+            else
+            {
+                await Assert.That(await File.ReadAllTextAsync(destinationPath)).IsEqualTo("original contents");
+                await Assert.That(Directory.GetFiles(destinationDirectory.FullName).Length).IsEqualTo(1);
+            }
+
+            failPublication = false;
+            await Extract(zip, asynchronous, overwriteFiles: true);
+            await Assert.That(await File.ReadAllTextAsync(destinationPath)).IsEqualTo("new contents");
+            await Assert.That(Directory.GetFiles(destinationDirectory.FullName).Length).IsEqualTo(1);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [MatrixDataSource]
     public async Task OverwritingPreservesWindowsAccessControl(
         [Matrix(false, true)] bool asynchronous,
         [Matrix(false, true)] bool protectAccessControl)
