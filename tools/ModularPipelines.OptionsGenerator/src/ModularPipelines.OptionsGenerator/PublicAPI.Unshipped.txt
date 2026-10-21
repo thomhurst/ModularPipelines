@@ -341,3 +341,4 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseVe
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.HadolintCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.BuildahCliScraper.NormalizeOptionTypeHint(string![]! commandParts, string! switchName, string! typeHint, string! description) -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.IsRepeatableOption(string![]! commandParts, string! switchName, string! typeHint, string! description, string! helpText) -> bool

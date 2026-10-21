@@ -49,6 +49,42 @@ public class DockerCliScraperTests
     }
 
     [Test]
+    [Arguments("run", "--mount", "mount", "Mount")]
+    [Arguments("create", "--mount", "mount", "Mount")]
+    [Arguments("container run", "--ulimit", "ulimit", "Ulimit")]
+    [Arguments("container create", "--network", "network", "Network")]
+    [Arguments("run", "--gpus", "gpu-request", "Gpus")]
+    [Arguments("build", "--ulimit", "ulimit", "Ulimit")]
+    [Arguments("buildx build", "--ulimit", "ulimit", "Ulimit")]
+    [Arguments("service create", "--mount", "mount", "Mount")]
+    [Arguments("service update", "--network-add", "network", "NetworkAdd")]
+    public async Task Custom_Collection_Types_Produce_Repeatable_Options(
+        string subcommand, string switchName, string typeHint, string propertyName)
+    {
+        var help = $"Usage: docker {subcommand} [OPTIONS]\n\nOptions:\n  {switchName} {typeHint}   Values to use\n  --name string   Container name\n";
+        var command = await new TestDockerCliScraper().Parse(["docker", .. subcommand.Split(' ')], help);
+        var option = command!.Options.Single(option => option.SwitchName == switchName);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "docker",
+            NamespacePrefix = "Docker",
+            TargetNamespace = "ModularPipelines.Docker",
+            OutputDirectory = "src/ModularPipelines.Docker",
+            Commands = [command],
+        };
+
+        var code = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        await Assert.That(code).Contains($"public IEnumerable<string>? {propertyName}");
+        await Assert.That(code).Contains($"[CliOption(\"{switchName}\", Format = OptionFormat.EqualsSeparated)]");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--name").CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
     public async Task Ordinary_Root_Flags_Are_Not_Promoted_To_Global_Options()
     {
         var options = new TestDockerCliScraper().ParseGlobals("""

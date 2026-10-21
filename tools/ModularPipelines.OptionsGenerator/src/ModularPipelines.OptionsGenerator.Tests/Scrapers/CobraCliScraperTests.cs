@@ -78,6 +78,23 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("Values to use (default [])", true)]
+    [Arguments("Values to use (DEFAULT [])", true)]
+    [Arguments("Value to use (default \"[]\")", false)]
+    [Arguments("Value to use (default default)", false)]
+    public async Task Empty_Collection_Defaults_Declare_Repeatability(string description, bool repeatable)
+    {
+        var help = $"Usage: fake run [flags]\n\nFlags:\n  --value custom   {description}\n  --other string   Another value\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+        var option = command!.Options.Single(option => option.SwitchName == "--value");
+
+        await Assert.That(option.CSharpType).IsEqualTo(repeatable ? "IEnumerable<string>?" : "string?");
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(repeatable);
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--other").AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
     public async Task Floating_Point_Defaults_Remain_Numeric()
     {
         const string help = "Usage: fake run [flags]\n\nOptions:\n  --ratio=1.5: Scaling ratio.\n";
