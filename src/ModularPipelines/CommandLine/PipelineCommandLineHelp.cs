@@ -25,6 +25,7 @@ internal static class PipelineCommandLineHelp
           --                             Forward all remaining arguments to host configuration.
 
         Options accepting values may be repeated or written as --option=value.
+        Module selectors accept module identifiers or type names, matched case-insensitively.
         Unrecognized arguments are forwarded to host configuration.
         """;
 

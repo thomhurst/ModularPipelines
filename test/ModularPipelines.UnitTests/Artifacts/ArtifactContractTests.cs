@@ -1506,7 +1506,7 @@ public class ArtifactContractTests
         var builder = Pipeline.CreateBuilder();
         builder.ConfigureOptions(options => options with
         {
-            SkippedModules = [nameof(MissingArtifactConsumerModule)],
+            IgnoreModules = [nameof(MissingArtifactConsumerModule)],
         });
         builder.AddModule<DeclaredProducerModule>();
         builder.AddModule<MissingArtifactConsumerModule>();
@@ -1614,7 +1614,7 @@ public class ArtifactContractTests
         var builder = Pipeline.CreateBuilder();
         builder.ConfigureOptions(options => options with
         {
-            SkippedModules = [nameof(SkippedArtifactValidationDependencyModule)],
+            IgnoreModules = [nameof(SkippedArtifactValidationDependencyModule)],
         });
         builder.AddResultsRepository<ArtifactValidationHistoryRepository>();
         builder.AddModule<DeclaredProducerModule>();
@@ -2045,7 +2045,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(LocalConsumerModule)],
+                IgnoreModules = [nameof(LocalConsumerModule)],
             });
             builder.AddModule<LocalProducerModule>();
             builder.AddModule<LocalConsumerModule>();
@@ -2456,7 +2456,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactConsumerModule)],
+                IgnoreModules = [nameof(SkippedArtifactConsumerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactConsumerModule>();
@@ -2526,7 +2526,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+                IgnoreModules = [nameof(SkippedArtifactProducerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<ConfiguredSkippedHistoricalArtifactConsumerModule>();
@@ -2636,7 +2636,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+                IgnoreModules = [nameof(SkippedArtifactProducerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactBlockerModule>();
@@ -2684,7 +2684,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+                IgnoreModules = [nameof(SkippedArtifactProducerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<DependencyStateSourceModule>();
@@ -2809,7 +2809,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+                IgnoreModules = [nameof(SkippedArtifactProducerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<ArtifactConsumerStateDependencyModule>();
@@ -2853,7 +2853,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules =
+                IgnoreModules =
                     [
                         nameof(SkippedArtifactProducerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
@@ -2900,7 +2900,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules =
+                IgnoreModules =
                     [
                         nameof(SkippedArtifactProducerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
@@ -3005,7 +3005,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules =
+                IgnoreModules =
                     [
                         nameof(SkippedArtifactBlockerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
@@ -3048,7 +3048,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules =
+                IgnoreModules =
                     [
                         nameof(SkippedArtifactBlockerModule),
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
@@ -3127,7 +3127,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules =
+                IgnoreModules =
                     [
                         nameof(SkippedArtifactProducerModule),
                     nameof(SkippedArtifactConsumerModule),
@@ -3167,7 +3167,7 @@ public class ArtifactContractTests
             var builder = Pipeline.CreateBuilder();
             builder.ConfigureOptions(options => options with
             {
-                SkippedModules = [nameof(SkippedArtifactConsumerModule)],
+                IgnoreModules = [nameof(SkippedArtifactConsumerModule)],
             });
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<SkippedArtifactConsumerModule>();

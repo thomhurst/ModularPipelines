@@ -36,9 +36,11 @@ await builder.RunAsync();
 | `--graph <format> [path]` | Exports the dependency graph as `mermaid`, `dot`, or `json` without executing modules. |
 | `--graph-path <path>` | Sets the graph output path. Requires `--graph` and cannot be combined with its positional path. |
 
-Module names are matched case-insensitively. A simple type name, full type name,
-or assembly-qualified type name can be used. If a simple name matches multiple
-registered modules, use a full type name.
+Module names are matched case-insensitively. A module identifier (including a
+`[ModuleId("build")]` override), simple type name, full type name, or
+assembly-qualified type name can be used. For example, `--module build` selects
+the module marked with `[ModuleId("build")]`. If a name or identifier matches
+multiple registered modules, use a unique full type name.
 
 For example:
 
@@ -126,12 +128,15 @@ arguments:
 ```csharp
 builder.ConfigureOptions(options => options with
 {
-    TargetModules = [nameof(TestModule)],
-    SkippedModules = [nameof(SlowTestModule)],
+    RunOnlyModules = [nameof(TestModule)],
+    IgnoreModules = [nameof(SlowTestModule)],
 });
 ```
 
-`TargetModules` includes each selected module's transitive dependency closure.
+`RunOnlyModules` includes each selected module's transitive dependency closure.
+`IgnoreModules` excludes modules even when they are selected by `RunOnlyModules`.
+Both accept the same module identifiers and type names as the command-line options.
+In v4, these properties replace `TargetModules` and `SkippedModules`, respectively.
 
 Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
 

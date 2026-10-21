@@ -84,8 +84,8 @@ internal static class PipelineCommandLineParser
             state.Command,
             state.DisableModuleCache,
             state.HostArguments,
-            Distinct(state.TargetModules),
-            Distinct(state.SkippedModules),
+            Distinct(state.RunOnlyModules),
+            Distinct(state.IgnoreModules),
             Distinct(state.RunOnlyCategories),
             Distinct(state.IgnoreCategories),
             Distinct(state.RunOnlyTags),
@@ -146,8 +146,8 @@ internal static class PipelineCommandLineParser
             return;
         }
 
-        if (TryReadValues(arguments, ref index, ModuleOption, state.TargetModules)
-            || TryReadValues(arguments, ref index, SkipModuleOption, state.SkippedModules)
+        if (TryReadValues(arguments, ref index, ModuleOption, state.RunOnlyModules)
+            || TryReadValues(arguments, ref index, SkipModuleOption, state.IgnoreModules)
             || TryReadValues(arguments, ref index, CategoriesOption, state.RunOnlyCategories)
             || TryReadValues(arguments, ref index, IgnoreCategoriesOption, state.IgnoreCategories)
             || TryReadValues(arguments, ref index, TagsOption, state.RunOnlyTags)
@@ -395,9 +395,9 @@ internal static class PipelineCommandLineParser
 
         public List<string> HostArguments { get; } = [];
 
-        public List<string> TargetModules { get; } = [];
+        public List<string> RunOnlyModules { get; } = [];
 
-        public List<string> SkippedModules { get; } = [];
+        public List<string> IgnoreModules { get; } = [];
 
         public List<string> RunOnlyCategories { get; } = [];
 

@@ -3761,3 +3761,12 @@ static ModularPipelines.Requirements.PipelineRequirement.Pass() -> ModularPipeli
 static ModularPipelines.Requirements.PipelineRequirement.When(bool condition, string! failureReason) -> ModularPipelines.Requirements.RequirementDecision!
 *REMOVED*static readonly ModularPipelines.Models.RequirementDecision.Passed -> ModularPipelines.Models.RequirementDecision!
 static readonly ModularPipelines.Requirements.RequirementDecision.Passed -> ModularPipelines.Requirements.RequirementDecision!
+
+*REMOVED*ModularPipelines.Options.PipelineOptions.SkippedModules.get -> System.Collections.Generic.IReadOnlyList<string!>?
+ModularPipelines.Options.PipelineOptions.IgnoreModules.get -> System.Collections.Generic.IReadOnlyList<string!>?
+*REMOVED*ModularPipelines.Options.PipelineOptions.SkippedModules.init -> void
+ModularPipelines.Options.PipelineOptions.IgnoreModules.init -> void
+*REMOVED*ModularPipelines.Options.PipelineOptions.TargetModules.get -> System.Collections.Generic.IReadOnlyList<string!>?
+ModularPipelines.Options.PipelineOptions.RunOnlyModules.get -> System.Collections.Generic.IReadOnlyList<string!>?
+*REMOVED*ModularPipelines.Options.PipelineOptions.TargetModules.init -> void
+ModularPipelines.Options.PipelineOptions.RunOnlyModules.init -> void

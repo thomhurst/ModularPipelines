@@ -21,16 +21,16 @@ internal sealed class ModuleSelection
         IDependencyChainProvider dependencyChainProvider,
         PipelineOptions options)
     {
-        if (options.TargetModules is not { Count: > 0 }
-            && options.SkippedModules is not { Count: > 0 })
+        if (options.RunOnlyModules is not { Count: > 0 }
+            && options.IgnoreModules is not { Count: > 0 })
         {
             return new ModuleSelection(null, new HashSet<Type>());
         }
 
         dependencyChainProvider.Initialize(modules);
         var models = dependencyChainProvider.ModuleDependencyModels;
-        var skippedTypes = ResolveNames(options.SkippedModules, models, "skip");
-        var targetModels = ResolveModels(options.TargetModules, models, "target");
+        var skippedTypes = ResolveNames(options.IgnoreModules, models, "skip");
+        var targetModels = ResolveModels(options.RunOnlyModules, models, "target");
         IReadOnlySet<Type>? targetTypes = targetModels.Count == 0
             ? null
             : targetModels
@@ -100,5 +100,6 @@ internal sealed class ModuleSelection
     private static bool Matches(Type moduleType, string name) =>
         name.Equals(moduleType.Name, StringComparison.OrdinalIgnoreCase)
         || name.Equals(moduleType.FullName, StringComparison.OrdinalIgnoreCase)
-        || name.Equals(moduleType.AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase);
+        || name.Equals(moduleType.AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase)
+        || name.Equals(ModuleId.FromType(moduleType).Value, StringComparison.OrdinalIgnoreCase);
 }

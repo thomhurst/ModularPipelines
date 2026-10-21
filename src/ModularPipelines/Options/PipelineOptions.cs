@@ -53,8 +53,8 @@ public sealed record PipelineOptions
     private IReadOnlyList<string>? _ignoreCategories;
     private IReadOnlyList<string>? _runOnlyTags;
     private IReadOnlyList<string>? _ignoreTags;
-    private IReadOnlyList<string>? _targetModules;
-    private IReadOnlyList<string>? _skippedModules;
+    private IReadOnlyList<string>? _runOnlyModules;
+    private IReadOnlyList<string>? _ignoreModules;
 
     /// <summary>
     /// Gets machine-readable run report and local history settings.
@@ -176,24 +176,26 @@ public sealed record PipelineOptions
 
     /// <summary>
     /// Gets module names to execute with their transitive dependency closures.
-    /// Names may be simple, full, or assembly-qualified module type names.
+    /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
+    /// simple, full, or assembly-qualified module type names, matched case-insensitively.
     /// </summary>
-    public IReadOnlyList<string>? TargetModules
+    public IReadOnlyList<string>? RunOnlyModules
     {
-        get => _targetModules;
-        init => _targetModules = value is null
+        get => _runOnlyModules;
+        init => _runOnlyModules = value is null
             ? null
             : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
     /// Gets module names to exclude from execution.
-    /// Names may be simple, full, or assembly-qualified module type names.
+    /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
+    /// simple, full, or assembly-qualified module type names, matched case-insensitively.
     /// </summary>
-    public IReadOnlyList<string>? SkippedModules
+    public IReadOnlyList<string>? IgnoreModules
     {
-        get => _skippedModules;
-        init => _skippedModules = value is null
+        get => _ignoreModules;
+        init => _ignoreModules = value is null
             ? null
             : Array.AsReadOnly(value.ToArray());
     }

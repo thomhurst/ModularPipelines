@@ -1,7 +1,7 @@
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Overrides the stable identifier used for a module on distributed wires and in cache fingerprints.
+/// Overrides the stable identifier used for module selection, distributed wires, and cache fingerprints.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public sealed class ModuleIdAttribute : Attribute
