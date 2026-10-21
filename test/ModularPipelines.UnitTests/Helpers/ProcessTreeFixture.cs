@@ -88,6 +88,12 @@ internal sealed class ProcessTreeFixture(Func<ProcessIdentity, Process?>? cleanu
                     throw new InvalidOperationException($"Process fixture failed before publishing {name}. {DescribeState()}", exception);
                 }
 
+                // Publication can finish between the loop's file check and observing command completion.
+                if (File.Exists(Path.Combine(DirectoryPath, name)))
+                {
+                    return;
+                }
+
                 throw new InvalidOperationException($"Process fixture exited with code {result.ExitCode} before publishing {name}. {DescribeState()}");
             }
 

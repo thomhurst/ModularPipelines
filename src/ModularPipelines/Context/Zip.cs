@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Security.AccessControl;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
@@ -180,6 +181,15 @@ internal partial class Zip(
         {
             if (_fileSystemProvider is SystemFileSystemProvider)
             {
+                if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
+                {
+                    var security = new FileInfo(destinationPath).GetAccessControl(AccessControlSections.Access);
+                    // Protect partially extracted contents with the destination's permissions from creation.
+                    security.SetAccessRuleProtection(isProtected: true, preserveInheritance: true);
+                    return new FileInfo(extractionPath).Create(
+                        FileMode.CreateNew, FileSystemRights.Write, FileShare.None, 4096, FileOptions.None, security);
+                }
+
                 var options = new FileStreamOptions
                 {
                     Access = FileAccess.Write,
@@ -213,8 +223,16 @@ internal partial class Zip(
         {
             try
             {
-                // Publish only the completed file. On Unix this also preserves creation mode and umask.
-                _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
+                if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
+                {
+                    // ReplaceFile preserves the destination's ACL and inheritance policy.
+                    System.IO.File.Replace(extractionPath, destinationPath, destinationBackupFileName: null);
+                }
+                else
+                {
+                    // Publish only the completed file. On Unix this also preserves creation mode and umask.
+                    _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
+                }
             }
             catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
             {

@@ -132,6 +132,7 @@ public static class Host
             case "orphaning-parent":
                 // Simulates a parent killed after starting a child but before publishing its PID.
                 CreateChildProcess("child", directory, runtimeConfiguration).Dispose();
+                await WaitForPublishedFile(directory, "child.ready");
                 break;
             case "graceful-exit":
                 await WaitForTrigger(directory, "parent-exit");

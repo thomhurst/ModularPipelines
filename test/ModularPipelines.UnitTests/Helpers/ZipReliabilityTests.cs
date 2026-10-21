@@ -1,4 +1,6 @@
 using System.IO.Compression;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using Moq;
@@ -7,6 +9,50 @@ namespace ModularPipelines.UnitTests.Helpers;
 
 public class ZipReliabilityTests
 {
+    [Test]
+    [MatrixDataSource]
+    public async Task OverwritingPreservesWindowsAccessControl(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(false, true)] bool protectAccessControl)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            Skip.Test("Windows access control requires Windows.");
+            return;
+        }
+
+        var root = Directory.CreateTempSubdirectory("zip-access-control-");
+        try
+        {
+            var source = Directory.CreateDirectory(Path.Combine(root.FullName, "source"));
+            await File.WriteAllTextAsync(Path.Combine(source.FullName, "input.txt"), "new contents");
+            IZipContext zip = new Zip(SystemFileSystemProvider.Instance, new PipelineWorkingDirectory(root.FullName));
+            await Create(zip, source.FullName, asynchronous);
+
+            var destination = Directory.CreateDirectory(Path.Combine(root.FullName, "destination"));
+            var file = new FileInfo(Path.Combine(destination.FullName, "input.txt"));
+            await File.WriteAllTextAsync(file.FullName, "original contents");
+            var security = file.GetAccessControl();
+            security.SetAccessRuleProtection(isProtected: protectAccessControl, preserveInheritance: false);
+            using var identity = WindowsIdentity.GetCurrent();
+            security.AddAccessRule(new FileSystemAccessRule(
+                identity.User!, FileSystemRights.FullControl, AccessControlType.Allow));
+            file.SetAccessControl(security);
+            var originalAccessControl = file.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.Access);
+
+            await Extract(zip, asynchronous, overwriteFiles: true);
+
+            await Assert.That(await File.ReadAllTextAsync(file.FullName)).IsEqualTo("new contents");
+            await Assert.That(file.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.Access))
+                .IsEqualTo(originalAccessControl);
+            await Assert.That(Directory.GetFiles(destination.FullName).Length).IsEqualTo(1);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
     [Test]
     [Arguments(false)]
     [Arguments(true)]
