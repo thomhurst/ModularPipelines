@@ -12,12 +12,14 @@ $sourceRoot = Join-Path $repositoryRootPath 'src'
 # core and OptionsGenerator layouts. SourceGenerator and Analyzers are embedded Roslyn
 # artifacts, not entries in FindProjectsModule's release project list; analyzer diagnostic
 # compatibility is tracked separately by AnalyzerReleases.Shipped.md/Unshipped.md.
+# The Build executable has a solution for its module tests but is not a release package.
 $packageProjects = @(
     Join-Path $sourceRoot 'ModularPipelines/ModularPipelines.csproj'
     Join-Path $sourceRoot 'ModularPipelines.Cmd/ModularPipelines.Cmd.csproj'
 
     Get-ChildItem -LiteralPath $sourceRoot -Directory -Filter 'ModularPipelines.*' |
         Where-Object {
+            $_.Name -ne 'ModularPipelines.Build' -and
             (Test-Path -LiteralPath (Join-Path $_.FullName "$($_.Name).csproj") -PathType Leaf) -and
             (Test-Path -LiteralPath (Join-Path $_.FullName "$($_.Name).slnx") -PathType Leaf)
         } |
