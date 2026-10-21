@@ -946,7 +946,7 @@ public partial class GcloudCliScraper : CliScraperBase
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue)
                         && !DurationDescriptionPattern().IsMatch(argument.Description ?? string.Empty);
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(
-            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, description);
+            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, valueHint, description);
 
         return new CliOptionDefinition
         {
@@ -1255,19 +1255,25 @@ public partial class GcloudCliScraper : CliScraperBase
     private static bool DescriptionDeclaresValueList(string? description)
         => description?.StartsWith("List of ", StringComparison.OrdinalIgnoreCase) is true;
 
-    private static CliEnumDefinition? TryDetectEnum(string className, string propertyName, string switchName, string? description)
+    private static CliEnumDefinition? TryDetectEnum(
+        string className, string propertyName, string switchName, string valueHint, string? description)
     {
         if (string.IsNullOrEmpty(description))
         {
             return null;
         }
 
-        // Pattern 1: "OPTION must be one of: value1, value2, value3" (comma-separated list)
-        var match = RequiredEnumValuesPattern().Match(description);
-        if (match.Success)
+        // Only standalone declarations for this metavar describe the option's complete choices.
+        // Conditional clauses and lists belonging to other options must not narrow its type.
+        var metavar = valueHint.TrimStart('[').Split([',', '[', ']'], 2)[0];
+        var declarations = RequiredEnumValuesPattern().Matches(description)
+            .Where(match => !match.Groups["subject"].Success
+                || match.Groups["subject"].Value.Equals(metavar, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        if (declarations.Length > 0)
         {
-            var values = match.Groups[1].Value
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            var values = declarations
+                .SelectMany(match => match.Groups["values"].Value.Split(',', StringSplitOptions.RemoveEmptyEntries))
                 .Select(v => LeadingEnumConjunctionPattern().Replace(v.Trim(), string.Empty).TrimEnd('.'))
                 .Where(v => v.Length > 0 && v.Length < 25 && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
                 .Distinct()
@@ -1277,10 +1283,12 @@ public partial class GcloudCliScraper : CliScraperBase
             {
                 return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
+
+            return null;
         }
 
         // Pattern 2: "; one of value1, value2" at end of description
-        match = InlineEnumValuesPattern().Match(description);
+        var match = InlineEnumValuesPattern().Match(description);
         if (match.Success)
         {
             var values = match.Groups[1].Value
@@ -1435,7 +1443,7 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
 
-    [GeneratedRegex(@"must be (?:one of:?\s*)([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must be one of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
     [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
