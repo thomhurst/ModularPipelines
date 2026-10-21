@@ -21,16 +21,16 @@ internal sealed class ModuleSelection
         IDependencyChainProvider dependencyChainProvider,
         PipelineOptions options)
     {
-        if (options.TargetModules is not { Count: > 0 }
-            && options.SkippedModules is not { Count: > 0 })
+        if (options.RunOnlyModules is not { Count: > 0 }
+            && options.IgnoreModules is not { Count: > 0 })
         {
             return new ModuleSelection(null, new HashSet<Type>());
         }
 
         dependencyChainProvider.Initialize(modules);
         var models = dependencyChainProvider.ModuleDependencyModels;
-        var skippedTypes = ResolveNames(options.SkippedModules, models, "skip");
-        var targetModels = ResolveModels(options.TargetModules, models, "target");
+        var skippedTypes = ResolveNames(options.IgnoreModules, models, "skip");
+        var targetModels = ResolveModels(options.RunOnlyModules, models, "target");
         IReadOnlySet<Type>? targetTypes = targetModels.Count == 0
             ? null
             : targetModels
@@ -76,10 +76,26 @@ internal sealed class ModuleSelection
         foreach (var name in names)
         {
             var matches = models
-                .Where(model => Matches(model.Module.GetType(), name))
+                .Where(model => name.Equals(model.Module.GetType().AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase))
                 .ToArray();
+            // Keep assembly-qualified names usable even when an identifier has the same value.
             if (matches.Length == 0)
             {
+                matches = [.. models.Where(model => Matches(model.Module.GetType(), name))];
+            }
+
+            if (matches.Length == 0)
+            {
+                if (name.Contains(','))
+                {
+                    var parts = name.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 0)
+                    {
+                        resolved.AddRange(ResolveModels(parts, models, selectionKind));
+                        continue;
+                    }
+                }
+
                 throw new ModuleSelectionException(
                     $"Pipeline {selectionKind} module '{name}' is not registered.");
             }
@@ -88,7 +104,7 @@ internal sealed class ModuleSelection
             {
                 throw new ModuleSelectionException(
                     $"Pipeline {selectionKind} module name '{name}' is ambiguous. "
-                    + $"Use a full type name: {string.Join(", ", matches.Select(model => model.Module.GetType().FullName))}.");
+                    + $"Use an assembly-qualified type name: {string.Join("; ", matches.Select(model => model.Module.GetType().AssemblyQualifiedName))}.");
             }
 
             resolved.Add(matches[0]);
@@ -100,5 +116,5 @@ internal sealed class ModuleSelection
     private static bool Matches(Type moduleType, string name) =>
         name.Equals(moduleType.Name, StringComparison.OrdinalIgnoreCase)
         || name.Equals(moduleType.FullName, StringComparison.OrdinalIgnoreCase)
-        || name.Equals(moduleType.AssemblyQualifiedName, StringComparison.OrdinalIgnoreCase);
+        || name.Equals(ModuleId.FromType(moduleType).Value, StringComparison.OrdinalIgnoreCase);
 }

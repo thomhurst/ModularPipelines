@@ -84,8 +84,8 @@ internal static class PipelineCommandLineParser
             state.Command,
             state.DisableModuleCache,
             state.HostArguments,
-            Distinct(state.TargetModules),
-            Distinct(state.SkippedModules),
+            Distinct(state.RunOnlyModules),
+            Distinct(state.IgnoreModules),
             Distinct(state.RunOnlyCategories),
             Distinct(state.IgnoreCategories),
             Distinct(state.RunOnlyTags),
@@ -146,8 +146,8 @@ internal static class PipelineCommandLineParser
             return;
         }
 
-        if (TryReadValues(arguments, ref index, ModuleOption, state.TargetModules)
-            || TryReadValues(arguments, ref index, SkipModuleOption, state.SkippedModules)
+        if (TryReadValues(arguments, ref index, ModuleOption, state.RunOnlyModules)
+            || TryReadValues(arguments, ref index, SkipModuleOption, state.IgnoreModules)
             || TryReadValues(arguments, ref index, CategoriesOption, state.RunOnlyCategories)
             || TryReadValues(arguments, ref index, IgnoreCategoriesOption, state.IgnoreCategories)
             || TryReadValues(arguments, ref index, TagsOption, state.RunOnlyTags)
@@ -342,33 +342,20 @@ internal static class PipelineCommandLineParser
             return false;
         }
 
-        var values = IsAssemblyQualifiedModuleName(option, value)
+        // Module identifiers can contain commas. Resolve whole selectors before lists
+        // once the registered modules are available.
+        var isModuleSelector = option.Equals(ModuleOption, StringComparison.OrdinalIgnoreCase)
+            || option.Equals(SkipModuleOption, StringComparison.OrdinalIgnoreCase);
+        var values = isModuleSelector
             ? [value.Trim()]
             : value.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-        if (values.Length == 0)
+        if (values.Length == 0 || values[0].Length == 0)
         {
             throw CreateParseException($"Command-line option '{option}' requires a non-empty value.");
         }
 
         destination.AddRange(values);
         return true;
-    }
-
-    private static bool IsAssemblyQualifiedModuleName(string option, string value)
-    {
-        if (!option.Equals(ModuleOption, StringComparison.OrdinalIgnoreCase)
-            && !option.Equals(SkipModuleOption, StringComparison.OrdinalIgnoreCase))
-        {
-            return false;
-        }
-
-        return value.Split(',').Skip(1).Any(static part =>
-        {
-            var component = part.TrimStart();
-            return component.StartsWith("Version=", StringComparison.OrdinalIgnoreCase)
-                   || component.StartsWith("Culture=", StringComparison.OrdinalIgnoreCase)
-                   || component.StartsWith("PublicKeyToken=", StringComparison.OrdinalIgnoreCase);
-        });
     }
 
     private static PipelineCommand SetCommand(
@@ -395,9 +382,9 @@ internal static class PipelineCommandLineParser
 
         public List<string> HostArguments { get; } = [];
 
-        public List<string> TargetModules { get; } = [];
+        public List<string> RunOnlyModules { get; } = [];
 
-        public List<string> SkippedModules { get; } = [];
+        public List<string> IgnoreModules { get; } = [];
 
         public List<string> RunOnlyCategories { get; } = [];
 

@@ -277,8 +277,8 @@ public class RerunFailedTests
         var summary = await RunAsync(state, rerun: true, configure: options => selection switch
         {
             "category" => options with { IgnoreCategories = ["independent"] },
-            "module" => options with { SkippedModules = [nameof(IndependentModule)] },
-            "target" => options with { TargetModules = [nameof(FinalModule)] },
+            "module" => options with { IgnoreModules = [nameof(IndependentModule)] },
+            "target" => options with { RunOnlyModules = [nameof(FinalModule)] },
             _ => options,
         });
 

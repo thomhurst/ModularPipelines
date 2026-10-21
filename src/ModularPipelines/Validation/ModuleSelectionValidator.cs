@@ -12,8 +12,8 @@ internal sealed class ModuleSelectionValidator(IOptions<PipelineOptions> options
 
     public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
-        if (options.Value.TargetModules?.Count is not > 0
-            && options.Value.SkippedModules?.Count is not > 0)
+        if (options.Value.RunOnlyModules?.Count is not > 0
+            && options.Value.IgnoreModules?.Count is not > 0)
         {
             return ValidationResult.Success();
         }

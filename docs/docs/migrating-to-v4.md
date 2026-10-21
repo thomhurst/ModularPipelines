@@ -369,6 +369,7 @@ and `ConfigureSecrets`.
 | `DefaultHttpResilienceOptions` | `Http.Resilience` |
 | `DefaultExecutionOptions` | Pass `CommandExecutionOptions` to each command; use builder settings for the pipeline working directory |
 | `builder.RunCategories(...)` / `IgnoreCategories(...)` | Set `RunOnlyCategories` / `IgnoreCategories` in `ConfigureOptions` |
+| `PipelineOptions.TargetModules` / `SkippedModules` | `PipelineOptions.RunOnlyModules` / `IgnoreModules`; both also accept `[ModuleId]` identifiers |
 | `builder.ConfigurePipelineOptions(...)`, including the `(builder, options)` overload | `builder.ConfigureOptions(options => options with { ... })`; capture the builder in the lambda if needed |
 | `builder.Services.Configure<SchedulerOptions>(...)` | `builder.ConfigureConcurrency(c => c with { NotificationTimeout = ... })`; `SchedulerOptions` is removed |
 | `builder.Services.Configure<SecretMaskingOptions>(...)` | `builder.ConfigureSecrets(s => s with { ... })`; the DI `Configure` call no longer applies |

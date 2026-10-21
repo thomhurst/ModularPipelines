@@ -688,12 +688,12 @@ public class PipelineCommandLineTests
     }
 
     [Test]
-    public async Task ProgrammaticTargetModulesRunsDependencyClosure()
+    public async Task ProgrammaticRunOnlyModulesRunsDependencyClosure()
     {
         var builder = CreateExecutionBuilder();
         builder.ConfigureOptions(options => options with
         {
-            TargetModules = [nameof(TargetModule)],
+            RunOnlyModules = [nameof(TargetModule)],
         });
 
         await builder.RunAsync();
@@ -807,7 +807,7 @@ public class PipelineCommandLineTests
             "--custom-setting", "custom-value",
         ]);
 
-        await Assert.That(builder.Options.TargetModules).IsEquivalentTo([nameof(TargetModule)]);
+        await Assert.That(builder.Options.RunOnlyModules).IsEquivalentTo([nameof(TargetModule)]);
         await Assert.That(builder.Configuration["custom-setting"]).IsEqualTo("custom-value");
     }
 
@@ -824,7 +824,7 @@ public class PipelineCommandLineTests
     {
         var builder = Pipeline.CreateBuilder(["--", "--skip-modules", "Deploy"]);
 
-        await Assert.That(builder.Options.SkippedModules).IsNull();
+        await Assert.That(builder.Options.IgnoreModules).IsNull();
         await Assert.That(builder.Configuration["skip-modules"]).IsEqualTo("Deploy");
     }
 
@@ -891,9 +891,9 @@ public class PipelineCommandLineTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(builder.Options.TargetModules)
-                .IsEquivalentTo(["FirstModule", "SecondModule", "ThirdModule"]);
-            await Assert.That(builder.Options.SkippedModules)
+            await Assert.That(builder.Options.RunOnlyModules)
+                .IsEquivalentTo(["FirstModule,SecondModule", "ThirdModule"]);
+            await Assert.That(builder.Options.IgnoreModules)
                 .IsEquivalentTo(["SkippedModule"]);
             await Assert.That(builder.Options.RunOnlyCategories)
                 .IsEquivalentTo(["Build", "Test"]);
@@ -942,7 +942,7 @@ public class PipelineCommandLineTests
             EnableCommandLineOptions = false,
         });
 
-        await Assert.That(builder.Options.TargetModules).IsNull();
+        await Assert.That(builder.Options.RunOnlyModules).IsNull();
         await Assert.That(builder.Configuration["module"]).IsEqualTo("forwarded-value");
     }
 
@@ -1677,7 +1677,7 @@ public class PipelineCommandLineTests
         var builder = Pipeline.CreateBuilder();
         builder.ConfigureOptions(options => options with
         {
-            SkippedModules = [nameof(ExcludedInvalidLimitModule)],
+            IgnoreModules = [nameof(ExcludedInvalidLimitModule)],
         });
         builder.AddModule<ExcludedInvalidLimitModule>();
         await using var pipeline = await builder.BuildAsync();
