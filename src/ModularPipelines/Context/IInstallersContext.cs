@@ -11,7 +11,8 @@ public interface IInstallersContext
     /// Runs an installer from the local file system.
     /// </summary>
     /// <remarks>
-    /// Windows MSI packages are run with <c>msiexec /i</c>. PowerShell scripts are run with
+    /// Windows MSI packages are run with <c>msiexec /i</c>; exit codes 0, 1641, and 3010 indicate success.
+    /// PowerShell scripts are run with
     /// <c>pwsh -File</c>, which requires PowerShell to be installed. Other files are executed directly.
     /// </remarks>
     /// <param name="options">The installer options.</param>

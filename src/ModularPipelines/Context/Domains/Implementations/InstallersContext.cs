@@ -30,11 +30,16 @@ internal class InstallersContext(
         var path = _workingDirectory.ResolvePath(options.Path);
         var arguments = options.Arguments ?? [];
         CommandLineToolOptions commandOptions;
+        CommandExecutionOptions? executionOptions = null;
         if (OperatingSystem.IsWindows() && Path.GetExtension(path).Equals(".msi", StringComparison.OrdinalIgnoreCase))
         {
             commandOptions = new CommandLineToolOptions("msiexec")
             {
                 Arguments = ["/i", path, .. arguments],
+            };
+            executionOptions = new CommandExecutionOptions
+            {
+                SuccessExitCodes = [0, 1641, 3010],
             };
         }
         else if (Path.GetExtension(path).Equals(".ps1", StringComparison.OrdinalIgnoreCase))
@@ -57,7 +62,7 @@ internal class InstallersContext(
             };
         }
 
-        return await _command.ExecuteCommandLineToolAsync(commandOptions, null, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(commandOptions, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

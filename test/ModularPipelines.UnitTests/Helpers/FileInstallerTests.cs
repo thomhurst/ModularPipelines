@@ -162,7 +162,9 @@ public class InstallersContextTests : TestBase
         command.Setup(context => context.ExecuteCommandLineToolAsync(
                 It.Is<CommandLineToolOptions>(options => options.Tool == expectedTool
                     && options.Arguments != null && options.Arguments.SequenceEqual(expectedArguments)),
-                null, cancellation.Token))
+                It.Is<CommandExecutionOptions?>(options => isMsi
+                    ? options != null && options.SuccessExitCodes.SequenceEqual(new[] { 0, 1641, 3010 })
+                    : options == null), cancellation.Token))
             .ReturnsAsync(result);
         var installer = new InstallersContext(
             command.Object, Mock.Of<IDownloaderContext>(), new PipelineWorkingDirectory(directory.FullName));
@@ -236,7 +238,8 @@ public class InstallersContextTests : TestBase
         var logger = new Mock<IModuleLoggerAccessor>();
         logger.SetupGet(accessor => accessor.Logger).Returns(Mock.Of<IModuleLogger>());
         var workingDirectory = new PipelineWorkingDirectory(Environment.CurrentDirectory);
-        var downloader = new Downloader(logger.Object, http.Object, SystemFileSystemProvider.Instance, workingDirectory);
+        var downloader = new Downloader(logger.Object, http.Object, SystemFileSystemProvider.Instance, workingDirectory,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         var installer = new InstallersContext(await GetService<ICommandContext>(), downloader, workingDirectory);
 
         var result = await installer.InstallFromWebAsync(new WebInstallerOptions(new Uri("https://example.test/install"))
