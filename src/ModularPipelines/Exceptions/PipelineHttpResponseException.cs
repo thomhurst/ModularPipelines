@@ -13,6 +13,12 @@ namespace ModularPipelines.Exceptions;
 /// status code (4xx or 5xx). It provides detailed information about the failed response
 /// for debugging and error handling purposes.
 /// </para>
+/// <para>
+/// The <see cref="ResponseContent"/> preview is never appended to <see cref="Exception.Message"/> or <see cref="Exception.ToString()"/>,
+/// including with <see cref="HttpLoggingOptions.Diagnostic"/>. To display a response body, explicitly enable
+/// <see cref="HttpLoggingOptions.ShowResponse"/> and <see cref="HttpLoggingOptions.ShowResponseBody"/>
+/// so the HTTP logger applies registered-secret masking. Unregistered secrets may still be exposed.
+/// </para>
 /// <para><b>When this is thrown:</b></para>
 /// <list type="bullet">
 /// <item>When an HTTP request returns a 4xx client error status code</item>
@@ -36,7 +42,7 @@ namespace ModularPipelines.Exceptions;
 /// {
 ///     Console.WriteLine($"HTTP {(int)ex.StatusCode} {ex.StatusCode}");
 ///     Console.WriteLine(ex.Message);
-///     Console.WriteLine($"Response: {ex.ResponseContent}");
+///     // Inspect ex.ResponseContent programmatically if needed; it may contain secrets.
 ///
 ///     if (ex.StatusCode == HttpStatusCode.NotFound)
 ///     {
@@ -62,6 +68,8 @@ public class PipelineHttpResponseException : HttpRequestException
     /// Gets the content preview of the failed response, if available.
     /// Framework HTTP operations capture at most 2,000 body bytes plus a truncation marker.
     /// This is a byte limit, not a character limit; the appended marker is outside that limit.
+    /// This value is unredacted and may contain credentials. It is excluded from
+    /// <see cref="Exception.Message"/> and <see cref="Exception.ToString()"/> regardless of logging options.
     /// </summary>
     public string? ResponseContent { get; }
 
@@ -103,14 +111,14 @@ public class PipelineHttpResponseException : HttpRequestException
         Uri? requestUri,
         Exception? innerException,
         HttpLoggingOptions loggingOptions)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri, loggingOptions), innerException, statusCode)
+        : base(FormatMessage(statusCode, reasonPhrase, requestUri, loggingOptions), innerException, statusCode)
     {
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;
     }
 
-    private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, HttpLoggingOptions loggingOptions)
+    private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, Uri? requestUri, HttpLoggingOptions loggingOptions)
     {
         var message = $"HTTP request failed with status code {(int) statusCode} ({statusCode})";
 
@@ -122,16 +130,6 @@ public class PipelineHttpResponseException : HttpRequestException
         if (requestUri is not null)
         {
             message += $"\nRequest URI: {HttpUriRedactor.Redact(requestUri, loggingOptions)}";
-        }
-
-        if (!string.IsNullOrWhiteSpace(responseContent))
-        {
-            // Truncate very long responses to avoid excessive exception messages
-            const int maxContentLength = 2000;
-            var truncatedContent = responseContent.Length > maxContentLength
-                ? responseContent[..maxContentLength] + "... (truncated)"
-                : responseContent;
-            message += $"\nResponse content: {truncatedContent}";
         }
 
         return message;

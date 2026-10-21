@@ -10,8 +10,9 @@ internal static class HttpResponseExtensions
 {
     /// <summary>
     /// Ensures the response has a success status code, throwing a detailed exception if not.
-    /// Unlike <see cref="HttpResponseMessage.EnsureSuccessStatusCode"/>, this method includes
-    /// the response content in the exception for easier debugging.
+    /// Unlike <see cref="HttpResponseMessage.EnsureSuccessStatusCode"/>, this method captures
+    /// a bounded, unredacted response preview in <see cref="PipelineHttpResponseException.ResponseContent"/>
+    /// for programmatic inspection. The preview is excluded from the exception message.
     /// </summary>
     /// <param name="response">The HTTP response to check.</param>
     /// <param name="cancellationToken">Cancellation token for reading response content.</param>

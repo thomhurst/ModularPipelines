@@ -1228,7 +1228,9 @@ using var response = await context.Network.Http.SendAsync(
 
 `HttpOptions.ThrowOnNonSuccessStatusCode` now defaults to `true`, matching commands
 and downloads. Non-success responses throw `PipelineHttpResponseException`, which
-includes the status code and response content when available. This also applies to
+provides the status code and an unredacted `ResponseContent` preview when available. Response bodies
+are excluded from the exception message, including with `HttpLoggingOptions.Diagnostic`; explicitly
+enable HTTP response body logging to display them with registered-secret masking. This also applies to
 the implicit string, `Uri`, and `HttpRequestMessage` conversions to `HttpOptions`.
 If your pipeline intentionally handles failure responses, opt out explicitly:
 

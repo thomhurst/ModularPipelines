@@ -13,6 +13,62 @@ namespace ModularPipelines.UnitTests.Context;
 public class HttpFailurePreviewTests
 {
     [Test]
+    [Arguments("default")]
+    [Arguments("null")]
+    [Arguments("silent")]
+    [Arguments("diagnostic")]
+    public async Task Failure_Message_Omits_Body_But_Preserves_Programmatic_Preview(string configuration)
+    {
+        const string body = "{\"client_secret\":\"unregistered-secret\"}";
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/token?access_token=uri-secret");
+        using var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+            RequestMessage = request,
+            Content = new StringContent(body),
+        };
+        var logging = configuration switch
+        {
+            "silent" => HttpLoggingOptions.Silent,
+            "diagnostic" => HttpLoggingOptions.Diagnostic,
+            _ => null,
+        };
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => configuration == "default"
+            ? response.EnsureSuccessStatusCodeWithContentAsync()
+            : response.EnsureSuccessStatusCodeWithContentAsync(logging));
+
+        await Assert.That(exception!.ResponseContent).IsEqualTo(body);
+        await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo(body);
+        foreach (var display in new[] { exception.Message, exception.ToString() })
+        {
+            await Assert.That(display).DoesNotContain("unregistered-secret");
+            await Assert.That(display).DoesNotContain("client_secret");
+            await Assert.That(display).DoesNotContain("uri-secret");
+            await Assert.That(display).Contains("400 (BadRequest): Bad Request");
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Public_Exception_Constructors_Omit_Body(bool withInnerException)
+    {
+        const string body = "{\"password\":\"unregistered-password\"}";
+        var uri = new Uri("https://example.test/failure");
+        var inner = new InvalidOperationException("transport failure");
+        var exception = withInnerException
+            ? new PipelineHttpResponseException(HttpStatusCode.BadGateway, "Bad Gateway", body, uri, inner)
+            : new PipelineHttpResponseException(HttpStatusCode.BadGateway, "Bad Gateway", body, uri);
+
+        await Assert.That(exception.ResponseContent).IsEqualTo(body);
+        await Assert.That(exception.StatusCode).IsEqualTo(HttpStatusCode.BadGateway);
+        await Assert.That(exception.RequestUri).IsSameReferenceAs(uri);
+        await Assert.That(exception.InnerException).IsSameReferenceAs(withInnerException ? inner : null);
+        await Assert.That(exception.Message).DoesNotContain(body);
+        await Assert.That(exception.ToString()).DoesNotContain("unregistered-password");
+    }
+
+    [Test]
     [Arguments("utf-8", false)]
     [Arguments("utf-8", true)]
     [Arguments("utf-16", false)]
