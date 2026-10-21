@@ -1445,6 +1445,13 @@ configuration or the supported attributes. `ModuleRegistrationOptions`, `Declare
 names, which are unchanged. Status tag values change; see [Runtime Behavior Changes](#runtime-behavior-changes).
 `GitHubPipelineFileWriter` is internal, and
 `GitHubPipelineFileWriterOptions.RunnerOperatingSystem` is removed (use `Runner`).
+`GitHubPipelineFileWriterOptions.ValuesToMask` is replaced by `SecretNamesToMask`.
+Pass GitHub secret names such as `"NUGET_API_KEY"` instead of secret values or
+`${{ secrets.NUGET_API_KEY }}` expressions. The writer generates the secret expressions
+in the masking step's environment, so secret values are resolved only when GitHub
+Actions runs the workflow. Invalid secret names are rejected before the output file
+is written. If an earlier generated workflow contains literal secrets, revoke or
+rotate those secrets and remove them from the repository's history.
 
 Custom result repositories and time estimators implement the interfaces in
 `ModularPipelines.Reporting` and register with `builder.AddResultsRepository<T>()` and
