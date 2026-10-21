@@ -18,6 +18,7 @@ public sealed record PipelineHttpOptions
     /// Gets the default timeout for all HTTP requests.
     /// Per-request <see cref="HttpOptions.Timeout"/> takes precedence.
     /// A null value uses the default <see cref="HttpClient"/> timeout.
+    /// For downloads without <see cref="DownloadOptions.Timeout"/>, this limits only the wait for response headers.
     /// </summary>
     public TimeSpan? Timeout { get; init; }
 

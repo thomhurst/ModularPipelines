@@ -84,6 +84,8 @@ internal class Downloader(
             Logging = options.Logging,
             FallbackLogging = HttpLoggingOptions.Minimal,
             HttpClient = options.HttpClient,
+            Timeout = options.Timeout,
+            ApplyTimeoutToResponseBody = options.Timeout.HasValue,
         }, cancellationToken).ConfigureAwait(false);
 
         try
