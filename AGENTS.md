@@ -25,7 +25,7 @@ ModularPipelines is a C# pipeline framework with dependency-driven, parallel mod
   -DotNetArguments @('format', 'ModularPipelines.slnx')
 ```
 
-- CI checks formatting with `format <solution> --verify-no-changes --severity info`.
+- CI scopes formatting and analyzer checks to changed files; see [the .NET workflow](.github/workflows/dotnet.yml) for the commands and severity levels.
 - For documentation changes, use the Node version range in `docs/package.json` and run `yarn install` and `yarn build` from `docs/`.
 
 ## Code constraints
