@@ -133,16 +133,10 @@ public class ZipReliabilityTests
 
     [Test]
     [MatrixDataSource]
-    public async Task FailedUnixExtractionRemovesTemporaryFileAndPreservesExistingDestination(
+    public async Task FailedExtractionRemovesTemporaryFileAndPreservesExistingDestination(
         [Matrix(false, true)] bool asynchronous,
         [Matrix(false, true)] bool overwriteExisting)
     {
-        if (OperatingSystem.IsWindows())
-        {
-            Skip.Test("Unix extraction uses a temporary file to apply permissions.");
-            return;
-        }
-
         var root = Directory.CreateTempSubdirectory("zip-extraction-failure-");
         try
         {
@@ -153,6 +147,7 @@ public class ZipReliabilityTests
                 writer.Write("contents");
             }
 
+            var validArchive = await File.ReadAllBytesAsync(archivePath);
             // Keep ZIP headers intact and replace the first DEFLATE block with invalid block type 3.
             using (var stream = File.Open(archivePath, FileMode.Open, FileAccess.ReadWrite))
             using (var reader = new BinaryReader(stream))
@@ -182,6 +177,11 @@ public class ZipReliabilityTests
             {
                 await Assert.That(Directory.GetFiles(destination.FullName)).IsEmpty();
             }
+
+            await File.WriteAllBytesAsync(archivePath, validArchive);
+            await Extract(zip, asynchronous, overwriteExisting);
+            await Assert.That(await File.ReadAllTextAsync(extracted)).IsEqualTo("contents");
+            await Assert.That(Directory.GetFiles(destination.FullName)).IsEquivalentTo([extracted]);
         }
         finally
         {

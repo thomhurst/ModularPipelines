@@ -164,7 +164,7 @@ internal partial class Zip(
     }
 
     private string GetExtractionPath(string destinationPath) =>
-        _fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows()
+        _fileSystemProvider is SystemFileSystemProvider
             ? Path.Combine(Path.GetDirectoryName(destinationPath)!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp")
             : destinationPath;
 
@@ -178,7 +178,7 @@ internal partial class Zip(
 
         try
         {
-            if (_fileSystemProvider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
+            if (_fileSystemProvider is SystemFileSystemProvider)
             {
                 var options = new FileStreamOptions
                 {
@@ -187,7 +187,7 @@ internal partial class Zip(
                     Share = FileShare.None,
                 };
                 var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if ((entry.VersionMadeBy >> 8) == UnixHostPlatform && unixAttributes != 0)
+                if (!OperatingSystem.IsWindows() && (entry.VersionMadeBy >> 8) == UnixHostPlatform && unixAttributes != 0)
                 {
                     // Only ordinary permissions are trusted; creation lets the OS apply umask.
                     var permissions = unixAttributes & UnixPermissionMask;
@@ -213,7 +213,7 @@ internal partial class Zip(
         {
             try
             {
-                // Replacing the inode preserves the creation mode and umask when overwriting.
+                // Publish only the completed file. On Unix this also preserves creation mode and umask.
                 _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
             }
             catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
