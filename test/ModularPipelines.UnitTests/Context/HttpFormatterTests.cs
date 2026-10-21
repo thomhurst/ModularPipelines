@@ -12,6 +12,49 @@ namespace ModularPipelines.UnitTests.Context;
 public class HttpFormatterTests
 {
     [Test]
+    [MatrixDataSource]
+    public async Task Formatters_RedactCredentialHeaders(
+        [Matrix("X-NuGet-ApiKey", "X-Vault-Token", "PRIVATE-TOKEN", "Ocp-Apim-Subscription-Key", "X-JFrog-Art-Api", "DD-API-KEY")] string headerName,
+        [Matrix(false, true)] bool copyDefaultHeaders)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test")
+        {
+            Content = new StringContent(string.Empty),
+        };
+        using var response = new HttpResponseMessage
+        {
+            Content = new StringContent(string.Empty),
+        };
+        var contentHeaderName = headerName.ToLowerInvariant();
+        request.Headers.Add(headerName, ["request-credential-one", "request-credential-two"]);
+        request.Content.Headers.Add(contentHeaderName, "request-content-credential");
+        request.Headers.Add("X-Request-ID", "request-id");
+        response.Headers.Add(headerName, ["response-credential-one", "response-credential-two"]);
+        response.Content.Headers.Add(contentHeaderName, "response-content-credential");
+        response.Headers.Add("X-Request-ID", "response-id");
+        var options = copyDefaultHeaders
+            ? new HttpLoggingOptions { SensitiveHeaderNames = [.. HttpLoggingOptions.DefaultSensitiveHeaders] }
+            : HttpLoggingOptions.Default;
+
+        var formattedRequest = await CreateRequestFormatter().FormatAsync(request, options);
+        var formattedResponse = await CreateResponseFormatter().FormatAsync(response, options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formattedRequest).Contains($"\t{headerName}: {LoggingConstants.SecretMask}");
+            await Assert.That(formattedRequest).Contains($"\t{contentHeaderName}: {LoggingConstants.SecretMask}");
+            await Assert.That(formattedRequest).DoesNotContain("request-credential");
+            await Assert.That(formattedRequest).DoesNotContain("request-content-credential");
+            await Assert.That(formattedRequest).Contains("X-Request-ID: request-id");
+            await Assert.That(formattedResponse).Contains($"\t{headerName}: {LoggingConstants.SecretMask}");
+            await Assert.That(formattedResponse).Contains($"\t{contentHeaderName}: {LoggingConstants.SecretMask}");
+            await Assert.That(formattedResponse).DoesNotContain("response-credential");
+            await Assert.That(formattedResponse).DoesNotContain("response-content-credential");
+            await Assert.That(formattedResponse).Contains("X-Request-ID: response-id");
+        }
+    }
+
+    [Test]
     public async Task ResponseFormatter_BoundsPreviewReadAndPreservesBody()
     {
         const string body = "abcdefghijklmnopqrstuvwxyz";
