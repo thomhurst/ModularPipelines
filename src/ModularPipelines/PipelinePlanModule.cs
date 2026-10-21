@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using ModularPipelines.Modules;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Describes a module in a pipeline plan.

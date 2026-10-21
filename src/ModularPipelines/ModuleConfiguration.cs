@@ -1,11 +1,12 @@
 using System.Collections.Frozen;
 using Kevlar;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
-namespace ModularPipelines.Configuration;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents the configuration for a module's execution behavior.

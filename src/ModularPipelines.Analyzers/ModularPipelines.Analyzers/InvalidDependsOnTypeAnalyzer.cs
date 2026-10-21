@@ -25,7 +25,7 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
         nameof(Resources.InvalidDependsOnTypeAnalyzerDescription));
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -43,7 +43,7 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
         });
     }
 
-    private void AnalyzeAttribute(
+    private static void AnalyzeAttribute(
         SyntaxNodeAnalysisContext context,
         ImmutableHashSet<string> usingAliasNames)
     {
@@ -51,7 +51,7 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
                 context,
                 usingAliasNames,
                 out var attributeSyntax,
-                out var attributeType,
+                out _,
                 out var dependencyType))
         {
             return;
@@ -106,7 +106,7 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
 
     private static bool IsValidModuleType(ITypeSymbol dependencyType, Compilation compilation)
     {
-        var iModuleType = compilation.GetTypeByMetadataName("ModularPipelines.Modules.IModule");
+        var iModuleType = compilation.GetTypeByMetadataName("ModularPipelines.IModule");
         return iModuleType is not null && dependencyType.ImplementsInterface(iModuleType);
     }
 

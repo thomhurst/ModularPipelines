@@ -58,7 +58,7 @@ public sealed class ModuleInfrastructureAnalyzer : DiagnosticAnalyzer
             var processType = startContext.Compilation.GetTypeByMetadataName("System.Diagnostics.Process");
             var startInfoType = startContext.Compilation.GetTypeByMetadataName("System.Diagnostics.ProcessStartInfo");
             var httpClientType = startContext.Compilation.GetTypeByMetadataName("System.Net.Http.HttpClient");
-            var moduleInterface = startContext.Compilation.GetTypeByMetadataName("ModularPipelines.Modules.IModule");
+            var moduleInterface = startContext.Compilation.GetTypeByMetadataName("ModularPipelines.IModule");
             var enumerableType = startContext.Compilation.GetTypeByMetadataName(AnalyzerConstants.FullyQualifiedTypeNames.IEnumerable);
 
             startContext.RegisterOperationAction(operationContext =>

@@ -1,4 +1,4 @@
-namespace ModularPipelines.Plugins;
+namespace ModularPipelines;
 
 /// <summary>
 /// Defines a reusable bundle of pipeline configuration, such as services, modules, handlers and options.

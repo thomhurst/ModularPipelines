@@ -1,4 +1,4 @@
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Describes modules whose dependencies allow them to start in the same execution wave.

@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines.Requirements;
 
 public sealed record RequirementDecision
 {

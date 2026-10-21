@@ -3,14 +3,14 @@ namespace ModularPipelines.SourceGenerator.UnitTests;
 public class ModuleMetadataGeneratorTests
 {
     private const string TestInfrastructure = """
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public interface IModule;
         }
 
         namespace ModularPipelines
         {
-            public abstract class Module<T> : Modules.IModule;
+            public abstract class Module<T> : IModule;
 
             [System.AttributeUsage(
                 System.AttributeTargets.Class | System.AttributeTargets.Interface,
@@ -300,7 +300,7 @@ public class ModuleMetadataGeneratorTests
                 public static class PipelineBuilderExtensions
                 {
                     public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder)
-                        where TModule : class, Modules.IModule => builder;
+                        where TModule : class, IModule => builder;
                 }
             }
 
@@ -342,7 +342,7 @@ public class ModuleMetadataGeneratorTests
                 {
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
                 }
             }
 
@@ -359,11 +359,11 @@ public class ModuleMetadataGeneratorTests
                     {
                         builder.AddModule<StarterModule>()
                             .AddModule<GenericModule<string>>()
-                            .AddModule<ModularPipelines.Modules.IModule>();
+                            .AddModule<ModularPipelines.IModule>();
                     }
 
                     public static void Register<TModule>(ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule
+                        where TModule : class, ModularPipelines.IModule
                     {
                         builder.AddModule<StarterModule>().AddModule<TModule>();
                     }
@@ -399,17 +399,17 @@ public class ModuleMetadataGeneratorTests
                 {
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
 
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder,
                         TModule module)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
 
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder,
                         System.Func<System.IServiceProvider, TModule> factory)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
                 }
             }
 
@@ -465,7 +465,7 @@ public class ModuleMetadataGeneratorTests
                 {
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
                 }
             }
 
@@ -478,7 +478,7 @@ public class ModuleMetadataGeneratorTests
                 public static class Registration
                 {
                     public static void Register<TModule>(ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule
+                        where TModule : class, ModularPipelines.IModule
                     {
                         builder.AddModule<TModule>();
                     }
@@ -516,12 +516,12 @@ public class ModuleMetadataGeneratorTests
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder,
                         TModule module)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
 
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder,
                         System.Func<System.IServiceProvider, TModule> factory)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
                 }
             }
 
@@ -535,9 +535,9 @@ public class ModuleMetadataGeneratorTests
                 {
                     public static void Configure(ModularPipelines.PipelineBuilder builder)
                     {
-                        ModularPipelines.Modules.IModule module = new GenericModule<int>();
+                        ModularPipelines.IModule module = new GenericModule<int>();
                         builder.AddModule(module);
-                        builder.AddModule<ModularPipelines.Modules.IModule>(
+                        builder.AddModule<ModularPipelines.IModule>(
                             _ => new GenericModule<string>());
                     }
                 }
@@ -667,7 +667,7 @@ public class ModuleMetadataGeneratorTests
                 {
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder)
-                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                        where TModule : class, ModularPipelines.IModule => builder;
                 }
             }
 
@@ -727,7 +727,7 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
             {
-                public sealed class DirectModule : ModularPipelines.Modules.IModule;
+                public sealed class DirectModule : ModularPipelines.IModule;
             }
             """);
 

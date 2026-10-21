@@ -24,7 +24,7 @@ namespace ModularPipelines.Options;
 /// </item>
 /// <item>
 /// <term>Module Configuration</term>
-/// <description>Settings defined on individual modules via <see cref="Configuration.ModuleConfiguration"/>
+/// <description>Settings defined on individual modules via <see cref="ModuleConfiguration"/>
 /// (e.g., Timeout, RetryCount, AlwaysRun)</description>
 /// </item>
 /// <item>
@@ -41,7 +41,7 @@ namespace ModularPipelines.Options;
 /// </para>
 /// <para>
 /// <strong>Module Behaviors:</strong>
-/// Module-level configuration uses <see cref="Configuration.ModuleConfiguration"/>. A module with
+/// Module-level configuration uses <see cref="ModuleConfiguration"/>. A module with
 /// <see cref="ModuleConfigurationBuilder.WithRetry(int, TimeSpan?, Func{Exception, bool}, TimeSpan?)"/> configured will use its custom retry configuration instead of
 /// <see cref="DefaultRetryCount"/>. Modules without configuration fall back to global settings.
 /// </para>

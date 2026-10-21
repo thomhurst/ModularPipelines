@@ -403,6 +403,7 @@ FodyWeavers.xsd
 *.slnx.iml
 
 requirements
+!/src/ModularPipelines/Requirements/
 .claude/settings.local.json
 
 # Git worktrees directory

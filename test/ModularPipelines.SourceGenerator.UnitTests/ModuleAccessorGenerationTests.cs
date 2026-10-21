@@ -6,14 +6,14 @@ namespace ModularPipelines.SourceGenerator.UnitTests;
 public class ModuleAccessorGenerationTests
 {
     private const string Infrastructure = """
-        namespace ModularPipelines.Modules
+        namespace ModularPipelines
         {
             public interface IModule;
         }
 
         namespace ModularPipelines
         {
-            public abstract class Module<T> : Modules.IModule;
+            public abstract class Module<T> : IModule;
         }
         """;
 

@@ -24,7 +24,6 @@ using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
-using ModularPipelines.Plugins;
 using ModularPipelines.Secrets;
 using ModularPipelines.Validation;
 
@@ -52,7 +51,7 @@ public sealed class PipelineBuilder
     private readonly ServiceDescriptor[] _defaultLoggingServiceDescriptors;
     private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
     private readonly HashSet<Type> _defaultLoggingProviderTypes;
-    private readonly HashSet<string> _pluginNames = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _pluginNames = [with(StringComparer.Ordinal)];
     private PipelineOptions _options;
 
     internal PipelineBuilder(
@@ -72,14 +71,11 @@ public sealed class PipelineBuilder
         _services = new OrderedServiceCollection(_serviceRegistrationOrder);
         _loggingServices = new OrderedServiceCollection(_serviceRegistrationOrder);
         DependencyInjectionSetup.RegisterDefaultLogging(_loggingServices);
-        _defaultLoggingServiceDescriptors = _loggingServices.ToArray();
-        _defaultLoggingProviderDescriptors = _defaultLoggingServiceDescriptors
-            .Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))
-            .ToArray();
-        _defaultLoggingProviderTypes = _defaultLoggingProviderDescriptors
+        _defaultLoggingServiceDescriptors = [.. _loggingServices];
+        _defaultLoggingProviderDescriptors = [.. _defaultLoggingServiceDescriptors.Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))];
+        _defaultLoggingProviderTypes = [.. _defaultLoggingProviderDescriptors
             .Select(static descriptor => descriptor.ImplementationType)
-            .OfType<Type>()
-            .ToHashSet();
+            .OfType<Type>()];
         Logging = new PipelineLoggingBuilder(new PipelineLoggingServiceCollection(
             _serviceRegistrationOrder,
             _loggingServices,
@@ -1131,9 +1127,9 @@ public sealed class PipelineBuilder
         {
             _initialValue = value;
             _clone = clone;
-            _configurations = configurations.ToArray();
-            _postConfigurations = postConfigurations.ToArray();
-            _validators = validators.ToArray();
+            _configurations = [.. configurations];
+            _postConfigurations = [.. postConfigurations];
+            _validators = [.. validators];
             _value = new Lazy<T>(() => ConfigureAndValidate(
                 Microsoft.Extensions.Options.Options.DefaultName,
                 _clone(value),

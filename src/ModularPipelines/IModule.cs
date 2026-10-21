@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using ModularPipelines.Configuration;
+using ModularPipelines.Modules;
 
-namespace ModularPipelines.Modules;
+namespace ModularPipelines;
 
 /// <summary>
 /// Non-generic view of every module, enabling non-generic operations.
