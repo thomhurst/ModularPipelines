@@ -89,7 +89,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                             Name = "Publish portable pipeline host",
                             Shell = "bash",
                             Run = $"dotnet publish {QuotedProjectPath} -c Release{FrameworkArgument} --no-self-contained -p:UseAppHost=false -p:RuntimeIdentifier= -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishAot=false -p:PublishTrimmed=false -o \"$RUNNER_TEMP/modular-pipelines-host\"",
-                            Env = _options.EnvironmentVariables,
+                            Env = _options.PublishEnvironmentVariables,
                         },
                         new
                         {

@@ -78,7 +78,8 @@ builder.ConfigureDistributedOptions(options => options with
 builder.AddRedisDistributedCoordinator(options => options with
 {
     ConnectionString = Environment.GetEnvironmentVariable("REDIS_ENDPOINT")
-        ?? throw new InvalidOperationException("REDIS_ENDPOINT is required."),
+        ?? Environment.GetEnvironmentVariable("REDIS_URL")
+        ?? throw new InvalidOperationException("REDIS_ENDPOINT or REDIS_URL is required."),
     ConfigureConnection = connection => connection with
     {
         Password = Environment.GetEnvironmentVariable("REDIS_KEY"),

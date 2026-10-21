@@ -100,8 +100,10 @@ the assembly name does not need to match the project directory. Each runner inst
 keeps its own NuGet cache, and restores the project for platform-specific build/test work.
 Set `DotNetRunFramework` when the project targets multiple frameworks. The host must support
 every selected OS; prepare any additional native tools or runtime prerequisites on each runner.
-`EnvironmentVariables` are supplied to host publishing, runner restore, and pipeline execution, so custom
-build inputs remain available when compilation moves into the initializer.
+`EnvironmentVariables` are supplied to runner restore and pipeline execution; they can use matrix
+expressions such as `${{ matrix.os }}`. Supply build inputs separately through
+`PublishEnvironmentVariables`, which applies only to host publishing in the non-matrix initializer.
+Publish variables must use contexts available in that job and cannot reference `matrix` or pipeline job outputs.
 Publishing clears the runtime identifier and disables single-file, ReadyToRun, Native AOT,
 and trimming so the host stays portable and retains the metadata distributed serialization needs.
 Do not use OS-conditional module registration or platform-specific host code.

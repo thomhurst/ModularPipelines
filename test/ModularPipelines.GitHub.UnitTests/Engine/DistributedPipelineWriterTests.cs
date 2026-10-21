@@ -11,9 +11,11 @@ namespace ModularPipelines.GitHub.UnitTests.Engine;
 public class DistributedPipelineWriterTests : TestBase
 {
     [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task PublishesOnceAndRunsDownloadedHost(bool cacheNuGet)
+    [Arguments(true, true)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(false, false)]
+    public async Task PublishesOnceAndRunsDownloadedHost(bool cacheNuGet, bool publishEnvironment)
     {
         var outputPath = FilePath.GetNewTemporaryFilePath();
         await TestPipelineBuilder.Create()
@@ -23,7 +25,10 @@ public class DistributedPipelineWriterTests : TestBase
                 OutputPath = outputPath,
                 CacheNuGet = cacheNuGet,
                 ExtraWorkers = 0,
-                EnvironmentVariables = new Dictionary<string, string> { ["BUILD_FLAVOR"] = "smoke" },
+                EnvironmentVariables = new Dictionary<string, string> { ["BUILD_FLAVOR"] = "${{ matrix.os }}-${{ matrix.instance }}" },
+                PublishEnvironmentVariables = publishEnvironment
+                    ? new Dictionary<string, string> { ["BUILD_TOKEN"] = "${{ secrets.BUILD_TOKEN }}" }
+                    : null,
             })
             .RunAsync();
 
@@ -36,8 +41,18 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(publish["run"].ToString()).Contains("-p:RuntimeIdentifier=");
         await Assert.That(publish["run"].ToString()).Contains("-p:PublishSingleFile=false -p:PublishReadyToRun=false");
         await Assert.That(publish["run"].ToString()).Contains("-p:PublishAot=false -p:PublishTrimmed=false");
-        await Assert.That(((YamlMappingNode) publish["env"]).Children.Count).IsEqualTo(1);
-        await Assert.That(publish["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("smoke");
+        await Assert.That(publish.ToString()).DoesNotContain("matrix.");
+        if (publishEnvironment)
+        {
+            await Assert.That(((YamlMappingNode) publish["env"]).Children.Count).IsEqualTo(1);
+            await Assert.That(publish["env"]["BUILD_TOKEN"].ToString()).IsEqualTo("${{ secrets.BUILD_TOKEN }}");
+        }
+        else
+        {
+            await Assert.That(publish.ToString()).DoesNotContain("BUILD_TOKEN");
+        }
+
+        await Assert.That(string.Join('\n', pipeline.Select(step => step.ToString()))).DoesNotContain("BUILD_TOKEN");
         await Assert.That(initialize.Count(step => step["name"].ToString() == "Cache NuGet")).IsEqualTo(cacheNuGet ? 1 : 0);
         await Assert.That(pipeline.Count(step => step["name"].ToString() == "Cache NuGet")).IsEqualTo(cacheNuGet ? 1 : 0);
         await Assert.That(pipeline.Any(step => step["name"].ToString() == "Publish portable pipeline host")).IsFalse();
@@ -47,9 +62,9 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(downloadIndex).IsGreaterThanOrEqualTo(0);
         await Assert.That(restoreIndex).IsGreaterThan(downloadIndex);
         await Assert.That(runIndex).IsGreaterThan(restoreIndex);
-        await Assert.That(pipeline[restoreIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("smoke");
+        await Assert.That(pipeline[restoreIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("${{ matrix.os }}-${{ matrix.instance }}");
         await Assert.That(pipeline[runIndex]["run"].ToString()).Contains("--no-build --no-restore");
-        await Assert.That(pipeline[runIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("smoke");
+        await Assert.That(pipeline[runIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("${{ matrix.os }}-${{ matrix.instance }}");
     }
 
     [Test]

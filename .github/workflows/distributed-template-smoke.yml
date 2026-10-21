@@ -18,6 +18,7 @@ on:
       - 'src/ModularPipelines.GitHub/**'
       - 'src/ModularPipelines.Distributed.Redis/**'
       - 'test/ModularPipelines.Distributed.SmokeTests/**'
+      - 'test/ModularPipelines.GitHub.UnitTests/**'
       - 'Directory.*'
       - 'global.json'
       - '.github/workflows/distributed-template-smoke.yml'
@@ -141,8 +142,12 @@ jobs:
           MODULARPIPELINES_TOTAL_INSTANCES: 2
           MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}
           REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_URL: ${{ secrets.REDIS_ENDPOINT }}
           REDIS_KEY: ${{ secrets.REDIS_KEY }}
-        run: bash "$RUNNER_TEMP/generated-workflow/run.sh"
+        run: |
+          # Exercise the generated variable on Linux and the outer workflow's endpoint on Windows.
+          if [ "$RUNNER_OS" = "Linux" ]; then unset REDIS_ENDPOINT; fi
+          bash "$RUNNER_TEMP/generated-workflow/run.sh"
       - name: Explain secretless validation
         if: needs.initialize.outputs.distributed != 'true'
         shell: bash
@@ -171,11 +176,18 @@ jobs:
           $rows = @('## Distributed template identities', '', '| Build | OS | Module MVID | Pipeline schema |', '| --- | --- | --- | --- |')
           foreach ($build in 'independent', 'shared') {
             foreach ($os in 'Linux', 'Windows') {
+              if (-not (Test-Path "identities/$build-$os.json")) {
+                $rows += "| $build | $os | Missing artifact; see pipeline job | |"
+                continue
+              }
               $identity = Get-Content "identities/$build-$os.json" -Raw | ConvertFrom-Json
               $rows += "| $build | $os | $($identity.Mvid) | $($identity.Schema) |"
             }
           }
-          $linux = Get-Content identities/independent-Linux.json -Raw | ConvertFrom-Json
-          $windows = Get-Content identities/independent-Windows.json -Raw | ConvertFrom-Json
-          $rows += @('', "Independent builds have equal schemas: $($linux.Schema -eq $windows.Schema)", '', 'Checkout/build inputs are retained in the identity artifacts.')
+          if ((Test-Path identities/independent-Linux.json) -and (Test-Path identities/independent-Windows.json)) {
+            $linux = Get-Content identities/independent-Linux.json -Raw | ConvertFrom-Json
+            $windows = Get-Content identities/independent-Windows.json -Raw | ConvertFrom-Json
+            $rows += @('', "Independent builds have equal schemas: $($linux.Schema -eq $windows.Schema)")
+          }
+          $rows += @('', 'Checkout/build inputs are retained in the identity artifacts.')
           $rows >> $env:GITHUB_STEP_SUMMARY
