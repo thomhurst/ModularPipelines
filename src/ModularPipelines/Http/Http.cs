@@ -83,6 +83,7 @@ internal class Http : IHttpContext
                     httpClient,
                     httpOptions,
                     WrapResponse,
+                    httpOptions.ApplyTimeoutToResponseBody ? null : timeoutCts,
                     effectiveCancellationToken)
                 .ConfigureAwait(false);
         }
@@ -97,6 +98,7 @@ internal class Http : IHttpContext
         HttpClient httpClient,
         HttpOptions httpOptions,
         Func<HttpResponseMessage, HttpResponseMessage> wrapResponse,
+        CancellationTokenSource? responseHeadersTimeout,
         CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerAccessor.Logger;
@@ -120,6 +122,10 @@ internal class Http : IHttpContext
 
         try
         {
+            // Downloads have no implicit body deadline. Keep the linked caller token alive,
+            // but stop the headers timer before logging or consuming any response content.
+            responseHeadersTimeout?.CancelAfter(System.Threading.Timeout.InfiniteTimeSpan);
+
             ShowStatusCode(response.StatusCode, logger, loggingOptions);
             ShowDuration(stopWatch.Elapsed, logger, loggingOptions);
 

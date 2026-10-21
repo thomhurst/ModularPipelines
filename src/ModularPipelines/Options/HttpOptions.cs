@@ -27,6 +27,8 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
 
     internal HttpLoggingOptions? FallbackLogging { get; init; }
 
+    internal bool ApplyTimeoutToResponseBody { get; init; } = true;
+
     /// <summary>
     /// Gets or sets the maximum time allowed for the HTTP request to complete.
     /// </summary>

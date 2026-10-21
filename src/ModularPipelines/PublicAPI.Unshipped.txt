@@ -1,4 +1,6 @@
 #nullable enable
+ModularPipelines.Options.DownloadOptions.Timeout.get -> System.TimeSpan?
+ModularPipelines.Options.DownloadOptions.Timeout.init -> void
 static ModularPipelines.Options.HttpResilienceOptions.RetryEnabled.get -> System.Net.Http.HttpRequestOptionsKey<bool>
 ModularPipelines.ModuleResult<T>.ToSuccess(T value) -> ModularPipelines.ModuleResult<T>.Success!
 ModularPipelines.ModuleResult<T>.ToFailure(System.Exception! exception) -> ModularPipelines.ModuleResult<T>.Failure!
