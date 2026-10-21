@@ -52,7 +52,7 @@ public record DockerContainerUpdateOptions : DockerOptions
     /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
     /// </summary>
     [CliOption("--blkio-weight", Format = OptionFormat.EqualsSeparated)]
-    public string? BlkioWeight { get; set; }
+    public uint? BlkioWeight { get; set; }
 
     /// <summary>
     /// Limit CPU CFS (Completely Fair Scheduler) period
