@@ -58,5 +58,10 @@ public enum CliOptionType
     /// <summary>
     /// Unsigned 64-bit integer value.
     /// </summary>
-    ULong
+    ULong,
+
+    /// <summary>
+    /// Double-precision floating point value.
+    /// </summary>
+    Double
 }

@@ -27,14 +27,14 @@ public static class CliTypeMapper
             "bool" or "boolean" => CliOptionType.Bool,
 
             // Integer types
-            "int" or "int8" or "int16" or "int32" or "integer" or "number" or "count" => CliOptionType.Int,
+            "int" or "int8" or "int16" or "int32" or "integer" or "count" => CliOptionType.Int,
             "int64" => CliOptionType.Long,
             "uint8" or "uint16" or "uint32" => CliOptionType.UInt,
             // Go's uint can be 64-bit, so retain its full range on either architecture.
             "uint" or "uint64" => CliOptionType.ULong,
 
             // Float types
-            "float" or "float32" or "float64" => CliOptionType.Decimal,
+            "float" or "float32" or "float64" or "decimal" => CliOptionType.Double,
 
             // Array/list types
             "list" or "array" or "strings" or "stringarray" or "stringslice" => CliOptionType.StringList,
@@ -70,7 +70,8 @@ public static class CliTypeMapper
             "long" or "int64" => CliOptionType.Long,
             "uint" or "uint8" or "uint16" or "uint32" => CliOptionType.UInt,
             "ulong" or "uint64" => CliOptionType.ULong,
-            "decimal" or "float" or "double" => CliOptionType.Decimal,
+            "decimal" or "float" => CliOptionType.Decimal,
+            "double" => CliOptionType.Double,
             "stringlist" or "list" or "array" => CliOptionType.StringList,
             "keyvalue" or "map" or "dictionary" => CliOptionType.KeyValue,
             "enum" or "enumeration" => CliOptionType.Enum,
@@ -91,6 +92,7 @@ public static class CliTypeMapper
             CliOptionType.UInt => "uint?",
             CliOptionType.ULong => "ulong?",
             CliOptionType.Decimal => "decimal?",
+            CliOptionType.Double => "double?",
             CliOptionType.StringList => "string[]?",
             CliOptionType.KeyValue => "IReadOnlyList<KeyValue>?",
             CliOptionType.Enum when enumDef is not null => $"{enumDef.EnumName}?",
@@ -114,6 +116,7 @@ public static class CliTypeMapper
             CliOptionType.UInt => "uint",
             CliOptionType.ULong => "ulong",
             CliOptionType.Decimal => "decimal",
+            CliOptionType.Double => "double",
             CliOptionType.StringList => "stringlist",
             CliOptionType.KeyValue => "keyvalue",
             CliOptionType.Enum => "enum",
@@ -129,7 +132,7 @@ public static class CliTypeMapper
         with(StringComparer.OrdinalIgnoreCase),
         "string", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64",
         "integer", "number", "count",
-        "float", "float32", "float64", "bool", "boolean",
+        "float", "float32", "float64", "decimal", "bool", "boolean",
         "list", "array", "strings", "stringarray", "stringslice",
         "map", "stringtostring",
         "duration", "bytes"

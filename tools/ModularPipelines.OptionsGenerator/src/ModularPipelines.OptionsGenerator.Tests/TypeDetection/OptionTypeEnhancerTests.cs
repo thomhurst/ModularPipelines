@@ -9,10 +9,12 @@ namespace ModularPipelines.OptionsGenerator.Tests.TypeDetection;
 public class OptionTypeEnhancerTests
 {
     [Test]
+    [Arguments(CliOptionType.Double, "double?")]
+    [Arguments(CliOptionType.Decimal, "decimal?")]
     [Arguments(CliOptionType.Long, "long?")]
     [Arguments(CliOptionType.UInt, "uint?")]
     [Arguments(CliOptionType.ULong, "ulong?")]
-    public async Task EnhanceAsync_Preserves_Integer_Range_And_Numeric_Metadata(CliOptionType type, string cSharpType)
+    public async Task EnhanceAsync_Preserves_Numeric_Types_And_Metadata(CliOptionType type, string cSharpType)
     {
         var enhancer = new OptionTypeEnhancer(
             new OptionTypeDetectorPipeline([new FixedDetector(new OptionTypeDetectionResult
@@ -32,6 +34,39 @@ public class OptionTypeEnhancerTests
         await Assert.That(option.CSharpType).IsEqualTo(cSharpType);
         await Assert.That(option.IsNumeric).IsTrue();
         await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
+    [Arguments("decimal", "double?", true)]
+    [Arguments("DECIMAL", "double?", true)]
+    [Arguments("float", "double?", true)]
+    [Arguments("float32", "double?", true)]
+    [Arguments("float64", "double?", true)]
+    [Arguments("custom", "string?", false)]
+    [Arguments("number", "string?", false)]
+    [Arguments("NUMBER", "string?", false)]
+    public async Task EnhanceAsync_Preserves_Cobra_Type_Hints(
+        string hint, string expectedType, bool isNumeric)
+    {
+        var executor = new HelpExecutor(false, false, $"  --cpus {hint}   Number of CPUs");
+        var detector = new CobraHelpTypeDetector(executor, NullLogger<CobraHelpTypeDetector>.Instance);
+        var enhancer = new OptionTypeEnhancer(
+            new OptionTypeDetectorPipeline([detector], NullLogger<OptionTypeDetectorPipeline>.Instance),
+            NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = CreateTool(new CliOptionDefinition
+        {
+            SwitchName = "--cpus",
+            PropertyName = "Cpus",
+            CSharpType = "double?",
+            IsNumeric = true,
+        }, commandName: "run");
+
+        var option = (await enhancer.EnhanceAsync(tool)).Commands.Single().Options.Single();
+
+        await Assert.That(option.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(option.IsNumeric).IsEqualTo(isNumeric);
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
     }
 
     [Test]
@@ -79,7 +114,10 @@ public class OptionTypeEnhancerTests
         }
     }
 
-    private sealed class HelpExecutor(bool timedOut, bool recovers) : ICliCommandExecutor
+    private sealed class HelpExecutor(
+        bool timedOut,
+        bool recovers,
+        string helpText = "  --style string   One of: compact|expanded") : ICliCommandExecutor
     {
         public List<(string Command, string Arguments)> Calls { get; } = [];
 
@@ -96,7 +134,7 @@ public class OptionTypeEnhancerTests
             var attemptTimedOut = timedOut && (!recovers || Calls.Count == 1);
             return Task.FromResult(new CliCommandResult
             {
-                StandardOutput = attemptTimedOut ? string.Empty : "  --style string   One of: compact|expanded",
+                StandardOutput = attemptTimedOut ? string.Empty : helpText,
                 StandardError = string.Empty,
                 ExitCode = attemptTimedOut ? -1 : 0,
                 TimedOut = attemptTimedOut,

@@ -9,6 +9,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class DockerCliScraperTests
 {
+    [Test]
+    [Arguments("create")]
+    [Arguments("run")]
+    [Arguments("update")]
+    public async Task Decimal_Cpu_Limits_Remain_Numeric(string subcommand)
+    {
+        var help = $$"""
+            Usage: docker {{subcommand}} [OPTIONS]
+
+            Options:
+              --cpus decimal   Number of CPUs
+            """;
+        var command = await new TestDockerCliScraper().Parse(["docker", subcommand], help);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.PropertyName).IsEqualTo("Cpus");
+        await Assert.That(option.CSharpType).IsEqualTo("double?");
+        await Assert.That(option.IsNumeric).IsTrue();
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
     private const string RootHelp = """
         Usage: docker [OPTIONS] COMMAND
 

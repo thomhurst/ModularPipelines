@@ -200,7 +200,7 @@ public class OptionTypeEnhancer
                         Description = description,
                         IsFlag = newIsFlag,
                         IsNumeric = result.Type is CliOptionType.Int or CliOptionType.Long
-                            or CliOptionType.UInt or CliOptionType.ULong or CliOptionType.Decimal,
+                            or CliOptionType.UInt or CliOptionType.ULong or CliOptionType.Decimal or CliOptionType.Double,
                         AcceptsMultipleValues = acceptsMultipleValues,
                         GroupValues = result.GroupValues,
                         IsKeyValue = result.Type == CliOptionType.KeyValue,

@@ -72,11 +72,18 @@ public class CliTypeMapperTests
     [Arguments("float")]
     [Arguments("float32")]
     [Arguments("float64")]
-    public async Task FromCobraTypeHint_Returns_Decimal_For_Float_Types(string typeHint)
+    [Arguments("decimal")]
+    [Arguments("DECIMAL")]
+    public async Task FromCobraTypeHint_Preserves_Floating_Point_Types(string typeHint)
     {
         var result = CliTypeMapper.FromCobraTypeHint(typeHint);
 
-        await Assert.That(result).IsEqualTo(CliOptionType.Decimal);
+        await Assert.That(result).IsEqualTo(CliOptionType.Double);
+        await Assert.That(CliTypeMapper.ToCSharpType(result)).IsEqualTo("double?");
+        await Assert.That(CliTypeMapper.IsKnownCobraType(typeHint)).IsTrue();
+        var options = new JsonSerializerOptions { Converters = { new CliOptionTypeConverter() } };
+        var json = JsonSerializer.Serialize(result, options);
+        await Assert.That(JsonSerializer.Deserialize<CliOptionType>(json, options)).IsEqualTo(result);
     }
 
     [Test]
@@ -106,6 +113,8 @@ public class CliTypeMapperTests
     [Arguments("string")]
     [Arguments("duration")]
     [Arguments("bytes")]
+    [Arguments("number")]
+    [Arguments("NUMBER")]
     public async Task FromCobraTypeHint_Returns_String_For_StringLike_Types(string typeHint)
     {
         var result = CliTypeMapper.FromCobraTypeHint(typeHint);
@@ -155,7 +164,7 @@ public class CliTypeMapperTests
     [Arguments("ulong", CliOptionType.ULong)]
     [Arguments("decimal", CliOptionType.Decimal)]
     [Arguments("float", CliOptionType.Decimal)]
-    [Arguments("double", CliOptionType.Decimal)]
+    [Arguments("double", CliOptionType.Double)]
     [Arguments("stringlist", CliOptionType.StringList)]
     [Arguments("list", CliOptionType.StringList)]
     [Arguments("array", CliOptionType.StringList)]
@@ -276,6 +285,7 @@ public class CliTypeMapperTests
     [Arguments(CliOptionType.String, "string")]
     [Arguments(CliOptionType.Int, "int")]
     [Arguments(CliOptionType.Decimal, "decimal")]
+    [Arguments(CliOptionType.Double, "double")]
     [Arguments(CliOptionType.StringList, "stringlist")]
     [Arguments(CliOptionType.KeyValue, "keyvalue")]
     [Arguments(CliOptionType.Enum, "enum")]

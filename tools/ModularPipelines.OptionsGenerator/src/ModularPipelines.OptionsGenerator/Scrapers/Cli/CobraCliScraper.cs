@@ -851,12 +851,12 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     ];
 
     /// <summary>
-    /// Pflag floating-point type hints. Pflag displays float64 as "float" in help.
+    /// Numeric fractional type hints. Pflag displays float64 as "float" in help; Docker uses "decimal".
     /// </summary>
     private static readonly HashSet<string> KnownFloatTypes =
     [
         with(StringComparer.OrdinalIgnoreCase),
-        "float", "float32", "float64"
+        "float", "float32", "float64", "decimal"
     ];
 
     /// <summary>
