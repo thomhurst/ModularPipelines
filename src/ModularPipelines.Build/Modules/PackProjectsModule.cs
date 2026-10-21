@@ -57,6 +57,7 @@ public class PackProjectsModule : Module<CommandResult[]>
             [
                 ("PackageVersion", effectiveVersion),
                 ("Version", effectiveVersion),
+                ("ModularPipelinesCorePackageVersion", packageVersion),
             ],
         }, cancellationToken: cancellationToken);
     }
