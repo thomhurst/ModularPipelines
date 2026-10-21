@@ -1,36 +1,50 @@
-using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Context;
+using System.Runtime.InteropServices;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Node;
 
-[ExcludeFromCodeCoverage]
-internal class Nvm : INvm
+internal class Nvm(IPipelineContext context) : INvm
 {
-    private readonly IPipelineContext _context;
-
-    public Nvm(IPipelineContext context)
-    {
-        _context = context;
-    }
+    // Keep caller-supplied values out of the script. Bash receives them as positional arguments.
+    private static readonly string UnixScript = """
+        if [ -z "${NVM_DIR:-}" ]; then
+            if [ -n "${XDG_CONFIG_HOME:-}" ]; then
+                export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+            else
+                export NVM_DIR="$HOME/.nvm"
+            fi
+        fi
+        source "$NVM_DIR/nvm.sh" --no-use && nvm "$@"
+        """.ReplaceLineEndings("\n");
 
     public virtual Task<CommandResult> UseAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.RunAsync("nvm", ["use", version], cancellationToken);
+        ArgumentException.ThrowIfNullOrWhiteSpace(version);
+        return RunAsync(["use", version], cancellationToken);
     }
 
     public virtual Task<CommandResult> InstallAsync(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Shell.RunAsync("nvm", ["install", version], cancellationToken);
+        ArgumentException.ThrowIfNullOrWhiteSpace(version);
+        return RunAsync(["install", version], cancellationToken);
     }
 
     public virtual Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.RunAsync("nvm", ["version"], cancellationToken);
+        return RunAsync([IsWindows ? "version" : "--version"], cancellationToken);
     }
 
-    public virtual Task<CommandResult> WhichAsync(CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> CurrentAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Shell.RunAsync("nvm", ["which"], cancellationToken);
+        return RunAsync(["current"], cancellationToken);
+    }
+
+    private bool IsWindows => context.Environment.OperatingSystem == OSPlatform.Windows;
+
+    private Task<CommandResult> RunAsync(IReadOnlyList<string> arguments, CancellationToken cancellationToken)
+    {
+        return IsWindows
+            ? context.Shell.RunAsync("nvm", arguments, cancellationToken)
+            : context.Shell.RunAsync("bash", ["-c", UnixScript, "nvm", .. arguments], cancellationToken);
     }
 }
