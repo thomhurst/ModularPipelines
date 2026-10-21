@@ -405,8 +405,8 @@ jobs:
       - name: Restore core solution
         run: dotnet restore ModularPipelines.slnx
       - name: Build core solution with analyzers
-        # Report existing analyzer debt without failing; the next step gates warning-level
-        # diagnostics in changed files so the baseline can only improve.
+        # Report existing analyzer debt without failing; the next step gates the warnings this
+        # build logs for changed files so the baseline can only improve.
         run: >
           dotnet build ModularPipelines.slnx
           -c Release
@@ -414,7 +414,8 @@ jobs:
           -p:RunAnalyzers=true
           -p:RunAnalyzersDuringBuild=true
           -p:TreatWarningsAsErrors=false
-      - name: Verify analyzer fixes in changed C# files
+          "-flp:WarningsOnly;LogFile=analyzer-warnings.log"
+      - name: Verify analyzer warnings in changed C# files
         shell: pwsh
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -448,56 +449,47 @@ jobs:
             exit 0
           }
 
-          $formatArguments = @(
-            'format',
-            'ModularPipelines.slnx',
-            'analyzers',
-            '--no-restore',
-            '--verify-no-changes',
-            '--severity',
-            'warn',
-            '--include'
-          ) + $changedFiles
-
-          $formatOutput = @(& dotnet @formatArguments 2>&1)
-          $formatExitCode = $LASTEXITCODE
-          $formatOutput | ForEach-Object { Write-Output $_ }
-
-          if ($formatExitCode -eq 0) {
-            exit 0
+          # The build step already ran every analyzer; reuse its log instead of re-analyzing.
+          $warningLog = 'analyzer-warnings.log'
+          if (-not (Test-Path $warningLog)) {
+            Write-Error "The analyzer build did not write $warningLog."
+            exit 1
           }
 
           $normalizedChangedFiles = @(
             $changedFiles | ForEach-Object { $_.Replace('\', '/') }
           )
           $diagnosticLines = @(
-            $formatOutput | Where-Object {
-              $_.ToString().Replace('\', '/') -match '\.cs\(\d+,\d+\): (error|warning) '
+            Get-Content $warningLog | Where-Object {
+              $_.Replace('\', '/') -match '\.cs\(\d+,\d+\): warning '
             }
           )
+          # Multi-targeted projects log the same warning once per target framework, so drop the
+          # trailing "[project::TargetFramework=...]" before de-duplicating.
           $relevantDiagnostics = @(
-            foreach ($line in $diagnosticLines) {
-              $normalizedLine = $line.ToString().Replace('\', '/')
+            $(foreach ($line in $diagnosticLines) {
+              $normalizedLine = ($line -replace '\s+\[[^\]]*\]$', '').Replace('\', '/')
               foreach ($changedFile in $normalizedChangedFiles) {
                 if ($normalizedLine.Contains("/$changedFile(", [System.StringComparison]::OrdinalIgnoreCase)) {
                   $normalizedLine
                   break
                 }
               }
-            }
+            }) | Sort-Object -Unique
           )
 
           if ($relevantDiagnostics.Count -gt 0) {
+            $relevantDiagnostics | ForEach-Object { Write-Output $_ }
             Write-Error 'Analyzer diagnostics were found in changed C# files.'
             exit 1
           }
 
-          if ($diagnosticLines.Count -eq 0) {
-            Write-Error "dotnet format failed without analyzer diagnostics (exit code $formatExitCode)."
-            exit $formatExitCode
+          if ($diagnosticLines.Count -gt 0) {
+            Write-Output 'Only pre-existing diagnostics outside changed C# files were found.'
           }
-
-          Write-Output 'Only pre-existing diagnostics outside changed C# files were found.'
+          else {
+            Write-Output 'No analyzer diagnostics were found.'
+          }
 
   pipeline-host:
     name: Build portable pipeline host
