@@ -80,6 +80,7 @@ public class HttpTests : TestBase
 
     private static HttpLoggingOptions RequestOnly { get; } = new()
     {
+        ShowRequestBody = true,
         ShowResponse = false,
         ShowStatusCode = false,
         ShowDuration = false,
@@ -87,6 +88,7 @@ public class HttpTests : TestBase
 
     private static HttpLoggingOptions ResponseOnly { get; } = new()
     {
+        ShowResponseBody = true,
         ShowRequest = false,
         ShowStatusCode = false,
         ShowDuration = false,
@@ -1012,7 +1014,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Contains("HTTP Response:");
         await Assert.That(logFile).Contains("Headers");
         await Assert.That(logFile).Contains("Server: LocalHttpServer");
-        await Assert.That(logFile).Contains("Body");
+        await Assert.That(logFile).DoesNotContain("Body");
         await Assert.That(logFile).Contains("Duration:");
         await Assert.That(logFile).Contains("HTTP Status:");
 

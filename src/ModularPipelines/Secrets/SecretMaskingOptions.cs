@@ -16,7 +16,7 @@ namespace ModularPipelines.Secrets;
 /// </para>
 /// <list type="bullet">
 /// <item>Case-sensitive matching (recommended for most use cases)</item>
-/// <item>Minimum secret length of 3 characters to avoid false positives</item>
+/// <item>Minimum secret length of 1 character so all non-empty secrets are masked</item>
 /// <item>All secrets in a string are replaced with the mask value</item>
 /// </list>
 /// </remarks>
@@ -100,7 +100,7 @@ public record SecretMaskingOptions
     }
 
     /// <summary>
-    /// Gets default secret masking options with case-sensitive matching and minimum length of 3.
+    /// Gets default secret masking options with case-sensitive matching and minimum length of 1.
     /// </summary>
     public static SecretMaskingOptions Default { get; } = new();
 }

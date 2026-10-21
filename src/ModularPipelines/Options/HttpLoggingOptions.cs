@@ -36,10 +36,11 @@ public record HttpLoggingOptions
     public bool ShowRequestHeaders { get; init; } = true;
 
     /// <summary>
-    /// Gets a value indicating whether to log request body content. Default is true.
+    /// Gets a value indicating whether to log request body content. Default is false.
+    /// Enable only when the body is safe to log; only registered secrets are masked.
     /// Binary content is automatically skipped regardless of this setting.
     /// </summary>
-    public bool ShowRequestBody { get; init; } = true;
+    public bool ShowRequestBody { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether to log response status and version. Default is true.
@@ -52,10 +53,11 @@ public record HttpLoggingOptions
     public bool ShowResponseHeaders { get; init; } = true;
 
     /// <summary>
-    /// Gets a value indicating whether to log response body content. Default is true.
+    /// Gets a value indicating whether to log response body content. Default is false.
+    /// Enable only when the body is safe to log; newly issued tokens may not be registered secrets.
     /// Binary content is automatically skipped regardless of this setting.
     /// </summary>
-    public bool ShowResponseBody { get; init; } = true;
+    public bool ShowResponseBody { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether to log HTTP status code with success/failure icon. Default is true.
@@ -151,7 +153,7 @@ public record HttpLoggingOptions
     ]);
 
     /// <summary>
-    /// Gets the default logging options (all logging enabled, 4KB body limit).
+    /// Gets the default logging options (request/response details, headers, status, and duration; no bodies).
     /// </summary>
     public static HttpLoggingOptions Default { get; } = new();
 
@@ -202,6 +204,7 @@ public record HttpLoggingOptions
 
     /// <summary>
     /// Gets the full logging options (everything logged, 64KB body limit).
+    /// Bodies may contain unregistered secrets; enable only when their content is safe to log.
     /// </summary>
     public static HttpLoggingOptions Diagnostic { get; } = new()
     {

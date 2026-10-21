@@ -26,7 +26,7 @@ namespace ModularPipelines.Http;
 /// //     (null)
 ///
 /// var formatter = new HttpRequestFormatter();
-/// var formatted = await formatter.FormatAsync(httpRequest);
+/// var formatted = await formatter.FormatAsync(httpRequest, HttpLoggingOptions.Diagnostic);
 /// logger.LogInformation(formatted);
 /// </code>
 /// </example>

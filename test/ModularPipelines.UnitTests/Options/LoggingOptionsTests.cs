@@ -5,6 +5,20 @@ namespace ModularPipelines.UnitTests.Options;
 public class LoggingOptionsTests
 {
     [Test]
+    public async Task HttpBodiesRequireExplicitOptIn()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(new HttpLoggingOptions().ShowRequestBody).IsFalse();
+            await Assert.That(new HttpLoggingOptions().ShowResponseBody).IsFalse();
+            await Assert.That(HttpLoggingOptions.Default.ShowRequestBody).IsFalse();
+            await Assert.That(HttpLoggingOptions.Default.ShowResponseBody).IsFalse();
+            await Assert.That(HttpLoggingOptions.Diagnostic.ShowRequestBody).IsTrue();
+            await Assert.That(HttpLoggingOptions.Diagnostic.ShowResponseBody).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task PerCallOptionsUseLoggingPropertyName()
     {
         using (Assert.Multiple())
