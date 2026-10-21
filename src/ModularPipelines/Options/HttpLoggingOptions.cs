@@ -142,6 +142,12 @@ public record HttpLoggingOptions
         "X-XSRF-Token",
         "X-Amz-Security-Token",
         "X-Amz-Credential",
+        "X-NuGet-ApiKey",
+        "X-Vault-Token",
+        "PRIVATE-TOKEN",
+        "Ocp-Apim-Subscription-Key",
+        "X-JFrog-Art-Api",
+        "DD-API-KEY",
     ]);
 
     /// <summary>
