@@ -1776,6 +1776,23 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task GetNonCollidingRootCommands_Rejects_Final_Async_Name_Collisions(bool variant)
+    {
+        var tool = Tool(
+            Command("ToolTestOptions", "ToolOptions", ["test"]),
+            Command("ToolTestAsyncOptions", "ToolOptions", variant ? ["test"] : ["testAsync"]) with
+            {
+                VariantIdentifier = variant ? "Async" : null,
+            });
+
+        await Assert.That(() => GeneratorUtils.GetNonCollidingRootCommands(tool))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("TestAsync");
+    }
+
+    [Test]
     public async Task SubDomainClassGenerator_Throws_On_Duplicate_Parent_Command_Definitions()
     {
         var tool = Tool(

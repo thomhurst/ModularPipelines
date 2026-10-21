@@ -1383,7 +1383,7 @@ public static partial class GeneratorUtils
         // duplicate members the duplicate-path check cannot see, so fail loudly here.
         var duplicateMethodNames = GetDuplicateCommandGroups(
                 rootCommands,
-                command => GenerateMethodName(command))
+                command => EnsureAsyncSuffix(GenerateMethodName(command)))
             .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
             .ToList();
 

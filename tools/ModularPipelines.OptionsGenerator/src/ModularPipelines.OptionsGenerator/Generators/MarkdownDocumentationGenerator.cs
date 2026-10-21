@@ -272,16 +272,16 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             var rootMethod = GeneratorUtils.GenerateMethodName(command);
             var emittedRootCommand = GeneratorUtils.GetNonCollidingRootCommands(tool)
                 .Any(candidate => string.Equals(
-                    candidate.FullCommand,
-                    command.FullCommand,
-                    StringComparison.OrdinalIgnoreCase));
+                    candidate.ClassName,
+                    command.ClassName,
+                    StringComparison.Ordinal));
             if (!emittedRootCommand)
             {
                 var subDomainParent = GeneratorUtils.GetSubDomainParentCommands(tool)
                     .FirstOrDefault(candidate => string.Equals(
-                        candidate.FullCommand,
-                        command.FullCommand,
-                        StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException(
+                        candidate.ClassName,
+                        command.ClassName,
+                        StringComparison.Ordinal)) ?? throw new InvalidOperationException(
                         $"Preferred documentation example command '{command.FullCommand}' for "
                         + $"'{tool.ToolName}' is not exposed as a service method.");
                 var subDomain = GeneratorUtils.GetCommandGroupIdentifier(subDomainParent);

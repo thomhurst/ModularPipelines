@@ -9,6 +9,23 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class MarkdownDocumentationGeneratorTests
 {
     [Test]
+    public async Task BuildInvocation_Distinguishes_Root_Variants_From_SubDomain_Parents()
+    {
+        var primary = Command("fake app", "FakeAppOptions", ["app"]);
+        var variant = Command("fake app", "FakeAppAlternateOptions", ["app"]) with
+        {
+            VariantIdentifier = "Alternate",
+        };
+        var tool = Tool("fake", primary, variant,
+            Command("fake app get", "FakeAppGetOptions", ["app", "get"], "app"));
+
+        await Assert.That(MarkdownDocumentationGenerator.BuildInvocation(tool, primary))
+            .IsEqualTo("context.Tools.Fake.App.ExecuteAsync");
+        await Assert.That(MarkdownDocumentationGenerator.BuildInvocation(tool, variant))
+            .IsEqualTo("context.Tools.Fake.AppAlternateAsync");
+    }
+
+    [Test]
     public async Task GenerateAsync_Escapes_Mdx_In_Global_Table_Text()
     {
         var tool = Tool("fake", Command("fake run", "FakeRunOptions", ["run"])) with
