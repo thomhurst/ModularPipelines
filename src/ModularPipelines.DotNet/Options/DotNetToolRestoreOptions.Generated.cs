@@ -30,7 +30,7 @@ public record DotNetToolRestoreOptions : DotNetOptions
     /// Add an additional NuGet package source to use during installation.
     /// </summary>
     [CliOption("--add-source")]
-    public string? AddSource { get; set; }
+    public IEnumerable<string>? AddSource { get; set; }
 
     /// <summary>
     /// Path to the manifest file.

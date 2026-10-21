@@ -47,7 +47,7 @@ public record DotNetNewDetailsOptions : DotNetOptions
     /// Specifies a NuGet source to use.
     /// </summary>
     [CliOption("--nuget-source")]
-    public string? NuGetSource { get; set; }
+    public IEnumerable<string>? NuGetSource { get; set; }
 
     /// <summary>
     /// Sets the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], and diag[nostic]. [default: normal]

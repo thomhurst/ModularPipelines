@@ -58,7 +58,7 @@ public record DotNetNewInstallOptions : DotNetOptions
     /// Specifies a NuGet source to use.
     /// </summary>
     [CliOption("--nuget-source")]
-    public string? NuGetSource { get; set; }
+    public IEnumerable<string>? NuGetSource { get; set; }
 
     /// <summary>
     /// Allows installing template packages from the specified sources even if they would override a template package from another source. [default: False]

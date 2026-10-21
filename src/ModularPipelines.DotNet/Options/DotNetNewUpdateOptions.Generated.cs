@@ -30,7 +30,7 @@ public record DotNetNewUpdateOptions : DotNetOptions
     /// Specifies a NuGet source to use.
     /// </summary>
     [CliOption("--nuget-source")]
-    public string? NuGetSource { get; set; }
+    public IEnumerable<string>? NuGetSource { get; set; }
 
     /// <summary>
     /// Only checks for updates and display the template packages to be updated without applying update. [default: False]
