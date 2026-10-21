@@ -80,6 +80,39 @@ public class ModuleIdSelectionTests
             error.Message.Contains("ambiguous", StringComparison.OrdinalIgnoreCase))).IsTrue();
     }
 
+    [Test]
+    [Arguments("--module")]
+    [Arguments("--skip-module")]
+    public async Task ModuleIdCollidingWithFullTypeNameSuggestsAssemblyQualifiedNames(string option)
+    {
+        var builder = CreateBuilder([option, typeof(UnrelatedModule).FullName!]);
+        builder.AddModule<FullNameCollidingIdModule>();
+
+        var validation = await builder.ValidateAsync();
+
+        await Assert.That(validation.IsValid).IsFalse();
+        await Assert.That(validation.Errors.Any(error =>
+            error.Message.Contains("assembly-qualified", StringComparison.OrdinalIgnoreCase)
+            && error.Message.Contains(typeof(UnrelatedModule).AssemblyQualifiedName!, StringComparison.Ordinal)
+            && error.Message.Contains(typeof(FullNameCollidingIdModule).AssemblyQualifiedName!, StringComparison.Ordinal))).IsTrue();
+    }
+
+    [Test]
+    [Arguments("--module")]
+    [Arguments("--skip-module")]
+    public async Task AssemblyQualifiedNameDisambiguatesModuleIdCollision(string option)
+    {
+        var builder = CreateBuilder([option, typeof(UnrelatedModule).AssemblyQualifiedName!]);
+        builder.AddModule<FullNameCollidingIdModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToDictionary(module => module.Module.GetType());
+
+        await Assert.That(modules[typeof(UnrelatedModule)].ShouldSkip).IsEqualTo(option == "--skip-module");
+        await Assert.That(modules[typeof(FullNameCollidingIdModule)].ShouldSkip).IsEqualTo(option == "--module");
+    }
+
     private static PipelineBuilder CreateBuilder(string[] args)
     {
         var builder = Pipeline.CreateBuilder(args);
@@ -107,6 +140,13 @@ public class ModuleIdSelectionTests
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
             Task.FromResult("unrelated");
+    }
+
+    [ModuleId("ModularPipelines.UnitTests.PipelineCli.ModuleIdSelectionTests+" + nameof(UnrelatedModule))]
+    private sealed class FullNameCollidingIdModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("full name collision");
     }
 
     [ModuleId(nameof(UnrelatedModule))]

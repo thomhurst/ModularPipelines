@@ -88,7 +88,7 @@ internal sealed class ModuleSelection
             {
                 throw new ModuleSelectionException(
                     $"Pipeline {selectionKind} module name '{name}' is ambiguous. "
-                    + $"Use a full type name: {string.Join(", ", matches.Select(model => model.Module.GetType().FullName))}.");
+                    + $"Use an assembly-qualified type name: {string.Join("; ", matches.Select(model => model.Module.GetType().AssemblyQualifiedName))}.");
             }
 
             resolved.Add(matches[0]);

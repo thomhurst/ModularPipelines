@@ -40,7 +40,10 @@ Module names are matched case-insensitively. A module identifier (including a
 `[ModuleId("build")]` override), simple type name, full type name, or
 assembly-qualified type name can be used. For example, `--module build` selects
 the module marked with `[ModuleId("build")]`. If a name or identifier matches
-multiple registered modules, use a unique full type name.
+multiple registered modules, use a unique full type name. If that full type name
+also matches another module's identifier, use the intended module's assembly-qualified
+type name (available from `typeof(MyModule).AssemblyQualifiedName`) as one quoted
+argument.
 
 For example:
 
