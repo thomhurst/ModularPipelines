@@ -37,7 +37,7 @@ internal class Downloader(
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
         await using (stream.ConfigureAwait(false))
         {
-            var filePathToSave = GetSaveLocation(options);
+            var filePathToSave = GetSaveLocation(options, response);
 
             if (!options.Overwrite && _fileSystemProvider.FileExists(filePathToSave))
             {
@@ -118,7 +118,7 @@ internal class Downloader(
     /// The save location is determined using the following logic:
     /// </para>
     /// <list type="number">
-    /// <item><description>If SavePath is null/empty, generates a temp file path with a GUID name and extension from the download URI.</description></item>
+    /// <item><description>If SavePath is null/empty, generates a temp file path with a GUID name and an extension from the response filename or URI.</description></item>
     /// <item><description>If SavePath ends with a directory separator (e.g., "/" or "\"), treats it as a directory and generates a filename.</description></item>
     /// <item><description>If SavePath has a file extension, treats it as a complete file path.</description></item>
     /// <item><description>Otherwise, treats SavePath as a directory and generates a filename within it.</description></item>
@@ -130,12 +130,13 @@ internal class Downloader(
     /// </para>
     /// </remarks>
     /// <param name="options">The download options containing the save path.</param>
+    /// <param name="response">The response containing the final URI and optional filename.</param>
     /// <returns>The determined file path for saving the download.</returns>
-    private string GetSaveLocation(DownloadFileOptions options)
+    private string GetSaveLocation(DownloadFileOptions options, HttpResponseMessage response)
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
         {
-            return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri));
+            return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options, response));
         }
 
         var savePath = _workingDirectory.ResolvePath(options.SavePath);
@@ -145,7 +146,7 @@ internal class Downloader(
         if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
         {
             _fileSystemProvider.CreateDirectory(savePath);
-            return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
+            return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options, response));
         }
 
         // Use extension heuristic as a fallback
@@ -157,12 +158,35 @@ internal class Downloader(
         }
 
         _fileSystemProvider.CreateDirectory(savePath);
-        return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
+        return _fileSystemProvider.Combine(savePath, Guid.NewGuid() + GetExtension(options, response));
     }
 
-    private static string GetExtension(Uri downloadUri)
+    private static string GetExtension(DownloadFileOptions options, HttpResponseMessage response)
     {
-        var extension = Uri.UnescapeDataString(Path.GetExtension(downloadUri.AbsolutePath));
+        // Use only the extension: a server-provided filename must not control the destination path.
+        var disposition = response.Content.Headers.ContentDisposition;
+        string?[] candidates =
+        [
+            disposition?.FileNameStar?.Trim('"'),
+            disposition?.FileName?.Trim('"'),
+            response.RequestMessage?.RequestUri?.AbsolutePath,
+            options.DownloadUri.AbsolutePath,
+        ];
+
+        foreach (var candidate in candidates)
+        {
+            if (candidate is not null && GetExtension(candidate) is { Length: > 0 } extension)
+            {
+                return extension;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static string GetExtension(string path)
+    {
+        var extension = Uri.UnescapeDataString(Path.GetExtension(path));
         if (string.IsNullOrEmpty(extension))
         {
             return string.Empty;

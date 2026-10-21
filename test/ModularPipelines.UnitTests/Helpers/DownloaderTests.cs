@@ -226,6 +226,76 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    [Arguments(null, null, ".zip")]
+    [Arguments("https://cdn.example.test/setup.msi?sig=secret.exe", null, ".msi")]
+    [Arguments("https://cdn.example.test/download", null, ".zip")]
+    [Arguments("https://cdn.example.test/setup.exe", "attachment; filename=setup.msi", ".msi")]
+    [Arguments(null, "attachment; filename=\"setup file.ps1\"", ".ps1")]
+    [Arguments(null, "attachment; filename=setup.exe; filename*=UTF-8''setup%20file.msi", ".msi")]
+    [Arguments("https://cdn.example.test/setup.msi", "attachment; filename=download", ".msi")]
+    [Arguments(null, "attachment; filename*=UTF-8''setup.ps1%00", ".ps1")]
+    [Arguments(null, "attachment; filename=\"../../setup.msi\"", ".msi")]
+    public async Task DownloadFileAsync_UsesResponseMetadataForGeneratedExtension(
+        string? redirectedUrl, string? contentDisposition, string expectedExtension)
+    {
+        using var redirectedRequest = redirectedUrl is null ? null : new HttpRequestMessage(HttpMethod.Get, redirectedUrl);
+        var content = new StringContent("download");
+        if (contentDisposition is not null)
+        {
+            content.Headers.ContentDisposition = System.Net.Http.Headers.ContentDispositionHeaderValue.Parse(contentDisposition);
+        }
+
+        var downloader = CreateDownloader(content, sendAsync: (options, _) =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = content,
+                RequestMessage = redirectedRequest ?? options.HttpRequestMessage,
+            }));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://example.test/archive.zip")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(expectedExtension);
+            await Assert.That(Guid.TryParse(Path.GetFileNameWithoutExtension(file.Path), out _)).IsTrue();
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    [Arguments("explicit.bin", ".bin")]
+    [Arguments("downloads/", ".ps1")]
+    [Arguments("downloads", ".ps1")]
+    public async Task DownloadFileAsync_ResponseFilenameRespectsSavePath(string savePath, string expectedExtension)
+    {
+        var directory = Directory.CreateTempSubdirectory("download-metadata-");
+        var content = new StringContent("download");
+        content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+        {
+            FileName = "setup.ps1",
+        };
+        var downloader = CreateDownloader(content, workingDirectory: directory.FullName);
+
+        try
+        {
+            var file = await downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://example.test/download"))
+            {
+                SavePath = savePath,
+            });
+
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(expectedExtension);
+            await Assert.That(file.Path).StartsWith(directory.FullName + Path.DirectorySeparatorChar);
+            await Assert.That(await File.ReadAllTextAsync(file.Path)).IsEqualTo("download");
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DownloadFileAsync_Derives_Extension_From_Uri_Path()
     {
         var downloader = CreateDownloader(new StringContent("download"));
