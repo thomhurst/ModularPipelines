@@ -55,8 +55,62 @@ public static class ModuleTester
 /// Configures isolated execution of one module.
 /// </summary>
 /// <typeparam name="TModule">The module to execute.</typeparam>
-public class ModuleTestBuilder<TModule>
+public sealed class ModuleTestBuilder<TModule> : ModuleTestBuilderBase<TModule, ModuleTestBuilder<TModule>>
     where TModule : class, IModule
+{
+    internal ModuleTestBuilder()
+    {
+    }
+
+    /// <summary>
+    /// Executes the module in an isolated test pipeline.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The captured module run.</returns>
+    public async Task<ModuleTestRun> ExecuteAsync(CancellationToken cancellationToken = default)
+    {
+        var execution = await ExecuteCoreAsync(cancellationToken).ConfigureAwait(false);
+        return new ModuleTestRun(execution.Result, execution.Commands, execution.HttpRequests, execution.FileSystem);
+    }
+}
+
+/// <summary>
+/// Configures strongly typed isolated execution of one module.
+/// </summary>
+/// <typeparam name="TModule">The module to execute.</typeparam>
+/// <typeparam name="TResult">The module value type.</typeparam>
+public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilderBase<TModule, ModuleTestBuilder<TModule, TResult>>
+    where TModule : Module<TResult>
+{
+    internal ModuleTestBuilder()
+    {
+    }
+
+    /// <summary>
+    /// Executes the module in an isolated test pipeline.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The captured strongly typed module run.</returns>
+    public async Task<ModuleTestRun<TResult>> ExecuteAsync(
+        CancellationToken cancellationToken = default)
+    {
+        var execution = await ExecuteCoreAsync(cancellationToken).ConfigureAwait(false);
+        return new ModuleTestRun<TResult>(
+            (ModuleResult<TResult>) execution.Result,
+            execution.Commands,
+            execution.HttpRequests,
+            execution.FileSystem);
+    }
+}
+
+/// <summary>
+/// Shares configuration for isolated module test builders.
+/// </summary>
+/// <typeparam name="TModule">The module to execute.</typeparam>
+/// <typeparam name="TBuilder">The concrete builder returned by configuration methods.</typeparam>
+public abstract class ModuleTestBuilderBase<TModule, TBuilder>
+    where TModule : class, IModule
+    where TBuilder : ModuleTestBuilderBase<TModule, TBuilder>
 {
     private readonly List<Action<PipelineBuilder>> _registrations = [];
     private readonly List<IDependencySeed> _dependencySeeds = [];
@@ -65,21 +119,25 @@ public class ModuleTestBuilder<TModule>
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>>? _commandHandler;
     private Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>>? _httpHandler;
 
+    private protected ModuleTestBuilderBase()
+    {
+    }
+
     /// <summary>Configures the pipeline after harness defaults and before building it.</summary>
     /// <param name="configure">The callback, invoked for each execution in registration order.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> ConfigurePipeline(Action<PipelineBuilder> configure)
+    public TBuilder ConfigurePipeline(Action<PipelineBuilder> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
         _registrations.Add(configure);
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>Seeds a UTF-8 file before pipeline service initialization and module execution.</summary>
     /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
     /// <param name="contents">The file contents.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithFile(string path, string contents)
+    public TBuilder WithFile(string path, string contents)
     {
         ArgumentNullException.ThrowIfNull(contents);
         return WithFile(path, Encoding.UTF8.GetBytes(contents));
@@ -89,12 +147,12 @@ public class ModuleTestBuilder<TModule>
     /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
     /// <param name="contents">The file contents, copied when registered.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithFile(string path, byte[] contents)
+    public TBuilder WithFile(string path, byte[] contents)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         ArgumentNullException.ThrowIfNull(contents);
         _fileSeeds[path] = [.. contents];
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -103,11 +161,11 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TService">The service type.</typeparam>
     /// <param name="service">The service instance.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithService<TService>(TService service)
+    public TBuilder WithService<TService>(TService service)
         where TService : class
     {
         _registrations.Add(builder => builder.Services.AddSingleton(service));
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -118,13 +176,13 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="value">The dependency value.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithDependencyResult<TDependency, TResult>(TResult value)
+    public TBuilder WithDependencyResult<TDependency, TResult>(TResult value)
         where TDependency : Module<TResult>
     {
         _registrations.Add(static builder => builder.AddModule<TDependency>());
         _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
             context => ModuleResult<TResult>.CreateSuccess(value, context), ModuleStatus.Succeeded));
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>Seeds a failed dependency without executing it.</summary>
@@ -133,14 +191,14 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="exception">The dependency failure.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithDependencyFailure<TDependency, TResult>(Exception exception)
+    public TBuilder WithDependencyFailure<TDependency, TResult>(Exception exception)
         where TDependency : Module<TResult>
     {
         ArgumentNullException.ThrowIfNull(exception);
         _registrations.Add(static builder => builder.AddModule<TDependency>());
         _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
             context => ModuleResult<TResult>.CreateFailure(exception, context), ModuleStatus.Failed));
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>Seeds a skipped dependency without executing it.</summary>
@@ -149,14 +207,14 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="reason">The reason the dependency was skipped.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithSkippedDependency<TDependency, TResult>(string reason)
+    public TBuilder WithSkippedDependency<TDependency, TResult>(string reason)
         where TDependency : Module<TResult>
     {
         ArgumentNullException.ThrowIfNull(reason);
         _registrations.Add(static builder => builder.AddModule<TDependency>());
         _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
             context => ModuleResult<TResult>.CreateSkipped(SkipDecision.Skip(reason), context), ModuleStatus.Skipped));
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -166,7 +224,7 @@ public class ModuleTestBuilder<TModule>
     /// <param name="artifactName">The artifact name from <see cref="ConsumesArtifactAttribute"/>.</param>
     /// <param name="contents">The UTF-8 artifact contents.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithArtifact<TProducer>(
+    public TBuilder WithArtifact<TProducer>(
         string artifactName,
         string contents)
         where TProducer : class, IModule
@@ -182,7 +240,7 @@ public class ModuleTestBuilder<TModule>
     /// <param name="artifactName">The artifact name from <see cref="ConsumesArtifactAttribute"/>.</param>
     /// <param name="contents">The binary artifact contents.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithArtifact<TProducer>(
+    public TBuilder WithArtifact<TProducer>(
         string artifactName,
         byte[] contents)
         where TProducer : class, IModule
@@ -190,7 +248,7 @@ public class ModuleTestBuilder<TModule>
         ArgumentException.ThrowIfNullOrWhiteSpace(artifactName);
         ArgumentNullException.ThrowIfNull(contents);
         _artifactSeeds[(typeof(TProducer), artifactName)] = [.. contents];
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -198,11 +256,11 @@ public class ModuleTestBuilder<TModule>
     /// </summary>
     /// <param name="handler">The command handler.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> InterceptCommands(Func<CommandInvocation, CommandResult> handler)
+    public TBuilder InterceptCommands(Func<CommandInvocation, CommandResult> handler)
     {
         ArgumentNullException.ThrowIfNull(handler);
         _commandHandler = (invocation, _) => ValueTask.FromResult(handler(invocation));
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -210,12 +268,12 @@ public class ModuleTestBuilder<TModule>
     /// </summary>
     /// <param name="handler">The asynchronous command handler.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> InterceptCommands(
+    public TBuilder InterceptCommands(
         Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>> handler)
     {
         ArgumentNullException.ThrowIfNull(handler);
         _commandHandler = handler;
-        return this;
+        return (TBuilder) this;
     }
 
     /// <summary>
@@ -224,23 +282,12 @@ public class ModuleTestBuilder<TModule>
     /// <param name="handler">The asynchronous handler, which receives the request and its effective cancellation token.</param>
     /// <returns>This builder.</returns>
     /// <remarks>Explicitly supplied HTTP clients and other named clients are not intercepted.</remarks>
-    public ModuleTestBuilder<TModule> InterceptHttp(
+    public TBuilder InterceptHttp(
         Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>> handler)
     {
         ArgumentNullException.ThrowIfNull(handler);
         _httpHandler = handler;
-        return this;
-    }
-
-    /// <summary>
-    /// Executes the module in an isolated test pipeline.
-    /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The captured module run.</returns>
-    public async Task<ModuleTestRun> ExecuteAsync(CancellationToken cancellationToken = default)
-    {
-        var execution = await ExecuteCoreAsync(cancellationToken).ConfigureAwait(false);
-        return new ModuleTestRun(execution.Result, execution.Commands, execution.HttpRequests, execution.FileSystem);
+        return (TBuilder) this;
     }
 
     internal async Task<ExecutionOutcome> ExecuteCoreAsync(CancellationToken cancellationToken)
@@ -577,128 +624,5 @@ public class ModuleTestBuilder<TModule>
             services.GetRequiredService<IModuleResultRegistry>()
                 .RegisterResult(typeof(TDependency), result);
         }
-    }
-}
-
-/// <summary>
-/// Configures strongly typed isolated execution of one module.
-/// </summary>
-/// <typeparam name="TModule">The module to execute.</typeparam>
-/// <typeparam name="TResult">The module value type.</typeparam>
-public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TModule>
-    where TModule : Module<TResult>
-{
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.ConfigurePipeline"/>
-    public new ModuleTestBuilder<TModule, TResult> ConfigurePipeline(Action<PipelineBuilder> configure)
-    {
-        base.ConfigurePipeline(configure);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithFile(string,string)"/>
-    public new ModuleTestBuilder<TModule, TResult> WithFile(string path, string contents)
-    {
-        base.WithFile(path, contents);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithFile(string,byte[])"/>
-    public new ModuleTestBuilder<TModule, TResult> WithFile(string path, byte[] contents)
-    {
-        base.WithFile(path, contents);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithDependencyFailure{TDependency,TDependencyResult}"/>
-    public new ModuleTestBuilder<TModule, TResult> WithDependencyFailure<TDependency, TDependencyResult>(Exception exception)
-        where TDependency : Module<TDependencyResult>
-    {
-        base.WithDependencyFailure<TDependency, TDependencyResult>(exception);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithSkippedDependency{TDependency,TDependencyResult}"/>
-    public new ModuleTestBuilder<TModule, TResult> WithSkippedDependency<TDependency, TDependencyResult>(string reason)
-        where TDependency : Module<TDependencyResult>
-    {
-        base.WithSkippedDependency<TDependency, TDependencyResult>(reason);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithService{TService}(TService)"/>
-    public new ModuleTestBuilder<TModule, TResult> WithService<TService>(TService service)
-        where TService : class
-    {
-        base.WithService(service);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithDependencyResult{TDependency,TDependencyResult}(TDependencyResult)"/>
-    public new ModuleTestBuilder<TModule, TResult> WithDependencyResult<TDependency, TDependencyResult>(
-        TDependencyResult value)
-        where TDependency : Module<TDependencyResult>
-    {
-        base.WithDependencyResult<TDependency, TDependencyResult>(value);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithArtifact{TProducer}(string,string)"/>
-    public new ModuleTestBuilder<TModule, TResult> WithArtifact<TProducer>(
-        string artifactName,
-        string contents)
-        where TProducer : class, IModule
-    {
-        base.WithArtifact<TProducer>(artifactName, contents);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithArtifact{TProducer}(string,byte[])"/>
-    public new ModuleTestBuilder<TModule, TResult> WithArtifact<TProducer>(
-        string artifactName,
-        byte[] contents)
-        where TProducer : class, IModule
-    {
-        base.WithArtifact<TProducer>(artifactName, contents);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.InterceptCommands(Func{CommandInvocation,CommandResult})"/>
-    public new ModuleTestBuilder<TModule, TResult> InterceptCommands(
-        Func<CommandInvocation, CommandResult> handler)
-    {
-        base.InterceptCommands(handler);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.InterceptCommands(Func{CommandInvocation,CancellationToken,ValueTask{CommandResult}})"/>
-    public new ModuleTestBuilder<TModule, TResult> InterceptCommands(
-        Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>> handler)
-    {
-        base.InterceptCommands(handler);
-        return this;
-    }
-
-    /// <inheritdoc cref="ModuleTestBuilder{TModule}.InterceptHttp"/>
-    public new ModuleTestBuilder<TModule, TResult> InterceptHttp(
-        Func<HttpRequestMessage, CancellationToken, ValueTask<HttpResponseMessage>> handler)
-    {
-        base.InterceptHttp(handler);
-        return this;
-    }
-
-    /// <summary>
-    /// Executes the module in an isolated test pipeline.
-    /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The captured strongly typed module run.</returns>
-    public new async Task<ModuleTestRun<TResult>> ExecuteAsync(
-        CancellationToken cancellationToken = default)
-    {
-        var execution = await ExecuteCoreAsync(cancellationToken).ConfigureAwait(false);
-        return new ModuleTestRun<TResult>(
-            (ModuleResult<TResult>) execution.Result,
-            execution.Commands,
-            execution.HttpRequests,
-            execution.FileSystem);
     }
 }
