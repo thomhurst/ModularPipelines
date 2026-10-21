@@ -54,19 +54,19 @@ public record DockerSwarmInitOptions : DockerOptions
     /// Port number to use for data path traffic (1024 - 49151). If no value is set or is set to 0, the default port (4789) is used.
     /// </summary>
     [CliOption("--data-path-port", Format = OptionFormat.EqualsSeparated)]
-    public int? DataPathPort { get; set; }
+    public uint? DataPathPort { get; set; }
 
     /// <summary>
     /// default address pool in CIDR format (default [])
     /// </summary>
     [CliOption("--default-addr-pool", Format = OptionFormat.EqualsSeparated)]
-    public string? DefaultAddrPool { get; set; }
+    public IEnumerable<string>? DefaultAddrPool { get; set; }
 
     /// <summary>
     /// default address pool subnet mask length (default 24)
     /// </summary>
     [CliOption("--default-addr-pool-mask-length", Format = OptionFormat.EqualsSeparated)]
-    public int? DefaultAddrPoolMaskLength { get; set; }
+    public uint? DefaultAddrPoolMaskLength { get; set; }
 
     /// <summary>
     /// Dispatcher heartbeat period (ns|us|ms|s|m|h) (default 5s)
@@ -96,13 +96,13 @@ public record DockerSwarmInitOptions : DockerOptions
     /// Number of additional Raft snapshots to retain
     /// </summary>
     [CliOption("--max-snapshots", Format = OptionFormat.EqualsSeparated)]
-    public int? MaxSnapshots { get; set; }
+    public ulong? MaxSnapshots { get; set; }
 
     /// <summary>
     /// Number of log entries between Raft snapshots (default 10000)
     /// </summary>
     [CliOption("--snapshot-interval", Format = OptionFormat.EqualsSeparated)]
-    public int? SnapshotInterval { get; set; }
+    public ulong? SnapshotInterval { get; set; }
 
     /// <summary>
     /// Task history retention limit (default 5)

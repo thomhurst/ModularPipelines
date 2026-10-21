@@ -13,7 +13,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// The **docker manifest** command has subcommands for managing image manifests and
+/// The **docker manifest** command has subcommands for managing image manifests and manifest lists. A manifest list allows you to use one name to refer to the same image built for multiple architectures.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

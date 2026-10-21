@@ -229,7 +229,7 @@ public partial interface IDocker
     public Task<CommandResult> LoadAsync(DockerLoadOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Authenticate to a registry.
+    /// Authenticate to a registry. Defaults to Docker Hub if no server is specified.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -238,7 +238,7 @@ public partial interface IDocker
     public Task<CommandResult> LoginAsync(DockerLoginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Log out from a registry.
+    /// Log out from a registry. If no server is specified, the default is defined by the daemon.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

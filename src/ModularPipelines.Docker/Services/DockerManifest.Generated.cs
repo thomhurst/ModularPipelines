@@ -32,7 +32,7 @@ public class DockerManifest : IDockerManifest
     #region Commands
 
     /// <summary>
-    /// The **docker manifest** command has subcommands for managing image manifests and
+    /// The **docker manifest** command has subcommands for managing image manifests and manifest lists. A manifest list allows you to use one name to refer to the same image built for multiple architectures.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
