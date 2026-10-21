@@ -95,16 +95,22 @@ internal sealed record ProcessCommand(
 
     private string ResolveExecutablePath()
     {
-        var filePath = ResolvedFilePath;
-        if (OperatingSystem.IsWindows() && filePath is null)
+        if (!OperatingSystem.IsWindows() || ResolvedFilePath is not null)
         {
-            // Resolve at startup so interceptors can still handle commands without executing them.
-            // Never let an unresolved name fall back to CreateProcess's implicit directory search.
-            filePath = CliCommandFactory.ResolveWindowsCommand(TargetFilePath, WorkingDirPath, EnvironmentVariables)
-                ?? throw new Win32Exception(2, $"Command '{TargetFilePath}' was not found on PATH or at the specified path.");
+            return ResolvedFilePath ?? TargetFilePath;
         }
 
-        return filePath ?? TargetFilePath;
+        if (WindowsCommandResolver.IsPath(TargetFilePath))
+        {
+            // An explicit path needs no implicit search. Let Windows check access under the supplied
+            // credentials: the current user may not be able to see the target executable.
+            return Path.GetFullPath(TargetFilePath, Path.GetFullPath(WorkingDirPath));
+        }
+
+        // Resolve at startup so interceptors can still handle commands without executing them.
+        // Never let an unresolved name fall back to CreateProcess's implicit directory search.
+        return CliCommandFactory.ResolveWindowsCommand(TargetFilePath, WorkingDirPath, EnvironmentVariables)
+            ?? throw new Win32Exception(2, $"Command '{TargetFilePath}' was not found on PATH or at the specified path.");
     }
 
     public override string ToString() => $"{TargetFilePath} {Arguments}";

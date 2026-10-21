@@ -66,9 +66,45 @@ public class CliCommandFactoryTests
     }
 
     [Test]
-    [Arguments("tool")]
-    [Arguments("tool.exe")]
-    public async Task Unresolved_Windows_Command_Does_Not_Fall_Back_To_Operating_System_Search(string tool)
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Explicit_Windows_Path_Does_Not_Require_Current_User_Visibility(bool relativePath, bool useCredentials)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var directory = Path.Combine(Path.GetTempPath(), $"mp factory tests {Guid.NewGuid():N}");
+        var executable = Path.Combine(directory, "private", "tool.exe");
+        var tool = relativePath ? Path.Combine("private", "tool.exe") : executable;
+
+        // An absent file reproduces File.Exists returning false for a file hidden from the current user.
+        // No process is started: visibility and credentials must be left to Windows at startup.
+        var prepared = CliCommandFactory.Create(tool, [], new CommandExecutionOptions
+        {
+            WorkingDirectory = directory,
+            CommandLineCredentials = useCredentials ? new CommandLineCredentials { UserName = "other-user" } : null,
+        });
+        var startInfo = prepared.Command.CreateStartInfo();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(prepared.Command.ResolvedFilePath).IsNull();
+            await Assert.That(startInfo.FileName).IsEqualTo(executable);
+            await Assert.That(startInfo.WorkingDirectory).IsEqualTo(directory);
+            await Assert.That(startInfo.UserName).IsEqualTo(useCredentials ? "other-user" : string.Empty);
+        }
+    }
+
+    [Test]
+    [Arguments("tool", false)]
+    [Arguments("tool.exe", false)]
+    [Arguments("tool", true)]
+    [Arguments("tool.exe", true)]
+    public async Task Unresolved_Windows_Command_Does_Not_Fall_Back_To_Operating_System_Search(string tool, bool useCredentials)
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -87,6 +123,7 @@ public class CliCommandFactoryTests
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = directory.FullName,
+                    CommandLineCredentials = useCredentials ? new CommandLineCredentials { UserName = "other-user" } : null,
                     EnvironmentVariables = new Dictionary<string, string?>
                     {
                         ["PATH"] = string.Empty,

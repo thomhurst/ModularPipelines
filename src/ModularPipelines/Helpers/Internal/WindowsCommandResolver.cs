@@ -102,7 +102,7 @@ internal static class WindowsCommandResolver
         }
     }
 
-    private static bool IsPath(string command) =>
+    internal static bool IsPath(string command) =>
         Path.IsPathRooted(command)
         || command.Contains(Path.DirectorySeparatorChar)
         || command.Contains(Path.AltDirectorySeparatorChar);
