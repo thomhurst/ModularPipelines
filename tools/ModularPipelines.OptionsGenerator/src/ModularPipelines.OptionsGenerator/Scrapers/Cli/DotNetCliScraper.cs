@@ -337,14 +337,14 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                                              "[default: True]",
                                              StringComparison.OrdinalIgnoreCase);
             var hasNumericDefault = NumericDefaultPattern().IsMatch(description);
-            var isFlag = !hasOptionalValue && !hasNumericDefault && string.IsNullOrEmpty(valueHint)
+            var hasKnownCollectionShape = IsKnownRepeatableOption(commandParts, primaryFlag);
+            var isFlag = !hasKnownCollectionShape && !hasOptionalValue && !hasNumericDefault && string.IsNullOrEmpty(valueHint)
                          && (declaresBooleanDefault
                              || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
-            // VSTest accepts repeated logger, collector, and adapter switches; its help omits that detail.
-            var acceptsMultiple = description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
-                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase) ||
-                                  (commandParts is ["test"] && primaryFlag is "logger" or "collect" or "test-adapter-path");
+            var acceptsMultiple = !isFlag && (hasKnownCollectionShape ||
+                                  description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
+                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase));
 
             var csharpType = DetermineType(valueHint, description, isFlag, acceptsMultiple);
 
@@ -364,7 +364,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 ValueArity = hasOptionalValue
                     ? CliOptionValueArity.Optional
                     : CliOptionValueArity.Required,
-                HasVerifiedValueShape = hasOptionalValue || hasNumericDefault,
+                HasVerifiedValueShape = hasKnownCollectionShape || hasOptionalValue || hasNumericDefault,
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
@@ -700,6 +700,23 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                lowerDesc.Contains("password") ||
                lowerDesc.Contains("comma-separated list");
     }
+
+    // SDK option definitions use collection types even when --help omits repeatability.
+    // Keep these overrides command-specific: e.g. nuget push --source is a scalar.
+    // https://github.com/dotnet/sdk/tree/main/src/Cli/Microsoft.DotNet.Cli.Definitions
+    private static bool IsKnownRepeatableOption(string[] commandParts, string optionName) =>
+        (commandParts, optionName) switch
+        {
+            (["restore"], "source" or "runtime") => true,
+            (["build"], "source") => true,
+            (["tool", "install" or "update" or "execute"], "source" or "add-source") => true,
+            (["tool", "restore"], "add-source") => true,
+            (["new", "install" or "update" or "details"], "add-source" or "nuget-source") => true,
+            (["workload", "install" or "update" or "restore" or "repair"], "source") => true,
+            // VSTest also omits the repeatability of these options from its help.
+            (["test"], "logger" or "collect" or "test-adapter-path") => true,
+            _ => false,
+        };
 
     private static bool IsOptionRow(string line) => DotNetOptionPattern().IsMatch(line);
 
