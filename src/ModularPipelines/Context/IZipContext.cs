@@ -47,6 +47,8 @@ public interface IZipContext
     /// <remarks>
     /// With the default filesystem provider, each file is published only after extraction succeeds.
     /// Files extracted before a failure remain in the destination.
+    /// On Windows, overwriting with the default provider requires reading the destination's access permissions
+    /// and replacing the file. If the permissions cannot be read, extraction fails before copying entry contents.
     /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
     /// The caller must prevent concurrent changes to the destination tree during extraction;
     /// path validation and filesystem writes are not atomic.
@@ -81,6 +83,8 @@ public interface IZipContext
     /// <remarks>
     /// With the default filesystem provider, each file is published only after extraction succeeds.
     /// Files extracted before cancellation or failure remain in the destination.
+    /// On Windows, overwriting with the default provider requires reading the destination's access permissions
+    /// and replacing the file. If the permissions cannot be read, extraction fails before copying entry contents.
     /// File metadata and ZIP central-directory enumeration are synchronous; entry contents are copied asynchronously.
     /// The selected destination is trusted. Existing symbolic links and reparse points below it are rejected.
     /// The caller must prevent concurrent changes to the destination tree during extraction;
