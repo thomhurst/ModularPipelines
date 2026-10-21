@@ -4,7 +4,7 @@ title: Amazon Web Services Package
 
 # Amazon Web Services Package
 
-Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
+Strongly typed AWS CLI commands and AWS SDK helpers for S3.
 
 ## Installation
 
@@ -12,19 +12,30 @@ Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
 dotnet add package ModularPipelines.AmazonWebServices
 ```
 
-Required command-line tool: `aws`. It must be installed and available on `PATH` when the pipeline runs.
+Required command-line tool: `aws`. It must be installed and available on `PATH` when invoking CLI commands.
 
-## API availability
+## AWS CLI
 
-The strongly typed context API is not available yet. This page will include context entry points and examples when the integration is implemented.
+Use `context.Tools.Aws` inside a module to access the generated CLI services, including
+`context.Tools.Aws.Lambda`. See the [AWS CLI reference](cli/aws.md) for available commands
+and options. Projects without the generated C# tool properties can use
+`context.Tools.Get<ModularPipelines.AmazonWebServices.Services.IAws>()`.
+
+## AWS SDK helpers
+
+Register a caller-owned `AmazonS3Client` with `builder.Services.AddS3Client(client)`
+from `ModularPipelines.AmazonWebServices.Extensions`. This registers scoped `IAmazon`,
+`IAmazonProvisioner`, and `IS3` services, plus the AWS CLI services. Access S3 through
+`context.Amazon().Provisioner.S3`; the caller remains responsible for disposing the client.
+
+The handwritten `ModularPipelines.AmazonWebServices.Lambda` SDK wrapper was removed in V4.
+It only forwarded calls to `AmazonLambdaClient` and had no integration context entry point.
+For SDK operations, reference `AWSSDK.Lambda` directly and call the client's `*Async` methods
+with the request and cancellation token. Your application owns the client configuration,
+registration, and disposal. The generated Lambda CLI service remains available separately.
 
 ## Global options generation
 
-The AWS CLI scraper supports reading the root `GLOBAL OPTIONS` section, including
-integer timeouts and enum choices. It preserves command-specific options whose names
-also appear in that section and excludes the version action from inherited settings.
-These generator capabilities do not make the typed AWS API available in the package;
-the generated integration must land separately before callers can use it.
-
-Keep existing AWS CLI invocations until the generated integration is available.
-Migration examples for inherited global properties will be added with that integration.
+The AWS CLI scraper reads the root `GLOBAL OPTIONS` section, including integer timeouts
+and enum choices. It preserves command-specific options whose names also appear in that
+section and excludes the version action from inherited settings.

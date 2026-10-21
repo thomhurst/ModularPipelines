@@ -1979,3 +1979,23 @@ Subscription, resource-group, and management-group scopes keep their existing re
 `ArmClient.GetResourceIdentifierAsync` now accepts an optional final `CancellationToken`.
 Pass a token to cancel resource enumeration; `AzureSecurityProvisioner.AuthorizationRoleDefinitionAsync`
 also forwards its token when resolving the scope.
+
+## AWS Lambda SDK wrapper
+
+The handwritten `ModularPipelines.AmazonWebServices.Lambda` class has been removed.
+It only forwarded calls to `AmazonLambdaClient` and was never registered or exposed
+through the integration context.
+
+Add an explicit `AWSSDK.Lambda` package reference if your pipeline uses the SDK. Replace
+wrapper calls with the corresponding `AmazonLambdaClient` method, adding the `Async` suffix:
+
+```csharp
+// Before: var lambda = new ModularPipelines.AmazonWebServices.Lambda(client);
+// await lambda.Invoke(request, cancellationToken);
+await client.InvokeAsync(request, cancellationToken);
+```
+
+Keep ownership of the client in your application, including its configuration, registration,
+and disposal. The integration package no longer references `AWSSDK.Lambda` transitively.
+For CLI operations, use the separate generated `context.Tools.Aws.Lambda` service; its
+methods execute `aws lambda` commands and return command results rather than SDK responses.
