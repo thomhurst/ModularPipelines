@@ -1,11 +1,21 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Generators;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public partial class DotNetCliScraperTests
 {
+    internal static async Task<CliOptionDefinition> ParseNoLogoForRendering(string commandName, string declaration)
+    {
+        var help = $"Options:\n  {declaration}  Do not display the startup banner. [default: True]\n";
+        var command = (await new TestDotNetCliScraper().Parse(["dotnet", commandName], help))!;
+        var enhanced = await OptionTypeEnhancer.CreateDefault(new DotNet11HelpExecutor(help), NullLoggerFactory.Instance)
+            .EnhanceAsync(DotNet11Tool(command));
+        return enhanced.Commands.Single().Options.Single(option => option.PropertyName == "NoLogo");
+    }
+
     [Test]
     [Arguments("--include-references", "True", false)]
     [Arguments("--include-references", "true", false)]
