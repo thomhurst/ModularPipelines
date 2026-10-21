@@ -1,0 +1,181 @@
+name: Distributed template smoke
+
+on:
+  pull_request:
+    paths:
+      - 'src/ModularPipelines/**'
+      - 'src/ModularPipelines.GitHub/**'
+      - 'src/ModularPipelines.Distributed.Redis/**'
+      - 'test/ModularPipelines.Distributed.SmokeTests/**'
+      - 'test/ModularPipelines.GitHub.UnitTests/**'
+      - 'Directory.*'
+      - 'global.json'
+      - '.github/workflows/distributed-template-smoke.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/ModularPipelines/**'
+      - 'src/ModularPipelines.GitHub/**'
+      - 'src/ModularPipelines.Distributed.Redis/**'
+      - 'test/ModularPipelines.Distributed.SmokeTests/**'
+      - 'Directory.*'
+      - 'global.json'
+      - '.github/workflows/distributed-template-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: distributed-template-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  initialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      distributed: ${{ steps.coordination.outputs.distributed }}
+      run-identifier: ${{ github.run_id }}-${{ github.run_attempt }}-template
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Check coordination availability
+        id: coordination
+        shell: pwsh
+        env:
+          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_KEY: ${{ secrets.REDIS_KEY }}
+          ALLOW_DISTRIBUTED: ${{ github.actor != 'dependabot[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        run: |
+          $enabled = $env:ALLOW_DISTRIBUTED -eq 'true' -and $env:REDIS_ENDPOINT -and $env:REDIS_KEY
+          "distributed=$($enabled.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+      - name: Extract commands from generated workflow
+        shell: bash
+        run: dotnet run --project test/ModularPipelines.Distributed.SmokeTests -c Release --framework net11.0 -- --generate "$RUNNER_TEMP/generated-workflow"
+      - name: Publish using the generated command
+        shell: bash
+        run: bash "$RUNNER_TEMP/generated-workflow/publish.sh"
+      - name: Record expected shared identity
+        shell: bash
+        run: dotnet "$RUNNER_TEMP/modular-pipelines-host/ModularPipelines.Distributed.SmokeTests.dll" --identity "$RUNNER_TEMP/modular-pipelines-host/expected-identity.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: template-host-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/modular-pipelines-host
+          if-no-files-found: error
+          retention-days: 1
+          include-hidden-files: true
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: template-commands-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/generated-workflow
+          if-no-files-found: error
+          retention-days: 1
+
+  pipeline:
+    needs: initialize
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - instance: 0
+            os: ubuntu-latest
+            autocrlf: 'false'
+          - instance: 1
+            os: windows-latest
+            autocrlf: 'true'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      # Make a common cross-OS input difference explicit instead of relying on runner defaults.
+      - shell: bash
+        run: git config --global core.autocrlf '${{ matrix.autocrlf }}'
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Record independently built identity and inputs
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/identities" -Force | Out-Null
+          dotnet run --project test/ModularPipelines.Distributed.SmokeTests -c Release --framework net11.0 -- --identity "$env:RUNNER_TEMP/identities/independent-$env:RUNNER_OS.json"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $sourcePath = 'test/ModularPipelines.Distributed.SmokeTests/Program.cs'
+          $hasCrlf = [IO.File]::ReadAllText((Join-Path $env:GITHUB_WORKSPACE $sourcePath)).Contains("`r`n")
+          @("commit=$(git rev-parse HEAD)", "sdk=$(dotnet --version)", "autocrlf=$(git config core.autocrlf)", "checkout=$env:GITHUB_WORKSPACE", "source-sha256=$((Get-FileHash $sourcePath -Algorithm SHA256).Hash)", "source-has-crlf=$hasCrlf", 'configuration=Release; framework=net11.0; ContinuousIntegrationBuild=true') |
+            Set-Content "$env:RUNNER_TEMP/identities/inputs-$env:RUNNER_OS.txt"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: template-host-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/modular-pipelines-host
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: template-commands-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/generated-workflow
+      - name: Restore using the generated command
+        shell: bash
+        run: bash "$RUNNER_TEMP/generated-workflow/restore.sh"
+      - name: Check shared identity on this OS
+        shell: bash
+        run: bash "$RUNNER_TEMP/generated-workflow/run-identity.sh"
+      - name: Compare shared identity
+        shell: pwsh
+        run: |
+          $expected = Get-Content "$env:RUNNER_TEMP/modular-pipelines-host/expected-identity.json" -Raw | ConvertFrom-Json
+          $actual = Get-Content "$env:RUNNER_TEMP/identities/shared-$env:RUNNER_OS.json" -Raw | ConvertFrom-Json
+          if ($expected.Schema -ne $actual.Schema -or $expected.Mvid -ne $actual.Mvid) { throw 'Shared host identity changed across operating systems.' }
+          if (-not $actual.AssemblyPath.StartsWith("$env:RUNNER_TEMP$([IO.Path]::DirectorySeparatorChar)modular-pipelines-host")) { throw 'Generated run command did not use the downloaded host.' }
+      - name: Register worker and execute using the generated command
+        if: needs.initialize.outputs.distributed == 'true'
+        shell: bash
+        env:
+          MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}
+          MODULARPIPELINES_TOTAL_INSTANCES: 2
+          MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}
+          REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+          REDIS_KEY: ${{ secrets.REDIS_KEY }}
+        run: bash "$RUNNER_TEMP/generated-workflow/run.sh"
+      - name: Explain secretless validation
+        if: needs.initialize.outputs.distributed != 'true'
+        shell: bash
+        run: echo 'Identity checks ran on both operating systems. Redis registration requires a trusted run with REDIS_ENDPOINT and REDIS_KEY.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: template-identities-${{ runner.os }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/identities
+          if-no-files-found: error
+
+  identities:
+    needs: pipeline
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          pattern: template-identities-*-${{ github.run_attempt }}
+          merge-multiple: true
+          path: identities
+      - name: Record cross-OS reproduction
+        shell: pwsh
+        run: |
+          $rows = @('## Distributed template identities', '', '| Build | OS | Module MVID | Pipeline schema |', '| --- | --- | --- | --- |')
+          foreach ($build in 'independent', 'shared') {
+            foreach ($os in 'Linux', 'Windows') {
+              $identity = Get-Content "identities/$build-$os.json" -Raw | ConvertFrom-Json
+              $rows += "| $build | $os | $($identity.Mvid) | $($identity.Schema) |"
+            }
+          }
+          $linux = Get-Content identities/independent-Linux.json -Raw | ConvertFrom-Json
+          $windows = Get-Content identities/independent-Windows.json -Raw | ConvertFrom-Json
+          $rows += @('', "Independent builds have equal schemas: $($linux.Schema -eq $windows.Schema)", '', 'Checkout/build inputs are retained in the identity artifacts.')
+          $rows >> $env:GITHUB_STEP_SUMMARY

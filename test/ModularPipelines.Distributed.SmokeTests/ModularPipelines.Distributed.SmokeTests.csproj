@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/ModularPipelines.GitHub/ModularPipelines.GitHub.csproj" />
+    <ProjectReference Include="../../src/ModularPipelines.Distributed.Redis/ModularPipelines.Distributed.Redis.csproj" />
+  </ItemGroup>
+</Project>

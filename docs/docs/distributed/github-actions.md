@@ -92,6 +92,31 @@ named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the genera
 `.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
 capability requirements change.
 
+The initializer publishes one framework-dependent, portable host and uploads it as
+`modular-pipelines-host-<run_attempt>`. Every runner downloads those exact assemblies outside
+the checkout and runs them with `--no-build --no-restore`. The project is still evaluated to
+locate its executable, with `UseAppHost=false` and `OutDir` pointing at the downloaded host;
+the assembly name does not need to match the project directory. Each runner installs the SDK,
+keeps its own NuGet cache, and restores the project for platform-specific build/test work.
+Set `DotNetRunFramework` when the project targets multiple frameworks. The host must support
+every selected OS; prepare any additional native tools or runtime prerequisites on each runner.
+`EnvironmentVariables` are supplied to host publishing, runner restore, and pipeline execution, so custom
+build inputs remain available when compilation moves into the initializer.
+Publishing clears the runtime identifier and disables single-file, ReadyToRun, Native AOT,
+and trimming so the host stays portable and retains the metadata distributed serialization needs.
+Do not use OS-conditional module registration or platform-specific host code.
+
+Independent builds are unsafe even with the same commit and SDK: checkout line endings,
+compiler inputs, generated sources, build properties, and conditional references can change
+assembly module version IDs (MVIDs). The distributed schema includes user assembly build
+identities so incompatible module implementations and result contracts are rejected. Sharing
+the host preserves this check instead of weakening it. The
+[distributed template smoke workflow](https://github.com/thomhurst/ModularPipelines/blob/main/.github/workflows/distributed-template-smoke.yml)
+records independent Windows/Linux identities and their checkout/build inputs, verifies the
+shared identity on both systems using the generated run command, and executes a Windows-only
+module through Redis on trusted runs with coordination credentials. Secretless runs still
+check the identities; they cannot verify cross-runner registration.
+
 The default trigger runs on pushes to `main` and manual dispatches. Pull requests are omitted
 because workflows from forks cannot access the Redis repository secret. Trusted repositories can
 opt in by setting `TriggerCondition.PullRequest`; repositories accepting fork contributions should
@@ -119,6 +144,23 @@ jobs:
         id: identifier
         shell: bash
         run: echo "value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: "11.0.x"
+      - name: Publish portable pipeline host
+        shell: bash
+        run: dotnet publish 'src/MyPipeline' -c Release --no-self-contained -p:UseAppHost=false -p:RuntimeIdentifier= -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishAot=false -p:PublishTrimmed=false -o "$RUNNER_TEMP/modular-pipelines-host"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: modular-pipelines-host-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/modular-pipelines-host
+          if-no-files-found: error
+          retention-days: 1
+          include-hidden-files: true
 
   pipeline:
     needs: initialize
@@ -148,18 +190,31 @@ jobs:
           fi
 
       - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: "11.0.x"
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: modular-pipelines-host-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/modular-pipelines-host
+
+      - name: Restore runner dependencies
+        shell: bash
+        run: dotnet restore 'src/MyPipeline'
+
       - name: Run Pipeline
+        shell: bash
         env:
           MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}
           MODULARPIPELINES_TOTAL_INSTANCES: 4
           REDIS_URL: ${{ secrets.REDIS_URL }}
           MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}
-        run: dotnet run --project 'src/MyPipeline' -c Release
+        run: dotnet run --project 'src/MyPipeline' -c Release --no-build --no-restore -p:UseAppHost=false --property:OutDir="$RUNNER_TEMP/modular-pipelines-host/"
 ```
 
 ## Redis Setup for CI
@@ -280,7 +335,7 @@ public class AggregateResultsModule : Module<string>
 
 ## How It Works
 
-1. GitHub Actions starts 4 matrix jobs in parallel (instances 0-3).
+1. The initializer publishes one portable host, then GitHub Actions starts 4 matrix jobs in parallel (instances 0-3). Each downloads the host and restores its local dependencies.
 2. Instance 0 (master) builds the dependency graph and enqueues `RestoreModule`.
 3. Any available worker picks up `RestoreModule`, executes it, and publishes the result.
 4. The master sees the restore result and enqueues the three platform-specific build modules.
