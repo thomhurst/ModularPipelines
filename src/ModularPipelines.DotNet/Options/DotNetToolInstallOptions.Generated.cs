@@ -142,7 +142,7 @@ public record DotNetToolInstallOptions : DotNetOptions
     /// <summary>
     /// Create a tool manifest if one isn't found during tool installation. For information on how manifests are located, see https://aka.ms/dotnet/tools/create-manifest-if-needed [default: True]
     /// </summary>
-    [CliFlag("--create-manifest-if-needed")]
+    [CliOption("--create-manifest-if-needed")]
     public bool? CreateManifestIfNeeded { get; set; }
 
     /// <summary>
