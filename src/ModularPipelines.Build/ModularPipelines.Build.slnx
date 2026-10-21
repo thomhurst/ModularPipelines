@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ModularPipelines.Build.csproj" />
+  <Project Path="../../test/ModularPipelines.Build.UnitTests/ModularPipelines.Build.UnitTests.csproj" />
+</Solution>

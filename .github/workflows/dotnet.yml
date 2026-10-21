@@ -293,6 +293,9 @@ jobs:
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./scripts/Test-DocumentationFsi.ps1 -PackageDirectory "$env:RUNNER_TEMP/template-pack" -PackageVersion '0.0.0-local'
+      - name: Test build pipeline modules
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        run: dotnet run --project test/ModularPipelines.Build.UnitTests/ModularPipelines.Build.UnitTests.csproj --configuration Release --framework net11.0
       - name: Run OptionsGenerator unit tests
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: |
@@ -694,11 +697,9 @@ jobs:
           NuGet__ApiKey: ${{ steps.login.outputs.NUGET_API_KEY }}
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          # Only PushVersionTagModule uses this write token, and it runs on main only.
-          GitHub__StandardToken: ${{ matrix.instance == 0 && github.ref == 'refs/heads/main' && secrets.DOTNET_FORMAT_PUSH_TOKEN || '' }}
           GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
-          # Only a publishing dispatch may select stable versions; validation runs keep alpha tags.
+          # Only a publishing dispatch may select stable versions; validation runs use alpha package versions.
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
           CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}

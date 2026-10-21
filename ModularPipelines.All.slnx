@@ -79,6 +79,7 @@
     <Project Path="test/ModularPipelines.Ansible.UnitTests/ModularPipelines.Ansible.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.ArgoCd.UnitTests/ModularPipelines.ArgoCd.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Azure.Pipelines.UnitTests/ModularPipelines.Azure.Pipelines.UnitTests.csproj" />
+    <Project Path="test/ModularPipelines.Build.UnitTests/ModularPipelines.Build.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Buildah.UnitTests/ModularPipelines.Buildah.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Chocolatey.UnitTests/ModularPipelines.Chocolatey.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Cosign.UnitTests/ModularPipelines.Cosign.UnitTests.csproj" />
