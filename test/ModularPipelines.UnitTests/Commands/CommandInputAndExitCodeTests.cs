@@ -325,7 +325,7 @@ public class CommandInputAndExitCodeTests : TestBase
             new CommandExecutionOptions { SuccessExitCodes = rewriteOptions ? [0] : [2] });
 
         var activity = activities.Single(activity => Equals(activity.GetTagItem(ModuleActivityTracing.CommandExitCodeTag), result.ExitCode));
-        await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Ok);
+        await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Unset);
     }
 
     private sealed class SuccessCodesInterceptor : ICommandInterceptor

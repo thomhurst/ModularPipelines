@@ -66,7 +66,9 @@ internal static class ModuleActivityTracing
     public const string ModuleCacheHitsMetric = PipelineTelemetry.ModuleCacheHitsMetric;
     public const string ModuleCacheMissesMetric = PipelineTelemetry.ModuleCacheMissesMetric;
 
-    public static readonly Meter TelemetryMeter = new(MeterName, "1.0.0");
+    private static readonly string? InstrumentationVersion = typeof(ModuleActivityTracing).Assembly.GetName().Version?.ToString();
+
+    public static readonly Meter TelemetryMeter = new(MeterName, InstrumentationVersion);
 
     private static readonly Histogram<double> ModuleDuration = TelemetryMeter.CreateHistogram<double>(
         ModuleDurationMetric,
@@ -93,7 +95,7 @@ internal static class ModuleActivityTracing
         unit: "{miss}",
         description: "Number of module fingerprint-cache misses.");
 
-    public static readonly ActivitySource PipelineSource = new(PipelineSourceName, "1.0.0");
+    public static readonly ActivitySource PipelineSource = new(PipelineSourceName, InstrumentationVersion);
 
     /// <summary>
     /// The ActivitySource for ModularPipelines module execution.
@@ -104,9 +106,9 @@ internal static class ModuleActivityTracing
     /// </remarks>
     public static readonly ActivitySource Source = new(
         name: ModuleSourceName,
-        version: "1.0.0");
+        version: InstrumentationVersion);
 
-    public static readonly ActivitySource CommandSource = new(CommandSourceName, "1.0.0");
+    public static readonly ActivitySource CommandSource = new(CommandSourceName, InstrumentationVersion);
 
     internal static Activity? StartPipelineActivity(string? pipelineName)
     {
@@ -120,7 +122,10 @@ internal static class ModuleActivityTracing
     internal static void RecordPipelineCompletion(Activity? activity, ModuleStatus status, bool failed)
     {
         activity?.SetTag(PipelineStatusTag, ToTelemetryStatus(status));
-        activity?.SetStatus(failed ? ActivityStatusCode.Error : ActivityStatusCode.Ok);
+        if (failed)
+        {
+            activity?.SetStatus(ActivityStatusCode.Error);
+        }
     }
 
     internal static void RecordPipelineFailure(
@@ -153,7 +158,10 @@ internal static class ModuleActivityTracing
     internal static void RecordCommandResult(Activity? activity, CommandResult result, bool? isSuccess = null)
     {
         activity?.SetTag(CommandExitCodeTag, result.ExitCode);
-        activity?.SetStatus((isSuccess ?? result.ExitCode == 0) ? ActivityStatusCode.Ok : ActivityStatusCode.Error);
+        if (!(isSuccess ?? result.ExitCode == 0))
+        {
+            activity?.SetStatus(ActivityStatusCode.Error);
+        }
     }
 
     internal static void RecordCommandFailure(
@@ -177,7 +185,6 @@ internal static class ModuleActivityTracing
         var tags = new TagList
         {
             { ModuleTypeTag, moduleType.Name },
-            { ModuleTypeFullNameTag, moduleType.FullName },
             { ModuleStatusTag, ToTelemetryStatus(status) },
         };
 
@@ -200,7 +207,6 @@ internal static class ModuleActivityTracing
             new TagList
             {
                 { ModuleTypeTag, moduleType.Name },
-                { ModuleTypeFullNameTag, moduleType.FullName },
             });
     }
 
@@ -248,37 +254,33 @@ internal static class ModuleActivityTracing
     public static void RecordSuccess(Activity? activity)
     {
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.Succeeded));
-        activity?.SetStatus(ActivityStatusCode.Ok);
     }
 
     internal static void RecordFailureIgnored(Activity? activity, Exception? exception, string obfuscatedMessage)
     {
         if (exception is not null)
         {
-            RecordException(activity, exception, obfuscatedMessage);
+            RecordException(activity, exception, obfuscatedMessage, failed: false);
         }
 
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.FailureIgnored));
-        activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
     }
 
     internal static void RecordRestoredFromHistory(Activity? activity)
     {
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.RestoredFromHistory));
-        activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from history");
     }
 
     internal static void RecordRestoredFromCache(Activity? activity)
     {
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.RestoredFromCache));
         activity?.SetTag(ModuleCacheTag, "hit");
-        activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from fingerprint cache");
     }
 
     internal static void RecordCanceled(Activity? activity)
     {
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.Canceled));
-        activity?.SetStatus(ActivityStatusCode.Error, "Module terminated because the pipeline failed");
+        activity?.SetStatus(ActivityStatusCode.Error, "Module execution was canceled");
     }
 
     internal static void RecordTimedOut(
@@ -297,7 +299,6 @@ internal static class ModuleActivityTracing
     public static void RecordSkipped(Activity? activity)
     {
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.Skipped));
-        activity?.SetStatus(ActivityStatusCode.Ok, "Module was skipped");
     }
 
     /// <summary>
@@ -351,7 +352,8 @@ internal static class ModuleActivityTracing
     private static void RecordException(
         Activity? activity,
         Exception exception,
-        string obfuscatedMessage)
+        string obfuscatedMessage,
+        bool failed = true)
     {
         if (activity is null)
         {
@@ -363,13 +365,15 @@ internal static class ModuleActivityTracing
         {
             { ExceptionTypeTag, exceptionType },
             { ExceptionMessageTag, obfuscatedMessage },
-            { "exception.stacktrace", string.Empty },
         };
 
         // ExceptionRecorder listeners must not receive the original exception or its unmasked diagnostics.
         activity.AddException(new Exception(obfuscatedMessage), tags);
         activity.SetTag(PipelineTelemetry.ErrorTypeTag, exceptionType);
-        activity.SetStatus(ActivityStatusCode.Error, obfuscatedMessage);
+        if (failed)
+        {
+            activity.SetStatus(ActivityStatusCode.Error, obfuscatedMessage);
+        }
     }
 
     private static string ToTelemetryStatus(ModuleStatus status) => status switch
@@ -393,7 +397,6 @@ internal static class ModuleActivityTracing
         return new TagList
         {
             { ModuleTypeTag, moduleType.Name },
-            { ModuleTypeFullNameTag, moduleType.FullName },
         };
     }
 }
