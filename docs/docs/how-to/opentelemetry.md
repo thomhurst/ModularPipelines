@@ -87,6 +87,12 @@ Rebuild callers against V4. The previous namespace has no forwarding type.
 Registration, exporter configuration, provider flushing, and telemetry behavior
 are unchanged by this namespace move.
 
+V4 also leaves nonfailing span status unchanged (normally `Unset`) instead of
+setting `Ok`. Update filters that require `Ok` for successful operations. Module
+metrics no longer include `modular_pipelines.module.type_full`; use
+`modular_pipelines.module.type` in metric queries. Full type names remain on module
+spans.
+
 ## Traces
 
 Each run creates a `Pipeline.Run` root span. Module spans are its children, and
@@ -100,12 +106,22 @@ The integration subscribes to these activity sources:
 - `ModularPipelines.Modules`
 - `ModularPipelines.Commands`
 
-Failures include an `exception` event with `exception.type` and a masked
-`exception.message`, plus an `error.type` span attribute. Raw exception objects and
-stack traces are not exported. Ignored failures include the same sanitized event and
-`error.type`, but keep an `Ok` span status and do not increment the failed-module
-counter. Pipeline and module status attributes use lowercase
-snake case, such as `succeeded`, `failed`, `timed_out`, and `restored_from_cache`.
+The activity sources and meter use the core assembly version as their
+instrumentation version.
+
+Failures include an `exception` event with the original `exception.type`, a masked
+`exception.message`, and an `exception.stacktrace` representation of a newly
+constructed exception containing only the masked message. The original exception
+object and its stack trace are not exported. An `error.type` span attribute also
+identifies the original exception type.
+
+Failed, timed-out, and canceled operations set the span status to `Error`.
+Successful operations, skipped modules, restored results, and ignored failures
+leave the span status unchanged (normally `Unset`); they do not explicitly set
+`Ok`. Ignored failures still include the sanitized exception event and `error.type`
+but do not increment the failed-module counter. Pipeline and module status
+attributes use lowercase snake case, such as `succeeded`, `failed`, `timed_out`,
+and `restored_from_cache`.
 
 Module spans include `modular_pipelines.module.cache`: `hit` when the result is
 restored from the fingerprint cache, `miss` when a lookup finds no usable result,
@@ -122,10 +138,12 @@ The `ModularPipelines` meter publishes:
 - `modular_pipelines.module.cache_hits` — fingerprint cache hit count
 - `modular_pipelines.module.cache_misses` — fingerprint cache miss count
 
-Module metrics include `modular_pipelines.module.type` and
-`modular_pipelines.module.type_full` attributes. Duration and failed-module metrics
-also include `modular_pipelines.module.status`. Cache counters increment once per
-lookup outcome; disabled caching does not increment either counter.
+Module metrics include the short type name in `modular_pipelines.module.type`.
+The full type name, `modular_pipelines.module.type_full`, appears only on module
+spans to avoid high-cardinality metric dimensions, including versioned generic
+type arguments. Duration and failed-module metrics also include
+`modular_pipelines.module.status`. Cache counters increment once per lookup
+outcome; disabled caching does not increment either counter.
 
 ## Resource attributes
 
