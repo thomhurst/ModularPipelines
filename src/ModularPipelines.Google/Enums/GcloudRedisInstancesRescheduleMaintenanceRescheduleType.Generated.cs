@@ -22,6 +22,6 @@ public enum GcloudRedisInstancesRescheduleMaintenanceRescheduleType
     [EnumValue("NEXT-AVAILABLE-WINDOW")]
     NextAvailableWindow,
 
-    [EnumValue("or")]
-    Or
+    [EnumValue("SPECIFIC-TIME")]
+    SpecificTime
 }

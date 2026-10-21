@@ -32,14 +32,14 @@ public interface IGcloudDataCatalog
     GcloudDataCatalogEntryGroups EntryGroups { get; }
 
     /// <summary>
-    /// gcloud data-catalog tags sub-commands.
-    /// </summary>
-    GcloudDataCatalogTags Tags { get; }
-
-    /// <summary>
     /// gcloud data-catalog tag-templates sub-commands.
     /// </summary>
     GcloudDataCatalogTagTemplates TagTemplates { get; }
+
+    /// <summary>
+    /// gcloud data-catalog tags sub-commands.
+    /// </summary>
+    GcloudDataCatalogTags Tags { get; }
 
     /// <summary>
     /// gcloud data-catalog taxonomies sub-commands.

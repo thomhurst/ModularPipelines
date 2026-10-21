@@ -47,7 +47,11 @@ public record GcloudDataplexEntriesSearchOptions : GcloudOptions
     /// The project to which the request should be attributed.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public new string Project { get; private init; }
+    public new string Project
+    {
+        get => base.Project!;
+        private init => base.Project = value;
+    }
 
     /// <summary>
     /// Maximum number of resources.

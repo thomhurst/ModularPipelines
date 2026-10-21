@@ -37,14 +37,14 @@ public interface IGcloudBackupDr
     GcloudBackupDrBackupPlans BackupPlans { get; }
 
     /// <summary>
-    /// gcloud backup-dr backups sub-commands.
-    /// </summary>
-    GcloudBackupDrBackups Backups { get; }
-
-    /// <summary>
     /// gcloud backup-dr backup-vaults sub-commands.
     /// </summary>
     GcloudBackupDrBackupVaults BackupVaults { get; }
+
+    /// <summary>
+    /// gcloud backup-dr backups sub-commands.
+    /// </summary>
+    GcloudBackupDrBackups Backups { get; }
 
     /// <summary>
     /// gcloud backup-dr data-source-references sub-commands.

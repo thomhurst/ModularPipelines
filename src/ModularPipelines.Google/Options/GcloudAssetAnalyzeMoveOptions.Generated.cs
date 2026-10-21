@@ -43,7 +43,11 @@ public record GcloudAssetAnalyzeMoveOptions : GcloudOptions, IValidatableObject
     /// The project ID or number to perform the analysis.
     /// </summary>
     [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
-    public new string Project { get; private init; }
+    public new string Project
+    {
+        get => base.Project!;
+        private init => base.Project = value;
+    }
 
     /// <summary>
     /// Exactly one of these must be specified: The destination folder ID to perform the analysis.

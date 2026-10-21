@@ -20,8 +20,8 @@ namespace ModularPipelines.Google.Services;
 public class GcloudRecommender : IGcloudRecommender
 {
     private readonly ICommandContext _command;
-    private GcloudRecommenderInsights? _insights;
     private GcloudRecommenderInsightTypeConfig? _insightTypeConfig;
+    private GcloudRecommenderInsights? _insights;
     private GcloudRecommenderRecommendations? _recommendations;
     private GcloudRecommenderRecommenderConfig? _recommenderConfig;
 
@@ -36,14 +36,14 @@ public class GcloudRecommender : IGcloudRecommender
     #region Sub-command Groups
 
     /// <summary>
-    /// gcloud recommender insights sub-commands.
-    /// </summary>
-    public GcloudRecommenderInsights Insights => _insights ??= new GcloudRecommenderInsights(_command);
-
-    /// <summary>
     /// gcloud recommender insight-type-config sub-commands.
     /// </summary>
     public GcloudRecommenderInsightTypeConfig InsightTypeConfig => _insightTypeConfig ??= new GcloudRecommenderInsightTypeConfig(_command);
+
+    /// <summary>
+    /// gcloud recommender insights sub-commands.
+    /// </summary>
+    public GcloudRecommenderInsights Insights => _insights ??= new GcloudRecommenderInsights(_command);
 
     /// <summary>
     /// gcloud recommender recommendations sub-commands.
