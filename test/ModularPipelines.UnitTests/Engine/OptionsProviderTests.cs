@@ -37,7 +37,8 @@ public class OptionsProviderTests
 
         var values = provider.GetOptions().OfType<TestOptions>().Select(options => options.Value).ToArray();
 
-        await Assert.That(values).IsEquivalentTo(["custom-default", "named"]);
+        string?[] expected = ["custom-default", "named"];
+        await Assert.That(values).IsEquivalentTo(expected);
     }
 
     [Test]
