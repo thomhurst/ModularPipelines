@@ -604,7 +604,8 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
         string typeHint,
         string description,
         string helpText) =>
-        HelpDeclaresRepeatableOption(helpText, switchName, description);
+        (!IsKnownKeyValueType(typeHint) && description.Contains("(default [])", StringComparison.OrdinalIgnoreCase))
+        || HelpDeclaresRepeatableOption(helpText, switchName, description);
 
     /// <summary>
     /// Extracts the Flags and Global Flags sections from help text.

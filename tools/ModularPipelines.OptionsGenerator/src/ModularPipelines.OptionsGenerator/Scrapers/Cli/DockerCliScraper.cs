@@ -10,6 +10,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public class DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DockerCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
+    // Docker's custom pflag values collect repeated occurrences without a Slice/Array type hint.
+    private static readonly HashSet<string> RepeatableOptionTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
+        "mount", "ulimit", "network", "gpu-request",
+    ];
+
     private static readonly CliOptionDefinition ComposeExecNoTtyOption = new()
     {
         SwitchName = "--no-TTY",
@@ -31,6 +38,16 @@ public class DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpC
     /// processes bounded so command discovery does not exhaust runner memory.
     /// </summary>
     protected override int MaxParallelism => 4;
+
+    /// <inheritdoc />
+    protected override bool IsRepeatableOption(
+        string[] commandParts,
+        string switchName,
+        string typeHint,
+        string description,
+        string helpText) =>
+        RepeatableOptionTypes.Contains(typeHint)
+        || base.IsRepeatableOption(commandParts, switchName, typeHint, description, helpText);
 
     /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
