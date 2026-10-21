@@ -9,6 +9,7 @@ Flags:
       --unsigned-count uint32  Unsigned count (default 4294967295)
       --native-unsigned uint  Platform unsigned value (default 18446744073709551615)
       --ratio float32         Ratio (default 0.125)
+      --cpus decimal         Number of CPUs
       --threshold float64     Threshold (default 1.25)
 
 Options:

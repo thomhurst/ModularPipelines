@@ -39,6 +39,7 @@ public partial class RequiredConstructorValidationTests
             ("UnsignedCount", "uint?", uint.MaxValue),
             ("NativeUnsigned", "ulong?", ulong.MaxValue),
             ("Ratio", "double?", 0.125d),
+            ("Cpus", "double?", 0.5d),
             ("Threshold", "double?", 1.25d),
             ("LargeDefault", "long?", 2147483648L),
             ("UnsignedDefault", "ulong?", ulong.MaxValue),
