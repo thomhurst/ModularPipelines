@@ -28,7 +28,9 @@ public record DownloadOptions(Uri DownloadUri)
     public Action<HttpRequestMessage>? RequestConfigurator { get; init; }
 
     /// <summary>
-    /// Gets logging options for the download.
+    /// Gets logging options for the download, overriding <see cref="PipelineHttpOptions.Logging"/>.
+    /// Defaults to <see cref="HttpLoggingOptions.Minimal"/> when neither is set.
+    /// <see cref="HttpLoggingOptions.ShowRequest"/> also controls the download completion log.
     /// </summary>
     public HttpLoggingOptions? Logging { get; init; }
 }
