@@ -1263,11 +1263,12 @@ public partial class GcloudCliScraper : CliScraperBase
             return null;
         }
 
-        // Only standalone declarations for this metavar describe the option's complete choices.
+        // Only standalone declarations for this metavar or generic "Value" describe its complete choices.
         // Conditional clauses and lists belonging to other options must not narrow its type.
-        var metavar = valueHint.TrimStart('[').Split([',', '[', ']'], 2)[0];
+        var metavar = valueHint.TrimStart('[').Split([',', '[', ']'], 2)[0].Trim();
         var declarations = RequiredEnumValuesPattern().Matches(description)
             .Where(match => !match.Groups["subject"].Success
+                || match.Groups["subject"].Value.Equals("value", StringComparison.OrdinalIgnoreCase)
                 || match.Groups["subject"].Value.Equals(metavar, StringComparison.OrdinalIgnoreCase))
             .ToArray();
         if (declarations.Length > 0)
@@ -1283,8 +1284,6 @@ public partial class GcloudCliScraper : CliScraperBase
             {
                 return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
-
-            return null;
         }
 
         // Pattern 2: "; one of value1, value2" at end of description

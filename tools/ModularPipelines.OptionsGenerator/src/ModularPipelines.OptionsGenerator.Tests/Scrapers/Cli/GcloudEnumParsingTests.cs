@@ -69,6 +69,26 @@ public class GcloudEnumParsingTests
     }
 
     [Test]
+    [Arguments("PROTOCOL", "Value must be one of: TCP, UDP.")]
+    [Arguments("PROTOCOL ; default=TCP", "PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("PROTOCOL", "PROTOCOL must be one of: A, B, C, D, E, F, G, H, I, J, K, L, M. Select a protocol; one of TCP, UDP.")]
+    public async Task Enum_Lists_Support_Generic_Subjects_Whitespace_And_Inline_Fallback(string valueHint, string description)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud example update [--protocol=PROTOCOL]
+            FLAGS
+                 --protocol={{valueHint}}
+                    {{description}}
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example update", help)).Single();
+        var definition = command.Options.Single().EnumDefinition;
+
+        await Assert.That(definition).IsNotNull();
+        await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(["TCP", "UDP"]);
+    }
+
+    [Test]
     [Arguments("VALUE must be one of:", "IMMEDIATE, NEXT_AVAILABLE_WINDOW, or SPECIFIC-TIME", "IMMEDIATE,NEXT_AVAILABLE_WINDOW,SPECIFIC-TIME")]
     [Arguments("VALUE must be one of:", "alpha, beta, and gamma", "alpha,beta,gamma")]
     [Arguments("VALUE must be one of:", "alpha, or beta", "alpha,beta")]
