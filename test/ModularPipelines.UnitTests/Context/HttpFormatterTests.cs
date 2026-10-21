@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using Moq;
@@ -149,11 +150,56 @@ public class HttpFormatterTests
         }
     }
 
-    private sealed class TokenResponseHandler(string body) : HttpMessageHandler
+    [Test]
+    [Arguments("default", false)]
+    [Arguments("silent", false)]
+    [Arguments("diagnostic", true)]
+    [Arguments("body-opt-in", true)]
+    public async Task Failure_Body_Is_Displayed_Only_In_Explicit_Logs_With_Secret_Masking(string configuration, bool logBody)
+    {
+        const string registeredSecret = "registered-client-secret";
+        const string body = "{\"client_secret\":\"registered-client-secret\",\"access_token\":\"new-unregistered-token\"}";
+        using var client = new HttpClient(new TokenResponseHandler(body, System.Net.HttpStatusCode.BadRequest));
+        var logger = new Mock<ILogger>();
+        var accessor = new Mock<IModuleLoggerAccessor>();
+        accessor.SetupGet(x => x.Logger).Returns(logger.Object);
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            accessor.Object,
+            new HttpLogger(CreateRequestFormatter(registeredSecret), CreateResponseFormatter(registeredSecret)),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/token");
+        var logging = configuration switch
+        {
+            "silent" => HttpLoggingOptions.Silent,
+            "diagnostic" => HttpLoggingOptions.Diagnostic,
+            "body-opt-in" => new HttpLoggingOptions { ShowResponseBody = true },
+            _ => null,
+        };
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => http.SendAsync(new HttpOptions(request)
+        {
+            HttpClient = client,
+            Logging = logging,
+        }));
+        var logs = string.Join("\n", logger.Invocations
+            .Where(invocation => invocation.Method.Name == nameof(ILogger.Log))
+            .Select(invocation => invocation.Arguments[2]?.ToString()));
+
+        await Assert.That(exception!.ResponseContent).IsEqualTo(body);
+        await Assert.That(exception.Message).DoesNotContain("client_secret");
+        await Assert.That(exception.ToString()).DoesNotContain("new-unregistered-token");
+        await Assert.That(exception.ToString()).DoesNotContain(registeredSecret);
+        await Assert.That(logs).DoesNotContain(registeredSecret);
+        await Assert.That(logs.Contains("new-unregistered-token", StringComparison.Ordinal)).IsEqualTo(logBody);
+        await Assert.That(logs.Contains($"\"client_secret\":\"{LoggingConstants.SecretMask}\"", StringComparison.Ordinal)).IsEqualTo(logBody);
+    }
+
+    private sealed class TokenResponseHandler(string body, System.Net.HttpStatusCode statusCode = System.Net.HttpStatusCode.OK) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            return Task.FromResult(new HttpResponseMessage(statusCode)
             {
                 Content = new StringContent(body, Encoding.UTF8, "application/json"),
                 RequestMessage = request,

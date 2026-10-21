@@ -289,6 +289,14 @@ duration are still logged.
 To opt in to body logging, set `ShowRequestBody` and/or `ShowResponseBody` to `true` (with a
 4 KiB limit by default), or select `Diagnostic` (both bodies, up to 64 KiB). Only registered
 secret values are masked in bodies; enable body logging only when the content is safe to log.
+
+HTTP failure exceptions omit response bodies from `Message` and `ToString()`, even with
+`Diagnostic`. `PipelineHttpResponseException.ResponseContent` retains an unredacted preview
+of up to 2,000 body bytes (plus a truncation marker) for programmatic inspection. Treat that
+property as sensitive. To display a failure body, explicitly enable response body logging
+with `ShowResponse = true` and `ShowResponseBody = true`, or select `Diagnostic`, so the
+HTTP logger applies registered-secret masking.
+
 HTTP flags remain `bool`, since HTTP has no verbosity level to inherit.
 `HttpLoggingType` no longer exists.
 
