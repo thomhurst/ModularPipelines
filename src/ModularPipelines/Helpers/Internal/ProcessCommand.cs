@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using ModularPipelines.Context;
 using ModularPipelines.Options;
@@ -14,8 +15,8 @@ namespace ModularPipelines.Helpers.Internal;
 /// <param name="EnvironmentVariables">Variables to set, or to remove when the value is <see langword="null"/>.</param>
 /// <param name="Credentials">The credentials to start the process with.</param>
 /// <param name="ResolvedFilePath">
-/// The full path to start, when it was resolved. CreateProcess searches the system directories before
-/// <c>PATH</c>, so <c>bash</c> would otherwise start WSL's <c>System32\bash.exe</c> on Windows.
+/// The full path to start, when it was resolved during preparation. Windows requires a resolved path
+/// to prevent CreateProcess from searching the current and system directories before <c>PATH</c>.
 /// </param>
 internal sealed record ProcessCommand(
     string TargetFilePath,
@@ -28,9 +29,18 @@ internal sealed record ProcessCommand(
 {
     public ProcessStartInfo CreateStartInfo()
     {
+        var filePath = ResolvedFilePath;
+        if (OperatingSystem.IsWindows() && filePath is null)
+        {
+            // Resolve at startup so interceptors can still handle commands without executing them.
+            // Never let an unresolved name fall back to CreateProcess's implicit directory search.
+            filePath = CliCommandFactory.ResolveWindowsCommand(TargetFilePath, WorkingDirPath, EnvironmentVariables)
+                ?? throw new Win32Exception(2, $"Command '{TargetFilePath}' was not found on PATH or at the specified path.");
+        }
+
         var startInfo = new ProcessStartInfo
         {
-            FileName = ResolvedFilePath ?? TargetFilePath,
+            FileName = filePath ?? TargetFilePath,
             WorkingDirectory = WorkingDirPath,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,

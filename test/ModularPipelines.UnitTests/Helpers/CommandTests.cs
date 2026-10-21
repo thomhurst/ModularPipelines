@@ -758,10 +758,14 @@ public class CommandTests : TestBase
         var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(tempDirectory);
         var scriptPath = Path.Combine(tempDirectory, "mp-runtime-test.cmd");
+        var workingDirectory = Directory.CreateDirectory(Path.Combine(tempDirectory, "checkout")).FullName;
 
         try
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %~1\r\n");
+            await File.WriteAllTextAsync(
+                Path.Combine(workingDirectory, "mp-runtime-test.cmd"),
+                "@echo off\r\necho working-directory command\r\n");
             var command = await GetService<ICommandContext>();
 
             var result = await command.ExecuteCommandLineToolAsync(
@@ -771,6 +775,7 @@ public class CommandTests : TestBase
                 },
                 new CommandExecutionOptions
                 {
+                    WorkingDirectory = workingDirectory,
                     EnvironmentVariables = new Dictionary<string, string?>
                     {
                         ["PATH"] = tempDirectory,
