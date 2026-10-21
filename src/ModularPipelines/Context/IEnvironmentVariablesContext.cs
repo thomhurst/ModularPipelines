@@ -76,6 +76,11 @@ public interface IEnvironmentVariablesContext
     /// </summary>
     /// <param name="pathToAdd">The path to add to the PATH environment variable.</param>
     /// <param name="target">The target scope in which to modify the PATH variable.</param>
+    /// <remarks>
+    /// User and machine updates preserve unexpanded Windows registry paths and their value kind.
+    /// They do not change the current process PATH.
+    /// </remarks>
+    /// <exception cref="PlatformNotSupportedException">The target is User or Machine on a non-Windows platform.</exception>
     void AddToPath(string pathToAdd, EnvironmentVariableTarget target);
 
     /// <summary>
@@ -89,5 +94,10 @@ public interface IEnvironmentVariablesContext
     /// The target scope in which to modify the PATH variable.
     /// Defaults to <see cref="EnvironmentVariableTarget.Process"/>.
     /// </param>
+    /// <remarks>
+    /// User and machine updates preserve unexpanded Windows registry paths and their value kind.
+    /// They do not change the current process PATH.
+    /// </remarks>
+    /// <exception cref="PlatformNotSupportedException">The target is User or Machine on a non-Windows platform.</exception>
     void AddToPath(string pathToAdd, bool prepend, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 }

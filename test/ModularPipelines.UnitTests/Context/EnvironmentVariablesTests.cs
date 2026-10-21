@@ -1,4 +1,6 @@
+using Microsoft.Win32;
 using ModularPipelines.Context;
+using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.UnitTests.Context;
 
@@ -130,6 +132,114 @@ public class EnvironmentVariablesTests
         finally
         {
             Environment.SetEnvironmentVariable(name, null);
+        }
+    }
+
+    [Test]
+    [Arguments(EnvironmentVariableTarget.User)]
+    [Arguments(EnvironmentVariableTarget.Machine)]
+    public async Task AddToPath_Rejects_Persistent_Targets_On_Unix(EnvironmentVariableTarget target)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Unix only test");
+        }
+
+        var originalPath = Environment.GetEnvironmentVariable("PATH");
+        IEnvironmentVariablesContext variables = new EnvironmentVariables();
+        await Assert.That(() => variables.AddToPath("new-tool", target)).Throws<PlatformNotSupportedException>();
+        await Assert.That(() => variables.AddToPath("new-tool", prepend: true, target)).Throws<PlatformNotSupportedException>();
+        await Assert.That(Environment.GetEnvironmentVariable("PATH")).IsEqualTo(originalPath);
+    }
+
+    [Test]
+    public async Task AddToPath_Rejects_Invalid_Target()
+    {
+        await Assert.That(() => new EnvironmentVariables().AddToPath("new-tool", (EnvironmentVariableTarget) 42))
+            .Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task AddToPath_Preserves_Raw_Registry_Value_And_Kind(bool expandable, bool prepend)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Windows only test");
+        }
+
+        var keyPath = $@"Software\ModularPipelines.Tests\{Guid.NewGuid():N}";
+        try
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(keyPath);
+            var kind = expandable ? RegistryValueKind.ExpandString : RegistryValueKind.String;
+            key.SetValue("PATH", @";%SystemRoot%\System32;;first;FIRST;", kind);
+
+            EnvironmentVariables.AddToRegistryPath(key, @"FIRST;;%SystemRoot%\System32;new-tool;", prepend);
+
+            var expected = prepend ? @"FIRST;%SystemRoot%\System32;new-tool" : @"%SystemRoot%\System32;first;new-tool";
+            await Assert.That(key.GetValue("PATH", null, RegistryValueOptions.DoNotExpandEnvironmentNames)).IsEqualTo(expected);
+            await Assert.That(key.GetValueKind("PATH")).IsEqualTo(kind);
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(keyPath, throwOnMissingSubKey: false);
+        }
+    }
+
+    [Test]
+    public async Task AddToPath_Creates_Missing_Registry_Path_As_Expandable_String()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Windows only test");
+        }
+
+        var keyPath = $@"Software\ModularPipelines.Tests\{Guid.NewGuid():N}";
+        try
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(keyPath);
+            EnvironmentVariables.AddToRegistryPath(key, @"%SystemRoot%\System32", prepend: false);
+
+            await Assert.That(key.GetValue("PATH", null, RegistryValueOptions.DoNotExpandEnvironmentNames)).IsEqualTo(@"%SystemRoot%\System32");
+            await Assert.That(key.GetValueKind("PATH")).IsEqualTo(RegistryValueKind.ExpandString);
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(keyPath, throwOnMissingSubKey: false);
+        }
+    }
+
+    [Test]
+    public async Task AddToPath_Rejects_Non_String_Registry_Path_Without_Overwriting_It()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Windows only test");
+        }
+
+        var keyPath = $@"Software\ModularPipelines.Tests\{Guid.NewGuid():N}";
+        try
+        {
+            using var key = Registry.CurrentUser.CreateSubKey(keyPath);
+            key.SetValue("PATH", 42, RegistryValueKind.DWord);
+
+            await Assert.That(() =>
+            {
+                if (OperatingSystem.IsWindows())
+                {
+                    EnvironmentVariables.AddToRegistryPath(key, "new-tool", prepend: false);
+                }
+            }).Throws<InvalidOperationException>();
+            await Assert.That(key.GetValue("PATH")).IsEqualTo(42);
+            await Assert.That(key.GetValueKind("PATH")).IsEqualTo(RegistryValueKind.DWord);
+        }
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(keyPath, throwOnMissingSubKey: false);
         }
     }
 
