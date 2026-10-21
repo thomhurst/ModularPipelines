@@ -29,18 +29,9 @@ internal sealed record ProcessCommand(
 {
     public ProcessStartInfo CreateStartInfo()
     {
-        var filePath = ResolvedFilePath;
-        if (OperatingSystem.IsWindows() && filePath is null)
-        {
-            // Resolve at startup so interceptors can still handle commands without executing them.
-            // Never let an unresolved name fall back to CreateProcess's implicit directory search.
-            filePath = CliCommandFactory.ResolveWindowsCommand(TargetFilePath, WorkingDirPath, EnvironmentVariables)
-                ?? throw new Win32Exception(2, $"Command '{TargetFilePath}' was not found on PATH or at the specified path.");
-        }
-
         var startInfo = new ProcessStartInfo
         {
-            FileName = filePath ?? TargetFilePath,
+            FileName = ResolveExecutablePath(),
             WorkingDirectory = WorkingDirPath,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
@@ -100,6 +91,20 @@ internal sealed record ProcessCommand(
         }
 
         return startInfo;
+    }
+
+    private string ResolveExecutablePath()
+    {
+        var filePath = ResolvedFilePath;
+        if (OperatingSystem.IsWindows() && filePath is null)
+        {
+            // Resolve at startup so interceptors can still handle commands without executing them.
+            // Never let an unresolved name fall back to CreateProcess's implicit directory search.
+            filePath = CliCommandFactory.ResolveWindowsCommand(TargetFilePath, WorkingDirPath, EnvironmentVariables)
+                ?? throw new Win32Exception(2, $"Command '{TargetFilePath}' was not found on PATH or at the specified path.");
+        }
+
+        return filePath ?? TargetFilePath;
     }
 
     public override string ToString() => $"{TargetFilePath} {Arguments}";
