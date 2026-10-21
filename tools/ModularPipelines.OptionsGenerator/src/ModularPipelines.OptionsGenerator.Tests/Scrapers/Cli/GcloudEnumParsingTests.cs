@@ -32,6 +32,8 @@ public class GcloudEnumParsingTests
     [Arguments("If the scheme is INTERNAL, PROTOCOL must be one of: TCP, UDP, UNSPECIFIED.")]
     [Arguments("The related SCHEME must be one of: INTERNAL, EXTERNAL.")]
     [Arguments("SCHEME must be one of: INTERNAL, EXTERNAL.")]
+    [Arguments("The SCHEME must be one of: INTERNAL, EXTERNAL.")]
+    [Arguments("If the scheme is INTERNAL, the PROTOCOL must be one of: TCP, UDP.")]
     public async Task Conditional_Or_Unrelated_Lists_Leave_Option_As_String(string description)
     {
         var help = $$"""
@@ -70,6 +72,9 @@ public class GcloudEnumParsingTests
 
     [Test]
     [Arguments("PROTOCOL", "Value must be one of: TCP, UDP.")]
+    [Arguments("PROTOCOL", "The protocol must be one of: TCP, UDP.")]
+    [Arguments("PROTOCOL", "The value must be one of: TCP, UDP.")]
+    [Arguments("PROTOCOL", "Select a protocol. The PROTOCOL must be one of: TCP, UDP.")]
     [Arguments("PROTOCOL ; default=TCP", "PROTOCOL must be one of: TCP, UDP.")]
     [Arguments("PROTOCOL", "PROTOCOL must be one of: A, B, C, D, E, F, G, H, I, J, K, L, M. Select a protocol; one of TCP, UDP.")]
     public async Task Enum_Lists_Support_Generic_Subjects_Whitespace_And_Inline_Fallback(string valueHint, string description)

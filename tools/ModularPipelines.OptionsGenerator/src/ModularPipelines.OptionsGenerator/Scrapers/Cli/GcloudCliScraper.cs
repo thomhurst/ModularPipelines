@@ -1442,7 +1442,7 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must be one of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must be one of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
     [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
