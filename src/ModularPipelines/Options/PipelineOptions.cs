@@ -178,6 +178,7 @@ public sealed record PipelineOptions
     /// Gets module names to execute with their transitive dependency closures.
     /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
     /// simple, full, or assembly-qualified module type names, matched case-insensitively.
+    /// A complete name is matched before interpreting it as a comma-separated list.
     /// </summary>
     public IReadOnlyList<string>? RunOnlyModules
     {
@@ -191,6 +192,7 @@ public sealed record PipelineOptions
     /// Gets module names to exclude from execution.
     /// Names may be module identifiers (including <see cref="Attributes.ModuleIdAttribute"/> overrides),
     /// simple, full, or assembly-qualified module type names, matched case-insensitively.
+    /// A complete name is matched before interpreting it as a comma-separated list.
     /// </summary>
     public IReadOnlyList<string>? IgnoreModules
     {

@@ -45,6 +45,13 @@ also matches another module's identifier, use the intended module's assembly-qua
 type name (available from `typeof(MyModule).AssemblyQualifiedName`) as one quoted
 argument.
 
+Pass an identifier containing commas as one quoted argument, for example
+`--module "Namespace.BuildModule, App"` for a default stable identifier or
+`--module "build,release"` for a custom identifier. The complete value is matched
+first; if it does not match a registered module, it is treated as a comma-separated
+list. Repeat `--module` or `--skip-module` to combine comma-containing identifiers
+with other selectors.
+
 For example:
 
 ```shell

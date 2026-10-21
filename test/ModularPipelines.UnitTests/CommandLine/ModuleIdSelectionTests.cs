@@ -7,6 +7,88 @@ namespace ModularPipelines.UnitTests.PipelineCli;
 public class ModuleIdSelectionTests
 {
     [Test]
+    [Arguments("--module", false)]
+    [Arguments("--module", true)]
+    [Arguments("--skip-module", false)]
+    [Arguments("--skip-module", true)]
+    public async Task DefaultStableModuleIdIsPreserved(string option, bool equalsSyntax)
+    {
+        var name = ModuleId.FromType(typeof(UnrelatedModule)).Value;
+        var builder = CreateBuilder(equalsSyntax ? [$"{option}={name}"] : [option, name]);
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToDictionary(module => module.Module.GetType());
+
+        await Assert.That(modules[typeof(UnrelatedModule)].ShouldSkip).IsEqualTo(option == "--skip-module");
+        await Assert.That(modules[typeof(BuildModule)].ShouldSkip).IsEqualTo(option == "--module");
+    }
+
+    [Test]
+    [Arguments("--module", false)]
+    [Arguments("--module", true)]
+    [Arguments("--skip-module", false)]
+    [Arguments("--skip-module", true)]
+    public async Task CommaContainingModuleIdTakesPrecedenceOverList(string option, bool equalsSyntax)
+    {
+        const string name = "build," + nameof(UnrelatedModule);
+        var builder = CreateBuilder(equalsSyntax ? [$"{option}={name}"] : [option, name]);
+        builder.AddModule<CommaIdModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToDictionary(module => module.Module.GetType());
+
+        await Assert.That(modules[typeof(CommaIdModule)].ShouldSkip).IsEqualTo(option == "--skip-module");
+        await Assert.That(modules[typeof(BuildModule)].ShouldSkip).IsEqualTo(option == "--module");
+        await Assert.That(modules[typeof(UnrelatedModule)].ShouldSkip).IsEqualTo(option == "--module");
+    }
+
+    [Test]
+    [Arguments("--module")]
+    [Arguments("--skip-module")]
+    public async Task CommaSeparatedModuleListStillResolvesEachName(string option)
+    {
+        var builder = CreateBuilder([option, $" build, {nameof(UnrelatedModule)}, ", option, nameof(DependencyModule)]);
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToArray();
+
+        await Assert.That(modules.All(module => module.ShouldSkip == (option == "--skip-module"))).IsTrue();
+    }
+
+    [Test]
+    [Arguments("--module")]
+    [Arguments("--skip-module")]
+    public async Task CommaOnlyModuleIdIsPreserved(string option)
+    {
+        var builder = CreateBuilder([option, ",,"]);
+        builder.AddModule<CommaOnlyIdModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var plan = await pipeline.PlanAsync();
+        var module = plan.Waves.SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is CommaOnlyIdModule);
+
+        await Assert.That(module.ShouldSkip).IsEqualTo(option == "--skip-module");
+    }
+
+    [Test]
+    [Arguments("--module")]
+    [Arguments("--skip-module")]
+    public async Task UnknownNameInCommaSeparatedListFailsValidation(string option)
+    {
+        var builder = CreateBuilder([option, "build,MissingModule"]);
+
+        var validation = await builder.ValidateAsync();
+
+        await Assert.That(validation.IsValid).IsFalse();
+        await Assert.That(validation.Errors.Any(error =>
+            error.Message.Contains("'MissingModule' is not registered", StringComparison.Ordinal))).IsTrue();
+    }
+
+    [Test]
     public async Task ModuleIdSelectionExecutesTargetAndDependencies()
     {
         var builder = CreateBuilder(["--module", "build"]);
@@ -140,6 +222,20 @@ public class ModuleIdSelectionTests
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
             Task.FromResult("unrelated");
+    }
+
+    [ModuleId("build," + nameof(UnrelatedModule))]
+    private sealed class CommaIdModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("comma identifier");
+    }
+
+    [ModuleId(",,")]
+    private sealed class CommaOnlyIdModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("comma-only identifier");
     }
 
     [ModuleId("ModularPipelines.UnitTests.PipelineCli.ModuleIdSelectionTests+" + nameof(UnrelatedModule))]

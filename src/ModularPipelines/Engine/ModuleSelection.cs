@@ -80,6 +80,16 @@ internal sealed class ModuleSelection
                 .ToArray();
             if (matches.Length == 0)
             {
+                if (name.Contains(','))
+                {
+                    var parts = name.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 0)
+                    {
+                        resolved.AddRange(ResolveModels(parts, models, selectionKind));
+                        continue;
+                    }
+                }
+
                 throw new ModuleSelectionException(
                     $"Pipeline {selectionKind} module '{name}' is not registered.");
             }

@@ -892,7 +892,7 @@ public class PipelineCommandLineTests
         using (Assert.Multiple())
         {
             await Assert.That(builder.Options.RunOnlyModules)
-                .IsEquivalentTo(["FirstModule", "SecondModule", "ThirdModule"]);
+                .IsEquivalentTo(["FirstModule,SecondModule", "ThirdModule"]);
             await Assert.That(builder.Options.IgnoreModules)
                 .IsEquivalentTo(["SkippedModule"]);
             await Assert.That(builder.Options.RunOnlyCategories)
