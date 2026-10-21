@@ -145,7 +145,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
             foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName, StringComparer.Ordinal))
             {
-                var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+                var methodName = GeneratorUtils.GenerateMethodName(command);
                 GeneratorUtils.GenerateServiceMethod(sb, methodName, command, includeXmlDoc: false);
                 sb.AppendLine();
             }

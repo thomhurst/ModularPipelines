@@ -342,3 +342,10 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.HadolintCliScraper.Parse
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.HelmCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.BuildahCliScraper.NormalizeOptionTypeHint(string![]! commandParts, string! switchName, string! typeHint, string! description) -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.IsRepeatableOption(string![]! commandParts, string! switchName, string! typeHint, string! description, string! helpText) -> bool
+ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.VariantIdentifier.get -> string?
+ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.VariantIdentifier.init -> void
+static ModularPipelines.OptionsGenerator.Generators.GeneratorUtils.GenerateMethodName(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command) -> string!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetCommandVariants(string![]! commandPath) -> System.Collections.Generic.IReadOnlyList<string!>!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExecuteVariantHelpCommandAsync(string![]! commandPath, string! variant, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.GetCommandVariants(string![]! commandPath) -> System.Collections.Generic.IReadOnlyList<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ExecuteVariantHelpCommandAsync(string![]! commandPath, string! variant, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!

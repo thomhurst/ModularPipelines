@@ -173,6 +173,7 @@ public static class ExternalToolDefinitionLoader
         ValidateOptionalIdentifier(
             command.CommandGroupIdentifierOverride,
             "tool.commands[].commandGroupIdentifierOverride");
+        ValidateOptionalIdentifier(command.VariantIdentifier, "tool.commands[].variantIdentifier");
         ValidateOptions(command.Options, "tool.commands[].options");
         ValidatePositionalArguments(command.PositionalArguments);
         ValidateEnums(command.Enums, "tool.commands[].enums");
@@ -206,7 +207,7 @@ public static class ExternalToolDefinitionLoader
         }
 
         RequireIdentifier(
-            GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts),
+            GeneratorUtils.GenerateMethodName(command),
             "tool.commands[].commandParts derived method name");
         if (!string.IsNullOrWhiteSpace(command.SubDomainGroup))
         {

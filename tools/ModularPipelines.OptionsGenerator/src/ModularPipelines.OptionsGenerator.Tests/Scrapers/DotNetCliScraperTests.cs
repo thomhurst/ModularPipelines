@@ -159,7 +159,50 @@ public partial class DotNetCliScraperTests
         using var settings = JsonDocument.Parse(executor.Settings!);
         await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("version").GetString()).IsEqualTo("10.0.401");
         await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("rollForward").GetString()).IsEqualTo("disable");
+        await Assert.That(settings.RootElement.GetProperty("test").GetProperty("runner").GetString())
+            .IsEqualTo("Microsoft.Testing.Platform");
+    }
+
+    [Test]
+    public async Task Test_Vstest_Variant_Help_Uses_Default_Runner()
+    {
+        var executor = new IsolatedTestHelpExecutor(failHelp: false);
+        var scraper = new TestDotNetCliScraper(executor);
+
+        var result = await scraper.VariantHelp(["dotnet", "test"], "Vstest");
+
+        await Assert.That(result.StandardOutput).Contains("--filter");
+        await Assert.That(Directory.Exists(executor.WorkingDirectory)).IsFalse();
+        using var settings = JsonDocument.Parse(executor.Settings!);
+        await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("version").GetString()).IsEqualTo("10.0.401");
         await Assert.That(settings.RootElement.TryGetProperty("test", out _)).IsFalse();
+    }
+
+    [Test]
+    public async Task Test_Is_Scraped_For_Testing_Platform_With_Vstest_Variant()
+    {
+        var scraper = new TestDotNetCliScraper(new RunnerAwareTestHelpExecutor());
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands).Count().IsEqualTo(2);
+        var platform = commands.Single(command => command.VariantIdentifier is null);
+        var vstest = commands.Single(command => command.VariantIdentifier == "Vstest");
+
+        await Assert.That(platform.ClassName).IsEqualTo("DotNetTestOptions");
+        await Assert.That(platform.Options.Select(option => option.SwitchName)).Contains("--project");
+        await Assert.That(platform.Options.Select(option => option.SwitchName)).DoesNotContain("--filter");
+        await Assert.That(platform.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["PlatformOptions", "ExtensionOptions"]);
+        await Assert.That(platform.PositionalArguments.Any(argument => argument.PrependOptionTerminator)).IsFalse();
+        await Assert.That(vstest.ClassName).IsEqualTo("DotNetTestVstestOptions");
+        await Assert.That(vstest.CommandParts).IsEquivalentTo(["test"]);
+        await Assert.That(vstest.Options.Select(option => option.SwitchName)).Contains("--filter");
+        await Assert.That(vstest.Options.Select(option => option.SwitchName)).DoesNotContain("--project");
+        await Assert.That(vstest.PositionalArguments.Select(argument => argument.PropertyName)).Contains("ProjectSolution");
     }
 
     [Test]
@@ -180,7 +223,7 @@ public partial class DotNetCliScraperTests
                 """);
 
             using var settings = JsonDocument.Parse(await DotNetCliScraper.CreateIsolatedSdkSettingsAsync(
-                workingDirectory.FullName, "10.0.401", CancellationToken.None));
+                workingDirectory.FullName, "10.0.401", testRunner: null, CancellationToken.None));
             var sdk = settings.RootElement.GetProperty("sdk");
             await Assert.That(sdk.GetProperty("paths").EnumerateArray().Select(path => path.GetString()).SequenceEqual(
                 [Path.Combine(root.FullName, ".dotnet"), Path.GetFullPath("../shared-sdk", root.FullName), absoluteSdk, "$host$"])).IsTrue();
@@ -207,7 +250,7 @@ public partial class DotNetCliScraperTests
             await File.WriteAllTextAsync(Path.Combine(nested.FullName, "global.json"),
                 emptyPaths ? """{"sdk":{"paths":[]}}""" : "{}");
             using var settings = JsonDocument.Parse(await DotNetCliScraper.CreateIsolatedSdkSettingsAsync(
-                nested.FullName, "10.0.401", CancellationToken.None));
+                nested.FullName, "10.0.401", testRunner: null, CancellationToken.None));
             var hasPaths = settings.RootElement.GetProperty("sdk").TryGetProperty("paths", out var paths);
             await Assert.That(hasPaths).IsEqualTo(emptyPaths);
             if (hasPaths)
@@ -452,6 +495,9 @@ public partial class DotNetCliScraperTests
 
         public Task<string?> Help(string[] commandPath) => GetHelpTextAsync(commandPath, CancellationToken.None);
 
+        public Task<CliCommandResult> VariantHelp(string[] commandPath, string variant) =>
+            ExecuteVariantHelpCommandAsync(commandPath, variant, CancellationToken.None);
+
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = UsageSynopsisParser.Parse(helpText, commandPath);
@@ -501,6 +547,35 @@ public partial class DotNetCliScraperTests
                 StandardOutput = "Options:\n  --filter <EXPRESSION>  Filter tests.\n",
                 StandardError = "",
             });
+        }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+    }
+
+    private sealed class RunnerAwareTestHelpExecutor : ICliCommandExecutor
+    {
+        private const string RootHelp = """
+            Usage: dotnet [sdk-options] [command] [command-options] [arguments]
+
+            SDK commands:
+              test              Run unit tests using the test runner specified in a .NET project.
+
+            """;
+
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            string? workingDirectory = null, CancellationToken cancellationToken = default)
+        {
+            var output = arguments switch
+            {
+                "--version" => "11.0.100-rc.1.26425.128",
+                "--help" => RootHelp,
+                "test --help" => File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures",
+                    File.ReadAllText(Path.Combine(workingDirectory!, "global.json")).Contains("Microsoft.Testing.Platform")
+                        ? "dotnet-11.0.100-rc.1-test-mtp-help.txt"
+                        : "dotnet-11.0.100-rc.1-test-vstest-help.txt")),
+                _ => throw new InvalidOperationException($"Unexpected dotnet invocation: {arguments}"),
+            };
+            return Task.FromResult(new CliCommandResult { ExitCode = 0, StandardOutput = output, StandardError = "" });
         }
 
         public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);

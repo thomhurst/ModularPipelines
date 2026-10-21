@@ -673,6 +673,15 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
+    /// Generates a root-level C# method name for a command, including its variant identifier.
+    /// E.g., ["test"] with variant "Vstest" -> "TestVstest".
+    /// </summary>
+    /// <param name="command">The CLI command definition.</param>
+    /// <returns>The method name in PascalCase.</returns>
+    public static string GenerateMethodName(CliCommandDefinition command) =>
+        GenerateMethodNameFromCommandParts(command.CommandParts) + command.VariantIdentifier;
+
+    /// <summary>
     /// Generates a C# method name from the last part of a CLI command.
     /// Used for sub-domain commands where the method name is derived from the last segment.
     /// E.g., ["network", "create"] uses "create" -> "Create"
@@ -683,10 +692,10 @@ public static partial class GeneratorUtils
     {
         if (command.CommandParts.Length == 0)
         {
-            return "Execute";
+            return "Execute" + command.VariantIdentifier;
         }
 
-        return ToPascalCase(command.CommandParts[^1]);
+        return ToPascalCase(command.CommandParts[^1]) + command.VariantIdentifier;
     }
 
     /// <summary>
@@ -1374,7 +1383,7 @@ public static partial class GeneratorUtils
         // duplicate members the duplicate-path check cannot see, so fail loudly here.
         var duplicateMethodNames = GetDuplicateCommandGroups(
                 rootCommands,
-                command => GenerateMethodNameFromCommandParts(command.CommandParts))
+                command => GenerateMethodName(command))
             .Select(g => $"{g.Key} ({string.Join(", ", g.Select(c => c.FullCommand))})")
             .ToList();
 
@@ -1453,7 +1462,7 @@ public static partial class GeneratorUtils
 
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
         command.CommandGroupIdentifierOverride
-        ?? GenerateMethodNameFromCommandParts(command.CommandParts);
+        ?? GenerateMethodName(command);
 
     private static HashSet<string> GetSubDomainIdentifiers(CliToolDefinition tool) =>
         new(

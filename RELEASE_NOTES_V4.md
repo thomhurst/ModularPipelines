@@ -227,21 +227,26 @@ The .NET options generator now recognizes multiple long aliases and single-dash
 MSBuild aliases, including `UseCurrentRuntime`, `SelfContained`, and `Verbosity`.
 `DotNetPackOptions.Version` accepts the package version as a string.
 
-`DotNetTestOptions` is generated from the selected SDK's default VSTest help,
-independently of the repository's `global.json` test-runner setting. It exposes
-`Filter`, `Logger`, `Collect`, `Settings`, and the `Blame` options. `ProjectSolution`
-specifies the optional VSTest project, solution, directory, DLL, or EXE target. MTP-only members
-such as `Project`, `Solution`, `TestModules`, `PlatformOptions`, and
-`ExtensionOptions` are no longer generated. This does not change the runner chosen
-when your command executes. When using Microsoft.Testing.Platform, retain its
-`global.json` configuration and pass runner-specific switches through `Arguments`:
+`dotnet test` is generated for both runners. `DotNetTestOptions` and `TestAsync`
+describe Microsoft.Testing.Platform, which `global.json` selects with `test.runner`.
+They expose `Project`, `Solution`, `TestModules`, and the other platform switches.
+`PlatformOptions` and `ExtensionOptions` pass test-application switches such as
+`--report-trx` directly. VSTest's `Filter`, `Logger`, `Collect`, `Settings`, `Blame`,
+and `ProjectSolution` members are on `DotNetTestVstestOptions`, run with
+`TestVstestAsync`. Neither method selects the runner; `global.json` still does.
 
 ```csharp
-new DotNetTestOptions
+await context.Tools.DotNet.TestAsync(new DotNetTestOptions
 {
-    Arguments = ["--project", "Tests.csproj", "--", "--filter", "Category=Unit", "--", "--report-trx"],
-    ArgumentsContainOptionTerminator = true,
-};
+    Project = "Tests.csproj",
+    ExtensionOptions = ["--report-trx"],
+});
+
+await context.Tools.DotNet.TestVstestAsync(new DotNetTestVstestOptions
+{
+    ProjectSolution = "Tests.sln",
+    Filter = "Category=Unit",
+});
 ```
 
 ## Pipeline summary contract
