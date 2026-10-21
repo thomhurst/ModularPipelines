@@ -3,6 +3,7 @@ using ModularPipelines.GitHub;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using YamlDotNet.RepresentationModel;
 
 namespace ModularPipelines.GitHub.UnitTests.Engine;
@@ -27,10 +28,11 @@ public class PipelineWriterTests : TestBase
     [Arguments(1)]
     [Arguments(2)]
     [Arguments(3)]
-    public async Task PassesMaskValuesThroughEnvironment(int count)
+    [Arguments(4)]
+    public async Task ResolvesMaskSecretNamesThroughEnvironment(int count)
     {
-        var values = new[] { "${{ secrets.TOKEN }}", "quotes\" '$HOME $(exit 1) `exit 1`", "line one%\n::error::line two" }[..count];
-        var steps = await GenerateStepsAsync(values);
+        var names = new[] { "TOKEN", "NuGet__ApiKey", "_TOKEN2", "GITHUB_TOKEN" }[..count];
+        var steps = await GenerateStepsAsync(names);
         var maskSteps = steps.Children.Cast<YamlMappingNode>()
             .Where(step => step["name"].ToString() == "Mask Secret Values").ToArray();
 
@@ -47,9 +49,9 @@ public class PipelineWriterTests : TestBase
         await Assert.That(environment.Children.Count).IsEqualTo(count);
         for (var index = 0; index < count; index++)
         {
-            await Assert.That(environment[$"MODULARPIPELINES_MASK_VALUE_{index}"].ToString()).IsEqualTo(values[index]);
+            await Assert.That(environment[$"MODULARPIPELINES_MASK_VALUE_{index}"].ToString()).IsEqualTo($"${{{{ secrets.{names[index]} }}}}");
             await Assert.That(run).Contains($"\"${{MODULARPIPELINES_MASK_VALUE_{index}}}\"");
-            await Assert.That(run).DoesNotContain(values[index]);
+            await Assert.That(run).DoesNotContain(names[index]);
         }
 
         await Assert.That(run).Contains("printf '::add-mask::%s\\n' \"$value\"");
@@ -59,7 +61,42 @@ public class PipelineWriterTests : TestBase
     }
 
     [Test]
-    public async Task OmitsMaskStepWhenValuesAreNull()
+    [Arguments(null)]
+    [Arguments("")]
+    [Arguments(" ")]
+    [Arguments("literal-secret-value")]
+    [Arguments("${{ secrets.TOKEN }}")]
+    [Arguments("TOKEN }} ${{ github.token")]
+    [Arguments("TOKEN\nOTHER")]
+    [Arguments("TOKEN\r")]
+    [Arguments("TOKEN'")]
+    [Arguments("TÖKEN")]
+    [Arguments("1TOKEN")]
+    public async Task RejectsInvalidMaskSecretNames(string? name)
+    {
+        var outputPath = ModularPipelines.FileSystem.FilePath.GetNewTemporaryFilePath();
+        var writer = new ConfiguredGitHubYamlWriter(new GitHubPipelineFileWriterOptions
+        {
+            Name = "Test",
+            TriggerCondition = new TriggerCondition(),
+            OutputPath = outputPath,
+            PipelineProjectPath = new ModularPipelines.FileSystem.FilePath("src/Pipeline"),
+            SecretNamesToMask = ["VALID_TOKEN", name!],
+        });
+
+        var exception = (await Assert.ThrowsAsync<ArgumentException>(() => writer.WriteAsync(Mock.Of<IPipelineContext>())))!;
+
+        await Assert.That(exception.ParamName).IsEqualTo(nameof(GitHubPipelineFileWriterOptions.SecretNamesToMask));
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            await Assert.That(exception.Message).DoesNotContain(name);
+        }
+
+        await Assert.That(outputPath.Exists).IsFalse();
+    }
+
+    [Test]
+    public async Task OmitsMaskStepWhenSecretNamesAreNull()
     {
         var steps = await GenerateStepsAsync(null);
         await Assert.That(steps.Children.Cast<YamlMappingNode>()
@@ -77,7 +114,7 @@ public class PipelineWriterTests : TestBase
             "dotnet run --project 'src/My Pipeline'\"'\"'s $HOME/Pipeline.csproj' -c Release");
     }
 
-    private static async Task<YamlSequenceNode> GenerateStepsAsync(IEnumerable<string>? values, string projectPath = "src/Pipeline")
+    private static async Task<YamlSequenceNode> GenerateStepsAsync(IEnumerable<string>? secretNames, string projectPath = "src/Pipeline")
     {
         var outputPath = ModularPipelines.FileSystem.FilePath.GetNewTemporaryFilePath();
         var writer = new ConfiguredGitHubYamlWriter(new GitHubPipelineFileWriterOptions
@@ -86,7 +123,7 @@ public class PipelineWriterTests : TestBase
             TriggerCondition = new TriggerCondition(),
             OutputPath = outputPath,
             PipelineProjectPath = new ModularPipelines.FileSystem.FilePath(projectPath),
-            ValuesToMask = values,
+            SecretNamesToMask = secretNames,
         });
         var builder = TestPipelineBuilder.Create().AddModule<DummyModule>();
         builder.Services.AddSingleton<IBuildSystemPipelineFileWriter>(writer);
@@ -137,11 +174,11 @@ public class PipelineWriterTests : TestBase
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
                 DotNetRunFramework = "net11.0",
-                ValuesToMask =
+                SecretNamesToMask =
                 [
-                    "${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}", "${{ secrets.NuGet__ApiKey }}",
-                    "${{ secrets.ADMIN_TOKEN }}",
-                    "${{ secrets.CODACY_APIKEY }}"
+                    "DOTNET_FORMAT_PUSH_TOKEN", "NuGet__ApiKey",
+                    "ADMIN_TOKEN",
+                    "CODACY_APIKEY"
                 ],
                 EnvironmentVariables = new Dictionary<string, string>
                 {

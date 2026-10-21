@@ -21,7 +21,15 @@ public record GitHubPipelineFileWriterOptions
 
     public string Runner { get; init; } = "ubuntu-latest";
 
-    public IEnumerable<string>? ValuesToMask { get; init; }
+    /// <summary>
+    /// Gets the GitHub secret names whose values the generated workflow masks, for example <c>NUGET_API_KEY</c>.
+    /// </summary>
+    /// <remarks>
+    /// Supply names, not secret values or expressions. Names must start with an ASCII letter or underscore
+    /// and contain only ASCII letters, digits, or underscores. The writer emits <c>${{ secrets.NAME }}</c>
+    /// references; GitHub Actions resolves the values at runtime.
+    /// </remarks>
+    public IEnumerable<string>? SecretNamesToMask { get; init; }
 
     public bool CacheNuGet { get; init; }
 
