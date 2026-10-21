@@ -72,7 +72,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                     {
                         ["run-identifier"] = "${{ steps.identifier.outputs.value }}",
                     },
-                    Steps = new[]
+                    Steps = new object?[]
                     {
                         new
                         {
@@ -81,7 +81,30 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                             Shell = "bash",
                             Run = "echo \"value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" >> \"$GITHUB_OUTPUT\"",
                         },
-                    },
+                        CheckoutStep(),
+                        SetupDotNetStep(),
+                        CacheNuGetStep(),
+                        new
+                        {
+                            Name = "Publish portable pipeline host",
+                            Shell = "bash",
+                            Run = $"dotnet publish {QuotedProjectPath} -c Release{FrameworkArgument} --no-self-contained -p:UseAppHost=false -p:RuntimeIdentifier= -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishAot=false -p:PublishTrimmed=false -o \"$RUNNER_TEMP/modular-pipelines-host\"",
+                            Env = _options.PublishEnvironmentVariables,
+                        },
+                        new
+                        {
+                            Name = "Upload pipeline host",
+                            Uses = GitHubActionVersions.UploadArtifact,
+                            With = new
+                            {
+                                Name = "modular-pipelines-host-${{ github.run_attempt }}",
+                                Path = "${{ runner.temp }}/modular-pipelines-host",
+                                IfNoFilesFound = "error",
+                                RetentionDays = 1,
+                                IncludeHiddenFiles = true,
+                            },
+                        },
+                    }.Where(step => step is not null),
                 },
                 Pipeline = new
                 {
@@ -103,41 +126,33 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                             Shell = "bash",
                             Run = ValidateRetryScopeCommand,
                         },
+                        CheckoutStep(),
+                        SetupDotNetStep(),
+                        CacheNuGetStep(),
                         new
                         {
-                            Name = "Checkout",
-                            Uses = GitHubActionVersions.Checkout,
+                            Name = "Download pipeline host",
+                            Uses = GitHubActionVersions.DownloadArtifact,
                             With = new
                             {
-                                FetchDepth = 0,
-                                PersistCredentials = false,
+                                Name = "modular-pipelines-host-${{ github.run_attempt }}",
+                                Path = "${{ runner.temp }}/modular-pipelines-host",
                             },
                         },
                         new
                         {
-                            Name = "Setup .NET SDK",
-                            Uses = GitHubActionVersions.SetupDotNet,
-                            With = new
-                            {
-                                DotnetVersion = _options.DotNetVersion,
-                            },
-                        },
-                        !_options.CacheNuGet ? null : new
-                        {
-                            Name = "Cache NuGet",
-                            Uses = GitHubActionVersions.Cache,
-                            With = new
-                            {
-                                Path = "~/.nuget/packages",
-                                Key = "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
-                                RestoreKeys = "${{ runner.os }}-nuget-",
-                            },
+                            Name = "Restore runner dependencies",
+                            Shell = "bash",
+                            Run = $"dotnet restore {QuotedProjectPath}" + (string.IsNullOrWhiteSpace(_options.DotNetRunFramework)
+                                ? string.Empty
+                                : $" --property:TargetFramework={QuotePosixShellArgument(_options.DotNetRunFramework)}"),
+                            Env = _options.EnvironmentVariables,
                         },
                         new
                         {
                             Name = "Run Pipeline",
                             Shell = "bash",
-                            Run = BuildRunCommand(),
+                            Run = $"dotnet run --project {QuotedProjectPath} -c Release{FrameworkArgument} --no-build --no-restore -p:UseAppHost=false --property:OutDir=\"$RUNNER_TEMP/modular-pipelines-host/\"",
                             Env = environmentVariables,
                         },
                     }.Where(step => step is not null),
@@ -355,16 +370,37 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         }
     }
 
-    private string BuildRunCommand()
+    private static object CheckoutStep() => new
     {
-        var framework = string.IsNullOrWhiteSpace(_options.DotNetRunFramework)
-            ? string.Empty
-            : $" --framework {_options.DotNetRunFramework}";
+        Name = "Checkout",
+        Uses = GitHubActionVersions.Checkout,
+        With = new { FetchDepth = 0, PersistCredentials = false },
+    };
 
-        var portableProjectPath = _options.PipelineProjectPath.OriginalPath.Replace('\\', '/');
-        var quotedProjectPath = QuotePosixShellArgument(portableProjectPath);
-        return $"dotnet run --project {quotedProjectPath} -c Release{framework}";
-    }
+    private object SetupDotNetStep() => new
+    {
+        Name = "Setup .NET SDK",
+        Uses = GitHubActionVersions.SetupDotNet,
+        With = new { DotnetVersion = _options.DotNetVersion },
+    };
+
+    private object? CacheNuGetStep() => !_options.CacheNuGet ? null : new
+    {
+        Name = "Cache NuGet",
+        Uses = GitHubActionVersions.Cache,
+        With = new
+        {
+            Path = "~/.nuget/packages",
+            Key = "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
+            RestoreKeys = "${{ runner.os }}-nuget-",
+        },
+    };
+
+    private string QuotedProjectPath => QuotePosixShellArgument(_options.PipelineProjectPath.OriginalPath.Replace('\\', '/'));
+
+    private string FrameworkArgument => string.IsNullOrWhiteSpace(_options.DotNetRunFramework)
+        ? string.Empty
+        : $" --framework {QuotePosixShellArgument(_options.DotNetRunFramework)}";
 
     private static string QuotePosixShellArgument(string value) =>
         $"'{value.Replace("'", "'\"'\"'", StringComparison.Ordinal)}'";

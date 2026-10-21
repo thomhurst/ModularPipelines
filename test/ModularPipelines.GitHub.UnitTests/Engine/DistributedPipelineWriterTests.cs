@@ -4,11 +4,69 @@ using ModularPipelines.Context;
 using ModularPipelines.GitHub;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.FileSystem;
+using YamlDotNet.RepresentationModel;
 
 namespace ModularPipelines.GitHub.UnitTests.Engine;
 
 public class DistributedPipelineWriterTests : TestBase
 {
+    [Test]
+    [Arguments(true, true)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(false, false)]
+    public async Task PublishesOnceAndRunsDownloadedHost(bool cacheNuGet, bool publishEnvironment)
+    {
+        var outputPath = FilePath.GetNewTemporaryFilePath();
+        await TestPipelineBuilder.Create()
+            .AddModule<WindowsModule>()
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                CacheNuGet = cacheNuGet,
+                ExtraWorkers = 0,
+                EnvironmentVariables = new Dictionary<string, string> { ["BUILD_FLAVOR"] = "${{ matrix.os }}-${{ matrix.instance }}" },
+                PublishEnvironmentVariables = publishEnvironment
+                    ? new Dictionary<string, string> { ["BUILD_TOKEN"] = "${{ secrets.BUILD_TOKEN }}" }
+                    : null,
+            })
+            .RunAsync();
+
+        var yaml = new YamlStream();
+        yaml.Load(new StringReader(await outputPath.ReadAsync()));
+        var jobs = yaml.Documents[0].RootNode["jobs"];
+        var initialize = ((YamlSequenceNode) jobs["initialize"]["steps"]).Children.Cast<YamlMappingNode>().ToArray();
+        var pipeline = ((YamlSequenceNode) jobs["pipeline"]["steps"]).Children.Cast<YamlMappingNode>().ToArray();
+        var publish = initialize.Single(step => step["name"].ToString() == "Publish portable pipeline host");
+        await Assert.That(publish["run"].ToString()).Contains("-p:RuntimeIdentifier=");
+        await Assert.That(publish["run"].ToString()).Contains("-p:PublishSingleFile=false -p:PublishReadyToRun=false");
+        await Assert.That(publish["run"].ToString()).Contains("-p:PublishAot=false -p:PublishTrimmed=false");
+        await Assert.That(publish.ToString()).DoesNotContain("matrix.");
+        if (publishEnvironment)
+        {
+            await Assert.That(((YamlMappingNode) publish["env"]).Children.Count).IsEqualTo(1);
+            await Assert.That(publish["env"]["BUILD_TOKEN"].ToString()).IsEqualTo("${{ secrets.BUILD_TOKEN }}");
+        }
+        else
+        {
+            await Assert.That(publish.ToString()).DoesNotContain("BUILD_TOKEN");
+        }
+
+        await Assert.That(string.Join('\n', pipeline.Select(step => step.ToString()))).DoesNotContain("BUILD_TOKEN");
+        await Assert.That(initialize.Count(step => step["name"].ToString() == "Cache NuGet")).IsEqualTo(cacheNuGet ? 1 : 0);
+        await Assert.That(pipeline.Count(step => step["name"].ToString() == "Cache NuGet")).IsEqualTo(cacheNuGet ? 1 : 0);
+        await Assert.That(pipeline.Any(step => step["name"].ToString() == "Publish portable pipeline host")).IsFalse();
+        var downloadIndex = Array.FindIndex(pipeline, step => step["name"].ToString() == "Download pipeline host");
+        var restoreIndex = Array.FindIndex(pipeline, step => step["name"].ToString() == "Restore runner dependencies");
+        var runIndex = Array.FindIndex(pipeline, step => step["name"].ToString() == "Run Pipeline");
+        await Assert.That(downloadIndex).IsGreaterThanOrEqualTo(0);
+        await Assert.That(restoreIndex).IsGreaterThan(downloadIndex);
+        await Assert.That(runIndex).IsGreaterThan(restoreIndex);
+        await Assert.That(pipeline[restoreIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("${{ matrix.os }}-${{ matrix.instance }}");
+        await Assert.That(pipeline[runIndex]["run"].ToString()).Contains("--no-build --no-restore");
+        await Assert.That(pipeline[runIndex]["env"]["BUILD_FLAVOR"].ToString()).IsEqualTo("${{ matrix.os }}-${{ matrix.instance }}");
+    }
+
     [Test]
     public async Task GeneratesMatrixFromModuleCapabilities()
     {
@@ -64,7 +122,18 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains(
             "Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix.");
         await Assert.That(yaml).Contains(
-            "run: dotnet run --project 'src/MyPipeline' -c Release --framework net11.0");
+            "dotnet publish 'src/MyPipeline' -c Release --framework 'net11.0' --no-self-contained -p:UseAppHost=false");
+        await Assert.That(yaml).Contains("uses: actions/upload-artifact@v7");
+        await Assert.That(yaml).Contains("uses: actions/download-artifact@v8");
+        await Assert.That(yaml).Contains("name: modular-pipelines-host-${{ github.run_attempt }}");
+        await Assert.That(yaml).Contains("path: ${{ runner.temp }}/modular-pipelines-host");
+        await Assert.That(yaml).Contains("if-no-files-found: error");
+        await Assert.That(yaml).Contains("include-hidden-files: true");
+        await Assert.That(yaml).Contains("name: Restore runner dependencies");
+        await Assert.That(yaml).Contains("dotnet restore 'src/MyPipeline' --property:TargetFramework='net11.0'");
+        await Assert.That(yaml).Contains(
+            "dotnet run --project 'src/MyPipeline' -c Release --framework 'net11.0' --no-build --no-restore -p:UseAppHost=false");
+        await Assert.That(yaml).Contains("--property:OutDir=\"$RUNNER_TEMP/modular-pipelines-host/\"");
         var lines = yaml.Split('\n');
         var runPipelineStepIndex = Array.FindIndex(
             lines,
@@ -321,7 +390,11 @@ public class DistributedPipelineWriterTests : TestBase
         var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
 
         await Assert.That(yaml).Contains(
-            "run: dotnet run --project 'src/My Pipeline'\"'\"'s/Pipeline.csproj' -c Release");
+            "dotnet publish 'src/My Pipeline'\"'\"'s/Pipeline.csproj' -c Release");
+        await Assert.That(yaml).Contains(
+            "dotnet restore 'src/My Pipeline'\"'\"'s/Pipeline.csproj'");
+        await Assert.That(yaml).Contains(
+            "dotnet run --project 'src/My Pipeline'\"'\"'s/Pipeline.csproj' -c Release --no-build --no-restore");
     }
 
     [RequiresCapability("linux", "docker")]
