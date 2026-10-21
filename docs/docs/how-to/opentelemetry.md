@@ -24,6 +24,13 @@ var builder = Pipeline.CreateBuilder();
 builder.AddOpenTelemetry(openTelemetry => openTelemetry.AddOtlpExporter());
 ```
 
+The unified exporter sends traces, metrics, and `ILogger` logs, including logs
+from categories outside Modular Pipelines. OpenTelemetry log export does not apply
+module secret masking: filter or redact sensitive log messages before export. Use
+`openTelemetry.Builder.WithLogging(...)` for OpenTelemetry logging configuration
+and the standard `builder.Services.AddLogging(...)` APIs for category and provider
+filters.
+
 The exporter uses the standard `OTEL_EXPORTER_OTLP_*` environment variables. For
 example, set `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector endpoint.
 
@@ -48,7 +55,7 @@ builder.AddOpenTelemetry(openTelemetry => openTelemetry.AddOtlpExporter(options 
 ```
 
 These are common options for all signals. With HTTP/protobuf, set a base endpoint;
-the exporter appends paths such as `v1/traces` and `v1/metrics`. Signal-specific
+the exporter appends `v1/traces`, `v1/metrics`, and `v1/logs`. Signal-specific
 environment variables, such as `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`, take precedence
 over common options.
 
@@ -68,9 +75,11 @@ builder.AddOpenTelemetry(openTelemetry => openTelemetry
 The hooks accept `Action` callbacks, matching the mutable OpenTelemetry builder
 APIs. `openTelemetry.Builder` also exposes `IOpenTelemetryBuilder` for resource,
 logging, or other OpenTelemetry configuration. The existing parameterless
-`AddOtlpExporter()` remains available. Call either exporter overload only once;
-OpenTelemetry's unified exporter cannot be combined with signal-specific
-`AddOtlpExporter` registrations.
+`AddOtlpExporter()` remains available. Repeated calls to either overload register
+the unified exporter once per service collection, including across separate
+`AddOpenTelemetry` callbacks. Options transformations compose in registration
+order. OpenTelemetry's unified exporter cannot be combined with signal-specific
+`AddOtlpExporter` registrations or another direct `UseOtlpExporter` call.
 
 ## Migrating to V4
 
