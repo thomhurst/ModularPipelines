@@ -20,12 +20,17 @@ ModularPipelines is a C# pipeline framework with dependency-driven, parallel mod
 & scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @('run', '--project', 'test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj', '--framework', 'net11.0', '--', '--coverage', '--coverage-output-format', 'cobertura')
 
-# Format the affected solution before committing code changes.
-& scripts/Invoke-AgentDotNet.ps1 `
-  -DotNetArguments @('format', 'ModularPipelines.slnx')
+# Format changed C# files before committing code changes. `whitespace --folder`
+# skips loading the MSBuild workspace, so it takes seconds rather than minutes.
+$changed = @(git diff --name-only --diff-filter=ACMRT origin/main -- '*.cs') +
+  @(git ls-files --others --exclude-standard -- '*.cs')
+if ($changed) {
+  & scripts/Invoke-AgentDotNet.ps1 `
+    -DotNetArguments (@('format', 'whitespace', '--folder', '--include') + $changed)
+}
 ```
 
-- CI scopes formatting and analyzer checks to changed files; see [the .NET workflow](.github/workflows/dotnet.yml) for the commands and severity levels.
+- CI scopes formatting and analyzer checks to changed files; see [the .NET workflow](.github/workflows/dotnet.yml) for the commands and severity levels. Those checks also cover style and analyzer fixes that `whitespace` does not apply. For `tools/ModularPipelines.OptionsGenerator/` changes, also run its formatting verification step locally before pushing.
 - For documentation changes, use the Node version range in `docs/package.json` and run `yarn install` and `yarn build` from `docs/`.
 
 ## Code constraints
