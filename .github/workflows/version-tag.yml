@@ -7,6 +7,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  queue: max
+  cancel-in-progress: false
+
 jobs:
   version-tag:
     runs-on: ubuntu-latest

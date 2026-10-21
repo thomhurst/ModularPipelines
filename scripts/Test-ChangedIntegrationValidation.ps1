@@ -51,7 +51,7 @@ Assert-IntegrationRoute 'manual generated options' @($google) @('ModularPipeline
 Assert-IntegrationRoute 'mixed generator and integration' @($generator, $google) @('ModularPipelines.Google')
 Assert-IntegrationRoute 'test-only change' @('test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'handwritten integration' @('src/ModularPipelines.Ftp/Ftp.cs') @('ModularPipelines.Ftp')
-Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing', 'ModularPipelines.Distributed.Redis.UnitTests', 'ModularPipelines.Distributed.SignalR.UnitTests', 'ModularPipelines.Distributed.UnitTests')
+Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing', 'ModularPipelines.Build.UnitTests', 'ModularPipelines.Distributed.Redis.UnitTests', 'ModularPipelines.Distributed.SignalR.UnitTests', 'ModularPipelines.Distributed.UnitTests')
 Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet', 'ModularPipelines.Build', 'ModularPipelines.DocumentationSnippets')
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true

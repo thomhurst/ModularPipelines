@@ -56,6 +56,10 @@ try {
     Add-File 'src/ModularPipelines.GeneratedCli/ModularPipelines.GeneratedCli.slnx' '<Solution />'
     Add-File 'src/ModularPipelines.GeneratedCli/Generated/First.CommandCoverage.json' '{}'
     Add-File 'src/ModularPipelines.GeneratedCli/Generated/Second.CommandCoverage.json' '{}'
+    # The internal build executable has a standalone solution for its module tests,
+    # but it is excluded from the release package manifest and has no public API baseline.
+    Add-File 'src/ModularPipelines.Build/ModularPipelines.Build.csproj' '<Project><PropertyGroup><OutputType>Exe</OutputType></PropertyGroup></Project>'
+    Add-File 'src/ModularPipelines.Build/ModularPipelines.Build.slnx' '<Solution />'
 
     $successOutput = & $scriptPath -RepositoryRoot $testRoot
     if ($successOutput -notmatch 'Verified public API baselines for 4 package projects') {
