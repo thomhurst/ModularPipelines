@@ -281,8 +281,15 @@ builder.ConfigureHttp(http => http with
 Use `HttpLoggingOptions` properties for fine-grained request, response, status-code,
 duration, header, and body logging. Both command and HTTP logging use the `Show*` prefix and
 `Silent`, `Default`, and `Diagnostic` presets. HTTP additionally provides `Minimal` (URL, status,
-and duration) and `Headers` (no bodies). HTTP `Diagnostic` logs bodies up to 64 KiB; `Default`
-uses a 4 KiB limit. HTTP flags remain `bool`, since HTTP has no verbosity level to inherit.
+and duration) and `Headers` (no bodies). `Default` and a new `HttpLoggingOptions` instance omit
+request and response bodies, since they can contain credentials or newly issued tokens that
+have not been registered for secret masking. Request/response details, headers, status, and
+duration are still logged.
+
+To opt in to body logging, set `ShowRequestBody` and/or `ShowResponseBody` to `true` (with a
+4 KiB limit by default), or select `Diagnostic` (both bodies, up to 64 KiB). Only registered
+secret values are masked in bodies; enable body logging only when the content is safe to log.
+HTTP flags remain `bool`, since HTTP has no verbosity level to inherit.
 `HttpLoggingType` no longer exists.
 
 ```csharp

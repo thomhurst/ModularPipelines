@@ -1,4 +1,6 @@
 using ModularPipelines.Secrets;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
 using System.Net.Http.Headers;
 using System.Text;
 using ModularPipelines.Constants;
@@ -55,6 +57,111 @@ public class HttpFormatterTests
     }
 
     [Test]
+    [Arguments("fallback", false)]
+    [Arguments("request-default", false)]
+    [Arguments("pipeline-default", false)]
+    [Arguments("request-diagnostic", true)]
+    [Arguments("pipeline-diagnostic", true)]
+    [Arguments("request-opt-in", true)]
+    public async Task SendAsync_LogsBodiesOnlyWhenExplicitlyEnabled(string configuration, bool logBodies)
+    {
+        const string responseBody = "{\"access_token\":\"new-access-token\",\"token\":\"new-installation-token\"}";
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/token")
+        {
+            Content = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                ["client_secret"] = "unregistered-client-secret",
+                ["password"] = "unregistered-password",
+            }),
+        };
+        var requestBody = await request.Content.ReadAsStringAsync();
+        using var client = new HttpClient(new TokenResponseHandler(responseBody));
+        var factory = new Mock<IHttpClientFactory>();
+        factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
+        var logger = new Mock<ILogger>();
+        var accessor = new Mock<IModuleLoggerAccessor>();
+        accessor.SetupGet(x => x.Logger).Returns(logger.Object);
+        var logging = configuration switch
+        {
+            "request-diagnostic" or "pipeline-diagnostic" => HttpLoggingOptions.Diagnostic,
+            "request-opt-in" => new HttpLoggingOptions { ShowRequestBody = true, ShowResponseBody = true },
+            _ => new HttpLoggingOptions(),
+        };
+        var pipelineOptions = new PipelineOptions();
+        if (configuration.StartsWith("pipeline-", StringComparison.Ordinal))
+        {
+            pipelineOptions = pipelineOptions with { Http = pipelineOptions.Http with { Logging = logging } };
+        }
+
+        var http = new ModularPipelines.Http.Http(
+            factory.Object,
+            accessor.Object,
+            new HttpLogger(CreateRequestFormatter(), CreateResponseFormatter()),
+            Microsoft.Extensions.Options.Options.Create(pipelineOptions));
+        using var response = await http.SendAsync(new HttpOptions(request)
+        {
+            Logging = configuration.StartsWith("request-", StringComparison.Ordinal) ? logging : null,
+        });
+        var logs = string.Join("\n", logger.Invocations
+            .Where(invocation => invocation.Method.Name == nameof(ILogger.Log))
+            .Select(invocation => invocation.Arguments[2]?.ToString()));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(logs.Contains(requestBody, StringComparison.Ordinal)).IsEqualTo(logBodies);
+            await Assert.That(logs.Contains(responseBody, StringComparison.Ordinal)).IsEqualTo(logBodies);
+            foreach (var secret in new[] { "unregistered-client-secret", "unregistered-password", "new-access-token", "new-installation-token" })
+            {
+                await Assert.That(logs.Contains(secret, StringComparison.Ordinal)).IsEqualTo(logBodies);
+            }
+            await Assert.That(logs).Contains("POST https://example.test/token HTTP/");
+            await Assert.That(logs).Contains("HTTP Response:");
+            await Assert.That(logs).Contains("Content-Type:");
+            await Assert.That(logs).Contains("HTTP Status:");
+            await Assert.That(logs).Contains("Duration:");
+            await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo(responseBody);
+        }
+    }
+
+    [Test]
+    public async Task DefaultFormatters_DoNotReadBodies()
+    {
+        var requestStream = new CountingReadStream("client_secret=unregistered-secret"u8.ToArray());
+        var responseStream = new CountingReadStream("new-token"u8.ToArray());
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/token")
+        {
+            Content = CreateTextContent(requestStream),
+        };
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(responseStream),
+        };
+
+        var formattedRequest = await CreateRequestFormatter().FormatAsync(request);
+        var formattedResponse = await CreateResponseFormatter().FormatAsync(response);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formattedRequest).DoesNotContain("client_secret");
+            await Assert.That(formattedResponse).DoesNotContain("new-token");
+            await Assert.That(requestStream.BytesRead).IsEqualTo(0);
+            await Assert.That(responseStream.BytesRead).IsEqualTo(0);
+        }
+    }
+
+    private sealed class TokenResponseHandler(string body) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+            {
+                Content = new StringContent(body, Encoding.UTF8, "application/json"),
+                RequestMessage = request,
+            });
+        }
+    }
+
+    [Test]
     public async Task ResponseFormatter_BoundsPreviewReadAndPreservesBody()
     {
         const string body = "abcdefghijklmnopqrstuvwxyz";
@@ -67,6 +174,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
         {
+            ShowResponseBody = true,
             MaxBodySizeToLog = 5,
         });
         var bytesReadForPreview = stream.BytesRead;
@@ -93,6 +201,7 @@ public class HttpFormatterTests
 
         await formatter.FormatAsync(response, new HttpLoggingOptions
         {
+            ShowResponseBody = true,
             MaxBodySizeToLog = 64 * 1024 * 1024,
         });
 
@@ -113,6 +222,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(request, new HttpLoggingOptions
         {
+            ShowRequestBody = true,
             MaxBodySizeToLog = 5,
         });
         using var firstSend = new MemoryStream();
@@ -143,6 +253,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
         {
+            ShowResponseBody = true,
             MaxBodySizeToLog = 0,
         });
         var replayedBody = await response.Content.ReadAsStringAsync();
@@ -166,6 +277,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(request, new HttpLoggingOptions
         {
+            ShowRequestBody = true,
             MaxBodySizeToLog = 0,
         });
         var replayedBody = await request.Content.ReadAsStringAsync();
@@ -189,6 +301,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
         {
+            ShowResponseBody = true,
             MaxBodySizeToLog = 13,
         });
 
@@ -211,6 +324,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(request, new HttpLoggingOptions
         {
+            ShowRequestBody = true,
             MaxBodySizeToLog = 13,
         });
 
@@ -233,6 +347,7 @@ public class HttpFormatterTests
 
         var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
         {
+            ShowResponseBody = true,
             MaxBodySizeToLog = 11,
         });
 

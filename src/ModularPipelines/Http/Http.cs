@@ -41,6 +41,8 @@ internal class Http : IHttpContext
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var httpClient = httpOptions.HttpClient
                          ?? _httpClientFactory.CreateClient(HttpClientNames.Default);
 

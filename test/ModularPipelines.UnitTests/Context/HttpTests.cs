@@ -24,6 +24,34 @@ namespace ModularPipelines.UnitTests.Context;
 public class HttpTests : TestBase
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task SendAsync_PreCanceledTokenDoesNotLogOrSendRequest(bool customClient)
+    {
+        using var handler = new SequenceResponseHandler(new HttpResponseMessage(HttpStatusCode.OK));
+        using var client = new HttpClient(handler);
+        var factory = new Mock<IHttpClientFactory>();
+        factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
+        var logger = new Mock<IHttpLogger>();
+        var http = new ModularPipelines.Http.Http(factory.Object, Mock.Of<IModuleLoggerAccessor>(),
+            logger.Object, Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/token")
+        {
+            Content = new StringContent("unregistered-secret"),
+        };
+        using var cancellation = new CancellationTokenSource();
+        await cancellation.CancelAsync();
+
+        var exception = await Assert.ThrowsAsync<OperationCanceledException>(() => http.SendAsync(
+            new HttpOptions(request) { HttpClient = customClient ? client : null }, cancellation.Token));
+
+        await Assert.That(exception!.CancellationToken).IsEqualTo(cancellation.Token);
+        await Assert.That(handler.CallCount).IsEqualTo(0);
+        logger.VerifyNoOtherCalls();
+        factory.Verify(x => x.CreateClient(It.IsAny<string>()), Times.Never);
+    }
+
+    [Test]
     [Arguments(HttpStatusCode.NotFound, false, false)]
     [Arguments(HttpStatusCode.NotFound, false, true)]
     [Arguments(HttpStatusCode.NotFound, true, false)]
@@ -80,6 +108,7 @@ public class HttpTests : TestBase
 
     private static HttpLoggingOptions RequestOnly { get; } = new()
     {
+        ShowRequestBody = true,
         ShowResponse = false,
         ShowStatusCode = false,
         ShowDuration = false,
@@ -87,6 +116,7 @@ public class HttpTests : TestBase
 
     private static HttpLoggingOptions ResponseOnly { get; } = new()
     {
+        ShowResponseBody = true,
         ShowRequest = false,
         ShowStatusCode = false,
         ShowDuration = false,
@@ -1012,7 +1042,7 @@ public class HttpTests : TestBase
         await Assert.That(logFile).Contains("HTTP Response:");
         await Assert.That(logFile).Contains("Headers");
         await Assert.That(logFile).Contains("Server: LocalHttpServer");
-        await Assert.That(logFile).Contains("Body");
+        await Assert.That(logFile).DoesNotContain("Body");
         await Assert.That(logFile).Contains("Duration:");
         await Assert.That(logFile).Contains("HTTP Status:");
 

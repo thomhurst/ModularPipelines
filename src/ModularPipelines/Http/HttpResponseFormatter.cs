@@ -26,28 +26,21 @@ namespace ModularPipelines.Http;
 /// //     {"users": [...]}
 ///
 /// var formatter = new HttpResponseFormatter();
-/// var formatted = await formatter.FormatAsync(httpResponse);
+/// var formatted = await formatter.FormatAsync(httpResponse, HttpLoggingOptions.Diagnostic);
 /// logger.LogInformation(formatted);
 /// </code>
 /// </example>
-internal class HttpResponseFormatter : IHttpResponseFormatter
+internal class HttpResponseFormatter(
+    ISecretObfuscator secretObfuscator,
+    ISecretProvider secretProvider,
+    IOptions<SecretMaskingOptions> secretMaskingOptions) : IHttpResponseFormatter
 {
-    private readonly ISecretObfuscator _secretObfuscator;
-    private readonly ISecretProvider _secretProvider;
-    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions;
-
-    public HttpResponseFormatter(
-        ISecretObfuscator secretObfuscator,
-        ISecretProvider secretProvider,
-        IOptions<SecretMaskingOptions> secretMaskingOptions)
-    {
-        _secretObfuscator = secretObfuscator;
-        _secretProvider = secretProvider;
-        _secretMaskingOptions = secretMaskingOptions;
-    }
-
-    private static readonly HashSet<string> TextMediaTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly ISecretProvider _secretProvider = secretProvider;
+    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions = secretMaskingOptions;
+    private static readonly HashSet<string> TextMediaTypes =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "application/json",
         "application/xml",
         "application/x-www-form-urlencoded",
@@ -57,7 +50,7 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         "text/css",
         "text/javascript",
         "application/javascript",
-    };
+    ];
 
     public Task<string> FormatAsync(HttpResponseMessage response, CancellationToken cancellationToken = default)
     {
@@ -99,7 +92,7 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         }
 
         var contentHeadersArray = contentHeaders as IEnumerable<KeyValuePair<string, IEnumerable<string>>>
-                                  ?? Array.Empty<KeyValuePair<string, IEnumerable<string>>>();
+                                  ?? [];
 
         foreach (var (key, values) in contentHeadersArray)
         {
