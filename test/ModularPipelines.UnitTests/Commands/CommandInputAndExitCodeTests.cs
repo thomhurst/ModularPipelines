@@ -50,14 +50,14 @@ public class CommandInputAndExitCodeTests : TestBase
             }
         });
         var secrets = pipeline.Services.GetRequiredService<ISecretProvider>();
-        var version = secrets.Version;
+        var registeredSecrets = secrets.GetSnapshot().Secrets;
 
         var result = await command.ExecuteCommandLineToolAsync(
             CreateCommand("exit-code", "0"),
             new CommandExecutionOptions { StandardInput = rewriteOptions ? null : input });
 
         await Assert.That(result.ExitCode).IsEqualTo(0);
-        await Assert.That(secrets.Version).IsEqualTo(version);
+        await Assert.That(secrets.GetSnapshot().Secrets).IsEquivalentTo(registeredSecrets);
     }
 
     [Test]
@@ -73,14 +73,15 @@ public class CommandInputAndExitCodeTests : TestBase
         });
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
         var secrets = pipeline.Services.GetRequiredService<ISecretProvider>();
-        var version = secrets.Version;
+        // Deferred publication can change the cache version without changing the registered values.
+        var registeredSecrets = secrets.GetSnapshot().Secrets;
 
         var result = await command.ExecuteCommandLineToolAsync(
             CreateCommand("stdin-echo", "0", "0"),
             new CommandExecutionOptions { StandardInput = input });
 
         await Assert.That(result.StandardOutput).IsEqualTo(input);
-        await Assert.That(secrets.Version).IsEqualTo(version);
+        await Assert.That(secrets.GetSnapshot().Secrets).IsEquivalentTo(registeredSecrets);
         await pipeline.DisposeAsync();
         var log = await File.ReadAllTextAsync(file);
         await Assert.That(log).DoesNotContain(secret);
