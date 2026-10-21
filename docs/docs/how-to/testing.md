@@ -61,6 +61,21 @@ var run = await ModuleTester.For<BuildModule>().ExecuteAsync();
 var artifact = (BuildArtifact)run.Value!;
 ```
 
+Both builders are sealed and are created through `ModuleTester.For`; direct
+construction and subclassing are not supported. Configuration methods preserve
+the concrete builder type, including when shared test helpers use the common base:
+
+```csharp
+public static TBuilder WithTestSettings<TModule, TBuilder>(
+    this ModuleTestBuilderBase<TModule, TBuilder> builder)
+    where TModule : class, IModule
+    where TBuilder : ModuleTestBuilderBase<TModule, TBuilder>
+    => builder.WithFile("settings.json", "{}");
+```
+
+Return `TBuilder` from shared configuration extensions to keep strongly typed
+`ExecuteAsync` results available to their callers.
+
 ## Seed dependency results
 
 Register a dependency result without executing that dependency:
