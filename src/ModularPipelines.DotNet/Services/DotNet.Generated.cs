@@ -169,6 +169,15 @@ internal partial class DotNet : IDotNet
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> TestVstestAsync(
+        DotNetTestVstestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetTestVstestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> VstestAsync(
         DotNetVstestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
