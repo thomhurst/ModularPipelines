@@ -146,3 +146,84 @@ public sealed class MyParallelLimit : IParallelLimit
     public static int Limit => 2;
 }
 ```
+
+# Named Parallel Limits
+
+Use `WithParallelLimit(string)` when a shared limit's capacity should come from runtime configuration, such as different capacities in CI and local development. Configure the capacity in `ConcurrencyOptions.Limits` through `ConfigureConcurrency` before building the pipeline, then select its key in each module's `Configure` method.
+
+Modules selecting the same key share one limit within a pipeline. Different keys have independent limits, and separate pipelines do not share slots. Named limits are also independent of typed limiters and `NotInParallel` constraint keys, even when the names match. All other constraints, including the pipeline's `MaxParallelism`, still apply.
+
+## Example
+
+This is a complete `Program.cs` for a .NET console application with a reference to `ModularPipelines`. Both modules share the `"docker"` limit, with a capacity of two in CI and eight locally. Any additional modules selecting `"docker"` share that capacity too.
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines;
+
+var isCI = Environment.GetEnvironmentVariable("CI") == "true";
+
+var builder = Pipeline.CreateBuilder(args);
+builder.ConfigureConcurrency(options => options with
+{
+    Limits = new Dictionary<string, int>
+    {
+        ["docker"] = isCI ? 2 : 8,
+    },
+});
+builder.AddModule<BuildImageModule>();
+builder.AddModule<TestContainerModule>();
+
+await builder.RunAsync();
+
+public class BuildImageModule : Module
+{
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithParallelLimit("docker");
+
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Build a container image here.
+        return Task.Delay(1000, cancellationToken);
+    }
+}
+
+public class TestContainerModule : Module
+{
+    protected override void Configure(ModuleConfigurationBuilder module) => module
+        .WithParallelLimit("docker");
+
+    protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Run container tests here.
+        return Task.Delay(1000, cancellationToken);
+    }
+}
+```
+
+## Keys and capacities
+
+Keys are case-sensitive: `"docker"` and `"Docker"` select different limits. Keys must not be null, empty, or whitespace, and every selected key must have a configured positive integer capacity. A missing capacity is rejected during planning or execution; zero and negative capacities are invalid.
+
+`ConcurrencyOptions.Limits` copies the supplied dictionary. Configure capacities before building the pipeline; changing capacities while a pipeline is running is not supported. Planning uses the same configured capacities as execution. The selected key is available through `IModule.Configuration.ParallelLimitKey`.
+
+## Choosing between named and typed limits
+
+A module selects either a named limit or a typed limiter. Fluent configuration overrides a directly applied or inherited `[ParallelLimiter<TParallelLimit>]` attribute. The last call to `WithParallelLimit(string)` or `WithParallelLimiter<TParallelLimit>()` wins, including repeated calls to either method:
+
+```csharp
+// Selects the named "docker" limit and clears the typed limiter.
+protected override void Configure(ModuleConfigurationBuilder module) => module
+    .WithParallelLimiter<MyParallelLimit>()
+    .WithParallelLimit("docker");
+```
+
+```csharp
+// Selects the typed limiter and clears the named key.
+protected override void Configure(ModuleConfigurationBuilder module) => module
+    .WithParallelLimit("docker")
+    .WithParallelLimiter<MyParallelLimit>();
+```
