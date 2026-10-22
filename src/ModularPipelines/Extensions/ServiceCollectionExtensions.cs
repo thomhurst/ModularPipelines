@@ -36,7 +36,7 @@ internal static class ServiceCollectionExtensions
     /// </code>
     /// </example>
     internal static IServiceCollection AddModule<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.Interfaces)] TModule>(
         this IServiceCollection services)
         where TModule : class, IModule
     {
@@ -74,7 +74,8 @@ internal static class ServiceCollectionExtensions
     /// services.AddModule(buildModule);
     /// </code>
     /// </example>
-    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule)
+    internal static IServiceCollection AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
         ArgumentNullException.ThrowIfNull(tModule);
@@ -125,7 +126,8 @@ internal static class ServiceCollectionExtensions
     /// });
     /// </code>
     /// </example>
-    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
+    internal static IServiceCollection AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
         ModuleExecutionContract.Validate(typeof(TModule));
