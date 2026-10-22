@@ -13,7 +13,7 @@ using ModularPipelines.Yq.Options;
 namespace ModularPipelines.Yq.Options;
 
 /// <summary>
-/// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/)
+/// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/) See https://mikefarah.gitbook.io/yq/ for detailed documentation and examples.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

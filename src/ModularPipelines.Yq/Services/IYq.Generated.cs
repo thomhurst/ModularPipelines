@@ -21,7 +21,7 @@ public partial interface IYq
     #region Commands
 
     /// <summary>
-    /// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/)
+    /// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/) See https://mikefarah.gitbook.io/yq/ for detailed documentation and examples.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -30,7 +30,7 @@ public partial interface IYq
     public Task<CommandResult> EvalAllAsync(YqEvalAllOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/)
+    /// yq is a portable command-line data file processor (https://github.com/mikefarah/yq/) See https://mikefarah.gitbook.io/yq/ for detailed documentation and examples.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
