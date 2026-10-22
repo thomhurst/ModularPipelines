@@ -13,7 +13,7 @@ using ModularPipelines.Minikube.Options;
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Deletes a local Kubernetes cluster. This command deletes the VM, and removes all
+/// Deletes a local Kubernetes cluster. This command deletes the VM, and removes all associated files.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

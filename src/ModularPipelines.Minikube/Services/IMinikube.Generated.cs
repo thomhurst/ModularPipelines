@@ -60,7 +60,7 @@ public partial interface IMinikube
     #region Commands
 
     /// <summary>
-    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube.
+    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube. Default target node controlplane and If &lt;source node name&gt; is omitted, It will trying to copy from host.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -78,7 +78,7 @@ public partial interface IMinikube
     public Task<CommandResult> DashboardAsync(MinikubeDashboardOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes a local Kubernetes cluster. This command deletes the VM, and removes all
+    /// Deletes a local Kubernetes cluster. This command deletes the VM, and removes all associated files.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -195,7 +195,7 @@ public partial interface IMinikube
     public Task<CommandResult> StartAsync(MinikubeStartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the status of a local Kubernetes cluster.
+    /// Gets the status of a local Kubernetes cluster. Exit status contains the status of minikube's VM, cluster and Kubernetes encoded on it's bits in this order from right to left. Eg: 7 meaning: 1 (for minikube NOK) + 2 (for cluster NOK) + 4 (for Kubernetes NOK)
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -229,6 +229,15 @@ public partial interface IMinikube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UnpauseAsync(MinikubeUnpauseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the IP address of the running cluster, checks it with IP in kubeconfig, and corrects kubeconfig if incorrect.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateContextAsync(MinikubeUpdateContextOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Print the version of minikube.

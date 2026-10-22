@@ -26,4 +26,10 @@ public record MinikubeCacheAddOptions : MinikubeOptions
     [CliFlag("--all")]
     public bool? All { get; set; }
 
+    /// <summary>
+    /// Image names.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Images { get; set; }
+
 }

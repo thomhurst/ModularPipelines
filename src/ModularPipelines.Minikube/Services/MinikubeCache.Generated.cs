@@ -47,6 +47,21 @@ public class MinikubeCache : IMinikubeCache
     }
 
     /// <summary>
+    /// Delete an image from the local cache.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteAsync(
+        MinikubeCacheDeleteOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheDeleteOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all available images from the local cache.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -59,6 +74,21 @@ public class MinikubeCache : IMinikubeCache
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// reloads images previously added using the 'cache add' subcommand
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ReloadAsync(
+        MinikubeCacheReloadOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeCacheReloadOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

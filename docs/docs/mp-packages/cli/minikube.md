@@ -69,7 +69,9 @@ Global options are rendered before the selected subcommand.
 | `minikube addons list` | `MinikubeAddonsListOptions` |
 | `minikube addons open` | `MinikubeAddonsOpenOptions` |
 | `minikube cache add` | `MinikubeCacheAddOptions` |
+| `minikube cache delete` | `MinikubeCacheDeleteOptions` |
 | `minikube cache list` | `MinikubeCacheListOptions` |
+| `minikube cache reload` | `MinikubeCacheReloadOptions` |
 | `minikube config` | `MinikubeConfigOptions` |
 | `minikube config defaults` | `MinikubeConfigDefaultsOptions` |
 | `minikube config get` | `MinikubeConfigGetOptions` |
@@ -83,8 +85,11 @@ Global options are rendered before the selected subcommand.
 | `minikube image build` | `MinikubeImageBuildOptions` |
 | `minikube image load` | `MinikubeImageLoadOptions` |
 | `minikube image ls` | `MinikubeImageLsOptions` |
+| `minikube image pull` | `MinikubeImagePullOptions` |
+| `minikube image push` | `MinikubeImagePushOptions` |
 | `minikube image rm` | `MinikubeImageRmOptions` |
 | `minikube image save` | `MinikubeImageSaveOptions` |
+| `minikube image tag` | `MinikubeImageTagOptions` |
 | `minikube ip` | `MinikubeIpOptions` |
 | `minikube kubectl` | `MinikubeKubectlOptions` |
 | `minikube license` | `MinikubeLicenseOptions` |
@@ -93,6 +98,7 @@ Global options are rendered before the selected subcommand.
 | `minikube node` | `MinikubeNodeOptions` |
 | `minikube node add` | `MinikubeNodeAddOptions` |
 | `minikube node delete` | `MinikubeNodeDeleteOptions` |
+| `minikube node list` | `MinikubeNodeListOptions` |
 | `minikube node start` | `MinikubeNodeStartOptions` |
 | `minikube node stop` | `MinikubeNodeStopOptions` |
 | `minikube pause` | `MinikubePauseOptions` |
@@ -109,4 +115,5 @@ Global options are rendered before the selected subcommand.
 | `minikube stop` | `MinikubeStopOptions` |
 | `minikube tunnel` | `MinikubeTunnelOptions` |
 | `minikube unpause` | `MinikubeUnpauseOptions` |
+| `minikube update-context` | `MinikubeUpdateContextOptions` |
 | `minikube version` | `MinikubeVersionOptions` |
