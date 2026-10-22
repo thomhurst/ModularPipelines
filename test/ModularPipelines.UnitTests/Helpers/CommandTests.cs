@@ -20,6 +20,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+[TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class CommandTests : TestBase
 {
     private sealed class RegisterEnvironmentSecretInterceptor(ISecretRegistry secretRegistry)
