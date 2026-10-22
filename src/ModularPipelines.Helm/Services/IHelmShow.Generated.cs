@@ -31,7 +31,7 @@ public interface IHelmShow
     public Task<CommandResult> ExecuteAsync(HelmShowOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command inspects a chart (directory, file, or URL) and displays all its content
+    /// This command inspects a chart (directory, file, or URL) and displays all its content (values.yaml, Chart.yaml, README)
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -40,7 +40,7 @@ public interface IHelmShow
     public Task<CommandResult> AllAsync(HelmShowAllOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command inspects a chart (directory, file, or URL) and displays the contents
+    /// This command inspects a chart (directory, file, or URL) and displays the contents of the Chart.yaml file
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -49,7 +49,7 @@ public interface IHelmShow
     public Task<CommandResult> ChartAsync(HelmShowChartOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command inspects a chart (directory, file, or URL) and displays the contents
+    /// This command inspects a chart (directory, file, or URL) and displays the contents of the CustomResourceDefinition files
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -58,7 +58,7 @@ public interface IHelmShow
     public Task<CommandResult> CrdsAsync(HelmShowCrdsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command inspects a chart (directory, file, or URL) and displays the contents
+    /// This command inspects a chart (directory, file, or URL) and displays the contents of the README file
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -67,7 +67,7 @@ public interface IHelmShow
     public Task<CommandResult> ReadmeAsync(HelmShowReadmeOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command inspects a chart (directory, file, or URL) and displays the contents
+    /// This command inspects a chart (directory, file, or URL) and displays the contents of the values.yaml file
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

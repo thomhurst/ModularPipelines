@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// This command takes a path to a chart and runs a series of tests to verify that
+/// This command takes a path to a chart and runs a series of tests to verify that the chart is well-formed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +24,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmLintOptions : HelmOptions
 {
     /// <summary>
-    /// This command takes a path to a chart and runs a series of tests to verify that
+    /// This command takes a path to a chart and runs a series of tests to verify that the chart is well-formed.
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     public HelmLintOptions(

@@ -13,7 +13,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// This command creates a chart directory along with the common files and
+/// This command creates a chart directory along with the common files and directories used in a chart.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmCreateOptions : HelmOptions
 {
     /// <summary>
-    /// This command creates a chart directory along with the common files and
+    /// This command creates a chart directory along with the common files and directories used in a chart.
     /// </summary>
     /// <param name="Name">The NAME operand.</param>
     public HelmCreateOptions(

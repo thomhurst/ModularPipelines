@@ -22,7 +22,7 @@ namespace ModularPipelines.Helm.Services;
 public interface IHelmSearch
 {
     /// <summary>
-    /// Search provides the ability to search for Helm charts in the various places
+    /// Search provides the ability to search for Helm charts in the various places they can be stored including the Artifact Hub and repositories you have added. Use search subcommands to search different locations for charts.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -40,7 +40,7 @@ public interface IHelmSearch
     public Task<CommandResult> HubAsync(HelmSearchHubOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Search reads through all of the repositories configured on the system, and
+    /// Search reads through all of the repositories configured on the system, and looks for matches. Search of these repositories uses the metadata stored on the system.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

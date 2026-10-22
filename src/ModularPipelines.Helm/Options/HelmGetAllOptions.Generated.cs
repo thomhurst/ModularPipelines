@@ -13,7 +13,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// This command prints a human readable collection of information about the
+/// This command prints a human readable collection of information about the notes, hooks, supplied values, and generated manifest file of the given release.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Helm.Options;
 public record HelmGetAllOptions : HelmOptions
 {
     /// <summary>
-    /// This command prints a human readable collection of information about the
+    /// This command prints a human readable collection of information about the notes, hooks, supplied values, and generated manifest file of the given release.
     /// </summary>
     /// <param name="ReleaseName">The RELEASE_NAME operand.</param>
     public HelmGetAllOptions(

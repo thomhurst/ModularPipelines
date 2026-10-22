@@ -14,7 +14,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// This command inspects a chart (directory, file, or URL) and displays the contents
+/// This command inspects a chart (directory, file, or URL) and displays the contents of the CustomResourceDefinition files
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -13,7 +13,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// Read the current directory, generate an index file based on the charts found
+/// Read the current directory, generate an index file based on the charts found and write the result to 'index.yaml' in the current directory.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -43,7 +43,7 @@ public record HelmSearchHubOptions : HelmOptions
     /// maximum column width for output table (default 50)
     /// </summary>
     [CliOption("--max-col-width", Format = OptionFormat.EqualsSeparated)]
-    public int? MaxColWidth { get; set; }
+    public ulong? MaxColWidth { get; set; }
 
     /// <summary>
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)

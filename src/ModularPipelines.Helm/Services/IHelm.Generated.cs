@@ -60,7 +60,7 @@ public partial interface IHelm
     #region Commands
 
     /// <summary>
-    /// This command creates a chart directory along with the common files and
+    /// This command creates a chart directory along with the common files and directories used in a chart.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -96,7 +96,7 @@ public partial interface IHelm
     public Task<CommandResult> InstallAsync(HelmInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command takes a path to a chart and runs a series of tests to verify that
+    /// This command takes a path to a chart and runs a series of tests to verify that the chart is well-formed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -114,7 +114,7 @@ public partial interface IHelm
     public Task<CommandResult> ListAsync(HelmListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command packages a chart into a versioned chart archive file. If a path
+    /// This command packages a chart into a versioned chart archive file. If a path is given, this will look at that path for a chart (which must contain a Chart.yaml file) and then package that directory.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

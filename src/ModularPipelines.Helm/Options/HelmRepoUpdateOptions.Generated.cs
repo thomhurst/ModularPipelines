@@ -13,7 +13,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// Update gets the latest information about charts from the respective chart repositories.
+/// Update gets the latest information about charts from the respective chart repositories. Information is cached locally, where it is used by commands like 'helm search'.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
