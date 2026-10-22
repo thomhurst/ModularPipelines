@@ -39,7 +39,8 @@ internal class ModuleExecutionPipeline(
     IOptions<PipelineOptions> pipelineOptions,
     IModuleCacheResultRepository? cacheResultRepository = null,
     IBuildSystemFormatterProvider? buildSystemFormatterProvider = null,
-    RerunFailedPlan? rerunFailedPlan = null) : IModuleExecutionPipeline
+    RerunFailedPlan? rerunFailedPlan = null,
+    TimeProvider? timeProvider = null) : IModuleExecutionPipeline
 {
     private readonly IModuleResultRepository _resultRepository = resultRepository;
     private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
@@ -183,10 +184,7 @@ internal class ModuleExecutionPipeline(
             executionContext.StartTime = DateTimeOffset.UtcNow;
             executionContext.Stopwatch.Start();
 
-            logger.LogDebug(
-                "Module {ModuleName} execution started at {StartTime:O}",
-                moduleName,
-                executionContext.StartTime);
+            LogExecutionStarted(logger, moduleName, executionContext.StartTime);
 
             // Execute with timeout and retry
             var result = await ExecuteWithPolicies(module, config, executionContext, moduleContext).ConfigureAwait(false);
@@ -250,6 +248,17 @@ internal class ModuleExecutionPipeline(
             }
 
             return moduleResult;
+        }
+    }
+
+    private static void LogExecutionStarted(ILogger logger, string moduleName, DateTimeOffset startTime)
+    {
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug(
+                "Module {ModuleName} execution started at {StartTime:O}",
+                moduleName,
+                startTime);
         }
     }
 
@@ -462,9 +471,12 @@ internal class ModuleExecutionPipeline(
 
         var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
 
-        logger.LogInformation("Module {ModuleName} skipped: {Reason}",
-            executionContext.ModuleType.Name,
-            skipDecision.Reason ?? "No reason provided");
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            logger.LogInformation("Module {ModuleName} skipped: {Reason}",
+                executionContext.ModuleType.Name,
+                skipDecision.Reason ?? "No reason provided");
+        }
 
         return skippedResult;
     }
@@ -524,7 +536,11 @@ internal class ModuleExecutionPipeline(
         executionContext.Status = ModuleStatus.RestoredFromHistory;
         executionContext.SkipResult = skipDecision;
         var usedHistoryResult = historicalResult with { Status = ModuleStatus.RestoredFromHistory };
-        logger.LogDebug(message);
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug("{Message}", message);
+        }
+
         return usedHistoryResult;
     }
 
@@ -663,7 +679,10 @@ internal class ModuleExecutionPipeline(
             return;
         }
 
-        logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
+        }
     }
 
     private async Task<T> ExecuteModuleAttemptAsync<T>(
@@ -684,8 +703,8 @@ internal class ModuleExecutionPipeline(
             },
             timeout == Timeout.InfiniteTimeSpan ? null : timeout,
             cancellationToken,
-            $"Module {executionContext.ModuleType.Name} timed out after {timeout}",
-            _pipelineOptions.Value.ModuleCancellationGracePeriod).ConfigureAwait(false);
+            _pipelineOptions.Value.ModuleCancellationGracePeriod,
+            timeProvider).ConfigureAwait(false);
 
         if (!timeoutResult.TimedOut)
         {
@@ -804,9 +823,12 @@ internal class ModuleExecutionPipeline(
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            moduleContext.Logger.LogDebug(
-                "Module cache save canceled for module {ModuleName}",
-                module.GetType().Name);
+            if (moduleContext.Logger.IsEnabled(LogLevel.Debug))
+            {
+                moduleContext.Logger.LogDebug(
+                    "Module cache save canceled for module {ModuleName}",
+                    module.GetType().Name);
+            }
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
