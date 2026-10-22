@@ -626,7 +626,14 @@ internal class ProgressSession : IProgressSession, IProgressController
             }
             catch (TimeoutException)
             {
-                _logger.LogWarning("Progress display did not stop within 5 seconds.");
+                try
+                {
+                    _logger.LogWarning("Progress display did not stop within 5 seconds.");
+                }
+                catch (Exception)
+                {
+                    // Diagnostic logging must not prevent progress cleanup.
+                }
             }
         }
 

@@ -144,6 +144,61 @@ public class ProgressSessionTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DisposeAsync_Completes_Cleanup_When_Display_Times_Out(bool warningLoggerThrows)
+    {
+        var logger = new Mock<ILogger>();
+        if (warningLoggerThrows)
+        {
+            logger.Setup(value => value.Log(
+                    LogLevel.Warning,
+                    It.IsAny<EventId>(),
+                    It.IsAny<It.IsAnyType>(),
+                    It.IsAny<Exception?>(),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()))
+                .Throws(new InvalidOperationException("Warning logger failed"));
+        }
+
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory.Setup(factory => factory.CreateLogger(It.IsAny<string>())).Returns(logger.Object);
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        var coordinator = CreateCoordinator(outputCoordinator.Object);
+        await using var session = new ProgressSession(
+            coordinator,
+            new OrganizedModules([], []),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            loggerFactory.Object,
+            DelegatingAnsiConsole.Instance,
+            CancellationToken.None);
+
+        // Model a stuck refresh without leaving a blocked rendering thread behind.
+        var progressLoopCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+        typeof(ProgressSession).GetField("_progressLoopTask", flags)!.SetValue(session, progressLoopCompletion.Task);
+        typeof(ProgressSession).GetField("_inRefresh", flags)!.SetValue(session, true);
+        var pauseTask = session.PauseAsync();
+        await Assert.That(pauseTask.IsCompleted).IsFalse();
+
+        var disposeTask = session.DisposeAsync().AsTask();
+        var concurrentDisposeTask = session.DisposeAsync().AsTask();
+        await Task.WhenAll(disposeTask, concurrentDisposeTask).WaitAsync(TimeSpan.FromSeconds(15));
+        await pauseTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await session.DisposeAsync();
+
+        await Assert.That(progressLoopCompletion.Task.IsCompleted).IsFalse();
+        logger.Verify(value => value.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString() == "Progress display did not stop within 5 seconds."),
+            null,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once());
+        logger.VerifyNoOtherCalls();
+        outputCoordinator.Verify(value => value.SetProgressController(NoOpProgressController.Instance), Times.Once());
+        outputCoordinator.Verify(value => value.SetProgressActive(false), Times.Once());
+    }
+
+    [Test]
     public async Task PauseAsync_CompletesImmediatelyWhenNoRefreshIsActive()
     {
         var outputCoordinator = new Mock<IOutputCoordinator>();
