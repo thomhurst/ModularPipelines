@@ -521,24 +521,17 @@ internal class ArtifactContextImpl(
             return;
         }
 
-        var skipRootCheck = false;
-        if (provider is SystemFileSystemProvider)
-        {
-            path = Path.GetFullPath(path);
-            var validationRoot = GetTrustedValidationRoot(path, trustedRoot);
-            destinationDirectory = validationRoot ?? Path.GetPathRoot(path)!;
-            skipRootCheck = validationRoot is not null;
-        }
+        path = Path.GetFullPath(path);
+        var validationRoot = GetTrustedValidationRoot(path, trustedRoot);
+        destinationDirectory = validationRoot ?? Path.GetPathRoot(path)!;
 
         var currentPath = destinationDirectory;
-        if (!skipRootCheck && !EnsureExistingPathIsNotLink(provider, currentPath))
+        if (validationRoot is null && !EnsureExistingPathIsNotLink(provider, currentPath))
         {
             return;
         }
 
-        var relativePath = provider is SystemFileSystemProvider
-            ? Path.GetRelativePath(destinationDirectory, path)
-            : path[destinationDirectory.Length..].TrimStart(provider.DirectorySeparatorChar);
+        var relativePath = Path.GetRelativePath(destinationDirectory, path);
         if (relativePath is "" or ".")
         {
             return;
