@@ -20,8 +20,7 @@ public class GitVersioningTests
 
         _ = new GitVersioning(
             Mock.Of<IGitInformation>(),
-            Mock.Of<ICommandContext>(),
-            Mock.Of<IModuleLoggerAccessor>(),
+            Mock.Of<IServiceScopeFactory>(MockBehavior.Strict),
             fileSystemProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new GitVersioningOptions()));
 
@@ -38,8 +37,7 @@ public class GitVersioningTests
 
         var versioning = new GitVersioning(
             gitInformation.Object,
-            Mock.Of<ICommandContext>(),
-            Mock.Of<IModuleLoggerAccessor>(),
+            Mock.Of<IServiceScopeFactory>(MockBehavior.Strict),
             fileSystemProvider.Object,
             Microsoft.Extensions.Options.Options.Create(new GitVersioningOptions()));
 
@@ -51,7 +49,7 @@ public class GitVersioningTests
     [Test]
     public async Task Missing_Configuration_Uses_Temporary_Defaults_Without_Changing_Repository()
     {
-        using var fixture = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
         string? configurationPath = null;
         fixture.ExecuteVersion = async (options, execution, cancellationToken) =>
         {
@@ -82,7 +80,7 @@ public class GitVersioningTests
     [Arguments("gitversion.YML")]
     public async Task Existing_Configuration_Is_Left_To_GitVersion(string fileName)
     {
-        using var fixture = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
         var configurationPath = Path.Combine(fixture.Repository.Path, fileName);
         const string configuration = "next-version: 7.0.0";
         await File.WriteAllTextAsync(configurationPath, configuration);
@@ -103,8 +101,8 @@ public class GitVersioningTests
     [Test]
     public async Task Separate_Repositories_Have_Independent_Cached_Results()
     {
-        using var first = new VersioningFixture();
-        using var second = new VersioningFixture();
+        await using var first = new VersioningFixture();
+        await using var second = new VersioningFixture();
         second.ExecuteVersion = (_, _, _) => Task.FromResult(CommandResult.Ok("{\"SemVer\":\"4.5.6\"}"));
         var firstVersioning = first.CreateVersioning();
         var secondVersioning = second.CreateVersioning();
@@ -121,14 +119,14 @@ public class GitVersioningTests
     }
 
     [Test]
-    public async Task Concurrent_Calls_Compute_Once_Per_Instance()
+    public async Task Concurrent_Module_Scopes_Compute_Once_Per_Pipeline()
     {
-        using var fixture = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
         var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         fixture.ExecuteVersion = async (_, _, _) =>
         {
-            started.SetResult();
+            started.TrySetResult();
             await release.Task;
             return CommandResult.Ok("{\"SemVer\":\"1.2.3\"}");
         };
@@ -137,13 +135,16 @@ public class GitVersioningTests
         try
         {
             await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
-            var others = Enumerable.Range(0, 10).Select(_ => versioning.GetVersioningInformationAsync()).ToArray();
+            var others = Enumerable.Range(0, 10)
+                .Select(_ => fixture.CreateVersioning().GetVersioningInformationAsync()).ToArray();
             release.SetResult();
             var results = await Task.WhenAll([first, .. others]);
 
             await Assert.That(results.All(result => ReferenceEquals(result, results[0]))).IsTrue();
             await Assert.That(fixture.InstallCalls).IsEqualTo(1);
             await Assert.That(fixture.VersionCalls).IsEqualTo(1);
+            await Assert.That(fixture.CommandScopesCreated).IsEqualTo(1);
+            await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(1);
         }
         finally
         {
@@ -153,15 +154,92 @@ public class GitVersioningTests
     }
 
     [Test]
-    public async Task Separate_Instances_Can_Compute_Concurrently()
+    public async Task Canceling_A_Waiter_Does_Not_Interrupt_The_Shared_Calculation()
     {
-        using var first = new VersioningFixture();
-        using var second = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        fixture.ExecuteVersion = async (_, _, token) =>
+        {
+            started.TrySetResult();
+            await release.Task.WaitAsync(token);
+            return CommandResult.Ok("{\"SemVer\":\"1.2.3\"}");
+        };
+        var first = fixture.CreateVersioning().GetVersioningInformationAsync();
+        try
+        {
+            await started.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            using var cancellation = new CancellationTokenSource();
+            var waiter = fixture.CreateVersioning().GetVersioningInformationAsync(cancellation.Token);
+            cancellation.Cancel();
+            await Assert.That(async () => { await waiter; }).Throws<OperationCanceledException>();
+            await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(0);
+            release.TrySetResult();
+            var result = await first;
+            var cached = await fixture.CreateVersioning().GetVersioningInformationAsync();
+
+            await Assert.That(ReferenceEquals(result, cached)).IsTrue();
+            await Assert.That(fixture.InstallCalls).IsEqualTo(1);
+            await Assert.That(fixture.VersionCalls).IsEqualTo(1);
+            await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(1);
+        }
+        finally
+        {
+            release.TrySetResult();
+            await first;
+        }
+    }
+
+    [Test]
+    public async Task Sequential_Module_Scopes_Share_The_Cached_Result()
+    {
+        await using var fixture = new VersioningFixture();
+        await using var provider = fixture.CreateProvider();
+        GitVersionInformation first;
+        await using (var scope = provider.CreateAsyncScope())
+        {
+            first = await scope.ServiceProvider.GetRequiredService<IGitVersioning>().GetVersioningInformationAsync();
+        }
+
+        await using var nextScope = provider.CreateAsyncScope();
+        var second = await nextScope.ServiceProvider.GetRequiredService<IGitVersioning>().GetVersioningInformationAsync();
+
+        await Assert.That(ReferenceEquals(first, second)).IsTrue();
+        await Assert.That(fixture.InstallCalls).IsEqualTo(1);
+        await Assert.That(fixture.VersionCalls).IsEqualTo(1);
+        await Assert.That(fixture.CommandScopesCreated).IsEqualTo(1);
+        await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Independent_Providers_For_The_Same_Repository_Have_Independent_Results()
+    {
+        await using var fixture = new VersioningFixture();
+        await using var first = fixture.CreateProvider();
+        await using var second = fixture.CreateProvider();
+        await using var firstScope = first.CreateAsyncScope();
+        await using var secondScope = second.CreateAsyncScope();
+        var firstResult = await firstScope.ServiceProvider.GetRequiredService<IGitVersioning>().GetVersioningInformationAsync();
+        fixture.ExecuteVersion = (_, _, _) => Task.FromResult(CommandResult.Ok("{\"SemVer\":\"4.5.6\"}"));
+        var secondResult = await secondScope.ServiceProvider.GetRequiredService<IGitVersioning>().GetVersioningInformationAsync();
+
+        await Assert.That(firstResult.SemVer).IsEqualTo("1.2.3");
+        await Assert.That(secondResult.SemVer).IsEqualTo("4.5.6");
+        await Assert.That(fixture.InstallCalls).IsEqualTo(2);
+        await Assert.That(fixture.VersionCalls).IsEqualTo(2);
+        await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Independent_Providers_Can_Compute_Concurrently()
+    {
+        await using var first = new VersioningFixture();
+        await using var second = new VersioningFixture();
         var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         first.ExecuteVersion = async (_, _, _) =>
         {
-            started.SetResult();
+            started.TrySetResult();
             await release.Task;
             return CommandResult.Ok("{\"SemVer\":\"1.2.3\"}");
         };
@@ -187,7 +265,7 @@ public class GitVersioningTests
     [Arguments("6.7.0")]
     public async Task Registration_Uses_Pinned_Or_Configured_Tool_Version(string? requestedVersion)
     {
-        using var fixture = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
         var services = new ServiceCollection();
         if (requestedVersion is null)
         {
@@ -214,7 +292,7 @@ public class GitVersioningTests
     [Arguments("cancel")]
     public async Task Failed_Computation_Cleans_Temporary_Files_And_Can_Be_Retried(string failure)
     {
-        using var fixture = new VersioningFixture();
+        await using var fixture = new VersioningFixture();
         using var cancellation = new CancellationTokenSource();
         if (failure == "install")
         {
@@ -246,20 +324,32 @@ public class GitVersioningTests
 
         fixture.InstallFailure = null;
         fixture.ExecuteVersion = (_, _, _) => Task.FromResult(CommandResult.Ok("{\"SemVer\":\"1.2.3\"}"));
-        await Assert.That((await versioning.GetVersioningInformationAsync()).SemVer).IsEqualTo("1.2.3");
+        await Assert.That((await fixture.CreateVersioning().GetVersioningInformationAsync()).SemVer).IsEqualTo("1.2.3");
+        await Assert.That(fixture.CommandScopesCreated).IsEqualTo(2);
+        await Assert.That(fixture.CommandScopesDisposed).IsEqualTo(2);
         await Assert.That(Directory.Exists(fixture.ToolFolder)).IsFalse();
     }
 
-    private sealed class VersioningFixture : IDisposable
+    private sealed class VersioningFixture : IAsyncDisposable
     {
-        private readonly Mock<ICommandContext> _command = new();
+        private readonly List<AsyncServiceScope> _moduleScopes = [];
         private readonly Mock<IGitInformation> _gitInformation = new();
+        private ServiceProvider? _provider;
 
         public VersioningFixture()
         {
             _gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new GitRepositoryInfo(Repository));
-            _command.Setup(x => x.ExecuteCommandLineToolAsync(
+        }
+
+        private ICommandContext CreateCommand()
+        {
+            CommandScopesCreated++;
+            var command = new Mock<ICommandContext>();
+            command.As<IAsyncDisposable>().Setup(x => x.DisposeAsync())
+                .Callback(() => CommandScopesDisposed++)
+                .Returns(ValueTask.CompletedTask);
+            command.Setup(x => x.ExecuteCommandLineToolAsync(
                     It.IsAny<CommandLineToolOptions>(), It.IsAny<CommandExecutionOptions?>(), It.IsAny<CancellationToken>()))
                 .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(async (options, execution, token) =>
                 {
@@ -280,6 +370,7 @@ public class GitVersioningTests
                     VersionCalls++;
                     return await ExecuteVersion(options, execution, token);
                 });
+            return command.Object;
         }
 
         public FolderPath Repository { get; } = FolderPath.CreateTemporaryFolder();
@@ -297,13 +388,43 @@ public class GitVersioningTests
         public Func<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken, Task<CommandResult>> ExecuteVersion { get; set; } =
             (_, _, _) => Task.FromResult(CommandResult.Ok("{\"SemVer\":\"1.2.3\"}"));
 
-        public GitVersioning CreateVersioning(GitVersioningOptions? options = null) => new(
-            _gitInformation.Object,
-            _command.Object,
-            Mock.Of<IModuleLoggerAccessor>(),
-            SystemFileSystemProvider.Instance,
-            Microsoft.Extensions.Options.Options.Create(options ?? new GitVersioningOptions()));
+        public int CommandScopesCreated { get; private set; }
 
-        public void Dispose() => Repository.Delete();
+        public int CommandScopesDisposed { get; private set; }
+
+        public ServiceProvider CreateProvider(GitVersioningOptions? options = null)
+        {
+            var services = new ServiceCollection();
+            services.RegisterGitContext(configuration => configuration.ToolVersion =
+                (options ?? new GitVersioningOptions()).ToolVersion);
+            services.AddSingleton(_gitInformation.Object);
+            services.AddScoped<ICommandContext>(_ => CreateCommand());
+            services.AddScoped<IModuleLoggerAccessor>(_ => Mock.Of<IModuleLoggerAccessor>());
+            services.AddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
+            return services.BuildServiceProvider(new ServiceProviderOptions { ValidateScopes = true });
+        }
+
+        public IGitVersioning CreateVersioning(GitVersioningOptions? options = null)
+        {
+            _provider ??= CreateProvider(options);
+            var scope = _provider.CreateAsyncScope();
+            _moduleScopes.Add(scope);
+            return scope.ServiceProvider.GetRequiredService<IGitVersioning>();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            foreach (var scope in _moduleScopes)
+            {
+                await scope.DisposeAsync();
+            }
+
+            if (_provider is not null)
+            {
+                await _provider.DisposeAsync();
+            }
+
+            Repository.Delete();
+        }
     }
 }
