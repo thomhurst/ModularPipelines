@@ -6,6 +6,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Context;
@@ -160,6 +161,8 @@ public class ModuleContextSubModuleTests
         var receivedToken = CancellationToken.None;
         var executionContext = new ModuleExecutionContext(module, module.GetType());
         using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        using var attemptCancellation = new CancellationTokenSource();
+        executionContext.CurrentCancellationToken = attemptCancellation.Token;
         var context = CreateContext(executionContext);
 
         Task<int> Body(CancellationToken token)
@@ -295,6 +298,50 @@ public class ModuleContextSubModuleTests
         mediator.Verify(
             x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), CancellationToken.None),
             Times.Once);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task RunSubModuleAsync_ConcurrentAttempts_KeepTheirTokensAndRestoreModuleFallback(bool returnsResult)
+    {
+        var module = Mock.Of<IModule>();
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        using var moduleCancellation = executionContext.ModuleCancellationTokenSource;
+        using var firstAttempt = new CancellationTokenSource();
+        using var secondAttempt = new CancellationTokenSource();
+        var context = CreateContext(executionContext);
+        var resume = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        async Task<CancellationToken> RunAttempt(CancellationToken attemptToken)
+        {
+            executionContext.CurrentCancellationToken = attemptToken;
+            await resume.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            var receivedToken = CancellationToken.None;
+
+            Task<CancellationToken> Body(CancellationToken token)
+            {
+                receivedToken = token;
+                return Task.FromResult(token);
+            }
+
+            if (returnsResult)
+            {
+                return await context.RunSubModuleAsync("Attempt", Body);
+            }
+
+            await context.RunSubModuleAsync("Attempt", token => (Task) Body(token));
+            return receivedToken;
+        }
+
+        var first = RunAttempt(firstAttempt.Token);
+        var second = RunAttempt(secondAttempt.Token);
+        resume.SetResult();
+
+        await Assert.That(await first).IsEqualTo(firstAttempt.Token);
+        await Assert.That(await second).IsEqualTo(secondAttempt.Token);
+        var fallback = await context.RunSubModuleAsync("Outside attempt", token => Task.FromResult(token));
+        await Assert.That(fallback).IsEqualTo(moduleCancellation.Token);
     }
 
     private static ModuleContext CreateContext(ModuleExecutionContext executionContext, IMediator? mediator = null)

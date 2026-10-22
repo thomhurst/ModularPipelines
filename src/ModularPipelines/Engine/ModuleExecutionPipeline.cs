@@ -676,7 +676,12 @@ internal class ModuleExecutionPipeline(
         CancellationToken cancellationToken)
     {
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
+            async attemptToken =>
+            {
+                // The async invocation scopes this token to the attempt and its children.
+                executionContext.CurrentCancellationToken = attemptToken;
+                return await module.ExecuteAsync(moduleContext, attemptToken).ConfigureAwait(false);
+            },
             timeout == Timeout.InfiniteTimeSpan ? null : timeout,
             cancellationToken,
             $"Module {executionContext.ModuleType.Name} timed out after {timeout}",
