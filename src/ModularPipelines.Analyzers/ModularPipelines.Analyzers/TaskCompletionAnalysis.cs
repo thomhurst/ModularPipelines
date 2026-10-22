@@ -347,6 +347,31 @@ internal static class TaskCompletionAnalysis
         {
             AddWhenAllFacts(invocation, state, unstable);
         }
+        else if (awaited is IInvocationOperation { TargetMethod.Name: "WaitAsync", Instance: { } instance } wait
+                 && IsTask(wait.TargetMethod.ContainingType))
+        {
+            AddWaitAsyncFacts(wait, instance, state, unstable);
+        }
+    }
+
+    private static void AddWaitAsyncFacts(
+        IInvocationOperation invocation,
+        IOperation instance,
+        HashSet<ISymbol> state,
+        HashSet<ISymbol> unstable)
+    {
+        // Normal continuation proves the receiver completed; timeout/cancellation
+        // throws. Arguments are evaluated after the receiver and can replace it.
+        var inputs = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        AddAwaitFacts(instance, inputs, unstable);
+        foreach (var assignment in invocation.Arguments
+                     .SelectMany(static argument => argument.Value.DescendantsAndSelf())
+                     .OfType<IAssignmentOperation>())
+        {
+            RemoveAssignedSymbols(assignment.Target, inputs);
+        }
+
+        state.UnionWith(inputs);
     }
 
     private static void AddWhenAllFacts(IInvocationOperation invocation, HashSet<ISymbol> state, HashSet<ISymbol> unstable)

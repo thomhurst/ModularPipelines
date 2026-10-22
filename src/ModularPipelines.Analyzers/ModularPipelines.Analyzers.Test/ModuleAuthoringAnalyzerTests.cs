@@ -2546,6 +2546,15 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("await a.WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), TimeProvider.System, cancellationToken); _ = a.Result;")]
+    [DataRow("await (a = GetTask()).WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken); _ = a.Result;")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("var timeout = TimeSpan.FromSeconds(1); await a.WaitAsync(timeout, cancellationToken); _ = a.Result;")]
+    [DataRow("await ((Task)a).WaitAsync(cancellationToken); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, b).WaitAsync(cancellationToken); _ = a.Result; _ = b.Result;")]
+    [DataRow("await a.WaitAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(1), cancellationToken); _ = a.Result;")]
     [DataRow("await (a = GetTask()); _ = a.Result;")]
     [DataRow("await (a = b = GetTask()); _ = a.Result; _ = b.Result;")]
     [DataRow("await (a = GetTask()).ConfigureAwait(false); _ = a.Result;")]
@@ -2586,6 +2595,16 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("await a.WaitAsync(cancellationToken); _ = {|#0:b.Result|};")]
+    [DataRow("var waiting = a.WaitAsync(cancellationToken); _ = {|#0:a.Result|}; await waiting;")]
+    [DataRow("await Task.WhenAll(a, b).WaitAsync(TimeSpan.FromTicks((a = GetTask()).Id), cancellationToken); _ = {|#0:a.Result|}; _ = b.Result;")]
+    [DataRow("Task WaitAsync(Task<int> task, CancellationToken token) => Task.CompletedTask; await WaitAsync(a, cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(cancellationToken); a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("if (context != null) await a.WaitAsync(cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("try { await a.WaitAsync(cancellationToken); } catch { } _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(TimeSpan.FromTicks((a = GetTask()).Id), cancellationToken); _ = {|#0:a.Result|};")]
+    [DataRow("await a.WaitAsync(cancellationToken).ConfigureAwait((a = GetTask()).IsCompleted); _ = {|#0:a.Result|};")]
+    [DataRow("await CurrentTask.WaitAsync(cancellationToken); _ = {|#0:CurrentTask.Result|};")]
     [DataRow("await a; _ = {|#0:b.Result|};")]
     [DataRow("await (a = GetTask()); a = GetTask(); _ = {|#0:a.Result|};")]
     [DataRow("await (a = GetTask()); _ = {|#0:b.Result|};")]
