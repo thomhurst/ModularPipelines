@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Creates a new working container, either from scratch or using a specified
+/// Creates a new working container, either from scratch or using a specified image as a starting point.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record BuildahFromOptions : BuildahOptions
     /// add a custom host-to-IP mapping (host:ip) (default [])
     /// </summary>
     [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
-    public string? AddHost { get; set; }
+    public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
     /// set the ARCH of the image to the provided value instead of the architecture of the host (default "amd64")
@@ -80,7 +81,7 @@ public record BuildahFromOptions : BuildahOptions
     /// limit the CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuPeriod { get; set; }
+    public ulong? CpuPeriod { get; set; }
 
     /// <summary>
     /// limit the CPU CFS (Completely Fair Scheduler) quota
@@ -92,7 +93,7 @@ public record BuildahFromOptions : BuildahOptions
     /// CPU shares (relative weight)
     /// </summary>
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuShares { get; set; }
+    public ulong? CpuShares { get; set; }
 
     /// <summary>
     /// CPUs in which to allow execution (0-3, 0,1)

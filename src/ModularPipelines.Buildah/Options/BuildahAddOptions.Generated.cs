@@ -13,7 +13,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Adds the contents of a file, URL, or directory to a container's working
+/// Adds the contents of a file, URL, or directory to a container's working directory.  If a local file appears to be an archive, its contents are extracted and added instead of the archive file itself.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

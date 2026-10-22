@@ -14,7 +14,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Writes a new image using the container's read-write layer and, if it is based
+/// Writes a new image using the container's read-write layer and, if it is based on an image, the layers of that image.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -68,7 +68,7 @@ public record BuildahCommitOptions : BuildahOptions
     /// layers to encrypt, 0-indexed layer indices with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer). If not defined, will encrypt all layers if encryption-key flag is specified
     /// </summary>
     [CliOption("--encrypt-layer", Format = OptionFormat.EqualsSeparated)]
-    public string? EncryptLayer { get; set; }
+    public IEnumerable<string>? EncryptLayer { get; set; }
 
     /// <summary>
     /// key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)

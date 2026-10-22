@@ -13,7 +13,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Copies the contents of a file, URL, or directory into a container's working
+/// Copies the contents of a file, URL, or directory into a container's working directory.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

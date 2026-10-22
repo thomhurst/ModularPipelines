@@ -35,7 +35,7 @@ public partial interface IBuildah
     #region Commands
 
     /// <summary>
-    /// Adds the contents of a file, URL, or directory to a container's working
+    /// Adds the contents of a file, URL, or directory to a container's working directory.  If a local file appears to be an archive, its contents are extracted and added instead of the archive file itself.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -53,7 +53,7 @@ public partial interface IBuildah
     public Task<CommandResult> BuildAsync(BuildahBuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Writes a new image using the container's read-write layer and, if it is based
+    /// Writes a new image using the container's read-write layer and, if it is based on an image, the layers of that image.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -71,7 +71,7 @@ public partial interface IBuildah
     public Task<CommandResult> ConfigAsync(BuildahConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists containers which appear to be buildah working containers, their
+    /// Lists containers which appear to be buildah working containers, their names and IDs, and the names and IDs of the images from which they were initialized.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -80,7 +80,7 @@ public partial interface IBuildah
     public Task<CommandResult> ContainersAsync(BuildahContainersOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Copies the contents of a file, URL, or directory into a container's working
+    /// Copies the contents of a file, URL, or directory into a container's working directory.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -89,7 +89,7 @@ public partial interface IBuildah
     public Task<CommandResult> CopyAsync(BuildahCopyOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a new working container, either from scratch or using a specified
+    /// Creates a new working container, either from scratch or using a specified image as a starting point.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -143,7 +143,7 @@ public partial interface IBuildah
     public Task<CommandResult> MkcwAsync(BuildahMkcwOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// buildah mount
+    /// buildah mount mounts a working container's root filesystem for manipulation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -161,7 +161,7 @@ public partial interface IBuildah
     public Task<CommandResult> PruneAsync(BuildahPruneOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Pulls an image from a registry and stores it locally.
+    /// Pulls an image from a registry and stores it locally. An image can be pulled using its tag or digest. If a tag is not specified, the image with the 'latest' tag (if it exists) is pulled.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -206,7 +206,7 @@ public partial interface IBuildah
     public Task<CommandResult> RmiAsync(BuildahRmiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Runs a specified command using the container's root filesystem as a root
+    /// Runs a specified command using the container's root filesystem as a root filesystem, using configuration settings inherited from the container's image or as specified using previous calls to the config command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

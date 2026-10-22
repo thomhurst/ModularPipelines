@@ -13,7 +13,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Lists containers which appear to be buildah working containers, their
+/// Lists containers which appear to be buildah working containers, their names and IDs, and the names and IDs of the images from which they were initialized.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

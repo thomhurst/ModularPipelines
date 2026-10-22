@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Buildah.Options;
@@ -26,7 +27,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// add a custom host-to-IP mapping (host:ip) (default [])
     /// </summary>
     [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
-    public string? AddHost { get; set; }
+    public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
     /// attempt to build for all base image platforms
@@ -134,7 +135,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// limit the CPU CFS (Completely Fair Scheduler) period
     /// </summary>
     [CliOption("--cpu-period", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuPeriod { get; set; }
+    public ulong? CpuPeriod { get; set; }
 
     /// <summary>
     /// limit the CPU CFS (Completely Fair Scheduler) quota
@@ -146,7 +147,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// CPU shares (relative weight)
     /// </summary>
     [CliOption("--cpu-shares", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public int? CpuShares { get; set; }
+    public ulong? CpuShares { get; set; }
 
     /// <summary>
     /// CPUs in which to allow execution (0-3, 0,1)
