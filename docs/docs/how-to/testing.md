@@ -19,6 +19,11 @@ provides test-safe defaults:
 - progress, logos, dependency chains, and result printing are disabled;
 - module failures are returned for assertions instead of escaping from the harness.
 
+HTTP requests use the real network by default. Call [`InterceptHttp`](#intercept-http)
+to isolate requests and downloads made through the framework's default HTTP client.
+Explicitly supplied, named, or directly created clients can still use the real
+network; configure their handlers separately.
+
 ## Generate a test project
 
 The pipeline template can include a TUnit project that references `ModularPipelines.Testing`:
@@ -227,6 +232,73 @@ result without calling `next` to short-circuit: the framework applies command
 metadata, logs it, and throws `CommandException` for a nonzero exit code when
 `ThrowOnNonZeroExitCode` is enabled. The execution timeout starts before the
 interceptors run and cannot be changed by them.
+
+## Intercept HTTP
+
+HTTP requests are **not intercepted by default**. Without `InterceptHttp`, the
+framework's default HTTP client can send real network requests, and
+`run.HttpRequests` is empty. An empty recording does not prove that no requests
+were sent.
+
+Call `InterceptHttp` to supply responses for requests sent through the framework's
+default HTTP client, including downloads. The handler receives the request and its
+effective cancellation token and returns a `ValueTask<HttpResponseMessage>`:
+
+```csharp
+using System.Net;
+using System.Net.Http;
+using ModularPipelines;
+using ModularPipelines.Testing;
+
+public class FetchReleaseTests
+{
+    [Test]
+    public async Task Fetch_release_uses_the_expected_endpoint()
+    {
+        var run = await ModuleTester.For<FetchReleaseModule, string>()
+            .InterceptHttp((request, cancellationToken) =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                return ValueTask.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("release-42"),
+                });
+            })
+            .ExecuteAsync();
+
+        await Assert.That(run.Exception).IsNull();
+        await Assert.That(run.Value).IsEqualTo("release-42");
+        await Assert.That(run.HttpRequests.Count).IsEqualTo(1);
+        await Assert.That(run.HttpRequests[0].Method).IsEqualTo(HttpMethod.Get);
+        await Assert.That(run.HttpRequests[0].RequestUri)
+            .IsEqualTo(new Uri("https://releases.example.test/latest"));
+    }
+}
+
+public sealed class FetchReleaseModule : Module<string>
+{
+    protected override async Task<string> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(
+            HttpMethod.Get, "https://releases.example.test/latest");
+        using var response = await context.Network.Http.SendAsync(request, cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken);
+    }
+}
+```
+
+`run.HttpRequests` contains snapshots taken before the handler runs, including
+headers and buffered request content. These remain readable after the module
+disposes its requests, so assertions can inspect `request.Headers` and await
+`request.Content!.ReadAsStringAsync()` when the request has a body. HTTP resilience
+still applies: each retry attempt that reaches the handler creates another entry.
+Return a fresh response for each handler call.
+
+Interception covers only the framework's default HTTP client. Explicitly supplied
+`HttpClient` instances, other named clients, and clients created directly by module
+code are not intercepted or recorded; configure their handlers separately to avoid
+real network calls.
 
 ## Use the in-memory filesystem
 
