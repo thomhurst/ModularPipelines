@@ -1,0 +1,29 @@
+<Project>
+  <!-- Roslyn loads F# projects without compilation support. Its formatter then skips
+       analyzers for C# projects referencing them (#6723). Use the built F# assembly
+       in design-time builds; ordinary builds retain the project dependency. -->
+  <Target Name="ResolveFSharpDesignTimeReferences"
+          AfterTargets="PrepareProjectReferences"
+          Condition="'$(DesignTimeBuild)' == 'true' and '$(MSBuildProjectExtension)' == '.csproj'">
+    <!-- PrepareProjectReferences assigns solution configurations and target frameworks.
+         Keep that selection rather than inheriting the C# project's configuration. -->
+    <ItemGroup>
+      <_FSharpDesignTimeProjectReference Include="@(_MSBuildProjectReferenceExistent->WithMetadataValue('Extension', '.fsproj'))" />
+      <ProjectReference Remove="@(_FSharpDesignTimeProjectReference)" />
+      <ProjectReferenceWithConfiguration Remove="@(_FSharpDesignTimeProjectReference)" />
+      <_MSBuildProjectReferenceExistent Remove="@(_FSharpDesignTimeProjectReference)" />
+    </ItemGroup>
+    <MSBuild Projects="@(_FSharpDesignTimeProjectReference)"
+             Targets="GetTargetPath"
+             Properties="%(_FSharpDesignTimeProjectReference.SetConfiguration);%(_FSharpDesignTimeProjectReference.SetPlatform);%(_FSharpDesignTimeProjectReference.SetTargetFramework)"
+             RemoveProperties="%(_FSharpDesignTimeProjectReference.GlobalPropertiesToRemove)$(_GlobalPropertiesToRemoveFromProjectReferences)"
+             Condition="'%(_FSharpDesignTimeProjectReference.ReferenceOutputAssembly)' == 'true' and '%(_FSharpDesignTimeProjectReference.BuildReference)' == 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="_FSharpDesignTimeAssembly" />
+    </MSBuild>
+    <Error Condition="'@(_FSharpDesignTimeAssembly)' != '' and !Exists('%(_FSharpDesignTimeAssembly.Identity)')"
+           Text="Build the affected solution with Configuration=$(Configuration) before semantic formatting. Missing F# assembly: %(_FSharpDesignTimeAssembly.Identity)" />
+    <ItemGroup>
+      <Reference Include="@(_FSharpDesignTimeAssembly)" />
+    </ItemGroup>
+  </Target>
+</Project>
