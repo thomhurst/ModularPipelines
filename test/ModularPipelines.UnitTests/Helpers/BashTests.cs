@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -489,7 +490,7 @@ public class BashTests : TestBase
         var nestedDirectory = Path.Combine(directory, "nested dir");
         Directory.CreateDirectory(nestedDirectory);
         var path = Path.Combine(nestedDirectory, "script's $value.sh");
-        Exception? executionFailure = null;
+        ExceptionDispatchInfo? executionFailure = null;
 
         try
         {
@@ -506,36 +507,35 @@ public class BashTests : TestBase
         }
         catch (Exception exception)
         {
-            executionFailure = exception;
-            throw;
+            executionFailure = ExceptionDispatchInfo.Capture(exception);
         }
-        finally
+
+        try
         {
-            try
+            // WSL can retain Bash's working directory briefly after its Windows launcher exits.
+            // Wait for that directory to be released without terminating shared WSL processes.
+            var cleanup = Stopwatch.StartNew();
+            while (true)
             {
-                // WSL can retain Bash's working directory briefly after its Windows launcher exits.
-                // Wait for that directory to be released without terminating shared WSL processes.
-                var cleanup = Stopwatch.StartNew();
-                while (true)
+                try
                 {
-                    try
-                    {
-                        Directory.Delete(directory, recursive: true);
-                        break;
-                    }
-                    catch (IOException exception) when (OperatingSystem.IsWindows()
-                        && (exception.HResult & 0xFFFF) is 32 or 33
-                        && cleanup.Elapsed < TimeSpan.FromSeconds(10))
-                    {
-                        await Task.Delay(25);
-                    }
+                    Directory.Delete(directory, recursive: true);
+                    break;
+                }
+                catch (IOException exception) when (OperatingSystem.IsWindows()
+                    && (exception.HResult & 0xFFFF) is 32 or 33
+                    && cleanup.Elapsed < TimeSpan.FromSeconds(10))
+                {
+                    await Task.Delay(25);
                 }
             }
-            catch (Exception cleanupFailure) when (executionFailure is not null)
-            {
-                throw new AggregateException("Bash execution and temporary directory cleanup both failed.", executionFailure, cleanupFailure);
-            }
         }
+        catch (Exception cleanupFailure) when (executionFailure is not null)
+        {
+            throw new AggregateException("Bash execution and temporary directory cleanup both failed.", executionFailure.SourceException, cleanupFailure);
+        }
+
+        executionFailure?.Throw();
     }
 
     [Test]
