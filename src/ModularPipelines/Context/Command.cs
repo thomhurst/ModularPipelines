@@ -390,6 +390,14 @@ internal sealed class Command(
             (toolOptions, executionOptions, token) => ExecuteCommandAsync(toolOptions, executionOptions, interceptCommands: false, token),
             cancellationToken).ConfigureAwait(false);
         arguments[pathIndex] = preparedOptions.FilePath;
+        if (string.Equals(preparedOptions.Tool, Path.Combine(Environment.SystemDirectory, "bash.exe"), StringComparison.OrdinalIgnoreCase))
+        {
+            // The legacy WSL launcher reparses its arguments through a shell, expanding literal paths
+            // and script arguments. --exec passes them directly to Bash without another shell.
+            preparedOptions = preparedOptions with { Tool = Path.Combine(Environment.SystemDirectory, "wsl.exe") };
+            arguments.InsertRange(usesSudo ? invocation.SudoPrefixLength + 1 : 0, ["--exec", "bash"]);
+        }
+
         if (usesSudo)
         {
             arguments[invocation.SudoPrefixLength] = preparedOptions.Tool!;
