@@ -55,11 +55,21 @@ public class ProgressSessionTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task StartAsync_Suppresses_Display_Exceptions_And_Only_Warns_For_Failures(bool cancellation)
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task StartAsync_Suppresses_Display_Exceptions_And_Only_Warns_For_Failures(
+        bool cancellationException,
+        bool cancellationRequested)
     {
-        Exception exception = cancellation
+        using var cancellationTokenSource = new CancellationTokenSource();
+        if (cancellationRequested)
+        {
+            cancellationTokenSource.Cancel();
+        }
+
+        Exception exception = cancellationException
             ? new OperationCanceledException()
             : new InvalidOperationException("Progress rendering failed");
         var console = new Mock<IAnsiConsole>();
@@ -74,20 +84,21 @@ public class ProgressSessionTests
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             loggerFactory.Object,
             console.Object,
-            CancellationToken.None);
+            cancellationTokenSource.Token);
 
         await session.StartAsync().WaitAsync(TimeSpan.FromSeconds(5));
         await session.DisposeAsync();
 
         console.VerifyGet(value => value.ExclusivityMode, Times.AtLeastOnce);
+        var expectedCancellation = cancellationException && cancellationRequested;
         logger.Verify(value => value.Log(
             LogLevel.Warning,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Progress display")),
             exception,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
-            cancellation ? Times.Never() : Times.Once());
-        if (cancellation)
+            expectedCancellation ? Times.Never() : Times.Once());
+        if (expectedCancellation)
         {
             logger.VerifyNoOtherCalls();
         }

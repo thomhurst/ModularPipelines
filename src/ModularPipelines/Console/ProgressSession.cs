@@ -230,7 +230,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                 })
                 .ConfigureAwait(false);
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             // Expected on cancellation
         }
