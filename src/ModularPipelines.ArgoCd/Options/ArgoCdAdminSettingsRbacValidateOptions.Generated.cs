@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Validates an RBAC policy for being syntactically correct. The policy must be
+/// Validates an RBAC policy for being syntactically correct. The policy must be a local file or a K8s ConfigMap in the provided namespace, and in either CSV or K8s ConfigMap format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

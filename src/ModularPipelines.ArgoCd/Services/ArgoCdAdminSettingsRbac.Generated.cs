@@ -47,7 +47,7 @@ public class ArgoCdAdminSettingsRbac
     }
 
     /// <summary>
-    /// Check whether a given role or subject has appropriate RBAC permissions to do
+    /// Check whether a given role or subject has appropriate RBAC permissions to do something.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class ArgoCdAdminSettingsRbac
     }
 
     /// <summary>
-    /// Validates an RBAC policy for being syntactically correct. The policy must be
+    /// Validates an RBAC policy for being syntactically correct. The policy must be a local file or a K8s ConfigMap in the provided namespace, and in either CSV or K8s ConfigMap format.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

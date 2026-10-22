@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.ArgoCd.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.ArgoCd.Options;

@@ -14,7 +14,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Check whether a given role or subject has appropriate RBAC permissions to do
+/// Check whether a given role or subject has appropriate RBAC permissions to do something.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAdminSettingsRbacCanOptions : ArgoCdOptions
 {
     /// <summary>
-    /// Check whether a given role or subject has appropriate RBAC permissions to do
+    /// Check whether a given role or subject has appropriate RBAC permissions to do something.
     /// </summary>
     /// <param name="RoleSubject">Role or subject to check.</param>
     /// <param name="Action">Action to check.</param>

@@ -90,7 +90,7 @@ public record ArgoCdAppWaitOptions : ArgoCdOptions
     /// Time out after this many seconds
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public int? Timeout { get; set; }
+    public ulong? Timeout { get; set; }
 
     /// <summary>
     /// Optional application names to target.

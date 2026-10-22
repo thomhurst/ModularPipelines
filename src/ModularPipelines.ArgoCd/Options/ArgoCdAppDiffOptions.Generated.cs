@@ -13,7 +13,7 @@ using ModularPipelines.ArgoCd.Options;
 namespace ModularPipelines.ArgoCd.Options;
 
 /// <summary>
-/// Perform a diff against the target and live state.
+/// Perform a diff against the target and live state. Uses 'diff' to render the difference. KUBECTL_EXTERNAL_DIFF environment variable can be used to select your own diff tool. Returns the following exit codes: 2 on general errors, 1 when a diff is found, and 0 when no diff is found Kubernetes Secrets are ignored from this diff.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.ArgoCd.Options;
 public record ArgoCdAppDiffOptions : ArgoCdOptions
 {
     /// <summary>
-    /// Perform a diff against the target and live state.
+    /// Perform a diff against the target and live state. Uses 'diff' to render the difference. KUBECTL_EXTERNAL_DIFF environment variable can be used to select your own diff tool. Returns the following exit codes: 2 on general errors, 1 when a diff is found, and 0 when no diff is found Kubernetes Secrets are ignored from this diff.
     /// </summary>
     /// <param name="ApplicationName">The APPNAME operand.</param>
     public ArgoCdAppDiffOptions(
