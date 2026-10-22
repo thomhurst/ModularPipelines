@@ -5,9 +5,7 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 public class SignalRResultSizeTests
 {
     [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task Oversized_Result_Completes_Lease_Without_Reconnecting(bool includeLease)
+    public async Task Oversized_Result_Completes_Lease_Without_Reconnecting()
     {
         const long limit = 4096;
         await using var test = await SignalRTestMaster.StartAsync(options => options with
@@ -41,7 +39,7 @@ public class SignalRResultSizeTests
             CompletedAt = DateTimeOffset.UtcNow,
         };
 
-        await worker.PublishResultAsync(result, includeLease ? lease : null, timeout.Token);
+        await worker.PublishResultAsync(result, lease, timeout.Token);
         var received = await test.Master.WaitForResultAsync(moduleId, timeout.Token);
 
         using var payload = JsonDocument.Parse(received.Payload);
@@ -54,7 +52,9 @@ public class SignalRResultSizeTests
 
         // A subsequent ordinary publication proves the same connection remains usable.
         var next = result with { ModuleId = new ModuleId("Signal.Next"), Payload = "small" };
-        await worker.PublishResultAsync(next, null, timeout.Token);
+        await test.Master.EnqueueModuleAsync(lease!.Assignment with { ModuleId = next.ModuleId }, timeout.Token);
+        var nextLease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), timeout.Token);
+        await worker.PublishResultAsync(next, nextLease, timeout.Token);
         await Assert.That((await test.Master.WaitForResultAsync(next.ModuleId, timeout.Token)).Payload).IsEqualTo("small");
     }
 }

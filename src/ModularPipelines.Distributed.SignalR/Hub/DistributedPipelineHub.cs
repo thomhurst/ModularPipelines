@@ -98,8 +98,10 @@ internal sealed class DistributedPipelineHub(
     {
         ArgumentNullException.ThrowIfNull(result);
         var registration = GetRegistration();
-        if (result.WorkerId != registration.WorkerId
-            || (lease is not null && (lease.WorkerId != registration.WorkerId || lease.Assignment.ModuleId != result.ModuleId)))
+        if (lease is null
+            || result.WorkerId != registration.WorkerId
+            || lease.WorkerId != registration.WorkerId
+            || lease.Assignment.ModuleId != result.ModuleId)
         {
             throw new HubException("Result rejected because it was not produced under this connection's worker lease.");
         }
