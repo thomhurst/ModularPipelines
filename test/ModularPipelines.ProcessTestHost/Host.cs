@@ -72,8 +72,15 @@ public static class Host
 
     private static async Task<int> RunProcessRoleAsync(string[] args)
     {
-        System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         var role = args[0];
+        // The Unix intermediate retains the shell's inherited SIG_IGN disposition. A managed
+        // signal handler would reset on exec and leave a newly spawned grandchild vulnerable
+        // to SIGINT before it can install its own handler.
+        if (OperatingSystem.IsWindows() || role != "intermediate")
+        {
+            System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
+        }
+
         var directory = args[1];
         var runtimeConfiguration = args[2];
         var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
@@ -112,14 +119,11 @@ public static class Host
             return;
         }
 
-        var interrupted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        using var interruptRegistration = !OperatingSystem.IsWindows() && role is "interruptible-child" or "interruptible-grandchild"
-            ? PosixSignalRegistration.Create(PosixSignal.SIGINT, context =>
-            {
-                context.Cancel = true;
-                interrupted.TrySetResult();
-            })
-            : null;
+        if (role.StartsWith("interruptible-", StringComparison.Ordinal))
+        {
+            await RunInterruptibleRoleAsync(role, name, directory, runtimeConfiguration);
+            return;
+        }
 
         Publish(directory, name + ".ready", "ready");
         switch (role)
@@ -146,26 +150,6 @@ public static class Host
                 break;
             case "graceful-exit":
                 await WaitForTrigger(directory, "parent-exit");
-                break;
-            case "interruptible-parent":
-                using (var child = StartChild("interruptible-child", directory, runtimeConfiguration))
-                {
-                    await child.WaitForExitAsync();
-                }
-
-                break;
-            case "interruptible-child":
-                using (var grandchild = StartChild("interruptible-grandchild", directory, runtimeConfiguration))
-                {
-                    await interrupted.Task;
-                    Publish(directory, name + "-interrupted.ready", "cleanup");
-                    await grandchild.WaitForExitAsync();
-                }
-
-                break;
-            case "interruptible-grandchild":
-                await interrupted.Task;
-                Publish(directory, name + "-interrupted.ready", "cleanup");
                 break;
             case "parent":
             case "parent-exit":
@@ -222,6 +206,45 @@ public static class Host
             case "child":
             case "grandchild":
                 await Task.Delay(TimeSpan.FromSeconds(60));
+                break;
+            default:
+                throw new ArgumentException($"Unknown fixture role: {role}");
+        }
+    }
+
+    private static async Task RunInterruptibleRoleAsync(string role, string name, string directory, string runtimeConfiguration)
+    {
+        var interrupted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var interruptRegistration = !OperatingSystem.IsWindows() && role is "interruptible-child" or "interruptible-grandchild"
+            ? PosixSignalRegistration.Create(PosixSignal.SIGINT, context =>
+            {
+                context.Cancel = true;
+                interrupted.TrySetResult();
+            })
+            : null;
+
+        Publish(directory, name + ".ready", "ready");
+        switch (role)
+        {
+            case "interruptible-parent":
+                using (var child = StartChild("interruptible-child", directory, runtimeConfiguration))
+                {
+                    await child.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-child":
+                using (var grandchild = StartChild("interruptible-grandchild", directory, runtimeConfiguration))
+                {
+                    await interrupted.Task;
+                    Publish(directory, name + "-interrupted.ready", "cleanup");
+                    await grandchild.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-grandchild":
+                await interrupted.Task;
+                Publish(directory, name + "-interrupted.ready", "cleanup");
                 break;
             default:
                 throw new ArgumentException($"Unknown fixture role: {role}");
@@ -287,6 +310,17 @@ public static class Host
         {
             // A background child must not inherit the command's original output pipe handles.
             startInfo.InheritedHandles = [];
+        }
+
+        if (!OperatingSystem.IsWindows() && role == "intermediate")
+        {
+            // This shell finishes setup before intermediate.ready is published and cancellation
+            // begins. SIG_IGN survives exec and is inherited by descendants spawned during grace.
+            startInfo.FileName = "/bin/sh";
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add("trap '' INT; exec \"$@\"");
+            startInfo.ArgumentList.Add("process-fixture");
+            startInfo.ArgumentList.Add(Environment.ProcessPath!);
         }
 
         foreach (var argument in new[] { "exec", "--runtimeconfig", runtimeConfiguration, typeof(Host).Assembly.Location, role, directory, runtimeConfiguration })

@@ -1416,53 +1416,7 @@ internal sealed class Command(
             {
                 foreach (var processId in processIds.SelectMany(ProcessTree.GetDescendantProcessIds).Distinct())
                 {
-                    Process? descendant = null;
-
-                    try
-                    {
-                        descendant = Process.GetProcessById(processId);
-                        var capturedDescendant = descendant;
-                        var killDescendant = false;
-                        var interruptDescendant = false;
-
-                        lock (_lock)
-                        {
-                            if (_disposed)
-                            {
-                                descendant.Dispose();
-                            }
-                            else if (_descendants.TryAdd(processId, descendant))
-                            {
-                                killDescendant = _killRequested;
-                                interruptDescendant = !killDescendant;
-                            }
-                            else
-                            {
-                                descendant.Dispose();
-                            }
-
-                            descendant = null;
-                        }
-
-                        if (killDescendant)
-                        {
-                            TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
-                        }
-                        else if (interruptDescendant)
-                        {
-                            // Interrupt each descendant once, including those spawned during grace.
-                            // A shell can defer its own SIGINT while waiting for a foreground child.
-                            ProcessRunner.Interrupt(capturedDescendant);
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        // The descendant exited while it was being captured.
-                    }
-                    finally
-                    {
-                        descendant?.Dispose();
-                    }
+                    CaptureDescendant(processId);
                 }
             }
             catch (InvalidOperationException)
@@ -1472,6 +1426,57 @@ internal sealed class Command(
             catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
                 // Timer and cancellation callbacks must never propagate process-discovery failures.
+            }
+        }
+
+        private void CaptureDescendant(int processId)
+        {
+            Process? descendant = null;
+
+            try
+            {
+                descendant = Process.GetProcessById(processId);
+                var capturedDescendant = descendant;
+                var killDescendant = false;
+                var interruptDescendant = false;
+
+                lock (_lock)
+                {
+                    if (_disposed)
+                    {
+                        descendant.Dispose();
+                    }
+                    else if (_descendants.TryAdd(processId, descendant))
+                    {
+                        killDescendant = _killRequested;
+                        interruptDescendant = !killDescendant;
+                    }
+                    else
+                    {
+                        descendant.Dispose();
+                    }
+
+                    descendant = null;
+                }
+
+                if (killDescendant)
+                {
+                    TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
+                }
+                else if (interruptDescendant)
+                {
+                    // Interrupt each descendant once, including those spawned during grace.
+                    // A shell can defer its own SIGINT while waiting for a foreground child.
+                    ProcessRunner.Interrupt(capturedDescendant);
+                }
+            }
+            catch (ArgumentException)
+            {
+                // The descendant exited while it was being captured.
+            }
+            finally
+            {
+                descendant?.Dispose();
             }
         }
 
