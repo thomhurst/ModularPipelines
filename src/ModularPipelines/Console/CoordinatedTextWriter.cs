@@ -913,30 +913,39 @@ internal class CoordinatedTextWriter : TextWriter
 
     private bool TryDeferInputWrite(ReadOnlySpan<char> value, bool appendNewLine)
     {
-        if (IsReentrantOutputWrite() || !_isOutputSinkActive)
+        if (IsReentrantOutputWrite() || IsCustomObfuscationActive())
         {
             return false;
+        }
+
+        lock (_deferredOutputLock)
+        {
+            if (!_isOutputSinkActive
+                && !_isDeferredInputDrainActive
+                && _deferredInputWrites.Count == 0)
+            {
+                return false;
+            }
         }
 
         var state = GetLineBufferState();
         lock (_deferredOutputLock)
         {
-            if (!_isOutputSinkActive)
-            {
-                return false;
-            }
-
+            // Keep joining the queue until its drain finishes, including while a
+            // dequeued write is being processed with the output sink idle.
             _deferredInputWrites.Enqueue(
                 new DeferredInputWrite(value.ToString(), appendNewLine, state));
-            return true;
         }
+
+        DrainDeferredInputWrites();
+        return true;
     }
 
     private void DrainDeferredInputWrites()
     {
         lock (_deferredOutputLock)
         {
-            if (_isDeferredInputDrainActive)
+            if (_isOutputSinkActive || _isDeferredInputDrainActive)
             {
                 return;
             }
@@ -1211,8 +1220,16 @@ internal class CoordinatedTextWriter : TextWriter
     /// </summary>
     internal async Task FlushAvailableAsync()
     {
-        FlushAvailableOutput();
-        await FlushRealConsoleAsync().ConfigureAwait(false);
+        try
+        {
+            DrainDeferredInputWrites();
+            FlushAvailableOutput();
+            await FlushRealConsoleAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            DrainDeferredInputWrites();
+        }
     }
 
     private void FlushAvailableOutput()
