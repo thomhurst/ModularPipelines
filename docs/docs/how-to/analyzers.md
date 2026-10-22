@@ -79,6 +79,26 @@ Suppress an individual warning when direct access is intentional.
 
 ## Configure a rule
 
+### Optional console policy
+
+[`MP0004`](../analyzers/MP0004.md) is disabled by default. Direct `System.Console`
+output is supported in both modules and `Program.cs`. Enable this rule only when
+your project requires structured logging instead of console stream output:
+
+```ini
+[*.cs]
+dotnet_diagnostic.MP0004.severity = warning
+```
+
+When enabled, it reports direct `System.Console` calls throughout the project.
+The code fix can replace supported module `WriteLine` calls with `context.Logger`
+events. This changes output semantics: events use logging levels, filters, and
+providers instead of plain stdout/stderr capture. No automatic replacement is
+offered in `Program.cs`, where a module context is unavailable. See
+[Choosing an output API](./logging.md#choosing-an-output-api).
+
+### Severity
+
 Set a rule's severity in `.editorconfig`:
 
 ```ini

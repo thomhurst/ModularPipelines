@@ -89,6 +89,8 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
                 parseOptions: new CSharpParseOptions(LanguageVersion.Preview),
                 compilationOptions: new CSharpCompilationOptions(
                     OutputKind.DynamicallyLinkedLibrary,
+                    specificDiagnosticOptions: ImmutableDictionary<string, ReportDiagnostic>.Empty
+                        .Add(diagnosticId, ReportDiagnostic.Warn),
                     allowUnsafe: allowUnsafe)));
 
         var trustedPlatformAssemblies =

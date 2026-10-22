@@ -39,9 +39,12 @@ If you have an interactive terminal, then a progress dialog will be displayed, a
 Module output is buffered while this display is active so it does not overwrite the progress dialog.
 
 ## Analyzers
-Modular Pipelines analyzers recommend `context.Console` over direct `Console` calls and
-prevent injecting category loggers into modules. Direct stdout/stderr remains a supported
-capture path when console stream semantics are specifically required.
+Modular Pipelines analyzers allow direct `System.Console` output in modules and
+`Program.cs` by default, and prevent injecting category loggers into modules.
+[`MP0004`](../analyzers/MP0004.md) is an optional restriction for projects that require
+structured logging. It is disabled by default because captured stdout/stderr is a
+supported output API. See [Choosing an output API](#choosing-an-output-api) for the
+differences between console capture and structured logging.
 
 ## How to access ILogger
 

@@ -605,6 +605,16 @@ public class Module1 : Module<List<string>>
     }
 
     [TestMethod]
+    [DataRow("System.Console.WriteLine(\"Starting pipeline\");")]
+    [DataRow("System.Console.Error.WriteLine(\"Pipeline failed\");")]
+    public async Task CodeFix_Is_Not_Offered_In_Program(string source)
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            $"public static class Program {{ public static void Main() {{ {source} }} }}",
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task CodeFix_Is_Not_Offered_In_Static_Local_Function()
     {
         await VerifyCS.VerifyNoCodeFixAsync(

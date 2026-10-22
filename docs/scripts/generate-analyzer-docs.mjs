@@ -141,7 +141,9 @@ ${sentence(rule.description)}
 |----------|-------|
 | Category | ${rule.category} |
 | Default severity | ${rule.severity} |
-| Availability | ${rule.availability} |
+| Availability | ${rule.availability} |${rule.severity.toLowerCase() === 'disabled'
+    ? '\n\nThis rule is disabled by default. Set an explicit severity to opt in.'
+    : ''}
 
 ## Configure severity
 
@@ -180,6 +182,8 @@ function getEditorConfigSeverity(severity) {
       return 'suggestion';
     case 'hidden':
       return 'silent';
+    case 'disabled':
+      return 'warning';
     default:
       throw new Error(`Unsupported analyzer severity: ${severity}`);
   }

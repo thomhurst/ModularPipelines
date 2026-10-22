@@ -5,7 +5,7 @@ Rule ID | Category | Severity | Notes
 MP0001 | Usage | Error | Accesses a module result without declaring the dependency
 MP0002 | Usage | Error | Uses IEnumerable as a module result instead of a concrete collection
 MP0003 | Usage | Error | Injects a logger into a module constructor instead of using the module context
-MP0004 | Usage | Error | Writes directly to System.Console instead of using pipeline logging
+MP0004 | Usage | Disabled | Optional policy restricting direct System.Console calls in projects that require structured logging
 MP0005 | Usage | Error | Creates a circular dependency between modules
 MP0006 | Usage | Error | Implements ExecuteAsync without the async modifier
 MP0007 | Usage | Error | Awaits the current module instance

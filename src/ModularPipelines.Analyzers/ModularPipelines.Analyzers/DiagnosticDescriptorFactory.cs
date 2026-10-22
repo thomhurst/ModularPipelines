@@ -20,6 +20,7 @@ internal static class DiagnosticDescriptorFactory
     /// <param name="descriptionResourceName">The resource name for the description string.</param>
     /// <param name="category">The category of the diagnostic. Defaults to "Usage".</param>
     /// <param name="severity">The severity of the diagnostic. Defaults to <see cref="DiagnosticSeverity.Error"/>.</param>
+    /// <param name="isEnabledByDefault">Whether the diagnostic is enabled by default.</param>
     /// <returns>A configured <see cref="DiagnosticDescriptor"/> instance.</returns>
     public static DiagnosticDescriptor Create(
         string id,
@@ -27,7 +28,8 @@ internal static class DiagnosticDescriptorFactory
         string messageFormatResourceName,
         string descriptionResourceName,
         string category = "Usage",
-        DiagnosticSeverity severity = DiagnosticSeverity.Error)
+        DiagnosticSeverity severity = DiagnosticSeverity.Error,
+        bool isEnabledByDefault = true)
     {
         var title = new LocalizableResourceString(titleResourceName, Resources.ResourceManager, typeof(Resources));
         var messageFormat = new LocalizableResourceString(messageFormatResourceName, Resources.ResourceManager, typeof(Resources));
@@ -39,7 +41,7 @@ internal static class DiagnosticDescriptorFactory
             messageFormat,
             category,
             severity,
-            isEnabledByDefault: true,
+            isEnabledByDefault: isEnabledByDefault,
             description: description,
             helpLinkUri: DocumentationBaseUrl + id);
     }
