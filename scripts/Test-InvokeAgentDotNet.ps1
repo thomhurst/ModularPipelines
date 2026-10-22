@@ -11,6 +11,9 @@ $capturePath = Join-Path $testRoot 'capture.json'
 $childPidPath = Join-Path $testRoot 'child.pid'
 $normalExitChildPidPath = Join-Path $testRoot 'normal-exit-child.pid'
 $orphanPidPath = Join-Path $testRoot 'orphan.pid'
+$orphanReadyPath = Join-Path $testRoot 'orphan-ready.pid'
+$boundedChildPidPath = Join-Path $testRoot 'bounded-child.pid'
+$waitsPath = Join-Path $testRoot 'waits.txt'
 $pwshPath = (Get-Process -Id $PID).Path
 
 $resolvedTempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
@@ -27,12 +30,34 @@ function Get-SavedProcessIdentity([string]$Path) {
     return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
 }
 
+function Get-TestProcessStartIdentity {
+    param([int]$ProcessId)
+
+    if ($IsLinux) {
+        # .NET derives StartTime from a per-process boot-time estimate on Linux.
+        # Use the kernel start token so separate PowerShell hosts agree on identity.
+        $stat = [System.IO.File]::ReadAllText("/proc/$ProcessId/stat")
+        $fields = $stat.Substring($stat.LastIndexOf(')') + 2).Split(
+            ' ', [System.StringSplitOptions]::RemoveEmptyEntries)
+        return $fields[19]
+    }
+
+    $candidate = [System.Diagnostics.Process]::GetProcessById($ProcessId)
+    try {
+        return $candidate.StartTime.ToUniversalTime().Ticks.ToString(
+            [Globalization.CultureInfo]::InvariantCulture)
+    }
+    finally {
+        $candidate.Dispose()
+    }
+}
+
 function Test-SavedProcessIsRunning($Identity) {
     try {
         $candidate = [System.Diagnostics.Process]::GetProcessById($Identity.ProcessId)
         try {
             return (-not $candidate.HasExited) -and
-                $candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks
+                (Get-TestProcessStartIdentity $Identity.ProcessId) -eq $Identity.StartIdentity
         }
         finally {
             $candidate.Dispose()
@@ -47,7 +72,7 @@ function Stop-SavedProcess($Identity) {
     try {
         $candidate = [System.Diagnostics.Process]::GetProcessById($Identity.ProcessId)
         try {
-            if ($candidate.StartTime.ToUniversalTime().Ticks -eq $Identity.StartTimeUtcTicks) {
+            if ((Get-TestProcessStartIdentity $Identity.ProcessId) -eq $Identity.StartIdentity) {
                 $candidate.Kill($true)
             }
         }
@@ -67,7 +92,14 @@ function Invoke-Guard(
     [string[]]$Arguments,
     [string]$DotNetPath = $pwshPath,
     [switch]$SingleNode,
-    [string]$Location) {
+    [string]$Location,
+    [string]$ReadyPath,
+    [string]$WaitsPath) {
+    $invocationScript = $guardScript
+    if ($ReadyPath) {
+        $invocationScript = Write-ReadyGuard -ReadyPath $ReadyPath -WaitsPath $WaitsPath
+    }
+
     $argumentLiterals = ($Arguments | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ', '
     $command = ''
     if ($Location) {
@@ -76,7 +108,7 @@ function Invoke-Guard(
         $command += "Set-Location -LiteralPath $(ConvertTo-PowerShellLiteral $Location); "
     }
 
-    $command += "& $(ConvertTo-PowerShellLiteral $guardScript) " +
+    $command += "& $(ConvertTo-PowerShellLiteral $invocationScript) " +
         "-DotNetPath $(ConvertTo-PowerShellLiteral $DotNetPath) " +
         "-TimeoutSeconds $TimeoutSeconds " +
         "-MemoryLimitMb $MemoryLimitMb " +
@@ -91,6 +123,86 @@ function Invoke-Guard(
 
     & $pwshPath -NoProfile -OutputFormat Text -EncodedCommand $encodedCommand
     return $LASTEXITCODE
+}
+
+function Write-ReadyGuard([string]$ReadyPath, [string]$WaitsPath) {
+    # Instrument a temporary copy, leaving the production deadline and API unchanged.
+    # Start the short timeout at fixture readiness, and observe the actual wait argument
+    # rather than timing PowerShell startup, native compilation, snapshots, or cleanup.
+    $tokens = $null
+    $parseErrors = $null
+    $ast = [System.Management.Automation.Language.Parser]::ParseFile(
+        $guardScript, [ref]$tokens, [ref]$parseErrors)
+    if ($parseErrors) {
+        throw "Could not parse guard: $parseErrors"
+    }
+
+    $remainingAssignments = @($ast.FindAll({
+        param($node)
+        $node -is [System.Management.Automation.Language.AssignmentStatementAst] -and
+            $node.Left.Extent.Text -eq '$remaining'
+    }, $true))
+    $waitCalls = @($ast.FindAll({
+        param($node)
+        $node -is [System.Management.Automation.Language.InvokeMemberExpressionAst] -and
+            $node.Expression.Extent.Text -eq '$process' -and
+            $node.Member.Value -eq 'WaitForExit' -and $node.Arguments.Count -eq 1
+    }, $true))
+    if ($remainingAssignments.Count -ne 1 -or $waitCalls.Count -ne 1) {
+        throw 'Guard monitoring changed; update the readiness and wait observation boundaries.'
+    }
+
+    $readyLiteral = ConvertTo-PowerShellLiteral $ReadyPath
+    $waitsLiteral = ConvertTo-PowerShellLiteral $WaitsPath
+    $readiness = @'
+if (-not $testFixtureReady) {
+    $testReadyDeadline = [DateTimeOffset]::UtcNow.AddSeconds(30)
+    while (-not (Test-Path -LiteralPath {{READY}})) {
+        if ($process.HasExited -or [DateTimeOffset]::UtcNow -ge $testReadyDeadline) {
+            throw 'Descendant fixture did not report readiness within 30 seconds.'
+        }
+        Start-Sleep -Milliseconds 50
+    }
+
+    $testIdentity = Get-Content -LiteralPath {{READY}} -Raw | ConvertFrom-Json
+    $testChild = [Diagnostics.Process]::GetProcessById($testIdentity.ProcessId)
+    try {
+        if ($testChild.HasExited -or
+            (Get-TestProcessStartIdentity $testIdentity.ProcessId) -ne $testIdentity.StartIdentity) {
+            throw "Descendant fixture $($testIdentity.ProcessId) was not alive at readiness."
+        }
+    }
+    finally {
+        $testChild.Dispose()
+    }
+
+    $deadline = [DateTimeOffset]::UtcNow.AddSeconds($TimeoutSeconds)
+    $testFixtureReady = $true
+    Set-Content -LiteralPath ({{READY}} + '.go') -Value 'ready'
+}
+
+'@
+    $source = $ast.Extent.Text
+    $waitArgument = $waitCalls[0].Arguments[0].Extent
+    # This wrapper returns the original value and still calls the real WaitForExit.
+    # Observing its argument also catches regressions that bypass $waitMilliseconds.
+    $observation = '(& { param($value) Add-Content -LiteralPath ' + $waitsLiteral +
+        ' -Value $value; return $value } (' + $waitArgument.Text + '))'
+    $edits = @(
+        @{ Start = $ast.ParamBlock.Extent.EndOffset; Length = 0;
+            Text = "`n$identityFunction`n" },
+        @{ Start = $remainingAssignments[0].Extent.StartOffset; Length = 0;
+            Text = $readiness.Replace('{{READY}}', $readyLiteral) },
+        @{ Start = $waitArgument.StartOffset; Length = $waitArgument.EndOffset - $waitArgument.StartOffset;
+            Text = $observation }
+    )
+    foreach ($edit in ($edits | Sort-Object Start -Descending)) {
+        $source = $source.Remove($edit.Start, $edit.Length).Insert($edit.Start, $edit.Text)
+    }
+
+    $instrumentedPath = Join-Path $testRoot 'Ready-Guard.ps1'
+    Set-Content -LiteralPath $instrumentedPath -Value $source
+    return $instrumentedPath
 }
 
 function Write-DotNetShim([string]$Directory, [string]$CapturePath) {
@@ -147,6 +259,8 @@ function Assert-ShimCapture(
     }
 }
 
+$identityFunction = 'function Get-TestProcessStartIdentity {' +
+    ${function:Get-TestProcessStartIdentity}.ToString() + "`n}"
 New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 try {
@@ -243,15 +357,20 @@ param(
         -ExpectedArguments @('build', 'Project.slnx', '/m:2', '-v:q') `
         -Scenario 'Explicit node-count build'
 
-    @'
+    (@'
 param(
     [string]$ChildPidPath,
-    [int]$ParentDelayMilliseconds = 60000
+    [int]$ExitAfterSpawn = 0,
+    [int]$StartupDelayMilliseconds = 0
 )
 
+{{IDENTITY_FUNCTION}}
+
+Start-Sleep -Milliseconds $StartupDelayMilliseconds
+# Descendants must survive until guard cleanup; a natural exit could hide a leak.
 $startProcessParameters = @{
     FilePath = (Get-Process -Id $PID).Path
-    ArgumentList = @('-NoProfile', '-Command', 'Start-Sleep -Seconds 60')
+    ArgumentList = @('-NoProfile', '-Command', 'while ($true) { Start-Sleep -Seconds 60 }')
     PassThru = $true
 }
 if ($IsWindows) {
@@ -261,16 +380,24 @@ if ($IsWindows) {
 $child = Start-Process @startProcessParameters
 [pscustomobject]@{
     ProcessId = $child.Id
-    StartTimeUtcTicks = $child.StartTime.ToUniversalTime().Ticks
-} | ConvertTo-Json | Set-Content -LiteralPath $ChildPidPath
-Start-Sleep -Milliseconds $ParentDelayMilliseconds
-'@ | Set-Content -LiteralPath $timeoutScript
+    StartIdentity = Get-TestProcessStartIdentity $child.Id
+} | ConvertTo-Json | Set-Content -LiteralPath "$ChildPidPath.tmp"
+Move-Item -LiteralPath "$ChildPidPath.tmp" -Destination $ChildPidPath
+while (-not (Test-Path -LiteralPath "$ChildPidPath.go")) {
+    Start-Sleep -Milliseconds 50
+}
+if (-not $ExitAfterSpawn) {
+    while ($true) { Start-Sleep -Seconds 60 }
+}
+'@).Replace('{{IDENTITY_FUNCTION}}', $identityFunction) | Set-Content -LiteralPath $timeoutScript
 
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 30 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 100 `
-        -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '0')
+        -ReadyPath $normalExitChildPidPath `
+        -WaitsPath $waitsPath `
+        -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '1')
 
     if ($guardExitCode -ne 0) {
         throw "Normal-exit cleanup command failed with exit code $guardExitCode."
@@ -281,11 +408,14 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
         throw "Normal-exit descendant process $($normalExitChild.ProcessId) is still running."
     }
 
+    # Deliberately take longer to become ready than the two-second guard budget.
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 2 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 100 `
-        -Arguments @('-NoProfile', '-File', $timeoutScript, $childPidPath)
+        -ReadyPath $childPidPath `
+        -WaitsPath $waitsPath `
+        -Arguments @('-NoProfile', '-File', $timeoutScript, $childPidPath, '0', '3000')
 
     if ($guardExitCode -ne 124) {
         throw "Timeout returned $guardExitCode instead of 124."
@@ -297,15 +427,18 @@ Start-Sleep -Milliseconds $ParentDelayMilliseconds
     }
 
     if (-not $IsWindows) {
-        @'
+        (@'
 param([string]$PidPath)
+
+{{IDENTITY_FUNCTION}}
 
 [pscustomobject]@{
     ProcessId = $PID
-    StartTimeUtcTicks = (Get-Process -Id $PID).StartTime.ToUniversalTime().Ticks
-} | ConvertTo-Json | Set-Content -LiteralPath $PidPath
-Start-Sleep -Seconds 60
-'@ | Set-Content -LiteralPath $orphanGrandchildScript
+    StartIdentity = Get-TestProcessStartIdentity $PID
+} | ConvertTo-Json | Set-Content -LiteralPath "$PidPath.tmp"
+Move-Item -LiteralPath "$PidPath.tmp" -Destination $PidPath
+while ($true) { Start-Sleep -Seconds 60 }
+'@).Replace('{{IDENTITY_FUNCTION}}', $identityFunction) | Set-Content -LiteralPath $orphanGrandchildScript
 
         @'
 param(
@@ -329,7 +462,8 @@ while ((-not (Test-Path -LiteralPath $PidPath)) -and
 param(
     [string]$IntermediateScript,
     [string]$GrandchildScript,
-    [string]$PidPath
+    [string]$PidPath,
+    [string]$ReadyPath
 )
 
 $intermediate = Start-Process `
@@ -342,20 +476,26 @@ $intermediate = Start-Process `
         $PidPath) `
     -PassThru
 $intermediate.WaitForExit()
-Start-Sleep -Seconds 60
+# Publish readiness only after the intermediate exited, proving reparenting happened.
+Copy-Item -LiteralPath $PidPath -Destination "$ReadyPath.tmp"
+Move-Item -LiteralPath "$ReadyPath.tmp" -Destination $ReadyPath
+while ($true) { Start-Sleep -Seconds 60 }
 '@ | Set-Content -LiteralPath $orphanParentScript
 
         $guardExitCode = Invoke-Guard `
             -TimeoutSeconds 4 `
             -MemoryLimitMb 512 `
             -PollIntervalMilliseconds 10000 `
+            -ReadyPath $orphanReadyPath `
+            -WaitsPath $waitsPath `
             -Arguments @(
                 '-NoProfile',
                 '-File',
                 $orphanParentScript,
                 $orphanIntermediateScript,
                 $orphanGrandchildScript,
-                $orphanPidPath)
+                $orphanPidPath,
+                $orphanReadyPath)
 
         if ($guardExitCode -ne 124) {
             throw "Unix orphan timeout returned $guardExitCode instead of 124."
@@ -367,20 +507,38 @@ Start-Sleep -Seconds 60
         }
     }
 
-    $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+    Remove-Item -LiteralPath $waitsPath -Force
     $guardExitCode = Invoke-Guard `
         -TimeoutSeconds 1 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 10000 `
-        -Arguments @('-NoProfile', '-Command', 'Start-Sleep -Seconds 2')
-    $stopwatch.Stop()
+        -ReadyPath $boundedChildPidPath `
+        -WaitsPath $waitsPath `
+        -Arguments @('-NoProfile', '-File', $timeoutScript, $boundedChildPidPath)
 
     if ($guardExitCode -ne 124) {
         throw "Bounded timeout returned $guardExitCode instead of 124."
     }
 
-    if ($stopwatch.Elapsed -ge [TimeSpan]::FromSeconds(3)) {
-        throw "Bounded timeout took too long: $($stopwatch.Elapsed)."
+    $waits = @(Get-Content -LiteralPath $waitsPath | ForEach-Object { [int]$_ })
+    if ($waits.Count -eq 0 -or @($waits | Where-Object { $_ -lt 1 -or $_ -gt 1000 }).Count -gt 0) {
+        throw "One-second timeout requested an unbounded wait: $($waits -join ', ') milliseconds."
+    }
+    Write-Output "One-second timeout requested waits of $($waits -join ', ') milliseconds."
+
+    $boundedChild = Get-SavedProcessIdentity $boundedChildPidPath
+    if (Test-SavedProcessIsRunning $boundedChild) {
+        throw "Bounded-timeout descendant process $($boundedChild.ProcessId) is still running."
+    }
+
+    # Retain an uninstrumented timeout check with the production startup deadline.
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 1 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 10000 `
+        -Arguments @('-NoProfile', '-Command', 'Start-Sleep -Seconds 60')
+    if ($guardExitCode -ne 124) {
+        throw "Production timeout returned $guardExitCode instead of 124."
     }
 
     $guardExitCode = Invoke-Guard `
@@ -396,7 +554,7 @@ Start-Sleep -Seconds 60
     Write-Output 'OK forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
-    foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath)) {
+    foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath, $boundedChildPidPath)) {
         if (Test-Path -LiteralPath $pidPath) {
             Stop-SavedProcess (Get-SavedProcessIdentity $pidPath)
         }
