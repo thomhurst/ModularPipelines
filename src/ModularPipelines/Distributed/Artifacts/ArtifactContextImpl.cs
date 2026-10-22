@@ -534,16 +534,9 @@ internal class ArtifactContextImpl(
         }
 
         var currentPath = destinationDirectory;
-        if (!skipRootCheck)
+        if (!skipRootCheck && !EnsureExistingPathIsNotLink(provider, currentPath))
         {
-            try
-            {
-                EnsurePathIsNotLink(provider, currentPath);
-            }
-            catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
-            {
-                return;
-            }
+            return;
         }
 
         var relativePath = provider is SystemFileSystemProvider
@@ -557,14 +550,23 @@ internal class ArtifactContextImpl(
         foreach (var segment in relativePath.Split(provider.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             currentPath = AppendProviderPath(provider, currentPath, segment);
-            try
-            {
-                EnsurePathIsNotLink(provider, currentPath);
-            }
-            catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
+            if (!EnsureExistingPathIsNotLink(provider, currentPath))
             {
                 return;
             }
+        }
+    }
+
+    private static bool EnsureExistingPathIsNotLink(IFileSystemProvider provider, string path)
+    {
+        try
+        {
+            EnsurePathIsNotLink(provider, path);
+            return true;
+        }
+        catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
+        {
+            return false;
         }
     }
 
