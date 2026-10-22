@@ -1091,7 +1091,7 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(targetDirectory, "input.txt"),
                 "input");
-            Directory.CreateSymbolicLink(workingDirectory, targetDirectory);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(workingDirectory, targetDirectory));
 
             var files = ModuleCacheFileResolver.ResolveFiles(
                 workingDirectory,
@@ -1159,9 +1159,9 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(externalDirectory, "external.txt"),
                 "external");
-            Directory.CreateSymbolicLink(
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
                 Path.Combine(artifactDirectory, "external-link"),
-                externalDirectory);
+                externalDirectory));
 
             var files = ModuleCacheFileResolver.ResolveFiles(
                 workingDirectory,
@@ -1561,7 +1561,7 @@ public class ModuleCacheTests
             await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
 
             Directory.Delete(artifactDirectory, recursive: true);
-            Directory.CreateSymbolicLink(artifactDirectory, externalDirectory);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(artifactDirectory, externalDirectory));
             var restoredStatus = await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
 
             using (Assert.Multiple())
@@ -1603,7 +1603,7 @@ public class ModuleCacheTests
             await RunPipelineAsync(temporaryDirectory, Path.Combine(temporaryDirectory, "cache"));
 
             System.IO.File.Delete(outputPath);
-            System.IO.File.CreateSymbolicLink(outputPath, externalPath);
+            SymbolicLinkTestHelper.CreateOrSkip(() => System.IO.File.CreateSymbolicLink(outputPath, externalPath));
             var restoredStatus = await RunPipelineAsync(
                 temporaryDirectory,
                 Path.Combine(temporaryDirectory, "cache"));
@@ -1959,9 +1959,9 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(externalDirectory, "input.txt"),
                 "input");
-            Directory.CreateSymbolicLink(
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
                 Path.Combine(workingDirectory, "linked-input"),
-                externalDirectory);
+                externalDirectory));
 
             var exactException = Assert.Throws<InvalidOperationException>(() =>
                 ModuleCacheFileResolver.ResolveFiles(
@@ -2007,9 +2007,9 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(externalDirectory, "logo.png"),
                 "logo");
-            Directory.CreateSymbolicLink(
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
                 Path.Combine(sourceDirectory, "assets"),
-                externalDirectory);
+                externalDirectory));
 
             var files = ModuleCacheFileResolver.ResolveFiles(
                 workingDirectory,
@@ -2048,7 +2048,7 @@ public class ModuleCacheTests
             await RunOptionalArtifactPipelineAsync(temporaryDirectory);
 
             var artifactPath = Path.Combine(temporaryDirectory, "optional-artifact");
-            Directory.CreateSymbolicLink(artifactPath, externalDirectory);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(artifactPath, externalDirectory));
             var restoredStatus = await RunOptionalArtifactPipelineAsync(temporaryDirectory);
 
             using (Assert.Multiple())
@@ -2137,6 +2137,12 @@ public class ModuleCacheTests
 
         try
         {
+            // Probe outside the pipeline so a missing privilege is reported as a test skip.
+            var probePath = Path.Combine(temporaryDirectory, "symlink-probe");
+            SymbolicLinkTestHelper.CreateOrSkip(() => System.IO.File.CreateSymbolicLink(
+                probePath, "missing-target"));
+            System.IO.File.Delete(probePath);
+
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "dangling-artifact-input.txt"),
                 "input");
@@ -2229,6 +2235,12 @@ public class ModuleCacheTests
 
         try
         {
+            // Probe outside the pipeline so a missing privilege is reported as a test skip.
+            var probePath = Path.Combine(temporaryDirectory, "symlink-probe");
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
+                probePath, temporaryDirectory));
+            Directory.Delete(probePath);
+
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "dangling-directory-link-input.txt"),
                 "input");
@@ -2285,7 +2297,7 @@ public class ModuleCacheTests
             await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
 
             Directory.CreateDirectory(artifactDirectory);
-            Directory.CreateSymbolicLink(staleLink, externalDirectory);
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(staleLink, externalDirectory));
             var restoredStatus =
                 await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
 
@@ -3148,6 +3160,12 @@ public class ModuleCacheTests
 
         try
         {
+            // Probe outside the pipeline so a missing privilege is reported as a test skip.
+            var probePath = Path.Combine(temporaryDirectory, "symlink-probe");
+            SymbolicLinkTestHelper.CreateOrSkip(() => System.IO.File.CreateSymbolicLink(
+                probePath, "missing-target"));
+            System.IO.File.Delete(probePath);
+
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "symlink-input.txt"),
                 "input");
@@ -3189,6 +3207,12 @@ public class ModuleCacheTests
 
         try
         {
+            // Probe outside the pipeline so a missing privilege is reported as a test skip.
+            var probePath = Path.Combine(temporaryDirectory, "symlink-probe");
+            SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(
+                probePath, temporaryDirectory));
+            Directory.Delete(probePath);
+
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "directory-symlink-input.txt"),
                 "input");
