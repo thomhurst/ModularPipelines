@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Events;
@@ -93,11 +94,27 @@ public interface IModuleRegistrationContext
     void AddDependencyOnAll(Func<Type, bool> predicate);
 
     /// <summary>
-    /// Removes a dependency on the specified module.
+    /// Removes a dynamic dependency on the specified module.
     /// </summary>
     /// <typeparam name="TModule">The dependency module type.</typeparam>
+    /// <remarks>
+    /// Only dependencies added during registration are removed. Declared dependencies are unchanged.
+    /// Removing an absent dependency has no effect.
+    /// </remarks>
     void RemoveDependency<TModule>()
         where TModule : IModule;
+
+    /// <summary>
+    /// Removes a dynamic dependency on the specified module.
+    /// </summary>
+    /// <param name="moduleType">The dependency type, which must implement <see cref="IModule"/>.</param>
+    /// <remarks>
+    /// Only dependencies added during registration are removed. Declared dependencies are unchanged.
+    /// Removing an absent dependency has no effect, even when the module is not registered.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="moduleType"/> is null.</exception>
+    /// <exception cref="InvalidModuleTypeException"><paramref name="moduleType"/> does not implement <see cref="IModule"/>.</exception>
+    void RemoveDependency(Type moduleType);
 
     /// <summary>
     /// Sets metadata that can be retrieved during module execution.

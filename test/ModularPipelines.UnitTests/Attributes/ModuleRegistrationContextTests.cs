@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Moq;
@@ -27,6 +28,8 @@ public class ModuleRegistrationContextTests
             => Task.FromResult<string>("B");
     }
 
+    private class ModuleC : ModuleA;
+
     [Test]
     public async Task ModuleType_ReturnsCorrectType()
     {
@@ -45,6 +48,66 @@ public class ModuleRegistrationContextTests
 
         var dependencies = dependencyRegistry.GetDynamicDependencies(typeof(ModuleA));
         await Assert.That(dependencies).Contains(typeof(ModuleB));
+    }
+
+    [Test]
+    public async Task RemoveDependency_Type_RemovesOnlyTheSelectedDependency()
+    {
+        var registry = new ModuleDependencyRegistry();
+        IModuleRegistrationContext context = CreateContext(typeof(ModuleA), dependencyRegistry: registry);
+        context.AddDependency<ModuleB>();
+        context.AddDependency<ModuleC>();
+        registry.AddDynamicDependency(typeof(ModuleB), typeof(ModuleA));
+
+        context.RemoveDependency(typeof(ModuleB));
+
+        await Assert.That(registry.GetDynamicDependencies(typeof(ModuleA))).IsEquivalentTo(new[] { typeof(ModuleC) });
+        await Assert.That(registry.GetDynamicDependencies(typeof(ModuleB))).Contains(typeof(ModuleA));
+    }
+
+    [Test]
+    public async Task RemoveDependency_Generic_RemovesRuntimeDependency()
+    {
+        var registry = new ModuleDependencyRegistry();
+        IModuleRegistrationContext context = CreateContext(typeof(ModuleA), dependencyRegistry: registry);
+        context.AddDependency(typeof(ModuleB));
+
+        context.RemoveDependency<ModuleB>();
+
+        await Assert.That(registry.GetDynamicDependencies(typeof(ModuleA))).IsEmpty();
+    }
+
+    [Test]
+    public async Task RemoveDependency_AbsentOrAlreadyRemovedDependency_IsHarmless()
+    {
+        var registry = new ModuleDependencyRegistry();
+        IModuleRegistrationContext context = CreateContext(typeof(ModuleA), dependencyRegistry: registry);
+
+        context.RemoveDependency(typeof(ModuleB));
+        context.AddDependency<ModuleB>();
+        context.RemoveDependency(typeof(ModuleB));
+        context.RemoveDependency(typeof(ModuleB));
+
+        await Assert.That(registry.GetDynamicDependencies(typeof(ModuleA))).IsEmpty();
+    }
+
+    [Test]
+    public async Task RemoveDependency_NullType_Throws()
+    {
+        IModuleRegistrationContext context = CreateContext(typeof(ModuleA));
+
+        await Assert.That(() => context.RemoveDependency(null!)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task RemoveDependency_NonModuleType_ThrowsWithoutRemovingDependencies()
+    {
+        var registry = new ModuleDependencyRegistry();
+        IModuleRegistrationContext context = CreateContext(typeof(ModuleA), dependencyRegistry: registry);
+        context.AddDependency<ModuleB>();
+
+        await Assert.That(() => context.RemoveDependency(typeof(string))).Throws<InvalidModuleTypeException>();
+        await Assert.That(registry.GetDynamicDependencies(typeof(ModuleA))).Contains(typeof(ModuleB));
     }
 
     [Test]
