@@ -210,29 +210,38 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
         // are the only advertised string options. Prefer structured help if upstream adds it.
         if (options.Count == 0 && commandParts is ["hcp", "connect"])
         {
-            var prefix = "$ vault " + string.Join(' ', commandParts);
-            foreach (var line in lines)
-            {
-                var example = line.Trim();
-                if (!example.StartsWith(prefix, StringComparison.Ordinal))
-                {
-                    continue;
-                }
-
-                foreach (Match match in ExampleStringOptionPattern().Matches(example[prefix.Length..]))
-                {
-                    var flagName = match.Groups["flag"].Value;
-                    var propertyName = NormalizePropertyName(flagName);
-                    if (propertyName is not null && seenOptions.Add(flagName))
-                    {
-                        options.Add(CreateOptionDefinition(commandParts, flagName, "string", propertyName,
-                            $"The {flagName} option."));
-                    }
-                }
-            }
+            AddExampleStringOptions(commandParts, lines, options, seenOptions);
         }
 
         return options;
+    }
+
+    private static void AddExampleStringOptions(
+        string[] commandParts,
+        string[] lines,
+        List<CliOptionDefinition> options,
+        HashSet<string> seenOptions)
+    {
+        var prefix = "$ vault " + string.Join(' ', commandParts);
+        foreach (var line in lines)
+        {
+            var example = line.Trim();
+            if (!example.StartsWith(prefix, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            foreach (Match match in ExampleStringOptionPattern().Matches(example[prefix.Length..]))
+            {
+                var flagName = match.Groups["flag"].Value;
+                var propertyName = NormalizePropertyName(flagName);
+                if (propertyName is not null && seenOptions.Add(flagName))
+                {
+                    options.Add(CreateOptionDefinition(commandParts, flagName, "string", propertyName,
+                        $"The {flagName} option."));
+                }
+            }
+        }
     }
 
     private static CliOptionDefinition CreateOptionDefinition(
