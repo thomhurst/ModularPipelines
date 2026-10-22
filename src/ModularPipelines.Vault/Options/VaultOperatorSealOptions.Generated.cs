@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Seals the Vault server. Sealing tells the Vault server to stop responding
+/// Seals the Vault server. Sealing tells the Vault server to stop responding to any operations until it is unsealed. When sealed, the Vault server discards its in-memory root key to unlock the data, so it is physically blocked from responding to operations unsealed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -119,6 +119,18 @@ public record VaultOperatorSealOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

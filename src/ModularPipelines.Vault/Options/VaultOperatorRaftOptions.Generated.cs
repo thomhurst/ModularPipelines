@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for operators interacting with the Vault raft
+/// This command groups subcommands for operators interacting with the Vault raft storage backend. Most users will not need to interact with these commands. Here are a few examples of the raft operator commands:
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultOperatorRaftOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for operators interacting with the Vault raft
+    /// This command groups subcommands for operators interacting with the Vault raft storage backend. Most users will not need to interact with these commands. Here are a few examples of the raft operator commands:
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultOperatorRaftOptions(
@@ -48,6 +48,6 @@ public record VaultOperatorRaftOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

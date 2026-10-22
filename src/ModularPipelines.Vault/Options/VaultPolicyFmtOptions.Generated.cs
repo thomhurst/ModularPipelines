@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Formats a local policy file to the policy specification. This command will
+/// Formats a local policy file to the policy specification. This command will overwrite the file at the given PATH with the properly-formatted policy file contents.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPolicyFmtOptions : VaultOptions
 {
     /// <summary>
-    /// Formats a local policy file to the policy specification. This command will
+    /// Formats a local policy file to the policy specification. This command will overwrite the file at the given PATH with the properly-formatted policy file contents.
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     public VaultPolicyFmtOptions(
@@ -136,6 +136,18 @@ public record VaultPolicyFmtOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

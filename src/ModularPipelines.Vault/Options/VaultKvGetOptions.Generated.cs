@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Retrieves the value from Vault's key-value store at the given key name. If no
+/// Retrieves the value from Vault's key-value store at the given key name. If no key exists with that name, an error is returned. If a key exists with that name but has no data, nothing is returned.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultKvGetOptions : VaultOptions
 {
     /// <summary>
-    /// Retrieves the value from Vault's key-value store at the given key name. If no
+    /// Retrieves the value from Vault's key-value store at the given key name. If no key exists with that name, an error is returned. If a key exists with that name but has no data, nothing is returned.
     /// </summary>
     /// <param name="Key">The KEY operand.</param>
     public VaultKvGetOptions(
@@ -136,6 +136,18 @@ public record VaultKvGetOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

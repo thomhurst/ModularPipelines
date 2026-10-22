@@ -158,6 +158,24 @@ internal partial class Vault : IVault
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> HcpConnectAsync(
+        VaultHcpConnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultHcpConnectOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> HcpDisconnectAsync(
+        VaultHcpDisconnectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultHcpDisconnectOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> KvDeleteAsync(
         VaultKvDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
@@ -896,6 +914,15 @@ internal partial class Vault : IVault
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> PrintTokenAsync(
+        VaultPrintTokenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultPrintTokenOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> ProxyAsync(
         VaultProxyOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -1046,6 +1073,69 @@ internal partial class Vault : IVault
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTokenRevokeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmAttestAsync(
+        VaultTpmAttestOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmCleanupAsync(
+        VaultTpmCleanupOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTpmCleanupOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmEkAsync(
+        VaultTpmEkOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTpmEkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmEnrollAsync(
+        VaultTpmEnrollOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTpmEnrollOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmInspectAsync(
+        VaultTpmInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTpmInspectOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmAsync(
+        VaultTpmOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> TpmReattestAsync(
+        VaultTpmReattestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new VaultTpmReattestOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

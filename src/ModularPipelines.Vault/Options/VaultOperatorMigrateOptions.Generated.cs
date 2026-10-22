@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command starts a storage backend migration process to copy all data
+/// This command starts a storage backend migration process to copy all data from one backend to another. This operates directly on encrypted data and does not require a Vault server, nor any unsealing.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
