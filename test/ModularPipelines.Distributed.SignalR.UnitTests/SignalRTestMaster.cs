@@ -29,7 +29,8 @@ internal sealed class SignalRTestMaster : IAsyncDisposable
     public static async Task<SignalRTestMaster> StartAsync(
         Func<SignalRDistributedOptions, SignalRDistributedOptions>? configure = null,
         TimeSpan? workerTimeout = null,
-        TimeSpan? heartbeatInterval = null)
+        TimeSpan? heartbeatInterval = null,
+        TimeProvider? timeProvider = null)
     {
         var options = new SignalRDistributedOptions
         {
@@ -48,7 +49,8 @@ internal sealed class SignalRTestMaster : IAsyncDisposable
                 WorkerHeartbeatInterval = heartbeatInterval ?? TimeSpan.FromSeconds(5),
             }),
             NullLoggerFactory.Instance,
-            discovery);
+            discovery,
+            timeProvider);
         var master = new SignalRTestMaster(factory, discovery)
         {
             Master = await factory.CreateMasterAsync(CancellationToken.None)
