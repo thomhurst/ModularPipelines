@@ -88,7 +88,10 @@ try {
         # Release must leave a pending removal that the sweep finishes after it exits.
         . (Join-Path $PSScriptRoot 'WorktreeCleanup.ps1')
         New-Item -ItemType Directory (Join-Path $repo 'scripts') -Force | Out-Null
-        Copy-Item $agentLocks (Join-Path $repo 'scripts/AgentLocks.ps1')
+        # The sweep runs the shared checkout's lock CLI, which dot-sources its siblings.
+        foreach ($script in @('AgentLocks.ps1', 'WorktreeCleanup.ps1', 'Remove-ReleasedWorktree.ps1')) {
+            Copy-Item (Join-Path $PSScriptRoot $script) (Join-Path $repo "scripts/$script")
+        }
         foreach ($kind in @('busy', 'busy-new-work')) {
             $path = New-Checkout $kind
             New-Item -ItemType Directory (Join-Path $path 'bin') | Out-Null

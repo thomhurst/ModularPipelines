@@ -123,7 +123,7 @@ if (-not $Worktree -and -not $currentBranchWorktree) {
     git -C $mainRepo worktree prune
     exit 0
 } else {
-    Remove-MergedWorktree -Repo $mainRepo -Worktree $cleanupWorktree -Label "#${Pr}"
+    Remove-MergedWorktree -Repo $mainRepo -Worktree $cleanupWorktree -Label "#${Pr}" -LockNames @("pr-$Pr")
 
     # A dirty worktree is intentionally preserved. Its local and remote branches are
     # also preserved so uncommitted work retains an upstream recovery point.

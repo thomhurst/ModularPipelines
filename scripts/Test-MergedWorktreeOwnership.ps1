@@ -42,13 +42,14 @@ function Invoke-FixtureSweep([switch]$Preview) {
     Assert-Fixture ($script:fixtureSweepOutput -notmatch 'TOKEN-SHOULD-NOT-LEAK') 'Cleanup printed a lock token.'
 }
 
+# The sweep calls this mock from its own script scope, so $script: would not see the fixture.
 function gh {
     $global:LASTEXITCODE = 0
     if ($args[0] -eq 'pr' -and $args[1] -eq 'list') {
         if ($args -contains 'merged') {
             return ConvertTo-Json -Compress -InputObject @(@{
                 number = 999999; mergedAt = '2026-01-01T00:00:00Z'
-                headRefName = 'merged-fixture'; headRefOid = $script:fixtureHead
+                headRefName = 'merged-fixture'; headRefOid = $global:fixtureMergedHead
             })
         }
         return '[]'
@@ -95,13 +96,27 @@ exit 0
     Invoke-FixtureGit -C $fixtureRepo add .
     Invoke-FixtureGit -C $fixtureRepo commit -m fixture
     Invoke-FixtureGit -C $fixtureRepo remote add origin $fixtureRepo
-    $script:fixtureHead = & git -C $fixtureRepo rev-parse HEAD
+    $global:fixtureMergedHead = & git -C $fixtureRepo rev-parse HEAD
     Push-Location $fixtureRepo
     try {
         $path = New-FixtureWorktree 'unidentified-registered'
         Invoke-FixtureSweep
         Assert-Fixture (Test-Path -LiteralPath $path) 'Registered worktree without recoverable ownership was deleted.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
+
+        # A merged PR's own head branch at a non-canonical path takes that PR's identity.
+        $path = New-FixtureWorktree 'ad-hoc-checkout' -Branch 'merged-fixture'
+        Set-FixtureLock 'pr-999999' 'HELD'
+        Invoke-FixtureSweep
+        Assert-Fixture (Test-Path -LiteralPath $path) 'Merged branch checkout was removed while its PR lock was held.'
+        Set-FixtureLock 'pr-999999' 'FREE'
+        Set-Content -LiteralPath $fixtureCalls -Value $null
+        Invoke-FixtureSweep
+        Assert-Fixture (-not (Test-Path -LiteralPath $path)) 'Merged branch checkout with a non-canonical path was not removed.'
+        $calls = Get-Content -LiteralPath $fixtureCalls
+        Assert-Fixture ([bool]($calls -match '^acquire pr-999999 ')) 'Cleanup did not reserve the merged PR identity.'
+        & git -C $fixtureRepo rev-parse --verify --quiet refs/heads/merged-fixture 2>&1 | Out-Null
+        Assert-Fixture ($LASTEXITCODE -ne 0) 'Merged branch was not deleted with its worktree.'
 
         $path = New-FixtureWorktree 'pr-900001-setup'
         Set-FixtureLock 'pr-900001' 'HELD'

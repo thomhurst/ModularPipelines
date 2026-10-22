@@ -138,7 +138,7 @@ try {
     # a branch name can be reused across PRs.
     $mergedNames = [System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)
     $openNames = [System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)
-    $mergedOids = @{}; $mergedPrByNumber = @{}; $openOids = @{}
+    $mergedOids = @{}; $mergedNumberByOid = @{}; $mergedPrByNumber = @{}; $openOids = @{}
     $rawMerged = gh pr list @repoArgs --state merged --limit 1000 --json number,mergedAt,headRefName,headRefOid 2>$null
     if ($LASTEXITCODE -ne 0) { Warn "could not list merged PRs (exit $LASTEXITCODE) -- skipping sweep this round"; exit 0 }
     foreach ($p in (($rawMerged -join "`n") | ConvertFrom-Json)) {
@@ -147,7 +147,10 @@ try {
             if (-not $mergedNames.ContainsKey($name)) { $mergedNames[$name] = @() }
             $mergedNames[$name] += $p.headRefOid.Trim()
         }
-        if ($p.headRefOid) { $mergedOids[$p.headRefOid.Trim()] = $true }
+        if ($p.headRefOid) {
+            $mergedOids[$p.headRefOid.Trim()] = $true
+            if ($p.number) { $mergedNumberByOid[$p.headRefOid.Trim()] = [int]$p.number }
+        }
         if ($p.number) { $mergedPrByNumber[[int]$p.number] = $p }
     }
 
@@ -212,11 +215,20 @@ try {
         # Tier 1: worktree still sits on the merged PR's head branch. The branch must
         # also contain that PR's head commit: a fresh branch that reuses the name after
         # a squash merge is cut from main, which never contains the old head.
-        $why = $null
+        # A named branch proven to be a merged PR's own head branch also takes that PR's
+        # lock identity, so a checkout with a non-canonical path and no marker can still be
+        # reserved. Detached checkouts never borrow one: a fresh setup checkout of main
+        # may sit on a merged tip before its owner registers.
+        $why = $null; $evidenceLocks = @()
         $freshBranch = $false
         $containsCommit = if ($sha) { Get-CommitAncestorPredicate -RepoPath $w.Path -Descendant $sha } else { { $false } }
         if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch)) {
             $why = Get-MergedNameReason -Branch $w.Branch -MergedHeadShas $mergedNames[$w.Branch] -IsAncestor $containsCommit
+            if ($why) {
+                $evidenceLocks = @($mergedNames[$w.Branch] |
+                    Where-Object { $mergedNumberByOid.ContainsKey($_) -and (& $containsCommit $_) } |
+                    ForEach-Object { "pr-$($mergedNumberByOid[$_])" })
+            }
         }
 
         if (-not $why) {
@@ -256,6 +268,11 @@ try {
                 $assoc = if ($assocRaw) { @(($assocRaw -join "`n") | ConvertFrom-Json) } else { @() }
                 if (@($assoc | Where-Object { $_.state -eq 'open' }).Count -gt 0) { continue }   # commit belongs to an open PR — keep
                 $why = Get-MergedAssociationReason -Associations $assoc -Branch $w.Branch -IsAncestor $containsCommit
+                if ($why -and $w.Branch) {
+                    $evidenceLocks = @($assoc |
+                        Where-Object { $_.merged_at -and $_.number -and $_.head.ref -ceq $w.Branch -and $_.head.sha -and (& $containsCommit $_.head.sha) } |
+                        ForEach-Object { "pr-$([int]$_.number)" })
+                }
             }
         }
 
@@ -280,8 +297,8 @@ try {
 
         if (-not $why) { $unmatched += $w; continue }
 
-        Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -Preview:$WhatIf -Action {
-            Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -WhatIf:$WhatIf
+        Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -LockNames $evidenceLocks -Preview:$WhatIf -Action {
+            Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -LockNames $evidenceLocks -WhatIf:$WhatIf
             # Keep the item reservation through branch cleanup so a new owner cannot
             # reuse the branch between removal and deletion.
             if (-not $WhatIf -and -not (Test-Path -LiteralPath $w.Path) -and $w.Branch -and $why -like 'merged PR*') {

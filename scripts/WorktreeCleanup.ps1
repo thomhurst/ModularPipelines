@@ -90,7 +90,7 @@ function Test-DisposableWorktreePath {
     # Keep these root-only patterns aligned with .gitignore. Ignore rules alone
     # cannot authorize deleting arbitrary files: ignored source and secrets survive.
     if (-not $normalizedPath.Contains('/') -and
-        ($normalizedPath -cmatch '\.(log|nettrace)$' -or
+        ($normalizedPath -cmatch '\.(binlog|log|nettrace)$' -or
          $normalizedPath -cmatch '(^|-)(pr-body|review-disposition|review-validation|rebase-validation|comment|issue)\.md$')) {
         return $true
     }
@@ -408,7 +408,8 @@ function Remove-MergedWorktree {
     param(
         [Parameter(Mandatory)][string]$Repo,       # a checkout that is NOT the one being removed (main)
         [Parameter(Mandatory)][string]$Worktree,   # path to remove
-        [string]$Label = ''                        # e.g. "#1234" for log lines
+        [string]$Label = '',                       # e.g. "#1234" for log lines
+        [string[]]$LockNames = @()                 # identities a pending retry must reserve
     )
 
     if (-not (Test-Path -LiteralPath $Worktree)) {
@@ -449,7 +450,7 @@ function Remove-MergedWorktree {
     }
     if (-not $PSCmdlet.ShouldProcess($Worktree, "Remove merged worktree $Label")) { return }
 
-    $pending = Register-PendingWorktreeRemoval -Repo $Repo -Worktree $Worktree
+    $pending = Register-PendingWorktreeRemoval -Repo $Repo -Worktree $Worktree -LockNames $LockNames
     if (Remove-WorktreeDirectory -Repo $Repo -Worktree $Worktree -Label $Label) {
         if ($pending) { Remove-Item -LiteralPath $pending -Force -ErrorAction SilentlyContinue }
         Write-Host "Removed worktree $Label : $Worktree"
