@@ -162,7 +162,7 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
-             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]',
              'if: always()',
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
@@ -202,4 +202,36 @@ if (-not $fullPipelineJob.Contains('steps: &pipeline-steps', [StringComparison]:
     throw 'The master must retain the shared steps and publishing identity permission.'
 }
 
+$cmdJob = [regex]::Match($workflow, '(?ms)^  cmd-tests:.*?(?=^  [a-z0-9-]+:|\z)').Value
+if (-not $cmdJob.Contains('runs-on: windows-latest', [StringComparison]::Ordinal) -or
+    -not $cmdJob.Contains('test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj', [StringComparison]::Ordinal) -or
+    -not $cmdJob.Contains("needs.fast-fail.outputs.run_full_pipeline == 'true'", [StringComparison]::Ordinal)) {
+    throw 'Cmd regression tests must run on Windows for full validation.'
+}
+
+# Exercise the actual aggregate step so a failed or skipped Cmd run cannot pass the gate.
+$cmdGate = [regex]::Match($requiredJob,
+    '(?ms)      - name: Validate Cmd test result.*?        run: \|\r?\n(?<script>.*?)(?=      - name:)')
+if (-not $cmdGate.Success) { throw 'Cmd result gate was not found.' }
+$cmdGateScript = [scriptblock]::Create(($cmdGate.Groups['script'].Value -replace '(?m)^          ', ''))
+$originalFull = $env:RUN_FULL_PIPELINE
+$originalCmdResult = $env:CMD_TEST_RESULT
+try {
+    foreach ($full in @('true', 'false')) {
+        foreach ($result in @('success', 'failure', 'cancelled', 'skipped')) {
+            $env:RUN_FULL_PIPELINE = $full
+            $env:CMD_TEST_RESULT = $result
+            $passed = $true
+            try { & $cmdGateScript } catch { $passed = $false }
+            $expected = if ($full -eq 'true') { 'success' } else { 'skipped' }
+            if ($passed -ne ($result -eq $expected)) {
+                throw "Unexpected Cmd gate result for full=$full and result=$result."
+            }
+        }
+    }
+}
+finally {
+    $env:RUN_FULL_PIPELINE = $originalFull
+    $env:CMD_TEST_RESULT = $originalCmdResult
+}
 Write-Host 'Required pipeline context tests passed.'

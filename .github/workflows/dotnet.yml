@@ -943,10 +943,36 @@ jobs:
             dotnet run --project "$TEST_PROJECT" -c Release --framework net11.0 --no-build
           fi
 
+  cmd-tests:
+    name: Command Prompt regression tests
+    needs: fast-fail
+    if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: exit 1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Run Cmd integration tests on Windows
+        shell: pwsh
+        run: |
+          ./scripts/Invoke-AgentDotNet.ps1 -SingleNode -DotNetArguments @(
+            'run', '--project', 'test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj',
+            '-c', 'Release', '--framework', 'net11.0')
+          exit $LASTEXITCODE
+
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
-    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot]
+    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -958,6 +984,16 @@ jobs:
           persist-credentials: false
           sparse-checkout: scripts/Assert-RequiredPipelineContext.ps1
           sparse-checkout-cone-mode: false
+      - name: Validate Cmd test result
+        shell: pwsh
+        env:
+          RUN_FULL_PIPELINE: ${{ needs.fast-fail.outputs.run_full_pipeline }}
+          CMD_TEST_RESULT: ${{ needs.cmd-tests.result }}
+        run: |
+          $expected = if ($env:RUN_FULL_PIPELINE -eq 'true') { 'success' } else { 'skipped' }
+          if ($env:CMD_TEST_RESULT -ne $expected) {
+            throw "Cmd tests were '$env:CMD_TEST_RESULT'; expected '$expected'."
+          }
       - name: Validate required pipeline result
         shell: pwsh
         run: |

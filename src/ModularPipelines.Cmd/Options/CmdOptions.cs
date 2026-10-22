@@ -19,7 +19,8 @@ public record CmdOptions : CommandLineToolOptions
     /// <summary>
     /// Gets a value indicating whether Command Prompt exits after running the script.
     /// </summary>
-    [CliFlag("/c")]
+    // /c starts command parsing, so every regular cmd switch must precede it.
+    [CliFlag("/c", Phase = CommandLinePhase.Passthrough)]
     public virtual bool StopAfter { get; init; } = true;
 
     /// <summary>
