@@ -1,3 +1,4 @@
+import type {JSX} from 'react';
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
@@ -14,8 +15,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        If you can write your app in .NET, why not your pipelines too? Use language and libraries your already know.
-        Set up follows the conventional .NET host setup you're used to, with `IConfiguration` and `IServiceProvider` at its core.
+        If you can write your app in .NET, why not your pipelines too? Use the language and libraries you already know.
+        Setup follows the conventional .NET host setup you're used to, with `IConfiguration` and `IServiceProvider` at its core.
       </>
     ),
   },
@@ -24,7 +25,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Modular Pipelines handles parallelization and depdendency management for you. Simply tell it if something depends on something else and Modular Pipelines will run it in parallel, or wait for its dependencies, automatically.
+        Modular Pipelines handles parallelization and dependency management for you. Simply tell it if something depends on something else and Modular Pipelines will run it in parallel, or wait for its dependencies, automatically.
       </>
     ),
   },
