@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -35,6 +36,33 @@ public class SignalRFactoryConnectionTests
     }
 
     [Test]
+    [Arguments(HttpTransportType.LongPolling, 1)]
+    [Arguments(HttpTransportType.WebSockets | HttpTransportType.LongPolling, 2)]
+    public async Task Unauthorized_Transport_Fails_Without_Retrying(HttpTransportType transports, int expectedAttempts)
+    {
+        var transportAttempts = 0;
+        await using var server = await StartServerAsync(async (context, next) =>
+        {
+            if (context.Request.Path.Value!.EndsWith("/negotiate", StringComparison.Ordinal))
+            {
+                await next(context);
+                return;
+            }
+
+            Interlocked.Increment(ref transportAttempts);
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        }, transports);
+        var factory = CreateFactory(server);
+
+        var exception = await Assert.That(async () =>
+                await factory.CreateWorkerAsync(CancellationToken.None).WaitAsync(Timeout))
+            .Throws<HttpRequestException>();
+
+        await Assert.That(exception!.StatusCode).IsEqualTo(HttpStatusCode.Unauthorized);
+        await Assert.That(transportAttempts).IsEqualTo(expectedAttempts);
+    }
+
+    [Test]
     public async Task Transient_Negotiation_Failure_Retries_And_Connects()
     {
         var attempts = 0;
@@ -54,6 +82,32 @@ public class SignalRFactoryConnectionTests
         await using var worker = (IAsyncDisposable) await factory.CreateWorkerAsync(CancellationToken.None).WaitAsync(Timeout);
 
         await Assert.That(attempts).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Transient_Transport_Failure_Retries_And_Connects()
+    {
+        var negotiations = 0;
+        var transportAttempts = 0;
+        await using var server = await StartServerAsync(async (context, next) =>
+        {
+            if (context.Request.Path.Value!.EndsWith("/negotiate", StringComparison.Ordinal))
+            {
+                Interlocked.Increment(ref negotiations);
+            }
+            else if (Interlocked.Increment(ref transportAttempts) == 1)
+            {
+                context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
+                return;
+            }
+
+            await next(context);
+        }, HttpTransportType.LongPolling);
+        var factory = CreateFactory(server);
+
+        await using var worker = (IAsyncDisposable) await factory.CreateWorkerAsync(CancellationToken.None).WaitAsync(Timeout);
+
+        await Assert.That(negotiations).IsEqualTo(2);
     }
 
     [Test]
@@ -103,7 +157,9 @@ public class SignalRFactoryConnectionTests
         MsOptions.Create(new DistributedOptions()),
         NullLoggerFactory.Instance);
 
-    private static async Task<WebApplication> StartServerAsync(Func<HttpContext, RequestDelegate, Task> middleware)
+    private static async Task<WebApplication> StartServerAsync(
+        Func<HttpContext, RequestDelegate, Task> middleware,
+        HttpTransportType transports = HttpTransportType.WebSockets | HttpTransportType.ServerSentEvents | HttpTransportType.LongPolling)
     {
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.UseUrls("http://127.0.0.1:0");
@@ -111,7 +167,7 @@ public class SignalRFactoryConnectionTests
         builder.Services.AddSignalR();
         var server = builder.Build();
         server.Use(middleware);
-        server.MapHub<ConnectionTestHub>("/pipeline-hub");
+        server.MapHub<ConnectionTestHub>("/pipeline-hub", options => options.Transports = transports);
         try
         {
             await server.StartAsync();
