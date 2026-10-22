@@ -251,8 +251,7 @@ internal class ArtifactLifecycleManager
         string filePath,
         CancellationToken cancellationToken)
     {
-        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, filePath, _workingDirectory);
-        var stream = File.OpenRead(filePath);
+        var stream = ArtifactContextImpl.OpenSourceFile(SystemFileSystemProvider.Instance, filePath, _workingDirectory);
         await using var streamScope = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
@@ -535,10 +534,9 @@ internal class ArtifactLifecycleManager
             Path.GetRelativePath(baseDir, path)
                 .Replace(Path.DirectorySeparatorChar, '/')).HasMatches;
 
-        return ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
+        return [.. ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
             .Select(entry => entry.Path)
-            .Where(Matches)
-            .ToList();
+            .Where(Matches)];
     }
 
     private string GetArchiveBaseDirectory(string pathPattern)

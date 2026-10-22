@@ -199,21 +199,19 @@ public static class Host
             await WaitForTrigger(directory, "start-child");
         }
 
-        using (var child = StartChild(childRole, directory, runtimeConfiguration))
+        using var child = StartChild(childRole, directory, runtimeConfiguration);
+        if (role is "parent-exit" or "gated-parent-exit" or "parent-error-exit" or "draining-parent")
         {
-            if (role is "parent-exit" or "gated-parent-exit" or "parent-error-exit" or "draining-parent")
+            await WaitForTrigger(directory, "parent-exit");
+            System.Console.Out.Write("parent output");
+            System.Console.Error.Write("parent error");
+        }
+        else
+        {
+            await child.WaitForExitAsync();
+            if (child.ExitCode != 0)
             {
-                await WaitForTrigger(directory, "parent-exit");
-                System.Console.Out.Write("parent output");
-                System.Console.Error.Write("parent error");
-            }
-            else
-            {
-                await child.WaitForExitAsync();
-                if (child.ExitCode != 0)
-                {
-                    throw new InvalidOperationException($"Fixture child {childRole} exited with code {child.ExitCode}.");
-                }
+                throw new InvalidOperationException($"Fixture child {childRole} exited with code {child.ExitCode}.");
             }
         }
     }
