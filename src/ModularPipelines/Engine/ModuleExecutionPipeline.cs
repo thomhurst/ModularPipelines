@@ -184,13 +184,7 @@ internal class ModuleExecutionPipeline(
             executionContext.StartTime = DateTimeOffset.UtcNow;
             executionContext.Stopwatch.Start();
 
-            if (logger.IsEnabled(LogLevel.Debug))
-            {
-                logger.LogDebug(
-                    "Module {ModuleName} execution started at {StartTime:O}",
-                    moduleName,
-                    executionContext.StartTime);
-            }
+            LogExecutionStarted(logger, moduleName, executionContext.StartTime);
 
             // Execute with timeout and retry
             var result = await ExecuteWithPolicies(module, config, executionContext, moduleContext).ConfigureAwait(false);
@@ -254,6 +248,17 @@ internal class ModuleExecutionPipeline(
             }
 
             return moduleResult;
+        }
+    }
+
+    private static void LogExecutionStarted(ILogger logger, string moduleName, DateTimeOffset startTime)
+    {
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug(
+                "Module {ModuleName} execution started at {StartTime:O}",
+                moduleName,
+                startTime);
         }
     }
 
