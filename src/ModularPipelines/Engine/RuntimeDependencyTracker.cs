@@ -110,11 +110,12 @@ internal sealed class RuntimeDependencyTracker(
 
     private bool TryCompleteModules(Dictionary<Type, ModuleState> remaining)
     {
+        // Pending Ready handlers hold global worker capacity without reserving module constraints.
+        // Queued modules reserve constraints even before their runners acquire them.
         var active = remaining.Values
-            .Where(state => state.State is ModuleExecutionState.Queued or ModuleExecutionState.Executing
-                || state.HoldsExecutionSlot)
+            .Where(state => state.State is ModuleExecutionState.Queued or ModuleExecutionState.Executing)
             .ToArray();
-        var executionSlotsFull = active.Count(OccupiesExecutionSlot) >= maxParallelism;
+        var executionSlotsFull = remaining.Values.Count(OccupiesExecutionSlot) >= maxParallelism;
         var madeProgress = false;
         foreach (var state in remaining.Values.ToArray())
         {

@@ -164,6 +164,49 @@ public class RuntimeDependencyTrackerTests
     }
 
     [Test]
+    [Arguments("sequential-waiter")]
+    [Arguments("sequential-target")]
+    [Arguments("key")]
+    [Arguments("limiter")]
+    [Arguments("hint")]
+    public async Task Allows_Pending_Ready_Wait_Before_Constraints_Are_Reserved(string constraint)
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 2);
+        states[typeof(First)].HoldsExecutionSlot = true;
+        ConfigureConflict(states[typeof(First)], states[typeof(Second)], constraint);
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second))).ThrowsNothing();
+    }
+
+    [Test]
+    public async Task Rejects_Pending_Ready_Wait_When_Global_Slots_Are_Full_Despite_Unreserved_Constraints()
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 1);
+        states[typeof(First)].HoldsExecutionSlot = true;
+        ConfigureConflict(states[typeof(First)], states[typeof(Second)], "key");
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second)))
+            .Throws<DependencyCollisionException>();
+    }
+
+    [Test]
+    [Arguments("sequential-waiter")]
+    [Arguments("sequential-target")]
+    [Arguments("key")]
+    [Arguments("limiter")]
+    [Arguments("hint")]
+    public async Task Rejects_Queued_Ready_Wait_When_Constraints_Are_Reserved(string constraint)
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 2);
+        states[typeof(First)].State = ModuleExecutionState.Queued;
+        states[typeof(First)].HoldsExecutionSlot = true;
+        ConfigureConflict(states[typeof(First)], states[typeof(Second)], constraint);
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second)))
+            .Throws<DependencyCollisionException>();
+    }
+
+    [Test]
     public async Task Allows_Ready_Wait_For_Target_Already_Holding_A_Global_Slot()
     {
         var (tracker, states) = CreateTracker(maxParallelism: 2);

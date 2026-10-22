@@ -93,6 +93,27 @@ public class RuntimeDependencyConstraintTests
         }
     }
 
+    [Test]
+    [Arguments("sequential")]
+    [Arguments("key")]
+    [Arguments("limiter")]
+    [Arguments("hint")]
+    public async Task On_Demand_Ready_Wait_Allows_Target_To_Acquire_Unreserved_Constraints(string constraint)
+    {
+        var target = new Target(constraint);
+        using var cancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+
+        await Assert.That(async () => await CreatePipeline()
+            .ConfigureOptions(options => options with
+            {
+                Concurrency = options.Concurrency with { MaxParallelism = 2 },
+            })
+            .AddExecutionBackend<InProcessExecutionBackend>()
+            .AddModule(new ReadyReader(target, constraint))
+            .AddModule(target)
+            .RunAsync(cancellation.Token)).ThrowsNothing();
+    }
+
     private sealed class AwaitTargetWhenReadyAttribute : Attribute, IModuleReadyHandler
     {
         public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken) =>
@@ -102,11 +123,15 @@ public class RuntimeDependencyConstraintTests
     }
 
     [AwaitTargetWhenReady]
-    private sealed class ReadyReader(Target target) : Module<bool>
+    private sealed class ReadyReader(Target target, string constraint = "global") : Module<bool>
     {
         public Target Target { get; } = target;
 
-        protected override void Configure(ModuleConfigurationBuilder module) => module.WithPriority(ModulePriority.Critical);
+        protected override void Configure(ModuleConfigurationBuilder module)
+        {
+            ConfigureConstraint(module, constraint);
+            module.WithPriority(ModulePriority.Critical);
+        }
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
             Task.FromResult(true);
