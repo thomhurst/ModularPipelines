@@ -1,3 +1,5 @@
+param([switch]$OutputCaptureOnly)
+
 $ErrorActionPreference = 'Stop'
 
 $guardScript = Join-Path $PSScriptRoot 'Invoke-AgentDotNet.ps1'
@@ -99,6 +101,7 @@ function Invoke-Guard(
     [string]$DotNetPath = $pwshPath,
     [switch]$SingleNode,
     [string]$Location,
+    [string]$LogPath,
     [string]$ReadyPath,
     [string]$WaitsPath) {
     $invocationScript = $guardScript
@@ -107,7 +110,9 @@ function Invoke-Guard(
     }
 
     $argumentLiterals = ($Arguments | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ', '
-    $command = ''
+    # A setup/parameter error must fail the subprocess rather than reaching
+    # `exit $LASTEXITCODE` with an unset or stale native-command exit code.
+    $command = '$ErrorActionPreference = ''Stop''; '
     if ($Location) {
         # Only the PowerShell location changes; the process working directory stays
         # where the test runner started, which is exactly the agent-worktree scenario.
@@ -121,6 +126,10 @@ function Invoke-Guard(
         "-PollIntervalMilliseconds $PollIntervalMilliseconds "
     if ($SingleNode) {
         $command += '-SingleNode '
+    }
+
+    if ($LogPath) {
+        $command += "-LogPath $(ConvertTo-PowerShellLiteral $LogPath) "
     }
 
     $command += "-DotNetArguments @($argumentLiterals)"
@@ -280,6 +289,142 @@ try {
         }
     }
 
+    # Use an evidence-style path with spaces and quotes, relative to the caller's
+    # PowerShell location, with parent directories the guard must create.
+    $outputScript = Join-Path $testRoot 'Write-Output.ps1'
+    $relativeLogPath = "evidence logs/agent's output.log"
+    $outputLogPath = Join-Path $testRoot $relativeLogPath
+    @'
+param([int]$ExitCode)
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+for ($index = 0; $index -lt 512; $index++) {
+    [Console]::Out.WriteLine("stdout-$index-" + ('é雪😀' * 256))
+    [Console]::Error.WriteLine("stderr-$index-" + ('é雪😀' * 256))
+}
+[Console]::Out.Write('stdout-tail')
+[Console]::Error.Write('stderr-tail')
+exit $ExitCode
+'@ | Set-Content -LiteralPath $outputScript
+
+    foreach ($expectedExitCode in @(0, 23)) {
+        $guardExitCode = Invoke-Guard `
+            -TimeoutSeconds 30 `
+            -MemoryLimitMb 512 `
+            -PollIntervalMilliseconds 100 `
+            -Location $testRoot `
+            -LogPath $relativeLogPath `
+            -Arguments @('-NoProfile', '-File', $outputScript, "$expectedExitCode")
+
+        if ($guardExitCode -ne $expectedExitCode) {
+            throw "Logged command returned $guardExitCode instead of $expectedExitCode."
+        }
+
+        $log = Get-Content -LiteralPath $outputLogPath -Raw
+        foreach ($stream in @('stdout', 'stderr')) {
+            $records = [regex]::Matches($log, "$stream-\d+-[^\r\n]*")
+            if ($records.Count -ne 512) {
+                throw "Log contains $($records.Count) $stream records instead of 512."
+            }
+
+            for ($index = 0; $index -lt 512; $index++) {
+                $expected = "$stream-$index-" + ('é雪😀' * 256)
+                if ($records[$index].Value -cne $expected) {
+                    throw "Log lost, corrupted, reordered, or duplicated $stream record $index."
+                }
+            }
+
+            if ([regex]::Matches($log, "$stream-tail").Count -ne 1) {
+                throw "Log lost or duplicated the unterminated $stream tail."
+            }
+        }
+    }
+
+    Write-Output 'OK combined output, Unicode, unterminated tails, overwrite, paths, and command exit codes.'
+
+    # Exercise bounded chunks as well as complete lines, including a surrogate
+    # pair straddling the first chunk boundary and output with no final newline.
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', @'
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+[Console]::Out.Write(('A' * 4095) + '😀' + ('B' * 16384))
+[Console]::Error.Write('雪' * 16384)
+'@)
+    if ($guardExitCode -ne 0) {
+        throw "Unterminated output command failed with exit code $guardExitCode."
+    }
+
+    $log = Get-Content -LiteralPath $outputLogPath -Raw
+    if ([regex]::Matches($log, 'A').Count -ne 4095 -or
+        [regex]::Matches($log, 'B').Count -ne 16384 -or
+        [regex]::Matches($log, '雪').Count -ne 16384 -or
+        [regex]::Matches($log, '😀').Count -ne 1 -or
+        $log.Length -ne (4095 + 2 + 16384 + 16384)) {
+        throw 'Unterminated output was lost, duplicated, or corrupted at a chunk boundary.'
+    }
+
+    Write-Output 'OK bounded output chunks and surrogate-pair boundaries.'
+
+    # An invalid log destination must fail before any child command runs.
+    $invalidLogPath = Join-Path $outputScript 'output.log'
+    $failure = @(Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $invalidLogPath `
+        -Arguments @('-NoProfile', '-Command',
+            "[IO.File]::WriteAllText($(ConvertTo-PowerShellLiteral $capturePath), 'unexpected')") 2>&1)
+    if ($failure[-1] -ne 1 -or (Test-Path -LiteralPath $capturePath)) {
+        throw 'An invalid log destination did not fail before child launch.'
+    }
+
+    Write-Output 'OK invalid log destination fails before launch.'
+
+    # Leave startup slack in this logging test; the existing timeout tests below
+    # separately exercise short deadlines and descendant termination.
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 10 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', @'
+[Console]::Out.Write('stdout-tail')
+[Console]::Error.Write('stderr-tail')
+Start-Sleep -Seconds 60
+'@)
+    if ($guardExitCode -ne 124) {
+        throw "Logged timeout returned $guardExitCode instead of 124."
+    }
+
+    $log = Get-Content -LiteralPath $outputLogPath -Raw
+    if ($log -notmatch 'stdout-tail' -or $log -notmatch 'stderr-tail' -or
+        $log -notmatch 'exceeded 10s timeout') {
+        throw 'Timeout cleanup did not drain partial output and its diagnostic to the log.'
+    }
+
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 64 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', 'Start-Sleep -Seconds 60')
+    if ($guardExitCode -ne 137) {
+        throw "Logged memory limit returned $guardExitCode instead of 137."
+    }
+
+    if ((Get-Content -LiteralPath $outputLogPath -Raw) -notmatch 'exceeded 64 MB process-tree limit') {
+        throw 'Memory-limit diagnostic was not captured in the log.'
+    }
+
+    Write-Output 'OK logged timeout and memory-limit exit codes, diagnostics, and partial output.'
+
+    if ($OutputCaptureOnly) {
+        return
+    }
+
     @'
 param(
     [string]$OutputPath,
@@ -411,6 +556,7 @@ if (-not $ExitAfterSpawn) {
         -TimeoutSeconds 30 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
         -ReadyPath $normalExitChildPidPath `
         -WaitsPath $waitsPath `
         -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '1')
@@ -567,7 +713,7 @@ while ($true) { Start-Sleep -Seconds 60 }
         throw "Memory limit returned $guardExitCode instead of 137."
     }
 
-    Write-Output 'OK forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
+    Write-Output 'OK output capture, exit codes, forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
     foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath, $boundedChildPidPath)) {
