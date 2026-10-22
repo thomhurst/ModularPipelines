@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
@@ -17,6 +18,7 @@ using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using PipelineEngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 using ModularPipelines.Enums;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Execution;
 
@@ -491,6 +493,33 @@ public class EngineCancellationTokenTests : TestBase
         InvokeCancelKeyPress(engineCancellationToken, firstInterrupt);
 
         await Assert.That(firstInterrupt.Cancel).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Shutdown_Signal_Contains_Lifetime_Failure_And_Preserves_Second_Interrupt(bool sigterm)
+    {
+        var exception = new InvalidOperationException("lifetime callback failed");
+        var lifetime = new Mock<IHostApplicationLifetime>();
+        lifetime.Setup(application => application.StopApplication()).Throws(exception);
+        using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer(), lifetime.Object)
+        {
+            IsRunActive = () => true,
+        };
+
+        var handled = sigterm
+            ? engineCancellationToken.HandleSigterm()
+            : InvokeCancelKeyPress(engineCancellationToken).Cancel;
+
+        await Assert.That(handled).IsTrue();
+        await Assert.That(engineCancellationToken.OriginalException).IsSameReferenceAs(exception);
+        await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.Token.IsCancellationRequested).IsTrue();
+        await Assert.That(engineCancellationToken.ExplicitCancellationToken.IsCancellationRequested).IsFalse();
+        await Assert.That(sigterm
+            ? engineCancellationToken.HandleSigterm()
+            : InvokeCancelKeyPress(engineCancellationToken).Cancel).IsFalse();
     }
 
     private static ConsoleCancelEventArgs InvokeCancelKeyPress(

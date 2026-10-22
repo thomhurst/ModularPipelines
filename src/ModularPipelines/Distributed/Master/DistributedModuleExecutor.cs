@@ -230,6 +230,14 @@ internal class DistributedModuleExecutor(
                     schedulerTask)
                 .ConfigureAwait(false);
         }
+        catch (OperationCanceledException) when (
+            _lifetime.ApplicationStopping.IsCancellationRequested && !terminalResults.FailureToken.IsCancellationRequested)
+        {
+            // A host stop during worker registration or capability detection is shutdown,
+            // not a pipeline failure. The final notification must retain the Stopped reason.
+            terminalResults.ThrowIfFailed();
+            throw;
+        }
         catch
         {
             failureBroadcast.Request();
