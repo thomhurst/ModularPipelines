@@ -945,8 +945,13 @@ public partial class GcloudCliScraper : CliScraperBase
             argument, commandParts, helpText, isFlag, hasCompositeSyntax, isStructuredValue, isKeyValue);
         var isNumeric = IsNumericValue(longForm, valueHint, description, isStructuredValue)
                         && !DurationDescriptionPattern().IsMatch(argument.Description ?? string.Empty);
+        // A declaration can follow an unpunctuated command example in its own paragraph.
+        // Keep those boundaries for inference while generated documentation stays normalized.
+        var enumDescription = argument.RawDescription is { } rawDescription
+            ? $"{argument.GroupDescription}\n\n{rawDescription}"
+            : description;
         var enumDefinition = isStructuredValue ? null : TryDetectEnum(
-            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, valueHint, description);
+            GenerateClassName([ToolName, .. commandParts]), propertyName, longForm, valueHint, enumDescription);
 
         return new CliOptionDefinition
         {
@@ -1274,13 +1279,11 @@ public partial class GcloudCliScraper : CliScraperBase
         if (declarations.Length > 0)
         {
             var values = declarations
-                .SelectMany(match => match.Groups["values"].Value.Split(',', StringSplitOptions.RemoveEmptyEntries))
-                .Select(v => LeadingEnumConjunctionPattern().Replace(v.Trim(), string.Empty).TrimEnd('.'))
-                .Where(v => v.Length > 0 && v.Length < 25 && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
+                .SelectMany(match => match.Groups["value"].Captures.Select(capture => capture.Value))
                 .Distinct()
                 .ToArray();
 
-            if (values.Length >= 2 && values.Length <= 12)
+            if (values.Length >= 2 && values.Length <= 12 && values.All(v => v.Length < 25))
             {
                 return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
@@ -1290,14 +1293,11 @@ public partial class GcloudCliScraper : CliScraperBase
         var match = InlineEnumValuesPattern().Match(description);
         if (match.Success)
         {
-            var values = match.Groups[1].Value
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(v => LeadingEnumConjunctionPattern().Replace(v.Trim(), string.Empty).TrimEnd('.'))
-                .Where(v => v.Length > 0 && v.Length < 25)
+            var values = match.Groups["value"].Captures.Select(capture => capture.Value)
                 .Distinct()
                 .ToArray();
 
-            if (values.Length >= 2 && values.Length <= 12)
+            if (values.Length >= 2 && values.Length <= 12 && values.All(v => v.Length < 25))
             {
                 return OptionEnumFactory.TryCreate(className, propertyName, switchName, values);
             }
@@ -1442,14 +1442,19 @@ public partial class GcloudCliScraper : CliScraperBase
     [GeneratedRegex(@"^NAME\s*\n\s+gcloud[^\n]+-\s*(.+?)(?=\n\n|\nSYNOPSIS)", RegexOptions.Singleline)]
     private static partial Regex CommandDescriptionPattern();
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must be one of:?\s*(?<values>[a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    // Capture each choice separately so final conjunctions cannot become values. Reject a
+    // remaining separator or conjunction rather than generating an enum from a partial list.
+    private const string EnumChoiceListRegex = @"(?<value>[a-zA-Z][a-zA-Z0-9_-]*)(?:(?:,\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)(?<value>[a-zA-Z][a-zA-Z0-9_-]*))+(?![a-zA-Z0-9_-]|\s*(?:,|\b(?:and|or)\b))";
+
+    // A command example may end without sentence punctuation. Only that paragraph
+    // boundary starts a new declaration; a blank line after conditional prose does not.
+    private const string EnumDeclarationBoundaryRegex = @"(?:^\s*|(?<=[.!?])\s+|(?:^|\n)[ \t]*\$[ \t]+gcloud\b[^\n]*(?:\n[ \t]+\S[^\n]*)*\n[ \t]*\n\s*)";
+
+    [GeneratedRegex(EnumDeclarationBoundaryRegex + @"(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must\s+be\s+one\s+of:?\s*" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
-    [GeneratedRegex(@";\s*one of\s+([a-zA-Z][a-zA-Z0-9_-]*(?:,\s*(?:(?:or|and)\s+)?[a-zA-Z][a-zA-Z0-9_-]*)+)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@";\s*one\s+of\s+" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
     private static partial Regex InlineEnumValuesPattern();
-
-    [GeneratedRegex(@"^(?:or|and)\s+", RegexOptions.IgnoreCase)]
-    private static partial Regex LeadingEnumConjunctionPattern();
 
     #endregion
 }
