@@ -306,6 +306,45 @@ $identityFunction = 'function Get-TestProcessStartIdentity {' +
 New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 try {
+    $missingExecutable = Join-Path $testRoot 'missing-dotnet.exe'
+    $invalidExecutable = Join-Path $testRoot 'invalid-dotnet.exe'
+    [IO.File]::WriteAllText($invalidExecutable, 'This is not an executable.')
+    if (-not $IsWindows) {
+        & chmod +x $invalidExecutable
+    }
+
+    foreach ($executable in @($missingExecutable, $invalidExecutable)) {
+        foreach ($captureOutput in @($false, $true)) {
+            $launchLogPath = if ($captureOutput) { Join-Path $testRoot 'launch-failure.log' } else { '' }
+            $failure = @(Invoke-Guard `
+                -TimeoutSeconds 30 `
+                -MemoryLimitMb 512 `
+                -PollIntervalMilliseconds 100 `
+                -DotNetPath $executable `
+                -LogPath $launchLogPath `
+                -Arguments @('--version') 2>&1)
+            if ($failure[-1] -ne 126) {
+                throw "Launch failure for '$executable' returned $($failure[-1]) instead of 126."
+            }
+
+            $diagnostic = if ($captureOutput) {
+                Get-Content -LiteralPath $launchLogPath -Raw
+            }
+            else {
+                ($failure | Select-Object -SkipLast 1) -join "`n"
+            }
+            if ($diagnostic -notmatch 'Agent dotnet guard failed to launch' -or
+                -not $diagnostic.Contains($executable)) {
+                throw "Launch failure did not identify the executable: $diagnostic"
+            }
+            if ($diagnostic -match 'WaitForExit|Dispose|null-valued') {
+                throw "Launch failure included secondary null-child errors: $diagnostic"
+            }
+        }
+    }
+
+    Write-Output 'OK missing and invalid executables fail with launch diagnostics, with and without logging.'
+
     if ($IsLinux) {
         if ([string]::IsNullOrEmpty((Get-TestProcessStartIdentity $PID))) {
             throw 'The live test process has no Linux start identity.'

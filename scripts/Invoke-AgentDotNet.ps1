@@ -5,7 +5,8 @@ Runs a local dotnet command with workstation-safe limits for autonomous agents.
 .DESCRIPTION
 Disables reusable MSBuild/Roslyn servers, optionally limits MSBuild to one node,
 uses below-normal priority, and kills the full process tree when time or memory
-limits are exceeded. Exit 124 means timeout; exit 137 means memory limit.
+limits are exceeded. Exit 124 means timeout; exit 126 means child launch failure;
+exit 137 means memory limit.
 Use -LogPath to capture child stdout/stderr in a combined UTF-8 log instead of
 the terminal. Parent directories are created and an existing log is overwritten.
 Ordinary PowerShell stream redirection around this script does not capture the
@@ -746,6 +747,7 @@ $wrapperPath = [System.IO.Path]::Combine(
 )
 
 $childLaunchScript = @'
+$ErrorActionPreference = 'Stop'
 $startInfo = [Diagnostics.ProcessStartInfo]::new()
 $startInfo.UseShellExecute = $false
 $startInfo.FileName = $dotnetPath
@@ -753,7 +755,15 @@ foreach ($argument in $dotnetArguments) {
     $startInfo.ArgumentList.Add($argument)
 }
 
-$child = [Diagnostics.Process]::Start($startInfo)
+try {
+    $child = [Diagnostics.Process]::Start($startInfo)
+}
+catch {
+    [Console]::Error.WriteLine("Agent dotnet guard failed to launch '$dotnetPath': " +
+        $_.Exception.GetBaseException().Message)
+    exit 126
+}
+
 try {
     $child.WaitForExit()
     $exitCode = $child.ExitCode
