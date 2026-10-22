@@ -178,14 +178,20 @@ public class ComposableModuleTests
     [Test]
     public async Task AlwaysRun_Module_Has_Correct_Configuration()
     {
-        var host = await TestPipelineBuilder.Create()
+        await using var host = await TestPipelineBuilder.Create()
             .AddModule<AlwaysRunModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
-        // Verify the module is registered and executed
         var module = host.Services.GetServices<IModule>().OfType<AlwaysRunModule>().Single();
-        await Assert.That(module).IsNotNull();
+        var result = await module;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(((IModule) module).Configuration.AlwaysRun).IsTrue();
+            await Assert.That(result.Status).IsEqualTo(ModularPipelines.ModuleStatus.Succeeded);
+            await Assert.That(result.Value).IsEqualTo("Always ran");
+        }
     }
 }
