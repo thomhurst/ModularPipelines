@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Distributed.Artifacts;
@@ -118,7 +119,7 @@ internal class ArtifactLifecycleManager
         ProducesArtifactAttribute attribute,
         CancellationToken cancellationToken)
     {
-        var resolvedPaths = ResolvePathPattern(attribute.PathPattern);
+        var resolvedPaths = ResolvePathPattern(attribute.PathPattern, cancellationToken);
         if (resolvedPaths.Count == 0)
         {
             Logger.LogWarning(
@@ -186,11 +187,9 @@ internal class ArtifactLifecycleManager
         var tempFile = CreateTemporaryArchivePath();
         try
         {
-            ZipFile.CreateFromDirectory(
-                directoryPath,
-                tempFile,
-                _options.ArtifactCompressionLevel,
-                includeBaseDirectory: false);
+            await ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                directoryPath, tempFile, _options.ArtifactCompressionLevel, cancellationToken, trustedRoot: _workingDirectory)
+                .ConfigureAwait(false);
             return await UploadFileAsync(
                     descriptor with { ContentType = "application/zip" },
                     tempFile,
@@ -212,7 +211,10 @@ internal class ArtifactLifecycleManager
         var tempFile = CreateTemporaryArchivePath();
         try
         {
-            CreatePathArchive(tempFile, GetArchiveBaseDirectory(pathPattern), resolvedPaths);
+            await ArtifactContextImpl.CreatePathArchiveAsync(
+                tempFile, GetArchiveBaseDirectory(pathPattern),
+                EnumerateArchivePaths(resolvedPaths, cancellationToken),
+                _options.ArtifactCompressionLevel, cancellationToken, trustedRoot: _workingDirectory).ConfigureAwait(false);
             return await UploadFileAsync(
                     descriptor with { ContentType = "application/zip" },
                     tempFile,
@@ -225,66 +227,31 @@ internal class ArtifactLifecycleManager
         }
     }
 
-    private void CreatePathArchive(
-        string archivePath,
-        string archiveBaseDirectory,
-        IReadOnlyList<string> resolvedPaths)
+    private IEnumerable<(string Path, bool IsDirectory)> EnumerateArchivePaths(
+        IReadOnlyList<string> resolvedPaths, CancellationToken cancellationToken)
     {
-        using var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
-        var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var resolvedPath in resolvedPaths)
+        foreach (var path in resolvedPaths)
         {
-            AddPathToArchive(archive, archivedEntries, archiveBaseDirectory, resolvedPath);
-        }
-    }
-
-    private void AddPathToArchive(
-        ZipArchive archive,
-        HashSet<string> archivedEntries,
-        string archiveBaseDirectory,
-        string resolvedPath)
-    {
-        var isDirectory = Directory.Exists(resolvedPath);
-        IEnumerable<string> directoryPaths = isDirectory
-            ? [
-                resolvedPath,
-                .. Directory.EnumerateDirectories(
-                    resolvedPath,
-                    "*",
-                    SearchOption.AllDirectories),
-            ]
-            : [];
-        foreach (var directoryPath in directoryPaths)
-        {
-            var entryName = GetArchiveEntryName(archiveBaseDirectory, directoryPath).TrimEnd('/') + "/";
-            if (archivedEntries.Add(entryName))
+            cancellationToken.ThrowIfCancellationRequested();
+            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, path, _workingDirectory);
+            var isDirectory = Directory.Exists(path);
+            yield return (path, isDirectory);
+            if (isDirectory)
             {
-                archive.CreateEntry(entryName, _options.ArtifactCompressionLevel);
-            }
-        }
-
-        var filePaths = isDirectory
-            ? Directory.EnumerateFiles(resolvedPath, "*", SearchOption.AllDirectories)
-            : [resolvedPath];
-        foreach (var filePath in filePaths)
-        {
-            var entryName = GetArchiveEntryName(archiveBaseDirectory, filePath);
-            if (archivedEntries.Add(entryName))
-            {
-                archive.CreateEntryFromFile(filePath, entryName, _options.ArtifactCompressionLevel);
+                foreach (var entry in ArtifactContextImpl.EnumerateDirectoryPaths(path, cancellationToken, trustedRoot: _workingDirectory))
+                {
+                    yield return entry;
+                }
             }
         }
     }
-
-    private static string GetArchiveEntryName(string archiveBaseDirectory, string path) =>
-        Path.GetRelativePath(archiveBaseDirectory, path)
-            .Replace(Path.DirectorySeparatorChar, '/');
 
     private async Task<ArtifactReference> UploadFileAsync(
         ArtifactDescriptor descriptor,
         string filePath,
         CancellationToken cancellationToken)
     {
+        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, filePath, _workingDirectory);
         var stream = File.OpenRead(filePath);
         await using var streamScope = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
@@ -473,17 +440,22 @@ internal class ArtifactLifecycleManager
 
         if (artifact.ContentType == "application/zip")
         {
-            Directory.CreateDirectory(restorePath);
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            archive.ExtractToDirectory(restorePath, overwriteFiles: true);
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, restorePath, cancellationToken, trustedRoot: _workingDirectory)
+                .ConfigureAwait(false);
         }
         else
         {
-            var destFile = Path.Combine(restorePath, artifact.Name);
-            Directory.CreateDirectory(Path.GetDirectoryName(destFile)!);
-            var fileStream = File.Create(destFile);
-            await using var fileStreamScope = fileStream.ConfigureAwait(false);
-            await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
+            var destFile = Path.GetFullPath(Path.Combine(restorePath, artifact.Name));
+            var restorePrefix = Path.EndsInDirectorySeparator(restorePath)
+                ? restorePath
+                : restorePath + Path.DirectorySeparatorChar;
+            if (!destFile.StartsWith(restorePrefix, ArtifactContextImpl.GetArchivePathComparison()))
+            {
+                throw new IOException($"Restoring '{artifact.Name}' would leave the destination directory.");
+            }
+
+            await ArtifactContextImpl.RestoreFileAsync(stream, destFile, cancellationToken, trustedRoot: _workingDirectory).ConfigureAwait(false);
         }
 
         if (Logger.IsEnabled(LogLevel.Information))
@@ -521,9 +493,15 @@ internal class ArtifactLifecycleManager
     /// Resolves a path pattern to concrete paths. Supports simple glob patterns.
     /// Returns a list of matched files/directories.
     /// </summary>
-    internal IReadOnlyList<string> ResolvePathPattern(string pathPattern)
+    internal IReadOnlyList<string> ResolvePathPattern(string pathPattern, CancellationToken cancellationToken = default)
     {
         pathPattern = ResolvePath(pathPattern);
+
+        var wildcardIndex = pathPattern.IndexOfAny(['*', '?']);
+        if (wildcardIndex < 0)
+        {
+            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, pathPattern, _workingDirectory);
+        }
 
         // If the path exists directly, return it
         if (Directory.Exists(pathPattern) || File.Exists(pathPattern))
@@ -532,7 +510,6 @@ internal class ArtifactLifecycleManager
         }
 
         // Handle simple glob patterns by splitting at the first wildcard
-        var wildcardIndex = pathPattern.IndexOfAny(['*', '?']);
         if (wildcardIndex < 0)
         {
             return [];
@@ -540,6 +517,7 @@ internal class ArtifactLifecycleManager
 
         var baseDir = GetGlobBaseDirectory(pathPattern, wildcardIndex);
 
+        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, baseDir, _workingDirectory);
         if (!Directory.Exists(baseDir))
         {
             return [];
@@ -557,11 +535,10 @@ internal class ArtifactLifecycleManager
             Path.GetRelativePath(baseDir, path)
                 .Replace(Path.DirectorySeparatorChar, '/')).HasMatches;
 
-        return
-        [
-            .. Directory.GetFiles(baseDir, "*", SearchOption.AllDirectories).Where(Matches),
-            .. Directory.GetDirectories(baseDir, "*", SearchOption.AllDirectories).Where(Matches),
-        ];
+        return ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
+            .Select(entry => entry.Path)
+            .Where(Matches)
+            .ToList();
     }
 
     private string GetArchiveBaseDirectory(string pathPattern)

@@ -410,7 +410,7 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    public async Task Directory_Archive_Excludes_Destination_Through_Source_Link()
+    public async Task Directory_Archive_Rejects_Source_Link()
     {
         var tempDirectory = Directory.CreateTempSubdirectory("artifact-archive-");
         try
@@ -421,15 +421,14 @@ public class ArtifactContextApiTests
             SymbolicLinkTestHelper.CreateOrSkip(() => Directory.CreateSymbolicLink(sourceLink, sourceDirectory.FullName));
             await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "payload.txt"), "payload");
 
-            await ArtifactContextImpl.CreateDirectoryArchiveAsync(
+            await Assert.That(() => ArtifactContextImpl.CreateDirectoryArchiveAsync(
                 sourceLink,
                 archivePath,
                 CompressionLevel.Fastest,
-                CancellationToken.None);
-
-            using var archive = ZipFile.OpenRead(archivePath);
-            await Assert.That(archive.Entries.Select(static entry => entry.FullName))
-                .IsEquivalentTo(["payload.txt"]);
+                CancellationToken.None)).Throws<IOException>();
+            await Assert.That(File.Exists(archivePath)).IsFalse();
+            await Assert.That(await File.ReadAllTextAsync(Path.Combine(sourceDirectory.FullName, "payload.txt")))
+                .IsEqualTo("payload");
         }
         finally
         {

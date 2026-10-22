@@ -13,6 +13,213 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
+    public async Task Publish_File_Rejects_Provider_Ancestor_Links_Before_Reading()
+    {
+        var ancestor = Path.GetFullPath("provider-linked-ancestor");
+        var source = Path.Combine(ancestor, "nested", "payload.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.GetAttributes(ancestor)).Returns(FileAttributes.Directory | FileAttributes.ReparsePoint);
+        provider.Setup(p => p.OpenRead(source)).Returns(() => new MemoryStream("outside"u8.ToArray()));
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
+            .ForModule(typeof(ArtifactProducer));
+
+        await Assert.ThrowsAsync<IOException>(() => context.PublishFileAsync("file", new FilePath(source, provider.Object)));
+
+        provider.Verify(p => p.GetAttributes(ancestor), Times.Once);
+        provider.Verify(p => p.OpenRead(It.IsAny<string>()), Times.Never);
+    }
+
+    [Test]
+    [Arguments('/')]
+    [Arguments('\\')]
+    [Arguments('|')]
+    public async Task Directory_Archive_Rejects_Provider_Ancestor_Links_Before_Enumeration(char separator)
+    {
+        var ancestor = Path.GetFullPath("provider-ancestor") + separator + "link";
+        var source = ancestor + separator + "nested" + separator + "source";
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(ancestor)).Returns(FileAttributes.Directory | FileAttributes.ReparsePoint);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        var archivePath = Path.Combine(Path.GetTempPath(), $"artifact-provider-ancestor-{Guid.NewGuid():N}.zip");
+        try
+        {
+            await Assert.That(() => ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                source, archivePath, CompressionLevel.Fastest, CancellationToken.None, provider.Object)).Throws<IOException>();
+
+            provider.Verify(p => p.GetAttributes(ancestor), Times.Once);
+            provider.Verify(p => p.EnumerateDirectories(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>()), Times.Never);
+            provider.Verify(p => p.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>()), Times.Never);
+            await Assert.That(File.Exists(archivePath)).IsFalse();
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
+    }
+
+    [Test]
+    [Arguments('/', false, false)]
+    [Arguments('/', true, false)]
+    [Arguments('/', false, true)]
+    [Arguments('/', true, true)]
+    [Arguments('\\', false, false)]
+    [Arguments('\\', true, false)]
+    [Arguments('\\', false, true)]
+    [Arguments('\\', true, true)]
+    [Arguments('|', false, false)]
+    [Arguments('|', true, false)]
+    [Arguments('|', false, true)]
+    [Arguments('|', true, true)]
+    public async Task Restore_Rejects_Provider_Ancestor_Links_Before_Writing(
+        char separator, bool directory, bool missingDestination)
+    {
+        var ancestor = Path.GetFullPath("provider-ancestor") + separator + "link";
+        var root = ancestor + separator + "nested" + separator + "destination";
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.GetAttributes(ancestor)).Returns(FileAttributes.Directory | FileAttributes.ReparsePoint);
+        if (missingDestination)
+        {
+            provider.Setup(p => p.GetAttributes(It.Is<string>(path => path.StartsWith(root, StringComparison.Ordinal))))
+                .Throws<DirectoryNotFoundException>();
+        }
+        using var data = new MemoryStream();
+        using (var archive = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            using var writer = new StreamWriter(archive.CreateEntry("payload.txt").Open());
+            writer.Write("replacement");
+        }
+        data.Position = 0;
+        using var input = new ZipArchive(data, ZipArchiveMode.Read);
+
+        await Assert.That(() => directory
+            ? ArtifactContextImpl.ExtractDirectoryArchiveAsync(input, root, CancellationToken.None, provider.Object)
+            : ArtifactContextImpl.RestoreFileAsync(data, root + separator + "payload.txt", CancellationToken.None, provider.Object))
+            .Throws<IOException>();
+
+        provider.Verify(p => p.GetAttributes(ancestor), Times.Once);
+        provider.Verify(p => p.CreateDirectory(It.IsAny<string>()), Times.Never);
+        provider.Verify(p => p.Open(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+        provider.Verify(p => p.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Filtered_Enumeration_Validates_Only_Matching_Files(bool matchingLink)
+    {
+        var source = Path.GetFullPath("filtered-artifact-source");
+        var file = Path.Combine(source, "payload.dll");
+        var unrelated = Path.Combine(source, "notes-link.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(source)).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(file)).Returns(matchingLink ? FileAttributes.ReparsePoint : FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly)).Returns([unrelated, file]);
+
+        List<(string Path, bool IsDirectory)> Enumerate() => ArtifactContextImpl.EnumerateDirectoryPaths(
+            source, CancellationToken.None, provider.Object, includeFile: path => path.EndsWith(".dll", StringComparison.Ordinal)).ToList();
+
+        if (matchingLink)
+        {
+            await Assert.That(() => Enumerate()).Throws<IOException>();
+        }
+        else
+        {
+            await Assert.That(Enumerate()).IsEquivalentTo([(file, false)]);
+        }
+        provider.Verify(p => p.GetAttributes(unrelated), Times.Never);
+    }
+
+    [Test]
+    public async Task Path_Archive_Validates_And_Reads_Repeated_Paths_Once()
+    {
+        var source = Path.GetFullPath("repeated-artifact-source");
+        var file = Path.Combine(source, "payload.txt");
+        var archivePath = Path.Combine(Path.GetTempPath(), $"artifact-repeated-paths-{Guid.NewGuid():N}.zip");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Directory);
+        var linkChecks = 0;
+        provider.Setup(p => p.GetAttributes(file)).Returns(FileAttributes.Normal).Callback(() => linkChecks++);
+        provider.Setup(p => p.GetRelativePath(source, file)).Returns("payload.txt");
+        provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
+        provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("payload"u8.ToArray()));
+        try
+        {
+            await ArtifactContextImpl.CreatePathArchiveAsync(
+                archivePath, source, Enumerable.Repeat((file, false), 10_000),
+                CompressionLevel.Fastest, CancellationToken.None, provider.Object);
+
+            using var archive = ZipFile.OpenRead(archivePath);
+            await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["payload.txt"]);
+            using var reader = new StreamReader(archive.GetEntry("payload.txt")!.Open());
+            await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("payload");
+            await Assert.That(linkChecks).IsEqualTo(1);
+            provider.Verify(p => p.GetRelativePath(source, file), Times.Once);
+            provider.Verify(p => p.OpenRead(file), Times.Once);
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Directory_Archive_Rejects_Provider_Links_Before_Descent_Or_Read(bool directoryLink)
+    {
+        var source = Path.GetFullPath("provider-artifact-source");
+        var link = Path.Combine(source, "link");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(source)).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(link)).Returns(FileAttributes.ReparsePoint);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly))
+            .Returns(directoryLink ? [link] : []);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly))
+            .Returns(directoryLink ? [] : [link]);
+        var archivePath = Path.Combine(Path.GetTempPath(), $"artifact-provider-link-{Guid.NewGuid():N}.zip");
+        try
+        {
+            await Assert.That(() => ArtifactContextImpl.CreateDirectoryArchiveAsync(
+                source, archivePath, CompressionLevel.Fastest, CancellationToken.None, provider.Object)).Throws<IOException>();
+            await Assert.That(File.Exists(archivePath)).IsFalse();
+        }
+        finally
+        {
+            File.Delete(archivePath);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Single_File_Restore_Rejects_Provider_Links_Before_Writing(bool directoryLink)
+    {
+        var directory = Path.GetFullPath("provider-artifact-destination");
+        var destination = Path.Combine(directory, "payload.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(directory)).Returns(directoryLink ? FileAttributes.ReparsePoint : FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(destination)).Returns(FileAttributes.ReparsePoint);
+        using var stream = new MemoryStream("replacement"u8.ToArray());
+        await Assert.That(() => ArtifactContextImpl.RestoreFileAsync(
+            stream, destination, CancellationToken.None, provider.Object)).Throws<IOException>();
+    }
+
+    [Test]
     [Arguments("/", CompressionLevel.NoCompression)]
     [Arguments("\\", CompressionLevel.NoCompression)]
     [Arguments("/", CompressionLevel.Optimal)]
@@ -27,8 +234,11 @@ public class TypedArtifactContextTests
         var canonicalFile = Path.Combine(canonicalRoot, "payload.txt");
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator[0]);
-        provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalDirectory]);
-        provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalFile]);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(canonicalDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(canonicalDirectory, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.TopDirectoryOnly)).Returns([canonicalDirectory]);
+        provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.TopDirectoryOnly)).Returns([canonicalFile]);
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns($"nested{separator}empty");
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns($"nested{separator}payload.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(canonicalFile)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
@@ -65,8 +275,9 @@ public class TypedArtifactContextTests
         var file = Path.Combine(root, "provider-file");
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns('/');
-        provider.Setup(p => p.EnumerateDirectories(root, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(p => p.EnumerateFiles(root, "*", SearchOption.AllDirectories)).Returns([file]);
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(root, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(root, "*", SearchOption.TopDirectoryOnly)).Returns([file]);
         provider.Setup(p => p.GetRelativePath(root, file)).Returns(@"payload\data.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 1, 1));
         provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("literal"u8.ToArray()));
@@ -93,8 +304,8 @@ public class TypedArtifactContextTests
         var parent = target[..target.LastIndexOf('/')];
         var provider = new Mock<IFileSystemProvider>();
         provider.SetupGet(p => p.DirectorySeparatorChar).Returns('/');
-        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.AllDirectories)).Returns([]);
-        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.AllDirectories)).Returns([sourceFile]);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly)).Returns([sourceFile]);
         provider.Setup(p => p.GetRelativePath(source, sourceFile)).Returns(relativeName);
         provider.Setup(p => p.GetLastWriteTimeUtc(sourceFile)).Returns(new DateTime(2026, 1, 1));
         provider.Setup(p => p.OpenRead(sourceFile)).Returns(() => new MemoryStream("literal"u8.ToArray()));
