@@ -122,7 +122,7 @@ public class KustomizeEditAdd
     }
 
     /// <summary>
-    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
+    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource) to the kustomization file. Configurations are used to define custom transformer specifications for CRDs and other resource types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

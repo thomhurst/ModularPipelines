@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace.
+/// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace. If multiple secret names are specified, the command will not fail on secret names that were not found in the file, but will issue a warning for each name that wasn't found.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditRemoveSecretOptions : KustomizeOptions
 {
     /// <summary>
-    /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace.
+    /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace. If multiple secret names are specified, the command will not fail on secret names that were not found in the file, but will issue a warning for each name that wasn't found.
     /// </summary>
     /// <param name="Name">The NAME operand.</param>
     public KustomizeEditRemoveSecretOptions(

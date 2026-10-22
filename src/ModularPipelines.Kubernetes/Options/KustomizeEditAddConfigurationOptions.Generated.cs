@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
+/// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource) to the kustomization file. Configurations are used to define custom transformer specifications for CRDs and other resource types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddConfigurationOptions : KustomizeOptions
 {
     /// <summary>
-    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
+    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource) to the kustomization file. Configurations are used to define custom transformer specifications for CRDs and other resource types.
     /// </summary>
     /// <param name="File">The &lt;file&gt; operand.</param>
     public KustomizeEditAddConfigurationOptions(

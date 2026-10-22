@@ -92,7 +92,7 @@ public class KustomizeEditRemove
     }
 
     /// <summary>
-    /// Removes the specified configmap(s) from the kustomization.yaml file in the specified namespace.
+    /// Removes the specified configmap(s) from the kustomization.yaml file in the specified namespace. If multiple configmap names are specified, the command will not fail on secret names that were not found in the file, but will issue a warning for each name that wasn't found.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class KustomizeEditRemove
     }
 
     /// <summary>
-    /// Removes a patch from patches field. The fields specified by flags must
+    /// Removes a patch from patches field. The fields specified by flags must exactly match the patch item to successfully remote the item.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class KustomizeEditRemove
     }
 
     /// <summary>
-    /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace.
+    /// Removes the specified secret(s) from the kustomization.yaml file in the specified namespace. If multiple secret names are specified, the command will not fail on secret names that were not found in the file, but will issue a warning for each name that wasn't found.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

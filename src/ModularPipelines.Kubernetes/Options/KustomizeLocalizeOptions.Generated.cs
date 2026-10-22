@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// [Alpha] Creates copy of target kustomization directory or
+/// [Alpha] Creates copy of target kustomization directory or versioned URL at destination, where remote references in the original are replaced by local references to the downloaded remote content.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -62,7 +62,7 @@ public class KustomizeEditSet
     }
 
     /// <summary>
-    /// Sets one or more buildMetadata options to the kustomization.yaml in the current directory.
+    /// Sets one or more buildMetadata options to the kustomization.yaml in the current directory. Existing options in the buildMetadata field will be replaced entirely by the new options set by this command.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class KustomizeEditSet
     }
 
     /// <summary>
-    /// Edits the value for an existing key in an existing ConfigMap in the kustomization.yaml file.
+    /// Edits the value for an existing key in an existing ConfigMap in the kustomization.yaml file. ConfigMap name, ConfigMap namespace, and key name must match an existing entry in the kustomization.yaml file for this command to succeed. When namespace is omitted, the default namespace is used. Conversely, when an entry without a specified namespace exists in the kustomization.yaml file, it can be updated by either omitting the namespace on the kustomize edit set configmap invocation or by specifying --namespace=default.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class KustomizeEditSet
     }
 
     /// <summary>
-    /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file.
+    /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file. Secret name, Secret namespace, and key name must match an existing entry in the kustomization.yaml file for this command to succeed. When namespace is omitted, the default namespace is used. Conversely, when an entry without a specified namespace exists in the kustomization.yaml file, it can be updated by either omitting the namespace on the kustomize edit set secret invocation or by specifying --namespace=default.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

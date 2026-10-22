@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Sets one or more buildMetadata options to the kustomization.yaml in the current directory.
+/// Sets one or more buildMetadata options to the kustomization.yaml in the current directory. Existing options in the buildMetadata field will be replaced entirely by the new options set by this command.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetBuildmetadataOptions : KustomizeOptions
 {
     /// <summary>
-    /// Sets one or more buildMetadata options to the kustomization.yaml in the current directory.
+    /// Sets one or more buildMetadata options to the kustomization.yaml in the current directory. Existing options in the buildMetadata field will be replaced entirely by the new options set by this command.
     /// </summary>
     /// <param name="Metadata">The &lt;metadata&gt; operand.</param>
     public KustomizeEditSetBuildmetadataOptions(
