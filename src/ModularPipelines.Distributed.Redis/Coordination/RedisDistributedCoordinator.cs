@@ -57,6 +57,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private static readonly RespireScript WithdrawScript = RespireScript.Create(RedisCoordinationScripts.Withdraw);
 
     private readonly IRespireClient _redis;
+    private readonly RedisCoordinationDiagnostics _diagnostics;
     private readonly Shield _claimRetry = RedisTransientRetry.Create(RedisTransientRetry.DefaultBaseDelay);
     private readonly RedisKeyBuilder _keys;
     private readonly RespireKey[] _scriptKeys;
@@ -79,7 +80,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         RedisOptions options,
         Action? onWaitReady = null,
         DistributedOptions? distributedOptions = null,
-        ILogger<RedisDistributedCoordinator>? logger = null)
+        ILogger<RedisDistributedCoordinator>? logger = null,
+        RedisCoordinationDiagnostics? diagnostics = null)
     {
         _redis = redis;
         _keys = keys;
@@ -92,6 +94,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
         _onWaitReady = onWaitReady;
         _logger = logger;
+        // The coordinator owns and disposes diagnostics, including an injected instance.
+        _diagnostics = diagnostics ?? new RedisCoordinationDiagnostics(options, logger);
         ValidateKeyExpiration(options, distributedOptions);
     }
 
@@ -300,19 +304,27 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        await _redis.Scripts.ExecuteIntegerAsync(
-                HeartbeatScript,
-                _scriptKeys,
-                [
-                    _keyExpirationMilliseconds,
-                    status.WorkerId.Value,
-                    _workerTimeoutMilliseconds,
-                    JsonSerializer.Serialize(status),
-                    .. status.InFlightModules.Select(static moduleId => (RespireValue) moduleId.Value),
-                ],
-                cancellationToken)
-            .ConfigureAwait(false);
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await _redis.Scripts.ExecuteIntegerAsync(
+                    HeartbeatScript,
+                    _scriptKeys,
+                    [
+                        _keyExpirationMilliseconds,
+                        status.WorkerId.Value,
+                        _workerTimeoutMilliseconds,
+                        JsonSerializer.Serialize(status),
+                        .. status.InFlightModules.Select(static moduleId => (RespireValue) moduleId.Value),
+                    ],
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+        {
+            _ = _diagnostics.ReportFailure("worker heartbeat");
+            throw;
+        }
     }
 
     public async Task<IReadOnlyList<string>> ReconcileHeartbeatAsync(
@@ -320,20 +332,28 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         IReadOnlyList<ModuleLease> leases,
         CancellationToken cancellationToken)
     {
-        var tokens = leases.Select(static lease => new
+        try
         {
-            ModuleId = lease.Assignment.ModuleId.Value,
-            WorkerId = lease.WorkerId.Value,
-            lease.LeaseId,
-        });
-        using var result = await _redis.Scripts.ExecuteAsync(
-                ReconcileHeartbeatScript,
-                _scriptKeys,
-                [_keyExpirationMilliseconds, status.WorkerId.Value, _workerTimeoutMilliseconds,
-                    JsonSerializer.Serialize(status), JsonSerializer.Serialize(tokens)],
-                cancellationToken)
-            .ConfigureAwait(false);
-        return [.. result.Select(static item => item.AsString())];
+            var tokens = leases.Select(static lease => new
+            {
+                ModuleId = lease.Assignment.ModuleId.Value,
+                WorkerId = lease.WorkerId.Value,
+                lease.LeaseId,
+            });
+            using var result = await _redis.Scripts.ExecuteAsync(
+                    ReconcileHeartbeatScript,
+                    _scriptKeys,
+                    [_keyExpirationMilliseconds, status.WorkerId.Value, _workerTimeoutMilliseconds,
+                        JsonSerializer.Serialize(status), JsonSerializer.Serialize(tokens)],
+                    cancellationToken)
+                .ConfigureAwait(false);
+            return [.. result.Select(static item => item.AsString())];
+        }
+        catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+        {
+            _ = _diagnostics.ReportFailure("lease heartbeat");
+            throw;
+        }
     }
 
     public async Task<bool> WithdrawAssignmentAsync(ModuleId moduleId, CancellationToken cancellationToken)
@@ -488,14 +508,22 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        var state = await _redis.Scripts.ExecuteIntegerAsync(
-                GetMasterStateScript,
-                _scriptKeys,
-                [(long) _masterTimeout.TotalMilliseconds],
-                cancellationToken)
-            .ConfigureAwait(false);
-        return (DistributedMasterState) state;
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var state = await _redis.Scripts.ExecuteIntegerAsync(
+                    GetMasterStateScript,
+                    _scriptKeys,
+                    [(long) _masterTimeout.TotalMilliseconds],
+                    cancellationToken)
+                .ConfigureAwait(false);
+            return (DistributedMasterState) state;
+        }
+        catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+        {
+            _ = _diagnostics.ReportFailure("master liveness");
+            throw;
+        }
     }
 
     /// <summary>
@@ -535,13 +563,21 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     internal async Task SendMasterHeartbeatAsync(CancellationToken cancellationToken)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        await _redis.Scripts.ExecuteIntegerAsync(
-                MasterHeartbeatScript,
-                _scriptKeys,
-                [_keyExpirationMilliseconds],
-                cancellationToken)
-            .ConfigureAwait(false);
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await _redis.Scripts.ExecuteIntegerAsync(
+                    MasterHeartbeatScript,
+                    _scriptKeys,
+                    [_keyExpirationMilliseconds],
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception) when (RedisTransientRetry.IsTransient(exception))
+        {
+            _ = _diagnostics.ReportFailure("master heartbeat");
+            throw;
+        }
     }
 
     /// <summary>
@@ -572,6 +608,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
         await StopMasterHeartbeatAsync().ConfigureAwait(false);
         _masterHeartbeatCts.Dispose();
+        await _diagnostics.DisposeAsync().ConfigureAwait(false);
     }
 
     private async Task StopMasterHeartbeatAsync()
