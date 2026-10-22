@@ -12,6 +12,8 @@ internal static class GeneratorTestHarness
         ..
         ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
         .Split(Path.PathSeparator)
+        // Fixtures define these types themselves, even when the runtime supplies the assemblies.
+        .Where(static path => !Path.GetFileName(path).StartsWith("Microsoft.Extensions.", StringComparison.Ordinal))
         .Select(static path => MetadataReference.CreateFromFile(path)),
     ];
 
