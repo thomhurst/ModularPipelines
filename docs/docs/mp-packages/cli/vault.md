@@ -59,6 +59,8 @@ public class RunCommandModule : Module<CommandResult>
 | `vault auth tune` | `VaultAuthTuneOptions` |
 | `vault delete` | `VaultDeleteOptions` |
 | `vault events subscribe` | `VaultEventsSubscribeOptions` |
+| `vault hcp connect` | `VaultHcpConnectOptions` |
+| `vault hcp disconnect` | `VaultHcpDisconnectOptions` |
 | `vault kv` | `VaultKvOptions` |
 | `vault kv delete` | `VaultKvDeleteOptions` |
 | `vault kv destroy` | `VaultKvDestroyOptions` |
@@ -141,6 +143,7 @@ public class RunCommandModule : Module<CommandResult>
 | `vault policy read` | `VaultPolicyReadOptions` |
 | `vault policy write` | `VaultPolicyWriteOptions` |
 | `vault print` | `VaultPrintOptions` |
+| `vault print token` | `VaultPrintTokenOptions` |
 | `vault proxy` | `VaultProxyOptions` |
 | `vault read` | `VaultReadOptions` |
 | `vault secrets` | `VaultSecretsOptions` |
@@ -158,6 +161,13 @@ public class RunCommandModule : Module<CommandResult>
 | `vault token lookup` | `VaultTokenLookupOptions` |
 | `vault token renew` | `VaultTokenRenewOptions` |
 | `vault token revoke` | `VaultTokenRevokeOptions` |
+| `vault tpm` | `VaultTpmOptions` |
+| `vault tpm attest` | `VaultTpmAttestOptions` |
+| `vault tpm cleanup` | `VaultTpmCleanupOptions` |
+| `vault tpm ek` | `VaultTpmEkOptions` |
+| `vault tpm enroll` | `VaultTpmEnrollOptions` |
+| `vault tpm inspect` | `VaultTpmInspectOptions` |
+| `vault tpm reattest` | `VaultTpmReattestOptions` |
 | `vault transform` | `VaultTransformOptions` |
 | `vault transform import` | `VaultTransformImportOptions` |
 | `vault transform import-version` | `VaultTransformImportVersionOptions` |
