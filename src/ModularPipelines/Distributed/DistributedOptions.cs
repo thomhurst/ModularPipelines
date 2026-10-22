@@ -113,12 +113,18 @@ public sealed record DistributedOptions
     public int MinimumWorkerCount { get; init; }
 
     /// <summary>
-    /// Gets how long the master waits for a claimed module's result beyond the module's own
-    /// timeouts. The worker enforces the module's per-attempt timeout; the master's deadline starts
-    /// when a worker claims the module and allows every configured attempt plus this period.
-    /// Defaults to 45 minutes. Set to <see cref="Timeout.InfiniteTimeSpan"/> to wait indefinitely.
-    /// Zero and other negative durations are invalid.
+    /// Gets the master's backstop for a claimed module's result. Defaults to 45 minutes.
+    /// The deadline starts when a worker claims the module. For a finite per-attempt timeout,
+    /// it allows every configured attempt at that timeout plus this period. When the effective
+    /// per-attempt timeout is infinite or no module or pipeline timeout is configured, this period
+    /// is the entire deadline, so disabling the module timeout alone still leaves a finite backstop.
+    /// Zero and other negative durations except <see cref="Timeout.InfiniteTimeSpan"/> are invalid.
     /// </summary>
+    /// <remarks>
+    /// The worker enforces the per-attempt timeout independently. To remove both execution limits,
+    /// disable the module timeout and set this option to <see cref="Timeout.InfiniteTimeSpan"/>.
+    /// Worker and master liveness checks and backend retention limits still apply.
+    /// </remarks>
     public TimeSpan ModuleResultTimeout { get; init; } = TimeSpan.FromMinutes(45);
 
     /// <summary>
