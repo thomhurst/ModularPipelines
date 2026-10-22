@@ -55,6 +55,45 @@ public class ProgressSessionTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task StartAsync_Suppresses_Display_Exceptions_And_Only_Warns_For_Failures(bool cancellation)
+    {
+        Exception exception = cancellation
+            ? new OperationCanceledException()
+            : new InvalidOperationException("Progress rendering failed");
+        var console = new Mock<IAnsiConsole>();
+        console.SetupGet(value => value.ExclusivityMode).Throws(exception);
+        var logger = new Mock<ILogger>();
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory.Setup(factory => factory.CreateLogger(It.IsAny<string>())).Returns(logger.Object);
+        var coordinator = CreateCoordinator(Mock.Of<IOutputCoordinator>());
+        await using var session = new ProgressSession(
+            coordinator,
+            new OrganizedModules([], []),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            loggerFactory.Object,
+            console.Object,
+            CancellationToken.None);
+
+        await session.StartAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        await session.DisposeAsync();
+
+        console.VerifyGet(value => value.ExclusivityMode, Times.AtLeastOnce);
+        logger.Verify(value => value.Log(
+            LogLevel.Warning,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("Progress display")),
+            exception,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            cancellation ? Times.Never() : Times.Once());
+        if (cancellation)
+        {
+            logger.VerifyNoOtherCalls();
+        }
+    }
+
+    [Test]
     public async Task PauseAsync_CompletesImmediatelyWhenNoRefreshIsActive()
     {
         var outputCoordinator = new Mock<IOutputCoordinator>();

@@ -234,9 +234,9 @@ internal class ProgressSession : IProgressSession, IProgressController
         {
             // Expected on cancellation
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            // Suppress exceptions from progress display
+            _logger.LogWarning(exception, "Progress display stopped unexpectedly. Pipeline execution will continue.");
         }
         finally
         {
