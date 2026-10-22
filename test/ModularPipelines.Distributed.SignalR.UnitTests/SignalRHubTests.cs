@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -311,9 +312,10 @@ public class SignalRHubTests
         var endpoint = await test.Discovery.Endpoint;
 
         test.Discovery.Override = endpoint with { AccessToken = "wrong-token" };
-        await Assert.That(async () => await test.Factory.CreateWorkerAsync(
-                new CancellationTokenSource(TimeSpan.FromSeconds(3)).Token))
-            .Throws<Exception>();
+        using var cancellation = new CancellationTokenSource(Timeout);
+        var exception = await Assert.That(async () => await test.Factory.CreateWorkerAsync(cancellation.Token))
+            .Throws<HttpRequestException>();
+        await Assert.That(exception!.StatusCode).IsEqualTo(HttpStatusCode.Unauthorized);
 
         test.Discovery.Override = null;
         var worker = await test.ConnectWorkerAsync();

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Runtime.ExceptionServices;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -86,6 +87,11 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 logger.LogInformation("Connected to the distributed master");
                 return new SignalRWorkerCoordinator(connection, logger, GetReconnectTimeout(_options, _distributedOptions));
             }
+            catch (Exception ex) when (FindUnauthorizedException(ex) is { } unauthorized)
+            {
+                await connection.DisposeAsync().ConfigureAwait(false);
+                ExceptionDispatchInfo.Throw(unauthorized);
+            }
             catch (Exception ex) when (!timeoutCts.IsCancellationRequested)
             {
                 attempt++;
@@ -99,6 +105,30 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 throw;
             }
         }
+    }
+
+    private static HttpRequestException? FindUnauthorizedException(Exception exception)
+    {
+        if (exception is HttpRequestException { StatusCode: HttpStatusCode.Unauthorized } unauthorized)
+        {
+            return unauthorized;
+        }
+
+        // SignalR wraps transport startup failures, and an aggregate can contain multiple transports.
+        if (exception is AggregateException aggregate)
+        {
+            foreach (var inner in aggregate.InnerExceptions)
+            {
+                if (FindUnauthorizedException(inner) is { } found)
+                {
+                    return found;
+                }
+            }
+
+            return null;
+        }
+
+        return exception.InnerException is { } nested ? FindUnauthorizedException(nested) : null;
     }
 
     /// <summary>
