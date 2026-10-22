@@ -369,6 +369,11 @@ internal static class TaskCompletionAnalysis
 
         var protectedRegion = group.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Try);
         var input = GetInput(graph, graph.Blocks[protectedRegion.FirstBlockOrdinal], outputs, unstable, regionWrites);
+        if (GetEntryAwaitSymbol(graph.Blocks[protectedRegion.FirstBlockOrdinal], unstable) is { } awaited)
+        {
+            input.Add(awaited);
+        }
+
         // Only the protected body and earlier filters can write before
         // handler selection. Handler writes take effect when visited.
         input.ExceptWith(regionWrites[protectedRegion]);
@@ -380,6 +385,46 @@ internal static class TaskCompletionAnalysis
 
         return input;
     }
+
+    private static ISymbol? GetEntryAwaitSymbol(BasicBlock block, HashSet<ISymbol> unstable)
+    {
+        // A direct Task await at entry is the first possible throwing operation.
+        // Its task is complete on both normal and exceptional exits. Do not infer
+        // this for arbitrary operands: argument evaluation, WaitAsync, or invalid
+        // ConfigureAwait options can throw while the original task is still running.
+        if (block.Operations.FirstOrDefault() is not IExpressionStatementOperation { Operation: IAwaitOperation awaited })
+        {
+            return null;
+        }
+
+        var operand = awaited.Operation;
+        if (operand is IInvocationOperation { TargetMethod.Name: "ConfigureAwait", Instance: { } instance } configured
+            && IsTask(configured.TargetMethod.ContainingType)
+            && configured.Arguments.Length == 1
+            && IsNonThrowingConfiguration(configured.Arguments[0]))
+        {
+            operand = instance;
+        }
+
+        // Only identity and implicit reference conversions can precede the await
+        // without introducing a possible failing cast or user-defined conversion.
+        while (operand is IConversionOperation { OperatorMethod: null } conversion
+               && (conversion.Conversion.IsIdentity || (conversion.IsImplicit && conversion.Conversion.IsReference)))
+        {
+            operand = conversion.Operand;
+        }
+
+        return GetSymbol(operand) is { } symbol && !unstable.Contains(symbol) && IsTask(operand.Type) ? symbol : null;
+    }
+
+    private static bool IsNonThrowingConfiguration(IArgumentOperation argument) =>
+        (argument.Parameter?.Type.SpecialType == SpecialType.System_Boolean
+            && (argument.Value.ConstantValue.HasValue || GetSymbol(argument.Value) is not null))
+        // These flags are valid for both Task and Task<T>. SuppressThrowing is
+        // rejected by Task<T>, and a variable can contain unsupported flag bits.
+        || (argument.Parameter?.Type.ToDisplayString() == "System.Threading.Tasks.ConfigureAwaitOptions"
+            && argument.Value.ConstantValue is { HasValue: true, Value: int options }
+            && (options & ~5) == 0); // ContinueOnCapturedContext | ForceYielding
 
     private static ControlFlowRegion? GetEntryHandler(BasicBlock block)
     {

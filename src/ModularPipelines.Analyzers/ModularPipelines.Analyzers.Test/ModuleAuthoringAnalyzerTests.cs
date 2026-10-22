@@ -2630,7 +2630,6 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("await a; try { try { try { throw new Exception(); } finally { _ = {|#0:a.Result|}; } } catch (Exception) when (context != null) { } } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { }")]
     [DataRow("try { } finally { if (context != null) await a; } _ = {|#0:a.Result|};")]
     [DataRow("try { } finally { await a; a = GetTask(); } _ = {|#0:a.Result|};")]
-    [DataRow("try { } finally { try { await a; } catch { } } _ = {|#0:a.Result|};")]
     [DataRow("try { try { } finally { await a; } } finally { a = GetTask(); } _ = {|#0:a.Result|};")]
     [DataRow("try { throw new Exception(); } catch (Exception) when (!a.IsCompleted) { _ = {|#0:a.Result|}; }")]
     [DataRow("try { throw new Exception(); } catch (Exception) when (a.IsCompleted || b.IsCompleted) { _ = {|#0:a.Result|}; }")]
@@ -2700,6 +2699,50 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var value = new ValueTask<int>(1); await value; _ = {|#0:value.Result|};")]
     [DataRow("await CurrentTask; _ = {|#0:CurrentTask.Result|};")]
     public async Task Reports_Result_When_Task_Completion_Is_Not_Proven(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    [TestMethod]
+    [DataRow("try { await a; } catch { _ = a.Result; }")]
+    [DataRow("try { await a; } finally { _ = a.Result; }")]
+    [DataRow("try { await a; } catch { } _ = a.Result;")]
+    [DataRow("try { await a.ConfigureAwait(false); } catch { _ = a.Result; }")]
+    [DataRow("var captureContext = context != null; try { await a.ConfigureAwait(captureContext); } finally { _ = a.Result; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.None); } catch { _ = a.Result; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); } finally { _ = a.Result; }")]
+    [DataRow("try { await a; System.Console.WriteLine(1); } catch { _ = a.Result; }")]
+    [DataRow("try { await a; await b; } catch { _ = a.Result; }")]
+    [DataRow("try { await a; } catch (Exception) when (a.Result > 0) { _ = a.Result; }")]
+    [DataRow("try { await a; } catch { _ = a.Result; a = GetTask(); }")]
+    [DataRow("try { await a; } finally { _ = a.Result; a = GetTask(); }")]
+    [DataRow("try { try { await a; } catch { } } finally { _ = a.Result; }")]
+    [DataRow("try { } finally { try { await a; } catch { } } _ = a.Result;")]
+    public async Task Does_Not_Report_Result_After_Entry_Await_Throws(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("try { System.Console.WriteLine(1); await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await b; await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { if (context != null) await a; } finally { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.WaitAsync(cancellationToken); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await Task.WhenAll(a, GetTask()); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait((ConfigureAwaitOptions)8); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("var options = ConfigureAwaitOptions.None; try { await a.ConfigureAwait(options); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a.ConfigureAwait((a = GetTask()).IsCompleted); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("object captureContext = new object(); try { await a.ConfigureAwait((bool)captureContext); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await (a = GetTask()); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a; a = GetTask(); throw new Exception(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { await a; } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { try { await a; } finally { _ = {|#0:a.Result|}; } } catch (Exception) when ((a = GetTask()).IsCompleted) { } catch { }")]
+    [DataRow("try { await a; } catch { _ = {|#0:b.Result|}; }")]
+    public async Task Reports_Result_When_Protected_Region_Can_Throw_Before_Completion(string statements)
     {
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
             .WithLocation(0)
