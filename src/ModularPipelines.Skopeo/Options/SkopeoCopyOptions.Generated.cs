@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Skopeo.Enums;
 
@@ -178,7 +179,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// *Experimental* the 0-indexed layer indices, with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer)
     /// </summary>
     [CliOption("--encrypt-layer", Format = OptionFormat.EqualsSeparated)]
-    public string? EncryptLayer { get; set; }
+    public IEnumerable<string>? EncryptLayer { get; set; }
 
     /// <summary>
     /// *Experimental* key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
@@ -317,21 +318,15 @@ public record SkopeoCopyOptions : SkopeoOptions
     public string? SrcUsername { get; set; }
 
     /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
-
-    /// <summary>
     /// The SOURCE-IMAGE operand.
     /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string SourceImage { get; private init; }
 
     /// <summary>
     /// The DESTINATION-IMAGE operand.
     /// </summary>
-    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string DestinationImage { get; private init; }
 
 }

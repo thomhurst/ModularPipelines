@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Skopeo.Enums;
 
@@ -253,12 +254,6 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// </summary>
     [CliOption("--src-username", Format = OptionFormat.EqualsSeparated)]
     public string? SrcUsername { get; set; }
-
-    /// <summary>
-    /// The command options operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? CommandOptions { get; set; }
 
     /// <summary>
     /// The SOURCE operand.
