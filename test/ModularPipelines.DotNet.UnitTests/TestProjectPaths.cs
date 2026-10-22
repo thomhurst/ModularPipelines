@@ -6,9 +6,6 @@ internal static class TestProjectPaths
 {
     private static readonly string RepositoryRoot = FindRepositoryRoot();
 
-    public static FilePath CoreSolution { get; } = new(
-        Path.Combine(RepositoryRoot, "ModularPipelines.slnx"));
-
     public static FilePath TestsForTestsProject { get; } = new(Path.Combine(
         RepositoryRoot,
         "test",
