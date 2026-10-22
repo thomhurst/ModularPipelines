@@ -1020,6 +1020,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_HostDeath_KillsCommand()
     {
@@ -1045,6 +1046,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_BackgroundChild_LivesUntilPipelineDisposal()
     {
@@ -1068,6 +1070,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Timeout(30_000)]
     public async Task Command_Completes_When_Descendant_Keeps_Output_Open(CancellationToken cancellationToken)
@@ -1087,6 +1090,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_BackgroundChild_DiesWithHostAfterCommandCompletes()
     {
@@ -1107,6 +1111,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Arguments(0, false, 0)]
     [Arguments(0, false, 250)]
@@ -1156,6 +1161,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Arguments(false)]
     [Arguments(true)]
@@ -1204,6 +1210,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
@@ -1217,6 +1224,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_WindowsCancellation_DoesNotWaitForDefaultGracefulTimeout()
     {
@@ -1237,6 +1245,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_LogsEachTermination()
     {
@@ -1258,6 +1267,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsWhenTerminationLoggingThrows()
     {
@@ -1280,6 +1290,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Arguments("parent")]
     [Arguments("threaded-parent")]
@@ -1300,6 +1311,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [LinuxOnlyTest]
     [RequiresTool("dotnet")]
     public async Task ProcessTree_Discovers_Children_Spawned_By_Worker_Threads()
@@ -1317,6 +1329,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [UnixOnlyTest]
     [Timeout(30_000)]
@@ -1356,6 +1369,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Timeout(30_000)]
     public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout(
@@ -1481,6 +1495,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Arguments(false)]
     [Arguments(true)]
@@ -1547,6 +1562,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     [Arguments("startup-failure", "parent")]
     [Arguments("child-failure-parent", "failing-child")]
@@ -1560,6 +1576,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Reads_Identity_While_Publication_Handle_Is_Open()
     {
@@ -1579,6 +1596,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Cleans_Up_When_Readiness_Fails_Before_Cancellation()
     {
@@ -1597,6 +1615,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Waits_For_Retained_Process_When_Cleanup_Lookup_Fails()
     {
@@ -1625,6 +1644,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Cleans_Up_Child_Whose_Parent_Never_Published_It()
     {
@@ -1641,6 +1661,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Does_Not_Kill_A_Reused_Process_Id()
     {
@@ -1661,6 +1682,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Kills_Child_When_Identity_Publication_Fails()
     {
