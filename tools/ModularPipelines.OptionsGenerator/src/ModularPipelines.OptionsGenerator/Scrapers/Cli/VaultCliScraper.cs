@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -111,12 +112,21 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/vault/docs/commands",
             Options = options,
-            PositionalArguments = [.. GetPositionalArguments(usage, options).Select(argument => argument with
+            PositionalArguments = [.. GetPositionalArguments(usage, options).Select(argument =>
             {
-                IsSecret = argument.IsSecret
-                    || commandParts is ["login"] or ["unwrap"] or ["operator", "unseal"]
-                        or ["operator", "generate-root"] or ["operator", "rekey"]
-                    || GeneratorUtils.IsSecretOption(argument.PropertyName, false, argument.Description),
+                // Vault command groups use [args] for a trailing sequence without an ellipsis.
+                var trailingArgs = argument is { PropertyName: "Args", Phase: CommandLinePhase.Passthrough };
+                return argument with
+                {
+                    CSharpType = trailingArgs
+                        ? argument.IsRequired ? "IEnumerable<string>" : "IEnumerable<string>?"
+                        : argument.CSharpType,
+                    IsVariadic = argument.IsVariadic || trailingArgs,
+                    IsSecret = argument.IsSecret
+                        || commandParts is ["login"] or ["unwrap"] or ["operator", "unseal"]
+                            or ["operator", "generate-root"] or ["operator", "rekey"]
+                        || GeneratorUtils.IsSecretOption(argument.PropertyName, false, argument.Description),
+                };
             })],
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
@@ -275,7 +285,7 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
             CSharpType = csharpType,
             Description = description,
             IsFlag = isFlag,
-            IsRequired = false,
+            IsRequired = DescriptionDeclaresRequiredOption(description),
             AcceptsMultipleValues = repeatable,
             IsKeyValue = false,
             IsNumeric = false,
