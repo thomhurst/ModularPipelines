@@ -7,6 +7,15 @@ namespace ModularPipelines.Distributed;
 /// Module-facing API for artifact publishing and downloading.
 /// Access via <c>context.Artifacts</c>.
 /// </summary>
+/// <remarks>
+/// Real-filesystem artifact reads and restoration bind directory handles on Windows, Linux
+/// (x64/arm64) and macOS (x64/arm64), so concurrent symbolic-link or junction substitution cannot
+/// redirect file I/O. Unsupported platforms fail closed. The configured workspace, current
+/// directory and temporary directory are trusted anchors and may themselves resolve through aliases.
+/// Custom <see cref="IFileSystemProvider"/> implementations expose pathname operations only;
+/// concurrent mutation safety depends on the provider. Artifact operations reject links observed
+/// in provider metadata but cannot bind those checks atomically to provider I/O.
+/// </remarks>
 public interface IArtifactContext
 {
     /// <summary>
