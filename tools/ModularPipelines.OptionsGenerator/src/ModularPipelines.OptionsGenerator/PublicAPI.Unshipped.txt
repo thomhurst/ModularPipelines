@@ -350,3 +350,5 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetCommand
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExecuteVariantHelpCommandAsync(string![]! commandPath, string! variant, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.GetCommandVariants(string![]! commandPath) -> System.Collections.Generic.IReadOnlyList<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ExecuteVariantHelpCommandAsync(string![]! commandPath, string! variant, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
+ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SuppressOutputLoggingByDefault.get -> bool
+ModularPipelines.OptionsGenerator.Models.CliCommandDefinition.SuppressOutputLoggingByDefault.init -> void

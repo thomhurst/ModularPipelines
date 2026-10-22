@@ -127,6 +127,12 @@ public record CliCommandDefinition
     public bool IsDestructive { get; init; }
 
     /// <summary>
+    /// Whether generated service methods disable output logging when the caller has not supplied logging options.
+    /// Use for commands whose output contains credentials that may not be registered for secret masking.
+    /// </summary>
+    public bool SuppressOutputLoggingByDefault { get; init; }
+
+    /// <summary>
     /// C# expressions keyed by generated property name for a complete documentation example.
     /// </summary>
     public IReadOnlyDictionary<string, string> DocumentationExampleValues { get; init; } =

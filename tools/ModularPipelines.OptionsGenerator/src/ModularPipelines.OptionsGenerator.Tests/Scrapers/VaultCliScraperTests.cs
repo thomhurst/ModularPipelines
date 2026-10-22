@@ -439,6 +439,16 @@ public class VaultCliScraperTests
     private static string Fixture(string command, string version = "2.1.1") => File.ReadAllText(Path.Combine(
         AppContext.BaseDirectory, "Fixtures", "Vault", version, command.Replace(' ', '-') + ".txt"));
 
+    [Test]
+    [Arguments("print token", true)]
+    [Arguments("token create", false)]
+    [Arguments("read", false)]
+    public async Task Only_Print_Token_Suppresses_Output_Logging_By_Default(string commandName, bool expected)
+    {
+        var command = await ParseFixture(commandName);
+        await Assert.That(command.SuppressOutputLoggingByDefault).IsEqualTo(expected);
+    }
+
     private static async Task<CliCommandDefinition> ParseFixture(string command, string version = "2.1.1") =>
         (await new TestVaultCliScraper().ParseGroup(["vault", .. command.Split(' ')], Fixture(command, version)))!;
 
