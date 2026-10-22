@@ -169,7 +169,7 @@ internal static class TaskCompletionAnalysis
                 continue;
             }
 
-            var edge = GetEdgeState(predecessor, output, unstable, regionWrites);
+            var edge = GetEdgeState(graph, predecessor, output, outputs, unstable, regionWrites);
             if (input is null)
             {
                 input = edge;
@@ -184,8 +184,10 @@ internal static class TaskCompletionAnalysis
     }
 
     private static HashSet<ISymbol> GetEdgeState(
+        ControlFlowGraph graph,
         ControlFlowBranch predecessor,
         HashSet<ISymbol> output,
+        HashSet<ISymbol>?[] outputs,
         HashSet<ISymbol> unstable,
         Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
     {
@@ -198,14 +200,108 @@ internal static class TaskCompletionAnalysis
             AddGuardFacts(condition, conditionValue, edge, unstable);
         }
 
-        // Finally bodies execute implicitly on these edges. Preserve only facts
-        // about symbols they cannot write, regardless of the path through cleanup.
+        RemovePendingCleanupWrites(predecessor, edge, regionWrites);
+
+        // Cleanup can replace an incoming task, but it can also establish new
+        // completion facts. Only facts common to every normal exit survive.
         foreach (var region in predecessor.FinallyRegions)
         {
             edge.ExceptWith(regionWrites[region]);
+            edge.UnionWith(GetFinallyCompletion(graph, region, outputs, unstable, regionWrites));
         }
 
         return edge;
+    }
+
+    private static void RemovePendingCleanupWrites(
+        ControlFlowBranch branch,
+        HashSet<ISymbol> state,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        if (branch.Destination is not { } destination
+            || GetEntryHandler(destination) is not
+            { Kind: ControlFlowRegionKind.Catch, EnclosingRegion: { Kind: ControlFlowRegionKind.FilterAndHandler } filtered })
+        {
+            return;
+        }
+
+        var filter = filtered.NestedRegions.First(static region => region.Kind == ControlFlowRegionKind.Filter);
+        if (branch.Source.Ordinal < filter.FirstBlockOrdinal || branch.Source.Ordinal > filter.LastBlockOrdinal)
+        {
+            return;
+        }
+
+        // The successful filter runs before the search unwinds nested cleanup.
+        // Its guard facts cannot survive a task replacement during that unwind.
+        var protectedRegion = filtered.EnclosingRegion!.NestedRegions.First(static region => region.Kind == ControlFlowRegionKind.Try);
+        RemoveCleanupWrites(protectedRegion, state, regionWrites);
+    }
+
+    private static void RemoveCleanupWrites(
+        ControlFlowRegion region,
+        HashSet<ISymbol> state,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        if (region.Kind == ControlFlowRegionKind.Finally)
+        {
+            state.ExceptWith(regionWrites[region]);
+            return;
+        }
+
+        foreach (var nested in region.NestedRegions)
+        {
+            RemoveCleanupWrites(nested, state, regionWrites);
+        }
+    }
+
+    private static HashSet<ISymbol> GetFinallyCompletion(
+        ControlFlowGraph graph,
+        ControlFlowRegion region,
+        HashSet<ISymbol>?[] outputs,
+        HashSet<ISymbol> unstable,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        HashSet<ISymbol>? completion = null;
+        foreach (var exit in graph.Blocks.Skip(region.FirstBlockOrdinal)
+                     .Take(region.LastBlockOrdinal - region.FirstBlockOrdinal + 1)
+                     .Where(static block => block.IsReachable)
+                     .SelectMany(static block => new[] { block.FallThroughSuccessor, block.ConditionalSuccessor })
+                     .OfType<ControlFlowBranch>()
+                     .Where(branch => IsFinallyExit(branch, region)))
+        {
+            if (outputs[exit.Source.Ordinal] is not { } output)
+            {
+                continue;
+            }
+
+            var state = GetEdgeState(graph, exit, output, outputs, unstable, regionWrites);
+            if (completion is null)
+            {
+                completion = state;
+            }
+            else
+            {
+                completion.IntersectWith(state);
+            }
+        }
+
+        return completion ?? new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+    }
+
+    private static bool IsFinallyExit(ControlFlowBranch branch, ControlFlowRegion region)
+    {
+        if (branch.Semantics != ControlFlowBranchSemantics.StructuredExceptionHandling)
+        {
+            return false;
+        }
+
+        var enclosing = branch.Source.EnclosingRegion;
+        while (enclosing.Kind == ControlFlowRegionKind.LocalLifetime)
+        {
+            enclosing = enclosing.EnclosingRegion!;
+        }
+
+        return enclosing == region;
     }
 
     private static Dictionary<ControlFlowRegion, HashSet<ISymbol>> GetRegionWrites(
@@ -222,7 +318,7 @@ internal static class TaskCompletionAnalysis
         ControlFlowGraph graph,
         Dictionary<ControlFlowRegion, HashSet<ISymbol>> writes)
     {
-        if (region.Kind is ControlFlowRegionKind.TryAndCatch or ControlFlowRegionKind.TryAndFinally or ControlFlowRegionKind.Finally)
+        if (region.Kind is ControlFlowRegionKind.Try or ControlFlowRegionKind.Filter or ControlFlowRegionKind.Finally)
         {
             writes.Add(region, GetWrittenSymbols(graph.Blocks
                 .Skip(region.FirstBlockOrdinal)
@@ -252,30 +348,102 @@ internal static class TaskCompletionAnalysis
         HashSet<ISymbol> unstable,
         Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
     {
+        var region = GetEntryHandler(block);
+        if (region is null)
+        {
+            return null;
+        }
+
+        var group = region.EnclosingRegion!;
+        if (group.Kind == ControlFlowRegionKind.FilterAndHandler)
+        {
+            // A filtered catch is reached only through its successful filter
+            // edge, including guard facts and writes from that evaluation.
+            if (region.Kind == ControlFlowRegionKind.Catch)
+            {
+                return null;
+            }
+
+            group = group.EnclosingRegion!;
+        }
+
+        var protectedRegion = group.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Try);
+        var input = GetInput(graph, graph.Blocks[protectedRegion.FirstBlockOrdinal], outputs, unstable, regionWrites);
+        // Only the protected body and earlier filters can write before
+        // handler selection. Handler writes take effect when visited.
+        input.ExceptWith(regionWrites[protectedRegion]);
+        RemoveEarlierFilterWrites(region, group, input, regionWrites);
+        if (region.Kind == ControlFlowRegionKind.Finally)
+        {
+            RemoveOuterFilterWrites(group, input, regionWrites);
+        }
+
+        return input;
+    }
+
+    private static ControlFlowRegion? GetEntryHandler(BasicBlock block)
+    {
         for (var region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
         {
-            if (block.Ordinal != region.FirstBlockOrdinal
-                || region.Kind is not (ControlFlowRegionKind.Catch or ControlFlowRegionKind.Filter or ControlFlowRegionKind.Finally))
+            if (block.Ordinal == region.FirstBlockOrdinal
+                && region.Kind is ControlFlowRegionKind.Catch or ControlFlowRegionKind.Filter or ControlFlowRegionKind.Finally)
+            {
+                return region;
+            }
+        }
+
+        return null;
+    }
+
+    private static void RemoveEarlierFilterWrites(
+        ControlFlowRegion handler,
+        ControlFlowRegion group,
+        HashSet<ISymbol> input,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        foreach (var sibling in group.NestedRegions)
+        {
+            if (sibling == handler || sibling == handler.EnclosingRegion)
+            {
+                break;
+            }
+
+            RemoveFilterWrites(sibling, input, regionWrites);
+        }
+    }
+
+    private static void RemoveOuterFilterWrites(
+        ControlFlowRegion region,
+        HashSet<ISymbol> input,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        // Exception filters run during the search pass, before nested finally
+        // bodies unwind. Even a false or throwing filter can replace a task.
+        for (var ancestor = region.EnclosingRegion; ancestor is not null; ancestor = ancestor.EnclosingRegion)
+        {
+            if (ancestor.Kind != ControlFlowRegionKind.Try
+                || ancestor.EnclosingRegion is not { Kind: ControlFlowRegionKind.TryAndCatch } group)
             {
                 continue;
             }
 
-            var group = region.EnclosingRegion!;
-            if (group.Kind == ControlFlowRegionKind.FilterAndHandler)
+            foreach (var sibling in group.NestedRegions)
             {
-                group = group.EnclosingRegion!;
+                RemoveFilterWrites(sibling, input, regionWrites);
             }
-
-            var protectedRegion = group.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Try);
-            var input = GetInput(graph, graph.Blocks[protectedRegion.FirstBlockOrdinal], outputs, unstable, regionWrites);
-            // Only facts dominating the protected region can hold on every
-            // exceptional entry. Any write, including in earlier filters or
-            // nested cleanup, can change the task before this handler executes.
-            input.ExceptWith(regionWrites[group]);
-            return input;
         }
+    }
 
-        return null;
+    private static void RemoveFilterWrites(
+        ControlFlowRegion region,
+        HashSet<ISymbol> input,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
+    {
+        if (region.Kind == ControlFlowRegionKind.FilterAndHandler)
+        {
+            var filter = region.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Filter);
+            input.ExceptWith(regionWrites[filter]);
+        }
     }
 
     private static void VisitBlock(
