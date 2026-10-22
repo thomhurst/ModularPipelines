@@ -103,7 +103,7 @@ public class AlwaysRunTests : TestBase
             await Assert.That(result1.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(result2.Status).IsEqualTo(ModuleStatus.Failed);
             await Assert.That(result3.Status).IsEqualTo(ModuleStatus.Failed);
-            await Assert.That(result4.Status).IsNotEqualTo(ModuleStatus.NotStarted);
+            await Assert.That(result4.Status).IsEqualTo(ModuleStatus.Failed);
         }
     }
 
