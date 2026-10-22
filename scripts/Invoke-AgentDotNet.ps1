@@ -6,12 +6,27 @@ Runs a local dotnet command with workstation-safe limits for autonomous agents.
 Disables reusable MSBuild/Roslyn servers, optionally limits MSBuild to one node,
 uses below-normal priority, and kills the full process tree when time or memory
 limits are exceeded. Exit 124 means timeout; exit 137 means memory limit.
+Use -LogPath to capture child stdout/stderr in a combined UTF-8 log instead of
+the terminal. Parent directories are created and an existing log is overwritten.
+Ordinary PowerShell stream redirection around this script does not capture the
+child's inherited native output handles.
 
 .EXAMPLE
 & scripts/Invoke-AgentDotNet.ps1 -SingleNode `
     -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 
 Invoke in-process so -DotNetArguments receives the array intact; see AGENTS.md.
+
+.EXAMPLE
+& scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+    -LogPath D:/git/ModularPipelines-evidence/issue-1234/build.log `
+    -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
+
+Captures both child streams while retaining the command's exit code and limits.
+Output order within each stream is preserved; cross-stream ordering is unspecified.
+After process cleanup, output drains for at most five seconds. If an escaped
+descendant keeps a pipe open, capture stops with a diagnostic and may be truncated;
+the command's exit code is preserved.
 #>
 
 [CmdletBinding(PositionalBinding = $false)]
@@ -30,11 +45,113 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$DotNetPath = 'dotnet',
 
+    [ValidateNotNullOrEmpty()]
+    [string]$LogPath,
+
     [Parameter(Mandatory, ValueFromRemainingArguments)]
     [string[]]$DotNetArguments
 )
 
 $ErrorActionPreference = 'Stop'
+
+if ($LogPath) {
+    Add-Type -TypeDefinition @'
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+public sealed class AgentDotNetOutputLog : IDisposable
+{
+    private readonly object writeLock = new object();
+    private readonly Task outputTask;
+    private TextWriter writer;
+
+    public AgentDotNetOutputLog(Process process, TextWriter writer)
+    {
+        this.writer = writer;
+        // Use .NET tasks rather than PowerShell callbacks, which need a runspace.
+        // Both pipes must be drained concurrently, even when one is very busy.
+        outputTask = Task.WhenAll(
+            Task.Run(() => CopyAsync(process.StandardOutput)),
+            Task.Run(() => CopyAsync(process.StandardError)));
+
+        // Closing the readers after a drain timeout can fault abandoned reads.
+        // Observe those faults without making shutdown wait for the tasks again.
+        _ = outputTask.ContinueWith(
+            task => { _ = task.Exception; },
+            CancellationToken.None,
+            TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
+    }
+
+    public bool Complete(int timeoutMilliseconds)
+    {
+        return outputTask.Wait(timeoutMilliseconds);
+    }
+
+    public void Dispose()
+    {
+        // Synchronize with every write before the caller disposes the log.
+        // Late reads can never write to a disposed writer, even if closing
+        // their pipe takes time to complete the asynchronous operation.
+        lock (writeLock)
+        {
+            writer = null;
+        }
+    }
+
+    private void Write(char[] buffer, int start, int count)
+    {
+        lock (writeLock)
+        {
+            writer?.Write(buffer, start, count);
+        }
+    }
+
+    private async Task CopyAsync(StreamReader reader)
+    {
+        var buffer = new char[4096];
+        int buffered = 0;
+        while (true)
+        {
+            int read = await reader.ReadAsync(buffer, buffered, buffer.Length - buffered)
+                .ConfigureAwait(false);
+            int length = buffered + read;
+            if (read == 0)
+            {
+                Write(buffer, 0, length);
+                return;
+            }
+
+            // Keep normal log lines together, but bound memory even for output
+            // with no newlines. Never interleave the halves of a surrogate pair.
+            int start = 0;
+            for (int index = 0; index < length; index++)
+            {
+                if (buffer[index] == '\n')
+                {
+                    Write(buffer, start, index - start + 1);
+                    start = index + 1;
+                }
+            }
+
+            buffered = length - start;
+            if (buffered == buffer.Length)
+            {
+                int count = char.IsHighSurrogate(buffer[length - 1]) ? length - 1 : length;
+                Write(buffer, 0, count);
+                start = count;
+                buffered -= count;
+            }
+
+            Array.Copy(buffer, start, buffer, 0, buffered);
+        }
+    }
+}
+'@
+}
 
 if ($IsWindows) {
     Add-Type -TypeDefinition @'
@@ -611,6 +728,12 @@ $wrapperPrologue = "`$dotnetPath = $(ConvertTo-PowerShellLiteral $DotNetPath)`n"
 $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
 $startInfo.UseShellExecute = $false
 $startInfo.WorkingDirectory = $workingDirectory
+if ($LogPath) {
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $startInfo.StandardOutputEncoding = [System.Text.UTF8Encoding]::new($false)
+    $startInfo.StandardErrorEncoding = [System.Text.UTF8Encoding]::new($false)
+}
 $startInfo.Environment['BuildInParallel'] = 'false'
 $startInfo.Environment['DOTNET_CLI_TELEMETRY_OPTOUT'] = '1'
 $startInfo.Environment['DOTNET_CLI_USE_MSBUILD_SERVER'] = '0'
@@ -709,8 +832,27 @@ $finalExitCode = 1
 $windowsJobHandle = [IntPtr]::Zero
 $windowsStartGate = $null
 $unixProcessGroupId = 0
+$logWriter = $null
+$outputCapture = $null
+
+function Write-GuardError([string]$Message) {
+    [Console]::Error.WriteLine($Message)
+    if ($null -ne $logWriter) {
+        $logWriter.WriteLine($Message)
+    }
+}
 
 try {
+    if ($LogPath) {
+        # Resolve against the caller's PowerShell location, just like the command.
+        $resolvedLogPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($LogPath)
+        $null = [System.IO.Directory]::CreateDirectory([System.IO.Path]::GetDirectoryName($resolvedLogPath))
+        $fileWriter = [System.IO.StreamWriter]::new(
+            $resolvedLogPath, $false, [System.Text.UTF8Encoding]::new($false))
+        $fileWriter.AutoFlush = $true
+        $logWriter = [System.IO.TextWriter]::Synchronized($fileWriter)
+    }
+
     # -File works on supported PowerShell versions; -CommandWithArgs was
     # experimental before PowerShell 7.5.
     [System.IO.File]::WriteAllText(
@@ -731,6 +873,10 @@ try {
     }
 
     $processStarted = $true
+    if ($null -ne $logWriter) {
+        $outputCapture = [AgentDotNetOutputLog]::new($process, $logWriter)
+    }
+
     if ($IsWindows) {
         [AgentDotNetWindowsJob]::Assign($windowsJobHandle, $process.Handle)
     }
@@ -756,16 +902,14 @@ try {
 
         if ($workingSetBytes -gt $memoryLimitBytes) {
             $workingSetMb = [math]::Round($workingSetBytes / 1MB)
-            [Console]::Error.WriteLine(
-                "Agent dotnet command exceeded ${MemoryLimitMb} MB process-tree limit (${workingSetMb} MB).")
+            Write-GuardError "Agent dotnet command exceeded ${MemoryLimitMb} MB process-tree limit (${workingSetMb} MB)."
             $guardExitCode = 137
             break
         }
 
         $remaining = $deadline - [DateTimeOffset]::UtcNow
         if ($remaining -le [TimeSpan]::Zero) {
-            [Console]::Error.WriteLine(
-                "Agent dotnet command exceeded ${TimeoutSeconds}s timeout.")
+            Write-GuardError "Agent dotnet command exceeded ${TimeoutSeconds}s timeout."
             $guardExitCode = 124
             break
         }
@@ -778,8 +922,7 @@ try {
             Sync-TrackedProcesses $trackedProcesses @($treeState.Snapshot) @($treeState.Processes)
 
             if ([DateTimeOffset]::UtcNow -gt $deadline) {
-                [Console]::Error.WriteLine(
-                    "Agent dotnet command exceeded ${TimeoutSeconds}s timeout.")
+                Write-GuardError "Agent dotnet command exceeded ${TimeoutSeconds}s timeout."
                 $guardExitCode = 124
             }
 
@@ -796,26 +939,44 @@ try {
     }
 }
 finally {
-    if ($processStarted) {
-        Stop-ProcessTree `
-            -RootProcess $process `
-            -TrackedProcesses $trackedProcesses `
-            -WindowsJobHandle $windowsJobHandle `
-            -UnixProcessGroupId $unixProcessGroupId
-        $windowsJobHandle = [IntPtr]::Zero
-    }
-    elseif ($windowsJobHandle -ne [IntPtr]::Zero) {
-        [AgentDotNetWindowsJob]::Close($windowsJobHandle)
-    }
+    try {
+        if ($processStarted) {
+            Stop-ProcessTree `
+                -RootProcess $process `
+                -TrackedProcesses $trackedProcesses `
+                -WindowsJobHandle $windowsJobHandle `
+                -UnixProcessGroupId $unixProcessGroupId
+            $windowsJobHandle = [IntPtr]::Zero
+        }
+        elseif ($windowsJobHandle -ne [IntPtr]::Zero) {
+            [AgentDotNetWindowsJob]::Close($windowsJobHandle)
+        }
 
-    if ($null -ne $windowsStartGate) {
-        $windowsStartGate.Dispose()
+        # Escaped descendants may retain a pipe even after process-tree cleanup.
+        # Bound the drain, detach the writer, and let Process.Dispose close both
+        # readers without allowing late capture writes to touch the disposed log.
+        if ($null -ne $outputCapture -and -not $outputCapture.Complete(5000)) {
+            Write-GuardError 'Agent dotnet output drain exceeded 5s after process cleanup; the log may be truncated.'
+        }
     }
+    finally {
+        if ($null -ne $outputCapture) {
+            $outputCapture.Dispose()
+        }
 
-    $process.Dispose()
+        if ($null -ne $logWriter) {
+            $logWriter.Dispose()
+        }
 
-    if (Test-Path -LiteralPath $wrapperPath) {
-        Remove-Item -LiteralPath $wrapperPath -Force -ErrorAction SilentlyContinue
+        if ($null -ne $windowsStartGate) {
+            $windowsStartGate.Dispose()
+        }
+
+        $process.Dispose()
+
+        if (Test-Path -LiteralPath $wrapperPath) {
+            Remove-Item -LiteralPath $wrapperPath -Force -ErrorAction SilentlyContinue
+        }
     }
 }
 

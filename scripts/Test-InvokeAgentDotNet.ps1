@@ -1,3 +1,5 @@
+param([switch]$OutputCaptureOnly)
+
 $ErrorActionPreference = 'Stop'
 
 $guardScript = Join-Path $PSScriptRoot 'Invoke-AgentDotNet.ps1'
@@ -99,15 +101,19 @@ function Invoke-Guard(
     [string]$DotNetPath = $pwshPath,
     [switch]$SingleNode,
     [string]$Location,
+    [string]$LogPath,
     [string]$ReadyPath,
-    [string]$WaitsPath) {
+    [string]$WaitsPath,
+    [int]$OuterTimeoutSeconds = 0) {
     $invocationScript = $guardScript
     if ($ReadyPath) {
         $invocationScript = Write-ReadyGuard -ReadyPath $ReadyPath -WaitsPath $WaitsPath
     }
 
     $argumentLiterals = ($Arguments | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ', '
-    $command = ''
+    # A setup/parameter error must fail the subprocess rather than reaching
+    # `exit $LASTEXITCODE` with an unset or stale native-command exit code.
+    $command = '$ErrorActionPreference = ''Stop''; '
     if ($Location) {
         # Only the PowerShell location changes; the process working directory stays
         # where the test runner started, which is exactly the agent-worktree scenario.
@@ -123,9 +129,39 @@ function Invoke-Guard(
         $command += '-SingleNode '
     }
 
+    if ($LogPath) {
+        $command += "-LogPath $(ConvertTo-PowerShellLiteral $LogPath) "
+    }
+
     $command += "-DotNetArguments @($argumentLiterals)"
     $command += '; exit $LASTEXITCODE'
     $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
+
+    if ($OuterTimeoutSeconds -gt 0) {
+        $startInfo = [System.Diagnostics.ProcessStartInfo]::new($pwshPath)
+        $startInfo.UseShellExecute = $false
+        $startInfo.CreateNoWindow = $true
+        foreach ($argument in @('-NoProfile', '-OutputFormat', 'Text', '-EncodedCommand', $encodedCommand)) {
+            $startInfo.ArgumentList.Add($argument)
+        }
+
+        $guard = [System.Diagnostics.Process]::Start($startInfo)
+        try {
+            if (-not $guard.WaitForExit($OuterTimeoutSeconds * 1000)) {
+                throw "Guard did not exit within the ${OuterTimeoutSeconds}s outer test deadline."
+            }
+
+            return $guard.ExitCode
+        }
+        finally {
+            if (-not $guard.HasExited) {
+                $guard.Kill($true)
+                $guard.WaitForExit()
+            }
+
+            $guard.Dispose()
+        }
+    }
 
     & $pwshPath -NoProfile -OutputFormat Text -EncodedCommand $encodedCommand
     return $LASTEXITCODE
@@ -280,6 +316,198 @@ try {
         }
     }
 
+    # Use an evidence-style path with spaces and quotes, relative to the caller's
+    # PowerShell location, with parent directories the guard must create.
+    $outputScript = Join-Path $testRoot 'Write-Output.ps1'
+    $relativeLogPath = "evidence logs/agent's output.log"
+    $outputLogPath = Join-Path $testRoot $relativeLogPath
+    @'
+param([int]$ExitCode)
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+for ($index = 0; $index -lt 512; $index++) {
+    [Console]::Out.WriteLine("stdout-$index-" + ('é雪😀' * 256))
+    [Console]::Error.WriteLine("stderr-$index-" + ('é雪😀' * 256))
+}
+[Console]::Out.Write('stdout-tail')
+[Console]::Error.Write('stderr-tail')
+exit $ExitCode
+'@ | Set-Content -LiteralPath $outputScript
+
+    foreach ($expectedExitCode in @(0, 23)) {
+        $guardExitCode = Invoke-Guard `
+            -TimeoutSeconds 30 `
+            -MemoryLimitMb 512 `
+            -PollIntervalMilliseconds 100 `
+            -Location $testRoot `
+            -LogPath $relativeLogPath `
+            -Arguments @('-NoProfile', '-File', $outputScript, "$expectedExitCode")
+
+        if ($guardExitCode -ne $expectedExitCode) {
+            throw "Logged command returned $guardExitCode instead of $expectedExitCode."
+        }
+
+        $log = Get-Content -LiteralPath $outputLogPath -Raw
+        foreach ($stream in @('stdout', 'stderr')) {
+            $records = [regex]::Matches($log, "$stream-\d+-[^\r\n]*")
+            if ($records.Count -ne 512) {
+                throw "Log contains $($records.Count) $stream records instead of 512."
+            }
+
+            for ($index = 0; $index -lt 512; $index++) {
+                $expected = "$stream-$index-" + ('é雪😀' * 256)
+                if ($records[$index].Value -cne $expected) {
+                    throw "Log lost, corrupted, reordered, or duplicated $stream record $index."
+                }
+            }
+
+            if ([regex]::Matches($log, "$stream-tail").Count -ne 1) {
+                throw "Log lost or duplicated the unterminated $stream tail."
+            }
+        }
+    }
+
+    Write-Output 'OK combined output, Unicode, unterminated tails, overwrite, paths, and command exit codes.'
+
+    # Exercise bounded chunks as well as complete lines, including a surrogate
+    # pair straddling the first chunk boundary and output with no final newline.
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', @'
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+[Console]::Out.Write(('A' * 4095) + '😀' + ('B' * 16384))
+[Console]::Error.Write('雪' * 16384)
+'@)
+    if ($guardExitCode -ne 0) {
+        throw "Unterminated output command failed with exit code $guardExitCode."
+    }
+
+    $log = Get-Content -LiteralPath $outputLogPath -Raw
+    if ([regex]::Matches($log, 'A').Count -ne 4095 -or
+        [regex]::Matches($log, 'B').Count -ne 16384 -or
+        [regex]::Matches($log, '雪').Count -ne 16384 -or
+        [regex]::Matches($log, '😀').Count -ne 1 -or
+        $log.Length -ne (4095 + 2 + 16384 + 16384)) {
+        throw 'Unterminated output was lost, duplicated, or corrupted at a chunk boundary.'
+    }
+
+    Write-Output 'OK bounded output chunks and surrogate-pair boundaries.'
+
+    # An invalid log destination must fail before any child command runs.
+    $invalidLogPath = Join-Path $outputScript 'output.log'
+    $failure = @(Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $invalidLogPath `
+        -Arguments @('-NoProfile', '-Command',
+            "[IO.File]::WriteAllText($(ConvertTo-PowerShellLiteral $capturePath), 'unexpected')") 2>&1)
+    if ($failure[-1] -ne 1 -or (Test-Path -LiteralPath $capturePath)) {
+        throw 'An invalid log destination did not fail before child launch.'
+    }
+
+    Write-Output 'OK invalid log destination fails before launch.'
+
+    # Leave startup slack in this logging test; the existing timeout tests below
+    # separately exercise short deadlines and descendant termination.
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 10 `
+        -MemoryLimitMb 512 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', @'
+[Console]::Out.Write('stdout-tail')
+[Console]::Error.Write('stderr-tail')
+Start-Sleep -Seconds 60
+'@)
+    if ($guardExitCode -ne 124) {
+        throw "Logged timeout returned $guardExitCode instead of 124."
+    }
+
+    $log = Get-Content -LiteralPath $outputLogPath -Raw
+    if ($log -notmatch 'stdout-tail' -or $log -notmatch 'stderr-tail' -or
+        $log -notmatch 'exceeded 10s timeout') {
+        throw 'Timeout cleanup did not drain partial output and its diagnostic to the log.'
+    }
+
+    $guardExitCode = Invoke-Guard `
+        -TimeoutSeconds 30 `
+        -MemoryLimitMb 64 `
+        -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
+        -Arguments @('-NoProfile', '-Command', 'Start-Sleep -Seconds 60')
+    if ($guardExitCode -ne 137) {
+        throw "Logged memory limit returned $guardExitCode instead of 137."
+    }
+
+    if ((Get-Content -LiteralPath $outputLogPath -Raw) -notmatch 'exceeded 64 MB process-tree limit') {
+        throw 'Memory-limit diagnostic was not captured in the log.'
+    }
+
+    Write-Output 'OK logged timeout and memory-limit exit codes, diagnostics, and partial output.'
+
+    if ($IsLinux) {
+        # A short-lived intermediate shell reparents the new session before the
+        # guarded shell waits or exits, leaving both pipes outside its tracked tree.
+        $escapedPidPath = Join-Path $testRoot 'escaped.pid'
+        foreach ($expectedExitCode in @(23, 124)) {
+            try {
+                $shellCommand = '(setsid /bin/sh -c ''echo $$ > "$1"; ' +
+                    'printf "escaped-stdout\n"; printf "escaped-stderr\n" >&2; exec sleep 90'' ' +
+                    'sh "$1" < /dev/null & ); '
+                $shellCommand += if ($expectedExitCode -eq 23) { 'exit 23' } else { 'sleep 90' }
+                # Allow the PowerShell wrapper to start even on a loaded host.
+                # The regression targets the drain deadline, not startup speed.
+                $timeoutSeconds = if ($expectedExitCode -eq 23) { 30 } else { 15 }
+                $guardExitCode = Invoke-Guard `
+                    -TimeoutSeconds $timeoutSeconds `
+                    -MemoryLimitMb 512 `
+                    -PollIntervalMilliseconds 10000 `
+                    -DotNetPath '/bin/sh' `
+                    -LogPath $outputLogPath `
+                    -OuterTimeoutSeconds 40 `
+                    -Arguments @('-c', $shellCommand, 'sh', $escapedPidPath)
+
+                if ($guardExitCode -ne $expectedExitCode) {
+                    throw "Escaped-pipe command returned $guardExitCode instead of $expectedExitCode."
+                }
+
+                $log = Get-Content -LiteralPath $outputLogPath -Raw
+                if ($log -notmatch 'escaped-stdout' -or $log -notmatch 'escaped-stderr' -or
+                    $log -notmatch 'output drain exceeded 5s') {
+                    throw 'Escaped-pipe cleanup did not capture both streams and the drain warning.'
+                }
+
+                if ($expectedExitCode -eq 124 -and $log -notmatch 'exceeded 15s timeout') {
+                    throw 'Escaped-pipe cleanup lost the timeout diagnostic.'
+                }
+            }
+            finally {
+                if (Test-Path -LiteralPath $escapedPidPath) {
+                    $escapedProcess = [System.Diagnostics.Process]::GetProcessById(
+                        [int](Get-Content -LiteralPath $escapedPidPath -Raw))
+                    try {
+                        $escapedProcess.Kill($true)
+                        $escapedProcess.WaitForExit()
+                    }
+                    finally {
+                        $escapedProcess.Dispose()
+                    }
+
+                    Remove-Item -LiteralPath $escapedPidPath -Force
+                }
+            }
+        }
+
+        Write-Output 'OK bounded drain with escaped inherited pipes on normal exit and timeout.'
+    }
+
+    if ($OutputCaptureOnly) {
+        return
+    }
+
     @'
 param(
     [string]$OutputPath,
@@ -411,6 +639,7 @@ if (-not $ExitAfterSpawn) {
         -TimeoutSeconds 30 `
         -MemoryLimitMb 512 `
         -PollIntervalMilliseconds 100 `
+        -LogPath $outputLogPath `
         -ReadyPath $normalExitChildPidPath `
         -WaitsPath $waitsPath `
         -Arguments @('-NoProfile', '-File', $timeoutScript, $normalExitChildPidPath, '1')
@@ -567,7 +796,7 @@ while ($true) { Start-Sleep -Seconds 60 }
         throw "Memory limit returned $guardExitCode instead of 137."
     }
 
-    Write-Output 'OK forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
+    Write-Output 'OK output capture, exit codes, forwarding, worktree working directory, single-node arguments, normal-exit cleanup, bounded timeout, timeout cleanup, and memory limit passed.'
 }
 finally {
     foreach ($pidPath in @($childPidPath, $normalExitChildPidPath, $orphanPidPath, $boundedChildPidPath)) {
