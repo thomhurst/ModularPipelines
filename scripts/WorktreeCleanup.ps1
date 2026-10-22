@@ -1,6 +1,6 @@
 # WorktreeCleanup.ps1
-# Shared worktree-removal helper, dot-sourced by Merge-Pr.ps1 and
-# Remove-MergedWorktrees.ps1. Not meant to be run directly.
+# Shared worktree-removal helper, dot-sourced by Merge-Pr.ps1, Remove-MergedWorktrees.ps1,
+# Remove-ReleasedWorktree.ps1 and AgentLocks.ps1. Not meant to be run directly.
 #
 # Removal policy (one place, both callers):
 #   - PRESERVE tracked changes and untracked/ignored files outside known generated paths.
@@ -119,6 +119,19 @@ function Test-SameNativePath {
     catch {
         return $false
     }
+}
+
+# `git worktree add` copies the source checkout's config.worktree into the new worktree,
+# so an agent.lockName marker counts only in the worktree that agent.lockWorktree names.
+function Test-WorktreeLockMarkerOwner {
+    param([Parameter(Mandatory)][string]$Worktree)
+
+    $owner = git -C $Worktree config --worktree --get agent.lockWorktree 2>$null
+    if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
+    if ([string]::IsNullOrWhiteSpace($owner)) { return $false }
+    $top = git -C $Worktree rev-parse --show-toplevel 2>$null
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($top)) { throw "Cannot resolve worktree root: $Worktree" }
+    return Test-SameNativePath -Left $owner.Trim() -Right $top
 }
 
 function Get-PrNumberFromWorktreePath {
@@ -276,7 +289,9 @@ function Get-WorktreeAgentLockNames {
         if ($extension -eq 'true') {
             $marker = git -C $Worktree config --worktree --get agent.lockName 2>$null
             if ($LASTEXITCODE -notin @(0, 1)) { throw 'Cannot inspect worktree ownership marker.' }
-            if (-not [string]::IsNullOrWhiteSpace($marker)) { [void]$names.Add($marker.Trim()) }
+            if (-not [string]::IsNullOrWhiteSpace($marker) -and (Test-WorktreeLockMarkerOwner -Worktree $Worktree)) {
+                [void]$names.Add($marker.Trim())
+            }
         }
     }
 
@@ -484,6 +499,58 @@ function Remove-WorktreeDirectory {
 
     git -C $Repo worktree prune 2>$null | Out-Null
     return -not (Test-Path -LiteralPath $Worktree)
+}
+
+# AGENT EVIDENCE
+# Agents keep logs, reports and PR-body drafts for a work item under
+# <main checkout>-evidence/<lock name>/, beside the worktree root, so nothing lands
+# loose in the parent directory. Evidence matters only while its item is active.
+function Get-AgentEvidenceRoot {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$MainCheckout)
+
+    return "$(($MainCheckout -replace '\\', '/').TrimEnd('/'))-evidence"
+}
+
+# Removes each top-level entry of the evidence root whose newest write is older than
+# the retention window. Returns the number of entries removed (or that would be).
+function Remove-StaleAgentEvidence {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$Root,
+        [Parameter(Mandatory)][int]$RetentionDays,
+        [switch]$WhatIf
+    )
+
+    if (-not (Test-Path -LiteralPath $Root -PathType Container)) { return 0 }
+    $cutoff = [DateTime]::UtcNow.AddDays(-$RetentionDays)
+    $removed = 0
+    foreach ($entry in (Get-ChildItem -LiteralPath $Root -Force -ErrorAction SilentlyContinue)) {
+        if (($entry.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Write-Host "sweep: skipping evidence entry that is a link: $($entry.FullName)"
+            continue
+        }
+        $items = @($entry)
+        if ($entry.PSIsContainer) {
+            $items += @(Get-ChildItem -LiteralPath $entry.FullName -Recurse -Force -ErrorAction SilentlyContinue)
+        }
+        $newest = ($items | Measure-Object -Property LastWriteTimeUtc -Maximum).Maximum
+        if ($newest -ge $cutoff) { continue }
+        if ($WhatIf) {
+            Write-Host "sweep: WOULD remove stale evidence $($entry.FullName)"
+            $removed++
+            continue
+        }
+        if ($entry.PSIsContainer -and -not (Remove-WorktreeDirectoryLinks -Worktree $entry.FullName -Label '(evidence)')) { continue }
+        Remove-Item -LiteralPath $entry.FullName -Recurse -Force -ErrorAction SilentlyContinue
+        if (Test-Path -LiteralPath $entry.FullName) {
+            Write-Host "sweep: WARNING could not remove stale evidence $($entry.FullName)"
+            continue
+        }
+        Write-Host "sweep: removed stale evidence $($entry.FullName)"
+        $removed++
+    }
+    return $removed
 }
 
 # PENDING REMOVALS

@@ -11,6 +11,7 @@ $repo = Join-Path $testRoot 'repo'
 $issueWorktree = Join-Path $testRoot 'issue'
 $worktreeA = Join-Path $testRoot 'marker-a'
 $worktreeB = Join-Path $testRoot 'marker-b'
+$worktreeInherited = Join-Path $testRoot 'marker-inherited'
 
 $issueLock = "issue-$issueNumber"
 $lockA = "pr-agentlocks-a-$suffix"
@@ -128,6 +129,19 @@ try {
     Assert-Status $repo @('status', '-LockName', $lockA) 'FREE' 'marker A released'
     Assert-Status $repo @('status', '-LockName', $lockB) 'HELD-BY-ME' 'marker B isolated from marker A release'
     Assert-ExitZero -Result (Invoke-AgentLocks $worktreeB @('release')) -Operation 'implicit marker B release'
+
+    # `git worktree add` copies the source's config.worktree; the copy names A's path.
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('acquire', '-LockName', $lockA, '-Worktree', $worktreeA)) -Operation 'reacquire marker A'
+    Invoke-Git -C $worktreeA worktree add -b marker-inherited $worktreeInherited HEAD
+    $inherited = Invoke-AgentLocks $worktreeInherited @('status')
+    if ($inherited.ExitCode -eq 0) { throw "inherited marker resolved a lock: '$($inherited.Output)'" }
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('release', '-LockName', $lockA)) -Operation 'release marker A after inheritance check'
+
+    # The main checkout never receives a marker for new worktrees to inherit.
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('acquire', '-LockName', $explicitLock, '-Worktree', $repo)) -Operation 'acquire with main checkout'
+    $mainMarker = git -C $repo config --worktree --get agent.lockName 2>$null
+    if ($mainMarker) { throw "main checkout received lock marker '$mainMarker'" }
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('release', '-LockName', $explicitLock)) -Operation 'release main checkout lock'
 
     # Explicit names always override any marker in the current worktree.
     Assert-ExitZero -Result (Invoke-AgentLocks $repo @('acquire', '-LockName', $explicitLock)) -Operation 'acquire explicit lock'

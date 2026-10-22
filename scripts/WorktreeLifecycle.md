@@ -1,6 +1,6 @@
 # Local worktree lifecycle
 
-`AgentLocks.ps1 release` removes its recorded checkout before releasing ownership. Register the path once after checkout with `renew -LockName <name> -Worktree <absolute-path>`. Use the shared checkout's current script, and release in `finally` after stopping owned processes and saving evidence outside the worktree.
+`AgentLocks.ps1 release` removes its recorded checkout before releasing ownership. Register the path once after checkout with `renew -LockName <name> -Worktree <absolute-path>`. Use the shared checkout's current script, and release in `finally` after stopping owned processes and saving evidence under the evidence root ([where agent output belongs](../.claude/skills/issue-pr-loop/SKILL.md#isolation-and-ownership)).
 
 Local branches remain available for `git worktree add <path> <branch>`. Detached commits are retained as `retained-worktrees/<SHA>`. Uncommitted source, unknown ignored files, Git-locked worktrees, the main checkout and foreign repositories are preserved. Known generated output is disposable under `WorktreeCleanup.ps1`. Release prints why a checkout was retained.
 
@@ -8,7 +8,7 @@ Run release with the shared checkout as the working directory. On Windows a proc
 
 A crashed process or an expired Redis TTL cannot run release. `Remove-MergedWorktrees.ps1` remains the conservative fallback for merged work. It also unlocks a `PR checkout setup` or `Issue checkout setup` Git lock that is older than the two-hour Redis TTL. No GitHub Actions job manages local disk.
 
-The sweep reserves canonical Redis item locks before deleting an eligible worktree. It checks identities from the worktree marker, canonical directory name, and branch name; active or unverifiable ownership preserves the checkout. Reservations use the shared checkout's `AgentLocks.ps1` and remain held through removal. `-WhatIf` only reads lock status. These checks do not replace the existing merge-evidence and source-preservation guards.
+The sweep reserves canonical Redis item locks before deleting an eligible worktree. It checks identities from the worktree marker, canonical directory name, and branch name. A marker counts only in the worktree its `agent.lockWorktree` path names, because `git worktree add` copies the source checkout's markers. Active or unverifiable ownership preserves the checkout. Reservations use the shared checkout's `AgentLocks.ps1` and remain held through removal. `-WhatIf` only reads lock status. These checks do not replace the existing merge-evidence and source-preservation guards.
 
 The same reservation protects orphan directories with dangling or missing Git metadata. Their canonical directory names supply the lock identity; an orphan without a recoverable identity is preserved for manual inspection.
 

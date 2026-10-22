@@ -20,11 +20,15 @@ function Set-FixtureLock([string]$Name, [string]$State) {
     $script:fixtureStates | ConvertTo-Json | Set-Content -LiteralPath $fixtureState
 }
 
-function New-FixtureWorktree([string]$Name, [string]$Marker = '', [string]$Branch = '') {
+function New-FixtureWorktree([string]$Name, [string]$Marker = '', [string]$Branch = '', [string]$OwnerPath = '') {
     $path = Join-Path $fixtureWorktrees $Name
+    if (-not $OwnerPath) { $OwnerPath = $path }
     if ($Branch) { Invoke-FixtureGit -C $fixtureRepo worktree add -b $Branch $path HEAD }
     else { Invoke-FixtureGit -C $fixtureRepo worktree add --detach $path HEAD }
-    if ($Marker) { Invoke-FixtureGit -C $path config --worktree agent.lockName $Marker }
+    if ($Marker) {
+        Invoke-FixtureGit -C $path config --worktree agent.lockName $Marker
+        Invoke-FixtureGit -C $path config --worktree agent.lockWorktree $OwnerPath
+    }
     return $path
 }
 
@@ -144,6 +148,16 @@ exit 0
         Set-FixtureLock 'pr-900002' 'HELD'
         Invoke-FixtureSweep
         Assert-Fixture (Test-Path -LiteralPath $path) 'Active marked worktree was removed after its branch was renamed.'
+        Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
+
+        # A marker copied by `git worktree add` names its source checkout and is ignored.
+        $path = New-FixtureWorktree 'inherited-marker' -Marker 'pr-900014' -OwnerPath (Join-Path $fixtureWorktrees 'marker-source')
+        Set-FixtureLock 'pr-900014' 'FREE'
+        Clear-Content -LiteralPath $fixtureCalls
+        Invoke-FixtureSweep
+        Assert-Fixture (Test-Path -LiteralPath $path) 'Worktree identified only by an inherited marker was removed.'
+        $calls = Get-Content -LiteralPath $fixtureCalls
+        Assert-Fixture (-not [bool]($calls -match ' pr-900014 ')) 'Cleanup trusted an inherited lock marker.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
 
         $path = New-FixtureWorktree 'branch-only' -Branch 'review/pr-900005-check'
