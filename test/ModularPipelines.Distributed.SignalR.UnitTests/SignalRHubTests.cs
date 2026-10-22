@@ -245,17 +245,63 @@ public class SignalRHubTests
     }
 
     [Test]
-    public async Task Result_For_Another_Worker_Is_Rejected()
+    [Arguments("missing-lease")]
+    [Arguments("result-worker")]
+    [Arguments("lease-worker")]
+    [Arguments("lease-module")]
+    public async Task Invalid_Worker_Result_Cannot_Satisfy_Or_Overwrite_Result_Wait(string mismatch)
     {
         await using var test = await SignalRTestMaster.StartAsync();
         var worker = await test.ConnectWorkerAsync();
-        await worker.RegisterWorkerAsync(SignalRTestMaster.Registration("worker-a"), CancellationToken.None);
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+        await test.Master.EnqueueModuleAsync(Assignment("Signal.Protected"), CancellationToken.None);
+        var lease = (await worker.DequeueModuleAsync(
+            registration.WorkerId, new HashSet<Capability>(), CancellationToken.None).WaitAsync(Timeout))!;
+        var legitimate = Result("Signal.Protected", registration.WorkerId);
+        var rejected = legitimate with
+        {
+            WorkerId = mismatch == "result-worker" ? new WorkerId("worker-b") : registration.WorkerId,
+            Payload = "{\"value\":2}",
+        };
+        var rejectedLease = mismatch switch
+        {
+            "missing-lease" => null,
+            "lease-worker" => lease with { WorkerId = new WorkerId("worker-b") },
+            "lease-module" => lease with { Assignment = Assignment("Signal.Other") },
+            _ => lease,
+        };
+        using var timeout = new CancellationTokenSource(Timeout);
+        var pending = test.Master.WaitForResultAsync(legitimate.ModuleId, timeout.Token);
 
         await Assert.That(async () => await worker.PublishResultAsync(
-                Result("Signal.Forged", new WorkerId("worker-b")),
-                lease: null,
-                CancellationToken.None))
+                rejected, rejectedLease, timeout.Token))
             .Throws<HubException>();
+        await Assert.That(pending.IsCompleted).IsFalse();
+        await Assert.That((await test.Master.GetActiveLeasesAsync(timeout.Token)).Single().LeaseId)
+            .IsEqualTo(lease.LeaseId);
+
+        await worker.PublishResultAsync(legitimate, lease, timeout.Token);
+        await Assert.That((await pending).Payload).IsEqualTo(legitimate.Payload);
+        await Assert.That(await test.Master.GetActiveLeasesAsync(timeout.Token)).IsEmpty();
+
+        await Assert.That(async () => await worker.PublishResultAsync(
+                rejected, rejectedLease, timeout.Token))
+            .Throws<HubException>();
+        await Assert.That((await test.Master.WaitForResultAsync(legitimate.ModuleId, timeout.Token)).Payload)
+            .IsEqualTo(legitimate.Payload);
+    }
+
+    [Test]
+    public async Task Master_Can_Publish_Result_Without_A_Worker_Lease()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var result = Result("Signal.Master", new WorkerId("master"));
+        var pending = test.Master.WaitForResultAsync(result.ModuleId, CancellationToken.None);
+
+        await test.Master.PublishResultAsync(result, lease: null, CancellationToken.None);
+
+        await Assert.That((await pending.WaitAsync(Timeout)).Payload).IsEqualTo(result.Payload);
     }
 
     [Test]
