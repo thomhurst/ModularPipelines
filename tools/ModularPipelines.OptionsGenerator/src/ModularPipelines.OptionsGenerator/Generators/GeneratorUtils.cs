@@ -897,6 +897,18 @@ public static partial class GeneratorUtils
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
+        if (command.SuppressOutputLoggingByDefault)
+        {
+            sb.AppendLine($"{indent}    if (executionOptions?.Logging is null)");
+            sb.AppendLine($"{indent}    {{");
+            sb.AppendLine($"{indent}        executionOptions = (executionOptions ?? new CommandExecutionOptions()) with");
+            sb.AppendLine($"{indent}        {{");
+            sb.AppendLine($"{indent}            Logging = CommandLoggingOptions.Silent,");
+            sb.AppendLine($"{indent}        }};");
+            sb.AppendLine($"{indent}    }}");
+            sb.AppendLine();
+        }
+
         if (RequiresOptionsParameter(command))
         {
             sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);");

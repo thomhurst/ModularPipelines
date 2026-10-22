@@ -121,6 +121,7 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
+            SuppressOutputLoggingByDefault = commandParts is ["print", "token"],
             Enums = []
         };
 
