@@ -2,7 +2,9 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Modules;
 using Moq;
 using TUnit.Core.Exceptions;
 
@@ -12,9 +14,11 @@ public class ArtifactLifecycleLinkTests
 {
     [Test]
     [TUnit.Core.NotInParallel]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Artifacts_Roundtrip_Below_A_Linked_Workspace_Ancestor(bool directory)
+    [Arguments(false, false)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    public async Task Artifacts_Roundtrip_Below_A_Linked_Workspace_Ancestor(bool directory, bool configuredWorkspace)
     {
         var originalWorkingDirectory = Directory.GetCurrentDirectory();
         var root = Directory.CreateTempSubdirectory("artifact-workspace-alias-");
@@ -24,8 +28,12 @@ public class ArtifactLifecycleLinkTests
             real.CreateSubdirectory("workspace");
             var alias = Path.Combine(root.FullName, "alias");
             CreateLink(() => DirectoryLink(alias, real.FullName, OperatingSystem.IsWindows()));
-            Directory.SetCurrentDirectory(Path.Combine(alias, "workspace"));
-            var working = Directory.GetCurrentDirectory();
+            var working = Path.Combine(alias, "workspace");
+            if (!configuredWorkspace)
+            {
+                Directory.SetCurrentDirectory(working);
+                working = Directory.GetCurrentDirectory();
+            }
             var source = Path.Combine(working, "test-output");
             if (directory)
             {
@@ -44,6 +52,66 @@ public class ArtifactLifecycleLinkTests
         finally
         {
             Directory.SetCurrentDirectory(originalWorkingDirectory);
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task Glob_Artifacts_Roundtrip_Below_A_Configured_Linked_Workspace_Ancestor()
+    {
+        var root = Directory.CreateTempSubdirectory("artifact-configured-glob-");
+        try
+        {
+            var real = root.CreateSubdirectory("real");
+            real.CreateSubdirectory("workspace");
+            var alias = Path.Combine(root.FullName, "alias");
+            CreateLink(() => DirectoryLink(alias, real.FullName, OperatingSystem.IsWindows()));
+            var working = Path.Combine(alias, "workspace");
+            var release = Directory.CreateDirectory(Path.Combine(working, "release-v1"));
+            await File.WriteAllTextAsync(Path.Combine(release.FullName, "manifest.json"), "manifest");
+            var manager = Manager(new InMemoryDistributedArtifactStore(), working);
+
+            await manager.UploadProducedArtifactsAsync(typeof(SingleFileGlobProducerModule), CancellationToken.None);
+            await manager.DownloadConsumedArtifactsForPathAsync(ModuleId.FromType(typeof(SingleFileGlobProducerModule)),
+                "single-file-glob-output", "restored", typeof(ConsumerModule), CancellationToken.None);
+
+            await Assert.That(await File.ReadAllTextAsync(Path.Combine(working, "restored", "release-v1", "manifest.json")))
+                .IsEqualTo("manifest");
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Narrow_Glob_Ignores_Unmatched_Linked_Files(bool dangling)
+    {
+        var root = Directory.CreateTempSubdirectory("artifact-glob-links-");
+        try
+        {
+            var release = root.CreateSubdirectory("release-v1");
+            await File.WriteAllTextAsync(Path.Combine(release.FullName, "manifest.json"), "manifest");
+            var target = Path.Combine(root.FullName, "notes.txt");
+            if (!dangling)
+            {
+                await File.WriteAllTextAsync(target, "unrelated");
+            }
+            CreateLink(() => File.CreateSymbolicLink(Path.Combine(release.FullName, "notes-link.txt"), target));
+            var store = new InMemoryDistributedArtifactStore();
+            var manager = Manager(store, root.FullName);
+
+            var references = await manager.UploadProducedArtifactsAsync(typeof(SingleFileGlobProducerModule), CancellationToken.None);
+
+            await Assert.That(references.Count).IsEqualTo(1);
+            await using var stream = await store.DownloadAsync(references[0], CancellationToken.None);
+            using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
+            await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["release-v1/manifest.json"]);
+        }
+        finally
+        {
             root.Delete(recursive: true);
         }
     }
@@ -95,10 +163,10 @@ public class ArtifactLifecycleLinkTests
                         : DirectoryLink(nested, scenario == "cycle" ? source : outside.FullName, junction));
                     break;
                 case "ancestor":
-                    working = Path.Combine(root.FullName, "alias", "working");
-                    Directory.CreateDirectory(Path.Combine(outside.FullName, "working"));
-                    await File.WriteAllTextAsync(Path.Combine(outside.FullName, "working", "test-output"), "outside contents");
-                    CreateLink(() => DirectoryLink(Path.Combine(root.FullName, "alias"), outside.FullName, junction));
+                    moduleType = typeof(AncestorProducerModule);
+                    Directory.CreateDirectory(Path.Combine(outside.FullName, "nested"));
+                    await File.WriteAllTextAsync(Path.Combine(outside.FullName, "nested", "test-output"), "outside contents");
+                    CreateLink(() => DirectoryLink(Path.Combine(working, "alias"), outside.FullName, junction));
                     break;
                 case "glob-file":
                 case "glob-directory":
@@ -150,10 +218,11 @@ public class ArtifactLifecycleLinkTests
             var payload = Path.Combine(outside.FullName, "payload.txt");
             await File.WriteAllTextAsync(payload, "outside contents");
             var entryName = scenario == "directory" ? "nested/payload.txt" : "payload.txt";
+            var restorePath = "restored";
             if (scenario == "ancestor")
             {
-                working = Path.Combine(root.FullName, "alias", "new-working");
-                CreateLink(() => DirectoryLink(Path.Combine(root.FullName, "alias"), outside.FullName, junction));
+                restorePath = "alias/new-restored";
+                CreateLink(() => DirectoryLink(Path.Combine(working, "alias"), outside.FullName, junction));
             }
             else if (scenario == "root")
             {
@@ -177,7 +246,8 @@ public class ArtifactLifecycleLinkTests
             }, stream, CancellationToken.None);
             var manager = Manager(store, working);
 
-            await Assert.That(() => manager.DownloadConsumedArtifactsAsync(typeof(ConsumerModule), CancellationToken.None)).Throws<IOException>();
+            await Assert.That(() => manager.DownloadConsumedArtifactsForPathAsync(
+                ModuleId.FromType(typeof(ProducerModule)), "build-output", restorePath, typeof(ConsumerModule), CancellationToken.None)).Throws<IOException>();
             await Assert.That(await File.ReadAllTextAsync(payload)).IsEqualTo("outside contents");
             await Assert.That(outside.EnumerateFileSystemInfos().Select(entry => entry.Name)).IsEquivalentTo(["payload.txt"]);
             await Assert.That(Directory.GetFiles(root.FullName, ".modularpipelines-*.tmp", SearchOption.AllDirectories)).IsEmpty();
@@ -325,6 +395,13 @@ public class ArtifactLifecycleLinkTests
         {
             root.Delete(recursive: true);
         }
+    }
+
+    [ProducesArtifact("ancestor-output", "alias/nested/test-output")]
+    private sealed class AncestorProducerModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult("done");
     }
 
     private sealed class FailingReadStream : MemoryStream

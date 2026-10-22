@@ -13,6 +13,34 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Filtered_Enumeration_Validates_Only_Matching_Files(bool matchingLink)
+    {
+        var source = Path.GetFullPath("filtered-artifact-source");
+        var file = Path.Combine(source, "payload.dll");
+        var unrelated = Path.Combine(source, "notes-link.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.Setup(p => p.GetAttributes(source)).Returns(FileAttributes.Directory);
+        provider.Setup(p => p.GetAttributes(file)).Returns(matchingLink ? FileAttributes.ReparsePoint : FileAttributes.Normal);
+        provider.Setup(p => p.EnumerateDirectories(source, "*", SearchOption.TopDirectoryOnly)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(source, "*", SearchOption.TopDirectoryOnly)).Returns([unrelated, file]);
+
+        List<(string Path, bool IsDirectory)> Enumerate() => ArtifactContextImpl.EnumerateDirectoryPaths(
+            source, CancellationToken.None, provider.Object, includeFile: path => path.EndsWith(".dll", StringComparison.Ordinal)).ToList();
+
+        if (matchingLink)
+        {
+            await Assert.That(() => Enumerate()).Throws<IOException>();
+        }
+        else
+        {
+            await Assert.That(Enumerate()).IsEquivalentTo([(file, false)]);
+        }
+        provider.Verify(p => p.GetAttributes(unrelated), Times.Never);
+    }
+
+    [Test]
     public async Task Path_Archive_Validates_And_Reads_Repeated_Paths_Once()
     {
         var source = Path.GetFullPath("repeated-artifact-source");

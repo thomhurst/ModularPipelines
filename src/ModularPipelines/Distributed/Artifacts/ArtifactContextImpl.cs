@@ -100,36 +100,39 @@ internal class ArtifactContextImpl(
         string archivePath,
         CompressionLevel compressionLevel,
         CancellationToken cancellationToken,
-        IFileSystemProvider? provider = null)
+        IFileSystemProvider? provider = null,
+        string? trustedRoot = null)
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
         var sourceDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(directoryPath) : directoryPath;
         var fullArchivePath = Path.GetFullPath(archivePath);
-        EnsureSourcePathContainsNoLinks(provider, sourceDirectory);
+        EnsureSourcePathContainsNoLinks(provider, sourceDirectory, trustedRoot);
         EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, fullArchivePath);
         File.Delete(fullArchivePath);
 
         await CreatePathArchiveAsync(
             fullArchivePath, sourceDirectory,
-            EnumerateDirectoryPaths(sourceDirectory, cancellationToken, provider),
-            compressionLevel, cancellationToken, provider).ConfigureAwait(false);
+            EnumerateDirectoryPaths(sourceDirectory, cancellationToken, provider, trustedRoot),
+            compressionLevel, cancellationToken, provider, trustedRoot).ConfigureAwait(false);
     }
 
     internal static IEnumerable<(string Path, bool IsDirectory)> EnumerateDirectoryPaths(
         string directoryPath,
         CancellationToken cancellationToken,
-        IFileSystemProvider? provider = null)
+        IFileSystemProvider? provider = null,
+        string? trustedRoot = null,
+        Func<string, bool>? includeFile = null)
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
-        EnsureSourcePathContainsNoLinks(provider, directoryPath);
+        EnsureSourcePathContainsNoLinks(provider, directoryPath, trustedRoot);
         var pending = new Stack<string>();
         pending.Push(directoryPath);
         while (pending.TryPop(out var current))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            EnsureSourcePathContainsNoLinks(provider, current);
+            EnsureSourcePathContainsNoLinks(provider, current, trustedRoot);
             // Check each entry before descending so links, including cycles, are never followed.
             foreach (var directory in provider.EnumerateDirectories(current, "*", SearchOption.TopDirectoryOnly))
             {
@@ -142,6 +145,11 @@ internal class ArtifactContextImpl(
             foreach (var file in provider.EnumerateFiles(current, "*", SearchOption.TopDirectoryOnly))
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                if (includeFile is not null && !includeFile(file))
+                {
+                    continue;
+                }
+
                 EnsurePathIsNotLink(provider, file);
                 yield return (file, false);
             }
@@ -154,7 +162,8 @@ internal class ArtifactContextImpl(
         IEnumerable<(string Path, bool IsDirectory)> paths,
         CompressionLevel compressionLevel,
         CancellationToken cancellationToken,
-        IFileSystemProvider? provider = null)
+        IFileSystemProvider? provider = null,
+        string? trustedRoot = null)
     {
         provider ??= SystemFileSystemProvider.Instance;
         // Complete validation before opening an archive or reading any source file.
@@ -168,7 +177,7 @@ internal class ArtifactContextImpl(
         foreach (var (path, isDirectory) in entries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            EnsureSourcePathContainsNoLinks(provider, path);
+            EnsureSourcePathContainsNoLinks(provider, path, trustedRoot);
             var entryName = GetArchiveEntryName(provider, sourceDirectory, path);
             if (isDirectory)
             {
@@ -261,7 +270,8 @@ internal class ArtifactContextImpl(
         Stream stream,
         string destinationPath,
         CancellationToken cancellationToken,
-        IFileSystemProvider? provider = null)
+        IFileSystemProvider? provider = null,
+        string? trustedRoot = null)
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
@@ -272,10 +282,10 @@ internal class ArtifactContextImpl(
 
         var destinationDirectory = GetProviderParentPath(provider, destinationPath);
         var validationRoot = destinationDirectory ?? destinationPath;
-        EnsurePathContainsNoLinks(provider, validationRoot, destinationPath);
+        EnsurePathContainsNoLinks(provider, validationRoot, destinationPath, trustedRoot);
         if (!string.IsNullOrEmpty(destinationDirectory))
         {
-            CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
+            CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory, trustedRoot);
         }
 
         var temporaryName = $".modularpipelines-download-{Guid.NewGuid():N}.tmp";
@@ -291,7 +301,7 @@ internal class ArtifactContextImpl(
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            EnsurePathContainsNoLinks(provider, validationRoot, destinationPath);
+            EnsurePathContainsNoLinks(provider, validationRoot, destinationPath, trustedRoot);
             provider.MoveFile(temporaryPath, destinationPath, overwrite: true);
         }
         finally
@@ -304,7 +314,8 @@ internal class ArtifactContextImpl(
         ZipArchive archive,
         string destinationPath,
         CancellationToken cancellationToken,
-        IFileSystemProvider? provider = null)
+        IFileSystemProvider? provider = null,
+        string? trustedRoot = null)
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
@@ -313,7 +324,7 @@ internal class ArtifactContextImpl(
             ? destinationDirectory
             : destinationDirectory + provider.DirectorySeparatorChar;
         var pathComparison = GetArchivePathComparison(provider);
-        CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
+        CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory, trustedRoot);
 
         foreach (var entry in archive.Entries)
         {
@@ -338,12 +349,12 @@ internal class ArtifactContextImpl(
 
             if (isDirectory)
             {
-                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryPath);
+                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryPath, trustedRoot);
                 continue;
             }
 
             await ExtractArchiveFileAsync(
-                entry, provider, destinationDirectory, destinationPrefix, entryPath, pathComparison, cancellationToken)
+                entry, provider, destinationDirectory, destinationPrefix, entryPath, pathComparison, cancellationToken, trustedRoot)
                 .ConfigureAwait(false);
         }
     }
@@ -407,7 +418,8 @@ internal class ArtifactContextImpl(
         string destinationPrefix,
         string entryPath,
         StringComparison pathComparison,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? trustedRoot)
     {
         var entryDirectory = GetProviderParentPath(provider, entryPath);
         // A direct child's parent omits the final separator. Keep the supplied custom root
@@ -419,10 +431,10 @@ internal class ArtifactContextImpl(
 
         if (!string.IsNullOrEmpty(entryDirectory))
         {
-            CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
+            CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory, trustedRoot);
         }
 
-        EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath, trustedRoot);
 
         var fileOptions = new FileStreamOptions
         {
@@ -470,7 +482,7 @@ internal class ArtifactContextImpl(
 
             cancellationToken.ThrowIfCancellationRequested();
             provider.SetLastWriteTimeUtc(temporaryPath, entry.LastWriteTime.DateTime.ToUniversalTime());
-            EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+            EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath, trustedRoot);
             provider.MoveFile(temporaryPath, entryPath, overwrite: true);
         }
         finally
@@ -491,18 +503,18 @@ internal class ArtifactContextImpl(
         }
     }
 
-    private static void CreateDirectoryWithoutLinks(IFileSystemProvider provider, string destinationDirectory, string path)
+    private static void CreateDirectoryWithoutLinks(IFileSystemProvider provider, string destinationDirectory, string path, string? trustedRoot)
     {
-        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path, trustedRoot);
         provider.CreateDirectory(path);
-        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path, trustedRoot);
     }
 
-    internal static void EnsureSourcePathContainsNoLinks(IFileSystemProvider provider, string path)
+    internal static void EnsureSourcePathContainsNoLinks(IFileSystemProvider provider, string path, string? trustedRoot = null)
     {
         if (provider is SystemFileSystemProvider)
         {
-            EnsurePathContainsNoLinks(provider, path, path);
+            EnsurePathContainsNoLinks(provider, path, path, trustedRoot);
         }
         else
         {
@@ -510,31 +522,19 @@ internal class ArtifactContextImpl(
         }
     }
 
-    private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path)
+    private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path, string? trustedRoot)
     {
-        var trustedRoot = false;
+        var skipRootCheck = false;
         if (provider is SystemFileSystemProvider)
         {
             path = Path.GetFullPath(path);
-            destinationDirectory = Path.GetPathRoot(path)!;
-            // The host already trusts its working and temporary directories. Their ancestors
-            // may be system aliases (for example /var on macOS) or workspace junctions.
-            // Still validate every segment below these roots, including missing destinations.
-            foreach (var root in new[] { Directory.GetCurrentDirectory(), Path.GetTempPath() })
-            {
-                var fullRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(root));
-                if (fullRoot.Length > destinationDirectory.Length
-                    && (path.Equals(fullRoot, GetArchivePathComparison(provider))
-                        || path.StartsWith(fullRoot + provider.DirectorySeparatorChar, GetArchivePathComparison(provider))))
-                {
-                    destinationDirectory = fullRoot;
-                    trustedRoot = true;
-                }
-            }
+            var validationRoot = GetTrustedValidationRoot(path, trustedRoot);
+            destinationDirectory = validationRoot ?? Path.GetPathRoot(path)!;
+            skipRootCheck = validationRoot is not null;
         }
 
         var currentPath = destinationDirectory;
-        if (!trustedRoot)
+        if (!skipRootCheck)
         {
             try
             {
@@ -566,6 +566,31 @@ internal class ArtifactContextImpl(
                 return;
             }
         }
+    }
+
+    private static string? GetTrustedValidationRoot(string path, string? configuredRoot)
+    {
+        string? trustedRoot = null;
+        // The host trusts its configured workspace, process directory and temporary directory.
+        // Ancestors may be system aliases or junctions; all segments below the root are checked.
+        foreach (var root in new[] { configuredRoot, Directory.GetCurrentDirectory(), Path.GetTempPath() })
+        {
+            if (root is null)
+            {
+                continue;
+            }
+
+            var fullRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(root));
+            var prefix = Path.EndsInDirectorySeparator(fullRoot) ? fullRoot : fullRoot + Path.DirectorySeparatorChar;
+            if ((trustedRoot is null || fullRoot.Length > trustedRoot.Length)
+                && (path.Equals(fullRoot, GetArchivePathComparison())
+                    || path.StartsWith(prefix, GetArchivePathComparison())))
+            {
+                trustedRoot = fullRoot;
+            }
+        }
+
+        return trustedRoot;
     }
 
     private static void EnsurePathIsNotLink(IFileSystemProvider provider, string path)

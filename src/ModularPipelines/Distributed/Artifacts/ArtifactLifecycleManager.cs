@@ -188,7 +188,7 @@ internal class ArtifactLifecycleManager
         try
         {
             await ArtifactContextImpl.CreateDirectoryArchiveAsync(
-                directoryPath, tempFile, _options.ArtifactCompressionLevel, cancellationToken)
+                directoryPath, tempFile, _options.ArtifactCompressionLevel, cancellationToken, trustedRoot: _workingDirectory)
                 .ConfigureAwait(false);
             return await UploadFileAsync(
                     descriptor with { ContentType = "application/zip" },
@@ -214,7 +214,7 @@ internal class ArtifactLifecycleManager
             await ArtifactContextImpl.CreatePathArchiveAsync(
                 tempFile, GetArchiveBaseDirectory(pathPattern),
                 EnumerateArchivePaths(resolvedPaths, cancellationToken),
-                _options.ArtifactCompressionLevel, cancellationToken).ConfigureAwait(false);
+                _options.ArtifactCompressionLevel, cancellationToken, trustedRoot: _workingDirectory).ConfigureAwait(false);
             return await UploadFileAsync(
                     descriptor with { ContentType = "application/zip" },
                     tempFile,
@@ -227,18 +227,18 @@ internal class ArtifactLifecycleManager
         }
     }
 
-    private static IEnumerable<(string Path, bool IsDirectory)> EnumerateArchivePaths(
+    private IEnumerable<(string Path, bool IsDirectory)> EnumerateArchivePaths(
         IReadOnlyList<string> resolvedPaths, CancellationToken cancellationToken)
     {
         foreach (var path in resolvedPaths)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, path);
+            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, path, _workingDirectory);
             var isDirectory = Directory.Exists(path);
             yield return (path, isDirectory);
             if (isDirectory)
             {
-                foreach (var entry in ArtifactContextImpl.EnumerateDirectoryPaths(path, cancellationToken))
+                foreach (var entry in ArtifactContextImpl.EnumerateDirectoryPaths(path, cancellationToken, trustedRoot: _workingDirectory))
                 {
                     yield return entry;
                 }
@@ -251,7 +251,7 @@ internal class ArtifactLifecycleManager
         string filePath,
         CancellationToken cancellationToken)
     {
-        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, filePath);
+        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, filePath, _workingDirectory);
         var stream = File.OpenRead(filePath);
         await using var streamScope = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
@@ -441,7 +441,7 @@ internal class ArtifactLifecycleManager
         if (artifact.ContentType == "application/zip")
         {
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, restorePath, cancellationToken)
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, restorePath, cancellationToken, trustedRoot: _workingDirectory)
                 .ConfigureAwait(false);
         }
         else
@@ -455,7 +455,7 @@ internal class ArtifactLifecycleManager
                 throw new IOException($"Restoring '{artifact.Name}' would leave the destination directory.");
             }
 
-            await ArtifactContextImpl.RestoreFileAsync(stream, destFile, cancellationToken).ConfigureAwait(false);
+            await ArtifactContextImpl.RestoreFileAsync(stream, destFile, cancellationToken, trustedRoot: _workingDirectory).ConfigureAwait(false);
         }
 
         if (Logger.IsEnabled(LogLevel.Information))
@@ -500,7 +500,7 @@ internal class ArtifactLifecycleManager
         var wildcardIndex = pathPattern.IndexOfAny(['*', '?']);
         if (wildcardIndex < 0)
         {
-            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, pathPattern);
+            ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, pathPattern, _workingDirectory);
         }
 
         // If the path exists directly, return it
@@ -517,7 +517,7 @@ internal class ArtifactLifecycleManager
 
         var baseDir = GetGlobBaseDirectory(pathPattern, wildcardIndex);
 
-        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, baseDir);
+        ArtifactContextImpl.EnsureSourcePathContainsNoLinks(SystemFileSystemProvider.Instance, baseDir, _workingDirectory);
         if (!Directory.Exists(baseDir))
         {
             return [];
@@ -535,7 +535,7 @@ internal class ArtifactLifecycleManager
             Path.GetRelativePath(baseDir, path)
                 .Replace(Path.DirectorySeparatorChar, '/')).HasMatches;
 
-        return ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken)
+        return ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
             .Select(entry => entry.Path)
             .Where(Matches)
             .ToList();
