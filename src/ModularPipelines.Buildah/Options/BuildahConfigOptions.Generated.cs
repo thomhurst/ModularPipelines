@@ -30,7 +30,7 @@ public record BuildahConfigOptions : BuildahOptions
     /// add annotation e.g. annotation=value, for the target image (default [])
     /// </summary>
     [CliOption("--annotation", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public string? Annotation { get; set; }
+    public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
     /// set architecture of the target image
@@ -138,7 +138,7 @@ public record BuildahConfigOptions : BuildahOptions
     /// add port to expose when running containers based on image (default [])
     /// </summary>
     [CliOption("--port", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
+    public IEnumerable<string>? Port { get; set; }
 
     /// <summary>
     /// add shell to run in containers
@@ -168,7 +168,7 @@ public record BuildahConfigOptions : BuildahOptions
     /// add default volume path to be created for containers based on image (default [])
     /// </summary>
     [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public string? Volume { get; set; }
+    public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>
     /// set working directory for containers based on image

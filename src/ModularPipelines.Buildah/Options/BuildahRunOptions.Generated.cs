@@ -13,7 +13,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Runs a specified command using the container's root filesystem as a root
+/// Runs a specified command using the container's root filesystem as a root filesystem, using configuration settings inherited from the container's image or as specified using previous calls to the config command.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

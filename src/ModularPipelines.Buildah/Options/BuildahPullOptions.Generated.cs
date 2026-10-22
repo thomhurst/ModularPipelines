@@ -14,7 +14,7 @@ using ModularPipelines.Buildah.Options;
 namespace ModularPipelines.Buildah.Options;
 
 /// <summary>
-/// Pulls an image from a registry and stores it locally.
+/// Pulls an image from a registry and stores it locally. An image can be pulled using its tag or digest. If a tag is not specified, the image with the 'latest' tag (if it exists) is pulled.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
