@@ -246,7 +246,9 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
-    public async Task CustomObfuscatorCanWriteReentrantly()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CustomObfuscatorCanWriteReentrantly(bool deferInput)
     {
         var provider = CreateProvider(out _);
         var obfuscator = new Mock<ISecretObfuscator>();
@@ -271,7 +273,7 @@ public class SecretMaskingPatternTests
 
                 return input.Replace("custom-secret", "[masked]", StringComparison.Ordinal);
             });
-        var realConsole = new StringWriter();
+        var realConsole = new BlockingAsyncFlushStringWriter();
 
         using (writer = new CoordinatedTextWriter(
                    Mock.Of<IConsoleCoordinator>(),
@@ -280,7 +282,16 @@ public class SecretMaskingPatternTests
                    obfuscator.Object,
                    provider))
         {
-            writer.WriteLine("custom-secret");
+            var flushTask = deferInput ? writer.FlushAsync() : Task.CompletedTask;
+            try
+            {
+                writer.WriteLine("custom-secret");
+            }
+            finally
+            {
+                realConsole.ReleaseFlush();
+                await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
+            }
         }
 
         await Assert.That(realConsole.ToString()).IsEqualTo(
@@ -2312,6 +2323,246 @@ public class SecretMaskingPatternTests
 
         await Assert.That(realConsole.ToString()).IsEqualTo(
             $"after flush{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments("line")]
+    [Arguments("empty-line")]
+    [Arguments("string")]
+    [Arguments("char")]
+    [Arguments("array")]
+    [Arguments("span")]
+    public async Task DeferredInput_LaterWriteCannotOvertakeActiveDrain(string writeKind)
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+        var drainEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var releaseDrain = new ManualResetEventSlim();
+        var bufferChecks = 0;
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () =>
+            {
+                if (Interlocked.Increment(ref bufferChecks) == 1)
+                {
+                    drainEntered.TrySetResult();
+                    if (!releaseDrain.Wait(TimeSpan.FromSeconds(10)))
+                    {
+                        throw new TimeoutException("Timed out waiting to release the deferred input drain.");
+                    }
+                }
+
+                return false;
+            },
+            CreateObfuscator(provider),
+            provider);
+
+        var flushTask = writer.FlushAsync();
+        try
+        {
+            await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            WriteForModule(writer, typeof(FirstModule), "first");
+            realConsole.ReleaseFlush();
+            await drainEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+            // A different module has a separate line-buffer lock, so that lock cannot
+            // accidentally serialize the later write behind the paused drain.
+            using (new ModuleOutputContextScope(typeof(SecondModule)))
+            {
+                switch (writeKind)
+                {
+                    case "line":
+                        writer.WriteLine("x");
+                        break;
+                    case "empty-line":
+                        writer.WriteLine();
+                        break;
+                    case "string":
+                        writer.Write("x");
+                        break;
+                    case "char":
+                        writer.Write('x');
+                        break;
+                    case "array":
+                        writer.Write(['x'], 0, 1);
+                        break;
+                    case "span":
+                        writer.Write("x".AsSpan());
+                        break;
+                }
+            }
+        }
+        finally
+        {
+            releaseDrain.Set();
+            realConsole.ReleaseFlush();
+            await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        var laterOutput = writeKind switch
+        {
+            "line" => $"x{Environment.NewLine}",
+            "empty-line" => Environment.NewLine,
+            _ => "x",
+        };
+        await Assert.That(realConsole.ToString()).IsEqualTo($"first{Environment.NewLine}{laterOutput}");
+    }
+
+    [Test]
+    public async Task DeferredInput_ReservesQueueAdmissionWhileResolvingLineBuffer()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        var lineBufferLock = typeof(CoordinatedTextWriter).GetField(
+            "_lineBufferLock",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(writer)!;
+        var deferredOutputLock = typeof(CoordinatedTextWriter).GetField(
+            "_deferredOutputLock",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(writer)!;
+        var writeCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var writeThread = new Thread(() =>
+        {
+            try
+            {
+                writer.WriteLine("first");
+                writeCompleted.SetResult();
+            }
+            catch (Exception exception)
+            {
+                writeCompleted.SetException(exception);
+            }
+        });
+        var admissionReserved = false;
+        var flushTask = writer.FlushAsync();
+        try
+        {
+            await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            lock (lineBufferLock)
+            {
+                using (ExecutionContext.SuppressFlow())
+                {
+                    writeThread.Start();
+                }
+
+                // The only blocking operation before queue admission is the line-buffer
+                // lookup. Pause it so the sink cannot finish between decision and enqueue.
+                if (!SpinWait.SpinUntil(
+                    () => (writeThread.ThreadState & ThreadState.WaitSleepJoin) != 0,
+                    TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("The deferred write did not reach its line-buffer lookup.");
+                }
+
+                admissionReserved = !Monitor.TryEnter(deferredOutputLock);
+                if (!admissionReserved)
+                {
+                    Monitor.Exit(deferredOutputLock);
+                }
+
+                realConsole.ReleaseFlush();
+            }
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
+            if ((writeThread.ThreadState & ThreadState.Unstarted) == 0)
+            {
+                await writeCompleted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+        }
+
+        writer.WriteLine("second");
+        await Assert.That(admissionReserved).IsTrue();
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"first{Environment.NewLine}second{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task DeferredInput_LaterWriteCannotOvertakeQueueAfterDrainFailure()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+        var bufferChecks = 0;
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => Interlocked.Increment(ref bufferChecks) == 1
+                ? throw new InvalidOperationException("Drain failed")
+                : false,
+            CreateObfuscator(provider),
+            provider);
+
+        var flushTask = writer.FlushAsync();
+        try
+        {
+            await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            writer.WriteLine("failed write");
+            writer.WriteLine("first");
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                () => flushTask.WaitAsync(TimeSpan.FromSeconds(5)));
+        }
+
+        writer.WriteLine("second");
+
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"first{Environment.NewLine}second{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FlushAvailableAsync_DrainsDeferredInputAndRetainsSecretPrefixes(bool completeSecret)
+    {
+        var provider = CreateProvider(out _);
+        provider.AddSecret("secret");
+        var realConsole = new BlockingAsyncFlushStringWriter();
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+
+        var flushTask = writer.FlushAvailableAsync();
+        try
+        {
+            await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            writer.Write("visible sec");
+            if (completeSecret)
+            {
+                writer.WriteLine("ret");
+            }
+
+            await Assert.That(realConsole.ToString()).IsEmpty();
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
+        }
+
+        // No subsequent Write or explicit Flush is needed to make queued input visible.
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            completeSecret ? $"visible **********{Environment.NewLine}" : "visible ");
+        if (!completeSecret)
+        {
+            writer.WriteLine("ret");
+            await Assert.That(realConsole.ToString()).IsEqualTo($"visible **********{Environment.NewLine}");
+        }
     }
 
     [Test]
