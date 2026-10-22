@@ -1105,10 +1105,14 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsModuleTesterRegistrationMethod(IMethodSymbol definition)
     {
         return definition.ContainingAssembly.Name == "ModularPipelines.Testing"
-               && definition.ContainingType.ToDisplayString() == "ModularPipelines.Testing.ModuleTester"
-               && definition.Name == "For"
-               && definition.Arity is 1 or 2
-               && definition.Parameters.IsEmpty;
+               && definition.ContainingType.OriginalDefinition.ToDisplayString() is
+                   "ModularPipelines.Testing.ModuleTestBuilder<TModule>"
+                   or "ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>"
+               && definition.Name == "ExecuteAsync"
+               && !definition.IsStatic
+               && definition.Arity == 0
+               && definition.Parameters.Length == 1
+               && IsCancellationToken(definition.Parameters[0]);
     }
 
     private static bool TryTrackDirectModuleServiceRegistration(
@@ -2443,9 +2447,9 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var method = invocation.TargetMethod;
-        // ModuleTester.For<TModule, TResult> registers only TModule, even when TResult is a module type.
+        // Executing a ModuleTester builder registers only TModule, even when TResult is a module type.
         var typeArguments = IsModuleTesterRegistrationMethod(method.OriginalDefinition)
-            ? method.TypeArguments.Take(1)
+            ? method.ContainingType.TypeArguments.Take(1)
             : method.TypeArguments;
         foreach (var typeArgument in typeArguments.OfType<INamedTypeSymbol>())
         {
