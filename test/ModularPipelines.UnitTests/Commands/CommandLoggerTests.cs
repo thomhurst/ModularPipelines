@@ -160,7 +160,7 @@ public class CommandLoggerTests : TestBase
         // New compact format: command is shown inline with working directory
         if (logInput)
         {
-            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> pwsh -Command \"echo Hello world!");
+            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> pwsh -NoProfile -NonInteractive -Command \"echo Hello world!");
         }
         else
         {
@@ -259,7 +259,7 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         // Input is shown without the diagnostic working-directory prefix.
-        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).Contains("pwsh -NoProfile -NonInteractive -Command");
         await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // InputOnly doesn't show output, exit code, or duration
         await Assert.That(logFile).DoesNotContain("↳");
@@ -276,7 +276,7 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         // Input is shown without the diagnostic working-directory prefix.
-        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).Contains("pwsh -NoProfile -NonInteractive -Command");
         await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // Fast commands inline output; slower commands may begin streaming under load.
         await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
@@ -294,7 +294,7 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
-        await Assert.That(logFile).Contains("pwsh -Command");
+        await Assert.That(logFile).Contains("pwsh -NoProfile -NonInteractive -Command");
         await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
         // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
         await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
@@ -410,7 +410,7 @@ public class CommandLoggerTests : TestBase
         var logFile = string.Join(Environment.NewLine, messages);
 
         var headerIndex = logFile.IndexOf(
-            "pwsh -Command",
+            "pwsh -NoProfile -NonInteractive -Command",
             StringComparison.Ordinal);
         var outputIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
         var secondOutputIndex = logFile.IndexOf($"↳ {secondMarker}", StringComparison.Ordinal);
@@ -423,7 +423,7 @@ public class CommandLoggerTests : TestBase
 
         var lines = logFile.Split(Environment.NewLine);
         var headerLine = lines.Single(line =>
-            line.StartsWith("pwsh -Command", StringComparison.Ordinal));
+            line.StartsWith("pwsh -NoProfile -NonInteractive -Command", StringComparison.Ordinal));
         var completionLine = lines.Last(line =>
             line.Contains("✓ [", StringComparison.Ordinal));
         await Assert.That(headerLine).DoesNotContain("✓");
@@ -440,7 +440,7 @@ public class CommandLoggerTests : TestBase
 
         var logFile = await File.ReadAllTextAsync(file);
         var headerIndex = logFile.IndexOf(
-            "pwsh -Command",
+            "pwsh -NoProfile -NonInteractive -Command",
             StringComparison.Ordinal);
         var errorIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
         var completionIndex = logFile.LastIndexOf("✗ [", StringComparison.Ordinal);
