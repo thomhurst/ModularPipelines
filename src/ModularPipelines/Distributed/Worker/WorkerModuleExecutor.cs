@@ -95,6 +95,14 @@ internal class WorkerModuleExecutor(
         cancellationToken.ThrowIfCancellationRequested();
         try
         {
+            // Discovery and connection have their own budgets. Finish lazy initialization before
+            // starting the registration timeout, and let the caller stop waiting during startup.
+            if (_coordinator is IDeferredDistributedBackend deferred)
+            {
+                await deferred.GetBackendAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
             // Complete the handshake even if the caller cancels after the master commits it.
             // A timed-out acknowledgment remains unconfirmed and must not publish worker status.
             using var registrationTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(30), _timeProvider);

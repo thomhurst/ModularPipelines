@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Moq;
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Enums;
 using ModularPipelines.Events;
 using ModularPipelines.Modules;
@@ -259,7 +260,91 @@ public class LateWorkerTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task Unresponsive_Registration_Is_Bounded_Without_Publishing_Final_Status(CancellationToken cancellationToken)
+    public async Task Slow_Coordinator_Initialization_Leaves_A_Full_Registration_Window(CancellationToken cancellationToken)
+    {
+        var clock = new FakeTimeProvider();
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        coordinator.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
+            .Returns<WorkerRegistration, CancellationToken>((_, token) =>
+            {
+                clock.Advance(TimeSpan.FromSeconds(29));
+                token.ThrowIfCancellationRequested();
+                return Task.CompletedTask;
+            });
+        var factory = new Mock<IDistributedCoordinatorFactory>(MockBehavior.Strict);
+        factory.Setup(instance => instance.CreateWorkerAsync(It.IsAny<CancellationToken>()))
+            .Returns<CancellationToken>(token =>
+            {
+                // Discovery and connection may legitimately take longer than the handshake budget.
+                clock.Advance(TimeSpan.FromSeconds(31));
+                token.ThrowIfCancellationRequested();
+                return Task.FromResult(coordinator.Object);
+            });
+        await using var deferred = new DeferredWorkerCoordinator(factory.Object);
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with { Role = DistributedRole.Worker });
+        builder.Services.AddSingleton<TimeProvider>(clock);
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(deferred);
+        builder.AddModule<UnexpectedModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var executor = pipeline.Services.GetRequiredService<WorkerModuleExecutor>();
+
+        var registration = await executor.RegisterAsync(cancellationToken);
+
+        await Assert.That(registration).IsNotNull();
+        await Assert.That(executor.RegistrationConfirmed).IsTrue();
+        coordinator.Verify(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()), Times.Once);
+        coordinator.VerifyNoOtherCalls();
+        factory.Verify(instance => instance.CreateWorkerAsync(It.IsAny<CancellationToken>()), Times.Once);
+        factory.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Cancellation_During_Coordinator_Initialization_Does_Not_Register_Or_Publish_Status(CancellationToken cancellationToken)
+    {
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        var creationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var creation = new TaskCompletionSource<IDistributedWorkerCoordinator>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var factory = new Mock<IDistributedCoordinatorFactory>(MockBehavior.Strict);
+        factory.Setup(instance => instance.CreateWorkerAsync(It.IsAny<CancellationToken>()))
+            .Returns(() =>
+            {
+                creationStarted.SetResult();
+                return creation.Task;
+            });
+        await using var deferred = new DeferredWorkerCoordinator(factory.Object);
+        using var callerCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options with { Role = DistributedRole.Worker });
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(deferred);
+        builder.AddModule<UnexpectedModule>();
+        builder.AddPipelineEventHandler<UnexpectedHandler>();
+        await using var pipeline = await builder.BuildAsync();
+
+        try
+        {
+            var run = pipeline.RunAsync(callerCancellation.Token);
+            await creationStarted.Task.WaitAsync(cancellationToken);
+            await callerCancellation.CancelAsync();
+
+            await Assert.That(async () => await run.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken))
+                .Throws<OperationCanceledException>();
+            await Assert.That(pipeline.Services.GetRequiredService<WorkerModuleExecutor>().RegistrationConfirmed).IsFalse();
+            coordinator.VerifyNoOtherCalls();
+        }
+        finally
+        {
+            // Shared initialization can finish after its caller stops waiting.
+            creation.TrySetResult(coordinator.Object);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(30_000)]
+    public async Task Unresponsive_Registration_Is_Bounded_Without_Publishing_Final_Status(bool deferCoordinator, CancellationToken cancellationToken)
     {
         var clock = new FakeTimeProvider();
         var pendingRegistration = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -274,7 +359,15 @@ public class LateWorkerTests
         var builder = TestPipelineBuilder.Create();
         builder.AddDistributedMode(options => options with { Role = DistributedRole.Worker });
         builder.Services.AddSingleton<TimeProvider>(clock);
-        builder.Services.AddSingleton(coordinator.Object);
+        var factory = new Mock<IDistributedCoordinatorFactory>(MockBehavior.Strict);
+        factory.Setup(instance => instance.CreateWorkerAsync(It.IsAny<CancellationToken>()))
+            .Returns(() =>
+            {
+                clock.Advance(TimeSpan.FromSeconds(31));
+                return Task.FromResult(coordinator.Object);
+            });
+        await using var deferred = new DeferredWorkerCoordinator(factory.Object);
+        builder.Services.AddSingleton<IDistributedWorkerCoordinator>(deferCoordinator ? deferred : coordinator.Object);
         builder.AddModule<UnexpectedModule>();
         builder.AddPipelineEventHandler<UnexpectedHandler>();
         await using var pipeline = await builder.BuildAsync();
