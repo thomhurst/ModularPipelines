@@ -48,6 +48,7 @@ internal class ModuleState(IModule module, Type moduleType, IModuleScheduler? sc
 {
     private ImmutableDictionary<Type, bool> _dependencies = [];
     private int _readyEventsStarted;
+    private bool _holdsExecutionSlot;
     private SkipDecision _skipResult = SkipDecision.DoNotSkip;
 
     /// <summary>
@@ -102,6 +103,16 @@ internal class ModuleState(IModule module, Type moduleType, IModuleScheduler? sc
     /// Gets or sets the current execution state of this module.
     /// </summary>
     public ModuleExecutionState State { get; set; } = ModuleExecutionState.Pending;
+
+    /// <summary>
+    /// Gets or sets whether a runner holds worker capacity, including before execution starts.
+    /// Published independently of the scheduler state lock by the runner.
+    /// </summary>
+    public bool HoldsExecutionSlot
+    {
+        get => Volatile.Read(ref _holdsExecutionSlot);
+        set => Volatile.Write(ref _holdsExecutionSlot, value);
+    }
 
     /// <summary>
     /// Gets or sets when the module was queued (for metrics).

@@ -179,6 +179,7 @@ internal class ModuleRunner : IModuleRunner
                         executionLimitAcquired = true;
                     }
 
+                    moduleState.HoldsExecutionSlot = true;
                     var allowHistoricalResultWhenSkipped = !await HasRunnableArtifactConsumerAsync(
                             moduleType,
                             scheduler,
@@ -249,6 +250,7 @@ internal class ModuleRunner : IModuleRunner
         finally
         {
             // Keep the slot until module hooks and asynchronous scope disposal have finished.
+            moduleState.HoldsExecutionSlot = false;
             if (executionLimitAcquired)
             {
                 executionLimit!.Release();

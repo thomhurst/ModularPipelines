@@ -81,7 +81,7 @@ internal sealed class RuntimeDependencyTracker(
         if (!states.Values.Any(state => state.RequiresSequentialExecution
             || state.RequiredLockKeys.Length > 0 || state.ParallelLimiter is not null
             || state.ExecutionHintLimit.HasValue)
-            && states.Values.Count(state => state.State == ModuleExecutionState.Executing) < maxParallelism)
+            && states.Values.Count(OccupiesExecutionSlot) < maxParallelism)
         {
             return;
         }
@@ -95,29 +95,7 @@ internal sealed class RuntimeDependencyTracker(
 
         while (remaining.ContainsKey(moduleType))
         {
-            var active = remaining.Values
-                .Where(state => state.State is ModuleExecutionState.Queued or ModuleExecutionState.Executing)
-                .ToArray();
-            var executionSlotsFull = active.Count(state => state.State == ModuleExecutionState.Executing) >= maxParallelism;
-            var madeProgress = false;
-            foreach (var state in remaining.Values.ToArray())
-            {
-                if (GetPendingDependencies(state).Any(remaining.ContainsKey))
-                {
-                    continue;
-                }
-
-                if (state.State != ModuleExecutionState.Executing
-                    && (executionSlotsFull || !constraintEvaluator.CanQueue(state, active)))
-                {
-                    continue;
-                }
-
-                remaining.Remove(state.ModuleType);
-                madeProgress = true;
-            }
-
-            if (!madeProgress)
+            if (!TryCompleteModules(remaining))
             {
                 throw new DependencyCollisionException(
                     $"Module '{moduleType.Name}' is active but blocked on a runtime wait for '{dependencyType.Name}'. " +
@@ -129,6 +107,37 @@ internal sealed class RuntimeDependencyTracker(
             }
         }
     }
+
+    private bool TryCompleteModules(Dictionary<Type, ModuleState> remaining)
+    {
+        var active = remaining.Values
+            .Where(state => state.State is ModuleExecutionState.Queued or ModuleExecutionState.Executing
+                || state.HoldsExecutionSlot)
+            .ToArray();
+        var executionSlotsFull = active.Count(OccupiesExecutionSlot) >= maxParallelism;
+        var madeProgress = false;
+        foreach (var state in remaining.Values.ToArray())
+        {
+            if (GetPendingDependencies(state).Any(remaining.ContainsKey))
+            {
+                continue;
+            }
+
+            if (state.State != ModuleExecutionState.Executing
+                && ((!state.HoldsExecutionSlot && executionSlotsFull) || !constraintEvaluator.CanQueue(state, active)))
+            {
+                continue;
+            }
+
+            remaining.Remove(state.ModuleType);
+            madeProgress = true;
+        }
+
+        return madeProgress;
+    }
+
+    private static bool OccupiesExecutionSlot(ModuleState state) =>
+        state.State == ModuleExecutionState.Executing || state.HoldsExecutionSlot;
 
     private List<Type>? FindPath(Type start, Type target)
     {

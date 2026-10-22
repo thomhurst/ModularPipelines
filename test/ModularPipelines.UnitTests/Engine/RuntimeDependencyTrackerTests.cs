@@ -136,6 +136,59 @@ public class RuntimeDependencyTrackerTests
             .Throws<DependencyCollisionException>();
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Rejects_Ready_Wait_When_Global_Slot_Is_Held(bool queued)
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 1);
+        states[typeof(First)].State = queued ? ModuleExecutionState.Queued : ModuleExecutionState.Pending;
+        states[typeof(First)].HoldsExecutionSlot = true;
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second)))
+            .Throws<DependencyCollisionException>();
+    }
+
+    [Test]
+    public async Task Allows_Ready_Wait_When_Another_Global_Slot_Is_Available()
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 2);
+        foreach (var state in states.Values)
+        {
+            state.State = ModuleExecutionState.Queued;
+        }
+
+        states[typeof(First)].HoldsExecutionSlot = true;
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second))).ThrowsNothing();
+    }
+
+    [Test]
+    public async Task Allows_Ready_Wait_For_Target_Already_Holding_A_Global_Slot()
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 2);
+        states[typeof(First)].State = ModuleExecutionState.Queued;
+        states[typeof(Second)].State = ModuleExecutionState.Queued;
+        states[typeof(First)].HoldsExecutionSlot = true;
+        states[typeof(Second)].HoldsExecutionSlot = true;
+
+        await Assert.That(() => Register(tracker, states, typeof(First), typeof(Second))).ThrowsNothing();
+    }
+
+    [Test]
+    public async Task Rejects_When_All_Global_Slots_Are_Held_By_Ready_Waiters()
+    {
+        var (tracker, states) = CreateTracker(maxParallelism: 2);
+        states[typeof(First)].State = ModuleExecutionState.Queued;
+        states[typeof(Second)].State = ModuleExecutionState.Queued;
+        states[typeof(First)].HoldsExecutionSlot = true;
+        states[typeof(Second)].HoldsExecutionSlot = true;
+        Register(tracker, states, typeof(First), typeof(Third));
+
+        await Assert.That(() => Register(tracker, states, typeof(Second), typeof(Third)))
+            .Throws<DependencyCollisionException>();
+    }
+
     private static void ConfigureConflict(ModuleState waiter, ModuleState target, string constraint)
     {
         switch (constraint)

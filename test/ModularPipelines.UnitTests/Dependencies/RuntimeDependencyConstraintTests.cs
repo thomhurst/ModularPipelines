@@ -1,5 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Enums;
+using ModularPipelines.Events;
+using ModularPipelines.ExecutionBackend.TestFixtures;
 using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
 
@@ -57,6 +59,57 @@ public class RuntimeDependencyConstraintTests
             .AddModule(new Target("sequential"))
             .RunAsync()
             .WaitAsync(TestHostSettings.DefaultTestTimeout)).ThrowsNothing();
+    }
+
+    [Test]
+    [Arguments(false, 1)]
+    [Arguments(true, 1)]
+    [Arguments(false, 2)]
+    [Arguments(true, 2)]
+    public async Task Ready_Wait_Uses_Global_Execution_Capacity(bool customBackend, int maxParallelism)
+    {
+        var target = new Target("global");
+        var builder = CreatePipeline().ConfigureOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = maxParallelism },
+        });
+        if (customBackend)
+        {
+            builder.AddExecutionBackend<InProcessExecutionBackend>();
+        }
+
+        builder.AddModule(new ReadyReader(target)).AddModule(target);
+        using var cancellation = new CancellationTokenSource(TestHostSettings.DefaultTestTimeout);
+        if (maxParallelism == 1)
+        {
+            var exception = await Assert.ThrowsAsync<Exception>(async () => await builder.RunAsync(cancellation.Token));
+            await Assert.That(exception!.ToString()).Contains(nameof(DependencyCollisionException));
+            await Assert.That(exception.ToString()).Contains(nameof(ReadyReader));
+            await Assert.That(exception.ToString()).Contains(nameof(Target));
+        }
+        else
+        {
+            await Assert.That(async () => await builder.RunAsync(cancellation.Token)).ThrowsNothing();
+        }
+    }
+
+    private sealed class AwaitTargetWhenReadyAttribute : Attribute, IModuleReadyHandler
+    {
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken) =>
+            AwaitTargetAsync(((ReadyReader) context.Module).Target).WaitAsync(cancellationToken);
+
+        private static async Task AwaitTargetAsync(Target target) => await target;
+    }
+
+    [AwaitTargetWhenReady]
+    private sealed class ReadyReader(Target target) : Module<bool>
+    {
+        public Target Target { get; } = target;
+
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithPriority(ModulePriority.Critical);
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(true);
     }
 
     private static PipelineBuilder CreatePipeline(string? constraint = null) => TestPipelineBuilder.Create()
