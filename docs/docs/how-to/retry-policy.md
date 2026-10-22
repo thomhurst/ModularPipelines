@@ -44,6 +44,58 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
 Both delays must be non-negative. A maximum delay of zero disables backoff. A maximum delay below
 the base delay also caps the first retry.
 
+### Execution Attempt Number
+
+Use `IModuleContext.Attempt` inside `ExecuteAsync` for per-attempt behavior. It is **1-based**:
+the initial execution is attempt 1, the first retry is attempt 2, and so on. For example,
+`WithRetry(3)` allows up to four executions, numbered 1 through 4.
+
+```csharp
+protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+{
+    context.Logger.LogInformation("Downloading on attempt {Attempt}", context.Attempt);
+    return await httpClient.GetStringAsync("https://example.com/data", cancellationToken);
+}
+```
+
+Before execution starts, `Attempt` is 0. Between attempts and after completion, it holds the
+most recent attempt number. Contexts that do not track execution attempts return 0.
+
+### Asynchronous Retry Predicate
+
+Use the `shouldRetryAsync` overload when deciding whether to retry requires asynchronous work,
+such as recovering a connection. The predicate receives the module context, the exception,
+the **1-based failed attempt number**, and the execution cancellation token:
+
+```csharp
+protected override void Configure(ModuleConfigurationBuilder module) => module
+    .WithRetry(
+        shouldRetryAsync: async (context, exception, attempt, cancellationToken) =>
+        {
+            if (exception is not HttpRequestException)
+            {
+                return false;
+            }
+
+            await RefreshConnectionAsync(cancellationToken);
+            context.Logger.LogInformation("Retrying after failed attempt {Attempt}", attempt);
+            return true;
+        },
+        count: 3,
+        baseDelay: TimeSpan.FromSeconds(1),
+        maxDelay: TimeSpan.FromSeconds(10));
+```
+
+`RefreshConnectionAsync` represents an application-provided asynchronous recovery method.
+The predicate's `attempt` argument equals `context.Attempt`: both are 1 after the initial
+execution fails. Returning `true` permits the next attempt; returning `false` propagates the
+original exception.
+
+The predicate runs only after a failure while retry budget remains, before the backoff delay.
+It is not called after a successful execution or after the final allowed attempt fails.
+If the predicate itself throws, its exception propagates without retrying. Pass the supplied
+cancellation token to asynchronous recovery work so cancellation can interrupt it.
+
 ### Custom Resilience Shield
 
 For resilience features outside the standard retry API, configure a Kevlar `Shield` directly:
@@ -94,9 +146,9 @@ public class ResilientModule : Module<CommandResult>
 }
 ```
 
-`WithTimeout` applies to each execution attempt, not to the whole retry chain. Backoff delays run
-outside that timeout. A timed-out attempt is passed to the resilience shield as a
-`ModuleTimeoutException`, so exception filters still decide whether it should be retried. If the
+`WithTimeout` applies to each execution attempt, not to the whole retry chain. The asynchronous retry
+predicate and backoff delays run outside that timeout. A timed-out attempt is passed to the resilience
+shield as a `ModuleTimeoutException`, so exception filters still decide whether it should be retried. If the
 attempt remains active after the cancellation grace period, the engine bypasses retries to avoid
 running the same module instance concurrently with its abandoned attempt.
 
