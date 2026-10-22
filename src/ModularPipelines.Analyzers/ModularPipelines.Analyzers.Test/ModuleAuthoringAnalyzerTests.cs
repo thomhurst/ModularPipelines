@@ -2750,6 +2750,43 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
     }
 
+    [TestMethod]
+    [DataRow("try { var value = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { var value = await a; } finally { _ = a.Result; }")]
+    [DataRow("try { var value = await a; } catch { } _ = a.Result;")]
+    [DataRow("try { var value = await a; } catch (Exception) when (a.Result > 0) { _ = a.Result; }")]
+    [DataRow("try { var value = await a.ConfigureAwait(false); } catch { _ = a.Result; }")]
+    [DataRow("try { var value = await a.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); } finally { _ = a.Result; }")]
+    [DataRow("int value = 0; try { value = await a; } catch { _ = a.Result; }")]
+    [DataRow("int value = 0; try { value = await a; } finally { _ = a.Result; }")]
+    [DataRow("try { _ = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { _ = await a; } finally { _ = a.Result; }")]
+    [DataRow("int first = 0, second = 0; try { first = second = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { object value = await a; } catch { _ = a.Result; }")]
+    [DataRow("try { byte value = checked((byte)await a); } catch { _ = a.Result; }")]
+    public async Task Does_Not_Report_Result_After_Entry_Awaited_Assignment_Throws(string statements)
+    {
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements));
+    }
+
+    [TestMethod]
+    [DataRow("try { var earlier = GetTask(); var value = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("int value = 0; try { value = System.Math.Abs(-1); value = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("int[] values = null!; try { values[System.Math.Abs(-1)] = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { new List<int> { 0 }[System.Math.Abs(-1)] = await a; } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a.WaitAsync(cancellationToken); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a.ConfigureAwait((ConfigureAwaitOptions)8); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("object option = new object(); try { var value = await a.ConfigureAwait((bool)option); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a; a = GetTask(); } catch { _ = {|#0:a.Result|}; }")]
+    [DataRow("try { var value = await a; } catch { _ = {|#0:b.Result|}; }")]
+    public async Task Reports_Result_When_Entry_Assignment_Can_Throw_Before_Await(string statements)
+    {
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+            .WithLocation(0)
+            .WithArguments("Result");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
     private static string CompletedTaskSource(string statements) => ModuleSource($$"""
         protected override async Task<List<string>> ExecuteAsync(
             IModuleContext context,

@@ -386,13 +386,39 @@ internal static class TaskCompletionAnalysis
         return input;
     }
 
+    private static IAwaitOperation? GetEntryAwait(IOperation? operation)
+    {
+        while (true)
+        {
+            switch (operation)
+            {
+                case IExpressionStatementOperation statement:
+                    operation = statement.Operation;
+                    continue;
+                // CFGs lower local declarations to assignments. Only these targets
+                // can be evaluated without throwing before the right-hand await.
+                case ISimpleAssignmentOperation { IsRef: false } assignment
+                    when assignment.Target is ILocalReferenceOperation or IParameterReferenceOperation or IDiscardOperation:
+                    operation = assignment.Value;
+                    continue;
+                // A conversion of the awaited result runs after task completion,
+                // even when that conversion can itself throw.
+                case IConversionOperation conversion:
+                    operation = conversion.Operand;
+                    continue;
+            }
+
+            return operation as IAwaitOperation;
+        }
+    }
+
     private static ISymbol? GetEntryAwaitSymbol(BasicBlock block, HashSet<ISymbol> unstable)
     {
         // A direct Task await at entry is the first possible throwing operation.
         // Its task is complete on both normal and exceptional exits. Do not infer
         // this for arbitrary operands: argument evaluation, WaitAsync, or invalid
         // ConfigureAwait options can throw while the original task is still running.
-        if (block.Operations.FirstOrDefault() is not IExpressionStatementOperation { Operation: IAwaitOperation awaited })
+        if (GetEntryAwait(block.Operations.FirstOrDefault()) is not { } awaited)
         {
             return null;
         }
