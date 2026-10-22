@@ -32,6 +32,8 @@ function Assert-IntegrationRoute {
         foreach ($entry in $matrix.include) {
             $expectedProject = if (Test-Path -LiteralPath (Join-Path $repositoryRoot "test/$($entry.package)/$($entry.package).csproj")) {
                 "test/$($entry.package)/$($entry.package).csproj"
+            } elseif ($entry.package -eq 'ModularPipelines.Analyzers.Test') {
+                'src/ModularPipelines.Analyzers/ModularPipelines.Analyzers.Test/ModularPipelines.Analyzers.Test.csproj'
             } else { "src/$($entry.package)/$($entry.package).csproj" }
             $expectedTest = "test/$($entry.package).UnitTests/$($entry.package).UnitTests.csproj"
             if (-not (Test-Path -LiteralPath (Join-Path $repositoryRoot $expectedTest))) { $expectedTest = '' }
@@ -51,7 +53,7 @@ Assert-IntegrationRoute 'manual generated options' @($google) @('ModularPipeline
 Assert-IntegrationRoute 'mixed generator and integration' @($generator, $google) @('ModularPipelines.Google')
 Assert-IntegrationRoute 'test-only change' @('test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'handwritten integration' @('src/ModularPipelines.Ftp/Ftp.cs') @('ModularPipelines.Ftp')
-Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing', 'ModularPipelines.Build.UnitTests', 'ModularPipelines.Distributed.Redis.UnitTests', 'ModularPipelines.Distributed.SignalR.UnitTests', 'ModularPipelines.Distributed.UnitTests')
+Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Analyzers.Test', 'ModularPipelines.Testing', 'ModularPipelines.Build.UnitTests', 'ModularPipelines.Distributed.Redis.UnitTests', 'ModularPipelines.Distributed.SignalR.UnitTests', 'ModularPipelines.Distributed.UnitTests')
 Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet', 'ModularPipelines.Build', 'ModularPipelines.DocumentationSnippets')
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true

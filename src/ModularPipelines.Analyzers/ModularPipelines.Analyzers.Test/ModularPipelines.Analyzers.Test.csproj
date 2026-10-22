@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ModularPipelines\ModularPipelines.csproj" />
+    <ProjectReference Include="..\..\ModularPipelines.Testing\ModularPipelines.Testing.csproj" />
     <ProjectReference Include="..\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" />
     <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" />
   </ItemGroup>
