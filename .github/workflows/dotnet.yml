@@ -114,9 +114,18 @@ jobs:
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
         run: ./.github/scripts/Test-GenerationToolDownloads.ps1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        with:
+          node-version: '24'
+      - name: Install CI build-output transport dependencies
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        working-directory: .github/actions/run-pipeline
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Test CI build-output transport
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
-        run: node --test .github/actions/run-pipeline/*.test.mjs
+        working-directory: .github/actions/run-pipeline
+        run: npm test
       - name: Test publication artifact boundary
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: node --test .github/scripts/generation-artifact.test.mjs
