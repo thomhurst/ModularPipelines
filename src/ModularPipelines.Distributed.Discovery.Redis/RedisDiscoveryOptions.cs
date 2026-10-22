@@ -52,8 +52,11 @@ public sealed record RedisDiscoveryOptions
     public string KeyPrefix { get; init; } = "modpipe";
 
     /// <summary>
-    /// Gets how long the advertised endpoint remains stored. Prevents stale endpoints from
-    /// persisting. Default: 1 hour.
+    /// Gets the expiry applied to the advertised endpoint. Renewed every third of this duration
+    /// (at most one minute between renewals) while discovery is active, so late workers can join long runs.
+    /// Cleanup stops renewal and removes this master's endpoint; disposal stops renewal without deleting it.
+    /// After a crash or disposal without cleanup, the endpoint expires within this duration.
+    /// Must be at least one second. Default: 1 hour.
     /// </summary>
     public TimeSpan TimeToLive { get; init; } = TimeSpan.FromHours(1);
 

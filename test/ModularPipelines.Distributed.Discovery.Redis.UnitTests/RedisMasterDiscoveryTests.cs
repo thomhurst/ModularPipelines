@@ -12,7 +12,7 @@ public class RedisMasterDiscoveryTests
     public async Task Advertised_Endpoint_RoundTrips_Url_And_Token()
     {
         var store = new FakeStore();
-        var discovery = Create(store);
+        await using var discovery = Create(store);
         var endpoint = new MasterEndpoint { Url = new Uri("https://master.example/"), AccessToken = "secret" };
 
         await discovery.AdvertiseMasterEndpointAsync(endpoint, CancellationToken.None);
@@ -27,7 +27,7 @@ public class RedisMasterDiscoveryTests
     public async Task Run_Cleanup_Deletes_The_Advertised_Endpoint()
     {
         var store = new FakeStore();
-        var discovery = Create(store);
+        await using var discovery = Create(store);
         await discovery.AdvertiseMasterEndpointAsync(
             new MasterEndpoint { Url = new Uri("https://master.example/"), AccessToken = "secret" },
             CancellationToken.None);
@@ -44,7 +44,7 @@ public class RedisMasterDiscoveryTests
     public async Task Run_Cleanup_Deletes_The_Endpoint_After_An_Ambiguous_Advertisement_Failure()
     {
         var store = new FakeStore { ThrowOnWrite = new TimeoutException("Simulated timeout after the write") };
-        var discovery = Create(store);
+        await using var discovery = Create(store);
         await Assert.That(async () => await discovery.AdvertiseMasterEndpointAsync(
                 new MasterEndpoint { Url = new Uri("https://master.example/"), AccessToken = "secret" },
                 CancellationToken.None))
@@ -63,7 +63,7 @@ public class RedisMasterDiscoveryTests
     {
         var store = new FakeStore();
         store.Values["test-prefix:test-run:master-endpoint"] = "{}";
-        var discovery = Create(store);
+        await using var discovery = Create(store);
 
         await discovery.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "test-run", PipelineSucceeded = true },
@@ -78,7 +78,7 @@ public class RedisMasterDiscoveryTests
     {
         var store = new FakeStore();
         var logger = new RecordingLogger();
-        var discovery = new RedisMasterDiscovery(
+        await using var discovery = new RedisMasterDiscovery(
             store,
             new RedisDiscoveryOptions { KeyPrefix = "test-prefix" },
             new DistributedOptions { RunId = "test-run" },
@@ -100,7 +100,7 @@ public class RedisMasterDiscoveryTests
     public async Task Discovery_Polls_Until_The_Endpoint_Is_Available()
     {
         var store = new FakeStore { MissesBeforeHit = 2 };
-        var discovery = Create(store, pollInterval: TimeSpan.FromMilliseconds(20));
+        await using var discovery = Create(store, pollInterval: TimeSpan.FromMilliseconds(20));
         await discovery.AdvertiseMasterEndpointAsync(
             new MasterEndpoint { Url = new Uri("http://master:5099") },
             CancellationToken.None);
@@ -114,7 +114,7 @@ public class RedisMasterDiscoveryTests
     [Test]
     public async Task Discovery_Times_Out()
     {
-        var discovery = Create(new FakeStore(), pollInterval: TimeSpan.FromMilliseconds(50), timeout: TimeSpan.FromMilliseconds(300));
+        await using var discovery = Create(new FakeStore(), pollInterval: TimeSpan.FromMilliseconds(50), timeout: TimeSpan.FromMilliseconds(300));
 
         await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
             .Throws<TimeoutException>();
@@ -123,7 +123,7 @@ public class RedisMasterDiscoveryTests
     [Test]
     public async Task Discovery_Propagates_Caller_Cancellation()
     {
-        var discovery = Create(new FakeStore(), pollInterval: TimeSpan.FromMilliseconds(50), timeout: TimeSpan.FromSeconds(30));
+        await using var discovery = Create(new FakeStore(), pollInterval: TimeSpan.FromMilliseconds(50), timeout: TimeSpan.FromSeconds(30));
         using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
 
         await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(cancellation.Token))
@@ -133,7 +133,7 @@ public class RedisMasterDiscoveryTests
     [Test]
     public async Task Discovery_Does_Not_Translate_A_Store_Cancellation_Into_A_Timeout()
     {
-        var discovery = Create(new FakeStore { ThrowOnRead = new OperationCanceledException("store canceled") });
+        await using var discovery = Create(new FakeStore { ThrowOnRead = new OperationCanceledException("store canceled") });
 
         await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
             .ThrowsExactly<OperationCanceledException>();
@@ -182,12 +182,15 @@ public class RedisMasterDiscoveryTests
 
         public int Deletes => Volatile.Read(ref _deletes);
 
-        public Task DeleteAsync(string key, CancellationToken cancellationToken)
+        public Task DeleteAsync(string key, string expectedValue, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _deletes);
-            Values.TryRemove(key, out _);
+            ((ICollection<KeyValuePair<string, string>>) Values).Remove(new(key, expectedValue));
             return Task.CompletedTask;
         }
+
+        public Task<bool> RefreshAsync(string key, string expectedValue, TimeSpan ttl, CancellationToken cancellationToken) =>
+            Task.FromResult(Values.TryGetValue(key, out var value) && value == expectedValue);
 
         public Exception? ThrowOnWrite { get; init; }
 

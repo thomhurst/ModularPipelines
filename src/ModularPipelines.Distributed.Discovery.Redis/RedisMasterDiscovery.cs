@@ -17,25 +17,55 @@ internal sealed class RedisMasterDiscovery(
     IRedisDiscoveryStore store,
     RedisDiscoveryOptions options,
     DistributedOptions distributedOptions,
-    ILogger<RedisMasterDiscovery> logger) : IMasterDiscovery, IDistributedRunCleanup
+    ILogger<RedisMasterDiscovery> logger,
+    TimeProvider? timeProvider = null) : IMasterDiscovery, IDistributedRunCleanup, IAsyncDisposable
 {
     private readonly IRedisDiscoveryStore _store = store;
     private readonly RedisDiscoveryOptions _options = options;
     private readonly ILogger<RedisMasterDiscovery> _logger = logger;
     private readonly string _masterEndpointKey = $"{options.KeyPrefix}:{distributedOptions.RunId}:master-endpoint";
-    private volatile bool _advertised;
+    private readonly SemaphoreSlim _lifecycleLock = new(1, 1);
+    private readonly CancellationTokenSource _renewalCancellation = new();
+    private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
+    private Task _renewal = Task.CompletedTask;
+    private string? _advertisedValue;
+    private bool _advertised;
+    private bool _stopped;
 
     public async Task AdvertiseMasterEndpointAsync(MasterEndpoint endpoint, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(endpoint);
-        var value = JsonSerializer.Serialize(new StoredEndpoint(endpoint.Url.AbsoluteUri, endpoint.AccessToken));
-        // Set first: a write that fails ambiguously may still have stored the token, and deleting is idempotent.
-        _advertised = true;
-        await _store.SetAsync(_masterEndpointKey, value, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
-        _logger.LogInformation(
-            "Advertised the master endpoint in Redis (time to live: {TimeToLive})",
-            _options.TimeToLive);
-        _logger.LogDebug("Advertised master URL {Url} at key {Key}", endpoint.Url, _masterEndpointKey);
+        await _lifecycleLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            ObjectDisposedException.ThrowIf(_stopped, this);
+            if (_advertised)
+            {
+                throw new InvalidOperationException("This discovery instance has already advertised a master endpoint.");
+            }
+
+            // A failed attempt may have reached Redis. Remove it before replacing the retained
+            // ownership value, so another failed write cannot orphan the previous token.
+            if (_advertisedValue is { } previousValue)
+            {
+                await _store.DeleteAsync(_masterEndpointKey, previousValue, cancellationToken).ConfigureAwait(false);
+            }
+
+            // Retain ownership even on an ambiguous write failure so cleanup can remove the token.
+            // A unique advertisement ID distinguishes replacement masters with identical URLs and tokens.
+            _advertisedValue = JsonSerializer.Serialize(new StoredEndpoint(endpoint.Url.AbsoluteUri, endpoint.AccessToken, Guid.NewGuid().ToString("N")));
+            await _store.SetAsync(_masterEndpointKey, _advertisedValue, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
+            _advertised = true;
+            _renewal = RenewAsync(_advertisedValue, _renewalCancellation.Token);
+            _logger.LogInformation(
+                "Advertised the master endpoint in Redis (time to live: {TimeToLive})",
+                _options.TimeToLive);
+            _logger.LogDebug("Advertised master URL {Url} at key {Key}", endpoint.Url, _masterEndpointKey);
+        }
+        finally
+        {
+            _lifecycleLock.Release();
+        }
     }
 
     public async Task<MasterEndpoint> DiscoverMasterEndpointAsync(CancellationToken cancellationToken)
@@ -76,14 +106,80 @@ internal sealed class RedisMasterDiscovery(
     public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(context);
-        if (!_advertised)
+        await _lifecycleLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            await StopRenewalAsync().ConfigureAwait(false);
+            if (_advertisedValue is { } value)
+            {
+                await _store.DeleteAsync(_masterEndpointKey, value, cancellationToken).ConfigureAwait(false);
+                _advertisedValue = null;
+                _logger.LogDebug("Removed this master's advertised endpoint at key {Key}", _masterEndpointKey);
+            }
+        }
+        finally
+        {
+            _lifecycleLock.Release();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _lifecycleLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            await StopRenewalAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            _lifecycleLock.Release();
+        }
+    }
+
+    private async Task StopRenewalAsync()
+    {
+        if (_stopped)
         {
             return;
         }
 
-        await _store.DeleteAsync(_masterEndpointKey, cancellationToken).ConfigureAwait(false);
-        _advertised = false;
-        _logger.LogDebug("Deleted the advertised master endpoint at key {Key}", _masterEndpointKey);
+        _stopped = true;
+        await _renewalCancellation.CancelAsync().ConfigureAwait(false);
+        await _renewal.ConfigureAwait(false);
+        _renewalCancellation.Dispose();
+    }
+
+    private async Task RenewAsync(string value, CancellationToken cancellationToken)
+    {
+        var interval = TimeSpan.FromTicks(Math.Min(_options.TimeToLive.Ticks / 3, TimeSpan.FromMinutes(1).Ticks));
+        using var timer = new PeriodicTimer(interval, _timeProvider);
+        try
+        {
+            while (await timer.WaitForNextTickAsync(cancellationToken).ConfigureAwait(false))
+            {
+                try
+                {
+                    if (!await _store.RefreshAsync(_masterEndpointKey, value, _options.TimeToLive, cancellationToken).ConfigureAwait(false))
+                    {
+                        _logger.LogWarning("Master endpoint renewal stopped because the advertisement expired, was removed, or was replaced");
+                        return;
+                    }
+                }
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+                catch (Exception exception)
+                {
+                    // Store exceptions can include command arguments containing the access token.
+                    _logger.LogWarning("Could not renew the master endpoint ({ErrorType}); retrying at the next renewal interval", exception.GetType().Name);
+                }
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            // Cleanup/disposal cancels the timer and any in-flight store operation before returning.
+        }
     }
 
     private MasterEndpoint Parse(string value)
@@ -109,5 +205,5 @@ internal sealed class RedisMasterDiscovery(
         return new MasterEndpoint { Url = url, AccessToken = stored.AccessToken };
     }
 
-    private sealed record StoredEndpoint(string Url, string? AccessToken);
+    private sealed record StoredEndpoint(string Url, string? AccessToken, string? AdvertisementId = null);
 }
