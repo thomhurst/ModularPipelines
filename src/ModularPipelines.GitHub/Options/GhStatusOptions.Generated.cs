@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// - Assigned Issues
+/// - Assigned Issues - Assigned Pull Requests - Review Requests - Mentions - Repository Activity (new issues/pull requests, comments)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

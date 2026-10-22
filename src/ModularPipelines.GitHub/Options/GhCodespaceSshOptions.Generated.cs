@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// The `ssh` command is used to SSH into a codespace. In its simplest form, you can
+/// The `ssh` command is used to SSH into a codespace. In its simplest form, you can run `gh cs ssh`, select a codespace interactively, and connect.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -67,12 +67,6 @@ public record GhCodespaceSshOptions : GhOptions
     /// </summary>
     [CliOption("--server-port", Format = OptionFormat.EqualsSeparated)]
     public int? ServerPort { get; set; }
-
-    /// <summary>
-    /// The &lt;flags&gt; operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? Flags { get; set; }
 
     /// <summary>
     /// The &lt;ssh-flags&gt; operand.

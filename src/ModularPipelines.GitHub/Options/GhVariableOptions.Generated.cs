@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Variables can be set at the repository, environment or organization level for use in
+/// Variables can be set at the repository, environment or organization level for use in GitHub Actions or Dependabot. Run `gh help variable set` to learn how to get started.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

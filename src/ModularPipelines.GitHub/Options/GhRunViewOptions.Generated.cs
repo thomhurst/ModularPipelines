@@ -24,7 +24,7 @@ public record GhRunViewOptions : GhOptions
     /// The attempt number of the workflow run
     /// </summary>
     [CliOption("--attempt", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
-    public int? Attempt { get; set; }
+    public ulong? Attempt { get; set; }
 
     /// <summary>
     /// Exit with non-zero status if run failed

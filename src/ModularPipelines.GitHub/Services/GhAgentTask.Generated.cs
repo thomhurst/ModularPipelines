@@ -32,7 +32,7 @@ public class GhAgentTask : IGhAgentTask
     #region Commands
 
     /// <summary>
-    /// Working with agent tasks in the GitHub CLI is in preview and
+    /// Working with agent tasks in the GitHub CLI is in preview and subject to change without notice.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

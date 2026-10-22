@@ -47,7 +47,7 @@ public class GhSkill : IGhSkill
     }
 
     /// <summary>
-    /// Install agent skills from a GitHub repository or local directory into
+    /// Install agent skills from a GitHub repository or local directory into your local environment. Skills are placed in a host-specific directory at either project scope (inside the current git repository) or user scope (in your home directory, available everywhere).
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GhSkill : IGhSkill
     }
 
     /// <summary>
-    /// Render a skill's `SKILL.md` content in the terminal. This fetches the
+    /// Render a skill's `SKILL.md` content in the terminal. This fetches the skill file from the repository and displays it using the configured pager, without installing anything.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class GhSkill : IGhSkill
     }
 
     /// <summary>
-    /// Validate a local repository's skills against the Agent Skills specification
+    /// Validate a local repository's skills against the Agent Skills specification and publish them by creating a GitHub release.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class GhSkill : IGhSkill
     }
 
     /// <summary>
-    /// Checks installed skills for available updates by comparing the local
+    /// Checks installed skills for available updates by comparing the local tree SHA (from `SKILL.md` frontmatter) against the remote repository.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -32,7 +32,7 @@ public class GhRuleset : IGhRuleset
     #region Commands
 
     /// <summary>
-    /// Repository rulesets are a way to define a set of rules that apply to a repository.
+    /// Repository rulesets are a way to define a set of rules that apply to a repository. These commands allow you to view information about them.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

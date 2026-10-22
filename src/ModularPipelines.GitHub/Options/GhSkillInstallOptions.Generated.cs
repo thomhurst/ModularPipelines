@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Install agent skills from a GitHub repository or local directory into
+/// Install agent skills from a GitHub repository or local directory into your local environment. Skills are placed in a host-specific directory at either project scope (inside the current git repository) or user scope (in your home directory, available everywhere).
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.GitHub.Options;
 public record GhSkillInstallOptions : GhOptions
 {
     /// <summary>
-    /// Install agent skills from a GitHub repository or local directory into
+    /// Install agent skills from a GitHub repository or local directory into your local environment. Skills are placed in a host-specific directory at either project scope (inside the current git repository) or user scope (in your home directory, available everywhere).
     /// </summary>
     /// <param name="Repository">The &lt;repository&gt; operand.</param>
     public GhSkillInstallOptions(

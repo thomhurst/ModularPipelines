@@ -77,7 +77,7 @@ public class GhAttestation : IGhAttestation
     }
 
     /// <summary>
-    /// Verify the integrity and provenance of an artifact using its associated
+    /// Verify the integrity and provenance of an artifact using its associated cryptographically signed attestations.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

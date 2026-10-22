@@ -32,7 +32,7 @@ public class GhVariable : IGhVariable
     #region Commands
 
     /// <summary>
-    /// Variables can be set at the repository, environment or organization level for use in
+    /// Variables can be set at the repository, environment or organization level for use in GitHub Actions or Dependabot. Run `gh help variable set` to learn how to get started.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class GhVariable : IGhVariable
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class GhVariable : IGhVariable
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class GhVariable : IGhVariable
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class GhVariable : IGhVariable
     }
 
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

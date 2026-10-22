@@ -117,7 +117,7 @@ public interface IGhCodespace
     public Task<CommandResult> RebuildAsync(GhCodespaceRebuildOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// The `ssh` command is used to SSH into a codespace. In its simplest form, you can
+    /// The `ssh` command is used to SSH into a codespace. In its simplest form, you can run `gh cs ssh`, select a codespace interactively, and connect.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

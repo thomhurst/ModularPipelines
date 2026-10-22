@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Clone a GitHub repository locally. Pass additional `git clone` flags by listing
+/// Clone a GitHub repository locally. Pass additional `git clone` flags by listing them after `--`.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.GitHub.Options;
 public record GhRepoCloneOptions : GhOptions
 {
     /// <summary>
-    /// Clone a GitHub repository locally. Pass additional `git clone` flags by listing
+    /// Clone a GitHub repository locally. Pass additional `git clone` flags by listing them after `--`.
     /// </summary>
     /// <param name="Repository">The &lt;repository&gt; operand.</param>
     public GhRepoCloneOptions(

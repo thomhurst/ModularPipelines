@@ -9,12 +9,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.GitHub.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// - Issues
+/// - Issues - Pull requests - Repository content - Repository home page - Repository settings
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

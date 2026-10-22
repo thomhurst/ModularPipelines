@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Clones labels from a source repository to a destination repository on GitHub.
+/// Clones labels from a source repository to a destination repository on GitHub. By default, the destination repository is the current repository.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.GitHub.Options;
 public record GhLabelCloneOptions : GhOptions
 {
     /// <summary>
-    /// Clones labels from a source repository to a destination repository on GitHub.
+    /// Clones labels from a source repository to a destination repository on GitHub. By default, the destination repository is the current repository.
     /// </summary>
     /// <param name="SourceRepository">The &lt;source-repository&gt; operand.</param>
     public GhLabelCloneOptions(

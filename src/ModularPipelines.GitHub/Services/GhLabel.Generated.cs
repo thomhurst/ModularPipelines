@@ -47,7 +47,7 @@ public class GhLabel : IGhLabel
     }
 
     /// <summary>
-    /// Clones labels from a source repository to a destination repository on GitHub.
+    /// Clones labels from a source repository to a destination repository on GitHub. By default, the destination repository is the current repository.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

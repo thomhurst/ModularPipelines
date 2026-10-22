@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+/// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.GitHub.Options;
 public record GhVariableDeleteOptions : GhOptions
 {
     /// <summary>
-    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository
+    /// - repository (default): available to GitHub Actions runs or Dependabot in a repository - environment: available to GitHub Actions runs for a deployment environment in a repository - organization: available to GitHub Actions runs or Dependabot within an organization
     /// </summary>
     /// <param name="VariableName">The &lt;variable-name&gt; operand.</param>
     public GhVariableDeleteOptions(

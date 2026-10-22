@@ -13,7 +13,7 @@ using ModularPipelines.GitHub.Options;
 namespace ModularPipelines.GitHub.Options;
 
 /// <summary>
-/// Render a skill's `SKILL.md` content in the terminal. This fetches the
+/// Render a skill's `SKILL.md` content in the terminal. This fetches the skill file from the repository and displays it using the configured pager, without installing anything.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.GitHub.Options;
 public record GhSkillPreviewOptions : GhOptions
 {
     /// <summary>
-    /// Render a skill's `SKILL.md` content in the terminal. This fetches the
+    /// Render a skill's `SKILL.md` content in the terminal. This fetches the skill file from the repository and displays it using the configured pager, without installing anything.
     /// </summary>
     /// <param name="Repository">The &lt;repository&gt; operand.</param>
     public GhSkillPreviewOptions(
