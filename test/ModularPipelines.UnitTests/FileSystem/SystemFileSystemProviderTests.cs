@@ -23,6 +23,20 @@ public class SystemFileSystemProviderTests : IDisposable
     }
 
     [Test]
+    public async Task CreateNewCollisionPreservesExistingFile()
+    {
+        var path = Path.Combine(_tempDir, "collision.txt");
+        await File.WriteAllTextAsync(path, "original");
+
+        await Assert.That(() => _provider.Open(path, FileMode.CreateNew, FileAccess.Write)).Throws<IOException>();
+        await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo("original");
+
+        File.Delete(path);
+        using var stream = _provider.Open(path, FileMode.CreateNew, FileAccess.Write);
+        await Assert.That(stream.CanWrite).IsTrue();
+    }
+
+    [Test]
     public async Task ReadAllTextAsync_ReadsFileContents()
     {
         var filePath = Path.Combine(_tempDir, "test.txt");

@@ -5,6 +5,45 @@ namespace ModularPipelines.Testing.UnitTests;
 public class InMemoryFileSystemProviderTests
 {
     [Test]
+    public async Task FailedCreationPreservesDirectoryMetadata()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "directory-collision");
+        var created = new DateTime(2020, 1, 2, 3, 4, 5, DateTimeKind.Utc);
+        provider.CreateDirectory(path);
+        provider.SetCreationTimeUtc(path, created);
+
+        await Assert.That(() => provider.Open(path, FileMode.CreateNew, FileAccess.Write)).Throws<IOException>();
+        await Assert.That(provider.GetAttributes(path)).IsEqualTo(FileAttributes.Directory);
+        await Assert.That(provider.GetCreationTimeUtc(path)).IsEqualTo(created);
+        await Assert.That(provider.FileExists(path)).IsFalse();
+
+        provider.DeleteDirectory(path, recursive: false);
+        using var retry = provider.Open(path, FileMode.CreateNew, FileAccess.Write);
+        await Assert.That(retry.CanWrite).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CreateNewCollisionPreservesExistingFile(bool competingWriter)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "collision.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        using (var stream = competingWriter ? provider.Open(path, FileMode.Open, FileAccess.Write) : null)
+        {
+            await Assert.That(() => provider.Open(path, FileMode.CreateNew, FileAccess.Write)).Throws<IOException>();
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+        provider.DeleteFile(path);
+        using var retry = provider.Open(path, FileMode.CreateNew, FileAccess.Write);
+        await Assert.That(retry.CanWrite).IsTrue();
+    }
+
+    [Test]
     public async Task SupportsFileLifecycleOperations()
     {
         var provider = new InMemoryFileSystemProvider();
