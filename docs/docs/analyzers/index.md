@@ -13,7 +13,7 @@ sidebar_position: 1
 | [`MP0001`](./MP0001.md) | Usage | Error | Public analyzer package | Accesses a module result without declaring the dependency. |
 | [`MP0002`](./MP0002.md) | Usage | Error | Public analyzer package | Uses IEnumerable as a module result instead of a concrete collection. |
 | [`MP0003`](./MP0003.md) | Usage | Error | Public analyzer package | Injects a logger into a module constructor instead of using the module context. |
-| [`MP0004`](./MP0004.md) | Usage | Error | Public analyzer package | Writes directly to System.Console instead of using pipeline logging. |
+| [`MP0004`](./MP0004.md) | Usage | Disabled | Public analyzer package | Optional policy restricting direct System.Console calls in projects that require structured logging. |
 | [`MP0005`](./MP0005.md) | Usage | Error | Public analyzer package | Creates a circular dependency between modules. |
 | [`MP0006`](./MP0006.md) | Usage | Error | Public analyzer package | Implements ExecuteAsync without the async modifier. |
 | [`MP0007`](./MP0007.md) | Usage | Error | Public analyzer package | Awaits the current module instance. |

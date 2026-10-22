@@ -114,7 +114,7 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor..
+        ///   Looks up a localized string similar to Optional policy for projects that require structured logging instead of direct System.Console calls. Disabled by default because captured module stdout/stderr and Program.cs console output are supported..
         /// </summary>
         internal static string ConsoleUseAnalyzerDescription {
             get {
@@ -123,7 +123,7 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor..
+        ///   Looks up a localized string similar to Direct System.Console call violates the enabled console policy; use structured logging instead.
         /// </summary>
         internal static string ConsoleUseAnalyzerMessageFormat {
             get {
@@ -132,7 +132,7 @@ namespace ModularPipelines.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use of Console detected.
+        ///   Looks up a localized string similar to Prefer structured logging over direct console calls.
         /// </summary>
         internal static string ConsoleUseAnalyzerTitle {
             get {

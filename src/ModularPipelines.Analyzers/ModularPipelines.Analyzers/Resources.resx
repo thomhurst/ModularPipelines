@@ -145,13 +145,13 @@
     <value>Logger found in constructor</value>
   </data>
     <data name="ConsoleUseAnalyzerDescription" xml:space="preserve">
-    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor.</value>
+    <value>Optional policy for projects that require structured logging instead of direct System.Console calls. Disabled by default because captured module stdout/stderr and Program.cs console output are supported.</value>
   </data>
     <data name="ConsoleUseAnalyzerMessageFormat" xml:space="preserve">
-    <value>Do not use the Console directly. Use context.Logger or inject in IModuleLoggerAccessor.</value>
+    <value>Direct System.Console call violates the enabled console policy; use structured logging instead</value>
   </data>
     <data name="ConsoleUseAnalyzerTitle" xml:space="preserve">
-    <value>Use of Console detected</value>
+    <value>Prefer structured logging over direct console calls</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerTitle" xml:space="preserve">
     <value>Circular dependency detected</value>

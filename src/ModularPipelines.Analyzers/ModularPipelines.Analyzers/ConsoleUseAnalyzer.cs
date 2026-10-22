@@ -17,7 +17,9 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
         DiagnosticId,
         nameof(Resources.ConsoleUseAnalyzerTitle),
         nameof(Resources.ConsoleUseAnalyzerMessageFormat),
-        nameof(Resources.ConsoleUseAnalyzerDescription));
+        nameof(Resources.ConsoleUseAnalyzerDescription),
+        severity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: false);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
