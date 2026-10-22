@@ -103,7 +103,8 @@ function Invoke-Guard(
     [string]$Location,
     [string]$LogPath,
     [string]$ReadyPath,
-    [string]$WaitsPath) {
+    [string]$WaitsPath,
+    [int]$OuterTimeoutSeconds = 0) {
     $invocationScript = $guardScript
     if ($ReadyPath) {
         $invocationScript = Write-ReadyGuard -ReadyPath $ReadyPath -WaitsPath $WaitsPath
@@ -135,6 +136,32 @@ function Invoke-Guard(
     $command += "-DotNetArguments @($argumentLiterals)"
     $command += '; exit $LASTEXITCODE'
     $encodedCommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
+
+    if ($OuterTimeoutSeconds -gt 0) {
+        $startInfo = [System.Diagnostics.ProcessStartInfo]::new($pwshPath)
+        $startInfo.UseShellExecute = $false
+        $startInfo.CreateNoWindow = $true
+        foreach ($argument in @('-NoProfile', '-OutputFormat', 'Text', '-EncodedCommand', $encodedCommand)) {
+            $startInfo.ArgumentList.Add($argument)
+        }
+
+        $guard = [System.Diagnostics.Process]::Start($startInfo)
+        try {
+            if (-not $guard.WaitForExit($OuterTimeoutSeconds * 1000)) {
+                throw "Guard did not exit within the ${OuterTimeoutSeconds}s outer test deadline."
+            }
+
+            return $guard.ExitCode
+        }
+        finally {
+            if (-not $guard.HasExited) {
+                $guard.Kill($true)
+                $guard.WaitForExit()
+            }
+
+            $guard.Dispose()
+        }
+    }
 
     & $pwshPath -NoProfile -OutputFormat Text -EncodedCommand $encodedCommand
     return $LASTEXITCODE
@@ -420,6 +447,62 @@ Start-Sleep -Seconds 60
     }
 
     Write-Output 'OK logged timeout and memory-limit exit codes, diagnostics, and partial output.'
+
+    if ($IsLinux) {
+        # A fast native child reparents before the next snapshot and starts a new
+        # session, escaping process-group cleanup while keeping both pipes open.
+        $escapedPidPath = Join-Path $testRoot 'escaped.pid'
+        foreach ($expectedExitCode in @(23, 124)) {
+            try {
+                $shellCommand = 'setsid /bin/sh -c ''echo $$ > "$1"; ' +
+                    'printf "escaped-stdout\n"; printf "escaped-stderr\n" >&2; exec sleep 90'' ' +
+                    'sh "$1" < /dev/null & '
+                $shellCommand += if ($expectedExitCode -eq 23) { 'exit 23' } else { 'sleep 90' }
+                # Allow the PowerShell wrapper to start even on a loaded host.
+                # The regression targets the drain deadline, not startup speed.
+                $timeoutSeconds = if ($expectedExitCode -eq 23) { 30 } else { 15 }
+                $guardExitCode = Invoke-Guard `
+                    -TimeoutSeconds $timeoutSeconds `
+                    -MemoryLimitMb 512 `
+                    -PollIntervalMilliseconds 10000 `
+                    -DotNetPath '/bin/sh' `
+                    -LogPath $outputLogPath `
+                    -OuterTimeoutSeconds 40 `
+                    -Arguments @('-c', $shellCommand, 'sh', $escapedPidPath)
+
+                if ($guardExitCode -ne $expectedExitCode) {
+                    throw "Escaped-pipe command returned $guardExitCode instead of $expectedExitCode."
+                }
+
+                $log = Get-Content -LiteralPath $outputLogPath -Raw
+                if ($log -notmatch 'escaped-stdout' -or $log -notmatch 'escaped-stderr' -or
+                    $log -notmatch 'output drain exceeded 5s') {
+                    throw 'Escaped-pipe cleanup did not capture both streams and the drain warning.'
+                }
+
+                if ($expectedExitCode -eq 124 -and $log -notmatch 'exceeded 15s timeout') {
+                    throw 'Escaped-pipe cleanup lost the timeout diagnostic.'
+                }
+            }
+            finally {
+                if (Test-Path -LiteralPath $escapedPidPath) {
+                    $escapedProcess = [System.Diagnostics.Process]::GetProcessById(
+                        [int](Get-Content -LiteralPath $escapedPidPath -Raw))
+                    try {
+                        $escapedProcess.Kill($true)
+                        $escapedProcess.WaitForExit()
+                    }
+                    finally {
+                        $escapedProcess.Dispose()
+                    }
+
+                    Remove-Item -LiteralPath $escapedPidPath -Force
+                }
+            }
+        }
+
+        Write-Output 'OK bounded drain with escaped inherited pipes on normal exit and timeout.'
+    }
 
     if ($OutputCaptureOnly) {
         return

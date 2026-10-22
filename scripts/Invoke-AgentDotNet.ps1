@@ -24,6 +24,9 @@ Invoke in-process so -DotNetArguments receives the array intact; see AGENTS.md.
 
 Captures both child streams while retaining the command's exit code and limits.
 Output order within each stream is preserved; cross-stream ordering is unspecified.
+After process cleanup, output drains for at most five seconds. If an escaped
+descendant keeps a pipe open, capture stops with a diagnostic and may be truncated;
+the command's exit code is preserved.
 #>
 
 [CmdletBinding(PositionalBinding = $false)]
@@ -56,20 +59,58 @@ if ($LogPath) {
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
-public static class AgentDotNetOutputLog
+public sealed class AgentDotNetOutputLog : IDisposable
 {
-    public static Task CaptureAsync(Process process, TextWriter writer)
+    private readonly object writeLock = new object();
+    private readonly Task outputTask;
+    private TextWriter writer;
+
+    public AgentDotNetOutputLog(Process process, TextWriter writer)
     {
+        this.writer = writer;
         // Use .NET tasks rather than PowerShell callbacks, which need a runspace.
         // Both pipes must be drained concurrently, even when one is very busy.
-        return Task.WhenAll(
-            Task.Run(() => CopyAsync(process.StandardOutput, writer)),
-            Task.Run(() => CopyAsync(process.StandardError, writer)));
+        outputTask = Task.WhenAll(
+            Task.Run(() => CopyAsync(process.StandardOutput)),
+            Task.Run(() => CopyAsync(process.StandardError)));
+
+        // Closing the readers after a drain timeout can fault abandoned reads.
+        // Observe those faults without making shutdown wait for the tasks again.
+        _ = outputTask.ContinueWith(
+            task => { _ = task.Exception; },
+            CancellationToken.None,
+            TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
     }
 
-    private static async Task CopyAsync(StreamReader reader, TextWriter writer)
+    public bool Complete(int timeoutMilliseconds)
+    {
+        return outputTask.Wait(timeoutMilliseconds);
+    }
+
+    public void Dispose()
+    {
+        // Synchronize with every write before the caller disposes the log.
+        // Late reads can never write to a disposed writer, even if closing
+        // their pipe takes time to complete the asynchronous operation.
+        lock (writeLock)
+        {
+            writer = null;
+        }
+    }
+
+    private void Write(char[] buffer, int start, int count)
+    {
+        lock (writeLock)
+        {
+            writer?.Write(buffer, start, count);
+        }
+    }
+
+    private async Task CopyAsync(StreamReader reader)
     {
         var buffer = new char[4096];
         int buffered = 0;
@@ -80,7 +121,7 @@ public static class AgentDotNetOutputLog
             int length = buffered + read;
             if (read == 0)
             {
-                writer.Write(buffer, 0, length);
+                Write(buffer, 0, length);
                 return;
             }
 
@@ -91,7 +132,7 @@ public static class AgentDotNetOutputLog
             {
                 if (buffer[index] == '\n')
                 {
-                    writer.Write(buffer, start, index - start + 1);
+                    Write(buffer, start, index - start + 1);
                     start = index + 1;
                 }
             }
@@ -100,7 +141,7 @@ public static class AgentDotNetOutputLog
             if (buffered == buffer.Length)
             {
                 int count = char.IsHighSurrogate(buffer[length - 1]) ? length - 1 : length;
-                writer.Write(buffer, 0, count);
+                Write(buffer, 0, count);
                 start = count;
                 buffered -= count;
             }
@@ -792,7 +833,7 @@ $windowsJobHandle = [IntPtr]::Zero
 $windowsStartGate = $null
 $unixProcessGroupId = 0
 $logWriter = $null
-$outputTask = $null
+$outputCapture = $null
 
 function Write-GuardError([string]$Message) {
     [Console]::Error.WriteLine($Message)
@@ -833,7 +874,7 @@ try {
 
     $processStarted = $true
     if ($null -ne $logWriter) {
-        $outputTask = [AgentDotNetOutputLog]::CaptureAsync($process, $logWriter)
+        $outputCapture = [AgentDotNetOutputLog]::new($process, $logWriter)
     }
 
     if ($IsWindows) {
@@ -911,13 +952,18 @@ finally {
             [AgentDotNetWindowsJob]::Close($windowsJobHandle)
         }
 
-        # Descendants can inherit these pipes. Stop the entire tree before waiting
-        # for EOF, including on normal exit, or an orphan can keep the log open.
-        if ($null -ne $outputTask) {
-            $outputTask.GetAwaiter().GetResult()
+        # Escaped descendants may retain a pipe even after process-tree cleanup.
+        # Bound the drain, detach the writer, and let Process.Dispose close both
+        # readers without allowing late capture writes to touch the disposed log.
+        if ($null -ne $outputCapture -and -not $outputCapture.Complete(5000)) {
+            Write-GuardError 'Agent dotnet output drain exceeded 5s after process cleanup; the log may be truncated.'
         }
     }
     finally {
+        if ($null -ne $outputCapture) {
+            $outputCapture.Dispose()
+        }
+
         if ($null -ne $logWriter) {
             $logWriter.Dispose()
         }
