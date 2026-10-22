@@ -51,6 +51,47 @@ public class CliCommandFactoryTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Windows_Script_Preserves_Configured_Comspec(bool useAbsolutePath)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var directory = Directory.CreateTempSubdirectory("mp configured host tests ");
+        var host = Path.Combine(directory.FullName, "configured-host.exe");
+        var script = Path.Combine(directory.FullName, "script.cmd");
+        var originalComspec = Environment.GetEnvironmentVariable("COMSPEC");
+
+        try
+        {
+            await File.WriteAllBytesAsync(host, []);
+            await File.WriteAllTextAsync(script, "@echo off\r\n");
+            Environment.SetEnvironmentVariable("COMSPEC", useAbsolutePath ? host : "configured-host.exe");
+
+            var prepared = CliCommandFactory.Create(script, [], new CommandExecutionOptions
+            {
+                WorkingDirectory = directory.FullName,
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["PATH"] = directory.FullName,
+                    ["PATHEXT"] = ".EXE;.CMD",
+                },
+            });
+
+            await Assert.That(prepared.Command.CreateStartInfo().FileName).IsEqualTo(host);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("COMSPEC", originalComspec);
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Unresolved_Command_Starts_Tool_As_Named()
     {
         if (OperatingSystem.IsWindows())
