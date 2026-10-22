@@ -253,7 +253,9 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
     {
         var isFlag = string.IsNullOrEmpty(valueHint) || valueHint == "bool";
         // MFA uses StringSliceVar even though its help omits the repeatability sentence.
-        var repeatable = !isFlag && (flagName == "-mfa" || IsRepeatableValueOption(description, isFlag));
+        // Vault's StringMapVar uses <key=value> without necessarily documenting repetition.
+        var repeatable = !isFlag && (valueHint == "key=value" || flagName == "-mfa"
+            || IsRepeatableValueOption(description, isFlag));
         var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", repeatable);
 
         return new CliOptionDefinition
