@@ -84,12 +84,23 @@ catch (Exception exception) when (
 {
 }
 
-// Referencing the open selector interface must retain its implemented constructions after trimming.
+// Module registration must retain implemented interface constructions, even when only the open selector is referenced.
 var interfaceSelector = new DependsOnAllModulesInheritingFromAttribute(typeof(ISmokeStep<>));
 if (!interfaceSelector.ShouldDependOn(typeof(ClosedGenericModule<int>), null!)
     || interfaceSelector.ShouldDependOn(typeof(TransitiveGenericModule<string>), null!))
 {
     throw new InvalidOperationException("Open generic interface dependency selection failed after trimming.");
+}
+
+// Use a separate interface so these closed references cannot preserve the open selector's constructions.
+var closedInterfaceSelector = new DependsOnAllModulesInheritingFromAttribute(typeof(IClosedSmokeStep<int>));
+var genericInterfaceSelector = new DependsOnAllModulesInheritingFromAttribute<IClosedSmokeStep<int>>();
+var unrelatedInterfaceSelector = new DependsOnAllModulesInheritingFromAttribute(typeof(IClosedSmokeStep<string>));
+if (!closedInterfaceSelector.ShouldDependOn(typeof(ClosedGenericModule<int>), null!)
+    || !genericInterfaceSelector.ShouldDependOn(typeof(ClosedGenericModule<int>), null!)
+    || unrelatedInterfaceSelector.ShouldDependOn(typeof(ClosedGenericModule<int>), null!))
+{
+    throw new InvalidOperationException("Closed generic interface dependency selection failed after trimming.");
 }
 
 Console.WriteLine("TRIM_AOT_SMOKE_OK");
@@ -263,7 +274,7 @@ internal sealed class IgnoredValueModule : Module<int>
 
 [SmokeHook]
 [DependsOn<TransitiveGenericModule<string>>]
-internal sealed class ClosedGenericModule<T> : Module<bool>, ISmokeStep<T>
+internal sealed class ClosedGenericModule<T> : Module<bool>, ISmokeStep<T>, IClosedSmokeStep<T>
 {
     protected override Task<bool> ExecuteAsync(
         IModuleContext context,
@@ -306,3 +317,5 @@ internal sealed class PendingAfterFailureModule : Module<int>
 }
 
 internal interface ISmokeStep<T> : IModule;
+
+internal interface IClosedSmokeStep<T> : IModule;

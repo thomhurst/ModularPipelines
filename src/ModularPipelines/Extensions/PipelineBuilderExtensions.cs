@@ -39,7 +39,7 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddModule<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.Interfaces)] TModule>(
         this PipelineBuilder builder)
         where TModule : class, IModule
     {
@@ -58,7 +58,8 @@ public static class PipelineBuilderExtensions
     /// <remarks>
     /// The pipeline takes ownership of the instance and disposes it when the pipeline is disposed.
     /// </remarks>
-    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, TModule module)
+    public static PipelineBuilder AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] TModule>(this PipelineBuilder builder, TModule module)
         where TModule : class, IModule
     {
         ArgumentNullException.ThrowIfNull(builder);
@@ -74,7 +75,8 @@ public static class PipelineBuilderExtensions
     /// <param name="factory">A factory method for creating the module.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
+    public static PipelineBuilder AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
         where TModule : class, IModule
     {
         ArgumentNullException.ThrowIfNull(builder);

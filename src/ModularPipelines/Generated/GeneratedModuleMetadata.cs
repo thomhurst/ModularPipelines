@@ -32,7 +32,7 @@ public static class GeneratedModuleMetadata
     /// <returns>The generated registration metadata.</returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static GeneratedModuleRegistration CreateRegistration<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.Interfaces)] TModule>(
         IReadOnlyList<ModuleDependencyMetadata> dependencies,
         bool dependenciesComplete = true)
         where TModule : class, IModule
@@ -50,7 +50,7 @@ public static class GeneratedModuleMetadata
     /// <returns>The generated registration metadata.</returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static GeneratedModuleRegistration CreateRegistration<
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.Interfaces)] TModule,
         TResult>(
         IReadOnlyList<ModuleDependencyMetadata> dependencies,
         bool dependenciesComplete = true)

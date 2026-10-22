@@ -8,7 +8,7 @@ internal static class TypeExtensions
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2070",
-        Justification = "Selector interfaces are referenced by dependency attributes, preserving their contracts on registered module types.")]
+        Justification = "Trim-safe module registration and generated metadata preserve implemented interfaces. Unregistered runtime types require caller preservation.")]
     public static bool IsOrInheritsFrom(this Type type, Type otherType)
     {
         if (otherType.IsAssignableFrom(type))
