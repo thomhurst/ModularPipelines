@@ -10,6 +10,7 @@ public partial class AwsCliScraperTests
     [Arguments("The name of an attribute.\n    o FifoThroughputScope\n        Possible values: Topic MessageGroup")]
     [Arguments("The name of an attribute.\n    o FifoThroughputScope. Possible values: Topic MessageGroup")]
     [Arguments("The name of an attribute.\no FifoThroughputScope. Possible values: Topic MessageGroup")]
+    [Arguments("The name of an attribute.\n\u2022 FifoThroughputScope. Possible values: Topic MessageGroup")]
     public async Task Enum_Detection_Rejects_Nested_Attribute_Values(string description)
     {
         await Assert.That(AwsCliScraper.TryDetectEnum("AttributeName", "AwsSnsSetTopicAttributesOptions", description)).IsNull();
@@ -18,6 +19,7 @@ public partial class AwsCliScraperTests
     [Test]
     [Arguments("o", "PRE_APPROVED")]
     [Arguments("*", "PRE_APPROVED")]
+    [Arguments("\u2022", "PRE_APPROVED")]
     [Arguments("o", "ipsec.1")]
     public async Task Single_Bullet_Value_Uses_Shared_Single_Member_Fallback(string bullet, string value)
     {
@@ -29,6 +31,7 @@ public partial class AwsCliScraperTests
     [Arguments("Possible values: o Topic The scope of message deduplication is across the entire topic.")]
     [Arguments("Possible values: o Topic o MessageGroup The scope is per group.")]
     [Arguments("Possible values: * Topic The scope is across the topic.")]
+    [Arguments("Possible values: \u2022 Topic The scope is across the topic.")]
     public async Task Bullet_Descriptions_Are_Not_Closed_Enum_Choices(string description)
     {
         await Assert.That(AwsCliScraper.TryDetectEnum("Mode", "AwsExampleOptions", description)).IsNull();
@@ -48,6 +51,7 @@ public partial class AwsCliScraperTests
     [Test]
     [Arguments("o")]
     [Arguments("*")]
+    [Arguments("\u2022")]
     public async Task Top_Level_Bullet_Values_Preserve_All_Choices(string bullet)
     {
         var definition = AwsCliScraper.TryDetectEnum("Contact", "AwsAcmCreateAcmeEndpointOptions",

@@ -740,7 +740,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         var tokens = choices.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (tokens.Length > 0 && tokens[0] is "o" or "*")
+        if (tokens.Length > 0 && tokens[0] is "o" or "*" or "\u2022")
         {
             return tokens.Length % 2 == 0
                    && tokens.Where((_, index) => index % 2 == 0).All(token => token == tokens[0])
@@ -771,6 +771,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         return trimmedPrefix.Length == 0
                || (!trimmedPrefix.StartsWith("o ", StringComparison.Ordinal)
                    && !trimmedPrefix.StartsWith("* ", StringComparison.Ordinal)
+                   && !trimmedPrefix.StartsWith("\u2022 ", StringComparison.Ordinal)
                    && trimmedPrefix.TrimEnd()[^1] is '.' or '!' or '?');
     }
 
