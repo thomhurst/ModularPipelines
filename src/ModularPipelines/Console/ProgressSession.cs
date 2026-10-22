@@ -236,7 +236,14 @@ internal class ProgressSession : IProgressSession, IProgressController
         }
         catch (Exception exception)
         {
-            _logger.LogWarning(exception, "Progress display stopped unexpectedly. Pipeline execution will continue.");
+            try
+            {
+                _logger.LogWarning(exception, "Progress display stopped unexpectedly. Pipeline execution will continue.");
+            }
+            catch (Exception)
+            {
+                // Diagnostic logging must not prevent progress cleanup or pipeline execution.
+            }
         }
         finally
         {
