@@ -153,10 +153,7 @@ internal partial class Zip
             }
             finally
             {
-                if (extractionPath != destinationPath)
-                {
-                    _fileSystemProvider.DeleteFile(extractionPath);
-                }
+                _fileSystemProvider.DeleteFile(extractionPath);
             }
         }
     }

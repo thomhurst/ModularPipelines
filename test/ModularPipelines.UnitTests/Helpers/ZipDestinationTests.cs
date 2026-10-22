@@ -22,10 +22,7 @@ public class ZipDestinationTests
         await Extract(zip, archivePath, destination, asynchronous);
 
         await Assert.That(Encoding.UTF8.GetString(output.ToArray())).IsEqualTo("archive contents");
-        provider.Verify(fileSystem => fileSystem.Open(
-            Path.GetFullPath(Path.Combine(destination, "artifact.txt")),
-            FileMode.CreateNew,
-            FileAccess.Write), Times.Once);
+        VerifyPublication(provider, destination);
     }
 
     [Test]
@@ -39,10 +36,7 @@ public class ZipDestinationTests
         await Extract(zip, archivePath, destination, asynchronous);
 
         await Assert.That(Encoding.UTF8.GetString(output.ToArray())).IsEqualTo("archive contents");
-        provider.Verify(fileSystem => fileSystem.Open(
-            Path.Combine(destination, "artifact.txt"),
-            FileMode.CreateNew,
-            FileAccess.Write), Times.Once);
+        VerifyPublication(provider, destination);
     }
 
     [Test]
@@ -183,6 +177,17 @@ public class ZipDestinationTests
         provider.Verify(fileSystem => fileSystem.CreateDirectory(destination), Times.Once);
     }
 
+    private static void VerifyPublication(Mock<IFileSystemProvider> provider, string destination)
+    {
+        var destinationPath = Path.GetFullPath(Path.Combine(destination, "artifact.txt"));
+        provider.Verify(fileSystem => fileSystem.Open(
+            It.Is<string>(path => path != destinationPath && Path.GetDirectoryName(path) == Path.GetDirectoryName(destinationPath)),
+            FileMode.CreateNew, FileAccess.Write), Times.Once);
+        provider.Verify(fileSystem => fileSystem.MoveFile(
+            It.Is<string>(path => path != destinationPath), destinationPath, false), Times.Once);
+        provider.Verify(fileSystem => fileSystem.DeleteFile(It.IsAny<string>()), Times.Once);
+    }
+
     private static async Task Extract(Zip zip, string archivePath, string destination, bool asynchronous)
     {
         if (asynchronous)
@@ -217,10 +222,12 @@ public class ZipDestinationTests
         provider.Setup(fileSystem => fileSystem.CreateDirectory(It.IsAny<string>()));
         provider.Setup(fileSystem => fileSystem.GetAttributes(It.IsAny<string>())).Throws<FileNotFoundException>();
         provider.Setup(fileSystem => fileSystem.Open(
-                Path.GetFullPath(Path.Combine(destination, "artifact.txt")),
+                It.Is<string>(path => Path.GetDirectoryName(path) == Path.GetDirectoryName(Path.GetFullPath(Path.Combine(destination, "artifact.txt")))),
                 FileMode.CreateNew,
                 FileAccess.Write))
             .Returns(output);
+        provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), Path.GetFullPath(Path.Combine(destination, "artifact.txt")), false));
+        provider.Setup(fileSystem => fileSystem.DeleteFile(It.IsAny<string>()));
 
         return (new Zip(provider.Object, new PipelineWorkingDirectory(Path.GetTempPath())), provider, output, archivePath);
     }

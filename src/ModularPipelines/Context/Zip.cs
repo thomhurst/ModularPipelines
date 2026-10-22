@@ -137,10 +137,7 @@ internal partial class Zip(
         }
         finally
         {
-            if (extractionPath != destinationPath)
-            {
-                _fileSystemProvider.DeleteFile(extractionPath);
-            }
+            _fileSystemProvider.DeleteFile(extractionPath);
         }
     }
 
@@ -166,10 +163,8 @@ internal partial class Zip(
         }
     }
 
-    private string GetExtractionPath(string destinationPath) =>
-        _fileSystemProvider is SystemFileSystemProvider
-            ? Path.Combine(Path.GetDirectoryName(destinationPath)!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp")
-            : destinationPath;
+    private static string GetExtractionPath(string destinationPath) =>
+        Path.Combine(Path.GetDirectoryName(destinationPath)!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
 
     private Stream OpenExtractionDestination(
         ZipArchiveEntry entry, string destinationPath, string extractionPath, bool overwriteFiles)
@@ -209,7 +204,7 @@ internal partial class Zip(
                 return new FileStream(extractionPath, options);
             }
 
-            return _fileSystemProvider.Open(extractionPath, overwriteFiles ? FileMode.Create : FileMode.CreateNew, FileAccess.Write);
+            return _fileSystemProvider.Open(extractionPath, FileMode.CreateNew, FileAccess.Write);
         }
         catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
         {
@@ -221,25 +216,23 @@ internal partial class Zip(
     private void CompleteExtraction(ZipArchiveEntry entry, string extractionPath, string destinationPath, bool overwriteFiles)
     {
         RestoreFileMetadata(entry, extractionPath);
-        if (extractionPath != destinationPath)
+        try
         {
-            try
+            if (_fileSystemProvider is SystemFileSystemProvider
+                && OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
             {
-                if (OperatingSystem.IsWindows() && overwriteFiles && System.IO.File.Exists(destinationPath))
-                {
-                    // ReplaceFile preserves the destination's ACL and inheritance policy.
-                    ReplaceExtraction(extractionPath, destinationPath);
-                }
-                else
-                {
-                    // Publish only the completed file. On Unix this also preserves creation mode and umask.
-                    _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
-                }
+                // ReplaceFile preserves the destination's ACL and inheritance policy.
+                ReplaceExtraction(extractionPath, destinationPath);
             }
-            catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
+            else
             {
-                throw new DestinationFileExistsException(destinationPath, ex);
+                // Publish only the completed file through its provider, preserving atomic overwrite semantics.
+                _fileSystemProvider.MoveFile(extractionPath, destinationPath, overwriteFiles);
             }
+        }
+        catch (IOException ex) when (!overwriteFiles && _fileSystemProvider.FileExists(destinationPath))
+        {
+            throw new DestinationFileExistsException(destinationPath, ex);
         }
     }
 

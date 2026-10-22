@@ -290,8 +290,10 @@ public class AsyncZipTests
         provider.Setup(fileSystem => fileSystem.CreateDirectory(It.IsAny<string>()));
         provider.Setup(fileSystem => fileSystem.GetAttributes(It.IsAny<string>())).Throws<FileNotFoundException>();
         provider.Setup(fileSystem => fileSystem.Open(
-                Path.Combine(Root, "destination", "input.txt"), It.IsAny<FileMode>(), FileAccess.Write))
+                It.Is<string>(path => Path.GetDirectoryName(path) == Path.Combine(Root, "destination")), FileMode.CreateNew, FileAccess.Write))
             .Returns(output);
+        provider.Setup(fileSystem => fileSystem.MoveFile(It.IsAny<string>(), Path.Combine(Root, "destination", "input.txt"), It.IsAny<bool>()));
+        provider.Setup(fileSystem => fileSystem.DeleteFile(It.IsAny<string>()));
         return new Extraction(new Zip(provider.Object, new PipelineWorkingDirectory(Root)), provider, input, output);
     }
 
