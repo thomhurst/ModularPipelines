@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Flux.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Flux.Options;
