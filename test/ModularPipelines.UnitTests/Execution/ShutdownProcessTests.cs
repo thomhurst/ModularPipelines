@@ -98,30 +98,7 @@ public class ShutdownProcessTests
             }
 
             await process.WaitForExitAsync(shutdownDeadline.Token);
-            if (mode == "pipeline-exit-blocked-cancellation")
-            {
-                await Assert.That(process.ExitCode).IsEqualTo(0);
-                return;
-            }
-
-            if (mode is "pipeline-sigterm-before-run" or "pipeline-sigterm-after-run")
-            {
-                // Since .NET 10, default SIGTERM termination does not raise ProcessExit.
-                // Idle hosts must terminate rather than swallowing the signal and waiting forever.
-                await Assert.That(process.ExitCode).IsEqualTo(128 + 15);
-                var idleEvents = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), shutdownDeadline.Token);
-                var expected = mode == "pipeline-sigterm-before-run" ? string.Empty : "cleanup,end";
-                await Assert.That(string.Join(",", idleEvents)).IsEqualTo(expected);
-                await Assert.That(File.Exists(Path.Combine(directory, "report.json")))
-                    .IsEqualTo(mode == "pipeline-sigterm-after-run");
-                return;
-            }
-
-            await Assert.That(process.ExitCode).IsEqualTo(0);
-            var events = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), shutdownDeadline.Token);
-            await Assert.That(string.Join(",", events)).IsEqualTo("cleanup,end,disposed-after-report");
-            var report = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(Path.Combine(directory, "report.json"), shutdownDeadline.Token));
-            await Assert.That(report!.Modules.Single(module => module.ModuleName == "CleanupModule").Status).IsEqualTo(ModuleStatus.Succeeded);
+            await AssertShutdownResultAsync(mode, process, directory, shutdownDeadline.Token);
         }
         catch (OperationCanceledException exception) when (
             phase == "startup" ? startupDeadline.IsCancellationRequested : shutdownDeadline.IsCancellationRequested)
@@ -149,5 +126,33 @@ public class ShutdownProcessTests
             await Task.WhenAll(output, error);
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    private static async Task AssertShutdownResultAsync(string mode, Process process, string directory, CancellationToken cancellationToken)
+    {
+        if (mode == "pipeline-exit-blocked-cancellation")
+        {
+            await Assert.That(process.ExitCode).IsEqualTo(0);
+            return;
+        }
+
+        if (mode is "pipeline-sigterm-before-run" or "pipeline-sigterm-after-run")
+        {
+            // Since .NET 10, default SIGTERM termination does not raise ProcessExit.
+            // Idle hosts must terminate rather than swallowing the signal and waiting forever.
+            await Assert.That(process.ExitCode).IsEqualTo(128 + 15);
+            var idleEvents = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), cancellationToken);
+            var expected = mode == "pipeline-sigterm-before-run" ? string.Empty : "cleanup,end";
+            await Assert.That(string.Join(",", idleEvents)).IsEqualTo(expected);
+            await Assert.That(File.Exists(Path.Combine(directory, "report.json")))
+                .IsEqualTo(mode == "pipeline-sigterm-after-run");
+            return;
+        }
+
+        await Assert.That(process.ExitCode).IsEqualTo(0);
+        var events = await File.ReadAllLinesAsync(Path.Combine(directory, "events.log"), cancellationToken);
+        await Assert.That(string.Join(",", events)).IsEqualTo("cleanup,end,disposed-after-report");
+        var report = RunReportJsonSerializer.Deserialize(await File.ReadAllTextAsync(Path.Combine(directory, "report.json"), cancellationToken));
+        await Assert.That(report!.Modules.Single(module => module.ModuleName == "CleanupModule").Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 }
