@@ -16,6 +16,64 @@ public class VaultCliScraperTests
     private static readonly string[] TpmMetadataValues = ["owner=platform team", "region=west"];
 
     [Test]
+    [Arguments("print token", "2.2.0", "Prints the value of the Vault token that will be used for commands, after taking into account the configured token-helper and the environment.")]
+    [Arguments("hcp connect", "2.2.0", "Authenticates users or machines to HCP using either provided arguments or retrieved token through browser login. A successful authentication results in an HCP token and an HCP Vault address being locally cached.")]
+    [Arguments("tpm attest", "2.2.0", "Performs TPM attestation against a Vault tpm auth method mount. The command opens the local TPM device, runs the two-phase challenge/response workflow (begin + finish), and on success writes the issued certificate and associated key material to the state directory. Additionally, it stores the private key in the TPM:")]
+    [Arguments("read", "2.1.1", "Reads data from Vault at the given path. This can be used to read secrets, generate dynamic credentials, get configuration details, and more.")]
+    [Arguments("version", "2.1.1", "Prints the version of this Vault CLI. This does not print the target Vault server version.")]
+    [Arguments("operator raft snapshot inspect", "2.1.1", "Inspects a snapshot file.")]
+    public async Task Captured_Help_Uses_Complete_Description_Paragraph(
+        string command, string version, string expectedDescription)
+    {
+        var parsed = await ParseFixture(command, version);
+
+        await Assert.That(parsed.Description).IsEqualTo(expectedDescription);
+
+        var files = await new OptionsClassGenerator().GenerateAsync(
+            new TestVaultCliScraper().CreateToolDefinition() with { Commands = [parsed] });
+        await Assert.That(files.Single().Content)
+            .Contains($"/// {expectedDescription}");
+    }
+
+    [Test]
+    public async Task Description_Preserves_Flags_And_Skips_Wrapped_Usage_And_Notes()
+    {
+        var command = await new TestVaultCliScraper().ParseGroup(["vault", "test"], """
+            Usage: vault test [options]
+                <PATH>
+
+              Note: This is a prerequisite,
+              with a wrapped continuation.
+
+              Runs with --example and -other flags,
+              preserving the full command description.
+
+              An example:
+
+                  $ vault test --example
+
+            Options:
+              -example  An example flag.
+            """);
+
+        await Assert.That(command!.Description)
+            .IsEqualTo("Runs with --example and -other flags, preserving the full command description.");
+    }
+
+    [Test]
+    [Arguments("Options:\n  -address=<string>\n      Address of the Vault server.")]
+    [Arguments("Subcommands:\n    read    Read data from Vault")]
+    [Arguments("  Examples:\n\n      $ vault test --example")]
+    [Arguments("  Note: A prerequisite.\n\n      $ vault test --example")]
+    public async Task Missing_Description_Does_Not_Select_Examples_Options_Or_Commands(string trailingHelp)
+    {
+        var command = await new TestVaultCliScraper().ParseGroup(
+            ["vault", "test"], "Usage: vault test [options]\n\n" + trailingHelp);
+
+        await Assert.That(command!.Description).IsNull();
+    }
+
+    [Test]
     public async Task Hcp_Connect_Example_Options_Preserve_String_Values_And_Secrets()
     {
         var help = File.ReadAllText(Path.Combine(
@@ -296,11 +354,11 @@ public class VaultCliScraperTests
                 TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
-    private static string Fixture(string command) => File.ReadAllText(Path.Combine(
-        AppContext.BaseDirectory, "Fixtures", "Vault", "2.1.1", command.Replace(' ', '-') + ".txt"));
+    private static string Fixture(string command, string version = "2.1.1") => File.ReadAllText(Path.Combine(
+        AppContext.BaseDirectory, "Fixtures", "Vault", version, command.Replace(' ', '-') + ".txt"));
 
-    private static async Task<CliCommandDefinition> ParseFixture(string command) =>
-        (await new TestVaultCliScraper().ParseGroup(["vault", .. command.Split(' ')], Fixture(command)))!;
+    private static async Task<CliCommandDefinition> ParseFixture(string command, string version = "2.1.1") =>
+        (await new TestVaultCliScraper().ParseGroup(["vault", .. command.Split(' ')], Fixture(command, version)))!;
 
     private sealed class TestVaultCliScraper : VaultCliScraper
     {
