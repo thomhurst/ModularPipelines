@@ -63,7 +63,7 @@ public interface IGrypeDb
     public Task<CommandResult> DiffAsync(GrypeDbDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// import a vulnerability database archive from a local FILE or URL.
+    /// import a vulnerability database archive from a local FILE or URL. DB archives can be obtained from "https://grype.anchore.io/databases" (or running `db list`). If the URL has a `checksum` query parameter with a fully qualified digest (e.g. 'sha256:abc728...') then the archive/DB will be verified against this value.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

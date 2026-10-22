@@ -13,7 +13,7 @@ using ModularPipelines.Grype.Options;
 namespace ModularPipelines.Grype.Options;
 
 /// <summary>
-/// import a vulnerability database archive from a local FILE or URL.
+/// import a vulnerability database archive from a local FILE or URL. DB archives can be obtained from "https://grype.anchore.io/databases" (or running `db list`). If the URL has a `checksum` query parameter with a fully qualified digest (e.g. 'sha256:abc728...') then the archive/DB will be verified against this value.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Grype.Options;
 public record GrypeDbImportOptions : GrypeOptions
 {
     /// <summary>
-    /// import a vulnerability database archive from a local FILE or URL.
+    /// import a vulnerability database archive from a local FILE or URL. DB archives can be obtained from "https://grype.anchore.io/databases" (or running `db list`). If the URL has a `checksum` query parameter with a fully qualified digest (e.g. 'sha256:abc728...') then the archive/DB will be verified against this value.
     /// </summary>
     /// <param name="File">The FILE operand.</param>
     public GrypeDbImportOptions(
