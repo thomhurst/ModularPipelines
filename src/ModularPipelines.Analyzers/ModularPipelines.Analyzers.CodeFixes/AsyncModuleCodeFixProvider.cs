@@ -59,7 +59,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
     {
         var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken).ConfigureAwait(false);
 
-        editor.SetModifiers(methodDeclarationSyntax, DeclarationModifiers.Override | DeclarationModifiers.Async);
+        editor.SetModifiers(methodDeclarationSyntax, editor.Generator.GetModifiers(methodDeclarationSyntax) | DeclarationModifiers.Async);
 
         // Cache the semantic model to avoid duplicate async calls
         var semanticModel = await context.Document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
