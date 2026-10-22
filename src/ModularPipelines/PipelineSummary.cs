@@ -6,6 +6,9 @@ using ModularPipelines.Reporting;
 
 namespace ModularPipelines;
 
+/// <summary>
+/// Summarizes a pipeline run, including its module results, overall outcome, timing, and optional execution metrics.
+/// </summary>
 public sealed record PipelineSummary
 {
     /// <summary>
