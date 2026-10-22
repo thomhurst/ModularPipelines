@@ -196,7 +196,7 @@ internal static class ProcessRunner
         }
     }
 
-    private static void Interrupt(Process process)
+    internal static void Interrupt(Process process)
     {
         // Windows has no SIGINT, and commands run in their own process group, so console Ctrl+C does not
         // reach them. The caller schedules forceful termination immediately on Windows.

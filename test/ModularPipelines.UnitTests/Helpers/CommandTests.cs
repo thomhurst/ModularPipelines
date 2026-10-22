@@ -1318,6 +1318,31 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    [UnixOnlyTest]
+    [Timeout(30_000)]
+    public async Task ExecuteCommandLineToolAsync_GracefulCancellation_InterruptsDescendants(
+        CancellationToken cancellationToken)
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "interruptible-parent", TimeSpan.FromSeconds(30),
+            gateForcefulCancellation: true);
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForReadyProcessAsync("interruptible-child", TimeSpan.FromSeconds(10));
+        var grandchild = await fixture.WaitForReadyProcessAsync("interruptible-grandchild", TimeSpan.FromSeconds(10));
+
+        fixture.Cancel();
+
+        // The forceful gate stays closed: every generation must handle SIGINT and finish cleanup.
+        await Assert.ThrowsAsync<OperationCanceledException>(() => fixture.Execution.WaitAsync(cancellationToken));
+        await Assert.That(File.Exists(Path.Combine(fixture.DirectoryPath, "interruptible-child-interrupted.ready"))).IsTrue();
+        await Assert.That(File.Exists(Path.Combine(fixture.DirectoryPath, "interruptible-grandchild-interrupted.ready"))).IsTrue();
+        await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(2))).IsTrue();
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+        await Assert.That(await WaitForExitAsync(grandchild, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         await using var fixture = new ProcessTreeFixture();

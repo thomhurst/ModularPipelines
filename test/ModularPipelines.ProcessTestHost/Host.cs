@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
@@ -71,11 +72,18 @@ public static class Host
 
     private static async Task<int> RunProcessRoleAsync(string[] args)
     {
-        System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         var role = args[0];
+        // The Unix intermediate retains the shell's inherited SIG_IGN disposition. A managed
+        // signal handler would reset on exec and leave a newly spawned grandchild vulnerable
+        // to SIGINT before it can install its own handler.
+        if (OperatingSystem.IsWindows() || role != "intermediate")
+        {
+            System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
+        }
+
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -108,6 +116,12 @@ public static class Host
         {
             using var child = StartChild("child", directory, runtimeConfiguration);
             await child.WaitForExitAsync();
+            return;
+        }
+
+        if (role.StartsWith("interruptible-", StringComparison.Ordinal))
+        {
+            await RunInterruptibleRoleAsync(role, name, directory, runtimeConfiguration);
             return;
         }
 
@@ -198,6 +212,45 @@ public static class Host
         }
     }
 
+    private static async Task RunInterruptibleRoleAsync(string role, string name, string directory, string runtimeConfiguration)
+    {
+        var interrupted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var interruptRegistration = !OperatingSystem.IsWindows() && role is "interruptible-child" or "interruptible-grandchild"
+            ? PosixSignalRegistration.Create(PosixSignal.SIGINT, context =>
+            {
+                context.Cancel = true;
+                interrupted.TrySetResult();
+            })
+            : null;
+
+        Publish(directory, name + ".ready", "ready");
+        switch (role)
+        {
+            case "interruptible-parent":
+                using (var child = StartChild("interruptible-child", directory, runtimeConfiguration))
+                {
+                    await child.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-child":
+                using (var grandchild = StartChild("interruptible-grandchild", directory, runtimeConfiguration))
+                {
+                    await interrupted.Task;
+                    Publish(directory, name + "-interrupted.ready", "cleanup");
+                    await grandchild.WaitForExitAsync();
+                }
+
+                break;
+            case "interruptible-grandchild":
+                await interrupted.Task;
+                Publish(directory, name + "-interrupted.ready", "cleanup");
+                break;
+            default:
+                throw new ArgumentException($"Unknown fixture role: {role}");
+        }
+    }
+
     private static async Task<int> RunPipelineHostAsync(string[] args)
     {
         var directory = args[1];
@@ -257,6 +310,17 @@ public static class Host
         {
             // A background child must not inherit the command's original output pipe handles.
             startInfo.InheritedHandles = [];
+        }
+
+        if (!OperatingSystem.IsWindows() && role == "intermediate")
+        {
+            // This shell finishes setup before intermediate.ready is published and cancellation
+            // begins. SIG_IGN survives exec and is inherited by descendants spawned during grace.
+            startInfo.FileName = "/bin/sh";
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add("trap '' INT; exec \"$@\"");
+            startInfo.ArgumentList.Add("process-fixture");
+            startInfo.ArgumentList.Add(Environment.ProcessPath!);
         }
 
         foreach (var argument in new[] { "exec", "--runtimeconfig", runtimeConfiguration, typeof(Host).Assembly.Location, role, directory, runtimeConfiguration })
