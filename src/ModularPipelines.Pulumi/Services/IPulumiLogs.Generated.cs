@@ -58,7 +58,7 @@ public interface IPulumiLogs
     public Task<CommandResult> RemoveAsync(PulumiLogsRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a copy of a log file that can be safely shared with
+    /// Create a copy of a log file that can be safely shared with Pulumi support. The log content is re-encrypted with a key that only Pulumi can read.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

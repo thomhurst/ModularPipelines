@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Create a copy of a log file that can be safely shared with
+/// Create a copy of a log file that can be safely shared with Pulumi support. The log content is re-encrypted with a key that only Pulumi can read.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

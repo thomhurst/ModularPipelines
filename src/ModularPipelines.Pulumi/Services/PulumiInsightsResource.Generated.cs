@@ -62,7 +62,7 @@ public class PulumiInsightsResource
     }
 
     /// <summary>
-    /// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an
+    /// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an organization, with advanced filtering, sorting, and pagination.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

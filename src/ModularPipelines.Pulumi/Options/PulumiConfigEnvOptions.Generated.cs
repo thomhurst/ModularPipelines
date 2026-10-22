@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Manages the ESC environment associated with a specific stack. To create a new environment
+/// Manages the ESC environment associated with a specific stack. To create a new environment from a stack's configuration, use `pulumi config env init`.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Show the parameters, request body, and response schema for a Pulumi Cloud
+/// Show the parameters, request body, and response schema for a Pulumi Cloud API operation.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiApiDescribeOptions : PulumiOptions
 {
     /// <summary>
-    /// Show the parameters, request body, and response schema for a Pulumi Cloud
+    /// Show the parameters, request body, and response schema for a Pulumi Cloud API operation.
     /// </summary>
     /// <param name="PathOrOperationId">The &lt;path-or-operation-id&gt; operand.</param>
     public PulumiApiDescribeOptions(

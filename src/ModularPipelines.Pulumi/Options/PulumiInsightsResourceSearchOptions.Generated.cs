@@ -14,7 +14,7 @@ using ModularPipelines.Pulumi.Enums;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an
+/// [EXPERIMENTAL] Search resources discovered by Pulumi Insights across an organization, with advanced filtering, sorting, and pagination.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

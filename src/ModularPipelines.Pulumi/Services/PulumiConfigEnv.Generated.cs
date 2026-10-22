@@ -32,7 +32,7 @@ public class PulumiConfigEnv
     #region Commands
 
     /// <summary>
-    /// Manages the ESC environment associated with a specific stack. To create a new environment
+    /// Manages the ESC environment associated with a specific stack. To create a new environment from a stack's configuration, use `pulumi config env init`.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class PulumiConfigEnv
     }
 
     /// <summary>
-    /// Adds environments to the end of a stack's import list. Imported environments are merged in order
+    /// Adds environments to the end of a stack's import list. Imported environments are merged in order per the ESC merge rules. The list of stacks behaves as if it were the import list in an anonymous environment.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class PulumiConfigEnv
     }
 
     /// <summary>
-    /// Creates an environment for a specific stack based on the stack's configuration values,
+    /// Creates an environment for a specific stack based on the stack's configuration values, then replaces the stack's configuration values with a reference to that environment. The environment will be created in the same organization as the stack.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Copies the config from the current stack to the destination stack. If `key` is omitted,
+/// Copies the config from the current stack to the destination stack. If `key` is omitted, then all of the config from the current stack will be copied to the destination stack.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
