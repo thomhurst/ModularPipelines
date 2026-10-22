@@ -1285,7 +1285,9 @@ public class CommandTests : TestBase
         }
 
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", new CommandExecutionOptions().GracefulShutdownTimeout);
+        fixture.Start(await GetService<ICommandContext>(), "gated-parent", new CommandExecutionOptions().GracefulShutdownTimeout);
+        // Start returns after Windows job attachment; isolate cancellation timing from descendant startup.
+        await fixture.TriggerAsync("start-child");
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(10));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
         fixture.Cancel();
@@ -1332,12 +1334,19 @@ public class CommandTests : TestBase
         var (command, _) = await GetService<ICommandContext>(services =>
             services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(command, "gated-parent", TimeSpan.FromMilliseconds(50));
+        // Start returns after Windows job attachment; keep this test focused on the throwing logger.
+        await fixture.TriggerAsync("start-child");
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
         await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+
+        commandLogger.Verify(logger => logger.LogProcessTermination(
+            It.IsAny<ProcessTerminationTarget>(),
+            ProcessTerminationReason.ForcefulCancellation,
+            It.IsAny<ProcessTerminationMethod>()), Times.AtLeastOnce());
     }
 
     [Test]
