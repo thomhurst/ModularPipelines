@@ -31,6 +31,25 @@
 
   <!-- Compile the production renderer directly; the generator already links its shared phase/arity enums. -->
   <ItemGroup>
+    <!-- Compile isolated consumers against either CLI contract namespace using production sources. -->
+    <Content Include="../../../../src/ModularPipelines/Models/KeyValue.cs;
+                      ../../../../src/ModularPipelines/Models/CliOptionValue.cs;
+                      ../../../../src/ModularPipelines/Models/CliValuePair.cs;
+                      ../../../../src/ModularPipelines/Models/CliValueGroup.cs;
+                      ../../../../src/ModularPipelines/Helpers/Internal/CommandArgumentBuilder.cs;
+                      ../../../../src/ModularPipelines/Helpers/Internal/ICommandArgumentBuilder.cs;
+                      ../../../../src/ModularPipelines/Generated/PropertyCommandLinePart.cs;
+                      ../../../../src/ModularPipelines/Attributes/CliArgumentAttribute.cs;
+                      ../../../../src/ModularPipelines/Attributes/CliOptionAttribute.cs;
+                      ../../../../src/ModularPipelines/Attributes/CliFlagAttribute.cs;
+                      ../../../../src/ModularPipelines/Attributes/EnumValueAttribute.cs;
+                      ../../../../src/ModularPipelines/Attributes/OptionFormat.cs;
+                      ../../../../src/ModularPipelines/Attributes/CommandLinePhase.cs;
+                      ../../../../src/ModularPipelines/Attributes/CliOptionValueArity.cs"
+             Link="Fixtures/NamespaceRuntime/%(Filename)%(Extension).txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="../../../../src/ModularPipelines/Attributes/CliArgumentAttribute.cs" Link="Runtime/Attributes/CliArgumentAttribute.cs" />
     <Compile Include="../../../../src/ModularPipelines/Attributes/CliFlagAttribute.cs" Link="Runtime/Attributes/CliFlagAttribute.cs" />
     <Compile Include="../../../../src/ModularPipelines/Attributes/CliOptionAttribute.cs" Link="Runtime/Attributes/CliOptionAttribute.cs" />

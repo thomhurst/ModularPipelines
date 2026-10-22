@@ -399,7 +399,7 @@ public record CliOptionDefinition
 
         // A snapshot of the declared elements cannot represent this different runtime
         // view. Preserve the implementation and its mutation behavior without enumerating it.
-        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}> ? {{0}} : ({fallback})";
+        return $"(object){{0}} is global::System.Collections.Generic.IEnumerable<{elementName}> ? {{0}} : ({fallback})";
     }
 
     private static string GetElementTypeIdentity(ITypeSymbol declaredElementType)
@@ -418,9 +418,11 @@ public record CliOptionDefinition
         return declaredElementType.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
     }
 
-    // Generated options import ModularPipelines.Models, including domain names the probe cannot resolve.
+    // Generated options import both CLI contract namespaces, including names the probe cannot resolve.
     private static bool MatchesRendererElementType(string? declaredName, string elementName) =>
-        declaredName == elementName || declaredName == $"global::ModularPipelines.Models.{elementName}";
+        declaredName == elementName
+        || declaredName == $"global::ModularPipelines.Models.{elementName}"
+        || declaredName == $"global::ModularPipelines.{elementName}";
 
     private static string GetTypedSnapshotExpression(
         ITypeSymbol propertyType, ITypeSymbol declaredElementType, string? collectionType, string elementName, string variableName, string fallback)
@@ -430,7 +432,7 @@ public record CliOptionDefinition
             return fallback;
         }
 
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var elementType = elementName;
         if (collectionType == "HashSet")
         {
             // A custom set can expose a rendering view unrelated to its membership.

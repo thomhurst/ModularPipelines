@@ -116,10 +116,13 @@ public class OptionsClassGenerator : ICodeGenerator
         // Include the existing Options namespace where the base class lives
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
 
-        if (command.Options.Any(static option => option.RequiresModelsNamespace)
+        // Validation and snapshot helpers inspect CLI values even for ordinary collection properties.
+        if (RequiresCommandValidation(command)
+            || command.Options.Any(static option => option.RequiresModelsNamespace)
             || command.PositionalArguments.Any(static argument =>
                 CliOptionDefinition.TypeRequiresModelsNamespace(argument.CSharpType)))
         {
+            sb.AppendLine("using ModularPipelines;");
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
@@ -708,7 +711,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetTypedCollectionPresenceExpression(string propertyName, string elementName, string fallback)
     {
-        var enumerableType = $"global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.{elementName}>";
+        var enumerableType = $"global::System.Collections.Generic.IEnumerable<{elementName}>";
         return $"((object?){propertyName} is {enumerableType} ? {GetNonNullCollectionPresenceExpression($"({enumerableType})(object){propertyName}")} : {fallback})";
     }
 
@@ -838,7 +841,7 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             // The renderer checks pair format before joining the selected values.
             // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
-            snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+            snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ({snapshot})";
         }
 
         var storage = forwardsToGlobal ? $"base.{propertyName}" : "field";
@@ -1081,7 +1084,7 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static string GetSnapshotRendererElementType(string elementName) =>
-        elementName == "Characters" ? "char" : $"global::ModularPipelines.Models.{elementName}";
+        elementName == "Characters" ? "char" : elementName;
 
     private static void GenerateCharacterScalarSnapshot(StringBuilder sb, string elementName)
     {
@@ -1099,7 +1102,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
     {
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var elementType = elementName;
         sb.AppendLine();
         sb.AppendLine($$"""
                 private sealed class {{typePrefix}}{{elementName}}(global::System.Collections.Generic.IEnumerable<{{elementType}}> values)

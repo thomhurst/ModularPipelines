@@ -57,6 +57,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 
         if (globalOptions.Any(o => o.RequiresModelsNamespace))
         {
+            sb.AppendLine("using ModularPipelines;");
             sb.AppendLine("using ModularPipelines.Models;");
         }
 
