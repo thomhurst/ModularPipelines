@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Tunes the configuration options for the secrets engine at the given PATH.
+/// Tunes the configuration options for the secrets engine at the given PATH. The argument corresponds to the PATH where the secrets engine is enabled, not the TYPE!
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultSecretsTuneOptions : VaultOptions
 {
     /// <summary>
-    /// Tunes the configuration options for the secrets engine at the given PATH.
+    /// Tunes the configuration options for the secrets engine at the given PATH. The argument corresponds to the PATH where the secrets engine is enabled, not the TYPE!
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     public VaultSecretsTuneOptions(
@@ -138,6 +138,18 @@ public record VaultSecretsTuneOptions : VaultOptions
     public bool? TlsSkipVerify { get; set; }
 
     /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
+
+    /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).
     /// </summary>
     [SecretValue]
@@ -234,6 +246,12 @@ public record VaultSecretsTuneOptions : VaultOptions
     /// </summary>
     [CliOption("-plugin-version", Format = OptionFormat.EqualsSeparated)]
     public string? PluginVersion { get; set; }
+
+    /// <summary>
+    /// Enterprise only. Whether critical security parameters (CSPs) are seal wrapped in this mount
+    /// </summary>
+    [CliOption("-seal-wrap", Format = OptionFormat.EqualsSeparated)]
+    public string? SealWrap { get; set; }
 
     /// <summary>
     /// Whether to trim trailing slashes for incoming requests to this mount

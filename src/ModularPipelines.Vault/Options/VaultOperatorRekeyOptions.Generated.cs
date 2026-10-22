@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Generates a new set of unseal keys. This can optionally change the total
+/// Generates a new set of unseal keys. This can optionally change the total number of key shares or the required threshold of those key shares to reconstruct the root key. This operation is zero downtime, but it requires the Vault is unsealed and a quorum of existing unseal keys are provided.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -122,6 +122,18 @@ public record VaultOperatorRekeyOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

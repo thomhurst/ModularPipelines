@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Deregister an existing plugin in the catalog. If the plugin does not exist,
+/// Deregister an existing plugin in the catalog. If the plugin does not exist, no action is taken (the command is idempotent). The TYPE argument takes "auth", "database", or "secret".
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPluginDeregisterOptions : VaultOptions
 {
     /// <summary>
-    /// Deregister an existing plugin in the catalog. If the plugin does not exist,
+    /// Deregister an existing plugin in the catalog. If the plugin does not exist, no action is taken (the command is idempotent). The TYPE argument takes "auth", "database", or "secret".
     /// </summary>
     /// <param name="Type">The TYPE operand.</param>
     /// <param name="Name">The NAME operand.</param>
@@ -141,6 +141,18 @@ public record VaultPluginDeregisterOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

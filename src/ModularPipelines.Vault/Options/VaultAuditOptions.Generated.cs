@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault's audit devices.
+/// This command groups subcommands for interacting with Vault's audit devices. Users can list, enable, and disable audit devices.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultAuditOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's audit devices.
+    /// This command groups subcommands for interacting with Vault's audit devices. Users can list, enable, and disable audit devices.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultAuditOptions(
@@ -48,6 +48,6 @@ public record VaultAuditOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

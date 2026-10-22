@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault's plugin runtimes and the
+/// This command groups subcommands for interacting with Vault's plugin runtimes and the plugin runtime catalog. The plugin runtime catalog is divided into types. Currently, Vault only supports "container" plugin runtimes. A plugin runtime allows users to fine-tune the parameters with which a plugin is executed. For example, you can select a different OCI-compatible runtime, or set resource limits. A plugin runtime can optionally be referenced during plugin registration. A type must be specified on each call. Here are a few examples of the plugin runtime commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPluginRuntimeOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault's plugin runtimes and the
+    /// This command groups subcommands for interacting with Vault's plugin runtimes and the plugin runtime catalog. The plugin runtime catalog is divided into types. Currently, Vault only supports "container" plugin runtimes. A plugin runtime allows users to fine-tune the parameters with which a plugin is executed. For example, you can select a different OCI-compatible runtime, or set resource limits. A plugin runtime can optionally be referenced during plugin registration. A type must be specified on each call. Here are a few examples of the plugin runtime commands.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultPluginRuntimeOptions(
@@ -48,6 +48,6 @@ public record VaultPluginRuntimeOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

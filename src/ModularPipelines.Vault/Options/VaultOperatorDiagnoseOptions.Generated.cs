@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command troubleshoots Vault startup issues, such as TLS configuration or
+/// This command troubleshoots Vault startup issues, such as TLS configuration or auto-unseal. It should be run using the same environment variables and configuration files as the "vault server" command, so that startup problems can be accurately reproduced.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
