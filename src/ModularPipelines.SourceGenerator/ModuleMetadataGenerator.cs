@@ -27,6 +27,11 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.PipelineBuilderExtensions";
 
+    private static readonly SymbolDisplayFormat RegistrationTypeDisplayFormat =
+        SymbolDisplayFormat.FullyQualifiedFormat.WithMiscellaneousOptions(
+            SymbolDisplayFormat.FullyQualifiedFormat.MiscellaneousOptions
+            | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
 
@@ -320,7 +325,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             [
                 new ModuleMetadataInfo(
                     type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    GetModuleResultTypeName(type),
+                    GetRegistrationTypeArguments(type),
                     false,
                     invocation.GetLocation(),
                     ImmutableArray<DependencyMetadataInfo>.Empty,
@@ -364,7 +369,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
                 metadata.Add(new ModuleMetadataInfo(
                     dependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    GetModuleResultTypeName(dependency),
+                    GetRegistrationTypeArguments(dependency),
                     false,
                     GetDependencyLocation(type, dependency),
                     ImmutableArray<DependencyMetadataInfo>.Empty,
@@ -423,7 +428,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         return new ModuleMetadataInfo(
             type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            GetModuleResultTypeName(type),
+            GetRegistrationTypeArguments(type),
             IsTypeAccessible(type, currentAssembly),
             type.Locations.FirstOrDefault(static location => location.IsInSource),
             dependencies
@@ -516,7 +521,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                                                 currentAssembly);
         dependency = new DependencyMetadataInfo(
             namedDependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            GetModuleResultTypeName(namedDependency),
+            GetRegistrationTypeArguments(namedDependency),
             optional,
             canEmitActivationRegistration);
         dependencyComplete = !isClosedGeneric || canEmitActivationRegistration;
@@ -610,7 +615,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 && current.OriginalDefinition.ContainingNamespace.ToDisplayString() == ModuleNamespace)
             {
                 return current.TypeArguments[0]
-                    .ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                    .ToDisplayString(RegistrationTypeDisplayFormat);
             }
         }
 
@@ -713,7 +718,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         foreach (var module in emittedModules)
         {
-            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(module.TypeName, module.ResultTypeName)}>(");
+            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{module.RegistrationTypeArguments}>(");
             sb.AppendLine("                    new global::ModularPipelines.Generated.ModuleDependencyMetadata[]");
             sb.AppendLine("                    {");
 
@@ -727,7 +732,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         foreach (var dependency in closedGenericDependencies)
         {
-            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(dependency.TypeName, dependency.ResultTypeName)}>(");
+            sb.AppendLine($"                global::ModularPipelines.Generated.GeneratedModuleMetadata.CreateRegistration<{dependency.RegistrationTypeArguments}>(");
             sb.AppendLine("                    global::System.Array.Empty<global::ModularPipelines.Generated.ModuleDependencyMetadata>(),");
             sb.AppendLine("                    dependenciesComplete: false),");
         }
@@ -740,8 +745,11 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private static string BooleanLiteral(bool value) => value ? "true" : "false";
 
-    private static string GetRegistrationTypeArguments(string moduleTypeName, string? resultTypeName)
+    private static string GetRegistrationTypeArguments(INamedTypeSymbol moduleType)
     {
+        var moduleTypeName = moduleType.WithNullableAnnotation(NullableAnnotation.NotAnnotated)
+            .ToDisplayString(RegistrationTypeDisplayFormat);
+        var resultTypeName = GetModuleResultTypeName(moduleType);
         return resultTypeName is null
             ? moduleTypeName
             : $"{moduleTypeName}, {resultTypeName}";
@@ -764,7 +772,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private sealed record ModuleMetadataInfo(
         string TypeName,
-        string? ResultTypeName,
+        string RegistrationTypeArguments,
         bool CanEmit,
         Location? Location,
         EquatableArray<DependencyMetadataInfo> Dependencies,
@@ -782,7 +790,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             || (x is not null
                 && y is not null
                 && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
-                && StringComparer.Ordinal.Equals(x.ResultTypeName, y.ResultTypeName)
+                && StringComparer.Ordinal.Equals(x.RegistrationTypeArguments, y.RegistrationTypeArguments)
                 && x.CanEmit == y.CanEmit
                 && x.Dependencies.Equals(y.Dependencies)
                 && x.DependenciesComplete == y.DependenciesComplete
@@ -793,9 +801,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         public int GetHashCode(ModuleMetadataInfo obj)
         {
             var hashCode = StringComparer.Ordinal.GetHashCode(obj.TypeName);
-            hashCode = (hashCode * 397) ^ (obj.ResultTypeName is null
-                ? 0
-                : StringComparer.Ordinal.GetHashCode(obj.ResultTypeName));
+            hashCode = (hashCode * 397) ^ StringComparer.Ordinal.GetHashCode(obj.RegistrationTypeArguments);
             hashCode = (hashCode * 397) ^ obj.CanEmit.GetHashCode();
             hashCode = (hashCode * 397) ^ obj.Dependencies.GetHashCode();
             hashCode = (hashCode * 397) ^ obj.DependenciesComplete.GetHashCode();
@@ -822,7 +828,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private sealed record DependencyMetadataInfo(
         string TypeName,
-        string? ResultTypeName,
+        string RegistrationTypeArguments,
         bool Optional,
         bool EmitActivationRegistration);
 

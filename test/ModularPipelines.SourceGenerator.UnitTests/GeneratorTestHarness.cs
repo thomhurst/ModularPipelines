@@ -26,6 +26,21 @@ internal static class GeneratorTestHarness
         return Run(generator, compilation, globalOptions);
     }
 
+    public static (GeneratorDriverRunResult Result, Diagnostic[] CompilationDiagnostics)
+        RunAndGetCompilationDiagnostics(
+            IIncrementalGenerator generator,
+            string infrastructure,
+            string source)
+    {
+        var compilation = CreateCompilation(infrastructure, source);
+        var driver = CreateDriver(generator, globalOptions: null).RunGeneratorsAndUpdateCompilation(
+            compilation,
+            out var outputCompilation,
+            out _);
+
+        return (driver.GetRunResult(), outputCompilation.GetDiagnostics().ToArray());
+    }
+
     public static GeneratorDriverRunResult RunWithExternalAssembly(
         IIncrementalGenerator generator,
         string infrastructure,

@@ -36,6 +36,87 @@ public class ModuleMetadataGeneratorTests
         """;
 
     [Test]
+    [Arguments("string?")]
+    [Arguments("object?")]
+    [Arguments("string?[]?")]
+    [Arguments("global::System.Collections.Generic.List<string?>?")]
+    [Arguments("int?")]
+    [Arguments("string")]
+    public async Task Result_Type_Nullability_Is_Preserved_In_Compilable_Registrations(string resultType)
+    {
+        const string registrationInfrastructure = """
+            #nullable enable
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+                public static class PipelineBuilderExtensions
+                {
+                    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder)
+                        where TModule : class, IModule => builder;
+                }
+            }
+
+            namespace ModularPipelines.Generated
+            {
+                public sealed class GeneratedModuleRegistration;
+                public sealed record ModuleDependencyMetadata(System.Type ModuleType, bool Optional);
+
+                public static class GeneratedModuleMetadata
+                {
+                    public static GeneratedModuleRegistration CreateRegistration<TModule, TResult>(
+                        System.Collections.Generic.IReadOnlyList<ModuleDependencyMetadata> dependencies,
+                        bool dependenciesComplete = true)
+                        where TModule : ModularPipelines.Module<TResult> => new();
+
+                    public static void Register(
+                        System.Reflection.Assembly assembly,
+                        System.Collections.Generic.IReadOnlyList<GeneratedModuleRegistration> registrations,
+                        bool isComplete = true) { }
+                }
+            }
+            """;
+        var (result, compilationDiagnostics) = GeneratorTestHarness.RunAndGetCompilationDiagnostics(
+            new ModuleMetadataGenerator(),
+            TestInfrastructure + Environment.NewLine + registrationInfrastructure,
+            $$"""
+            #nullable enable
+            namespace Consumer
+            {
+                public sealed class DirectModule : ModularPipelines.Module<{{resultType}}>;
+                public abstract class BaseModule : ModularPipelines.Module<{{resultType}}>;
+                public sealed class InheritedModule : BaseModule;
+                public sealed class GenericModule<T> : ModularPipelines.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        ModularPipelines.PipelineBuilderExtensions.AddModule<GenericModule<{{resultType}}>>(builder);
+                        ModularPipelines.PipelineBuilderExtensions.AddModule<GenericModule<string>>(builder);
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains($"CreateRegistration<global::Consumer.DirectModule, {resultType}>");
+            await Assert.That(generated)
+                .Contains($"CreateRegistration<global::Consumer.InheritedModule, {resultType}>");
+            await Assert.That(generated)
+                .Contains($"CreateRegistration<global::Consumer.GenericModule<{resultType}>, {resultType}>");
+            await Assert.That(CountOccurrences(generated, "CreateRegistration<global::Consumer.GenericModule<"))
+                .IsEqualTo(resultType is "string" or "string?" ? 1 : 2);
+            await Assert.That(compilationDiagnostics.Where(static diagnostic => diagnostic.Severity is
+                Microsoft.CodeAnalysis.DiagnosticSeverity.Warning or Microsoft.CodeAnalysis.DiagnosticSeverity.Error))
+                .IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task Generates_Registration_And_Inherited_Dependency_Metadata()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
