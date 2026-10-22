@@ -80,7 +80,10 @@ await context.Shell.RunAsync(
 ```
 
 `StandardInputIsSecret` defaults to `false`. Enabling it registers the whole input
-and its encoded and per-line variants for the pipeline lifetime. Use it for
+and its encoded and per-line variants for the pipeline lifetime. Blank input is
+ignored. Input shorter than `SecretMaskingOptions.MinimumSecretLength` is excluded
+from framework masking and may remain visible in command diagnostics and logs;
+native build-system masking is still requested when supported. Use it for
 passwords or other small secret payloads. For large scripts or documents, register
 only the sensitive values through `context.Security.Secrets.AddSecret(value)`
 before execution instead; see [Secrets](secrets.md#register-secrets-discovered-at-runtime).
