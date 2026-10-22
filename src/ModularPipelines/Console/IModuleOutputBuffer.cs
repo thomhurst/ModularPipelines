@@ -158,7 +158,7 @@ internal interface IModuleOutputBuffer
     /// <param name="formatter">The CI-specific formatter for log groups.</param>
     /// <param name="logger">The logger for structured log output.</param>
     /// <param name="loggerControl">Coordinates log rendering with direct console writes.</param>
-    /// <param name="flushKind">Whether this is an incremental or complete flush.</param>
+    /// <param name="flushKind">The output and completion-status policy for this flush.</param>
     /// <param name="fallbackLoggers">Non-Spectre loggers that receive structured events during direct fallback.</param>
     /// <param name="cancellationToken">Cancellation token for the flush operation.</param>
     /// <returns>A task that completes when buffered output has been rendered.</returns>

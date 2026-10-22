@@ -237,7 +237,7 @@ public class ConsoleCoordinatorTests
     [Arguments(false, true)]
     [Arguments(true, true)]
     [Arguments(true, false)]
-    public async Task Teardown_RecoversCanceledCompletionWithoutRepeatingRenderedOutput(
+    public async Task Teardown_RecoversCanceledCompletionWithoutRepeatingOutputOrCompletingUnfinishedModules(
         bool renderedPrefix,
         bool pendingDiagnostics)
     {
@@ -292,6 +292,9 @@ public class ConsoleCoordinatorTests
         var scope = await pipelineOutput.InitializeAsync();
         // Disabled progress switches completion output to the immediate queue.
         outputCoordinator.SetProgressActive(false);
+        // A ready-event logger can preserve output while its module awaits rescheduling.
+        var unfinishedBuffer = consoleCoordinator.GetModuleBuffer(typeof(double));
+        unfinishedBuffer.Write("unfinished ready output");
         var buffer = consoleCoordinator.GetModuleBuffer(typeof(string));
         if (renderedPrefix)
         {
@@ -339,7 +342,11 @@ public class ConsoleCoordinatorTests
 
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
         await Assert.That(earlierBuffer.NeedsCompletionFlush).IsFalse();
+        await Assert.That(unfinishedBuffer.IsComplete).IsFalse();
+        await Assert.That(unfinishedBuffer.NeedsCompletionFlush).IsFalse();
         var text = capturedOutput.ToString();
+        await Assert.That(text).DoesNotContain("Double \u2713");
+        await Assert.That(text.Split("unfinished ready output").Length - 1).IsEqualTo(1);
         await Assert.That(text).Contains("InvalidOperationException");
         await Assert.That(text.Split("earlier completion").Length - 1).IsEqualTo(1);
         await Assert.That(text.Split("rendered prefix").Length - 1).IsEqualTo(renderedPrefix ? 1 : 0);

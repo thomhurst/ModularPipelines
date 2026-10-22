@@ -398,7 +398,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
             .ConfigureAwait(false);
 
-        if (flushKind is OutputFlushKind.Complete && buffer.HasStructuredDeliveryRetries)
+        if (flushKind is not OutputFlushKind.Incremental && buffer.HasStructuredDeliveryRetries)
         {
             await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
                 .ConfigureAwait(false);

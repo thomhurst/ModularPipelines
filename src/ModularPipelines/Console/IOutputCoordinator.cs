@@ -18,7 +18,7 @@ internal interface IOutputCoordinator
     /// Called when a module's logger is disposed.
     /// </summary>
     /// <param name="buffer">The buffer to flush.</param>
-    /// <param name="flushKind">Whether this is an incremental or complete flush.</param>
+    /// <param name="flushKind">The output and completion-status policy for this flush.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A task that completes when the buffer has been flushed.</returns>
     Task EnqueueAndFlushAsync(
