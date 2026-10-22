@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Reports status of the specified mount against best practices and pending
+/// Reports status of the specified mount against best practices and pending failures. This is an informative command and not all recommendations will apply to all mounts; consider using a configuration file to tune the executed health checks.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPkiHealthCheckOptions : VaultOptions
 {
     /// <summary>
-    /// Reports status of the specified mount against best practices and pending
+    /// Reports status of the specified mount against best practices and pending failures. This is an informative command and not all recommendations will apply to all mounts; consider using a configuration file to tune the executed health checks.
     /// </summary>
     /// <param name="Mount">The MOUNT operand.</param>
     public VaultPkiHealthCheckOptions(
@@ -136,6 +136,18 @@ public record VaultPkiHealthCheckOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

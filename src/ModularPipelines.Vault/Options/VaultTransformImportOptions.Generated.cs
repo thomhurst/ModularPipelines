@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Using the Transform key wrapping system, imports key material from
+/// Using the Transform key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new FPE or tokenization transformation whose API path is PATH.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultTransformImportOptions : VaultOptions
 {
     /// <summary>
-    /// Using the Transform key wrapping system, imports key material from
+    /// Using the Transform key wrapping system, imports key material from the base64 encoded KEY (either directly on the CLI or via @path notation), into a new FPE or tokenization transformation whose API path is PATH.
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     /// <param name="Key">The KEY operand.</param>
@@ -143,6 +143,18 @@ public record VaultTransformImportOptions : VaultOptions
     public bool? TlsSkipVerify { get; set; }
 
     /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
+
+    /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).
     /// </summary>
     [SecretValue]
@@ -166,11 +178,5 @@ public record VaultTransformImportOptions : VaultOptions
     /// </summary>
     [CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string Key { get; private init; }
-
-    /// <summary>
-    /// The options operand.
-    /// </summary>
-    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
-    public IEnumerable<string>? Options { get; set; }
 
 }

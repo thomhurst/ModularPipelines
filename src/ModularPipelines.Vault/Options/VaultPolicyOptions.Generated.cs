@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with policies.
+/// This command groups subcommands for interacting with policies. Users can write, read, and list policies in Vault.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultPolicyOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with policies.
+    /// This command groups subcommands for interacting with policies. Users can write, read, and list policies in Vault.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultPolicyOptions(
@@ -48,6 +48,6 @@ public record VaultPolicyOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

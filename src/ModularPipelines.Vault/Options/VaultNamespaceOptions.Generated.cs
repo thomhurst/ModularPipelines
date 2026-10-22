@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command groups subcommands for interacting with Vault namespaces.
+/// This command groups subcommands for interacting with Vault namespaces. These subcommands operate in the context of the namespace that the currently logged in token belongs to.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultNamespaceOptions : VaultOptions
 {
     /// <summary>
-    /// This command groups subcommands for interacting with Vault namespaces.
+    /// This command groups subcommands for interacting with Vault namespaces. These subcommands operate in the context of the namespace that the currently logged in token belongs to.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultNamespaceOptions(
@@ -48,6 +48,6 @@ public record VaultNamespaceOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

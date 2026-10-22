@@ -15,7 +15,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// Fetches the capabilities of a token or accessor for a given path. If a TOKEN
+/// Fetches the capabilities of a token or accessor for a given path. If a TOKEN is provided as an argument, the "/sys/capabilities" endpoint is used, which returns the capabilities of the provided TOKEN. If an ACCESSOR is provided as an argument along with the -accessor option, the "/sys/capabilities-accessor" endpoint is used, which returns the capabilities of the token referenced by ACCESSOR. If no TOKEN is provided, the "/sys/capabilities-self" endpoint is used, which returns the capabilities of the locally authenticated token.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultTokenCapabilitiesOptions : VaultOptions
 {
     /// <summary>
-    /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN
+    /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN is provided as an argument, the "/sys/capabilities" endpoint is used, which returns the capabilities of the provided TOKEN. If an ACCESSOR is provided as an argument along with the -accessor option, the "/sys/capabilities-accessor" endpoint is used, which returns the capabilities of the token referenced by ACCESSOR. If no TOKEN is provided, the "/sys/capabilities-self" endpoint is used, which returns the capabilities of the locally authenticated token.
     /// </summary>
     /// <param name="Path">The PATH operand.</param>
     public VaultTokenCapabilitiesOptions(
@@ -136,6 +136,18 @@ public record VaultTokenCapabilitiesOptions : VaultOptions
     /// </summary>
     [CliFlag("-tls-skip-verify")]
     public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Path to the TPM device (e.g. /dev/tpm0 or a unix socket). Autodetected by default.
+    /// </summary>
+    [CliOption("-tpm-device-path", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmDevicePath { get; set; }
+
+    /// <summary>
+    /// Sets where to write the cert and associated files. Default is working directory The default is ..
+    /// </summary>
+    [CliOption("-tpm-state-dir", Format = OptionFormat.EqualsSeparated)]
+    public string? TpmStateDir { get; set; }
 
     /// <summary>
     /// Key to unlock a namespace API lock. The default is (not set).

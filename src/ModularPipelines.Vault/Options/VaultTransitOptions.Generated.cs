@@ -14,7 +14,7 @@ using ModularPipelines.Vault.Options;
 namespace ModularPipelines.Vault.Options;
 
 /// <summary>
-/// This command has subcommands for interacting with Vault's Transit Secrets
+/// This command has subcommands for interacting with Vault's Transit Secrets Engine. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Vault.Options;
 public record VaultTransitOptions : VaultOptions
 {
     /// <summary>
-    /// This command has subcommands for interacting with Vault's Transit Secrets
+    /// This command has subcommands for interacting with Vault's Transit Secrets Engine. Here are some simple examples, and more detailed examples are available in the subcommands or the documentation.
     /// </summary>
     /// <param name="Subcommand">The &lt;subcommand&gt; operand.</param>
     public VaultTransitOptions(
@@ -48,6 +48,6 @@ public record VaultTransitOptions : VaultOptions
     /// The args operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }
