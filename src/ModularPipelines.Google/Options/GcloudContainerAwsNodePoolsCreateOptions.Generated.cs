@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -190,10 +192,10 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
-    /// Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule.
+    /// Taints assigned to nodes of the node pool. Node taint is of format key=value:effect. Effect must be one of: NoExecute, NoSchedule, PreferNoSchedule. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudContainerAwsNodePoolsCreateNodeTaints>? NodeTaints { get; set; }
+    public IEnumerable<string>? NodeTaints { get; set; }
 
     /// <summary>
     /// Number of I/O operations per second (IOPS) to provision for the root volume.
@@ -262,15 +264,15 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
     public IEnumerable<string>? AutoscalingMetrics
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoscalingMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __AutoscalingMetricsSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __AutoscalingMetricsSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -278,9 +280,9 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -296,15 +298,15 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
     public IEnumerable<string>? SpotInstanceTypes
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __SpotInstanceTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __SpotInstanceTypesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __SpotInstanceTypesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -312,9 +314,9 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -338,11 +340,11 @@ public record GcloudContainerAwsNodePoolsCreateOptions : GcloudOptions, IValidat
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity) || ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoscalingMetrics is not string || !string.IsNullOrWhiteSpace(AutoscalingMetrics?.ToString()) : ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoscalingMetrics, static item => item is not null) : (AutoscalingMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoscalingMetrics), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity))))
+        if ((!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity) || ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoscalingMetrics is not string || !string.IsNullOrWhiteSpace(AutoscalingMetrics?.ToString()) : ((object?)AutoscalingMetrics is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)AutoscalingMetrics, static item => item is not null) : (AutoscalingMetrics is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoscalingMetrics), static item => item is not null))))) && (!(!string.IsNullOrWhiteSpace(AutoscalingMetricsGranularity))))
         {
             yield return new ValidationResult("AutoscalingMetricsGranularity must be specified when other arguments in this group are specified.", [nameof(AutoscalingMetricsGranularity)]);
         }
-        if ((!string.IsNullOrWhiteSpace(InstanceType) ? 1 : 0) + (((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpotInstanceTypes is not string || !string.IsNullOrWhiteSpace(SpotInstanceTypes?.ToString()) : ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)SpotInstanceTypes, static item => item is not null) : (SpotInstanceTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpotInstanceTypes), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(InstanceType) ? 1 : 0) + (((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<char> ? (object?)SpotInstanceTypes is not string || !string.IsNullOrWhiteSpace(SpotInstanceTypes?.ToString()) : ((object?)SpotInstanceTypes is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)SpotInstanceTypes, static item => item is not null) : (SpotInstanceTypes is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)SpotInstanceTypes), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of InstanceType or SpotInstanceTypes may be specified.", [nameof(InstanceType), nameof(SpotInstanceTypes)]);
         }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Google.Options;
@@ -58,15 +60,15 @@ public record GcloudModelArmorTemplatesCreateOptions : GcloudOptions, IValidatab
     public IEnumerable<string>? RaiSettingsFilters
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RaiSettingsFiltersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RaiSettingsFiltersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> valuePairs ? new __RaiSettingsFiltersSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __RaiSettingsFiltersSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __RaiSettingsFiltersSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -74,17 +76,17 @@ public record GcloudModelArmorTemplatesCreateOptions : GcloudOptions, IValidatab
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     private sealed class __RaiSettingsFiltersSnapshotCliValuePair(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+        global::System.Collections.Generic.IEnumerable<CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<CliValuePair>
     {
-        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -92,9 +94,9 @@ public record GcloudModelArmorTemplatesCreateOptions : GcloudOptions, IValidatab
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<CliValuePair>
+            global::System.Collections.Generic.IEnumerable<CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<CliValuePair>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -190,11 +192,11 @@ public record GcloudModelArmorTemplatesCreateOptions : GcloudOptions, IValidatab
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(!string.IsNullOrWhiteSpace(MaliciousUriFilterSettingsEnforcement) || ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsConfidenceLevel) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsEnforcement)))
+        if (!(!string.IsNullOrWhiteSpace(MaliciousUriFilterSettingsEnforcement) || ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsConfidenceLevel) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsEnforcement)))
         {
             yield return new ValidationResult("At least one of MaliciousUriFilterSettingsEnforcement, RaiSettingsFilters, BasicConfigFilterEnforcement, AdvancedConfigDeidentifyTemplate, AdvancedConfigInspectTemplate, PiAndJailbreakFilterSettingsConfidenceLevel, or PiAndJailbreakFilterSettingsEnforcement must be specified.", [nameof(MaliciousUriFilterSettingsEnforcement), nameof(RaiSettingsFilters), nameof(BasicConfigFilterEnforcement), nameof(AdvancedConfigDeidentifyTemplate), nameof(AdvancedConfigInspectTemplate), nameof(PiAndJailbreakFilterSettingsConfidenceLevel), nameof(PiAndJailbreakFilterSettingsEnforcement)]);
         }
-        if ((!string.IsNullOrWhiteSpace(MaliciousUriFilterSettingsEnforcement) || ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsConfidenceLevel) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsEnforcement)) && (((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate)) && (((!string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate)) ? 1 : 0) > 1))
+        if ((!string.IsNullOrWhiteSpace(MaliciousUriFilterSettingsEnforcement) || ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsConfidenceLevel) || !string.IsNullOrWhiteSpace(PiAndJailbreakFilterSettingsEnforcement)) && (((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<CliValuePair>)(object)RaiSettingsFilters, static item => item is not null) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<char> ? (object?)RaiSettingsFilters is not string || !string.IsNullOrWhiteSpace(RaiSettingsFilters?.ToString()) : ((object?)RaiSettingsFilters is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)RaiSettingsFilters, static item => item is not null) : (RaiSettingsFilters is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RaiSettingsFilters), static item => item is not null))))) || !string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement) || !string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate)) && (((!string.IsNullOrWhiteSpace(BasicConfigFilterEnforcement)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(AdvancedConfigDeidentifyTemplate) || !string.IsNullOrWhiteSpace(AdvancedConfigInspectTemplate)) ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of (BasicConfigFilterEnforcement) or (AdvancedConfigDeidentifyTemplate or AdvancedConfigInspectTemplate) may be specified.", [nameof(BasicConfigFilterEnforcement), nameof(AdvancedConfigDeidentifyTemplate), nameof(AdvancedConfigInspectTemplate)]);
         }

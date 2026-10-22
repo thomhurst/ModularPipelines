@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -145,10 +146,10 @@ public record GcloudContainerAttachedClustersRegisterOptions : GcloudOptions, IV
     public bool? EnableManagedPrometheus { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Examples: $ gcloud container attached clusters register --logging=SYSTEM $ gcloud container attached clusters register \ --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters register --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
+    /// Set the components that have logging enabled. Examples: $ gcloud container attached clusters register --logging=SYSTEM $ gcloud container attached clusters register \ --logging=SYSTEM,WORKLOAD $ gcloud container attached clusters register --logging=NONE COMPONENT must be one of: NONE, SYSTEM, WORKLOAD. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudContainerAttachedClustersRegisterLogging>? Logging { get; set; }
+    public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
     /// Kubernetes labels to be applied to system component pods. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

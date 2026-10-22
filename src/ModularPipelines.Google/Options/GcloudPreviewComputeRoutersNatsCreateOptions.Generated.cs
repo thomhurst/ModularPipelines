@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -166,15 +168,15 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
     public IEnumerable<string>? NatExternalIpPool
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NatExternalIpPoolSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NatExternalIpPoolSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NatExternalIpPoolSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -182,9 +184,9 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -200,15 +202,15 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
     public IEnumerable<string>? NatCustomSubnetIpRanges
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __NatCustomSubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __NatCustomSubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __NatCustomSubnetIpRangesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -216,9 +218,9 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -240,15 +242,15 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
     public IEnumerable<string>? Nat64CustomV6SubnetIpRanges
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __Nat64CustomV6SubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<KeyValue> keyValues ? new __Nat64CustomV6SubnetIpRangesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
     }
 
     private sealed class __Nat64CustomV6SubnetIpRangesSnapshotKeyValue(
         IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+        global::System.Collections.Generic.IEnumerable<KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<KeyValue>
     {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+        private readonly KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
 
         global::System.Collections.Generic.IEnumerator<string>
             global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
@@ -256,9 +258,9 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
         global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
             ((global::System.Collections.IEnumerable)source).GetEnumerator();
 
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+        global::System.Collections.Generic.IEnumerator<KeyValue>
+            global::System.Collections.Generic.IEnumerable<KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<KeyValue>)_values).GetEnumerator();
     }
 
     /// <summary>
@@ -270,15 +272,15 @@ public record GcloudPreviewComputeRoutersNatsCreateOptions : GcloudOptions, IVal
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((AutoAllocateNatExternalIps == true ? 1 : 0) + (((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatExternalIpPool is not string || !string.IsNullOrWhiteSpace(NatExternalIpPool?.ToString()) : ((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NatExternalIpPool, static item => item is not null) : (NatExternalIpPool is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatExternalIpPool), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((AutoAllocateNatExternalIps == true ? 1 : 0) + (((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatExternalIpPool is not string || !string.IsNullOrWhiteSpace(NatExternalIpPool?.ToString()) : ((object?)NatExternalIpPool is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NatExternalIpPool, static item => item is not null) : (NatExternalIpPool is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatExternalIpPool), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of AutoAllocateNatExternalIps or NatExternalIpPool may be specified.", [nameof(AutoAllocateNatExternalIps), nameof(NatExternalIpPool)]);
         }
-        if ((NatAllSubnetIpRanges == true ? 1 : 0) + (((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatCustomSubnetIpRanges is not string || !string.IsNullOrWhiteSpace(NatCustomSubnetIpRanges?.ToString()) : ((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)NatCustomSubnetIpRanges, static item => item is not null) : (NatCustomSubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatCustomSubnetIpRanges), static item => item is not null)))) ? 1 : 0) + (NatPrimarySubnetIpRanges == true ? 1 : 0) > 1)
+        if ((NatAllSubnetIpRanges == true ? 1 : 0) + (((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)NatCustomSubnetIpRanges is not string || !string.IsNullOrWhiteSpace(NatCustomSubnetIpRanges?.ToString()) : ((object?)NatCustomSubnetIpRanges is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)NatCustomSubnetIpRanges, static item => item is not null) : (NatCustomSubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)NatCustomSubnetIpRanges), static item => item is not null)))) ? 1 : 0) + (NatPrimarySubnetIpRanges == true ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of NatAllSubnetIpRanges, NatCustomSubnetIpRanges, or NatPrimarySubnetIpRanges may be specified.", [nameof(NatAllSubnetIpRanges), nameof(NatCustomSubnetIpRanges), nameof(NatPrimarySubnetIpRanges)]);
         }
-        if ((Nat64AllV6SubnetIpRanges == true ? 1 : 0) + (((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)Nat64CustomV6SubnetIpRanges is not string || !string.IsNullOrWhiteSpace(Nat64CustomV6SubnetIpRanges?.ToString()) : ((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Nat64CustomV6SubnetIpRanges, static item => item is not null) : (Nat64CustomV6SubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Nat64CustomV6SubnetIpRanges), static item => item is not null)))) ? 1 : 0) > 1)
+        if ((Nat64AllV6SubnetIpRanges == true ? 1 : 0) + (((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<char> ? (object?)Nat64CustomV6SubnetIpRanges is not string || !string.IsNullOrWhiteSpace(Nat64CustomV6SubnetIpRanges?.ToString()) : ((object?)Nat64CustomV6SubnetIpRanges is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)Nat64CustomV6SubnetIpRanges, static item => item is not null) : (Nat64CustomV6SubnetIpRanges is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Nat64CustomV6SubnetIpRanges), static item => item is not null)))) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of Nat64AllV6SubnetIpRanges or Nat64CustomV6SubnetIpRanges may be specified.", [nameof(Nat64AllV6SubnetIpRanges), nameof(Nat64CustomV6SubnetIpRanges)]);
         }

@@ -10,6 +10,8 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
 
@@ -233,10 +235,10 @@ public record GcloudContainerAwsClustersCreateOptions : GcloudOptions, IValidata
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Examples: $ gcloud container aws clusters create --logging=SYSTEM $ gcloud container aws clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// Set the components that have logging enabled. Examples: $ gcloud container aws clusters create --logging=SYSTEM $ gcloud container aws clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudContainerAwsClustersCreateLogging>? Logging { get; set; }
+    public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
     /// Number of I/O operations per second (IOPS) to provision for the main volume.

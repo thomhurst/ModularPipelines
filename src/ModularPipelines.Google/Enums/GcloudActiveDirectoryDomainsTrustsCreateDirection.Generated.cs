@@ -16,12 +16,21 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum GcloudActiveDirectoryDomainsTrustsCreateDirection
 {
-    [EnumValue("BIDIRECTIONAL")]
+    [EnumValue("bidirectional")]
     Bidirectional,
 
-    [EnumValue("INBOUND")]
+    [EnumValue("BIDIRECTIONAL")]
+    BidirectionalUppercase,
+
+    [EnumValue("inbound")]
     Inbound,
 
+    [EnumValue("INBOUND")]
+    InboundUppercase,
+
+    [EnumValue("outbound")]
+    Outbound,
+
     [EnumValue("OUTBOUND")]
-    Outbound
+    OutboundUppercase
 }

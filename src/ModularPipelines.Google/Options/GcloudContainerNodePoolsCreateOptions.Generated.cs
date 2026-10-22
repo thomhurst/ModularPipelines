@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Google.Enums;
@@ -387,7 +388,7 @@ public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatabl
     /// Placement type allows to define the type of node placement within this node pool. UNSPECIFIED - No requirements on the placement of nodes. This is the default option. COMPACT - GKE will attempt to place the nodes in a close proximity to each other. This helps to reduce the communication latency between the nodes, but imposes additional limitations on the node pool size. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --placement-type=COMPACT PLACEMENT_TYPE must be one of: UNSPECIFIED, COMPACT.
     /// </summary>
     [CliOption("--placement-type", Format = OptionFormat.EqualsSeparated)]
-    public GcloudContainerNodePoolsCreatePlacementType? PlacementType { get; set; }
+    public string? PlacementType { get; set; }
 
     /// <summary>
     /// Create nodes using preemptible VM instances in the new node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --preemptible New nodes, including ones created by resize or recreate, will use preemptible VM instances. See https://cloud.google.com/kubernetes-engine/docs/preemptible-vm for more information on how to use Preemptible VMs with Kubernetes Engine.
@@ -504,7 +505,7 @@ public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatabl
     public IReadOnlyList<KeyValue>? CreatePodIpv4Range
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
     }
 
     /// <summary>
@@ -636,7 +637,7 @@ public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatabl
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<char> ? (object?)CreatePodIpv4Range is not string || !string.IsNullOrWhiteSpace(CreatePodIpv4Range?.ToString()) : ((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)CreatePodIpv4Range, static item => item is not null) : (CreatePodIpv4Range is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CreatePodIpv4Range), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PodIpv4Range) ? 1 : 0) > 1)
+        if ((((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<char> ? (object?)CreatePodIpv4Range is not string || !string.IsNullOrWhiteSpace(CreatePodIpv4Range?.ToString()) : ((object?)CreatePodIpv4Range is global::System.Collections.Generic.IEnumerable<KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<KeyValue>)(object)CreatePodIpv4Range, static item => item is not null) : (CreatePodIpv4Range is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)CreatePodIpv4Range), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(PodIpv4Range) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of CreatePodIpv4Range or PodIpv4Range may be specified.", [nameof(CreatePodIpv4Range), nameof(PodIpv4Range)]);
         }

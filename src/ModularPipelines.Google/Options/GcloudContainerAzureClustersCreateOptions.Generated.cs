@@ -10,8 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines;
+using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
-using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -213,10 +214,10 @@ public record GcloudContainerAzureClustersCreateOptions : GcloudOptions, IValida
     public string? EndpointSubnetId { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Examples: $ gcloud container azure clusters create --logging=SYSTEM $ gcloud container azure clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD.
+    /// Set the components that have logging enabled. Examples: $ gcloud container azure clusters create --logging=SYSTEM $ gcloud container azure clusters create --logging=SYSTEM,WORKLOAD COMPONENT must be one of: SYSTEM, WORKLOAD. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudContainerAzureClustersCreateLogging>? Logging { get; set; }
+    public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
     /// Size of the main volume. The value must be a whole number followed by a size unit of GB for gigabyte, or TB for terabyte. If no size unit is specified, GB is assumed.
