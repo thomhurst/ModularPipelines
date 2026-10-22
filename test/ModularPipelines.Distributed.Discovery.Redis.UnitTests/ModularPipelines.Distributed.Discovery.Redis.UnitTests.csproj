@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Respire.Testing" />
     <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     <PackageReference Include="TUnit" />
   </ItemGroup>
 

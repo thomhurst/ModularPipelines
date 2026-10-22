@@ -427,9 +427,21 @@ connection; it neither uses nor replaces a Redis client registered by the applic
 | `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
 | `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
-| `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. [Run data cleanup](#run-data-cleanup) deletes it earlier. |
+| `TimeToLive` | `TimeSpan` | `01:00:00` | Expiry of the advertised endpoint, renewed while the master is active. Must be at least one second. [Run data cleanup](#run-data-cleanup) deletes it earlier. |
 | `DiscoveryTimeout` | `TimeSpan` | `00:02:00` | How long workers wait for the endpoint. |
 | `PollInterval` | `TimeSpan` | `00:00:00.500` | How often workers check for the endpoint. |
+
+The master renews its advertisement every third of `TimeToLive`, with at most one minute between renewals,
+so workers can discover it even after the original expiry during a long run. Renewal and cleanup atomically
+check ownership: an expired, removed, or replacement advertisement is never recreated or modified by an old
+master. Redis credentials need `GET`, `SET`, `EVALSHA`, `EVAL`, `PEXPIRE`, and `DEL` permission (including the commands
+called by the scripts). Both TCP and REST discovery support renewal.
+
+[Run data cleanup](#run-data-cleanup) stops renewal before deleting this master's endpoint. Service disposal
+also stops renewal when cleanup is skipped; in that case, or after a process crash, the last advertisement
+expires within `TimeToLive`. Renewal failures log a warning without the endpoint value or access token and
+retry at the next interval. If Redis remains unavailable until expiry, discovery is lost and the master must
+be restarted with a fresh run identifier; renewal does not recreate expired advertisements.
 
 Because the stored endpoint includes the access token, only the run's processes should be able to read the
 discovery Redis database.

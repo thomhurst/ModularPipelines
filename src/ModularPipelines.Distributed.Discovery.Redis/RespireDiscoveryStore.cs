@@ -8,6 +8,9 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 internal sealed class RespireDiscoveryStore : IRedisDiscoveryStore, IAsyncDisposable
 {
+    private static readonly RespireScript RefreshScript = RespireScript.Create(RedisDiscoveryScripts.Refresh);
+    private static readonly RespireScript DeleteScript = RespireScript.Create(RedisDiscoveryScripts.Delete);
+
     private readonly Func<CancellationToken, Task<IRespireClient>> _connect;
     private readonly SemaphoreSlim _connectLock = new(1, 1);
     private IRespireClient? _connection;
@@ -46,10 +49,19 @@ internal sealed class RespireDiscoveryStore : IRedisDiscoveryStore, IAsyncDispos
         return await connection.GetStringAsync(key, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task DeleteAsync(string key, CancellationToken cancellationToken)
+    public async Task<bool> RefreshAsync(string key, string expectedValue, TimeSpan ttl, CancellationToken cancellationToken)
     {
         var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        await connection.DeleteAsync([key], cancellationToken).ConfigureAwait(false);
+        return await connection.Scripts.ExecuteIntegerAsync(
+                RefreshScript, [key], [expectedValue, (long) ttl.TotalMilliseconds], cancellationToken)
+            .ConfigureAwait(false) == 1;
+    }
+
+    public async Task DeleteAsync(string key, string expectedValue, CancellationToken cancellationToken)
+    {
+        var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        await connection.Scripts.ExecuteIntegerAsync(DeleteScript, [key], [expectedValue], cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async ValueTask DisposeAsync()

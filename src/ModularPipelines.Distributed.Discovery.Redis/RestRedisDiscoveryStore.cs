@@ -54,11 +54,26 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
         return result.ValueKind == JsonValueKind.Null ? null : result.GetString();
     }
 
-    public async Task DeleteAsync(string key, CancellationToken cancellationToken)
+    public Task<bool> RefreshAsync(string key, string expectedValue, TimeSpan ttl, CancellationToken cancellationToken) =>
+        ExecuteScriptAsync(RedisDiscoveryScripts.Refresh, key, [expectedValue, ((long) ttl.TotalMilliseconds).ToString(System.Globalization.CultureInfo.InvariantCulture)], cancellationToken);
+
+    public async Task DeleteAsync(string key, string expectedValue, CancellationToken cancellationToken) =>
+        await ExecuteScriptAsync(RedisDiscoveryScripts.Delete, key, [expectedValue], cancellationToken).ConfigureAwait(false);
+
+    private async Task<bool> ExecuteScriptAsync(string script, string key, string[] arguments, CancellationToken cancellationToken)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, $"del/{Encode(key)}");
+        // Keep the expected value (which includes the access token) out of URLs and HTTP error messages.
+        using var request = new HttpRequestMessage(HttpMethod.Post, string.Empty)
+        {
+            Content = new StringContent(JsonSerializer.Serialize(new[] { "EVAL", script, "1", key }.Concat(arguments)),
+                System.Text.Encoding.UTF8, "application/json"),
+        };
         using var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
+        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        await using var streamScope = stream.ConfigureAwait(false);
+        using var document = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken).ConfigureAwait(false);
+        return document.RootElement.GetProperty("result").GetInt64() == 1;
     }
 
     public void Dispose()
