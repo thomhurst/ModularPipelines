@@ -128,35 +128,44 @@ public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCach
     }
 
     /// <summary>
-    /// Extracts description from help text.
+    /// Extracts the first description paragraph before examples and option sections.
     /// </summary>
     private static string? ExtractDescription(string helpText)
     {
         var lines = helpText.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
-            var trimmed = line.Trim();
-
-            if (string.IsNullOrWhiteSpace(trimmed))
+            if (string.IsNullOrWhiteSpace(lines[i]))
             {
                 continue;
             }
 
-            if (trimmed.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase))
+            var start = i;
+            var firstLine = lines[start].Trim();
+            while (i + 1 < lines.Length && !string.IsNullOrWhiteSpace(lines[i + 1]))
+            {
+                i++;
+            }
+
+            // Usage can wrap; a leading note belongs to the whole paragraph, too.
+            if (firstLine.StartsWith("Usage:", StringComparison.OrdinalIgnoreCase)
+                || firstLine.StartsWith("Note:", StringComparison.OrdinalIgnoreCase)
+                || firstLine.StartsWith("Warning:", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
-            if (trimmed.EndsWith(':'))
+            // A missing description must not fall through into examples or sections.
+            if (firstLine.StartsWith('$') || firstLine.StartsWith('-') || firstLine.EndsWith(':'))
             {
-                continue;
+                return null;
             }
 
-            if (trimmed.Length > 10 && !trimmed.Contains("--") && !trimmed.StartsWith('-'))
-            {
-                return trimmed;
-            }
+            var indentation = GetIndentation(lines[start]);
+            return string.Join(' ', lines.Skip(start).Take(i - start + 1)
+                .TakeWhile(line => GetIndentation(line) == indentation)
+                .Select(line => line.Trim()));
         }
 
         return null;
