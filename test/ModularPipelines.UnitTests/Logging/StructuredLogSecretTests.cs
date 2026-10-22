@@ -170,6 +170,62 @@ public class StructuredLogSecretTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task BufferedEvent_MasksCharacterRunsInMixedCollections(bool leadingValue)
+    {
+        var values = new ArrayList(Secret.ToCharArray());
+        if (leadingValue)
+        {
+            values.Insert(0, 42);
+        }
+        else
+        {
+            values.Add(42);
+        }
+
+        var obfuscator = CreateObfuscator();
+        var logger = new Mock<ILogger>();
+        logger.Object.LogInformation("Value {Value}", values);
+        var state = logger.Invocations.Single().Arguments[2]!;
+        logger.Invocations.Clear();
+        var sanitized = new FormattedLogValuesObfuscator(obfuscator).TryObfuscateValues(state);
+        var logEvent = new BufferedLogEvent<object>(
+            LogLevel.Information, default, state, sanitized, null,
+            (item, _) => item.ToString()!, obfuscator);
+
+        logEvent.WriteTo(logger.Object);
+
+        var exported = (IReadOnlyList<KeyValuePair<string, object?>>) logger.Invocations.Single().Arguments[2]!;
+        var elements = ((IEnumerable) exported[0].Value!).Cast<object>().ToArray();
+        await Assert.That(new string(elements.OfType<char>().ToArray())).IsEqualTo("**********");
+        await Assert.That(elements.OfType<int>().Single()).IsEqualTo(42);
+        await Assert.That(new string(values.OfType<char>().ToArray())).IsEqualTo(Secret);
+    }
+
+    [Test]
+    public async Task TruncatedMixedCharacterRun_DiscardsPartialSequence()
+    {
+        var values = new ArrayList { 42 };
+        values.AddRange(new string('x', 1024).ToCharArray());
+        var sanitized = (object[]) new FormattedLogValuesObfuscator(CreateObfuscator()).TryObfuscateValues(values);
+        await Assert.That(sanitized.Length).IsEqualTo(2);
+        await Assert.That(sanitized[0]).IsEqualTo(42);
+        await Assert.That(sanitized[1]).IsEqualTo("[Truncated log value]");
+    }
+
+    [Test]
+    public async Task MixedCharacterMaskExpansion_RespectsTheSharedBudget()
+    {
+        var obfuscator = CreateObfuscator(maskingOptions: new SecretMaskingOptions { MaskValue = new string('*', 1024) });
+        var values = new ArrayList(Secret.ToCharArray()) { 42 };
+        var sanitized = (object[]) new FormattedLogValuesObfuscator(obfuscator).TryObfuscateValues(values);
+        await Assert.That(sanitized.OfType<char>().Count()).IsEqualTo(0);
+        await Assert.That(sanitized[0]).IsEqualTo("[Truncated log value]");
+        await Assert.That(sanitized[1]).IsEqualTo(42);
+    }
+
+    [Test]
     public async Task MixedCollections_KeepSanitizedNonCharacterElements()
     {
         var values = new ArrayList { 'a', Secret, null, 42, new[] { Secret } };

@@ -108,21 +108,18 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
             return _secretObfuscator.Obfuscate("[Truncated log value]", null);
         }
 
-        if (value is PreObfuscatedLogValue preObfuscatedValue)
+        return value switch
         {
-            return preObfuscatedValue.Value;
-        }
+            PreObfuscatedLogValue preObfuscatedValue => preObfuscatedValue.Value,
+            string => ObfuscateScalarValue(value),
+            IEnumerable<char> characters => ObfuscateCharacters(characters, depth, ref remainingValues),
+            IEnumerable enumerable => ObfuscateEnumerable(enumerable, depth, ref remainingValues),
+            _ => ObfuscateScalarValue(value),
+        };
+    }
 
-        if (value is IEnumerable<char> characters && value is not string)
-        {
-            return ObfuscateCharacters(characters, depth, ref remainingValues);
-        }
-
-        if (value is IEnumerable enumerable && value is not string)
-        {
-            return ObfuscateEnumerable(enumerable, depth, ref remainingValues);
-        }
-
+    private object ObfuscateScalarValue(object value)
+    {
         string originalValue;
         try
         {
@@ -199,19 +196,23 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
             {
                 if (depth + 1 >= 16 || remainingValues <= 0)
                 {
-                    if (characters.Count == values.Count)
-                    {
-                        // An all-character prefix may be part of a longer secret.
-                        return new object[] { _secretObfuscator.Obfuscate("[Truncated log value]", null) };
-                    }
-
+                    // Discard the pending run: a secret may cross the truncation boundary.
                     values.Add(_secretObfuscator.Obfuscate("[Truncated log value]", null));
-                    break;
+                    return values.ToArray();
                 }
 
                 if (element is char character)
                 {
+                    remainingValues--;
                     characters.Add(character);
+                    continue;
+                }
+
+                AppendMaskedCharacters(values, characters, ref remainingValues);
+                if (remainingValues <= 0)
+                {
+                    values.Add(_secretObfuscator.Obfuscate("[Truncated log value]", null));
+                    return values.ToArray();
                 }
 
                 if (element is null)
@@ -230,14 +231,31 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
             return _secretObfuscator.Obfuscate("[Unavailable log value]", null);
         }
 
-        // Non-generic collections can contain the same character sequences as char[].
-        if (characters.Count > 0 && characters.Count == values.Count)
+        // Preserve the character-array snapshot for collections containing only characters.
+        if (characters.Count > 0 && values.Count == 0)
         {
             return MaskCharacters(characters, ref remainingValues);
         }
 
+        AppendMaskedCharacters(values, characters, ref remainingValues);
+
         // Always snapshot: even a currently harmless collection could be mutated before export.
         return values.ToArray();
+    }
+
+    private void AppendMaskedCharacters(List<object?> values, List<char> characters, ref int remainingValues)
+    {
+        if (characters.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var character in (IEnumerable) MaskCharacters(characters, ref remainingValues))
+        {
+            values.Add(character);
+        }
+
+        characters.Clear();
     }
 }
 
