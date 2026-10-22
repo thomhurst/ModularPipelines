@@ -134,10 +134,12 @@ public class ModuleTesterTests
         CancellationToken cancellationToken)
     {
         var run = await ModuleTester.For<TimedCommandModule, string>()
-            .InterceptCommands(_ =>
+            .InterceptCommands((_, token) =>
             {
-                Thread.Sleep(200);
-                return CommandResult.Ok();
+                // Wait synchronously for the command's actual deadline. A fixed
+                // sleep can finish before its timer callback runs under load.
+                token.WaitHandle.WaitOne();
+                return ValueTask.FromResult(CommandResult.Ok());
             })
             .ExecuteAsync(cancellationToken);
 
