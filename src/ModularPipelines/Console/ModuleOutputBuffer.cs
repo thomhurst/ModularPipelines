@@ -439,9 +439,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
         catch
         {
-            if (flushKind is OutputFlushKind.Incremental)
+            if (flushKind is not OutputFlushKind.Complete)
             {
-                RecordRenderedOutput(OutputFlushKind.Incremental, renderedConsoleOutput);
+                RecordRenderedOutput(flushKind, renderedConsoleOutput);
             }
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
@@ -611,9 +611,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
 
     private int GetFlushableOutputCount(OutputFlushKind flushKind)
     {
-        return flushKind is OutputFlushKind.Complete
-            ? _outputs.Count
-            : _secretRemasker.GetIncrementalFlushableOutputCount(_outputs);
+        return flushKind is OutputFlushKind.Incremental
+            ? _secretRemasker.GetIncrementalFlushableOutputCount(_outputs)
+            : _outputs.Count;
     }
 
     private void RenderOutputs(
@@ -1051,6 +1051,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
         var continuationText = isContinuation ? " (continued)" : string.Empty;
+
+        if (flushKind is OutputFlushKind.Drain)
+        {
+            return $"{_moduleName}{continuationText} ({durationText})";
+        }
 
         if (exception != null)
         {

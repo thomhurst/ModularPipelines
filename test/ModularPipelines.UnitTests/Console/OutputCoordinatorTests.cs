@@ -51,6 +51,24 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task DeferredFlush_RescheduledCompletionFlushesEachBufferOnce()
+    {
+        var firstBuffer = new CancellingOutputBuffer();
+        var secondBuffer = new CancellingOutputBuffer();
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+        coordinator.SetProgressActive(true);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(secondBuffer, secondBuffer.ModuleType);
+        await coordinator.OnModuleCompletedAsync(firstBuffer, firstBuffer.ModuleType);
+        coordinator.SetProgressActive(false);
+
+        await coordinator.FlushDeferredAsync();
+
+        await Assert.That(firstBuffer.FlushCount).IsEqualTo(1);
+        await Assert.That(secondBuffer.FlushCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task DeferredFlush_CancellationRequeuesCurrentAndRemainingOutputs()
     {
         using var cancellationTokenSource = new CancellationTokenSource();

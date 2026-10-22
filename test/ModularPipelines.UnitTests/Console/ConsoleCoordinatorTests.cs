@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -229,6 +231,126 @@ public class ConsoleCoordinatorTests
         var buffer = coordinator.GetModuleBuffer(typeof(ConsoleCoordinatorTests));
 
         await Assert.That(buffer).IsNotNull();
+    }
+
+    [Test]
+    [Arguments(false, true)]
+    [Arguments(true, true)]
+    [Arguments(true, false)]
+    public async Task Teardown_RecoversCanceledCompletionWithoutRepeatingOutputOrCompletingUnfinishedModules(
+        bool renderedPrefix,
+        bool pendingDiagnostics)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var capturedOutput = new StringWriter();
+        var originalOutput = System.Console.Out;
+        var formatterProvider = new Mock<IBuildSystemFormatterProvider>();
+        formatterProvider.Setup(provider => provider.GetFormatter()).Returns(new DefaultFormatter());
+        var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
+        loggerControl.SetupGet(control => control.SynchronizationLock).Returns(new object());
+        loggerControl.Setup(control => control.TryAcquireRenderGateAsync(
+                It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
+            .Returns(new ValueTask<IDisposable?>(Mock.Of<IDisposable>()));
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        nonSpectreLoggerFactory.Setup(factory => factory.CreateLoggers(It.IsAny<string>())).Returns([]);
+        OutputCoordinator outputCoordinator;
+        try
+        {
+#pragma warning disable TUnit0055 // Globally non-parallel test restores the writer in finally.
+            System.Console.SetOut(capturedOutput);
+#pragma warning restore TUnit0055
+            outputCoordinator = new OutputCoordinator(
+                formatterProvider.Object,
+                NullLoggerFactory.Instance,
+                Mock.Of<IServiceProvider>(),
+                loggerControl.Object,
+                nonSpectreLoggerFactory.Object);
+        }
+        finally
+        {
+#pragma warning disable TUnit0055 // Restore the process-wide writer before leaving setup.
+            System.Console.SetOut(originalOutput);
+#pragma warning restore TUnit0055
+        }
+
+        await using var consoleCoordinator = CreateCoordinator(outputCoordinator);
+        var progress = new Mock<IPrintProgressExecutor>();
+        progress.Setup(executor => executor.InitializeAsync()).ReturnsAsync(progress.Object);
+        var pipelineOutput = new PipelineOutputCoordinator(
+            progress.Object,
+            Mock.Of<IConsolePrinter>(),
+            Mock.Of<IInternalSummaryLogger>(),
+            Mock.Of<IExceptionBuffer>(),
+            consoleCoordinator,
+            outputCoordinator,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                Console = new PipelineConsoleOptions { ModuleOutputFlushInterval = TimeSpan.Zero },
+            }),
+            NullLogger<PipelineOutputCoordinator>.Instance,
+            TimeProvider.System);
+        var scope = await pipelineOutput.InitializeAsync();
+        // Disabled progress switches completion output to the immediate queue.
+        outputCoordinator.SetProgressActive(false);
+        // A ready-event logger can preserve output while its module awaits rescheduling.
+        var unfinishedBuffer = consoleCoordinator.GetModuleBuffer(typeof(double));
+        unfinishedBuffer.Write("unfinished ready output");
+        var buffer = consoleCoordinator.GetModuleBuffer(typeof(string));
+        if (renderedPrefix)
+        {
+            buffer.WriteLine("rendered prefix");
+            await outputCoordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Incremental);
+        }
+
+        if (pendingDiagnostics)
+        {
+            buffer.WriteLine("remaining failure diagnostics");
+        }
+
+        buffer.SetException(new InvalidOperationException("module failed"));
+        buffer.MarkComplete();
+        var queueEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseQueue = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var controller = new Mock<IProgressController>();
+        controller.Setup(controller => controller.PauseAsync())
+            .Callback(() => queueEntered.TrySetResult())
+            .Returns(releaseQueue.Task);
+        controller.Setup(controller => controller.ResumeAsync()).Returns(Task.CompletedTask);
+        await outputCoordinator.WaitForPendingFlushesAsync();
+        outputCoordinator.SetProgressController(controller.Object);
+        var earlierBuffer = consoleCoordinator.GetModuleBuffer(typeof(int));
+        earlierBuffer.WriteLine("earlier completion");
+        earlierBuffer.MarkComplete();
+        var earlierFlush = outputCoordinator.OnModuleCompletedAsync(earlierBuffer, earlierBuffer.ModuleType);
+        try
+        {
+            await queueEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var canceledFlush = outputCoordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType, cancellation.Token);
+            await cancellation.CancelAsync();
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await canceledFlush);
+            await Assert.That(capturedOutput.ToString()).DoesNotContain("remaining failure diagnostics");
+        }
+        finally
+        {
+            releaseQueue.TrySetResult();
+            await earlierFlush;
+            await outputCoordinator.WaitForPendingFlushesAsync();
+        }
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await scope.DisposeAsync();
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+        await Assert.That(earlierBuffer.NeedsCompletionFlush).IsFalse();
+        await Assert.That(unfinishedBuffer.IsComplete).IsFalse();
+        await Assert.That(unfinishedBuffer.NeedsCompletionFlush).IsFalse();
+        var text = capturedOutput.ToString();
+        await Assert.That(text).DoesNotContain("Double \u2713");
+        await Assert.That(text.Split("unfinished ready output").Length - 1).IsEqualTo(1);
+        await Assert.That(text).Contains("InvalidOperationException");
+        await Assert.That(text.Split("earlier completion").Length - 1).IsEqualTo(1);
+        await Assert.That(text.Split("rendered prefix").Length - 1).IsEqualTo(renderedPrefix ? 1 : 0);
+        await Assert.That(text.Split("remaining failure diagnostics").Length - 1).IsEqualTo(pendingDiagnostics ? 1 : 0);
     }
 
     private static ConsoleCoordinator CreateCoordinator(

@@ -204,24 +204,26 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
                 () => _outputCoordinator.WaitForPendingFlushesAsync(),
                 exceptions).ConfigureAwait(false);
 
-            IReadOnlyList<IModuleOutputBuffer> newlyPopulatedBuffers = [];
+            IReadOnlyList<IModuleOutputBuffer> pendingBuffers = [];
             await CaptureExceptionAsync(
                 async () =>
                 {
                     // CRITICAL: Order matters!
                     // 1. Flush retained console fragments while progress deferral is still active.
-                    newlyPopulatedBuffers = await _consoleCoordinator
+                    pendingBuffers = await _consoleCoordinator
                         .FlushPendingWritesAsync()
                         .ConfigureAwait(false);
                 },
                 exceptions).ConfigureAwait(false);
 
-            // 2. Schedule buffers populated after their modules completed.
-            foreach (var buffer in newlyPopulatedBuffers)
+            // 2. Retry completed modules, including canceled flush attempts. A deferred
+            // module may never have run; drain its ready-event output without a final status.
+            foreach (var buffer in pendingBuffers)
             {
                 await CaptureExceptionAsync(
-                    () => _outputCoordinator
-                        .OnModuleCompletedAsync(buffer, buffer.ModuleType),
+                    () => buffer.IsComplete
+                        ? _outputCoordinator.OnModuleCompletedAsync(buffer, buffer.ModuleType)
+                        : _outputCoordinator.EnqueueAndFlushAsync(buffer, OutputFlushKind.Drain),
                     exceptions).ConfigureAwait(false);
             }
 

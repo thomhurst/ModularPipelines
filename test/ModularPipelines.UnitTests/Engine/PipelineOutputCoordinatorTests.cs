@@ -121,6 +121,7 @@ public class PipelineOutputCoordinatorTests
         var events = new List<string>();
         var retainedBuffer = new Mock<IModuleOutputBuffer>();
         retainedBuffer.SetupGet(x => x.ModuleType).Returns(typeof(PipelineOutputCoordinatorTests));
+        retainedBuffer.SetupGet(x => x.IsComplete).Returns(true);
         var consoleCoordinator = new Mock<IConsoleCoordinator>();
         consoleCoordinator.Setup(x => x.FlushPendingWritesAsync())
             .Callback(() => events.Add("retained"))

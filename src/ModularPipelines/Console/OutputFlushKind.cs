@@ -1,7 +1,7 @@
 namespace ModularPipelines.Console;
 
 /// <summary>
-/// Specifies whether buffered module output is being rendered during execution or at completion.
+/// Specifies how buffered module output and completion status are rendered.
 /// </summary>
 internal enum OutputFlushKind
 {
@@ -14,4 +14,9 @@ internal enum OutputFlushKind
     /// Renders the final output and completion status for a module.
     /// </summary>
     Complete,
+
+    /// <summary>
+    /// Drains all remaining output at teardown without reporting module completion.
+    /// </summary>
+    Drain,
 }

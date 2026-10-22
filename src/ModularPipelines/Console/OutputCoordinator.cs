@@ -135,6 +135,8 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
             // Order by completion time to maintain consistent output ordering
             toFlush = _deferredOutputs
+                // Teardown may rediscover a buffer already scheduled at module completion.
+                .DistinctBy(output => output.Buffer, ReferenceEqualityComparer.Instance)
                 .OrderBy(x => x.CompletedAt)
                 .ToList();
             _deferredOutputs.Clear();
@@ -418,7 +420,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
             .ConfigureAwait(false);
 
-        if (flushKind is OutputFlushKind.Complete && buffer.HasStructuredDeliveryRetries)
+        if (flushKind is not OutputFlushKind.Incremental && buffer.HasStructuredDeliveryRetries)
         {
             await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
                 .ConfigureAwait(false);
