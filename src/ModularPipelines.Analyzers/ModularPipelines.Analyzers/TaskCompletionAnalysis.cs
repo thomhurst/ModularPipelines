@@ -324,6 +324,19 @@ internal static class TaskCompletionAnalysis
 
     private static void AddAwaitFacts(IOperation awaited, HashSet<ISymbol> state, HashSet<ISymbol> unstable)
     {
+        // An assignment evaluates to the task now stored in its target. Nested
+        // assignments can establish completion for more than one stable variable.
+        awaited = Unwrap(awaited);
+        while (awaited is ISimpleAssignmentOperation assignment)
+        {
+            if (GetStableTaskSymbol(assignment.Target, unstable) is { } target)
+            {
+                state.Add(target);
+            }
+
+            awaited = Unwrap(assignment.Value);
+        }
+
         if (GetStableTaskSymbol(awaited, unstable) is { } symbol)
         {
             state.Add(symbol);
@@ -332,16 +345,24 @@ internal static class TaskCompletionAnalysis
                  && invocation.TargetMethod.Name == "WhenAll"
                  && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.Tasks.Task")
         {
-            // Only inline task lists are stable; an array/enumerable variable can be mutated.
-            var arguments = invocation.Arguments.SelectMany(static argument => GetInlineTasks(argument.Value)).ToArray();
-            if (arguments.All(argument => GetStableTaskSymbol(argument, unstable) is not null))
-            {
-                foreach (var argument in arguments)
-                {
-                    state.Add(GetStableTaskSymbol(argument, unstable)!);
-                }
-            }
+            AddWhenAllFacts(invocation, state, unstable);
         }
+    }
+
+    private static void AddWhenAllFacts(IInvocationOperation invocation, HashSet<ISymbol> state, HashSet<ISymbol> unstable)
+    {
+        // Only inline task lists identify individual inputs. Unknown siblings
+        // do not invalidate a stable local unless argument evaluation writes it.
+        var inputs = new HashSet<ISymbol>(invocation.Arguments
+            .SelectMany(static argument => GetInlineTasks(argument.Value))
+            .Select(argument => GetStableTaskSymbol(argument, unstable))
+            .OfType<ISymbol>(), SymbolEqualityComparer.Default);
+        foreach (var assignment in invocation.DescendantsAndSelf().OfType<IAssignmentOperation>())
+        {
+            RemoveAssignedSymbols(assignment.Target, inputs);
+        }
+
+        state.UnionWith(inputs);
     }
 
     private static IEnumerable<IOperation> GetInlineTasks(IOperation operation)

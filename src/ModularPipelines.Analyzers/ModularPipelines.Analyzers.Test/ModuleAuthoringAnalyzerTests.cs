@@ -2546,6 +2546,13 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("await (a = GetTask()); _ = a.Result;")]
+    [DataRow("await (a = b = GetTask()); _ = a.Result; _ = b.Result;")]
+    [DataRow("await (a = GetTask()).ConfigureAwait(false); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(a, GetTask()); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(GetTask(), a); _ = a.Result;")]
+    [DataRow("await Task.WhenAll(new[] { a, GetTask() }); _ = a.Result;")]
+    [DataRow("await Task.WhenAll<int>([a, GetTask()]); _ = a.Result;")]
     [DataRow("await a; _ = a.Result;")]
     [DataRow("await a.ConfigureAwait(false); _ = a.Result;")]
     [DataRow("var captureContext = context != null; await a.ConfigureAwait(captureContext); _ = a.Result;")]
@@ -2580,6 +2587,11 @@ public class ModuleAuthoringAnalyzerTests
 
     [TestMethod]
     [DataRow("await a; _ = {|#0:b.Result|};")]
+    [DataRow("await (a = GetTask()); a = GetTask(); _ = {|#0:a.Result|};")]
+    [DataRow("await (a = GetTask()); _ = {|#0:b.Result|};")]
+    [DataRow("await Task.WhenAll(a, Task.FromResult((a = GetTask()).IsCompleted)); _ = {|#0:a.Result|};")]
+    [DataRow("await Task.WhenAll(new Task[] { a, Task.FromResult((a = GetTask()).IsCompleted) }); _ = {|#0:a.Result|};")]
+    [DataRow("var tasks = new[] { a }; await Task.WhenAll(tasks); _ = {|#0:a.Result|};")]
     [DataRow("await a; a = GetTask(); _ = {|#0:a.Result|};")]
     [DataRow("await a; if (context != null) a = GetTask(); _ = {|#0:a.Result|};")]
     [DataRow("if (context != null) await a; _ = {|#0:a.Result|};")]
