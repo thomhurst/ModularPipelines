@@ -41,6 +41,38 @@ The exclusion belongs only to the local apply command. Keep CI's
 Respect the guard's existing timeout and memory limits; exits 124 and 137 are
 validation limits, not successful formatting.
 
+## C# projects with F# references
+
+The pinned formatter loads F# projects into its Roslyn workspace, but those
+projects do not support Roslyn compilations. Its analyzer runner checks every
+project reference recursively and skips a C# project when an F# dependency
+returns no compilation. The resulting `Required references did not load` warning
+can appear after a successful build or restore, and formatting still exits zero.
+
+[test/Directory.Build.targets](../test/Directory.Build.targets) supplies the built
+F# assembly as a metadata reference during C# design-time builds. Ordinary builds
+keep the project reference, including F# runtime and documentation coverage.
+Build the affected solution before semantic formatting. The formatter defaults
+to `Debug`; if the F# project was built in another configuration, set the
+`Configuration` environment variable to that configuration for formatting, then
+restore its previous value. Solution configuration mappings can build referenced
+projects in `Debug` even when the solution configuration is `Release`; check the
+build output for the actual configuration.
+
+Use `--verbosity diagnostic` to confirm that the selected C# project's code-style
+and analyzer-reference passes say `Running ... analyzers on <project>`. Treat
+`Required references did not load`, `Msbuild failed`, or zero selected files as
+incomplete validation, regardless of the exit code. A missing F# assembly now
+also produces an explicit instruction to build the matching configuration.
+
+The CI regression check builds and runs a small C#/F# fixture, verifies that
+semantic formatting detects an unused import, applies its fix, then verifies the
+result. Run it locally with the pinned SDK:
+
+```powershell
+./scripts/Test-FSharpFormatting.ps1
+```
+
 ## IDE0130 apply-mode failure
 
 The pinned SDK's formatter can throw
