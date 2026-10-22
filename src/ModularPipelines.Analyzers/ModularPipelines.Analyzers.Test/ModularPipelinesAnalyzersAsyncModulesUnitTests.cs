@@ -198,6 +198,46 @@ public class Module1 : Module<string>
     }
 
     [TestMethod]
+    [DataRow("override", false)]
+    [DataRow("override", true)]
+    [DataRow("sealed override", false)]
+    [DataRow("sealed override", true)]
+    public async Task CodeFixPreservesExistingModifiers(string modifiers, bool expressionBody)
+    {
+        var body = expressionBody
+            ? "=> ExecuteCommand();"
+            : "{ return ExecuteCommand(); }";
+        var fixedBody = expressionBody
+            ? "=> await ExecuteCommand();"
+            : "{ return await ExecuteCommand(); }";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithOptions}}
+
+            public class Module1 : Module<string>
+            {
+                {|#0:protected {{modifiers}} Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    {{body}}|}
+
+                private static Task<string> ExecuteCommand() => Task.FromResult("Foo");
+            }
+            """;
+        var fixedSource = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithOptions}}
+
+            public class Module1 : Module<string>
+            {
+                protected {{modifiers}} async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    {{fixedBody}}
+
+                private static Task<string> ExecuteCommand() => Task.FromResult("Foo");
+            }
+            """;
+        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
+
+    [TestMethod]
     public async Task CodeFixWorks_With_Mixed_TaskFromResult_And_Actual_Async()
     {
         var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId).WithLocation(0);
