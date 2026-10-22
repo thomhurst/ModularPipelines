@@ -83,7 +83,7 @@ public static class Host
 
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "gated-parent" or "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
+        var name = role is "gated-parent" or "gated-parent-exit" or "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
         // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
         // holding the command's output pipes open.
@@ -153,6 +153,7 @@ public static class Host
                 break;
             case "parent":
             case "gated-parent":
+            case "gated-parent-exit":
             case "parent-exit":
             case "parent-error-exit":
             case "draining-parent":
@@ -192,7 +193,7 @@ public static class Host
             "child-failure-parent" => "failing-child",
             _ => "child",
         };
-        if (role is "grace-parent" or "gated-parent")
+        if (role is "grace-parent" or "gated-parent" or "gated-parent-exit")
         {
             // These regressions start descendants only after command containment is installed.
             await WaitForTrigger(directory, "start-child");
@@ -200,7 +201,7 @@ public static class Host
 
         using (var child = StartChild(childRole, directory, runtimeConfiguration))
         {
-            if (role is "parent-exit" or "parent-error-exit" or "draining-parent")
+            if (role is "parent-exit" or "gated-parent-exit" or "parent-error-exit" or "draining-parent")
             {
                 await WaitForTrigger(directory, "parent-exit");
                 System.Console.Out.Write("parent output");

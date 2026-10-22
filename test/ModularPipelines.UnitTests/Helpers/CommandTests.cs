@@ -1266,7 +1266,9 @@ public class CommandTests : TestBase
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(await GetService<ICommandContext>(), "gated-parent", TimeSpan.FromMilliseconds(50));
+        // Start returns after Windows job attachment; isolate cancellation from the startup race (#6302).
+        await fixture.TriggerAsync("start-child");
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
 
@@ -1306,7 +1308,8 @@ public class CommandTests : TestBase
         var (command, _) = await GetService<ICommandContext>(services =>
             services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(command, "gated-parent", TimeSpan.FromMilliseconds(50));
+        await fixture.TriggerAsync("start-child");
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
         await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
@@ -1415,11 +1418,13 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent-exit", TimeSpan.FromMilliseconds(100));
+        fixture.Start(await GetService<ICommandContext>(), "gated-parent-exit", TimeSpan.FromMilliseconds(100));
+        await fixture.TriggerAsync("start-child");
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
         await fixture.TriggerAsync("parent-exit");
