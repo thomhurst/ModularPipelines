@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "gradle",
-  "toolVersion": "9.8.1",
+  "toolVersion": "9.8.2",
   "commandTreeSha256": "0e687aaa28b03552c11dca346c7c8914e62b3e2ada613a7288c28c9e7e9ddeb4",
-  "generatorSourceSha256": "93b6daffd50c90dafa338cf07bff8f829f52fd43c1507b63913b3e2bbeedd28e"
+  "generatorSourceSha256": "2e38d193b0d7ac17f75252b656832d3a766d446289a691c8340b8e3ced0ef1e4"
 }
