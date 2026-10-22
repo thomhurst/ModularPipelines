@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.SignalR.Coordination;
 using MsOptions = Microsoft.Extensions.Options.Options;
 
@@ -139,15 +140,26 @@ public class SignalRFactoryConnectionTests
             context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
             return Task.CompletedTask;
         });
-        var factory = CreateFactory(server, TimeSpan.FromSeconds(1));
+        var clock = new RetryTrackingTimeProvider();
+        var connectionTimeout = TimeSpan.FromSeconds(1);
+        var factory = CreateFactory(server, connectionTimeout, clock);
+        var connection = factory.CreateWorkerAsync(CancellationToken.None);
 
-        await Assert.That(async () => await factory.CreateWorkerAsync(CancellationToken.None).WaitAsync(Timeout))
+        // Wait for the transient failure to reach the retry delay before expiring the timeout.
+        await clock.RetryScheduled.Task.WaitAsync(Timeout);
+        await Assert.That(connection.IsCompleted).IsFalse();
+        clock.Advance(connectionTimeout);
+
+        await Assert.That(async () => await connection.WaitAsync(Timeout))
             .Throws<OperationCanceledException>();
 
         await Assert.That(attempts).IsEqualTo(1);
     }
 
-    private static SignalRDistributedCoordinatorFactory CreateFactory(WebApplication server, TimeSpan? connectionTimeout = null) => new(
+    private static SignalRDistributedCoordinatorFactory CreateFactory(
+        WebApplication server,
+        TimeSpan? connectionTimeout = null,
+        TimeProvider? timeProvider = null) => new(
         MsOptions.Create(new SignalRDistributedOptions
         {
             ListenUrl = new Uri(server.Urls.Single()),
@@ -155,7 +167,8 @@ public class SignalRFactoryConnectionTests
             MaxReconnectAttempts = 0,
         }),
         MsOptions.Create(new DistributedOptions()),
-        NullLoggerFactory.Instance);
+        NullLoggerFactory.Instance,
+        timeProvider: timeProvider);
 
     private static async Task<WebApplication> StartServerAsync(
         Func<HttpContext, RequestDelegate, Task> middleware,
@@ -177,6 +190,22 @@ public class SignalRFactoryConnectionTests
         {
             await server.DisposeAsync();
             throw;
+        }
+    }
+
+    private sealed class RetryTrackingTimeProvider : FakeTimeProvider
+    {
+        public TaskCompletionSource RetryScheduled { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+        {
+            var timer = base.CreateTimer(callback, state, dueTime, period);
+            if (dueTime == TimeSpan.FromSeconds(2))
+            {
+                RetryScheduled.TrySetResult();
+            }
+
+            return timer;
         }
     }
 

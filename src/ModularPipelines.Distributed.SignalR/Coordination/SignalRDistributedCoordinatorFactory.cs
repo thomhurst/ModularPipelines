@@ -70,8 +70,8 @@ internal sealed class SignalRDistributedCoordinatorFactory(
         var logger = loggerFactory.CreateLogger<SignalRWorkerCoordinator>();
 
         // Connect with timeout and retry (DNS for tunnel URLs may need propagation time).
-        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(_options.ConnectionTimeout);
+        using var connectionTimeoutCts = new CancellationTokenSource(_options.ConnectionTimeout, timeProvider ?? TimeProvider.System);
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, connectionTimeoutCts.Token);
 
         if (logger.IsEnabled(LogLevel.Debug))
         {
@@ -98,7 +98,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 attempt++;
                 logger.LogWarning("Connection attempt {Attempt} failed: {Error}. Retrying...", attempt, ex.Message);
                 await connection.DisposeAsync().ConfigureAwait(false);
-                await Task.Delay(TimeSpan.FromSeconds(Math.Min(attempt * 2, 10)), timeoutCts.Token).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(Math.Min(attempt * 2, 10)), timeProvider ?? TimeProvider.System, timeoutCts.Token).ConfigureAwait(false);
             }
             catch
             {
