@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -6,7 +7,6 @@ using ModularPipelines.Options;
 using ModularPipelines.ProcessTestHost;
 using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
-using NReco.Logging.File;
 
 namespace ModularPipelines.UnitTests.Commands;
 
@@ -64,11 +64,11 @@ public class CommandOutputEncodingTests : TestBase
     public async Task Masks_Decoded_Secrets_In_Both_Streams()
     {
         const string secret = "café-secret";
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
         var (command, pipeline) = await GetService<ICommandContext>(services =>
         {
             services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-            services.AddLogging(builder => builder.AddFile(file));
+            services.AddLogging(builder => builder.AddProvider(new RecordingLoggerProvider(messages)));
         });
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
 
@@ -79,10 +79,36 @@ public class CommandOutputEncodingTests : TestBase
 
         await Assert.That(result.StandardOutput).IsEqualTo($"output:{secret}");
         await Assert.That(result.StandardError).IsEqualTo($"error:{secret}");
-        var log = await File.ReadAllTextAsync(file);
+        // Observe masking at the logger boundary. The file provider's bounded disposal
+        // wait does not guarantee that queued entries have reached disk under load.
+        var log = string.Join(Environment.NewLine, messages);
         await Assert.That(log).Contains("output:********");
         await Assert.That(log).Contains("error:********");
         await Assert.That(log).DoesNotContain(secret);
+    }
+
+    private sealed class RecordingLoggerProvider(ConcurrentQueue<string> messages) : ILoggerProvider, ILogger
+    {
+        public ILogger CreateLogger(string categoryName) => this;
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            messages.Enqueue(formatter(state, exception));
+        }
+
+        public void Dispose()
+        {
+        }
     }
 
     private static CommandLineToolOptions CreateOutputCommand(Encoding encoding, string output, string error, bool includePreamble = false)
