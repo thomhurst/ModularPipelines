@@ -124,7 +124,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     {
         if (!cancellationToken.CanBeCanceled)
         {
-            cancellationToken = _executionContext.ModuleCancellationTokenSource.Token;
+            cancellationToken = _executionContext.CurrentCancellationToken;
         }
 
         cancellationToken.ThrowIfCancellationRequested();

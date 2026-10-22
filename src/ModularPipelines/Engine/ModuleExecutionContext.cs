@@ -28,11 +28,20 @@ namespace ModularPipelines.Engine;
 internal class ModuleExecutionContext(IModule module, Type moduleType) : IModuleExecutionContext
 {
     private readonly AsyncLocal<int?> _currentAttempt = new();
+    private readonly AsyncLocal<CancellationToken?> _currentAttemptToken = new();
     private int _attemptCount;
 
     internal int Attempt => _currentAttempt.Value ?? AttemptCount;
 
     internal int AttemptCount => Volatile.Read(ref _attemptCount);
+
+    // Attempt state flows with the invocation, including concurrent shield attempts.
+    // Lifecycle hooks outside an attempt still use the module's cancellation token.
+    internal CancellationToken CurrentCancellationToken
+    {
+        get => _currentAttemptToken.Value ?? ModuleCancellationTokenSource.Token;
+        set => _currentAttemptToken.Value = value;
+    }
 
     // Set this in the invocation's execution context so concurrent shield attempts
     // keep their own number across awaits without changing the aggregate count.
