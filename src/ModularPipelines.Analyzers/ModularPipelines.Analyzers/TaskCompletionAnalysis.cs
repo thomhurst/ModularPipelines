@@ -94,11 +94,11 @@ internal static class TaskCompletionAnalysis
         ImmutableHashSet<TextSpan>.Builder completed,
         CancellationToken cancellationToken)
     {
-        var finallyWrites = GetFinallyWrites(graph);
-        var outputs = PropagateCompletion(graph, unstable, finallyWrites, cancellationToken);
+        var regionWrites = GetRegionWrites(graph.Root, graph);
+        var outputs = PropagateCompletion(graph, unstable, regionWrites, cancellationToken);
         foreach (var block in graph.Blocks.Where(static block => block.IsReachable))
         {
-            var state = GetInput(block, outputs, unstable, finallyWrites);
+            var state = GetInput(graph, block, outputs, unstable, regionWrites);
             VisitBlock(block, state, unstable, completed);
         }
 
@@ -122,7 +122,7 @@ internal static class TaskCompletionAnalysis
     private static HashSet<ISymbol>?[] PropagateCompletion(
         ControlFlowGraph graph,
         HashSet<ISymbol> unstable,
-        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites,
         CancellationToken cancellationToken)
     {
         var outputs = new HashSet<ISymbol>?[graph.Blocks.Length];
@@ -138,7 +138,7 @@ internal static class TaskCompletionAnalysis
                     continue;
                 }
 
-                var state = GetInput(block, outputs, unstable, finallyWrites);
+                var state = GetInput(graph, block, outputs, unstable, regionWrites);
                 VisitBlock(block, state, unstable, null);
                 if (outputs[block.Ordinal] is not { } previous || !previous.SetEquals(state))
                 {
@@ -153,16 +153,15 @@ internal static class TaskCompletionAnalysis
     }
 
     private static HashSet<ISymbol> GetInput(
+        ControlFlowGraph graph,
         BasicBlock block,
         HashSet<ISymbol>?[] outputs,
         HashSet<ISymbol> unstable,
-        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites)
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
     {
-        // Exception handlers can begin with a loop header that also has explicit
-        // back-edges. Its implicit first entry must still contribute no facts.
-        HashSet<ISymbol>? input = IsHandlerEntry(block)
-            ? new HashSet<ISymbol>(SymbolEqualityComparer.Default)
-            : null;
+        // Include the implicit exceptional entry even when a handler starts with
+        // a loop header that also has explicit back-edges.
+        var input = GetHandlerInput(graph, block, outputs, unstable, regionWrites);
         foreach (var predecessor in block.Predecessors)
         {
             if (!predecessor.Source.IsReachable || outputs[predecessor.Source.Ordinal] is not { } output)
@@ -170,7 +169,7 @@ internal static class TaskCompletionAnalysis
                 continue;
             }
 
-            var edge = GetEdgeState(predecessor, output, unstable, finallyWrites);
+            var edge = GetEdgeState(predecessor, output, unstable, regionWrites);
             if (input is null)
             {
                 input = edge;
@@ -181,7 +180,6 @@ internal static class TaskCompletionAnalysis
             }
         }
 
-        // Catch/finally entries have implicit exceptional edges: start without facts.
         return input ?? new HashSet<ISymbol>(SymbolEqualityComparer.Default);
     }
 
@@ -189,7 +187,7 @@ internal static class TaskCompletionAnalysis
         ControlFlowBranch predecessor,
         HashSet<ISymbol> output,
         HashSet<ISymbol> unstable,
-        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites)
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
     {
         var edge = new HashSet<ISymbol>(output, SymbolEqualityComparer.Default);
         var source = predecessor.Source;
@@ -204,19 +202,38 @@ internal static class TaskCompletionAnalysis
         // about symbols they cannot write, regardless of the path through cleanup.
         foreach (var region in predecessor.FinallyRegions)
         {
-            edge.ExceptWith(finallyWrites[region]);
+            edge.ExceptWith(regionWrites[region]);
         }
 
         return edge;
     }
 
-    private static Dictionary<ControlFlowRegion, HashSet<ISymbol>> GetFinallyWrites(ControlFlowGraph graph) =>
-        graph.Blocks.SelectMany(static block => block.Predecessors)
-            .SelectMany(static branch => branch.FinallyRegions)
-            .Distinct()
-            .ToDictionary(region => region, region => GetWrittenSymbols(graph.Blocks
+    private static Dictionary<ControlFlowRegion, HashSet<ISymbol>> GetRegionWrites(
+        ControlFlowRegion region,
+        ControlFlowGraph graph)
+    {
+        var writes = new Dictionary<ControlFlowRegion, HashSet<ISymbol>>();
+        AddRegionWrites(region, graph, writes);
+        return writes;
+    }
+
+    private static void AddRegionWrites(
+        ControlFlowRegion region,
+        ControlFlowGraph graph,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> writes)
+    {
+        if (region.Kind is ControlFlowRegionKind.TryAndCatch or ControlFlowRegionKind.TryAndFinally or ControlFlowRegionKind.Finally)
+        {
+            writes.Add(region, GetWrittenSymbols(graph.Blocks
                 .Skip(region.FirstBlockOrdinal)
                 .Take(region.LastBlockOrdinal - region.FirstBlockOrdinal + 1)));
+        }
+
+        foreach (var nested in region.NestedRegions)
+        {
+            AddRegionWrites(nested, graph, writes);
+        }
+    }
 
     private static HashSet<ISymbol> GetWrittenSymbols(IEnumerable<BasicBlock> blocks) => new(
         blocks.SelectMany(static block => block.Operations
@@ -228,18 +245,37 @@ internal static class TaskCompletionAnalysis
             .OfType<ISymbol>(),
         SymbolEqualityComparer.Default);
 
-    private static bool IsHandlerEntry(BasicBlock block)
+    private static HashSet<ISymbol>? GetHandlerInput(
+        ControlFlowGraph graph,
+        BasicBlock block,
+        HashSet<ISymbol>?[] outputs,
+        HashSet<ISymbol> unstable,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> regionWrites)
     {
         for (var region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
         {
-            if (block.Ordinal == region.FirstBlockOrdinal
-                && region.Kind is ControlFlowRegionKind.Catch or ControlFlowRegionKind.Filter or ControlFlowRegionKind.Finally)
+            if (block.Ordinal != region.FirstBlockOrdinal
+                || region.Kind is not (ControlFlowRegionKind.Catch or ControlFlowRegionKind.Filter or ControlFlowRegionKind.Finally))
             {
-                return true;
+                continue;
             }
+
+            var group = region.EnclosingRegion!;
+            if (group.Kind == ControlFlowRegionKind.FilterAndHandler)
+            {
+                group = group.EnclosingRegion!;
+            }
+
+            var protectedRegion = group.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Try);
+            var input = GetInput(graph, graph.Blocks[protectedRegion.FirstBlockOrdinal], outputs, unstable, regionWrites);
+            // Only facts dominating the protected region can hold on every
+            // exceptional entry. Any write, including in earlier filters or
+            // nested cleanup, can change the task before this handler executes.
+            input.ExceptWith(regionWrites[group]);
+            return input;
         }
 
-        return false;
+        return null;
     }
 
     private static void VisitBlock(
@@ -283,7 +319,8 @@ internal static class TaskCompletionAnalysis
                 completed?.Add(result.Syntax.Span);
                 break;
             case IAwaitOperation awaitOperation:
-                AddAwaitFacts(UnwrapConfiguredAwait(awaitOperation.Operation), state, unstable);
+                var awaited = UnwrapConfiguredAwait(awaitOperation.Operation, out var maySuppressThrowing);
+                AddAwaitFacts(awaited, state, unstable, !maySuppressThrowing);
                 break;
             case ISimpleAssignmentOperation assignment:
                 TransferAssignment(assignment, state, unstable);
@@ -303,7 +340,7 @@ internal static class TaskCompletionAnalysis
 
         var value = Unwrap(assignment.Value);
         var isComplete = (GetStableTaskSymbol(value, unstable) is { } source && state.Contains(source))
-            || (value is IAwaitOperation awaited && IsWhenAny(UnwrapConfiguredAwait(awaited.Operation)));
+            || (value is IAwaitOperation awaited && IsWhenAny(UnwrapConfiguredAwait(awaited.Operation, out _)));
         state.Remove(target);
         if (isComplete && GetStableTaskSymbol(assignment.Target, unstable) is not null)
         {
@@ -322,7 +359,11 @@ internal static class TaskCompletionAnalysis
         }
     }
 
-    private static void AddAwaitFacts(IOperation awaited, HashSet<ISymbol> state, HashSet<ISymbol> unstable)
+    private static void AddAwaitFacts(
+        IOperation awaited,
+        HashSet<ISymbol> state,
+        HashSet<ISymbol> unstable,
+        bool completesSuccessfully = true)
     {
         // An assignment evaluates to the task now stored in its target. Nested
         // assignments can establish completion for more than one stable variable.
@@ -347,7 +388,8 @@ internal static class TaskCompletionAnalysis
         {
             AddWhenAllFacts(invocation, state, unstable);
         }
-        else if (awaited is IInvocationOperation { TargetMethod.Name: "WaitAsync", Instance: { } instance } wait
+        else if (completesSuccessfully
+                 && awaited is IInvocationOperation { TargetMethod.Name: "WaitAsync", Instance: { } instance } wait
                  && IsTask(wait.TargetMethod.ContainingType))
         {
             AddWaitAsyncFacts(wait, instance, state, unstable);
@@ -425,14 +467,24 @@ internal static class TaskCompletionAnalysis
         && invocation.TargetMethod.Name == "WhenAny"
         && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.Tasks.Task";
 
-    private static IOperation UnwrapConfiguredAwait(IOperation operation)
+    private static IOperation UnwrapConfiguredAwait(IOperation operation, out bool maySuppressThrowing)
     {
         operation = Unwrap(operation);
-        return operation is IInvocationOperation { TargetMethod.Name: "ConfigureAwait", Instance: { } instance } invocation
-               && IsTask(invocation.TargetMethod.ContainingType)
-               && invocation.Arguments.All(static argument => IsConfigurationValue(argument.Value))
-            ? Unwrap(instance)
-            : operation;
+        maySuppressThrowing = false;
+        if (operation is not IInvocationOperation { TargetMethod.Name: "ConfigureAwait", Instance: { } instance } invocation
+            || !IsTask(invocation.TargetMethod.ContainingType)
+            || !invocation.Arguments.All(static argument => IsConfigurationValue(argument.Value)))
+        {
+            return operation;
+        }
+
+        // The configured task itself always completes, but SuppressThrowing can
+        // hide a WaitAsync timeout/cancellation while its receiver still runs.
+        maySuppressThrowing = invocation.Arguments.Any(static argument =>
+            argument.Parameter?.Type.ToDisplayString() == "System.Threading.Tasks.ConfigureAwaitOptions"
+            && (argument.Value.ConstantValue is not { HasValue: true, Value: int options }
+                || (options & 2) != 0)); // ConfigureAwaitOptions.SuppressThrowing
+        return Unwrap(instance);
     }
 
     private static bool IsConfigurationValue(IOperation operation) => operation.ConstantValue.HasValue
