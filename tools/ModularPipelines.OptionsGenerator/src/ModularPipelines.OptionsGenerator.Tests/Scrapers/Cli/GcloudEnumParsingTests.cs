@@ -9,6 +9,8 @@ public class GcloudEnumParsingTests
     [Arguments("security-posture", "SECURITY_POSTURE", "disabled, standard, enterprise", "disabled,standard,enterprise")]
     [Arguments("binauthz-evaluation-mode", "BINAUTHZ_EVALUATION_MODE", "disabled, policy-bindings", "disabled,policy-bindings")]
     [Arguments("workload-vulnerability-scanning", "WORKLOAD_VULNERABILITY_SCANNING", "disabled, standard, enterprise", "disabled,standard,enterprise")]
+    [Arguments("value", "VALUE", "alpha, beta and gamma", "alpha,beta,gamma")]
+    [Arguments("value", "VALUE", "alpha, beta or gamma", "alpha,beta,gamma")]
     public async Task Standalone_Declarations_After_Command_Examples_Generate_Enums(
         string flag, string metavar, string choices, string expected)
     {
@@ -168,10 +170,19 @@ public class GcloudEnumParsingTests
     [Arguments("VALUE must be one of:", "alpha, or", "alpha,or")]
     [Arguments("VALUE must be one of:", "alpha, and", "alpha,and")]
     [Arguments("VALUE must be one of:", "alpha, orange, android", "alpha,orange,android")]
+    [Arguments("VALUE must be one of:", "alpha and beta", "alpha,beta")]
+    [Arguments("VALUE must be one of:", "alpha, beta and gamma", "alpha,beta,gamma")]
+    [Arguments("VALUE must be one of:", "alpha, beta or\n        gamma", "alpha,beta,gamma")]
+    [Arguments("VALUE must be one of:", "alpha, and, or", "alpha,and,or")]
+    [Arguments("VALUE must be one of:", "alpha or or", "alpha,or")]
     [Arguments("Select a value; one of", "alpha, beta, or gamma", "alpha,beta,gamma")]
     [Arguments("Select a value; one of", "alpha, and beta", "alpha,beta")]
     [Arguments("Select a value; one of", "alpha, beta", "alpha,beta")]
     [Arguments("Select a value; one of", "alpha, or", "alpha,or")]
+    [Arguments("Select a value; one of", "alpha and beta", "alpha,beta")]
+    [Arguments("Select a value; one of", "alpha, beta or gamma", "alpha,beta,gamma")]
+    [Arguments("Select a value; one of", "alpha, and, or", "alpha,and,or")]
+    [Arguments("Select a value; one of", "alpha and and", "alpha,and")]
     public async Task Enum_Lists_Preserve_Values_Without_Conjunction_Prose(string prefix, string choices, string expected)
     {
         var help = $$"""
@@ -186,6 +197,28 @@ public class GcloudEnumParsingTests
 
         await Assert.That(definition).IsNotNull();
         await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(expected.Split(','));
+    }
+
+    [Test]
+    [Arguments("VALUE must be one of:", "alpha, beta and 3gamma")]
+    [Arguments("VALUE must be one of:", "alpha, beta, 3gamma")]
+    [Arguments("Select a value; one of", "alpha, beta or 3gamma")]
+    [Arguments("Select a value; one of", "alpha, beta, 3gamma")]
+    [Arguments("VALUE must be one of:", "alpha, beta and a_choice_exceeding_the_length_limit")]
+    [Arguments("Select a value; one of", "alpha, beta, a_choice_exceeding_the_length_limit")]
+    public async Task Unsupported_Choice_List_Tails_Do_Not_Generate_Partial_Enums(string prefix, string choices)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud example update [--value=VALUE]
+            FLAGS
+                 --value=VALUE
+                    {{prefix}} {{choices}}.
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example update", help)).Single();
+
+        await Assert.That(command.Options.Single().EnumDefinition).IsNull();
+        await Assert.That(command.Options.Single().CSharpType).IsEqualTo("string?");
     }
 
     [Test]
