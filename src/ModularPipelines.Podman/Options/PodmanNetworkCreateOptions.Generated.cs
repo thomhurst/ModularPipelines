@@ -42,7 +42,7 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     /// IPv4 or IPv6 gateway for the subnet (default [])
     /// </summary>
     [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
-    public string? Gateway { get; set; }
+    public IEnumerable<string>? Gateway { get; set; }
 
     /// <summary>
     /// Don't fail if network already exists

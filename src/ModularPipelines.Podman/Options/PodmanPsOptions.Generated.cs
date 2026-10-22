@@ -108,6 +108,6 @@ public record PodmanPsOptions : PodmanOptions
     /// Watch the ps output on an interval in seconds
     /// </summary>
     [CliOption("--watch", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
-    public int? Watch { get; set; }
+    public ulong? Watch { get; set; }
 
 }

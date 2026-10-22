@@ -92,7 +92,7 @@ public record PodmanPushOptions : PodmanOptions
     /// Layers to encrypt, 0-indexed layer indices with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer). If not defined, will encrypt all layers if encryption-key flag is specified
     /// </summary>
     [CliOption("--encrypt-layer", Format = OptionFormat.EqualsSeparated)]
-    public string? EncryptLayer { get; set; }
+    public IEnumerable<string>? EncryptLayer { get; set; }
 
     /// <summary>
     /// Key with the encryption protocol to use to encrypt the image (e.g. jwe:/path/to/key.pem)
@@ -128,7 +128,7 @@ public record PodmanPushOptions : PodmanOptions
     /// number of times to retry in case of failure when performing push (default 3)
     /// </summary>
     [CliOption("--retry", Format = OptionFormat.EqualsSeparated)]
-    public int? Retry { get; set; }
+    public ulong? Retry { get; set; }
 
     /// <summary>
     /// delay between retries in case of push failures

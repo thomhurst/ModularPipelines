@@ -24,13 +24,13 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
-    public int? Cpus { get; set; }
+    public ulong? Cpus { get; set; }
 
     /// <summary>
     /// Disk size in GiB (default 100)
     /// </summary>
     [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
-    public int? DiskSize { get; set; }
+    public ulong? DiskSize { get; set; }
 
     /// <summary>
     /// Path to ignition file
@@ -54,7 +54,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// Memory in MiB (default 2048)
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
-    public int? Memory { get; set; }
+    public ulong? Memory { get; set; }
 
     /// <summary>
     /// Start machine now
@@ -84,7 +84,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// Swap in MiB
     /// </summary>
     [CliOption("--swap", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public int? Swap { get; set; }
+    public ulong? Swap { get; set; }
 
     /// <summary>
     /// Set timezone (default "local")

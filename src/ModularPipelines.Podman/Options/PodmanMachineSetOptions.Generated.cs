@@ -24,13 +24,13 @@ public record PodmanMachineSetOptions : PodmanOptions
     /// Number of CPUs
     /// </summary>
     [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
-    public int? Cpus { get; set; }
+    public ulong? Cpus { get; set; }
 
     /// <summary>
     /// Disk size in GiB
     /// </summary>
     [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
-    public int? DiskSize { get; set; }
+    public ulong? DiskSize { get; set; }
 
     /// <summary>
     /// Import the host trusted CA certificates into the machine
@@ -42,7 +42,7 @@ public record PodmanMachineSetOptions : PodmanOptions
     /// Memory in MiB
     /// </summary>
     [CliOption("--memory", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
-    public int? Memory { get; set; }
+    public ulong? Memory { get; set; }
 
     /// <summary>
     /// Whether this machine should prefer rootful container execution
