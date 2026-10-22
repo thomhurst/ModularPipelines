@@ -86,7 +86,8 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 logger.LogInformation("Connected to the distributed master");
                 return new SignalRWorkerCoordinator(connection, logger, GetReconnectTimeout(_options, _distributedOptions));
             }
-            catch (Exception ex) when (!timeoutCts.IsCancellationRequested)
+            catch (Exception ex) when (!timeoutCts.IsCancellationRequested
+                                       && ex is not HttpRequestException { StatusCode: HttpStatusCode.Unauthorized })
             {
                 attempt++;
                 logger.LogWarning("Connection attempt {Attempt} failed: {Error}. Retrying...", attempt, ex.Message);
