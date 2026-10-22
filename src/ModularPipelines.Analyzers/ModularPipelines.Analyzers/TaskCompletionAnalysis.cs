@@ -1,8 +1,10 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
 
 namespace ModularPipelines.Analyzers;
 
@@ -13,7 +15,7 @@ namespace ModularPipelines.Analyzers;
 /// </summary>
 internal static class TaskCompletionAnalysis
 {
-    private static readonly ConditionalWeakTable<IOperation, ImmutableHashSet<int>> CompletedResults = new();
+    private static readonly ConditionalWeakTable<IOperation, ImmutableHashSet<TextSpan>> CompletedResults = new();
 
     public static bool IsCompleted(IPropertyReferenceOperation result, CancellationToken cancellationToken)
     {
@@ -24,10 +26,10 @@ internal static class TaskCompletionAnalysis
         }
 
         return CompletedResults.GetValue(root, operation => Analyze(operation, cancellationToken))
-            .Contains(result.Syntax.SpanStart);
+            .Contains(result.Syntax.Span);
     }
 
-    private static ImmutableHashSet<int> Analyze(IOperation root, CancellationToken cancellationToken)
+    private static ImmutableHashSet<TextSpan> Analyze(IOperation root, CancellationToken cancellationToken)
     {
         var graph = root switch
         {
@@ -53,7 +55,9 @@ internal static class TaskCompletionAnalysis
 
             if (operation is IArgumentOperation { Parameter.RefKind: not RefKind.None }
                 or ISimpleAssignmentOperation { IsRef: true }
-                or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None })
+                or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
+                // Dynamically bound arguments have no statically bound parameter.
+                || operation.Syntax.Parent is ArgumentSyntax { RefKindKeyword.RawKind: not 0 })
             {
                 foreach (var reference in operation.DescendantsAndSelf())
                 {
@@ -65,7 +69,7 @@ internal static class TaskCompletionAnalysis
             }
         }
 
-        var completed = ImmutableHashSet.CreateBuilder<int>();
+        var completed = ImmutableHashSet.CreateBuilder<TextSpan>();
         AnalyzeGraph(graph, unstable, completed, cancellationToken);
         return completed.ToImmutable();
     }
@@ -73,7 +77,7 @@ internal static class TaskCompletionAnalysis
     private static void AnalyzeGraph(
         ControlFlowGraph graph,
         HashSet<ISymbol> unstable,
-        ImmutableHashSet<int>.Builder completed,
+        ImmutableHashSet<TextSpan>.Builder completed,
         CancellationToken cancellationToken)
     {
         var outputs = new HashSet<ISymbol>?[graph.Blocks.Length];
@@ -183,7 +187,7 @@ internal static class TaskCompletionAnalysis
         BasicBlock block,
         HashSet<ISymbol> state,
         HashSet<ISymbol> unstable,
-        ImmutableHashSet<int>.Builder? completed)
+        ImmutableHashSet<TextSpan>.Builder? completed)
     {
         foreach (var operation in block.Operations)
         {
@@ -200,7 +204,7 @@ internal static class TaskCompletionAnalysis
         IOperation operation,
         HashSet<ISymbol> state,
         HashSet<ISymbol> unstable,
-        ImmutableHashSet<int>.Builder? completed)
+        ImmutableHashSet<TextSpan>.Builder? completed)
     {
         // These bodies execute through their own graphs, not at declaration time.
         if (operation is IAnonymousFunctionOperation or ILocalFunctionOperation or IFlowAnonymousFunctionOperation)
@@ -217,7 +221,7 @@ internal static class TaskCompletionAnalysis
         {
             case IPropertyReferenceOperation { Property.Name: "Result", Instance: { } instance } result
                 when GetStableTaskSymbol(instance, unstable) is { } symbol && state.Contains(symbol):
-                completed?.Add(result.Syntax.SpanStart);
+                completed?.Add(result.Syntax.Span);
                 break;
             case IAwaitOperation awaitOperation:
                 AddAwaitFacts(UnwrapConfiguredAwait(awaitOperation.Operation), state, unstable);

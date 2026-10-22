@@ -2589,6 +2589,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { await Task.Yield(); } finally { while (context != null) { await a; } _ = {|#0:a.Result|}; }")]
     [DataRow("await a; void Replace() { a = GetTask(); } Replace(); _ = {|#0:a.Result|};")]
     [DataRow("await a; Replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic target = new object(); target.Replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic target = new object(); target.Replace(out a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic replace = new object(); replace(ref a); _ = {|#0:a.Result|};")]
+    [DataRow("await a; dynamic replace = new object(); replace(out a); _ = {|#0:a.Result|};")]
+    [DataRow("var nested = Task.FromResult(a); await nested; _ = {|#0:nested.Result.Result|};")]
+    [DataRow("var nested = Task.FromResult(new ValueTask<int>(1)); await nested; _ = {|#0:nested.Result.Result|};")]
     [DataRow("var value = new ValueTask<int>(1); await value; _ = {|#0:value.Result|};")]
     [DataRow("await CurrentTask; _ = {|#0:CurrentTask.Result|};")]
     public async Task Reports_Result_When_Task_Completion_Is_Not_Proven(string statements)
