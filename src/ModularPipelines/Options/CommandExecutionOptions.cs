@@ -5,6 +5,7 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Configuration for how a command is executed, independent of tool-specific arguments.
 /// </summary>
+/// <remarks>Standard input, passwords, and environment variables are redacted when printing this record.</remarks>
 public record CommandExecutionOptions
 {
     private IReadOnlyCollection<int> _successExitCodes = [0];
@@ -140,4 +141,30 @@ public record CommandExecutionOptions
 
     internal bool ShouldThrowForExitCode(int exitCode) =>
         ThrowOnNonZeroExitCode && !SuccessExitCodes.Contains(exitCode);
+
+    /// <summary>
+    /// Appends diagnostic members while redacting sensitive execution values.
+    /// </summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because members were appended.</returns>
+    protected virtual bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("EnvironmentVariables = ").Append(EnvironmentVariables is null ? "<none>" : "<redacted>");
+        builder.Append(", WorkingDirectory = ").Append(WorkingDirectory);
+        builder.Append(", OutputEncoding = ").Append(OutputEncoding);
+        builder.Append(", StandardInput = ").Append(StandardInput is null ? "<none>" : "<redacted>");
+        builder.Append(", StandardInputIsSecret = ").Append(StandardInputIsSecret);
+        builder.Append(", CommandLineCredentials = ").Append(CommandLineCredentials);
+        builder.Append(", Logging = ").Append(Logging);
+        builder.Append(", InputLoggingManipulator = ").Append(InputLoggingManipulator);
+        builder.Append(", OutputLoggingManipulator = ").Append(OutputLoggingManipulator);
+        builder.Append(", Sudo = ").Append(Sudo);
+        builder.Append(", ThrowOnNonZeroExitCode = ").Append(ThrowOnNonZeroExitCode);
+        builder.Append(", SuccessExitCodes = ").Append(SuccessExitCodes);
+        builder.Append(", ExecutionTimeout = ").Append(ExecutionTimeout);
+        builder.Append(", GracefulShutdownTimeout = ").Append(GracefulShutdownTimeout);
+        builder.Append(", MaxCapturedOutputLength = ").Append(MaxCapturedOutputLength);
+        builder.Append(", OutputDrainTimeout = ").Append(OutputDrainTimeout);
+        return true;
+    }
 }

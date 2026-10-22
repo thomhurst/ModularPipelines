@@ -1,3 +1,4 @@
+using System.Text;
 using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Options;
@@ -5,6 +6,7 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Credentials used when starting a command-line process.
 /// </summary>
+/// <remarks>The password is redacted when printing this record.</remarks>
 public sealed record CommandLineCredentials
 {
     /// <summary>
@@ -27,4 +29,13 @@ public sealed record CommandLineCredentials
     /// Gets a value indicating whether the user's profile should be loaded.
     /// </summary>
     public bool LoadUserProfile { get; init; }
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append("Domain = ").Append(Domain);
+        builder.Append(", UserName = ").Append(UserName);
+        builder.Append(", Password = ").Append(Password is null ? "<none>" : "<redacted>");
+        builder.Append(", LoadUserProfile = ").Append(LoadUserProfile);
+        return true;
+    }
 }
