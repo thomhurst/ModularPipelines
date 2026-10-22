@@ -51,7 +51,7 @@ The remaining exceptions are intentional:
   for **http-cache-semantics 4.3.0** is retained as well.
   **js-yaml 5.5.0** preserves the later upgrade in [#6879](https://github.com/thomhurst/ModularPipelines/pull/6879);
   its consumers still request 4.x, so this pin also produces an intentional warning.
-- **serialize-javascript 7.1.2**, requested as 6.x by copy-webpack-plugin,
+- **serialize-javascript 7.1.3**, requested as 6.x by copy-webpack-plugin,
   css-minimizer-webpack-plugin, and terser-webpack-plugin. The older versions
   are affected by [code injection](https://github.com/advisories/GHSA-5c6j-r48x-rmvq)
   and [CPU exhaustion](https://github.com/advisories/GHSA-qj8w-gfj5-8c6v).
