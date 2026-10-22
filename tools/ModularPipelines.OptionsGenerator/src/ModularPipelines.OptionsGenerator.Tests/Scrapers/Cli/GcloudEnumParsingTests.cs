@@ -6,6 +6,60 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 public class GcloudEnumParsingTests
 {
     [Test]
+    [Arguments("VALUE must be one of:", "alpha, beta and the rest.")]
+    [Arguments("VALUE must be one of:", "alpha, beta or other values.")]
+    [Arguments("VALUE must be one of:", "alpha, beta followed by prose.")]
+    [Arguments("VALUE must be one of:", "alpha, beta, and the rest.")]
+    [Arguments("VALUE must be one of:", "alpha, beta and\n        the rest.")]
+    [Arguments("VALUE must be one of:", "alpha, beta,")]
+    [Arguments("VALUE must be one of:", "alpha, beta and")]
+    [Arguments("Select a value; one of", "alpha, beta and the rest.")]
+    [Arguments("Select a value; one of", "alpha, beta or other values.")]
+    [Arguments("Select a value; one of", "alpha, beta followed by prose.")]
+    [Arguments("Select a value; one of", "alpha, beta, and the rest.")]
+    [Arguments("Select a value; one of", "alpha, beta and\n        the rest.")]
+    [Arguments("Select a value; one of", "alpha, beta,")]
+    [Arguments("Select a value; one of", "alpha, beta or")]
+    public async Task Incomplete_Or_Prose_Continued_Lists_Leave_Option_As_String(string prefix, string choices)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud example update [--value=VALUE]
+            FLAGS
+                 --value=VALUE
+                    {{prefix}} {{choices}}
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example update", help)).Single();
+        var option = command.Options.Single();
+
+        await Assert.That(option.EnumDefinition).IsNull();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+    }
+
+    [Test]
+    [Arguments("VALUE must be one of: alpha, beta")]
+    [Arguments("VALUE must be one of: alpha, beta. Select either value.")]
+    [Arguments("VALUE must be one of: alpha, beta! Select either value.")]
+    [Arguments("VALUE must be one of: alpha, beta? Select either value.")]
+    [Arguments("Select a value; one of alpha, beta")]
+    [Arguments("Select a value; one of alpha, beta. Select either value.")]
+    public async Task Complete_Lists_End_At_Description_Or_Sentence_Boundaries(string description)
+    {
+        var help = $$"""
+            SYNOPSIS
+                gcloud example update [--value=VALUE]
+            FLAGS
+                 --value=VALUE
+                    {{description}}
+            """;
+        var command = (await GcloudResourceArgumentTests.ScrapeFixture("example update", help)).Single();
+        var definition = command.Options.Single().EnumDefinition;
+
+        await Assert.That(definition).IsNotNull();
+        await Assert.That(definition!.Values.Select(value => value.CliValue)).IsEquivalentTo(["alpha", "beta"]);
+    }
+
+    [Test]
     [Arguments("security-posture", "SECURITY_POSTURE", "disabled, standard, enterprise", "disabled,standard,enterprise")]
     [Arguments("binauthz-evaluation-mode", "BINAUTHZ_EVALUATION_MODE", "disabled, policy-bindings", "disabled,policy-bindings")]
     [Arguments("workload-vulnerability-scanning", "WORKLOAD_VULNERABILITY_SCANNING", "disabled, standard, enterprise", "disabled,standard,enterprise")]
