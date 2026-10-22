@@ -1026,8 +1026,8 @@ applicable records. No unconditional `-C` or rustup `+toolchain` property is add
 
 One `using ModularPipelines;` now also covers `NotInParallelAttribute`,
 `PriorityAttribute`, `ExecutionHintAttribute`, `ExecutionHint`, `BuildSystem`,
-`PipelineSummary`, `IModuleResult`, `IParallelLimit`, `CommandExtensions`, and
-`EnumerableExtensions`. Replace fully qualified references to their former
+`PipelineSummary`, `IModuleResult`, `IParallelLimit`, and `CommandExtensions`.
+Replace fully qualified references to their former
 `.Attributes`, `.Enums`, `.Models`, `.Interfaces`, or `.Extensions` namespaces.
 The three attributes are sealed; use their constructor arguments or fluent module
 configuration instead of deriving from them.
