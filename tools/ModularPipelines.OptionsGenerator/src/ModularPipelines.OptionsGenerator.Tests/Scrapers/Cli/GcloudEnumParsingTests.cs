@@ -53,6 +53,10 @@ public class GcloudEnumParsingTests
     [Test]
     [Arguments("If the scheme is INTERNAL,\n        PROTOCOL must be one of: TCP, UDP.")]
     [Arguments("If the scheme is INTERNAL, PROTOCOL\n        must be one of: TCP, UDP.")]
+    [Arguments("If the scheme is INTERNAL:\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("If the scheme is INTERNAL,\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("For internal traffic:\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("When the scheme is INTERNAL\n\n        PROTOCOL must be one of: TCP, UDP.")]
     [Arguments("SCHEME must be one of: INTERNAL, EXTERNAL.")]
     public async Task Paragraphs_After_Examples_Do_Not_Promote_Conditional_Or_Unrelated_Lists(string declaration)
     {
@@ -102,6 +106,10 @@ public class GcloudEnumParsingTests
     [Arguments("SCHEME must be one of: INTERNAL, EXTERNAL.")]
     [Arguments("The SCHEME must be one of: INTERNAL, EXTERNAL.")]
     [Arguments("If the scheme is INTERNAL, the PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("If the scheme is INTERNAL:\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("If the scheme is INTERNAL,\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("For internal traffic:\n\n        PROTOCOL must be one of: TCP, UDP.")]
+    [Arguments("When the scheme is INTERNAL\n\n        PROTOCOL must be one of: TCP, UDP.")]
     public async Task Conditional_Or_Unrelated_Lists_Leave_Option_As_String(string description)
     {
         var help = $$"""

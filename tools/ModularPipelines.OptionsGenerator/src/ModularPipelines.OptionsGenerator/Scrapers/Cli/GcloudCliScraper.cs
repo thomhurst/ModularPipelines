@@ -1446,7 +1446,11 @@ public partial class GcloudCliScraper : CliScraperBase
     // remaining separator or conjunction rather than generating an enum from a partial list.
     private const string EnumChoiceListRegex = @"(?<value>[a-zA-Z][a-zA-Z0-9_-]*)(?:(?:,\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)(?<value>[a-zA-Z][a-zA-Z0-9_-]*))+(?![a-zA-Z0-9_-]|\s*(?:,|\b(?:and|or)\b))";
 
-    [GeneratedRegex(@"(?:^|(?<=[.!?])\s+|\n[ \t]*\n\s*)(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must\s+be\s+one\s+of:?\s*" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
+    // A command example may end without sentence punctuation. Only that paragraph
+    // boundary starts a new declaration; a blank line after conditional prose does not.
+    private const string EnumDeclarationBoundaryRegex = @"(?:^\s*|(?<=[.!?])\s+|(?:^|\n)[ \t]*\$[ \t]+gcloud\b[^\n]*(?:\n[ \t]+\S[^\n]*)*\n[ \t]*\n\s*)";
+
+    [GeneratedRegex(EnumDeclarationBoundaryRegex + @"(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must\s+be\s+one\s+of:?\s*" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
     [GeneratedRegex(@";\s*one\s+of\s+" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
