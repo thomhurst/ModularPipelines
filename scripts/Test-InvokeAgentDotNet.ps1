@@ -36,7 +36,13 @@ function Get-TestProcessStartIdentity {
     if ($IsLinux) {
         # .NET derives StartTime from a per-process boot-time estimate on Linux.
         # Use the kernel start token so separate PowerShell hosts agree on identity.
-        $stat = [System.IO.File]::ReadAllText("/proc/$ProcessId/stat")
+        try {
+            $stat = [System.IO.File]::ReadAllText("/proc/$ProcessId/stat")
+        }
+        catch [System.IO.FileNotFoundException], [System.IO.DirectoryNotFoundException] {
+            # The process can exit after GetProcessById but before this read.
+            return $null
+        }
         $fields = $stat.Substring($stat.LastIndexOf(')') + 2).Split(
             ' ', [System.StringSplitOptions]::RemoveEmptyEntries)
         return $fields[19]
@@ -264,6 +270,16 @@ $identityFunction = 'function Get-TestProcessStartIdentity {' +
 New-Item -ItemType Directory -Path $testRoot | Out-Null
 
 try {
+    if ($IsLinux) {
+        if ([string]::IsNullOrEmpty((Get-TestProcessStartIdentity $PID))) {
+            throw 'The live test process has no Linux start identity.'
+        }
+        # Linux has no userspace PID 0: exercise a vanished /proc entry deterministically.
+        if ($null -ne (Get-TestProcessStartIdentity 0)) {
+            throw 'A missing Linux process entry should have no start identity.'
+        }
+    }
+
     @'
 param(
     [string]$OutputPath,
