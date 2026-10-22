@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Minikube.Options;
 using ModularPipelines.Models;
@@ -108,7 +109,15 @@ public class MinikubeGlobalOptionsTests : TestBase
             .Select(property => property.Name)).IsEquivalentTo(expected);
         var commands = typeof(MinikubeOptions).Assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(MinikubeOptions).IsAssignableFrom(type)).ToArray();
-        await Assert.That(commands).Count().IsEqualTo(49);
+        using var coverageStream = typeof(MinikubeGlobalOptionsTests).Assembly
+            .GetManifestResourceStream("Minikube.CommandCoverage.json")!;
+        using var coverage = JsonDocument.Parse(coverageStream);
+        var expectedCommands = coverage.RootElement.GetProperty("commands").EnumerateArray()
+            .Select(command => command.GetString()!).ToArray();
+        await Assert.That(expectedCommands).Count().IsGreaterThan(0);
+        await Assert.That(commands.Select(command =>
+                "minikube " + string.Join(' ', command.GetCustomAttribute<CliSubCommandAttribute>()!.SubCommands)))
+            .IsEquivalentTo(expectedCommands);
         foreach (var command in commands)
         {
             foreach (var name in expected)
