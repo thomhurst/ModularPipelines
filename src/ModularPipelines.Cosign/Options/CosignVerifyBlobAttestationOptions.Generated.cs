@@ -13,7 +13,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Options;
 
 /// <summary>
-/// Verify an attestation on the supplied blob input using the specified key reference.
+/// Verify an attestation on the supplied blob input using the specified key reference. You may specify either a key or a kms reference to verify against.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -13,7 +13,7 @@ using ModularPipelines.Cosign.Options;
 namespace ModularPipelines.Cosign.Options;
 
 /// <summary>
-/// Verify a signature on the supplied blob input using the specified key reference.
+/// Verify a signature on the supplied blob input using the specified key reference. You may specify either a key, a bundle (optionally with trusted root), or a kms reference to verify against. If you use a key, bundle, or trusted root, you must specify the path to them on disk.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Cosign.Options;
 public record CosignVerifyBlobOptions : CosignOptions
 {
     /// <summary>
-    /// Verify a signature on the supplied blob input using the specified key reference.
+    /// Verify a signature on the supplied blob input using the specified key reference. You may specify either a key, a bundle (optionally with trusted root), or a kms reference to verify against. If you use a key, bundle, or trusted root, you must specify the path to them on disk.
     /// </summary>
     /// <param name="Blob"></param>
     public CosignVerifyBlobOptions(

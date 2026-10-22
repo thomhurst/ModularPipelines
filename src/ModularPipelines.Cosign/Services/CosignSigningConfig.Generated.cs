@@ -47,7 +47,7 @@ public class CosignSigningConfig : ICosignSigningConfig
     }
 
     /// <summary>
-    /// Create a Sigstore protobuf signing config by supplying verification material for Fulcio, Rekor, OIDC, and TSA services.
+    /// Create a Sigstore protobuf signing config by supplying verification material for Fulcio, Rekor, OIDC, and TSA services. Each service is specified via a repeatable flag (--fulcio, --rekor, --oidc-provider, --tsa) that takes a comma-separated list of key-value pairs.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
