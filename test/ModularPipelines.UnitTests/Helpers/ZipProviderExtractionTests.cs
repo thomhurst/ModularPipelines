@@ -9,6 +9,70 @@ public class ZipProviderExtractionTests
 {
     [Test]
     [MatrixDataSource]
+    public async Task FailedOpenRollsBackProviderOwnedCreationAndCanBeRetried(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(false, true)] bool overwriteExisting)
+    {
+        using var fixture = new ExtractionFixture(overwriteExisting);
+        var failure = new IOException("Stream initialization failed.");
+        fixture.SetDestinationStream((path, mode, access) =>
+        {
+            var stream = File.Open(path, mode, access);
+            try
+            {
+                // Simulate a provider failing after exclusive creation, before returning its stream.
+                stream.WriteByte(42);
+                throw failure;
+            }
+            catch
+            {
+                stream.Dispose();
+                File.Delete(path);
+                throw;
+            }
+        });
+
+        var exception = await Assert.ThrowsAsync<IOException>(() => fixture.Extract(asynchronous, overwriteExisting));
+        await Assert.That(ReferenceEquals(exception!.InnerException, failure)).IsTrue();
+        await fixture.AssertPreserved(overwriteExisting);
+        fixture.Provider.Verify(provider => provider.DeleteFile(It.IsAny<string>()), Times.Never);
+        fixture.Provider.Verify(provider => provider.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+
+        fixture.SetDestinationStream(File.Open);
+        await fixture.Extract(asynchronous, overwriteExisting);
+        await fixture.AssertPublished();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task FailedOpenPreservesCompetingTemporaryFile(
+        [Matrix(false, true)] bool asynchronous,
+        [Matrix(false, true)] bool overwriteExisting)
+    {
+        using var fixture = new ExtractionFixture(overwriteExisting);
+        string? competingPath = null;
+        fixture.SetDestinationStream((path, mode, access) =>
+        {
+            competingPath = path;
+            File.WriteAllText(path, "competing contents");
+            // A real CreateNew collision must not grant the caller ownership of this path.
+            return File.Open(path, mode, access);
+        });
+
+        await Assert.ThrowsAsync<IOException>(() => fixture.Extract(asynchronous, overwriteExisting));
+        await Assert.That(File.ReadAllText(competingPath!)).IsEqualTo("competing contents");
+        fixture.Provider.Verify(provider => provider.DeleteFile(It.IsAny<string>()), Times.Never);
+        fixture.Provider.Verify(provider => provider.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+
+        File.Delete(competingPath!);
+        await fixture.AssertPreserved(overwriteExisting);
+        fixture.SetDestinationStream(File.Open);
+        await fixture.Extract(asynchronous, overwriteExisting);
+        await fixture.AssertPublished();
+    }
+
+    [Test]
+    [MatrixDataSource]
     public async Task FailedExtractionPreservesDestinationAndCanBeRetried(
         [Matrix(false, true)] bool asynchronous,
         [Matrix(false, true)] bool overwriteExisting,

@@ -174,6 +174,24 @@ public interface IFileSystemProvider
     /// <param name="mode">How to open or create the file.</param>
     /// <param name="access">The access the returned stream permits.</param>
     /// <returns>A stream owned by the caller.</returns>
+    /// <remarks>
+    /// <para>
+    /// Ownership transfers to the caller only when this method returns successfully. If opening
+    /// fails, the provider must release any streams, handles, or reservations it acquired.
+    /// </para>
+    /// <para>
+    /// With <see cref="FileMode.CreateNew"/>, creation must be exclusive. If the provider creates
+    /// the file but subsequent stream initialization fails, it must roll back its own creation
+    /// before propagating the failure. Rollback must preserve files owned by another operation,
+    /// including a pre-existing file or a competing creator's file. A collision must leave that
+    /// file unchanged and throw <see cref="IOException"/>.
+    /// </para>
+    /// <para>
+    /// Callers must not infer ownership from an exception, its message, or an existence check,
+    /// and must not delete the path to compensate for a failed open. Other modes do not promise
+    /// to restore pre-existing contents after a failed open.
+    /// </para>
+    /// </remarks>
     Stream Open(string path, FileMode mode, FileAccess access);
 
     /// <summary>

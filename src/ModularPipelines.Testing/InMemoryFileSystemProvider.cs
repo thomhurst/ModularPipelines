@@ -188,14 +188,14 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             }
 
             var initial = GetInitialContents(mode, existing);
-            if (ShouldInitializeFile(mode, exists))
-            {
-                SetFile(normalized, initial);
-            }
-
-            _exclusiveOpenFiles.Add(normalized);
             try
             {
+                if (ShouldInitializeFile(mode, exists))
+                {
+                    SetFile(normalized, initial);
+                }
+
+                _exclusiveOpenFiles.Add(normalized);
                 return CreateStream(
                     normalized,
                     mode,
@@ -206,6 +206,13 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             catch
             {
                 _exclusiveOpenFiles.Remove(normalized);
+                if (!exists && _files.TryRemove(normalized, out _))
+                {
+                    // The lock keeps this creation ours until Open returns, including if
+                    // metadata or stream initialization fails after the file was added.
+                    _metadata.TryRemove(normalized, out _);
+                }
+
                 throw;
             }
         }
