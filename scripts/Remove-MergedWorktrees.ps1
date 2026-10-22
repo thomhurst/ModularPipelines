@@ -213,6 +213,7 @@ try {
         # also contain that PR's head commit: a fresh branch that reuses the name after
         # a squash merge is cut from main, which never contains the old head.
         $why = $null
+        $freshBranch = $false
         $containsCommit = if ($sha) { Get-CommitAncestorPredicate -RepoPath $w.Path -Descendant $sha } else { { $false } }
         if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch)) {
             $why = Get-MergedNameReason -Branch $w.Branch -MergedHeadShas $mergedNames[$w.Branch] -IsAncestor $containsCommit
@@ -220,9 +221,12 @@ try {
 
         if (-not $why) {
             if ($sha -and $openOids.ContainsKey($sha)) { continue }          # tip of an open PR — keep
+            # A named branch with no commits beyond main is proven merged only by tier 1.
+            $freshBranch = $sha -and $w.Branch -and -not $w.Detached -and
+                (Test-HeadHasNoWorkBeyondMain -Repo $mainRepo -Head $sha -MainTip $mainTip)
 
             # Tier 2: detached or renamed checkout sitting exactly on a merged PR's tip.
-            if ($sha -and $mergedOids.ContainsKey($sha)) { $why = 'merged PR head tip SHA' }
+            if ($sha -and -not $freshBranch -and $mergedOids.ContainsKey($sha)) { $why = 'merged PR head tip SHA' }
         }
 
         # Tier 3 (detached only): checkout of a commit already reachable from main —

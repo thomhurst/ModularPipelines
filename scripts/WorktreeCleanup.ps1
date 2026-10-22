@@ -10,6 +10,23 @@
 #     system-wide; the `\\?\` extended-length Remove-Item is kept as a fallback for
 #     environments where that config is missing.
 
+# A named branch whose tip is already on main has no commits of its own: it was just
+# cut from main, or never got work. Its tip is main's tip, so commit association and
+# rebase-merged PR heads point at whichever PR produced main's tip. Only the branch
+# name (tier 1) can prove such a branch merged. Unknown main tip fails closed.
+function Test-HeadHasNoWorkBeyondMain {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$Repo,
+        [Parameter(Mandatory)][string]$Head,
+        [AllowNull()][string]$MainTip
+    )
+
+    if (-not $MainTip) { return $true }
+    git -C $Repo merge-base --is-ancestor $Head $MainTip 2>$null
+    return $LASTEXITCODE -eq 0
+}
+
 function New-OrdinalStringMap {
     [CmdletBinding()]
     [OutputType([System.Collections.Generic.Dictionary[string, bool]])]
