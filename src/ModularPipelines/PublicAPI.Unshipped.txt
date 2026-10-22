@@ -2028,6 +2028,7 @@ ModularPipelines.Events.IModuleHookContext.ElapsedTime.get -> System.TimeSpan
 ModularPipelines.Events.IModuleHookContext.GetMetadata<T>(string! key) -> T?
 ModularPipelines.Events.IModuleHookContext.Module.get -> ModularPipelines.IModule!
 ModularPipelines.Events.IModuleHookContext.ModuleAttributes.get -> System.Collections.Generic.IReadOnlyList<System.Attribute!>!
+ModularPipelines.Events.IModuleHookContext.ModuleId.get -> ModularPipelines.ModuleId
 ModularPipelines.Events.IModuleHookContext.ModuleName.get -> string!
 ModularPipelines.Events.IModuleHookContext.ModuleType.get -> System.Type!
 ModularPipelines.Events.IModuleHookContext.Result.get -> ModularPipelines.IModuleResult?
@@ -2050,6 +2051,7 @@ ModularPipelines.Events.IModuleRegistrationContext.ModuleAttributes.get -> Syste
 ModularPipelines.Events.IModuleRegistrationContext.ModuleType.get -> System.Type!
 ModularPipelines.Events.IModuleRegistrationContext.RegisteredModuleTypes.get -> System.Collections.Generic.IReadOnlyList<System.Type!>!
 ModularPipelines.Events.IModuleRegistrationContext.RemoveDependency<TModule>() -> void
+ModularPipelines.Events.IModuleRegistrationContext.RemoveDependency(System.Type! moduleType) -> void
 ModularPipelines.Events.IModuleRegistrationContext.SetMetadata(string! key, object! value) -> void
 ModularPipelines.Events.IModuleRegistrationHandler
 ModularPipelines.Events.IModuleRegistrationHandler.OnRegistrationAsync(ModularPipelines.Events.IModuleRegistrationContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!

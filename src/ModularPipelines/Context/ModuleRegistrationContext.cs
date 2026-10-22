@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Events;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Context;
@@ -79,7 +80,19 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
     }
 
     public void RemoveDependency<TModule>() where TModule : IModule
-        => _dependencyRegistry.RemoveDependency(ModuleType, typeof(TModule));
+        => RemoveDependency(typeof(TModule));
+
+    public void RemoveDependency(Type moduleType)
+    {
+        ArgumentNullException.ThrowIfNull(moduleType);
+
+        if (!moduleType.IsAssignableTo(typeof(IModule)))
+        {
+            throw new InvalidModuleTypeException(moduleType);
+        }
+
+        _dependencyRegistry.RemoveDependency(ModuleType, moduleType);
+    }
 
     public void SetMetadata(string key, object value)
         => _metadataRegistry.SetMetadata(ModuleType, key, value);

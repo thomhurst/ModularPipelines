@@ -43,6 +43,8 @@ internal class ModuleHookContext : IModuleHookContext
 
     public Type ModuleType => Module.GetType();
 
+    public ModuleId ModuleId => ModuleId.FromType(ModuleType);
+
     public string ModuleName => ModuleType.Name;
 
     public IReadOnlyList<Attribute> ModuleAttributes { get; }
