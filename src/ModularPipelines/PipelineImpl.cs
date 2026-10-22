@@ -188,7 +188,10 @@ internal sealed class PipelineImpl : IPipeline
                 Services.GetRequiredService<PipelineExecutionState>().MarkExecutionStarted();
                 if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
                 {
-                    var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
+                    using var planningCancellation = CancellationTokenSource.CreateLinkedTokenSource(
+                        cancellationToken,
+                        Services.GetRequiredService<EngineCancellationToken>().Token);
+                    var plan = await PlanAsync(planningCancellation.Token).ConfigureAwait(false);
                     Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
                     var now = DateTimeOffset.UtcNow;
                     summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now)
