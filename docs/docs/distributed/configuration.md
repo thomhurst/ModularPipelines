@@ -78,12 +78,50 @@ builder.AddDistributedMode(o => o with
 | `MaxModuleLeaseExpirations` | `int` | `2` | Number of lease expirations that permanently fail a module. Allows one recovery by default; `1` fails on the first expiration. Must be at least `1`. The budget applies per module across all workers, independently of module retries. |
 | `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
-| `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `Timeout.InfiniteTimeSpan` to wait indefinitely; zero and other negative values are rejected. |
+| `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop, measured from when a worker claims the module. With a finite per-attempt timeout, it allows every configured attempt at that timeout plus this period. With an infinite or unconfigured effective timeout, this period is the entire deadline. `Timeout.InfiniteTimeSpan` disables this backstop; worker timeouts remain independent. Zero and other negative values are rejected. See [Module result deadlines](#module-result-deadlines). |
 | `RunCleanup` | `DistributedRunCleanupPolicy` | `Always` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
 | `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time. |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval`, `MasterTimeout <= WorkerHeartbeatInterval` or `MaxModuleLeaseExpirations < 1`,
 are reported by pipeline validation and stop the distributed backend from starting.
+
+### Module result deadlines
+
+The worker enforces the module's per-attempt timeout. Separately, the master uses
+`ModuleResultTimeout` to protect against a claimed module that never returns a result.
+The master's deadline starts when a worker claims the module; time spent waiting in the
+queue does not consume it.
+
+For a finite per-attempt timeout, the master allows `(1 + retry count) × per-attempt timeout`
+plus `ModuleResultTimeout`. When the effective per-attempt timeout is `Timeout.InfiniteTimeSpan`,
+or neither the module nor the pipeline supplies a timeout, `ModuleResultTimeout` is the entire
+deadline. With its default value, the master therefore times out a claimed module after
+45 minutes even when the worker's module timeout is disabled. An unset module timeout inherits
+`PipelineOptions.DefaultModuleTimeout`, which defaults to 30 minutes; it does not disable timeouts.
+
+To allow execution without either timeout limit, disable both the module timeout and the
+master's result backstop:
+
+```csharp
+builder.ConfigureOptions(options => options with
+{
+    DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
+});
+builder.AddDistributedMode(options => options with
+{
+    ModuleResultTimeout = Timeout.InfiniteTimeSpan,
+});
+```
+
+Per-module overrides still apply. Remove finite overrides or use
+`module.WithTimeout(Timeout.InfiniteTimeSpan)` in the module's `Configure` method; see
+[Timeouts](../how-to/timeouts.md). Setting only `ModuleResultTimeout` to infinite removes the
+master's deadline but leaves the worker's per-attempt timeout in force.
+
+Worker and master liveness checks remain active (`WorkerTimeout`, `MasterTimeout`, and
+backend connection checks). Backend retention limits are also independent: for example,
+Redis keys retain their configured `TimeToLive`, so choose a TTL that covers the required
+retention period even when `ModuleResultTimeout` is infinite.
 
 ### Configuration from appsettings.json
 
