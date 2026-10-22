@@ -48,6 +48,7 @@ builder
     .AddModule<BuildAndTestCoreOnWindowsModule>()
     .AddModule<BuildAndTestCoreOnMacOSModule>()
     .AddModule<RunCoreUnitTestsModule>()
+    .AddModule<RunSourceGeneratorUnitTestsModule>()
     .AddModule<RunAnsibleUnitTestsModule>()
     .AddModule<RunArgoCdUnitTestsModule>()
     .AddModule<RunCosignUnitTestsModule>()

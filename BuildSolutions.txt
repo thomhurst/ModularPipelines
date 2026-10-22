@@ -6,3 +6,4 @@ tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
 src/ModularPipelines.Azure/ModularPipelines.Azure.slnx
 src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx
 src/ModularPipelines.Google/ModularPipelines.Google.slnx
+test/ModularPipelines.SourceGenerator.UnitTests/ModularPipelines.SourceGenerator.UnitTests.csproj
