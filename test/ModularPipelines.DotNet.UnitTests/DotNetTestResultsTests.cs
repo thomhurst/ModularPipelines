@@ -29,7 +29,7 @@ public class DotNetTestResultsTests : TestBase
             return await context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
-                    Framework = "net10.0",
+                    Project = testProject.Path,
                 },
                 new CommandExecutionOptions
                 {
@@ -48,7 +48,12 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Has_Errored()
     {
-        await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>());
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await RunModule<DotNetTestWithFailureModule>());
+
+        await Assert.That(exception!.InnerException).IsTypeOf<CommandException>();
+        var commandException = (CommandException) exception.InnerException!;
+        await Assert.That(commandException.Result.ExitCode).IsNotEqualTo(0);
+        await Assert.That(commandException.Result.StandardOutput).Contains("This test is meant to fail");
     }
 
     [Test]
