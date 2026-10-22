@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Edits the value for an existing key in an existing Secret in the kustomization.yaml file.
+/// Edits the value for an existing key in an existing Secret in the kustomization.yaml file. Secret name, Secret namespace, and key name must match an existing entry in the kustomization.yaml file for this command to succeed. When namespace is omitted, the default namespace is used. Conversely, when an entry without a specified namespace exists in the kustomization.yaml file, it can be updated by either omitting the namespace on the kustomize edit set secret invocation or by specifying --namespace=default.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetSecretOptions : KustomizeOptions
 {
     /// <summary>
-    /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file.
+    /// Edits the value for an existing key in an existing Secret in the kustomization.yaml file. Secret name, Secret namespace, and key name must match an existing entry in the kustomization.yaml file for this command to succeed. When namespace is omitted, the default namespace is used. Conversely, when an entry without a specified namespace exists in the kustomization.yaml file, it can be updated by either omitting the namespace on the kustomize edit set secret invocation or by specifying --namespace=default.
     /// </summary>
     /// <param name="Name">The NAME operand.</param>
     public KustomizeEditSetSecretOptions(

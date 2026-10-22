@@ -13,7 +13,7 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Build a set of KRM resources using a 'kustomization.yaml' file.
+/// Build a set of KRM resources using a 'kustomization.yaml' file. The DIR argument must be a path to a directory containing 'kustomization.yaml', or a git repository URL with a path suffix specifying same with respect to the repository root. If DIR is omitted, '.' is assumed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

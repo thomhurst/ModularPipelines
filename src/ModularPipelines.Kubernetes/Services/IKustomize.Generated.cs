@@ -40,7 +40,7 @@ public partial interface IKustomize
     #region Commands
 
     /// <summary>
-    /// Build a set of KRM resources using a 'kustomization.yaml' file.
+    /// Build a set of KRM resources using a 'kustomization.yaml' file. The DIR argument must be a path to a directory containing 'kustomization.yaml', or a git repository URL with a path suffix specifying same with respect to the repository root. If DIR is omitted, '.' is assumed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -58,7 +58,7 @@ public partial interface IKustomize
     public Task<CommandResult> CreateAsync(KustomizeCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// [Alpha] Creates copy of target kustomization directory or
+    /// [Alpha] Creates copy of target kustomization directory or versioned URL at destination, where remote references in the original are replaced by local references to the downloaded remote content.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
