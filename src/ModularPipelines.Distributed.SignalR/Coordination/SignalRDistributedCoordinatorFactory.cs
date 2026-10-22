@@ -64,7 +64,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
                 AccessToken = _options.AccessToken,
             };
         var accessToken = endpoint.AccessToken ?? _options.AccessToken;
-        var hubUrl = new Uri(endpoint.Url, _options.HubPath);
+        var hubUrl = GetHubUrl(endpoint.Url, _options.HubPath);
         var logger = loggerFactory.CreateLogger<SignalRWorkerCoordinator>();
 
         // Connect with timeout and retry (DNS for tunnel URLs may need propagation time).
@@ -132,6 +132,11 @@ internal sealed class SignalRDistributedCoordinatorFactory(
             .TrimEnd('=')
             .Replace('+', '-')
             .Replace('/', '_');
+    }
+
+    internal static Uri GetHubUrl(Uri endpointUrl, string hubPath)
+    {
+        return new Uri($"{endpointUrl.GetLeftPart(UriPartial.Path).TrimEnd('/')}/{hubPath.TrimStart('/')}");
     }
 
     internal static bool IsLoopback(Uri uri)

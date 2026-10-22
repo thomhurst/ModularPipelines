@@ -17,7 +17,8 @@ public sealed record SignalRDistributedOptions
     /// Gets the URL workers use to reach the master. The master advertises it through
     /// <see cref="IMasterDiscovery"/>, and workers without discovery connect to it. When unset, the
     /// master advertises the tunnel URL or the bound listen URL, and workers without discovery
-    /// connect to <see cref="ListenUrl"/>.
+    /// connect to <see cref="ListenUrl"/>. Workers preserve any path prefix in the endpoint URL when
+    /// appending <see cref="HubPath"/>.
     /// </summary>
     public Uri? AdvertisedUrl { get; init; }
 
