@@ -358,7 +358,14 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
         run: |
           pwsh -NoProfile -File .github/scripts/Get-GenerationTool.ps1 -Tool pnpm -Destination "$RUNNER_TEMP/pnpm.tgz"
-          npm install --global --prefix "$CLI_TOOLS_ROOT" --ignore-scripts "$RUNNER_TEMP/pnpm.tgz"
+          # pnpm 12's npm wrapper needs lifecycle scripts to replace its
+          # shebang-less entry point. Install the pinned native package instead.
+          mkdir -p "$CLI_TOOLS_ROOT/pnpm"
+          tar -xzf "$RUNNER_TEMP/pnpm.tgz" -C "$CLI_TOOLS_ROOT/pnpm" --strip-components=1 package/pnpm
+          pwsh -NoProfile -File .github/scripts/Assert-GenerationLinuxX64Executable.ps1 -Path "$CLI_TOOLS_ROOT/pnpm/pnpm"
+          install -m 0755 "$CLI_TOOLS_ROOT/pnpm/pnpm" "$CLI_TOOLS_ROOT/bin/pnpm"
+          "$CLI_TOOLS_ROOT/bin/pnpm" --version
+          "$CLI_TOOLS_ROOT/bin/pnpm" --help > /dev/null
 
       - name: Install GitHub CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gh'
