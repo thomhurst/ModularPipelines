@@ -868,10 +868,40 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
             return 1;
         }
 
+        WriteStructuredLogWithFallback(console, directConsole, logger, logEvent, fallbackLoggers, failedStructuredDeliveries);
+        return 1;
+    }
+
+    private void WriteStructuredLogWithFallback(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        ILogger logger,
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries)
+    {
         // Synchronous MEL.Spectre rendering preserves this buffer's position
         // while other providers (for example file logging) still receive the event.
-        logEvent.WriteTo(logger);
-        return 1;
+        try
+        {
+            logEvent.WriteTo(logger);
+        }
+        catch (AggregateException exception) when (!fallbackLoggers.OfType<IExclusiveStructuredLogSink>().Any())
+        {
+            // MEL's composite logger attempts every provider before throwing. Replaying
+            // it would also repeat successful deliveries, so only retry identifiable sinks.
+            if (exception is ProviderDeliveryException { FailedLoggers.Count: > 0 } deliveryException)
+            {
+                failedStructuredDeliveries.Add(new StructuredDeliveryRetry(
+                    logEvent, deliveryException.FailedLoggers, HasConsoleCopy: _isSpectreEnabled(logEvent.Level)));
+            }
+
+            // A provider may have failed before the console received the event. Retain
+            // a masked direct copy rather than losing diagnostics, even if it duplicates
+            // a console provider that succeeded. Do not expose provider exception text.
+            console.WriteLine("A logging provider failed while handling buffered output; continuing with direct console rendering.");
+            WriteStructuredLogDirectly(console, directConsole, logEvent, [], failedStructuredDeliveries);
+        }
     }
 
     private int TryRenderMaskableOutput(

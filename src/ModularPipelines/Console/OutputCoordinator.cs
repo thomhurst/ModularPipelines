@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
@@ -139,33 +140,42 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             _deferredOutputs.Clear();
         }
 
-        var formatter = _formatterProvider.GetFormatter();
-
+        var failedOutputs = new List<DeferredModuleOutput>();
+        var failures = new List<Exception>();
         var nextOutputIndex = 0;
         var lockTaken = false;
         try
         {
+            var formatter = _formatterProvider.GetFormatter();
             await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             lockTaken = true;
 
             for (; nextOutputIndex < toFlush.Count; nextOutputIndex++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                await FlushBufferAsync(
-                        toFlush[nextOutputIndex].Buffer,
-                        formatter,
-                        OutputFlushKind.Complete,
-                        cancellationToken)
-                    .ConfigureAwait(false);
+                var output = toFlush[nextOutputIndex];
+                try
+                {
+                    await FlushBufferAsync(
+                            output.Buffer,
+                            formatter,
+                            OutputFlushKind.Complete,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception exception)
+                {
+                    // A failed buffer must not prevent teardown from attempting later
+                    // modules. Retain only this buffer for an explicit later retry.
+                    failedOutputs.Add(output);
+                    failures.Add(exception);
+                    output.Buffer.ReportDeferredFlushFailure(exception);
+                }
             }
-        }
-        catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
-        {
-            var unflushedOutputs = toFlush.Skip(nextOutputIndex).ToArray();
-            ReportDeferredFlushFailure(unflushedOutputs, exception);
-            RequeueDeferredOutputs(unflushedOutputs);
-
-            throw;
         }
         catch (Exception exception)
         {
@@ -179,10 +189,22 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         }
         finally
         {
+            // Insert earlier failures before any unstarted outputs requeued above.
+            RequeueDeferredOutputs(failedOutputs);
             if (lockTaken)
             {
                 _writeLock.Release();
             }
+        }
+
+        if (failures.Count == 1)
+        {
+            ExceptionDispatchInfo.Capture(failures[0]).Throw();
+        }
+
+        if (failures.Count > 1)
+        {
+            throw new AggregateException("Deferred output flushing failed.", failures);
         }
     }
 
