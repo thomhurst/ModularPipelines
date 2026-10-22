@@ -55,9 +55,12 @@ keep the project reference, including F# runtime and documentation coverage.
 Build the affected solution before semantic formatting. The formatter defaults
 to `Debug`; if the F# project was built in another configuration, set the
 `Configuration` environment variable to that configuration for formatting, then
-restore its previous value. Solution configuration mappings can build referenced
-projects in `Debug` even when the solution configuration is `Release`; check the
-build output for the actual configuration.
+restore its previous value. The target preserves project configuration mappings
+when MSBuild supplies them. The pinned formatter does not forward the solution's
+configuration mappings, so check the build output for the actual F# configuration.
+For example, when a `Release` solution maps its F# dependency to `Debug`, format
+the C# project with `Configuration=Debug`, or build the dependency in `Release`
+before formatting with `Configuration=Release`.
 
 Use `--verbosity diagnostic` to confirm that the selected C# project's code-style
 and analyzer-reference passes say `Running ... analyzers on <project>`. Treat
@@ -69,7 +72,9 @@ The CI regression check builds and runs a small C#/F# fixture, verifies that
 semantic formatting detects an unused import (IDE0005) and an instance member
 that can be static (CA1822), applies both fixes, then verifies the result. It also
 checks that both the code-style and analyzer-reference passes run on the C#
-project. Run it locally with the pinned SDK:
+project. A separate design-time MSBuild check verifies solution configuration
+mappings, and an ordering-only F# reference must neither become a compiler
+reference nor require built output. Run it locally with the pinned SDK:
 
 ```powershell
 ./scripts/Test-FSharpFormatting.ps1
