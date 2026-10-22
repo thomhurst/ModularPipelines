@@ -43,6 +43,14 @@ internal static class TaskCompletionAnalysis
             return [];
         }
 
+        var unstable = GetUnstableSymbols(root);
+        var completed = ImmutableHashSet.CreateBuilder<TextSpan>();
+        AnalyzeGraph(graph, unstable, completed, cancellationToken);
+        return completed.ToImmutable();
+    }
+
+    private static HashSet<ISymbol> GetUnstableSymbols(IOperation root)
+    {
         var unstable = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
         foreach (var operation in root.DescendantsAndSelf())
         {
@@ -53,31 +61,68 @@ internal static class TaskCompletionAnalysis
                 unstable.Add(referencedSymbol);
             }
 
-            if (operation is IArgumentOperation { Parameter.RefKind: not RefKind.None }
-                or ISimpleAssignmentOperation { IsRef: true }
-                or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
-                // Dynamically bound arguments have no statically bound parameter.
-                || operation.Syntax.Parent is ArgumentSyntax { RefKindKeyword.RawKind: not 0 })
+            if (CanAliasSymbol(operation))
             {
-                foreach (var reference in operation.DescendantsAndSelf())
-                {
-                    if (GetSymbol(reference) is { } symbol)
-                    {
-                        unstable.Add(symbol);
-                    }
-                }
+                AddReferencedSymbols(operation, unstable);
             }
         }
 
-        var completed = ImmutableHashSet.CreateBuilder<TextSpan>();
-        AnalyzeGraph(graph, unstable, completed, cancellationToken);
-        return completed.ToImmutable();
+        return unstable;
+    }
+
+    private static bool CanAliasSymbol(IOperation operation) => operation is
+        IArgumentOperation { Parameter.RefKind: not RefKind.None }
+        or ISimpleAssignmentOperation { IsRef: true }
+        or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
+        // Dynamically bound arguments have no statically bound parameter.
+        || operation.Syntax.Parent is ArgumentSyntax { RefKindKeyword.RawKind: not 0 };
+
+    private static void AddReferencedSymbols(IOperation operation, HashSet<ISymbol> symbols)
+    {
+        foreach (var reference in operation.DescendantsAndSelf())
+        {
+            if (GetSymbol(reference) is { } symbol)
+            {
+                symbols.Add(symbol);
+            }
+        }
     }
 
     private static void AnalyzeGraph(
         ControlFlowGraph graph,
         HashSet<ISymbol> unstable,
         ImmutableHashSet<TextSpan>.Builder completed,
+        CancellationToken cancellationToken)
+    {
+        var finallyWrites = GetFinallyWrites(graph);
+        var outputs = PropagateCompletion(graph, unstable, finallyWrites, cancellationToken);
+        foreach (var block in graph.Blocks.Where(static block => block.IsReachable))
+        {
+            var state = GetInput(block, outputs, unstable, finallyWrites);
+            VisitBlock(block, state, unstable, completed);
+        }
+
+        foreach (var local in graph.LocalFunctions)
+        {
+            AnalyzeGraph(graph.GetLocalFunctionControlFlowGraph(local, cancellationToken), unstable, completed, cancellationToken);
+        }
+
+        foreach (var anonymous in GetAnonymousFunctions(graph))
+        {
+            AnalyzeGraph(graph.GetAnonymousFunctionControlFlowGraph(anonymous, cancellationToken), unstable, completed, cancellationToken);
+        }
+    }
+
+    private static IEnumerable<IFlowAnonymousFunctionOperation> GetAnonymousFunctions(ControlFlowGraph graph) =>
+        graph.Blocks.SelectMany(static block => block.Operations
+                .Concat(block.BranchValue is { } branch ? [branch] : [])
+                .SelectMany(static operation => operation.DescendantsAndSelf()))
+            .OfType<IFlowAnonymousFunctionOperation>();
+
+    private static HashSet<ISymbol>?[] PropagateCompletion(
+        ControlFlowGraph graph,
+        HashSet<ISymbol> unstable,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites,
         CancellationToken cancellationToken)
     {
         var outputs = new HashSet<ISymbol>?[graph.Blocks.Length];
@@ -93,7 +138,7 @@ internal static class TaskCompletionAnalysis
                     continue;
                 }
 
-                var state = GetInput(block, outputs, unstable);
+                var state = GetInput(block, outputs, unstable, finallyWrites);
                 VisitBlock(block, state, unstable, null);
                 if (outputs[block.Ordinal] is not { } previous || !previous.SetEquals(state))
                 {
@@ -104,30 +149,14 @@ internal static class TaskCompletionAnalysis
         }
         while (changed);
 
-        foreach (var block in graph.Blocks.Where(static block => block.IsReachable))
-        {
-            var state = GetInput(block, outputs, unstable);
-            VisitBlock(block, state, unstable, completed);
-        }
-
-        foreach (var local in graph.LocalFunctions)
-        {
-            AnalyzeGraph(graph.GetLocalFunctionControlFlowGraph(local, cancellationToken), unstable, completed, cancellationToken);
-        }
-
-        foreach (var anonymous in graph.Blocks.SelectMany(static block => block.Operations
-                     .Concat(block.BranchValue is { } branch ? [branch] : [])
-                     .SelectMany(static operation => operation.DescendantsAndSelf()))
-                     .OfType<IFlowAnonymousFunctionOperation>())
-        {
-            AnalyzeGraph(graph.GetAnonymousFunctionControlFlowGraph(anonymous, cancellationToken), unstable, completed, cancellationToken);
-        }
+        return outputs;
     }
 
     private static HashSet<ISymbol> GetInput(
         BasicBlock block,
         HashSet<ISymbol>?[] outputs,
-        HashSet<ISymbol> unstable)
+        HashSet<ISymbol> unstable,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites)
     {
         // Exception handlers can begin with a loop header that also has explicit
         // back-edges. Its implicit first entry must still contribute no facts.
@@ -141,20 +170,7 @@ internal static class TaskCompletionAnalysis
                 continue;
             }
 
-            // A normal edge can execute finally blocks before reaching its destination.
-            // Their writes are implicit in the CFG, so do not carry facts past them.
-            var edge = predecessor.FinallyRegions.IsEmpty
-                ? new HashSet<ISymbol>(output, SymbolEqualityComparer.Default)
-                : new HashSet<ISymbol>(SymbolEqualityComparer.Default);
-            var source = predecessor.Source;
-            if (predecessor.FinallyRegions.IsEmpty
-                && source.BranchValue is { } condition && source.ConditionKind != ControlFlowConditionKind.None)
-            {
-                var conditionValue = predecessor.IsConditionalSuccessor
-                    == (source.ConditionKind == ControlFlowConditionKind.WhenTrue);
-                AddGuardFacts(condition, conditionValue, edge, unstable);
-            }
-
+            var edge = GetEdgeState(predecessor, output, unstable, finallyWrites);
             if (input is null)
             {
                 input = edge;
@@ -168,6 +184,49 @@ internal static class TaskCompletionAnalysis
         // Catch/finally entries have implicit exceptional edges: start without facts.
         return input ?? new HashSet<ISymbol>(SymbolEqualityComparer.Default);
     }
+
+    private static HashSet<ISymbol> GetEdgeState(
+        ControlFlowBranch predecessor,
+        HashSet<ISymbol> output,
+        HashSet<ISymbol> unstable,
+        Dictionary<ControlFlowRegion, HashSet<ISymbol>> finallyWrites)
+    {
+        var edge = new HashSet<ISymbol>(output, SymbolEqualityComparer.Default);
+        var source = predecessor.Source;
+        if (source.BranchValue is { } condition && source.ConditionKind != ControlFlowConditionKind.None)
+        {
+            var conditionValue = predecessor.IsConditionalSuccessor
+                == (source.ConditionKind == ControlFlowConditionKind.WhenTrue);
+            AddGuardFacts(condition, conditionValue, edge, unstable);
+        }
+
+        // Finally bodies execute implicitly on these edges. Preserve only facts
+        // about symbols they cannot write, regardless of the path through cleanup.
+        foreach (var region in predecessor.FinallyRegions)
+        {
+            edge.ExceptWith(finallyWrites[region]);
+        }
+
+        return edge;
+    }
+
+    private static Dictionary<ControlFlowRegion, HashSet<ISymbol>> GetFinallyWrites(ControlFlowGraph graph) =>
+        graph.Blocks.SelectMany(static block => block.Predecessors)
+            .SelectMany(static branch => branch.FinallyRegions)
+            .Distinct()
+            .ToDictionary(region => region, region => GetWrittenSymbols(graph.Blocks
+                .Skip(region.FirstBlockOrdinal)
+                .Take(region.LastBlockOrdinal - region.FirstBlockOrdinal + 1)));
+
+    private static HashSet<ISymbol> GetWrittenSymbols(IEnumerable<BasicBlock> blocks) => new(
+        blocks.SelectMany(static block => block.Operations
+                .Concat(block.BranchValue is { } branch ? [branch] : [])
+                .SelectMany(static operation => operation.DescendantsAndSelf()))
+            .OfType<IAssignmentOperation>()
+            .SelectMany(static assignment => assignment.Target.DescendantsAndSelf())
+            .Select(GetSymbol)
+            .OfType<ISymbol>(),
+        SymbolEqualityComparer.Default);
 
     private static bool IsHandlerEntry(BasicBlock block)
     {
@@ -226,27 +285,40 @@ internal static class TaskCompletionAnalysis
             case IAwaitOperation awaitOperation:
                 AddAwaitFacts(UnwrapConfiguredAwait(awaitOperation.Operation), state, unstable);
                 break;
-            case ISimpleAssignmentOperation assignment when GetSymbol(assignment.Target) is { } target:
-                var value = Unwrap(assignment.Value);
-                var isComplete = (GetStableTaskSymbol(value, unstable) is { } source && state.Contains(source))
-                    || (value is IAwaitOperation awaited && IsWhenAny(UnwrapConfiguredAwait(awaited.Operation)));
-                state.Remove(target);
-                if (isComplete && GetStableTaskSymbol(assignment.Target, unstable) is not null)
-                {
-                    state.Add(target);
-                }
-
+            case ISimpleAssignmentOperation assignment:
+                TransferAssignment(assignment, state, unstable);
                 break;
             case IDeconstructionAssignmentOperation deconstruction:
-                foreach (var reference in deconstruction.Target.DescendantsAndSelf())
-                {
-                    if (GetSymbol(reference) is { } assigned)
-                    {
-                        state.Remove(assigned);
-                    }
-                }
-
+                RemoveAssignedSymbols(deconstruction.Target, state);
                 break;
+        }
+    }
+
+    private static void TransferAssignment(ISimpleAssignmentOperation assignment, HashSet<ISymbol> state, HashSet<ISymbol> unstable)
+    {
+        if (GetSymbol(assignment.Target) is not { } target)
+        {
+            return;
+        }
+
+        var value = Unwrap(assignment.Value);
+        var isComplete = (GetStableTaskSymbol(value, unstable) is { } source && state.Contains(source))
+            || (value is IAwaitOperation awaited && IsWhenAny(UnwrapConfiguredAwait(awaited.Operation)));
+        state.Remove(target);
+        if (isComplete && GetStableTaskSymbol(assignment.Target, unstable) is not null)
+        {
+            state.Add(target);
+        }
+    }
+
+    private static void RemoveAssignedSymbols(IOperation target, HashSet<ISymbol> state)
+    {
+        foreach (var reference in target.DescendantsAndSelf())
+        {
+            if (GetSymbol(reference) is { } assigned)
+            {
+                state.Remove(assigned);
+            }
         }
     }
 
@@ -312,10 +384,15 @@ internal static class TaskCompletionAnalysis
         operation = Unwrap(operation);
         return operation is IInvocationOperation { TargetMethod.Name: "ConfigureAwait", Instance: { } instance } invocation
                && IsTask(invocation.TargetMethod.ContainingType)
-               && invocation.Arguments.All(static argument => argument.Value.ConstantValue.HasValue)
+               && invocation.Arguments.All(static argument => IsConfigurationValue(argument.Value))
             ? Unwrap(instance)
             : operation;
     }
+
+    private static bool IsConfigurationValue(IOperation operation) => operation.ConstantValue.HasValue
+        // Reading an option variable cannot replace the task whose receiver was
+        // evaluated first. An arbitrary expression can, e.g. (task = Other()).IsCompleted.
+        || Unwrap(operation) is ILocalReferenceOperation or IParameterReferenceOperation;
 
     private static IOperation Unwrap(IOperation operation)
     {
