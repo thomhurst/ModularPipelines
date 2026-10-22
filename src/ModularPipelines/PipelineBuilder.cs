@@ -34,6 +34,8 @@ namespace ModularPipelines;
 /// </summary>
 /// <remarks>
 /// Resources created while configuring the builder are transferred to the built pipeline.
+/// A builder can be consumed only once, by building, validating, or running it. Create a new
+/// builder for another attempt, including after startup or validation fails.
 /// </remarks>
 public sealed class PipelineBuilder
 {
@@ -53,6 +55,7 @@ public sealed class PipelineBuilder
     private readonly HashSet<Type> _defaultLoggingProviderTypes;
     private readonly HashSet<string> _pluginNames = [with(StringComparer.Ordinal)];
     private PipelineOptions _options;
+    private int _isConsumed;
 
     internal PipelineBuilder(
         PipelineBuilderSettings settings,
@@ -350,9 +353,11 @@ public sealed class PipelineBuilder
     /// Initializers implementing <see cref="ICancellableInitializer"/> receive this token.
     /// Legacy parameterless initializers cannot be interrupted. Startup awaits all started
     /// initializers before reporting cancellation and disposing pipeline resources.
+    /// This consumes the builder even if startup fails. A token canceled before startup does not consume it.
     /// </remarks>
     /// <exception cref="PipelineValidationException">Thrown when validation fails.</exception>
     /// <exception cref="OperationCanceledException">Startup was canceled.</exception>
+    /// <exception cref="InvalidOperationException">The builder has already been consumed.</exception>
     public Task<IPipeline> BuildAsync(CancellationToken cancellationToken = default) =>
         BuildAsync(beforeInitialization: null, cancellationToken);
 
@@ -395,8 +400,11 @@ public sealed class PipelineBuilder
     /// <remarks>
     /// Uses the same initialization and cancellation behavior as <see cref="BuildAsync(CancellationToken)"/>.
     /// Started legacy initializers finish before resources are disposed, even after cancellation.
+    /// This builds and disposes a pipeline, consuming the builder even when validation fails.
+    /// To validate and then run, call <see cref="BuildAsync(CancellationToken)"/> and run the returned pipeline.
     /// </remarks>
     /// <exception cref="OperationCanceledException">Startup or validation was canceled.</exception>
+    /// <exception cref="InvalidOperationException">The builder has already been consumed.</exception>
     public async Task<ValidationResult> ValidateAsync(CancellationToken cancellationToken = default)
     {
         var (pipeline, validationResult, _) =
@@ -537,6 +545,14 @@ public sealed class PipelineBuilder
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        if (Interlocked.Exchange(ref _isConsumed, 1) != 0)
+        {
+            throw new InvalidOperationException(
+                "This PipelineBuilder has already been consumed by building, validating, or running a pipeline. " +
+                "Create a new builder with Pipeline.CreateBuilder for another attempt. " +
+                "To validate and then run, call BuildAsync and run the returned pipeline.");
+        }
+
         LoadModularPipelinesAssembliesIfNotLoadedYet();
 
         // Configure the host with our collected configuration

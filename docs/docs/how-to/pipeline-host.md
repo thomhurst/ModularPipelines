@@ -205,7 +205,8 @@ makes `GetResult` throw `InvalidOperationException`; `TryGetResult` returns `fal
 `null`. Summaries deserialized from JSON have no results, because `Results` is excluded
 from serialization, so these methods report missing results on deserialized summaries.
 
-`BuildAsync()` always validates the pipeline configuration before returning:
+`BuildAsync()` always validates the pipeline configuration before returning. To validate
+and then run, build once and run the returned pipeline:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
@@ -229,6 +230,9 @@ catch (PipelineValidationException ex)
 
 ### Validate Without Running
 
+Use `ValidateAsync()` for a validation-only attempt. It builds and disposes a pipeline
+without executing its modules:
+
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
@@ -242,9 +246,12 @@ if (validation.HasErrors)
     }
     Environment.Exit(1);
 }
-
-await builder.RunAsync();
 ```
+
+Each builder can be consumed only once, by `BuildAsync()`, `ValidateAsync()`, or
+`RunAsync()`. Create and configure a new builder for another attempt, including after
+startup or validation fails. A token canceled before startup does not consume the builder.
+When you intend to run the pipeline after validation, use the `BuildAsync()` example above.
 
 ## Complete Example
 
