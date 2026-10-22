@@ -16,7 +16,6 @@ internal static class ModuleDependencySelectors
             return null;
         }
 
-        DependencyDeclarationKind? result = null;
         foreach (var attribute in module.AllInterfaces.SelectMany(iface => iface.GetAttributes()).Concat(GetApplicableAttributes(module, compilation)))
         {
             if (attribute.AttributeClass is not { } selector
@@ -26,15 +25,13 @@ internal static class ModuleDependencySelectors
             }
 
             var kind = GetSelectorKind(attribute, dependency, compilation);
-            if (kind == DependencyDeclarationKind.Required)
+            if (kind is not null)
             {
                 return kind;
             }
-
-            result ??= kind;
         }
 
-        return result;
+        return null;
     }
 
     private static DependencyDeclarationKind? GetSelectorKind(
@@ -61,7 +58,8 @@ internal static class ModuleDependencySelectors
                 if (candidateAttribute.AttributeClass is { } attributeClass
                     && IsAssignableTo(attributeClass, target, compilation) is true)
                 {
-                    return DependencyDeclarationKind.Required;
+                    // A selector only adds dependencies from the registered module set.
+                    return DependencyDeclarationKind.Unknown;
                 }
             }
 
@@ -75,7 +73,8 @@ internal static class ModuleDependencySelectors
 
     private static DependencyDeclarationKind? MatchKind(bool? matches) => matches switch
     {
-        true => DependencyDeclarationKind.Required,
+        // Even a proven predicate match does not guarantee module registration.
+        true => DependencyDeclarationKind.Unknown,
         false => null,
         null => DependencyDeclarationKind.Unknown,
     };

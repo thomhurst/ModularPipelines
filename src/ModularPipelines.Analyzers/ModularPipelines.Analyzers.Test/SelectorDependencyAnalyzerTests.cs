@@ -13,8 +13,9 @@ public class SelectorDependencyAnalyzerTests
     [TestMethod]
     [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModule", null)]
     [DataRow("[DependsOnAllModulesInheritingFrom(typeof(BuildBase))]", "GetModule", null)]
-    [DataRow("[DependsOnAllModulesInheritingFrom<Dependency>]", "GetModuleIfRegistered", "MP0022")]
-    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModuleIfRegistered", "MP0022")]
+    [DataRow("[DependsOnAllModulesInheritingFrom<Dependency>]", "GetModuleIfRegistered", null)]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModuleIfRegistered", null)]
+    [DataRow("[DependsOnAllModulesInheritingFrom(typeof(BuildBase))]", "GetModuleIfRegistered", null)]
     [DataRow("[DependsOnAllModulesInheritingFrom<IBuild>]", "GetModule", null)]
     [DataRow("[DependsOnAllModulesInheritingFrom(typeof(GenericBase<>))]", "GetModule", null)]
     [DataRow("[DependsOnAllModulesInheritingFrom<GenericBase<string>>]", "GetModule", null)]
@@ -27,7 +28,7 @@ public class SelectorDependencyAnalyzerTests
     [DataRow("[DependsOnModulesInCategory(\"build\")]", "GetModule", null)]
     [DataRow("[DependsOnModulesInCategory(\"build\")]", "GetModuleIfRegistered", null)]
     [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModule", null)]
-    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModuleIfRegistered", "MP0022")]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModuleIfRegistered", null)]
     [DataRow("[DependsOnModulesWithAttribute<AbsentAttribute>]", "GetModule", "MP0001")]
     [DataRow("[DependsOnModulesWithAttribute<NonInheritedAttribute>]", "GetModule", "MP0001")]
     [DataRow("[CustomSelector]", "GetModule", null)]
@@ -83,7 +84,10 @@ public class SelectorDependencyAnalyzerTests
     [DataRow("[DependsOnModulesWithTag(\"build\")]", "GetModule", null)]
     [DataRow("[DependsOnModulesInCategory(\"build\")]", "GetModule", null)]
     [DataRow("[CustomSelector]", "GetModule", null)]
-    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModuleIfRegistered", "MP0022")]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModuleIfRegistered", null)]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModule", null)]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModuleIfRegistered", null)]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModule", null)]
     [DataRow("[DependsOnAllModulesInheritingFrom<Other>]", "GetModule", "MP0021")]
     public async Task Merges_Selectors_With_Optional_Declarations(string selector, string accessor, string? diagnosticId)
     {
@@ -93,9 +97,21 @@ public class SelectorDependencyAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Preserves_Configured_Required_Declaration_With_Unknown_Selector()
+    [DataRow("[CustomSelector]")]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]")]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]")]
+    public async Task Preserves_Configured_Required_Declaration_With_Selector(string selector)
     {
-        var source = Source("[CustomSelector]", "{|#0:context.GetModuleIfRegistered<Dependency>()|}", "module.DependsOn<Dependency>();");
+        var source = Source(selector, "{|#0:context.GetModuleIfRegistered<Dependency>()|}", "module.DependsOn<Dependency>();");
+        await VerifyCS.VerifyAnalyzerAsync(source, Expected("MP0022"));
+    }
+
+    [TestMethod]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]")]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]")]
+    public async Task Preserves_Attribute_Required_Declaration_With_Selector(string selector)
+    {
+        var source = Source(selector + "[DependsOn<Dependency>]", "{|#0:context.GetModuleIfRegistered<Dependency>()|}");
         await VerifyCS.VerifyAnalyzerAsync(source, Expected("MP0022"));
     }
 
@@ -108,15 +124,20 @@ public class SelectorDependencyAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Offer_Redundant_DependsOn_CodeFix()
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModule")]
+    [DataRow("[DependsOnAllModulesInheritingFrom<BuildBase>]", "GetModuleIfRegistered")]
+    [DataRow("[DependsOnModulesWithAttribute<MarkerAttribute>]", "GetModuleIfRegistered")]
+    public async Task Does_Not_Offer_Redundant_DependsOn_CodeFix(string selector, string accessor)
     {
-        var source = Source("[DependsOnAllModulesInheritingFrom<BuildBase>]", "context.GetModule<Dependency>()");
+        var source = Source(selector, $"context.{accessor}<Dependency>()");
         await VerifyCS.VerifyCodeFixAsync(source, source);
     }
 
     [TestMethod]
     [DataRow("[DependsOnAllModulesInheritingFrom<IGenericBuild<object>>]", "GetModule", null)]
+    [DataRow("[DependsOnAllModulesInheritingFrom<IGenericBuild<object>>]", "GetModuleIfRegistered", null)]
     [DataRow("[DependsOnModulesWithAttribute<Attribute>]", "GetModule", null)]
+    [DataRow("[DependsOnModulesWithAttribute<Attribute>]", "GetModuleIfRegistered", null)]
     public async Task Recognizes_Assignable_Selector_Targets(string selector, string accessor, string? diagnosticId)
     {
         var source = Source(selector, $"context.{accessor}<Dependency>()")
@@ -155,6 +176,7 @@ public class SelectorDependencyAnalyzerTests
               """;
         await VerifyCS.VerifyAnalyzerAsync(source, Expected("MP0001"));
     }
+
     private static DiagnosticResult[] Expected(string? diagnosticId) => diagnosticId is null ? [] :
     [
         new DiagnosticResult(diagnosticId, diagnosticId switch
