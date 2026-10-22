@@ -1,13 +1,20 @@
+using System.Reflection;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.Generated;
+using ModularPipelines.Helpers.Internal;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.Tests.Generators;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class VaultCliScraperTests
 {
+    private static readonly string[] TpmMetadataValues = ["owner=platform team", "region=west"];
+
     [Test]
     public async Task Hcp_Connect_Example_Options_Preserve_String_Values_And_Secrets()
     {
@@ -250,6 +257,43 @@ public class VaultCliScraperTests
     {
         var command = await ParseFixture("login");
         await Assert.That(command.PositionalArguments.Single().IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Tpm_Enrollment_Metadata_Is_Repeatable_Without_Repeatability_Prose()
+    {
+        var helpText = File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Vault", "2.2.0", "tpm-enroll.txt"));
+        var command = await new TestVaultCliScraper().ParseGroup(["vault", "tpm", "enroll"], helpText);
+        var metadata = command!.Options.Single(option => option.SwitchName == "-metadata");
+
+        await Assert.That(metadata.AcceptsMultipleValues).IsTrue();
+        await Assert.That(metadata.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(metadata.ValueSeparator).IsEqualTo("=");
+        await Assert.That(metadata.IsFlag).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-name").CSharpType)
+            .IsEqualTo("string?");
+
+        var tool = new CliToolDefinition
+        {
+            ToolName = "vault",
+            NamespacePrefix = "Vault",
+            TargetNamespace = "ModularPipelines.Vault",
+            OutputDirectory = "src/ModularPipelines.Vault",
+            Commands = [command],
+        };
+        var files = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool))
+            .Concat(await new OptionsClassGenerator().GenerateAsync(tool));
+        var assembly = PackageManagerGlobalRenderingTests.Compile(files.Select(file => file.Content));
+        var type = assembly.GetType("ModularPipelines.Vault.Options.VaultTpmEnrollOptions")!;
+        var instance = Activator.CreateInstance(type)!;
+        var property = type.GetProperty("Metadata")!;
+        property.SetValue(instance, TpmMetadataValues);
+        var part = new OptionPart(property.Name, property.GetValue, property.GetCustomAttribute<CliOptionAttribute>()!);
+
+        await Assert.That(new CommandArgumentBuilder().BuildArguments([part], instance))
+            .IsEquivalentTo(["-metadata=owner=platform team", "-metadata=region=west"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     private static string Fixture(string command) => File.ReadAllText(Path.Combine(
