@@ -1268,13 +1268,15 @@ public partial class GcloudCliScraper : CliScraperBase
             return null;
         }
 
-        // Only standalone declarations for this metavar or generic "Value" describe its complete choices.
+        // Standalone declarations may spell the metavar's underscores as whitespace.
+        // Only this metavar or generic "Value" describes the option's complete choices.
         // Conditional clauses and lists belonging to other options must not narrow its type.
         var metavar = valueHint.TrimStart('[').Split([',', '[', ']'], 2)[0].Trim();
         var declarations = RequiredEnumValuesPattern().Matches(description)
             .Where(match => !match.Groups["subject"].Success
                 || match.Groups["subject"].Value.Equals("value", StringComparison.OrdinalIgnoreCase)
-                || match.Groups["subject"].Value.Equals(metavar, StringComparison.OrdinalIgnoreCase))
+                || string.Join('_', match.Groups["subject"].Value.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries))
+                    .Equals(metavar, StringComparison.OrdinalIgnoreCase))
             .ToArray();
         if (declarations.Length > 0)
         {
@@ -1450,7 +1452,7 @@ public partial class GcloudCliScraper : CliScraperBase
     // boundary starts a new declaration; a blank line after conditional prose does not.
     private const string EnumDeclarationBoundaryRegex = @"(?:^\s*|(?<=[.!?])\s+|(?:^|\n)[ \t]*\$[ \t]+gcloud\b[^\n]*(?:\n[ \t]+\S[^\n]*)*\n[ \t]*\n\s*)";
 
-    [GeneratedRegex(EnumDeclarationBoundaryRegex + @"(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*)\s+)?must\s+be\s+one\s+of:?\s*" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
+    [GeneratedRegex(EnumDeclarationBoundaryRegex + @"(?:(?:the\s+)?(?<subject>[a-zA-Z][a-zA-Z0-9_-]*(?:\s+[a-zA-Z][a-zA-Z0-9_-]*)*)\s+)?must\s+be\s+one\s+of:?\s*" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
     private static partial Regex RequiredEnumValuesPattern();
 
     [GeneratedRegex(@";\s*one\s+of\s+" + EnumChoiceListRegex, RegexOptions.IgnoreCase)]
