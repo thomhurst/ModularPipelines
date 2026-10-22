@@ -1083,6 +1083,11 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsModuleRegistrationMethod(IMethodSymbol method)
     {
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (IsModuleTesterRegistrationMethod(definition))
+        {
+            return true;
+        }
+
         var containingType = definition.ContainingType;
         var isRegistrationType = containingType.ToDisplayString() is
                                      "ModularPipelines.PipelineBuilderExtensions"
@@ -1095,6 +1100,15 @@ internal static class ModuleAuthoringAnalysis
                    or "AddModules"
                    or "AddModulesFromAssembly"
                    or "AddModulesFromAssemblyContainingType";
+    }
+
+    private static bool IsModuleTesterRegistrationMethod(IMethodSymbol definition)
+    {
+        return definition.ContainingAssembly.Name == "ModularPipelines.Testing"
+               && definition.ContainingType.ToDisplayString() == "ModularPipelines.Testing.ModuleTester"
+               && definition.Name == "For"
+               && definition.Arity is 1 or 2
+               && definition.Parameters.IsEmpty;
     }
 
     private static bool TryTrackDirectModuleServiceRegistration(
@@ -2429,7 +2443,11 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var method = invocation.TargetMethod;
-        foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
+        // ModuleTester.For<TModule, TResult> registers only TModule, even when TResult is a module type.
+        var typeArguments = IsModuleTesterRegistrationMethod(method.OriginalDefinition)
+            ? method.TypeArguments.Take(1)
+            : method.TypeArguments;
+        foreach (var typeArgument in typeArguments.OfType<INamedTypeSymbol>())
         {
             var normalizedType = typeArgument.OriginalDefinition;
             registeredModules.Add(normalizedType);
