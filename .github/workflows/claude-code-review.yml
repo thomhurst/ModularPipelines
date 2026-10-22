@@ -103,21 +103,51 @@ jobs:
           done
 
       - name: Test trusted review publisher
-        run: node --test .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs
+        run: node --test .github/scripts/install-claude-code.test.mjs .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs
 
       - name: Test review merge gate
         shell: pwsh
         run: ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
 
+      # The action's claude.ai/install.sh bootstrap returned HTTP 429 before
+      # Claude could start (#6846). Use Anthropic's supported npm distribution
+      # with a trusted integrity lockfile and the action's custom executable input.
+      # Keep this package's exact version aligned with the pinned action's CLI.
+      - name: Install pinned Claude Code
+        id: install-claude
+        timeout-minutes: 5
+        env:
+          DISABLE_UPDATES: '1'
+        run: |
+          set -euo pipefail
+          expected_version=$(node -p "require('./.github/claude-code/package.json').dependencies['@anthropic-ai/claude-code']")
+          install_directory=$(mktemp -d "$RUNNER_TEMP/claude-code.XXXXXX")
+          # Only trusted manifests enter the installation directory. Never run
+          # npm against pr-head/ or restore an executable from a PR-writable cache.
+          cp .github/claude-code/package.json .github/claude-code/package-lock.json "$install_directory/"
+          npm ci --prefix "$install_directory" --registry https://registry.npmjs.org \
+            --no-audit --no-fund --fetch-retries=3 --fetch-retry-mintimeout=5000 \
+            --fetch-retry-maxtimeout=20000 --fetch-timeout=60000
+          claude_executable="$install_directory/node_modules/.bin/claude"
+          actual_version=$("$claude_executable" --version)
+          if [[ "$actual_version" != "$expected_version (Claude Code)" ]]; then
+            echo "::error::Claude Code executable did not report the pinned version $expected_version."
+            exit 1
+          fi
+          echo "Verified Claude Code $expected_version from registry.npmjs.org."
+          echo "executable=$claude_executable" >> "$GITHUB_OUTPUT"
+
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@6b6870e649b5ff408753befeaee5fc7989d4e6a9 # v1
         env:
+          DISABLE_UPDATES: '1'
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
           GH_REPO: ${{ github.repository }}
           REVIEW_HEAD_SHA: ${{ steps.pull_request.outputs.head_sha }}
           REVIEW_CHANGED_FILES: ${{ github.workspace }}/review-context/changed-files.nul
         with:
+          path_to_claude_code_executable: ${{ steps.install-claude.outputs.executable }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The actor is the PR author, who by definition has no write access on a
           # fork PR. The action only honours this bypass when an explicit token is
