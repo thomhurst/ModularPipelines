@@ -27,7 +27,7 @@ public interface IPulumiConfig
     PulumiConfigEnv Env { get; }
 
     /// <summary>
-    /// Lists all configuration values for a specific stack. To add a new configuration value, run
+    /// Lists all configuration values for a specific stack. To add a new configuration value, run `pulumi config set`. To remove an existing value run `pulumi config rm`. To get the value of for a specific configuration key, use `pulumi config get &lt;key-name&gt;`.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -36,7 +36,7 @@ public interface IPulumiConfig
     public Task<CommandResult> ExecuteAsync(PulumiConfigOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Copies the config from the current stack to the destination stack. If `key` is omitted,
+    /// Copies the config from the current stack to the destination stack. If `key` is omitted, then all of the config from the current stack will be copied to the destination stack.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -90,7 +90,7 @@ public interface IPulumiConfig
     public Task<CommandResult> SetAllAsync(PulumiConfigSetAllOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Configuration values can be accessed when a stack is being deployed and used to configure behavior.
+    /// Configuration values can be accessed when a stack is being deployed and used to configure behavior. If a value is not present on the command line, pulumi will prompt for the value. Multi-line values may be set by piping a file to standard in. Note that in that case, trailing newlines are stripped, unless `--raw` is passed.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

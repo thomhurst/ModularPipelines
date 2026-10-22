@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Adds environments to the end of a stack's import list. Imported environments are merged in order
+/// Adds environments to the end of a stack's import list. Imported environments are merged in order per the ESC merge rules. The list of stacks behaves as if it were the import list in an anonymous environment.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiConfigEnvAddOptions : PulumiOptions
 {
     /// <summary>
-    /// Adds environments to the end of a stack's import list. Imported environments are merged in order
+    /// Adds environments to the end of a stack's import list. Imported environments are merged in order per the ESC merge rules. The list of stacks behaves as if it were the import list in an anonymous environment.
     /// </summary>
     /// <param name="EnvironmentName">The &lt;environment-name&gt; operand.</param>
     public PulumiConfigEnvAddOptions(

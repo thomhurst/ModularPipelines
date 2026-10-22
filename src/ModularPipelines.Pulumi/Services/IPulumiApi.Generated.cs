@@ -31,7 +31,7 @@ public interface IPulumiApi
     public Task<CommandResult> ExecuteAsync(PulumiApiOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Show the parameters, request body, and response schema for a Pulumi Cloud
+    /// Show the parameters, request body, and response schema for a Pulumi Cloud API operation.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

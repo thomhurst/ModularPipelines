@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Configuration values can be accessed when a stack is being deployed and used to configure behavior.
+/// Configuration values can be accessed when a stack is being deployed and used to configure behavior. If a value is not present on the command line, pulumi will prompt for the value. Multi-line values may be set by piping a file to standard in. Note that in that case, trailing newlines are stripped, unless `--raw` is passed.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiConfigSetOptions : PulumiOptions
 {
     /// <summary>
-    /// Configuration values can be accessed when a stack is being deployed and used to configure behavior.
+    /// Configuration values can be accessed when a stack is being deployed and used to configure behavior. If a value is not present on the command line, pulumi will prompt for the value. Multi-line values may be set by piping a file to standard in. Note that in that case, trailing newlines are stripped, unless `--raw` is passed.
     /// </summary>
     /// <param name="Key">The &lt;key&gt; operand.</param>
     public PulumiConfigSetOptions(

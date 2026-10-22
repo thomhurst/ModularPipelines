@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Creates an environment for a specific stack based on the stack's configuration values,
+/// Creates an environment for a specific stack based on the stack's configuration values, then replaces the stack's configuration values with a reference to that environment. The environment will be created in the same organization as the stack.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

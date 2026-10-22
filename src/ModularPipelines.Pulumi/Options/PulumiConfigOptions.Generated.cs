@@ -13,7 +13,7 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Lists all configuration values for a specific stack. To add a new configuration value, run
+/// Lists all configuration values for a specific stack. To add a new configuration value, run `pulumi config set`. To remove an existing value run `pulumi config rm`. To get the value of for a specific configuration key, use `pulumi config get &lt;key-name&gt;`.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
