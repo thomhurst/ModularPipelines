@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.OptionsGenerator.Models;
@@ -72,12 +73,28 @@ public record CliOptionDefinition
     /// <summary>
     /// C# type emitted for the generated property.
     /// </summary>
-    public string PropertyType => UsesValueGroups ? CSharpType : (ValueArity, UsesCollectionShape) switch
+    public string PropertyType => NormalizeCliValueType(UsesValueGroups ? CSharpType : (ValueArity, UsesCollectionShape) switch
     {
         (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
         (CliOptionValueArity.Optional, false) => "CliOptionValue?",
         _ => CSharpType,
-    };
+    });
+
+    internal static string NormalizeCliValueType(string cSharpType)
+    {
+        if (!cSharpType.Contains("ModularPipelines", StringComparison.Ordinal))
+        {
+            return cSharpType;
+        }
+
+        var type = SyntaxFactory.ParseTypeName(cSharpType);
+        var contracts = type.DescendantNodesAndSelf().OfType<QualifiedNameSyntax>().Where(name =>
+            name.Right.Identifier.ValueText is "KeyValue" or "CliValuePair" or "CliOptionValue" or "CliValueGroup"
+            && string.Concat(name.Left.DescendantTokens().Select(token => token.Text)) is
+                "ModularPipelines" or "ModularPipelines.Models" or "global::ModularPipelines" or "global::ModularPipelines.Models");
+        return type.ReplaceNodes(contracts, (original, _) =>
+            SyntaxFactory.IdentifierName(original.Right.Identifier.WithoutTrivia()).WithTriviaFrom(original)).ToFullString();
+    }
 
     internal bool UsesValueGroups => CSharpType.Contains("CliValueGroup", StringComparison.Ordinal);
 

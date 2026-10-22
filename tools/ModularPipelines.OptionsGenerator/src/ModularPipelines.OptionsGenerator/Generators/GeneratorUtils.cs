@@ -801,7 +801,7 @@ public static partial class GeneratorUtils
             .Where(argument => existingNames.Add(argument.PropertyName))
             .Select(argument => new RequiredConstructorParameter(
                 argument.PropertyName,
-                argument.CSharpType,
+                argument.PropertyType,
                 argument.IsSecret,
                 null,
                 argument)));

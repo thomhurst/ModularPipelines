@@ -23,21 +23,67 @@ public class CliValueNamespaceTests
     [MatrixDataSource]
     public async Task Generated_Options_Work_With_Either_Contract_Namespace(
         [Matrix(false, true)] bool rootNamespace,
-        [Matrix("objects", "non-generic", "keys", "pairs", "optional", "groups")] string shape)
+        [Matrix("objects", "non-generic", "keys", "pairs", "optional", "groups")] string shape,
+        [Matrix("", "ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
     {
-        await VerifyConsumer(rootNamespace, shape, positional: false);
+        await VerifyConsumer(rootNamespace, shape, positional: false, qualifier);
     }
 
     [Test]
     [MatrixDataSource]
     public async Task Generated_Operands_Work_With_Either_Contract_Namespace(
         [Matrix(false, true)] bool rootNamespace,
-        [Matrix("objects", "keys")] string shape)
+        [Matrix("objects", "keys")] string shape,
+        [Matrix("", "ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
     {
-        await VerifyConsumer(rootNamespace, shape, positional: true);
+        await VerifyConsumer(rootNamespace, shape, positional: true, qualifier);
     }
 
-    private static async Task VerifyConsumer(bool rootNamespace, string shape, bool positional)
+    [Test]
+    [MatrixDataSource]
+    public async Task Required_Constructors_Work_With_Either_Contract_Namespace(
+        [Matrix(false, true)] bool rootNamespace,
+        [Matrix(false, true)] bool positional,
+        [Matrix("ModularPipelines.Models.", "global::ModularPipelines.Models.", "ModularPipelines.", "global::ModularPipelines.")] string qualifier)
+    {
+        var tool = CreateTool("keys", positional, qualifier + "KeyValue", readOnlyList: true);
+        var command = tool.Commands.Single();
+        tool = tool with
+        {
+            Commands =
+            [
+                command with
+                {
+                    Options = [.. command.Options.Select(option => option with { IsRequired = option.PropertyName == "Values" })],
+                    PositionalArguments = [.. command.PositionalArguments.Select(argument => argument with { IsRequired = true })],
+                    RequiredAlternativeGroups = [],
+                },
+            ],
+        };
+        var assembly = CompileConsumer(rootNamespace,
+        [
+            (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content,
+            (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content,
+        ]);
+        var parameter = assembly.GetType("External.Tool.Options.ToolRunOptions")!.GetConstructors().Single().GetParameters().Single();
+        await Assert.That(parameter.ParameterType.GenericTypeArguments[0].Namespace)
+            .IsEqualTo(rootNamespace ? "ModularPipelines" : "ModularPipelines.Models");
+    }
+
+    [Test]
+    [Arguments("Other.ModularPipelines.Models.KeyValue?")]
+    [Arguments("ModularPipelines.Models.KeyValueSuffix[]?")]
+    [Arguments("global::ModularPipelines.Custom.KeyValue?")]
+    [Arguments("IEnumerable<global::ModularPipelines.Models.CustomValue>?")]
+    public async Task Emitted_Types_Preserve_Unrelated_Qualified_Names(string cSharpType)
+    {
+        var option = new CliOptionDefinition { SwitchName = "--value", PropertyName = "Value", CSharpType = cSharpType };
+        var argument = new CliPositionalArgument { PropertyName = "Value", CSharpType = cSharpType };
+        await Assert.That(option.PropertyType).IsEqualTo(cSharpType);
+        await Assert.That(argument.PropertyType).IsEqualTo(cSharpType);
+    }
+
+    private static async Task VerifyConsumer(bool rootNamespace, string shape, bool positional, string qualifier)
     {
         var elementType = shape switch
         {
@@ -46,7 +92,7 @@ public class CliValueNamespaceTests
             "groups" => "CliValueGroup",
             _ => "KeyValue",
         };
-        var tool = CreateTool(shape, positional, elementType);
+        var tool = CreateTool(shape, positional, qualifier + elementType, qualifier.Length > 0);
         var sources = new[]
         {
             (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content,
@@ -54,7 +100,7 @@ public class CliValueNamespaceTests
         };
         foreach (var source in sources)
         {
-            await Assert.That(source).DoesNotContain("global::ModularPipelines.Models.");
+            await Assert.That(source).DoesNotContain("ModularPipelines.Models.");
         }
 
         var harness = CreateHarness(shape, positional, elementType);
@@ -79,12 +125,13 @@ public class CliValueNamespaceTests
         await Assert.That(actual.SequenceEqual(expected)).IsTrue();
     }
 
-    private static CliToolDefinition CreateTool(string shape, bool positional, string elementType)
+    private static CliToolDefinition CreateTool(string shape, bool positional, string elementType, bool readOnlyList)
     {
         var propertyType = shape switch
         {
             "objects" => "IReadOnlyList<object>?",
             "non-generic" => "System.Collections.IEnumerable?",
+            _ when readOnlyList => $"System.Collections.Generic.IReadOnlyList<{elementType}>?",
             _ => $"IEnumerable<{elementType}>?",
         };
         var optional = shape is "optional" or "groups";

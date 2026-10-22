@@ -62,6 +62,11 @@ public record CliPositionalArgument
     public required string CSharpType { get; init; }
 
     /// <summary>
+    /// C# type emitted for the generated property and constructor parameter.
+    /// </summary>
+    internal string PropertyType => CliOptionDefinition.NormalizeCliValueType(CSharpType);
+
+    /// <summary>
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }

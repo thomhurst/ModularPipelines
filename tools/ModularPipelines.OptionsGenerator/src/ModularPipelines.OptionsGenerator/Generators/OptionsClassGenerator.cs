@@ -655,7 +655,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var positional = positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var csharpType = option?.PropertyType
-                         ?? positional?.CSharpType
+                         ?? positional?.PropertyType
                          ?? throw new InvalidOperationException(
                              $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
 
@@ -778,7 +778,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        var propertyType = positional.CSharpType;
+        var propertyType = positional.PropertyType;
         if (positional.IsValidationRequired == false)
         {
             propertyType = propertyType.TrimEnd('?') + "?";
