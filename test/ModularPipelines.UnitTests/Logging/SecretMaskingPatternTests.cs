@@ -2410,6 +2410,84 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    public async Task DeferredInput_ReservesQueueAdmissionWhileResolvingLineBuffer()
+    {
+        var provider = CreateProvider(out _);
+        var realConsole = new BlockingAsyncFlushStringWriter();
+        using var writer = new CoordinatedTextWriter(
+            Mock.Of<IConsoleCoordinator>(),
+            realConsole,
+            () => false,
+            CreateObfuscator(provider),
+            provider);
+        var lineBufferLock = typeof(CoordinatedTextWriter).GetField(
+            "_lineBufferLock",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(writer)!;
+        var deferredOutputLock = typeof(CoordinatedTextWriter).GetField(
+            "_deferredOutputLock",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(writer)!;
+        var writeCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var writeThread = new Thread(() =>
+        {
+            try
+            {
+                writer.WriteLine("first");
+                writeCompleted.SetResult();
+            }
+            catch (Exception exception)
+            {
+                writeCompleted.SetException(exception);
+            }
+        });
+        var admissionReserved = false;
+        var flushTask = writer.FlushAsync();
+        try
+        {
+            await realConsole.FlushStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            lock (lineBufferLock)
+            {
+                using (ExecutionContext.SuppressFlow())
+                {
+                    writeThread.Start();
+                }
+
+                // The only blocking operation before queue admission is the line-buffer
+                // lookup. Pause it so the sink cannot finish between decision and enqueue.
+                if (!SpinWait.SpinUntil(
+                    () => (writeThread.ThreadState & ThreadState.WaitSleepJoin) != 0,
+                    TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("The deferred write did not reach its line-buffer lookup.");
+                }
+
+                admissionReserved = !Monitor.TryEnter(deferredOutputLock);
+                if (!admissionReserved)
+                {
+                    Monitor.Exit(deferredOutputLock);
+                }
+
+                realConsole.ReleaseFlush();
+            }
+        }
+        finally
+        {
+            realConsole.ReleaseFlush();
+            await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
+            if ((writeThread.ThreadState & ThreadState.Unstarted) == 0)
+            {
+                await writeCompleted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+        }
+
+        writer.WriteLine("second");
+        await Assert.That(admissionReserved).IsTrue();
+        await Assert.That(realConsole.ToString()).IsEqualTo(
+            $"first{Environment.NewLine}second{Environment.NewLine}");
+    }
+
+    [Test]
     public async Task DeferredInput_LaterWriteCannotOvertakeQueueAfterDrainFailure()
     {
         var provider = CreateProvider(out _);

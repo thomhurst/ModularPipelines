@@ -926,11 +926,10 @@ internal class CoordinatedTextWriter : TextWriter
             {
                 return false;
             }
-        }
 
-        var state = GetLineBufferState();
-        lock (_deferredOutputLock)
-        {
+            // Keep the deferral decision and admission atomic even if the line-buffer
+            // lookup blocks. Registry operations never acquire _deferredOutputLock.
+            var state = GetLineBufferState();
             // Keep joining the queue until its drain finishes, including while a
             // dequeued write is being processed with the output sink idle.
             _deferredInputWrites.Enqueue(
