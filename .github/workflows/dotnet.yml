@@ -574,9 +574,10 @@ jobs:
       # Markdown and OptionsGenerator tests passed in the prerequisite job.
       FAST_FAIL_VALIDATED: "true"
 
+    # Keep comments above this anchored sequence: zizmor 1.30.1 fails on a leading comment (#6742).
+    # Keep the existing required check red when the prerequisite fails. A job skipped
+    # through `needs` is considered successful by GitHub branch protection.
     steps: &pipeline-steps
-      # Keep the existing required check red when the prerequisite fails. A job skipped
-      # through `needs` is considered successful by GitHub branch protection.
       - name: Require fast-fail success
         if: needs.fast-fail.result != 'success' || needs.pipeline-host.result != 'success'
         run: |
