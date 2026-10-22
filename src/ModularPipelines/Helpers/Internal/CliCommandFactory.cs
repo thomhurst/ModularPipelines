@@ -58,8 +58,9 @@ internal static class CliCommandFactory
         // starts so that neither the script nor its descendants inherit argument values as environment variables.
         var clearVariables = string.Concat(variableNames.Select(name => $"set \"{name}=\"&"));
 
+        // The implicit script host comes from Windows, independently of the command's restricted PATH.
         var wrappedCommand = new ProcessCommand(
-            Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe",
+            Environment.GetEnvironmentVariable("COMSPEC") ?? Path.Combine(Environment.SystemDirectory, "cmd.exe"),
             ArgumentList: null,
             $"/d /s /v:off /c \"{clearVariables}{invocation}\"",
             ResolveWorkingDirectory(executionOptions),

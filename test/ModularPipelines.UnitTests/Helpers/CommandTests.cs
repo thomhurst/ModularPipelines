@@ -799,6 +799,57 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [TUnit.Core.NotInParallel]
+    [Arguments(".cmd")]
+    [Arguments(".bat")]
+    public async Task ExecuteCommandLineToolAsync_Uses_System_Script_Host_When_Comspec_Is_Unset(string extension)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var directory = Directory.CreateTempSubdirectory("mp script host tests ");
+        var scriptDirectory = Directory.CreateDirectory(Path.Combine(directory.FullName, "bin")).FullName;
+        var originalComspec = Environment.GetEnvironmentVariable("COMSPEC");
+
+        try
+        {
+            Environment.SetEnvironmentVariable("COMSPEC", null);
+            await File.WriteAllTextAsync(
+                Path.Combine(scriptDirectory, "mp-script-host-test" + extension),
+                "@echo off\r\necho trusted host\r\n");
+            // An invalid executable makes accidental selection of the working-directory host fail.
+            await File.WriteAllBytesAsync(Path.Combine(directory.FullName, "cmd.exe"), []);
+            var command = await GetService<ICommandContext>();
+
+            var result = await command.ExecuteCommandLineToolAsync(
+                new CommandLineToolOptions("mp-script-host-test"),
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = directory.FullName,
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["PATH"] = scriptDirectory,
+                        ["PATHEXT"] = extension,
+                    },
+                });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(0);
+                await Assert.That(result.StandardOutput.Trim()).IsEqualTo("trusted host");
+                await Assert.That(result.StandardError).IsEmpty();
+            }
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("COMSPEC", originalComspec);
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments(".cmd", true)]
     [Arguments(".bat", true)]
     [Arguments(".cmd", false)]
