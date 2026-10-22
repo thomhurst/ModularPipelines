@@ -14,7 +14,7 @@ using ModularPipelines.Helm.Enums;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// Search reads through all of the repositories configured on the system, and
+/// Search reads through all of the repositories configured on the system, and looks for matches. Search of these repositories uses the metadata stored on the system.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -37,7 +37,7 @@ public record HelmSearchRepoOptions : HelmOptions
     /// maximum column width for output table (default 50)
     /// </summary>
     [CliOption("--max-col-width", Format = OptionFormat.EqualsSeparated)]
-    public int? MaxColWidth { get; set; }
+    public ulong? MaxColWidth { get; set; }
 
     /// <summary>
     /// prints the output in the specified format. Allowed values: table, json, yaml (default table)

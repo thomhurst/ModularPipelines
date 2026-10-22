@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Helm.Options;
@@ -195,7 +196,7 @@ public record HelmTemplateOptions : HelmOptions
     /// an argument to the post-renderer (can specify multiple) (default [])
     /// </summary>
     [CliOption("--post-renderer-args", Format = OptionFormat.EqualsSeparated)]
-    public string? PostRendererArgs { get; set; }
+    public IEnumerable<string>? PostRendererArgs { get; set; }
 
     /// <summary>
     /// use release name in the output-dir path.

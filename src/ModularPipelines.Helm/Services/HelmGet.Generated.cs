@@ -47,7 +47,7 @@ public class HelmGet : IHelmGet
     }
 
     /// <summary>
-    /// This command prints a human readable collection of information about the
+    /// This command prints a human readable collection of information about the notes, hooks, supplied values, and generated manifest file of the given release.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

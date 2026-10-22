@@ -41,7 +41,7 @@ public record HelmDependencyListOptions : HelmOptions
     /// maximum column width for output table (default 80)
     /// </summary>
     [CliOption("--max-col-width", Format = OptionFormat.EqualsSeparated)]
-    public int? MaxColWidth { get; set; }
+    public ulong? MaxColWidth { get; set; }
 
     /// <summary>
     /// The CHART operand.

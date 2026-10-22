@@ -40,7 +40,7 @@ public interface IHelmRepo
     public Task<CommandResult> AddAsync(HelmRepoAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Read the current directory, generate an index file based on the charts found
+    /// Read the current directory, generate an index file based on the charts found and write the result to 'index.yaml' in the current directory.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -67,7 +67,7 @@ public interface IHelmRepo
     public Task<CommandResult> RemoveAsync(HelmRepoRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Update gets the latest information about charts from the respective chart repositories.
+    /// Update gets the latest information about charts from the respective chart repositories. Information is cached locally, where it is used by commands like 'helm search'.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

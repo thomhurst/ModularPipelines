@@ -31,7 +31,7 @@ public interface IHelmGet
     public Task<CommandResult> ExecuteAsync(HelmGetOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// This command prints a human readable collection of information about the
+    /// This command prints a human readable collection of information about the notes, hooks, supplied values, and generated manifest file of the given release.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

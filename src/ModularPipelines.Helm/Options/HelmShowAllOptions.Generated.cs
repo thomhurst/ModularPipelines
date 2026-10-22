@@ -14,7 +14,7 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// This command inspects a chart (directory, file, or URL) and displays all its content
+/// This command inspects a chart (directory, file, or URL) and displays all its content (values.yaml, Chart.yaml, README)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines;
 using ModularPipelines.Models;
 using ModularPipelines.Helm.Enums;
 
@@ -184,7 +185,7 @@ public record HelmUpgradeOptions : HelmOptions
     /// an argument to the post-renderer (can specify multiple) (default [])
     /// </summary>
     [CliOption("--post-renderer-args", Format = OptionFormat.EqualsSeparated)]
-    public string? PostRendererArgs { get; set; }
+    public IEnumerable<string>? PostRendererArgs { get; set; }
 
     /// <summary>
     /// if set, render subchart notes along with the parent
