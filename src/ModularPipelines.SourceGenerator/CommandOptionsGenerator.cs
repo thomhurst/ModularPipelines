@@ -1345,7 +1345,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         for (var index = 0; index < chunkCount; index++)
         {
             sb.AppendLine(
-                $"        RegisterChunk{index:D4}(assembly);");
+                $"        RuntimeMetadataRegistrationChunk{index:D4}.Register(assembly);");
         }
 
         sb.AppendLine("    }");
@@ -1362,10 +1362,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine();
         sb.AppendLine("internal static partial class RuntimeMetadataRegistration");
         sb.AppendLine("{");
-        AppendCommandMetadataDependencies(sb, items);
-        sb.AppendLine($"    private static void RegisterChunk{index:D4}(global::System.Reflection.Assembly assembly)");
+        // Keep each chunk's lambdas on a separate type to stay below runtime method limits.
+        // Nesting also hides the chunk from friend assemblies while retaining shared-part access.
+        sb.AppendLine($"    private static class RuntimeMetadataRegistrationChunk{index:D4}");
         sb.AppendLine("    {");
-        AppendRuntimeTypeRegistrations(sb, items, sharedParts);
+        var chunkBody = new StringBuilder();
+        AppendCommandMetadataDependencies(chunkBody, items);
+        chunkBody.AppendLine("    internal static void Register(global::System.Reflection.Assembly assembly)");
+        chunkBody.AppendLine("    {");
+        AppendRuntimeTypeRegistrations(chunkBody, items, sharedParts);
+        chunkBody.AppendLine("    }");
+        using var reader = new System.IO.StringReader(chunkBody.ToString());
+        while (reader.ReadLine() is { } line)
+        {
+            sb.Append("    ").AppendLine(line);
+        }
+
         sb.AppendLine("    }");
         sb.AppendLine("}");
     }

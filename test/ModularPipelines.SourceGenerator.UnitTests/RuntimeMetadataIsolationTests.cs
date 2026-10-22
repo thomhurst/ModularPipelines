@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -105,6 +107,25 @@ public class RuntimeMetadataIsolationTests
                 .IsEmpty();
             await Assert.That(consumerEmit.Success).IsTrue();
         }
+
+        if (derivedCount > 32)
+        {
+            // Inspect emitted lambda owners so chunking also bounds runtime methods per type.
+            consumerStream.Position = 0;
+            using var peReader = new PEReader(consumerStream);
+            var metadata = peReader.GetMetadataReader();
+            var registrationLambdaCounts = metadata.TypeDefinitions
+                .Select(metadata.GetTypeDefinition)
+                .Where(type => metadata.GetString(type.Name) == "<>c")
+                .Where(type => metadata.GetString(metadata.GetTypeDefinition(type.GetDeclaringType()).Name)
+                    .StartsWith("RuntimeMetadataRegistration", StringComparison.Ordinal))
+                .Select(type => type.GetMethods().Count(method =>
+                    metadata.GetString(metadata.GetMethodDefinition(method).Name).Contains("b__", StringComparison.Ordinal)))
+                .ToArray();
+
+            await Assert.That(registrationLambdaCounts.Length).IsGreaterThan(1);
+            await Assert.That(registrationLambdaCounts.Max()).IsLessThanOrEqualTo(32);
+        }
     }
 
     private static Compilation Generate(CSharpCompilation compilation)
@@ -127,7 +148,13 @@ public class RuntimeMetadataIsolationTests
             public bool Flag{{index}} { get; set; }
             """));
         var derivedTypes = string.Join(Environment.NewLine, Enumerable.Range(0, derivedCount).Select(index =>
-            $"public sealed record Options{index} : BaseOptions;"));
+            $$"""
+            public sealed record Options{{index}} : BaseOptions
+            {
+                [ModularPipelines.Attributes.CliFlag("--unique{{index}}")]
+                public bool Unique{{index}} { get; set; }
+            }
+            """));
         return $$"""
             namespace {{namespaceName}};
             public abstract record BaseOptions : ModularPipelines.Options.CommandLineToolOptions
