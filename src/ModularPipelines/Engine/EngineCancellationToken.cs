@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Hosting;
 
 namespace ModularPipelines.Engine;
 
@@ -19,6 +20,7 @@ internal class EngineCancellationToken : IDisposable
     private readonly CancellationToken _nonFailureCancellationToken;
     private readonly CancellationToken _explicitCancellationToken;
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
+    private readonly IHostApplicationLifetime? _applicationLifetime;
     private readonly Lock _lifetimeLock = new();
     private readonly PosixSignalRegistration? _sigtermRegistration;
 
@@ -73,9 +75,12 @@ internal class EngineCancellationToken : IDisposable
     internal Func<bool>? IsRunActive { private get; set; }
 
     [ExcludeFromCodeCoverage]
-    public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
+    public EngineCancellationToken(
+        IPrimaryExceptionContainer primaryExceptionContainer,
+        IHostApplicationLifetime? applicationLifetime = null)
     {
         _primaryExceptionContainer = primaryExceptionContainer;
+        _applicationLifetime = applicationLifetime;
         _explicitCancellationToken = _explicitCancellationTokenSource.Token;
         _nonFailureCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_explicitCancellationToken);
         _nonFailureCancellationToken = _nonFailureCancellationTokenSource.Token;
@@ -203,7 +208,19 @@ internal class EngineCancellationToken : IDisposable
         try
         {
             _isCanceled = true;
-            _nonFailureCancellationTokenSource.Cancel();
+            try
+            {
+                // Signal distributed shutdown and shared capability probes before engine
+                // cancellation can finish execution and send the workers' final notification.
+                _applicationLifetime?.StopApplication();
+            }
+            finally
+            {
+                // Lifetime callbacks must not prevent engine cancellation or cancel the
+                // explicit token used by end handlers and report finalization.
+                _nonFailureCancellationTokenSource.Cancel();
+            }
+
             return true;
         }
         finally
