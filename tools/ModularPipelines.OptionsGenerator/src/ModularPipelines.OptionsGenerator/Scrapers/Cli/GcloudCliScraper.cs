@@ -1443,8 +1443,8 @@ public partial class GcloudCliScraper : CliScraperBase
     private static partial Regex CommandDescriptionPattern();
 
     // Capture each choice separately so final conjunctions cannot become values. Reject a
-    // remaining separator or conjunction rather than generating an enum from a partial list.
-    private const string EnumChoiceListRegex = @"(?<value>[a-zA-Z][a-zA-Z0-9_-]*)(?:(?:,\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)(?<value>[a-zA-Z][a-zA-Z0-9_-]*))+(?![a-zA-Z0-9_-]|\s*(?:,|\b(?:and|or)\b))";
+    // remaining separator, conjunction, or prose tail rather than generating a partial enum.
+    private const string EnumChoiceListRegex = @"(?<value>[a-zA-Z][a-zA-Z0-9_-]*)(?:(?:,\s*(?:(?:or|and)\s+)?|\s+(?:or|and)\s+)(?<value>[a-zA-Z][a-zA-Z0-9_-]*))+(?![a-zA-Z0-9_-]|\s*(?:,|\b(?:and|or)\b))(?=\s*(?:[.!?]|\z))";
 
     // A command example may end without sentence punctuation. Only that paragraph
     // boundary starts a new declaration; a blank line after conditional prose does not.
