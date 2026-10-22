@@ -132,6 +132,20 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
                 throw new IOException($"Artifact input '{path}' must be a file and cannot be a link.");
             }
 
+            if (!OperatingSystem.IsWindows())
+            {
+                // O_NONBLOCK keeps openat from waiting on a FIFO. Clear it before
+                // FileStream detects IsAsync: Unix asynchronous pipe reads ignore seek
+                // offsets, which otherwise breaks ZIP reads on this regular file.
+                var result = OperatingSystem.IsMacOS() && RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+                    ? SetFileFlagsMacArm64(handle, 4, 0, 0, 0, 0, 0, 0, 0)
+                    : SetFileFlags(handle, 4, 0); // F_SETFL, no mutable status flags.
+                if (result == -1)
+                {
+                    throw NativeError(path);
+                }
+            }
+
             var stream = new ArtifactFileStream(handle, FileAccess.Read, path);
             if (!stream.CanSeek)
             {
@@ -281,13 +295,30 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
 
         var error = Marshal.GetLastPInvokeError();
         handle.Dispose();
+        throw OpenError(path, error, directory);
+    }
+
+    private static SafeFileHandle CheckHandle(int descriptor, string path, bool directory = false)
+    {
+        // open/openat return int, not a pointer-sized HANDLE. In particular, sign-extend
+        // -1 explicitly instead of interpreting unspecified upper return-register bits.
+        if (descriptor == -1)
+        {
+            throw OpenError(path, Marshal.GetLastPInvokeError(), directory);
+        }
+
+        return new SafeFileHandle(descriptor, ownsHandle: true);
+    }
+
+    private static Exception OpenError(string path, int error, bool directory)
+    {
         if (error == 2 || (OperatingSystem.IsWindows() && error == 3))
         {
-            throw directory ? new DirectoryNotFoundException($"Artifact directory '{path}' was not found.")
+            return directory ? new DirectoryNotFoundException($"Artifact directory '{path}' was not found.")
                 : new FileNotFoundException("Artifact file was not found.", path);
         }
 
-        throw NativeError(path, error);
+        return NativeError(path, error);
     }
 
     private static IOException NativeError(string path, int? error = null)
@@ -309,9 +340,12 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
     private static int UnixExclusive => OperatingSystem.IsMacOS() ? 0x800 : 0x80;
 
     private static int UnixDirectoryFlags => UnixCloseOnExec | UnixNoFollow
-        | (OperatingSystem.IsMacOS() ? 0x100000 : RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? 0x4000 : 0x10000);
+        // O_SEARCH on macOS and O_PATH on Linux bind directories without requiring
+        // read permission. O_DIRECTORY also rejects a symlink opened with O_PATH.
+        | (OperatingSystem.IsMacOS() ? 0x40100000
+            : 0x200000 | (RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? 0x4000 : 0x10000));
 
-    private static SafeFileHandle CreateAt(SafeFileHandle directory, string leaf, int flags, uint mode)
+    private static int CreateAt(SafeFileHandle directory, string leaf, int flags, uint mode)
     {
         // Apple arm64 passes variadic arguments on the stack. Fill the unused integer
         // registers so the openat mode argument occupies its required stack slot.
@@ -330,20 +364,30 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
 
     [LibraryImport("libc", EntryPoint = "open", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial SafeFileHandle OpenUnix(string path, int flags);
+    private static partial int OpenUnix(string path, int flags);
 
     [LibraryImport("libc", EntryPoint = "openat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial SafeFileHandle OpenAt(SafeFileHandle directory, string leaf, int flags);
+    private static partial int OpenAt(SafeFileHandle directory, string leaf, int flags);
 
     [LibraryImport("libc", EntryPoint = "openat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial SafeFileHandle OpenAtWithMode(SafeFileHandle directory, string leaf, int flags, uint mode);
+    private static partial int OpenAtWithMode(SafeFileHandle directory, string leaf, int flags, uint mode);
 
     [LibraryImport("libc", EntryPoint = "openat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    private static partial SafeFileHandle OpenAtMacArm64(SafeFileHandle directory, string leaf, int flags,
+    private static partial int OpenAtMacArm64(SafeFileHandle directory, string leaf, int flags,
         nint unused3, nint unused4, nint unused5, nint unused6, nint unused7, uint mode);
+
+    [LibraryImport("libc", EntryPoint = "fcntl", SetLastError = true)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial int SetFileFlags(SafeFileHandle handle, int command, int flags);
+
+    // fcntl's third argument is variadic, so Apple arm64 requires a stack slot.
+    [LibraryImport("libc", EntryPoint = "fcntl", SetLastError = true)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    private static partial int SetFileFlagsMacArm64(SafeFileHandle handle, int command,
+        nint unused2, nint unused3, nint unused4, nint unused5, nint unused6, nint unused7, int flags);
 
     [LibraryImport("libc", EntryPoint = "mkdirat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]

@@ -10,6 +10,119 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class BoundArtifactPathTests
 {
     [Test]
+    public async Task Missing_Bound_Paths_Report_Not_Found()
+    {
+        var root = Directory.CreateTempSubdirectory("artifact-bound-missing-");
+        try
+        {
+            using var bound = BoundArtifactDirectory.Open(root.FullName, create: false);
+            await Assert.That(() => bound.OpenRead("missing.txt")).Throws<FileNotFoundException>();
+            await Assert.That(() => BoundArtifactDirectory.Open(Path.Combine(root.FullName, "missing"), create: false))
+                .Throws<DirectoryNotFoundException>();
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Bound_IO_Requires_Only_Search_Permission_On_Unix_Directories(bool restrictedAnchor)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            throw new SkipTestException("Unix directory permissions require Unix.");
+        }
+
+        var root = Directory.CreateTempSubdirectory("artifact-bound-permissions-");
+        var parent = root.CreateSubdirectory("parent").FullName;
+        var originalMode = File.GetUnixFileMode(parent);
+        try
+        {
+            await File.WriteAllTextAsync(Path.Combine(parent, "source.txt"), "inside");
+            File.SetUnixFileMode(parent, UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+            using var bound = BoundArtifactDirectory.Open(parent, create: false,
+                trustedRoot: restrictedAnchor ? parent : root.FullName);
+            await using (var input = bound.OpenRead("source.txt"))
+            {
+                using var reader = new StreamReader(input);
+                await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("inside");
+            }
+            await using (var output = bound.CreateNew("temporary"))
+            {
+                await output.WriteAsync("replacement"u8.ToArray());
+            }
+            bound.Move("temporary", "destination.txt");
+            await Assert.That(await File.ReadAllTextAsync(Path.Combine(parent, "destination.txt"))).IsEqualTo("replacement");
+            bound.Delete("destination.txt");
+            await Assert.That(File.Exists(Path.Combine(parent, "destination.txt"))).IsFalse();
+        }
+        finally
+        {
+            File.SetUnixFileMode(parent, originalMode);
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(16)]
+    [Arguments(8192)]
+    public async Task Created_Archive_Is_Readable_Through_Bound_Stream(int length)
+    {
+        var root = Directory.CreateTempSubdirectory("artifact-bound-roundtrip-");
+        try
+        {
+            var source = root.CreateSubdirectory("source").FullName;
+            var payload = new string('x', length);
+            await File.WriteAllTextAsync(Path.Combine(source, "payload.txt"), payload);
+            var archivePath = Path.Combine(root.FullName, "archive.zip");
+            await ArtifactContextImpl.CreateDirectoryArchiveAsync(source, archivePath,
+                CompressionLevel.Optimal, CancellationToken.None);
+            using var bound = BoundArtifactDirectory.Open(root.FullName, create: false);
+            await using var input = bound.OpenRead("archive.zip");
+            using var archive = new ZipArchive(input, ZipArchiveMode.Read);
+            using var reader = new StreamReader(archive.Entries.Single().Open());
+            await Assert.That(await reader.ReadToEndAsync()).IsEqualTo(payload);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(16)]
+    [Arguments(8192)]
+    public async Task Restored_Archive_Entry_Preserves_Timestamp_After_Flush(int length)
+    {
+        var root = Directory.CreateTempSubdirectory("artifact-bound-timestamp-");
+        try
+        {
+            var timestamp = new DateTimeOffset(2020, 1, 2, 3, 4, 6, TimeSpan.Zero);
+            using var data = new MemoryStream();
+            using (var created = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                var entry = created.CreateEntry("payload.txt");
+                entry.LastWriteTime = timestamp;
+                await using var output = entry.Open();
+                await output.WriteAsync(Encoding.UTF8.GetBytes(new string('x', length)));
+            }
+            data.Position = 0;
+            using var archive = new ZipArchive(data, ZipArchiveMode.Read);
+            var destination = Path.Combine(root.FullName, "destination");
+            await ArtifactContextImpl.ExtractDirectoryArchiveAsync(archive, destination, CancellationToken.None);
+            await Assert.That(File.GetLastWriteTimeUtc(Path.Combine(destination, "payload.txt")))
+                .IsEqualTo(timestamp.UtcDateTime);
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Source_Read_Stays_In_Bound_Directory_After_Ancestor_Substitution()
     {
         var root = Directory.CreateTempSubdirectory("artifact-bound-source-");

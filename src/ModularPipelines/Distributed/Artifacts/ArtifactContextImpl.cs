@@ -330,6 +330,7 @@ internal class ArtifactContextImpl(
                 await stream.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
                 if (lastWriteTime is { } timestamp)
                 {
+                    await output.FlushAsync(cancellationToken).ConfigureAwait(false);
                     File.SetLastWriteTimeUtc(output.SafeFileHandle, timestamp);
                 }
             }
