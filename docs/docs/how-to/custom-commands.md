@@ -45,6 +45,74 @@ await context.Shell.RunAsync(
     cancellationToken);
 ```
 
+## Standard Input
+
+Pass text to a command through `CommandExecutionOptions.StandardInput`:
+
+```csharp
+await context.Shell.RunAsync(
+    "kubectl",
+    ["apply", "-f", "-"],
+    new CommandExecutionOptions
+    {
+        StandardInput = manifestYaml,
+    },
+    cancellationToken);
+```
+
+The text is written as UTF-8 without a byte order mark or an added newline. Include
+any newline the tool requires in the string. Standard input closes after the text
+is written; a null value closes it immediately.
+
+The input text is never included in the command line. If a tool echoes sensitive
+input, set `StandardInputIsSecret = true` to mask it in logs and failure diagnostics:
+
+```csharp
+await context.Shell.RunAsync(
+    "docker",
+    ["login", "registry.example.com", "--username", username, "--password-stdin"],
+    new CommandExecutionOptions
+    {
+        StandardInput = registryPassword,
+        StandardInputIsSecret = true,
+    },
+    cancellationToken);
+```
+
+`StandardInputIsSecret` defaults to `false`. Enabling it registers the whole input
+and its encoded and per-line variants for the pipeline lifetime. Use it for
+passwords or other small secret payloads. For large scripts or documents, register
+only the sensitive values through `context.Security.Secrets.AddSecret(value)`
+before execution instead; see [Secrets](secrets.md#register-secrets-discovered-at-runtime).
+Successful `CommandResult.StandardOutput` and `StandardError` retain the tool's raw
+output, so handle returned data containing secrets accordingly.
+
+## Accepted Exit Codes
+
+`CommandExecutionOptions.SuccessExitCodes` controls which exit codes count as
+success. It defaults to `[0]`. For example, `git diff --exit-code` returns 1 when
+there are differences:
+
+```csharp
+var result = await context.Shell.RunAsync(
+    "git",
+    ["diff", "--exit-code"],
+    new CommandExecutionOptions
+    {
+        SuccessExitCodes = [0, 1],
+    },
+    cancellationToken);
+```
+
+A supplied collection replaces the default: include 0 explicitly to keep accepting
+it. An empty collection accepts no exit codes; null is rejected.
+
+Despite its name, `ThrowOnNonZeroExitCode` throws `CommandException` for any exit
+code outside `SuccessExitCodes` when enabled (the default), including 0 if you
+exclude it. Set it to `false` to return the result without an exit-code exception.
+`SuccessExitCodes` still determines success in command logs and telemetry when
+exceptions are disabled.
+
 ## Adding Unmodeled Options
 
 Use `AdditionalArguments` when a strongly typed or generated options record does not yet
