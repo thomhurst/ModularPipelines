@@ -202,7 +202,7 @@ public class IncompleteMetadataDiagnosticTests
             generatedSource.Contains("internal static void Register()", StringComparison.Ordinal));
         var chunkSources = generatedSources.Where(static generatedSource =>
             generatedSource.Contains(
-                "internal static class RuntimeMetadataRegistrationChunk",
+                "private static class RuntimeMetadataRegistrationChunk",
                 StringComparison.Ordinal)).ToArray();
 
         using (Assert.Multiple())
@@ -218,9 +218,9 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(registrationSource).Contains(
                 "DynamicallyAccessedMemberTypes.NonPublicFields, typeof(RuntimeMetadataRegistration)");
             await Assert.That(chunkSources[0])
-                .Contains("internal static class RuntimeMetadataRegistrationChunk0000");
+                .Contains("private static class RuntimeMetadataRegistrationChunk0000");
             await Assert.That(chunkSources[1])
-                .Contains("internal static class RuntimeMetadataRegistrationChunk0001");
+                .Contains("private static class RuntimeMetadataRegistrationChunk0001");
             await Assert.That(string.Join(Environment.NewLine, chunkSources))
                 .Contains("typeof(global::Options32)");
         }
