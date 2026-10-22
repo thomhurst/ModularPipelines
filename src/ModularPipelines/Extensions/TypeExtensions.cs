@@ -1,12 +1,17 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace ModularPipelines.Extensions;
 
 internal static class TypeExtensions
 {
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Selector interfaces are referenced by dependency attributes, preserving their contracts on registered module types.")]
     public static bool IsOrInheritsFrom(this Type type, Type otherType)
     {
-        if (type == otherType || type.IsSubclassOf(otherType))
+        if (otherType.IsAssignableFrom(type))
         {
             return true;
         }
@@ -14,6 +19,19 @@ internal static class TypeExtensions
         // Handle open generic types (e.g., typeof(Step1Module<>))
         if (otherType.IsGenericTypeDefinition)
         {
+            if (otherType.IsInterface)
+            {
+                foreach (var implementedInterface in type.GetInterfaces())
+                {
+                    if (implementedInterface.IsGenericType && implementedInterface.GetGenericTypeDefinition() == otherType)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             return type.IsSubclassOfOpenGeneric(otherType);
         }
 

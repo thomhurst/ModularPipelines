@@ -17,7 +17,7 @@ namespace ModularPipelines;
 /// <para>
 /// Use this overload from .NET languages that cannot apply generic attributes, such as F#.
 /// C# callers should prefer <see cref="DependsOnAllModulesInheritingFromAttribute{TModule}"/>.
-/// Open generic base types, such as <c>typeof(BuildModule&lt;&gt;)</c>, match every closed construction.
+/// Open generic base types and interfaces, such as <c>typeof(BuildModule&lt;&gt;)</c>, match every closed construction.
 /// </para>
 /// </remarks>
 /// <example>
