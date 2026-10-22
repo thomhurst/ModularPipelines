@@ -55,8 +55,7 @@ internal static class TimeoutHelper
         var result = await ExecuteWithTimeoutAndDetailsAsync(
             taskFactory,
             timeout,
-            cancellationToken,
-            timeoutMessage).ConfigureAwait(false);
+            cancellationToken).ConfigureAwait(false);
 
         if (result.TimedOut)
         {
@@ -77,15 +76,15 @@ internal static class TimeoutHelper
     /// <param name="taskFactory">Factory function that creates the task to execute.</param>
     /// <param name="timeout">The timeout duration, or null/zero to disable timeout.</param>
     /// <param name="cancellationToken">Cancellation token for external cancellation.</param>
-    /// <param name="timeoutMessage">Optional message for timeout exceptions.</param>
     /// <param name="cancellationGracePeriod">Maximum wait for task completion after external cancellation.</param>
+    /// <param name="timeProvider">Clock used to schedule the attempt deadline. Defaults to the system clock.</param>
     /// <returns>A result containing execution details including timeout status and token cooperation.</returns>
     public static async Task<TimeoutExecutionResult<T>> ExecuteWithTimeoutAndDetailsAsync<T>(
         Func<CancellationToken, Task<T>> taskFactory,
         TimeSpan? timeout,
         CancellationToken cancellationToken,
-        string? timeoutMessage = null,
-        TimeSpan cancellationGracePeriod = default)
+        TimeSpan cancellationGracePeriod = default,
+        TimeProvider? timeProvider = null)
     {
         var stopwatch = Stopwatch.StartNew();
 
@@ -98,7 +97,7 @@ internal static class TimeoutHelper
 
         // Keep the attempt token separate so signal ordering is recorded before
         // cancellation is propagated to the executing task.
-        using var deadlineCts = new CancellationTokenSource();
+        using var deadlineCts = new CancellationTokenSource(timeout.Value, timeProvider ?? TimeProvider.System);
         using var attemptCts = new CancellationTokenSource();
 
         var cancellationSignals = new CancellationSignals<T>(attemptCts);
@@ -111,11 +110,9 @@ internal static class TimeoutHelper
             static state => ((CancellationSignalState<T>) state!).SignalCancellation(),
             externalCancellationState);
 
-        // Arm the timeout before starting the factory. If cancellation occurs while
+        // The timeout is armed before starting the factory. If cancellation occurs while
         // the factory is returning its task, signal resolution waits for publication
         // of that real task instead of making a decision from a provisional wrapper.
-        deadlineCts.CancelAfter(timeout.Value);
-
         var executionTask = taskFactory(attemptCts.Token);
         cancellationSignals.PublishExecutionTask(executionTask);
 

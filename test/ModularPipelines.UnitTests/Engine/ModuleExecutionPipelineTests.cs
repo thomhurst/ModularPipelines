@@ -270,6 +270,7 @@ public class ModuleExecutionPipelineTests
         var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
         var logger = new Mock<IModuleLogger>();
+        logger.Setup(x => x.IsEnabled(LogLevel.Trace)).Returns(true);
         var services = new Mock<IServicesContext>();
         services.SetupGet(x => x.Options).Returns(new PipelineOptions());
         var moduleContext = new Mock<IModuleContext>();
