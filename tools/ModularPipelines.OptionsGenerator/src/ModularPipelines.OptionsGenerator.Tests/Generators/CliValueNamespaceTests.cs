@@ -46,6 +46,41 @@ public class CliValueNamespaceTests
             "groups" => "CliValueGroup",
             _ => "KeyValue",
         };
+        var tool = CreateTool(shape, positional, elementType);
+        var sources = new[]
+        {
+            (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content,
+            (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content,
+        };
+        foreach (var source in sources)
+        {
+            await Assert.That(source).DoesNotContain("global::ModularPipelines.Models.");
+        }
+
+        var harness = CreateHarness(shape, positional, elementType);
+        var assembly = CompileConsumer(rootNamespace, [.. sources, rootNamespace
+            ? harness.Replace("ModularPipelines.Models", "ModularPipelines", StringComparison.Ordinal)
+            : harness]);
+        var expectedNamespace = rootNamespace ? "ModularPipelines" : "ModularPipelines.Models";
+        var globalProperty = assembly.GetType("External.Tool.Options.ToolOptions")!.GetProperty("GlobalValues")!;
+        if (globalProperty.PropertyType.IsGenericType && shape is not "objects")
+        {
+            await Assert.That(globalProperty.PropertyType.GenericTypeArguments[0].Namespace).IsEqualTo(expectedNamespace);
+        }
+
+        var actual = (string[]) assembly.GetType("Consumer")!.GetMethod("Run")!.Invoke(null, null)!;
+        string[] expected = shape switch
+        {
+            "pairs" => ["--values", "key", "value"],
+            "optional" => ["--values"],
+            "groups" => ["--values", "first", "second"],
+            _ => positional ? ["key=value"] : ["--values", "key=value"],
+        };
+        await Assert.That(actual.SequenceEqual(expected)).IsTrue();
+    }
+
+    private static CliToolDefinition CreateTool(string shape, bool positional, string elementType)
+    {
         var propertyType = shape switch
         {
             "objects" => "IReadOnlyList<object>?",
@@ -61,7 +96,7 @@ public class CliValueNamespaceTests
             ValueArity = optional ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
             GroupValues = shape == "groups",
         };
-        var tool = new CliToolDefinition
+        return new CliToolDefinition
         {
             ToolName = "tool",
             NamespacePrefix = "Tool",
@@ -97,16 +132,11 @@ public class CliValueNamespaceTests
                 },
             ],
         };
-        var sources = new[]
-        {
-            (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content,
-            (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content,
-        };
-        foreach (var source in sources)
-        {
-            await Assert.That(source).DoesNotContain("global::ModularPipelines.Models.");
-        }
+    }
 
+    private static string CreateHarness(string shape, bool positional, string elementType)
+    {
+        var optional = shape is "optional" or "groups";
         var payload = shape switch
         {
             "pairs" => "new CliValuePair(\"key\", \"value\")",
@@ -117,7 +147,7 @@ public class CliValueNamespaceTests
         var part = positional
             ? "new ArgumentPart(\"Values\", property.GetValue, new CliArgumentAttribute(0))"
             : $"new OptionPart(\"Values\", property.GetValue, new CliOptionAttribute(\"--values\") {{ ValueArity = CliOptionValueArity.{(optional ? "Optional" : "Required")}, GroupValues = {(shape == "groups" ? "true" : "false")} }})";
-        var harness = $$"""
+        return $$"""
             using ModularPipelines.Models;
             using ModularPipelines.Generated;
             using ModularPipelines.Attributes;
@@ -160,25 +190,6 @@ public class CliValueNamespaceTests
                 System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
             }
             """;
-        var assembly = CompileConsumer(rootNamespace, [.. sources, rootNamespace
-            ? harness.Replace("ModularPipelines.Models", "ModularPipelines", StringComparison.Ordinal)
-            : harness]);
-        var expectedNamespace = rootNamespace ? "ModularPipelines" : "ModularPipelines.Models";
-        var globalProperty = assembly.GetType("External.Tool.Options.ToolOptions")!.GetProperty("GlobalValues")!;
-        if (globalProperty.PropertyType.IsGenericType && shape is not "objects")
-        {
-            await Assert.That(globalProperty.PropertyType.GenericTypeArguments[0].Namespace).IsEqualTo(expectedNamespace);
-        }
-
-        var actual = (string[]) assembly.GetType("Consumer")!.GetMethod("Run")!.Invoke(null, null)!;
-        string[] expected = shape switch
-        {
-            "pairs" => ["--values", "key", "value"],
-            "optional" => ["--values"],
-            "groups" => ["--values", "first", "second"],
-            _ => positional ? ["key=value"] : ["--values", "key=value"],
-        };
-        await Assert.That(actual).IsEquivalentTo(expected);
     }
 
     private static Assembly CompileConsumer(bool rootNamespace, string[] generated)

@@ -31,7 +31,7 @@
 
   <!-- Compile the production renderer directly; the generator already links its shared phase/arity enums. -->
   <ItemGroup>
-    <!-- Compile isolated consumers against either CLI contract namespace using production sources. -->
+    <!-- Copy production sources as text so the test can compile isolated consumers against either contract namespace. -->
     <Content Include="../../../../src/ModularPipelines/Models/KeyValue.cs;
                       ../../../../src/ModularPipelines/Models/CliOptionValue.cs;
                       ../../../../src/ModularPipelines/Models/CliValuePair.cs;
