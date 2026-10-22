@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "engines": { "node": ">=24" },
-  "scripts": { "test": "node --test *.test.mjs" },
-  "dependencies": { "@actions/artifact": "6.3.1" }
+  "scripts": { "test": "node --test *.test.mjs sdk/*.test.mjs" },
+  "dependencies": { "@actions/artifact": "6.3.1" },
+  "overrides": { "archiver-utils@5.0.2": { "glob": "13.0.6" } }
 }
